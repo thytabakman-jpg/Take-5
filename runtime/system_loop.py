@@ -38,7 +38,6 @@ def run_system(state,job,discover,package_index,workers,mode_policy,max_rounds=1
             current.update(ic.final_packet)
             discharged.add(work.work_id)
         current["discharged"]=tuple(sorted(discharged))
-        # Regeneration is mandatory after state change; loop owns continuation.
-        if current==before:
+        # OPEN is a typed pause, not a generic execution block.\n        if open_coordinates:\n            remaining=tuple(w for w in items if w.work_id not in discharged)\n            if remaining:\n                return SystemResult(WorkStatus.PAUSED_OPEN,n,current,tuple(sorted(discharged)),open_coordinates)\n        # Regeneration is mandatory after state change; loop owns continuation.\n        if current==before:
             return SystemResult(WorkStatus.BLOCKED,n,current,tuple(sorted(discharged)),open_coordinates)
     return SystemResult(WorkStatus.ACTIVE,max_rounds,current,tuple(sorted(discharged)),open_coordinates)
