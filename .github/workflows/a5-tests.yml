@@ -13,7 +13,7 @@ on:
       - 'tests/test_a5_registry.py'
       - 'tests/test_capability_foundry.py'
       - 'tests/test_capability_router.py'
-      - 'tests/test_activation_bridge.py tests/test_evidence_ledger.py tests/test_controller_episode.py'
+      - 'tests/test_activation_bridge.py'
       - 'tests/test_evidence_ledger.py'
       - 'tests/test_controller_episode.py'
       - '.github/workflows/a5-tests.yml'
@@ -28,4 +28,4 @@ jobs:
         with:
           python-version: '3.12'
       - run: python -m pip install pytest
-      - run: PYTHONPATH=runtime:. pytest -q tests/test_a5_core.py tests/test_a5_registry.py tests/test_capability_foundry.py tests/test_capability_router.py tests/test_activation_bridge.py
+      - run: PYTHONPATH=runtime:. pytest -q tests/test_a5_core.py tests/test_a5_registry.py tests/test_capability_foundry.py tests/test_capability_router.py tests/test_activation_bridge.py tests/test_evidence_ledger.py tests/test_controller_episode.py
