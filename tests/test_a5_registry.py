@@ -11,7 +11,8 @@ def test_all_specs_have_valid_bindings():
         assert s.protected_outputs and s.validation_target
 
 def test_enrollment_is_not_execution_claim():
-    assert REGISTRY.executable_ids()==set()
+    assert REGISTRY.executable_ids()=={"C01","C02","C03","C04","C05","C06"}
+    assert not (EXPECTED_CAP & REGISTRY.executable_ids())
 
 
 from a5_programs import run_orient
