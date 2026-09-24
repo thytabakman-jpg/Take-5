@@ -2,7 +2,7 @@
 import json
 from pathlib import Path
 
-STATE=Path("runtime/state.json")
+STATE=Path("runtime/state.json")\n# IC-026 execution trigger 001
 OUT=Path("runtime/receipt.json")
 
 def load():
