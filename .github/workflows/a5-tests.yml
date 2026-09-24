@@ -2,20 +2,8 @@ name: A5 Tests
 on:
   push:
     paths:
-      - 'runtime/a5_core.py'
-      - 'runtime/a5_programs.py'
-      - 'runtime/capability_foundry.py'
-      - 'runtime/capability_router.py'
-      - 'runtime/activation_bridge.py'
-      - 'runtime/evidence_ledger.py'
-      - 'runtime/controller_episode.py'
-      - 'tests/test_a5_core.py'
-      - 'tests/test_a5_registry.py'
-      - 'tests/test_capability_foundry.py'
-      - 'tests/test_capability_router.py'
-      - 'tests/test_activation_bridge.py'
-      - 'tests/test_evidence_ledger.py'
-      - 'tests/test_controller_episode.py'
+      - 'runtime/**'
+      - 'tests/**'
       - '.github/workflows/a5-tests.yml'
   pull_request:
   workflow_dispatch:
@@ -28,4 +16,4 @@ jobs:
         with:
           python-version: '3.12'
       - run: python -m pip install pytest
-      - run: PYTHONPATH=runtime:. pytest -q tests/test_a5_core.py tests/test_a5_registry.py tests/test_capability_foundry.py tests/test_capability_router.py tests/test_activation_bridge.py tests/test_evidence_ledger.py tests/test_controller_episode.py
+      - run: PYTHONPATH=runtime:. pytest -q tests
