@@ -7,11 +7,15 @@ on:
       - 'runtime/capability_foundry.py'
       - 'runtime/capability_router.py'
       - 'runtime/activation_bridge.py'
+      - 'runtime/evidence_ledger.py'
+      - 'runtime/controller_episode.py'
       - 'tests/test_a5_core.py'
       - 'tests/test_a5_registry.py'
       - 'tests/test_capability_foundry.py'
       - 'tests/test_capability_router.py'
-      - 'tests/test_activation_bridge.py'
+      - 'tests/test_activation_bridge.py tests/test_evidence_ledger.py tests/test_controller_episode.py'
+      - 'tests/test_evidence_ledger.py'
+      - 'tests/test_controller_episode.py'
       - '.github/workflows/a5-tests.yml'
   pull_request:
   workflow_dispatch:
