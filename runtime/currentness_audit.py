@@ -14,10 +14,10 @@ class CurrentnessReceipt:
     delta:tuple[str,...]
     status:Currentness
     action:str
-    evidence:tuple[str,...]=()
+    evidence:tuple[str,...]=()\n    obligations:tuple[str,...]=()\n    dependents:tuple[str,...]=()\n    reverified:bool=False
 
 def assess(*,component,built_basis,latest_basis,protected=(),delta=(),behavior_preserved=True,
-           local_patch_available=True,evidence=()):
+           local_patch_available=True,evidence=(),obligations=(),dependents=(),reverified=False):
     delta=tuple(delta)
     if not delta:
         status=Currentness.CURRENT; action="KEEP"
@@ -27,8 +27,8 @@ def assess(*,component,built_basis,latest_basis,protected=(),delta=(),behavior_p
         status=Currentness.REPLACE; action="REPLACE_MINIMAL_LOAD_BEARING_COMPONENT"
     else:
         status=Currentness.OPEN; action="PRESERVE_AND_INVESTIGATE"
-    return CurrentnessReceipt(component,built_basis,latest_basis,tuple(protected),delta,status,action,tuple(evidence))
+    return CurrentnessReceipt(component,built_basis,latest_basis,tuple(protected),delta,status,action,tuple(evidence),tuple(obligations),tuple(dependents),reverified)
 
 def audit_complete(receipts):
     rs=tuple(receipts)
-    return bool(rs) and all(r.status in {Currentness.CURRENT,Currentness.PATCH,Currentness.SUPERSEDED} for r in rs)
+    return bool(rs) and all((r.status in {Currentness.CURRENT,Currentness.SUPERSEDED}) or (r.status==Currentness.PATCH and r.reverified) for r in rs)
