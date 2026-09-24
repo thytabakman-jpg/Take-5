@@ -1,0 +1,68 @@
+schema_version: 0.1
+system: take_5
+status: SUCCESSOR_CANDIDATE
+target_status: REPLACEMENT
+production_authority: none
+legacy_authority: thytabakman-jpg/Reaserch
+architecture_status: UNFROZEN
+
+governing_principles:
+  - preserve_protected_behavior
+  - evidence_does_not_self_authorize
+  - semantic_success_is_not_runtime_execution
+  - controller_lineage_is_not_kernel_lineage
+  - exact_identity_provenance_currentness
+  - preserve_OPEN_and_INCOMPARABLE
+  - distinctions_do_not_imply_surfaces
+  - migrate_authority_capability_state_evidence_not_files
+  - capture_does_not_imply_acceptance
+  - child_authority_cannot_exceed_grant
+  - no_self_promotion
+  - architecture_is_earned_by_result_sensitive_evidence
+
+candidate_layers:
+  - KERNEL
+  - EPISTEMIC
+  - CONTROLLER
+  - RUNTIME
+  - VERIFICATION
+  - STATE
+  - INTERFACE
+  - CAPABILITY
+  - AUTHORITY_GATE
+  - OPEN
+
+historical_configuration:
+  pd_in_epistemic_kernel: benchmark_candidate
+  icc_above_kernel: benchmark_candidate
+
+placement_rule: >
+  Place or factor each live component independently. Admit foundational kernel semantics only
+  when a required global invariant or protected behavior cannot be preserved by a less-foundational
+  admissible composition. Preserve OPEN where evidence does not discriminate.
+
+development_loop:
+  - RECOVER
+  - DECOMPOSE
+  - PLACE
+  - ABLATE
+  - BUILD
+  - BIND
+  - EXECUTE
+  - OBSERVE
+  - VERIFY
+  - UPDATE
+  - REENTER
+
+promotion:
+  automatic: false
+  self_promotion: prohibited
+  requires:
+    - protected_behavior_witnesses
+    - execution_truth
+    - authority_integrity
+    - migration_closure
+    - map_anti_loss
+    - historical_benchmarks
+    - prospective_holdout
+    - independent_authority_gate
