@@ -16,5 +16,5 @@ def test_uncertain_delta_stays_open():
     r=assess(component="pd",built_basis="old",latest_basis="new",delta=["unknown"],behavior_preserved=True,local_patch_available=False)
     assert r.status==Currentness.OPEN
 
-def test_open_or_replace_blocks_currentness_closure():
+def test_unverified_patch_blocks_currentness_closure():\n    r=assess(component="x",built_basis="a",latest_basis="b",delta=["d"],behavior_preserved=True,local_patch_available=True)\n    assert not audit_complete([r])\n\ndef test_reverified_patch_can_close_currentness():\n    r=assess(component="x",built_basis="a",latest_basis="b",delta=["d"],behavior_preserved=True,local_patch_available=True,reverified=True)\n    assert audit_complete([r])\n\ndef test_open_or_replace_blocks_currentness_closure():
     assert not audit_complete([assess(component="x",built_basis="a",latest_basis="b",delta=["d"],behavior_preserved=True,local_patch_available=False)])
