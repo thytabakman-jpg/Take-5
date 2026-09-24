@@ -16,8 +16,8 @@ def test_obligation_equivalence_is_separate_from_surface_equality():
 
 def test_hf_routes_obligation_to_reachable_package_and_mode():
     x=dict(BASE); x["obligations"]=["CHECK_IDENTITY"]
-    d=decide(x,{"C02":["CHECK_IDENTITY"],"C03":["CHECK_HISTORY"]},{"exact_discriminant":True})
-    assert d.package==("C02",) and d.mode=="CONTRACT_OBSERVE" and d.action=="EXECUTE"
+    d=decide(x,{"C02":["CHECK_IDENTITY"],"C03":["CHECK_HISTORY"]},{"exact_discriminant":True,"independent_local":True})
+    assert d.package==("C02",) and d.mode=="CONTRACT_OBSERVE_DECOUPLED" and d.action=="EXECUTE"
 
 def test_hf_preserves_open_when_no_package_reaches_obligation():
     x=dict(BASE); x["obligations"]=["UNKNOWN"]
