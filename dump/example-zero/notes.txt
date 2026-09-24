@@ -1,0 +1,4 @@
+Project Alpha
+OPEN: determine whether the current architecture preserves state.
+TODO: verify the result after any repair.
+A prior design was SUPERSEDED but its useful capability may still need preservation.
