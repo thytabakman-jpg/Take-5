@@ -7,7 +7,9 @@ on:
       - 'tests/test_a5_registry.py'
       - 'runtime/a5_programs.py'
       - 'runtime/capability_foundry.py'
-      - 'tests/test_capability_foundry.py'
+      - 'runtime/capability_router.py'
+      - 'tests/test_capability_router.py'
+      - 'tests/test_capability_foundry.py tests/test_capability_router.py'
       - '.github/workflows/a5-tests.yml'
   pull_request:
   workflow_dispatch:
