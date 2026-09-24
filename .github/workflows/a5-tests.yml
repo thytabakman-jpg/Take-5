@@ -16,4 +16,4 @@ jobs:
         with:
           python-version: '3.12'
       - run: python -m pip install pytest
-      - run: PYTHONPATH=runtime pytest -q tests/test_a5_core.py
+      - run: PYTHONPATH=runtime pytest -q tests/test_a5_core.py tests/test_a5_registry.py
