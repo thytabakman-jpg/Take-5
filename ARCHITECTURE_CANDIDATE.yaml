@@ -1,0 +1,90 @@
+schema_version: 0.1
+architecture: take_5_factor_candidate
+status: EVIDENCE_SUPPORTED_CANDIDATE
+production_authority: none
+legacy_authority: thytabakman-jpg/Reaserch
+
+layers:
+  kernel:
+    owns:
+      - protected_invariants
+      - transition_legality
+      - authority_grant_constraints
+      - OPEN_and_INCOMPARABLE_preservation
+      - identity_provenance_currentness_contract
+      - preservation_obligation
+    does_not_own_by_default:
+      - adaptive_problem_selection
+      - quotient_algorithm
+      - PD_candidate_generation
+      - runtime_execution
+      - promotion_decision
+
+  epistemic:
+    owns:
+      - distinction_discovery
+      - representation_attack
+      - behavioral_quotient_construction
+      - ablation_and_minimality
+      - proof_obligation_compilation
+      - evidence_interpretation
+
+  controller:
+    owns:
+      - endogenous_problem_generation
+      - nondominated_work_selection
+      - delegation_policy
+      - composition_and_order_selection
+      - experiment_selection
+      - evidence_sensitive_reentry
+      - stopping_and_reselection
+      - map_connect_attack_adjudicate
+
+  interface:
+    owns:
+      - exact_execution_binding
+      - freshness_check
+      - authority_binding
+      - semantic_to_runtime_translation
+      - result_return_contract
+
+  runtime:
+    owns:
+      - bound_worker_execution
+      - execution_receipt
+      - external_effect_only_when_licensed
+
+  verification:
+    owns:
+      - result_verification
+      - transition_verification
+      - preservation_witness
+      - holdout_and_regression_evidence
+
+  state:
+    owns:
+      - durable_current_state
+      - lineage
+      - execution_ledger
+      - cumulative_learning
+      - monotonic_map_capture
+      - OPEN_and_blocker_state
+
+  authority_gate:
+    owns:
+      - production_promotion
+    constraints:
+      - no_self_promotion
+
+factorization_rule: >
+  Historical module membership does not determine placement. A component may factor across
+  protected invariant, epistemic operation, adaptive policy, executable binding, persistent record
+  and verification witness.
+
+open_coordinates:
+  - exact_PD_minimal_factorization
+  - convergence_theorem
+  - sufficient_behavioral_continuation_basis
+  - general_zero_request_autonomy
+  - production_runtime_binding
+  - promotion
