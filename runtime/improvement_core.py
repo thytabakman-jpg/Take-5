@@ -38,7 +38,7 @@ def improve(packet,package_index,workers,mode_policy,max_rounds=8):
             def episode_worker(binding,_pid=pid,_lw=local_worker):
                 out,receipt=delegate(episode=f"ic-{n}",program_id=_pid,authority_in=authority,authority_local=local,payload=current,worker=_lw)
                 return {"output":out,"delegation":receipt}
-            ep=run_episode(episode=f"ic-{n}-{pid}",program_id=pid,target_id=str(current.get("identity","object")),job=str(current.get("job","improve")),authority=authority,worker=episode_worker,observation_only=d.mode.endswith("OBSERVE"))
+            ep=run_episode(episode=f"ic-{n}-{pid}",program_id=pid,target_id=str(current.get("identity","object")),job=str(current.get("job","improve")),authority=authority,worker=episode_worker,observation_only="_OBSERVE_" in d.mode)
             if not ep.complete:
                 return ICResult("OPEN",n,d.mode,d.package,tuple(results),current)
             out=ep.result["output"]
