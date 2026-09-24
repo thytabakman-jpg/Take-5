@@ -104,3 +104,19 @@ NOT STARTED / REQUIRED BEFORE READINESS:
 ## Anti-loss conclusion
 
 No claim that every functionality has already been recovered is licensed. The portfolio census itself says its 713-file pass was high-recall rather than exhaustive. The correct build invariant is: every newly recovered reusable behavior is captured here and cannot disappear merely because the architecture is compressed.
+
+
+## 2026-09-24 capability-admission integration
+
+Recovered and implemented as nonproduction successor candidates:
+- Capability Foundry / capability-admission pack;
+- kernel Recovery -> Admission contract;
+- emergent load-bearing object guard;
+- Canonical Authority proposition-audit project program;
+- Sukkos learner-state project program.
+
+Runtime binding now exists for Capability Foundry at `runtime/capability_foundry.py`.
+Its runtime contract permits generation and admission requests but prohibits self-authorization.
+Project-local domain programs remain outside the kernel and consume global kernel/admission contracts.
+
+This integration does not transfer production authority and does not satisfy the promotion benchmark by itself.
