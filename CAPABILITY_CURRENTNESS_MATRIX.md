@@ -32,4 +32,9 @@ Status: LIVE
 | canonical-authority proposition audit | project-local program pack | epistemic + project program | specified, non-kernel |
 | Sukkos learner-state architecture | project-local program pack | epistemic + project program | specified, non-kernel |
 
+| IC capability-use routing | recovered V4 selection contract + IC/Kernel root-cause audit | controller + interface + state + verification | runtime candidate added |
+| capability coverage before closure | IC/Kernel root-cause audit | kernel + controller | specified; test binding added |
+| C20-C48 execution binding | current a5_programs runtime | interface + runtime | OPEN / unbound |
+| CAP-001..033 trigger/binding reconstruction | historical capability ledger | controller + interface | OPEN; coverage now visible |
+
 No row marked specified/reconstructed is treated as executable proof.
