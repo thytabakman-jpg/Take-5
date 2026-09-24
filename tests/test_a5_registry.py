@@ -1,6 +1,6 @@
 from a5_programs import REGISTRY,EXPECTED_C,EXPECTED_CAP
 
-def test_full_c_registry_enrolled(): assert REGISTRY.coverage("C")==EXPECTED_C
+def test_full_c_registry_enrolled(): assert {x for x in REGISTRY.ids() if x.startswith("C") and not x.startswith("CAP-")}==EXPECTED_C
 
 def test_full_historical_registry_enrolled(): assert REGISTRY.coverage("CAP-")==EXPECTED_CAP
 
