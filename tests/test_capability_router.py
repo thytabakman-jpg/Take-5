@@ -7,10 +7,10 @@ def test_root_cause_selects_bound_root_cause_tool():
     r=coverage("repeat-tool-nonuse",["repeated_failure","root_cause"],licensed=["C18"])
     assert by_id(r,"C18").status==CoverageStatus.SELECTED
 
-def test_relevant_unbound_capability_is_visible():
+def test_previously_unbound_architecture_capability_is_now_selected():
     r=coverage("system-defect",["system_defect","architecture"])
-    assert by_id(r,"C26").status==CoverageStatus.UNBOUND
-    assert closure_allowed(r) is False
+    assert by_id(r,"C26").status==CoverageStatus.SELECTED
+    assert by_id(r,"C20").status==CoverageStatus.NON_APPLICABLE
 
 def test_nonselection_is_explicit():
     r=coverage("identity",["identity_risk"],licensed=["C02"])
