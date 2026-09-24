@@ -1,0 +1,20 @@
+name: Take-5 Dump Test
+on:
+  push:
+    paths:
+      - 'runtime/**'
+      - 'dump/**'
+      - '.github/workflows/dump-test.yml'
+  workflow_dispatch:
+jobs:
+  dump:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run zero-request dump
+        run: python3 runtime/take5_dump.py dump/example-zero --state runtime/state/example-zero
+      - name: Upload run state
+        uses: actions/upload-artifact@v4
+        with:
+          name: take5-dump-test-result
+          path: runtime/state/example-zero/
