@@ -93,3 +93,25 @@ No fixed checklist outranks new result-sensitive evidence.
 4. launch independent zero-request discovery against the relevant frozen corpus;
 5. use its output as evidence, not authority;
 6. start placement ablations from the resulting combined frontier.
+
+
+## Mandatory capability-use transition
+
+The prior instruction to use useful tools is insufficient as prose. Every material live bottleneck now requires:
+
+BLOCKER
+-> CAPABILITY COVERAGE
+-> SELECT/NON_APPLICABLE/UNBOUND/BLOCKED/OPEN for every registered program identity
+-> EXECUTE every selected bound licensed capability
+-> RECORD coverage and execution receipts
+-> VERIFY material effect
+-> RESELECT only on material delta.
+
+Selection follows the recovered V4 rule:
+- choose the cheapest capability or package that can change the live bottleneck;
+- escalate only on residual interaction, noncommutation, or failed sufficiency;
+- record material negative space;
+- preserve OPEN rather than silently skipping incomplete definitions or bindings.
+
+IC may not claim closure while a materially relevant capability remains silently unconsidered.
+An UNBOUND relevant capability is a capability-binding blocker, not evidence that the capability was used.
