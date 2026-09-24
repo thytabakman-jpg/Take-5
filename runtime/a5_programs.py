@@ -120,3 +120,45 @@ def run_orient(program_id, payload):
 for _pid in ("C01","C02","C03","C04","C05","C06"):
     _old=REGISTRY.get(_pid)
     REGISTRY._items[_pid]=ProgramSpec(_old.program_id,_old.source,_old.job,_old.required_roles,_old.protected_outputs,_old.validation_target,True)
+
+
+def run_map(program_id, payload):
+    if program_id == "C07":
+        edges = [e for e in payload.get("candidate_edges", []) if e.get("material")]
+        return {"status": "ACCEPT" if edges else "NOOP", "typed_dependency_edges": edges}
+    if program_id == "C08":
+        spines = payload.get("spines", [])
+        return {"status": "ACCEPT" if spines else "OPEN", "plural_dependency_spines": spines}
+    if program_id == "C09":
+        edges = payload.get("edges", [])
+        unresolved = [e for e in edges if not e.get("relation_type")]
+        return {"status": "OPEN" if unresolved else "ACCEPT", "typed_layer_graph": edges}
+    if program_id == "C10":
+        reps = payload.get("representations", [])
+        results = [repr(x.get("result")) for x in reps]
+        invariant = bool(reps) and len(set(results)) <= 1
+        return {"status": "ACCEPT" if reps else "OPEN", "invariant": invariant, "representation_residual": [] if invariant else reps}
+    if program_id == "C11":
+        sensitive = [x["id"] for x in payload.get("coordinates", []) if x.get("changed_result")]
+        return {"status": "ACCEPT", "minimal_sensitive_supports": sensitive}
+    if program_id == "C12":
+        maps = payload.get("sensitivity_maps", [])
+        if not maps:
+            return {"status": "OPEN", "invariant_core": [], "residual": []}
+        sets = [set(x) for x in maps]
+        core = set.intersection(*sets)
+        residual = set.union(*sets) - core
+        return {"status": "ACCEPT", "invariant_core": sorted(core), "residual": sorted(residual)}
+    if program_id == "C13":
+        edges = payload.get("edges", [])
+        unresolved = [e for e in edges if not e.get("attribution")]
+        return {"status": "OPEN" if unresolved else "ACCEPT", "attributed_edge_chain": edges}
+    if program_id == "C49":
+        visited = payload.get("visited", [])
+        relevant = [x.get("id") for x in visited if x.get("task_relevant")]
+        return {"status": "ACCEPT", "navigation_trace": visited, "exact_object_set": relevant}
+    raise KeyError(program_id)
+
+for _pid in ("C07","C08","C09","C10","C11","C12","C13","C49"):
+    _old = REGISTRY.get(_pid)
+    REGISTRY._items[_pid] = ProgramSpec(_old.program_id, _old.source, _old.job, _old.required_roles, _old.protected_outputs, _old.validation_target, True)
