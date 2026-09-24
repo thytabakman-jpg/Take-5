@@ -1,0 +1,252 @@
+schema_version: 0.1
+object: MODE_CUBE_CAPABILITY_BUILD_PACK_001
+date: 2026-09-24
+status: NONPRODUCTION_CANDIDATE
+authority: research_only
+basis:
+  - research/MT_CAPABILITY_MODE_CUBE_003.md
+  - architecture/MODE_CUBE_CAPABILITY_ARCHITECTURE_001.md
+  - research/CAPABILITY_MODE_COVERAGE_MAP_001.md
+
+build_decision:
+  new_capabilities:
+    - MODE_ORCHESTRATOR
+    - RECONCILER
+    - DISCRIMINATOR
+    - DELEGATED_EXECUTOR
+    - CAPABILITY_CENTER_FINDER
+  formalize_existing:
+    - GDOS
+  upgrade_existing:
+    - IMPROVEMENT_CORE
+  do_not_duplicate:
+    - RIVAL_SUCCESSOR_FORGE
+    - SYSTEM_IMPROVER
+    - LOCAL_RECURSIVE_RESOLVER
+    - PRECISION_MUTATOR
+
+capabilities:
+
+  MODE_ORCHESTRATOR:
+    type: META_TOOL
+    region: GLOBAL_CENTER
+    trigger: live task has competing information-loss risks or mixed mode requirements
+    input:
+      - frozen target/job
+      - protected outputs
+      - live failure-risk vector
+      - available capability coverage
+      - authority/binding state
+    transform:
+      - classify dominant risk
+      - select one or a sequence from EO-D, EO-C, CO-D, CO-C, EA-D, EA-C, CA-D, CA-C
+      - select capability/package within mode
+      - declare switch conditions
+    output:
+      - typed mode plan
+      - capability plan
+      - switching/reentry conditions
+    success:
+      - avoids mode-inappropriate information loss
+      - preserves OPEN and authority
+      - produces explicit grounds for mode choice
+    failure:
+      - mode choice unsupported
+      - circular classification
+      - unavailable binding
+    persistence:
+      - record mode history and switches
+    grants_authority: false
+
+  RECONCILER:
+    type: TOOL
+    region: EO-C
+    trigger: plural independent observations exist and action selection is premature
+    input:
+      - frozen observation packets
+      - provenance
+      - observer identities
+      - protected target
+    transform:
+      - preserve independent outputs
+      - identify overlap
+      - identify contradiction
+      - identify dependencies
+      - detect interaction residuals
+      - retain unresolved OPEN/incomparability
+      - construct reconciled observation structure
+    output:
+      - reconciled observation graph
+      - conflict/residual packet
+      - unresolved coordinates
+    success:
+      - no observation silently erased or converted into intervention
+      - provenance preserved
+    failure:
+      - observer contamination
+      - premature scalarization
+      - mutation before reconciliation closes
+    persistence:
+      - store reconciled packet and source observations
+    grants_authority: false
+
+  DISCRIMINATOR:
+    type: TOOL
+    region: CO-D
+    trigger: one frozen question requires exact typed resolution
+    input:
+      - exact question
+      - admissible answer/result space
+      - protected semantics
+      - candidate discriminating coordinates
+    transform:
+      - remove irrelevant coordinates
+      - test result sensitivity
+      - recursively narrow unresolved coordinates
+      - preserve multiplicity/OPEN
+      - stop at basis-relative discriminating closure
+    output:
+      - minimal determining coordinates
+      - typed result
+      - OPEN/multiplicity witness where unresolved
+    success:
+      - exact resolution without outcome-driven narrowing
+    failure:
+      - hidden omitted coordinate
+      - premature type lock
+      - unsupported uniqueness
+    persistence:
+      - record discrimination trace
+    grants_authority: false
+
+  DELEGATED_EXECUTOR:
+    type: META_TOOL
+    region: CA-D
+    trigger: selected capability has a bounded executable transform that global synthesis should not simulate
+    input:
+      - frozen local target
+      - executable binding
+      - authority envelope
+      - expected output contract
+      - reintegration contract
+    transform:
+      - freeze scope
+      - bind specialist
+      - grant local transformation control within envelope
+      - execute
+      - capture exact receipt/result
+      - return result unchanged to reintegration boundary
+    output:
+      - execution receipt
+      - exact specialist result
+      - local side-effect record
+      - reintegration obligations
+    success:
+      - SELECTED
+      - BOUND
+      - DELEGATED
+      - EXECUTED
+      - RECEIPTED
+      - result preserved through handback
+    failure:
+      - semantic simulation substituted for execution
+      - global controller rewrites local transform
+      - missing binding
+      - authority overrun
+    persistence:
+      - store full delegation ladder status
+    grants_authority: false
+
+  CAPABILITY_CENTER_FINDER:
+    type: TOOL
+    region: EPISTEMIC_META
+    trigger: capability family/set needs compression, comparison, or center identification
+    input:
+      - capability set H
+      - protected job J
+      - context Ctx
+      - mode region M
+      - nuisance basis N when relevant
+    transform:
+      - freeze each member's protected function
+      - compute contextual reconstructibility
+      - locate maximal common reconstructible core
+      - preserve residual distinctions
+      - test whether apparent center is nontrivial
+    output:
+      - center candidate
+      - residual map
+      - equivalence/non-equivalence classes
+      - missing-center disposition
+    success:
+      - common core identified without erasing result-sensitive differences
+    failure:
+      - false center forced by symmetry
+      - context-sensitive residual hidden
+    persistence:
+      - register center and residual evidence
+    grants_authority: false
+
+formalize_existing:
+
+  GDOS:
+    region: EO-D
+    required_contract:
+      - exact frozen target
+      - observer basis
+      - independence/isolation rule
+      - mutation prohibition until observation closure
+      - observation saturation status
+      - handoff to RECONCILER
+
+upgrade_existing:
+
+  IMPROVEMENT_CORE:
+    current_primary_region: EA-C
+    additions:
+      - consume MODE_ORCHESTRATOR output
+      - stop semantically simulating CA-D work when executable delegation exists
+      - invoke RECONCILER before intervention after plural independent observation
+      - invoke DISCRIMINATOR for precision-heavy frozen questions
+      - record full execution ladder
+      - preserve mode-switch history
+
+underrepresentation:
+  strongest:
+    region: CA-D
+    evidence:
+      behavior_primary_count: 1
+      c_tool_primary_count: 0
+    missing_function: bounded local specialist autonomy with execution and faithful handback
+  second:
+    region: EO-C
+    evidence:
+      behavior_primary_count: 7
+      c_tool_primary_count: 5
+    missing_function: explicit pre-action reconciliation center
+  third:
+    region: EA-D
+    evidence:
+      behavior_primary_count: 5
+      c_tool_primary_count: 1
+    disposition: currently covered enough by rival/successor generation to defer new build
+
+admission_order:
+  - DELEGATED_EXECUTOR
+  - MODE_ORCHESTRATOR
+  - RECONCILER
+  - DISCRIMINATOR
+  - CAPABILITY_CENTER_FINDER
+
+reason_for_order:
+  DELEGATED_EXECUTOR: repairs a demonstrated recurrent failure
+  MODE_ORCHESTRATOR: reduces wrong-regime use across all future capabilities
+  RECONCILER: required to make GDOS independent-observation workflow complete
+  DISCRIMINATOR: consolidates fragmented precision capabilities
+  CAPABILITY_CENTER_FINDER: improves future capability design/compression but is less execution-critical
+
+nonclaims:
+  - five new capabilities do not imply five new primitive roles
+  - cube symmetry does not license one tool per octant
+  - primary-mode counts do not establish exclusive membership
+  - no new capability self-authorizes admission or production
