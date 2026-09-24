@@ -1,4 +1,4 @@
-"""Currentness Audit (CA): compare built components to latest admitted research without default rebuilding."""
+"""Currentness Audit: compare built components to latest admitted basis."""
 from dataclasses import dataclass
 from enum import Enum
 
@@ -14,7 +14,10 @@ class CurrentnessReceipt:
     delta:tuple[str,...]
     status:Currentness
     action:str
-    evidence:tuple[str,...]=()\n    obligations:tuple[str,...]=()\n    dependents:tuple[str,...]=()\n    reverified:bool=False
+    evidence:tuple[str,...]=()
+    obligations:tuple[str,...]=()
+    dependents:tuple[str,...]=()
+    reverified:bool=False
 
 def assess(*,component,built_basis,latest_basis,protected=(),delta=(),behavior_preserved=True,
            local_patch_available=True,evidence=(),obligations=(),dependents=(),reverified=False):
