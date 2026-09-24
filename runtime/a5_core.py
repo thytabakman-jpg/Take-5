@@ -89,3 +89,29 @@ class A5:
         a=self.C.evaluate(self.S,w,effect)
         self.S=self.U.apply(self.S,w,effect,delta,a)
         return self.S,w
+
+
+@dataclass(frozen=True)
+class ProgramSpec:
+    program_id: str
+    source: str
+    job: str
+    required_roles: tuple[str,...]
+    protected_outputs: tuple[str,...]
+    validation_target: str
+    executable: bool=False
+
+class ProgramRegistry:
+    VALID_ROLES={"K","S","O","G","M","C","R","U"}
+    def __init__(self): self._items={}
+    def register(self,spec:ProgramSpec):
+        if spec.program_id in self._items: raise ValueError("duplicate program id")
+        if not spec.required_roles or not set(spec.required_roles)<=self.VALID_ROLES:
+            raise ValueError("invalid or missing role binding")
+        if not spec.protected_outputs: raise ValueError("missing protected output")
+        if not spec.validation_target: raise ValueError("missing validation target")
+        self._items[spec.program_id]=spec
+    def get(self,pid): return self._items[pid]
+    def ids(self): return set(self._items)
+    def coverage(self,prefix): return {x for x in self._items if x.startswith(prefix)}
+    def executable_ids(self): return {x for x,s in self._items.items() if s.executable}
