@@ -100,6 +100,18 @@ class ProgramSpec:
     protected_outputs: tuple[str,...]
     validation_target: str
     executable: bool=False
+    configured_run: str="UNSPECIFIED"
+    recursion_owner: str="UNSPECIFIED"
+    consequence_scope: str="UNSPECIFIED"
+    external_escape: str="UNSPECIFIED"
+
+    def configured_run_complete(self)->bool:
+        return all(x!="UNSPECIFIED" for x in (
+            self.configured_run,
+            self.recursion_owner,
+            self.consequence_scope,
+            self.external_escape,
+        ))
 
 class ProgramRegistry:
     VALID_ROLES={"K","S","O","G","M","C","R","U"}
