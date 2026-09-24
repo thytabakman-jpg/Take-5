@@ -90,3 +90,33 @@ add("CAP-033","HISTORICAL_CAPABILITY_RECOVERY_LEDGER","historical protected beha
 
 EXPECTED_C={f"C{i:02d}" for i in range(1,50)}
 EXPECTED_CAP={f"CAP-{i:03d}" for i in range(1,34)}
+
+
+# Shared executable ORIENT-family adapters.
+def run_orient(program_id, payload):
+    if program_id=="C01":
+        kinds=payload.get("admissible_typings",[])
+        if len(kinds)==1: return {"status":"ACCEPT","typed_task_context":kinds[0]}
+        if not kinds: return {"status":"OPEN","reason":"no admissible typing established"}
+        return {"status":"OPEN","alternatives":kinds}
+    if program_id=="C02":
+        if payload.get("same_lineage") is True: return {"status":"ACCEPT","identity_relation":"SAME_REFERENT"}
+        if payload.get("same_lineage") is False: return {"status":"ACCEPT","identity_relation":"DISTINCT_REFERENT"}
+        return {"status":"OPEN","identity_relation":"UNRESOLVED"}
+    if program_id=="C03":
+        nodes=payload.get("versions",[])
+        auth=[x for x in nodes if x.get("authoritative")]
+        if len(auth)==1: return {"status":"ACCEPT","current":auth[0]["id"]}
+        return {"status":"OPEN","authoritative_candidates":[x.get("id") for x in auth]}
+    if program_id=="C04":
+        return {"status":"ACCEPT","frozen_source_packet":{"source_id":payload["source_id"],"claim":payload["claim"]}}
+    if program_id=="C05":
+        return {"status":"ACCEPT","frozen_target_contract":{"target":payload["target"],"protected":tuple(payload.get("protected",[]))}}
+    if program_id=="C06":
+        deps=payload.get("dependencies",[])
+        return {"status":"ACCEPT" if all("availability" in d for d in deps) else "OPEN","external_dependency_map":deps}
+    raise KeyError(program_id)
+
+for _pid in ("C01","C02","C03","C04","C05","C06"):
+    _old=REGISTRY.get(_pid)
+    REGISTRY._items[_pid]=ProgramSpec(_old.program_id,_old.source,_old.job,_old.required_roles,_old.protected_outputs,_old.validation_target,True)
