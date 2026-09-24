@@ -11,7 +11,7 @@ def test_all_specs_have_valid_bindings():
         assert s.protected_outputs and s.validation_target
 
 def test_enrollment_is_not_execution_claim():
-    assert REGISTRY.executable_ids()=={"C01","C02","C03","C04","C05","C06","C07","C08","C09","C10","C11","C12","C13","C49"}
+    assert REGISTRY.executable_ids()=={"C01","C02","C03","C04","C05","C06","C07","C08","C09","C10","C11","C12","C13","C14","C15","C16","C17","C18","C19","C49"}
     assert not (EXPECTED_CAP & REGISTRY.executable_ids())
 
 
@@ -78,3 +78,33 @@ def test_map_attribution_separation():
 def test_map_navigation_relevance_not_location():
     r=run_map("C49",{"visited":[{"id":"near","task_relevant":False},{"id":"far","task_relevant":True}]})
     assert r["exact_object_set"]==["far"]
+
+
+from a5_programs import run_attack
+
+def test_attack_family_bound_executable():
+    assert {"C14","C15","C16","C17","C18","C19"} <= REGISTRY.executable_ids()
+
+def test_c14_interaction_only_defect_survives():
+    r=run_attack("C14",{"findings":[],"interaction_findings":[{"id":"i","material":True}]})
+    assert [x["id"] for x in r["hostile_residuals"]]==["i"]
+
+def test_c15_terminology_not_novelty():
+    r=run_attack("C15",{"source_effects":["a","b"],"target_effects":["a"],"different_terms":True})
+    assert r["terminology_only"] and r["novel_residual"]==[]
+
+def test_c16_preservation_gates_change_frontier():
+    r=run_attack("C16",{"protected":["identity","authority"],"candidates":[{"id":"bad","preserves":["identity"]},{"id":"ok","preserves":["identity","authority"]}]})
+    assert [x["id"] for x in r["change_frontier"]]==["ok"]
+
+def test_c17_unknown_mechanism_stays_open():
+    r=run_attack("C17",{"failures":[{"id":"f","material":True}]})
+    assert r["status"]=="OPEN" and r["unresolved"]
+
+def test_c18_deepest_supported_not_assumed_terminal():
+    r=run_attack("C18",{"causal_chain":[{"id":"a","evidence":True},{"id":"b","evidence":True,"terminal":False}]})
+    assert r["status"]=="OPEN" and r["root_disposition"]["id"]=="b"
+
+def test_c19_recursive_discovery_handles_cycle():
+    r=run_attack("C19",{"seed_frontier":["a"],"graph":{"a":["b"],"b":["a","c"],"c":[]}})
+    assert r["discovered"]==["a","b","c"]
