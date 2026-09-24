@@ -11,9 +11,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Run Take-5 closed loop
-        run: python3 runtime/closed_loop.py
+        run: python3 runtime/closed_loop_v2.py
       - name: Upload receipt
         uses: actions/upload-artifact@v4
         with:
           name: take5-closed-loop-receipt
-          path: runtime/receipt.json
+          path: runtime/closed_loop_receipt.json
