@@ -162,3 +162,45 @@ def run_map(program_id, payload):
 for _pid in ("C07","C08","C09","C10","C11","C12","C13","C49"):
     _old = REGISTRY.get(_pid)
     REGISTRY._items[_pid] = ProgramSpec(_old.program_id, _old.source, _old.job, _old.required_roles, _old.protected_outputs, _old.validation_target, True)
+
+
+def run_attack(program_id, payload):
+    if program_id=="C14":
+        findings=[x for x in payload.get("findings",[]) if x.get("material")]
+        interactions=[x for x in payload.get("interaction_findings",[]) if x.get("material")]
+        residual=findings+interactions
+        return {"status":"ACCEPT" if residual else "NOOP","hostile_residuals":residual}
+    if program_id=="C15":
+        source=set(payload.get("source_effects",[])); target=set(payload.get("target_effects",[]))
+        return {"status":"ACCEPT","covered":sorted(source & target),"novel_residual":sorted(target-source),"terminology_only":bool(payload.get("different_terms")) and target<=source}
+    if program_id=="C16":
+        protected=set(payload.get("protected",[]))
+        candidates=payload.get("candidates",[])
+        allowed=[x for x in candidates if protected<=set(x.get("preserves",[]))]
+        return {"status":"ACCEPT" if allowed else "OPEN","change_frontier":allowed}
+    if program_id=="C17":
+        failures=[x for x in payload.get("failures",[]) if x.get("material",True)]
+        diagnosed=[x for x in failures if x.get("mechanism")]
+        unresolved=[x for x in failures if not x.get("mechanism")]
+        return {"status":"OPEN" if unresolved else "ACCEPT","mechanism_dispositions":diagnosed,"unresolved":unresolved}
+    if program_id=="C18":
+        chain=payload.get("causal_chain",[])
+        supported=[x for x in chain if x.get("evidence")]
+        if not supported: return {"status":"OPEN","root_disposition":None}
+        root=supported[-1]
+        return {"status":"ACCEPT" if root.get("terminal") else "OPEN","root_disposition":root}
+    if program_id=="C19":
+        frontier=list(payload.get("seed_frontier",[])); seen=set(); trace=[]
+        graph=payload.get("graph",{})
+        while frontier:
+            x=frontier.pop(0)
+            if x in seen: continue
+            seen.add(x); trace.append(x)
+            for y in graph.get(x,[]):
+                if y not in seen: frontier.append(y)
+        return {"status":"ACCEPT","discovery_trace":trace,"discovered":sorted(seen)}
+    raise KeyError(program_id)
+
+for _pid in ("C14","C15","C16","C17","C18","C19"):
+    _old=REGISTRY.get(_pid)
+    REGISTRY._items[_pid]=ProgramSpec(_old.program_id,_old.source,_old.job,_old.required_roles,_old.protected_outputs,_old.validation_target,True)
