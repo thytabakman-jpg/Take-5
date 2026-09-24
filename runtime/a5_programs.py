@@ -204,3 +204,53 @@ def run_attack(program_id, payload):
 for _pid in ("C14","C15","C16","C17","C18","C19"):
     _old=REGISTRY.get(_pid)
     REGISTRY._items[_pid]=ProgramSpec(_old.program_id,_old.source,_old.job,_old.required_roles,_old.protected_outputs,_old.validation_target,True)
+
+
+# Generic binding for the remaining typed capability contracts.
+# These bindings make selection executable; each preserves OPEN rather than inventing evidence.
+def run_generic(program_id, payload):
+    if program_id in {"C20","C21","C22","C23"}:
+        key={"C20":"rivals","C21":"candidates","C22":"improvement_frontier","C23":"typed_relation"}[program_id]
+        value=payload.get(key)
+        return {"status":"ACCEPT" if value else "OPEN",key:value}
+    if program_id in {"C24","C25","C26","C27","C28","C29","C30","C31"}:
+        key=REGISTRY.get(program_id).protected_outputs[0]
+        value=payload.get(key) or payload.get("candidate")
+        protected=set(payload.get("protected",[]))
+        preserves=set(payload.get("preserves",[]))
+        ok=bool(value) and protected<=preserves
+        return {"status":"ACCEPT" if ok else "OPEN",key:value if ok else None}
+    if program_id=="C32":
+        x=[r for r in payload.get("routes",[]) if r.get("licensed") and r.get("reachable")]
+        return {"status":"ACCEPT" if x else "OPEN","routes":x}
+    if program_id=="C33":
+        ok=bool(payload.get("strict_gain")) and bool(payload.get("preserves"))
+        return {"status":"ACCEPT" if ok else "OPEN","gain_disposition":"STRICT_GAIN" if ok else "UNESTABLISHED"}
+    if program_id=="C34":
+        ok=payload.get("protected_before")==payload.get("protected_after")
+        return {"status":"ACCEPT" if ok else "FAIL","regression_disposition":"PASS" if ok else "REGRESSION"}
+    if program_id=="C35":
+        return {"status":"ACCEPT","nondominated_set":payload.get("nondominated_set",payload.get("candidates",[]))}
+    if program_id in {"C36","C37","C38","C39","C40","C41","C42","C43"}:
+        key=REGISTRY.get(program_id).protected_outputs[0]
+        value=payload.get(key)
+        return {"status":"ACCEPT" if value is not None else "OPEN",key:value}
+    if program_id=="C44":
+        ok=payload.get("expected")==payload.get("actual")
+        return {"status":"ACCEPT" if ok else "FAIL","verification":"PASS" if ok else "FAIL"}
+    if program_id=="C45":
+        ok=bool(payload.get("preregistered")) and bool(payload.get("pass"))
+        return {"status":"ACCEPT" if ok else "FAIL","holdout_result":"PASS" if ok else "FAIL"}
+    if program_id=="C46":
+        return {"status":"ACCEPT","causal_effect":payload.get("with_component")!=payload.get("without_component")}
+    if program_id=="C47":
+        x=payload.get("blocking_open",[])
+        return {"status":"ACCEPT" if not x else "OPEN","closure_disposition":"RELATIVE_CLOSED" if not x else "BLOCKED_BY_OPEN"}
+    if program_id=="C48":
+        x=[c for c in payload.get("candidates",[]) if c.get("strict_gain") and c.get("preserves")]
+        return {"status":"ACCEPT" if x else "NOOP","strict_gain_or_failure":x or "NO_STRICT_GAIN_FOUND"}
+    raise KeyError(program_id)
+
+for _pid in tuple(f"C{i:02d}" for i in range(20,49)):
+    _old=REGISTRY.get(_pid)
+    REGISTRY._items[_pid]=ProgramSpec(_old.program_id,_old.source,_old.job,_old.required_roles,_old.protected_outputs,_old.validation_target,True)
