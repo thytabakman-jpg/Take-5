@@ -26,4 +26,10 @@ Status: LIVE
 | migration A+C+S+E | successor math | state + authority gate | pending |
 | promotion | Reaserch authority controls | independent authority gate | prohibited until ready |
 
+| emergent load-bearing object admission | Take-5 capability-admission pack | kernel + controller + verification | specified; runtime integration partial |
+| recovery -> admission separation | recovery ledger + admission pack | kernel + interface + verification + state | specified |
+| capability generation without self-authorization | Capability Foundry | controller + interface + authority gate | runtime candidate + tests added |
+| canonical-authority proposition audit | project-local program pack | epistemic + project program | specified, non-kernel |
+| Sukkos learner-state architecture | project-local program pack | epistemic + project program | specified, non-kernel |
+
 No row marked specified/reconstructed is treated as executable proof.
