@@ -1,0 +1,101 @@
+schema_version: 0.1
+artifact: capability_admission_pack_001
+status: NONPRODUCTION_CANDIDATE
+authority: none
+legacy_authority: thytabakman-jpg/Reaserch
+
+capability_type:
+  fields:
+    - type
+    - trigger
+    - input
+    - transform
+    - output
+    - success
+    - failure
+    - dependencies
+    - persistence
+  allowed_types: [BEHAVIOR, TOOL, BOUNDARY, META_TOOL, PROGRAM]
+
+kernel_invariants:
+  K_NEW_OBJECT_ADMISSION: >
+    A newly introduced load-bearing governing object cannot affect legal continuation until it has
+    stable identity, explicit type, admission disposition, and legal authority. OPEN objects may
+    persist but cannot silently govern unresolved coordinates.
+  K_NO_SELF_AUTHORIZING_CAPABILITY: >
+    Capability discovery, generation, compilation, persistence, or successful execution does not
+    itself grant authority, admission, promotion, or production status.
+  K_RECOVERY_NOT_AUTHORITY: >
+    Recovery from history, memory, repository, registry, or prior execution is evidence only until
+    the recovered object is reconstructed, typed, dispositioned, and admitted.
+
+recovery_to_admission:
+  pipeline:
+    - RECOVER
+    - RECONSTRUCT
+    - TYPE
+    - IMPACT_MAP
+    - BIND
+    - EXECUTE
+    - VERIFY
+    - ADMIT
+    - INTEGRATE
+    - REENTER
+  fixed_point:
+    condition: no_material_delta_under_frozen_job_and_protected_behavior
+    otherwise: REENTER
+  prohibitions:
+    - name_based_execution
+    - local_closure_with_open_downstream_obligations
+    - authority_by_recovery
+
+capability_foundry:
+  placement: CONTROLLER_INTERFACE_RUNTIME
+  map: "CF:<G,A,F,C>->CapabilitySet"
+  stages:
+    - FREEZE_GOAL
+    - IDENTIFY_FAILURE
+    - DERIVE_MISSING_FUNCTION
+    - GENERATE_CANDIDATE
+    - TYPE
+    - FORMALIZE
+    - REDUNDANCY_TEST
+    - INTEGRATION_TEST
+    - EXECUTABILITY_TEST
+    - ADMISSION_REQUEST
+  admission_predicates:
+    - novel_or_explicitly_subsuming
+    - material_goal_gain
+    - typed_execution_contract
+    - architecture_compatible
+    - authority_separate_from_generation
+
+project_programs:
+  canonical_authority:
+    placement: PROJECT_LOCAL_EPISTEMIC_PROGRAM
+    pipeline:
+      - FREEZE_PROPOSITION
+      - TYPE_SOURCE_DOMAIN
+      - FIND_PROPOSITION_LINK
+      - FIND_CASE_SELECTOR
+      - DOMAIN_TRANSFER_GATE
+      - RIVAL_FUNCTION_TEST
+    protected_invariant: "status_or_authority_or_legitimacy_does_not_entail_descriptive_truth_without_a_proposition_specific_bridge"
+  sukkos:
+    placement: PROJECT_LOCAL_LEARNER_TRANSFORMATION_PROGRAM
+    state_model: "L0->P1->L1->P2->L2->P3->L3->P4->L4"
+    page_contract:
+      - exactly_one_primary_job
+      - nonzero_learner_state_delta
+      - explicit_bridge_to_next_state
+    protected_boundaries:
+      - no_framework_capture
+      - no_page_reveal_leakage
+      - no_decorative_complexity_without_learner_state_function
+
+closure:
+  admission_is_not_promotion: true
+  semantic_success_is_not_execution: true
+  execution_is_not_authority: true
+  persistence_is_not_authority: true
+  promotion_requires_independent_authority_gate: true
