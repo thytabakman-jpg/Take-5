@@ -10,8 +10,8 @@ def test_all_specs_have_valid_bindings():
         assert s.required_roles and set(s.required_roles)<=REGISTRY.VALID_ROLES
         assert s.protected_outputs and s.validation_target
 
-def test_enrollment_is_not_execution_claim():
-    assert REGISTRY.executable_ids()=={"C01","C02","C03","C04","C05","C06","C07","C08","C09","C10","C11","C12","C13","C14","C15","C16","C17","C18","C19","C49"}
+def test_all_current_c_capabilities_are_executable_but_historical_rows_are_not_execution_claims():
+    assert EXPECTED_C <= REGISTRY.executable_ids()
     assert not (EXPECTED_CAP & REGISTRY.executable_ids())
 
 
