@@ -4,6 +4,8 @@ on:
     paths:
       - 'runtime/a5_core.py'
       - 'tests/test_a5_core.py'
+      - 'tests/test_a5_registry.py'
+      - 'runtime/a5_programs.py'
       - '.github/workflows/a5-tests.yml'
   pull_request:
   workflow_dispatch:
