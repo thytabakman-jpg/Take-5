@@ -118,3 +118,22 @@ recovery_admission_contract:
     - name_based_execution
     - local_closure_with_unresolved_downstream_obligations
     - authority_by_recovery
+
+capability_coverage_obligation:
+  invariant: >-
+    A material continuation or completion claim may not silently bypass a registered capability
+    that could materially change the live bottleneck. The controller must produce an explicit
+    capability-coverage disposition and, for each selected bound licensed capability, an execution
+    receipt or a typed blocker.
+  coverage_statuses:
+    - SELECTED
+    - NON_APPLICABLE
+    - UNBOUND
+    - BLOCKED
+    - OPEN
+  kernel_does_not_select_capabilities: true
+  selection_owner: CONTROLLER
+  binding_owner: INTERFACE
+  execution_owner: RUNTIME
+  receipt_owner: STATE
+  verification_owner: VERIFICATION
