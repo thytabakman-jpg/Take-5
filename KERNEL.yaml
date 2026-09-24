@@ -66,3 +66,55 @@ promotion:
     - historical_benchmarks
     - prospective_holdout
     - independent_authority_gate
+
+emergent_object_guard:
+  invariant: >-
+    No newly introduced load-bearing governing object may affect legal continuation until it has
+    stable identity, explicit type, an admission disposition, and legal authority. OPEN candidates
+    may persist but cannot silently govern unresolved coordinates.
+  pipeline:
+    - EXTRACT_NEW_OBJECTS
+    - OBJECTIFY
+    - TYPE
+    - MATHEMATIZE
+    - ADMIT
+    - INTEGRATE
+    - VERIFY
+    - REENTER
+  admission_is_not_promotion: true
+
+capability_generation:
+  mechanism: CapabilityFoundry
+  runtime: runtime/capability_foundry.py
+  rule: >-
+    Generated capabilities may request admission but cannot grant themselves admission, authority,
+    promotion, production status, or persistence authority.
+  candidate_contract:
+    - trigger
+    - input_contract
+    - transform
+    - output_contract
+    - success
+    - failure
+    - dependencies
+    - persistence
+
+recovery_admission_contract:
+  rule: >-
+    Recovered objects are evidence only until reconstructed, typed, impact-mapped, bound, executed
+    where applicable, verified, dispositioned, integrated, and reentered under the frozen job.
+  pipeline:
+    - RECOVER
+    - RECONSTRUCT
+    - TYPE
+    - IMPACT_MAP
+    - BIND
+    - EXECUTE
+    - VERIFY
+    - ADMIT
+    - INTEGRATE
+    - REENTER
+  prohibited_shortcuts:
+    - name_based_execution
+    - local_closure_with_unresolved_downstream_obligations
+    - authority_by_recovery
