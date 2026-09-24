@@ -2,7 +2,7 @@ from improvement_core import improve
 
 BASE={"identity":"x","type":"system","scope":"local","job":"improve","readings":[],"result_sensitive":[],"selectors":[],"authority":["observe"],"local_authority":["observe"],"provenance":[],"open":[]}
 
-def focus(_): return {"exact_discriminant":True}
+def focus(_): return {"exact_discriminant":True,"independent_local":True}
 
 def test_improvement_core_delegates_and_reenters_until_obligation_closes():
     p=dict(BASE); p["obligations"]=["CHECK_IDENTITY"]
