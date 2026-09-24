@@ -106,3 +106,23 @@ capability_admission_extension:
   placement_rule: >-
     Domain-specific programs remain outside the kernel. Only global invariants that constrain legal
     continuation or authority enter kernel scope.
+
+capability_use_control:
+  root_cause_artifact: research/IC_KERNEL_TOOL_USE_ROOT_CAUSE_001.md
+  controller_runtime: runtime/capability_router.py
+  controller_owns:
+    - live_bottleneck_to_capability_coverage
+    - cheapest_material_capability_or_package_selection
+    - material_nonselection_record
+    - residual_directed_escalation
+    - material_delta_reselection
+  kernel_owns:
+    - no_silent_capability_bypass_for_material_continuation_or_completion
+  interface_owns:
+    - selected_capability_to_runtime_binding
+  state_owns:
+    - coverage_receipt
+    - execution_receipt
+  verification_owns:
+    - selected_capability_effect_check
+    - reentry_after_material_delta
