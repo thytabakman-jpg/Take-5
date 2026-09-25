@@ -328,3 +328,76 @@ Preserve/test 22/evolving-basis, 36-role conflicts, mode policy, Take Two guard 
 
 W8 REPROMPT_HOLDOUT
 Fresh-chat prospective test: canonical entry, state recovery, automatic next-work generation, tool binding, integration, reentry without user reconstruction.
+
+
+## ICC-123 run delta — 2026-09-25
+
+### W2 ICC-124 lineage recovery
+
+Completed to current evidence limit.
+
+Result:
+ICC-124 has no recovered distinct durable role.
+Possible alias/referent candidate IC-024 remains OPEN, not identified.
+
+Authority:
+integration/ICC124_LINEAGE_RECOVERY_001_2026-09-25.md
+
+### W3 dependency/provenance map
+
+Created:
+integration/ICC123_THREE_DAY_DEPENDENCY_PROVENANCE_MAP_001.yaml
+
+Current bottleneck order:
+B1 canonical-entry/cross-chat currentness;
+B2 artifact-class candidate extraction/intake coverage;
+B3 trigger/binding/consumer coverage;
+B4 tool/ICC lineage backfill;
+B5 evidence-open mathematical architecture conflicts.
+
+### R10 currentness correction
+
+Earlier state said C capability runtime binding was partial.
+
+Current Take-5 evidence supersedes that statement:
+- C01-C49 are all marked executable in runtime/a5_programs.py;
+- C01-C49 all have trigger contracts in runtime/capability_router.py;
+- tests/test_all_capabilities_execute.py exercises every C01-C49;
+- tests/test_remaining_capabilities.py asserts all C capabilities are runtime-bound.
+
+Therefore:
+C01_C49_RUNTIME_BINDING = CURRENTLY_IMPLEMENTED_AND_REGRESSION_TESTED.
+
+Remaining execution issue is broader than C01-C49:
+host-entry/currentness binding and candidate intake across non-capability artifact classes.
+
+### B1 localization
+
+Repository-side ICC entry is implemented and tested:
+Jane begin_turn -> EntryContract -> ControllerLease;
+observer-first selection/order regression is validated.
+
+Current residual:
+the actual ChatGPT host is not guaranteed to invoke canonical Take-5 entry/currentness before reasoning.
+
+Therefore:
+B1 = HOST_TO_TAKE5_CURRENTNESS_BINDING,
+not missing Jane entry-contract mathematics.
+
+### B2 selection
+
+Current highest-leverage next job:
+high-recall candidate extraction/intake across artifact classes.
+
+Existing partial machinery:
+- runtime/take5_dump.py: no-skip file inventory but only shallow preview/marker analysis;
+- runtime/folder_refinery.py: identity/duplicate/refinery scaffold;
+- runtime/emergent_admission.py: object admission after a candidate already exists;
+- runtime/endogenous_work.py: typed Work after a work item already exists.
+
+Gap:
+no proven bridge guarantees that every materially reusable/load-bearing object, relation, equation,
+map, mechanism, goal, unresolved integration item, or status-changing discovery in an admitted corpus
+is converted into a candidate Work/currentness object.
+
+This is the next ICC-123 target.
