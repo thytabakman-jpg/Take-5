@@ -80,8 +80,9 @@ def test_observer_mode_runs_before_goal_and_plan():
     )
     assert out.terminal
     assert calls.index("OBSERVE") < calls.index("OBSERVE_RECONCILE")
-    assert calls.index("OBSERVE_RECONCILE") < calls.index("RECOVER_GOAL")
-    assert calls.index("OBSERVE_RECONCILE") < calls.index("PLAN_ORDER")
+    assert calls.index("OBSERVE_RECONCILE") < calls.index("OBSERVE_TRC")
+    assert calls.index("OBSERVE_TRC") < calls.index("RECOVER_GOAL")
+    assert calls.index("OBSERVE_TRC") < calls.index("PLAN_ORDER")
 
 def test_goal_directed_mode_preserves_normal_order():
     binding=begin_turn(
