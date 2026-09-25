@@ -3,7 +3,7 @@
 Date: 2026-09-25
 Controller: ICC / current semantic IC-028
 Run mode: OBSERVE_DECOUPLED
-Status: CURRENT CAPTURE / PROVISIONAL / OBSERVER-ENTRY REPAIR INTEGRATED
+Status: SUPERSEDED BY research/THE_EQUATION_CURRENT_CAPTURE_014.md
 Predecessor: research/THE_EQUATION_CURRENT_CAPTURE_010.md
 
 ## ICC observer-first run
