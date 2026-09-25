@@ -1,6 +1,10 @@
-"""Improvement Core governing episode: infer obligations, select mode/package, delegate, verify, TRC, reenter."""
+"""Improvement Core governing episode.
+
+IC remains the protected adaptive controller. Callers may optionally provide a
+package selector; omitting it preserves the historical max-hit behavior.
+"""
 from dataclasses import dataclass
-from hf_controller import decide,trc
+from hf_controller import decide,delta_reentry_route
 from controller_episode import run_episode
 from delegation import delegate
 
@@ -13,13 +17,13 @@ class ICResult:
     results:tuple
     final_packet:dict
 
-def improve(packet,package_index,workers,mode_policy,max_rounds=8):
+def improve(packet,package_index,workers,mode_policy,max_rounds=8,package_selector=None):
     current=dict(packet)
     results=[]
     seen=set()
     for n in range(1,max_rounds+1):
         flags=mode_policy(current)
-        d=decide(current,package_index,flags)
+        d=decide(current,package_index,flags,package_selector=package_selector)
         sig=(d.projection.obligations,d.package,d.mode)
         if d.action=="CLOSE_RELATIVE":
             return ICResult("CLOSED_RELATIVE",n-1,d.mode,d.package,tuple(results),current)
@@ -36,9 +40,24 @@ def improve(packet,package_index,workers,mode_policy,max_rounds=8):
             def local_worker(payload,_w=worker):
                 return _w(payload)
             def episode_worker(binding,_pid=pid,_lw=local_worker):
-                out,receipt=delegate(episode=f"ic-{n}",program_id=_pid,authority_in=authority,authority_local=local,payload=current,worker=_lw)
+                out,receipt=delegate(
+                    episode=f"ic-{n}",
+                    program_id=_pid,
+                    authority_in=authority,
+                    authority_local=local,
+                    payload=current,
+                    worker=_lw,
+                )
                 return {"output":out,"delegation":receipt}
-            ep=run_episode(episode=f"ic-{n}-{pid}",program_id=pid,target_id=str(current.get("identity","object")),job=str(current.get("job","improve")),authority=authority,worker=episode_worker,observation_only="_OBSERVE_" in d.mode)
+            ep=run_episode(
+                episode=f"ic-{n}-{pid}",
+                program_id=pid,
+                target_id=str(current.get("identity","object")),
+                job=str(current.get("job","improve")),
+                authority=authority,
+                worker=episode_worker,
+                observation_only="_OBSERVE_" in d.mode,
+            )
             if not ep.complete:
                 return ICResult("OPEN",n,d.mode,d.package,tuple(results),current)
             out=ep.result["output"]
@@ -46,7 +65,7 @@ def improve(packet,package_index,workers,mode_policy,max_rounds=8):
             if isinstance(out,dict):
                 current.update(out)
         material=current!=before
-        action=trc(material,before,current)
+        action=delta_reentry_route(material,before,current)
         if action=="NO_REENTRY":
             return ICResult("CLOSED_RELATIVE",n,d.mode,d.package,tuple(results),current)
     return ICResult("OPEN",max_rounds,d.mode,d.package,tuple(results),current)
