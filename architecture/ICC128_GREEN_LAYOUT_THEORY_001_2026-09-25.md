@@ -1,140 +1,181 @@
-# ICC-128 Green Layout Theory 001
+# ICC-128 Green Layout Theory 002
 
 Date 2026-09-25
 Status CANDIDATE / NON-CANONICAL
-Scope output-layout theory only
+Scope output rendering contract
 
 ## Purpose
 
-This artifact defines the layout machinery used to render ICC reconstruction outputs.
+This artifact defines how ICC reconstruction state is rendered.
 
-The layout machinery itself is GREEN by construction.
+The prior version failed because it described GREEN and RED with symbols and prose instead of requiring the mathematical characters themselves to carry color.
 
-It does not redefine GREEN.
+This version fixes the rendering contract without changing the meaning of GREEN or RED.
 
-## Existing GREEN admission rule
+## Existing recovery semantics
 
-A newly introduced layout component is admitted only when all five existing conditions are satisfied.
+GREEN keeps its existing meaning.
 
-🟩 variables are fully specified  
-🟩 domains are fully specified  
-🟩 relation or operator is fully specified  
-🟩 load-bearing conditions are fully specified  
-🟩 a GitHub artifact exists
+A mathematical component is GREEN only when its variables, domains, relation or operator, load-bearing conditions, and required GitHub artifact are fully known.
 
-Any proposed layout component failing one of those conditions is not admitted into the layout.
+RED keeps its existing meaning.
 
-## Layout ontology
+A mathematical component is RED when mathematical reconstruction remains incomplete.
 
-The layout contains exactly six section types.
+The renderer does not decide these states. It receives them from the audited object.
 
-🟩 Tool Identity  
-Domain: one identified tool or controller object.  
-Role: names the object being rendered.  
-Load-bearing condition: the identity must resolve to a specific artifact, controller, or historical object.
+## Hard rendering rule
 
-🟩 Core Mathematics  
-Domain: the recovered mathematical representation of that tool.  
-Role: displays only mathematics already present in the audited object or already reconstructed elsewhere.  
-Load-bearing condition: color is applied at the smallest mathematically meaningful component level. No whole-expression coloring by overall meaning.
+For every smallest mathematically meaningful rendered component, the characters of that component must carry their state color.
 
-🟩 Native Capabilities  
-Domain: functions implemented directly by the displayed tool.  
-Role: separates direct functionality from delegated functionality.  
-Load-bearing condition: a capability appears here only when provenance shows the displayed tool itself implements it.
+Allowed GREEN form:
 
-🟩 Invokable Tools  
-Domain: tools that the displayed tool can invoke.  
-Role: shows delegation as a parent-child relation.  
-Load-bearing condition: the invoked tool is not flattened into the native-capability list.
+[
+\color{green}{R_{123}}
+]
 
-🟩 Supplied Capabilities  
-Domain: capabilities obtained through one specific invoked tool.  
-Role: nests those capabilities directly under the tool that supplies them.  
-Load-bearing condition: provenance remains visible. A supplied capability is never presented as native unless independent evidence establishes native implementation.
+Allowed RED form:
 
-🟩 Open Reconstruction Frontier  
-Domain: unresolved components of the audited object.  
-Role: displays RED content that belongs to the inspected object.  
-Load-bearing condition: RED here is diagnostic content, not a RED layout component.
+[
+\color{red}{G}
+]
 
-## Color semantics
+Not allowed:
 
-The layout machinery is GREEN.
+- a green square placed before black text;
+- a red square placed before black text;
+- a whole equation colored because one subcomponent is GREEN;
+- a whole box colored because its contents are understood;
+- prose saying “this item is green” while the item itself remains black;
+- a legend that substitutes for component coloring.
 
-The audited object can contain GREEN and RED components.
+## Smallest-component rule
 
-Therefore the rendering distinction is:
+Color is applied independently to every mathematically meaningful atom.
 
-🟩 layout component = fully specified rendering structure with this GitHub artifact
+Example:
 
-🟩 audited component = recovered mathematical component satisfying the existing GREEN rule
+[
+\color{red}{C_{128}}
+(
+\color{red}{L},
+\color{red}{O},
+\color{green}{R_{123}},
+\color{green}{D_{PD}},
+\color{red}{G},
+\color{red}{A},
+\color{red}{M_{MT}},
+\color{red}{T_2},
+\color{red}{E},
+\color{red}{V}
+)
+]
 
-🟥 audited component = missing, underspecified, ambiguous, conflicting, verbal-only, tool-name-only, or internally unresolved mathematics
+The expression is not assigned one overall color.
 
-No new RED mathematical object is introduced by the layout.
+## Relation rendering
 
-## Provenance rule
+When a recovered relation is rendered, each mathematical component receives its own color.
 
-Every displayed capability has exactly one displayed provenance class:
+Example:
 
-🟩 native to the displayed tool
+[
+\color{green}{ICC128}
+\;\color{green}{\rightarrow}\;
+\color{green}{ICC123}
+\;\color{green}{\rightarrow}\;
+\color{green}{R_{123}}
+]
 
-or
+This rendering is permitted only when all three components and both displayed relations are already GREEN in the audited source.
 
-🟩 supplied by a named invokable tool
+If an internal relation is not recovered, do not invent a relation symbol merely to improve layout.
 
-or
+Use indentation or grouping instead.
 
-🟥 unresolved provenance in the audited object
+## Provenance layout
 
-The layout never silently converts the second or third class into the first.
+The visual hierarchy distinguishes direct capability ownership from delegated capability supply.
 
-## Nesting rule
+Native capability is displayed directly beneath the tool.
 
-Invoked-tool capabilities are displayed beneath the tool that supplies them.
+Invoked tool is displayed beneath the parent tool.
 
-Example structure:
+Capabilities supplied by an invoked tool are displayed beneath that invoked tool.
 
-ICC-128
-- Native Capabilities
-- Invokable Tools
-  - ICC-123
-    - Supplied Capabilities
-  - PD
-    - Supplied Capabilities
-  - Goal
-    - Supplied Capabilities
-  - Architect
-    - Supplied Capabilities
-  - MT
-    - Supplied Capabilities
-  - Take Two
-    - Supplied Capabilities
+This hierarchy is presentation structure. It does not create new mathematics.
 
-This is a presentation hierarchy, not a new mathematical claim about the internal equations of those tools.
+## Surface reliability rule
 
-## Admission boundary
+The renderer must use a color-capable representation.
 
-The layout can render unresolved mathematics, but the layout may not create unresolved mathematics.
+For ChatGPT or MathJax-capable Markdown, use explicit inline or display math color commands such as:
 
-Therefore:
+[
+\color{green}{x}
+]
 
-- existing RED content can be shown;
-- new RED operators, equations, categories, or hierarchy relations cannot be invented;
-- any newly introduced layout relation must be fully specified here and backed by this artifact before use.
+and
 
-## Multi-page rule
+[
+\color{red}{x}
+]
 
-A rendered ICC output may span multiple pages or sections.
+For GitHub diagrams or any surface where inline math color is not reliably preserved, use an SVG where the text element itself has the required fill color.
 
-The default order is:
+Do not fall back to colored status squares.
 
-1 Tool Identity
-2 Core Mathematics
-3 Native Capabilities
-4 Invokable Tools with nested Supplied Capabilities
-5 Open Reconstruction Frontier
-6 Provenance and artifact references
+## SVG fallback rule
 
-This order is presentation structure only. It does not imply execution order.
+In SVG output, the actual text glyph receives the fill property.
+
+GREEN example:
+
+`<text fill="#198754">R₁₂₃</text>`
+
+RED example:
+
+`<text fill="#dc3545">G</text>`
+
+The color belongs to the letters themselves.
+
+## Section structure
+
+The reusable output structure is:
+
+1. Tool identity
+2. Core mathematics
+3. Native capabilities
+4. Invokable tools
+5. Capabilities nested under each invoked tool
+6. Open reconstruction frontier
+7. Provenance and artifact references
+
+These are presentation sections, not mathematical operators.
+
+## Renderer constraint
+
+The renderer may change visual presentation.
+
+It may not change:
+
+- component identity;
+- GREEN or RED state;
+- capability ownership;
+- invocation provenance;
+- mathematical relation type;
+- artifact provenance.
+
+## Admission rule for the layout itself
+
+Every newly introduced rendering rule in this artifact is explicit and artifact-backed here.
+
+The renderer may display inherited RED components.
+
+It may not introduce a new RED mathematical component.
+
+## Failure test
+
+The renderer fails when any mathematical component that has a GREEN or RED state is displayed in ordinary black text while relying on a nearby square, legend, heading, or prose statement to communicate its state.
+
+That failure invalidates the rendered output.
