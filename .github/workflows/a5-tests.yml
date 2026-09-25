@@ -1,14 +1,25 @@
-name: A5 Tests
+name: Take-5 Validation
 on:
   push:
     paths:
       - 'runtime/**'
       - 'tests/**'
+      - 'dump/**'
       - '.github/workflows/a5-tests.yml'
   pull_request:
+    paths:
+      - 'runtime/**'
+      - 'tests/**'
+      - 'dump/**'
+      - '.github/workflows/a5-tests.yml'
   workflow_dispatch:
+
+concurrency:
+  group: take5-validation-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  test:
+  validate:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -16,4 +27,16 @@ jobs:
         with:
           python-version: '3.12'
       - run: python -m pip install pytest
-      - run: PYTHONPATH=runtime:. pytest -q tests
+      - name: Run A5 test suite
+        run: PYTHONPATH=runtime:. pytest -q tests
+      - name: Run closed-loop fixture
+        run: python3 runtime/closed_loop_v2.py
+      - name: Run zero-request dump
+        run: python3 runtime/take5_dump.py dump/example-zero --state runtime/state/example-zero
+      - name: Upload validation receipts
+        uses: actions/upload-artifact@v4
+        with:
+          name: take5-validation-receipts
+          path: |
+            runtime/closed_loop_receipt.json
+            runtime/state/example-zero/
