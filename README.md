@@ -10,15 +10,16 @@ Promotion authorization: user authorized 2026-09-24
 
 ## Start here
 
-1. `architecture/CANONICAL_FOUNDATION_034.md` — current foundation and the two distinct 36-cell structures.
-2. `MIGRATION_STATE.yaml` — authority, provenance, rollback, and open validation state.
-3. `research/IMPROVECORE_FOUNDATION_CAMPAIGN_033.md` — all-tools foundation campaign.
-4. `runtime/scope_mode_36.py` — canonical Scope × ModeFace controller coverage lattice.
-5. `runtime/system_loop.py` and `runtime/improvement_core.py` — lifecycle and adaptive controller.
-6. `architecture/LEARNING_OPERATOR_TOOLKIT_035.md` — typed mathematics for D6, D8, Kolb, DIKW, predictive processing, functional stack, OODA, Bayesian update, active inference, actor-critic, and rate-distortion.
-7. `runtime/learning_operator_tools.py` — executable generic operator implementations.
-8. `validation/check_learning_operator_tools.py` — operator composition and invariant checks.
-9. `validation/` — historical readiness and migration evidence.
+1. `architecture/ARCHITECTURE_DECISION_036_MATH_FIRST_TOOL_SELECTION.md` — current control choice: math first, then goal, architecture, and minimal typed tool selection.
+2. `architecture/CANONICAL_FOUNDATION_034.md` — current foundation and the two distinct 36-cell structures.
+3. `MIGRATION_STATE.yaml` — authority, provenance, rollback, and open validation state.
+4. `research/IMPROVECORE_FOUNDATION_CAMPAIGN_033.md` — all-tools foundation campaign.
+5. `runtime/scope_mode_36.py` — canonical Scope × ModeFace controller coverage lattice.
+6. `runtime/system_loop.py` and `runtime/improvement_core.py` — lifecycle and adaptive controller.
+7. `architecture/LEARNING_OPERATOR_TOOLKIT_035.md` — typed mathematics for D6, D8, Kolb, DIKW, predictive processing, functional stack, OODA, Bayesian update, active inference, actor-critic, and rate-distortion.
+8. `runtime/learning_operator_tools.py` — executable generic operator implementations.
+9. `validation/check_learning_operator_tools.py` — operator composition and invariant checks.
+10. `validation/` — historical readiness and migration evidence.
 
 ## Authority rule
 
