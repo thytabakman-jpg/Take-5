@@ -1,0 +1,50 @@
+schema_version: 1
+object_id: TAKE5_MIGRATION_STATE_2026_09_24
+status: CANONICAL_WORKING
+migration_stage: migrated_working
+authority_status: canonical_working
+authorization:
+  source: user_explicit
+  date: 2026-09-24
+  scope: migrate_successor_and_make_it_go_to_without_destroying_legacy
+current_repository: thytabakman-jpg/Take-5
+legacy_baseline:
+  repository: thytabakman-jpg/Reaserch
+  disposition: preserved_intact_read_only_rollback_and_provenance
+  destructive_cleanup: NOT_AUTHORIZED
+source_heads:
+  pr_131_scope_mode_36: 18b1570dbb50caf8298afae497a6b4119828b061
+  pr_132_cross_chat_migration: 33e993c315e740e15f22a77e0427256b2dfb051f
+canonical_foundation: architecture/CANONICAL_FOUNDATION_034.md
+controller_36:
+  type: scope_x_mode_face
+  cardinality: 36
+  role: coverage_routing_challenge_completion
+directed_handoff_36:
+  type: source_scope_x_target_scope
+  cardinality: 36
+  role: typed_scope_transfer_and_handoff
+mode_runtime:
+  axes:
+    breadth: [EXPAND, CONTRACT]
+    direction: [INWARD, OUTWARD]
+    coupling: [ISOLATE, COUPLE]
+  complete_corners: 8
+migration_invariants:
+  - legacy_repository_remains_intact
+  - candidate_does_not_self_promote
+  - open_state_is_preserved
+  - evidence_is_not_authority
+  - persisted_is_not_authoritative
+  - selected_is_not_executed
+  - equal_cardinality_is_not_equal_role
+  - later_discovery_can_trigger_rebase_and_repeat_migration
+open_validation:
+  - empirical_IC030_dominance
+  - expand_outward_isolate_matched_ablation
+  - unrestricted_candidate_universe_completeness
+  - kernel_global_minimality
+  - historical_backfill_beyond_current_migration_packet
+operating_rule:
+  new_work_entry: Take-5
+  rollback: restore_Reaserch_authority_pointer
