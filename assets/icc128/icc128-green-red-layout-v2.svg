@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760">
+  <rect width="1200" height="760" fill="white"/>
+  <style>
+    .title { font: 700 34px Arial, sans-serif; fill: #111; }
+    .h { font: 700 24px Arial, sans-serif; fill: #111; }
+    .g { font: 700 25px Arial, sans-serif; fill: #198754; }
+    .r { font: 700 25px Arial, sans-serif; fill: #dc3545; }
+    .p { font: 400 20px Arial, sans-serif; fill: #222; }
+    .line { stroke: #777; stroke-width: 2; }
+  </style>
+  <text x="50" y="55" class="title">ICC-128 component-level reconstruction layout</text>
+
+  <text x="50" y="110" class="h">Core mathematics</text>
+  <text x="50" y="155" class="r">C₁₂₈</text>
+  <text x="125" y="155" class="p">(</text>
+  <text x="145" y="155" class="r">L</text>
+  <text x="170" y="155" class="p">,</text>
+  <text x="190" y="155" class="r">O</text>
+  <text x="220" y="155" class="p">,</text>
+  <text x="240" y="155" class="g">R₁₂₃</text>
+  <text x="310" y="155" class="p">,</text>
+  <text x="330" y="155" class="g">D_PD</text>
+  <text x="405" y="155" class="p">,</text>
+  <text x="425" y="155" class="r">G</text>
+  <text x="450" y="155" class="p">,</text>
+  <text x="470" y="155" class="r">A</text>
+  <text x="495" y="155" class="p">,</text>
+  <text x="515" y="155" class="r">M_MT</text>
+  <text x="590" y="155" class="p">,</text>
+  <text x="610" y="155" class="r">T₂</text>
+  <text x="645" y="155" class="p">,</text>
+  <text x="665" y="155" class="r">E</text>
+  <text x="690" y="155" class="p">,</text>
+  <text x="710" y="155" class="r">V</text>
+  <text x="735" y="155" class="p">)</text>
+
+  <text x="50" y="225" class="h">Invokable tools</text>
+
+  <text x="70" y="275" class="g">ICC-123</text>
+  <line x1="105" y1="292" x2="105" y2="370" class="line"/>
+  <text x="135" y="315" class="p">discover residual distinctions</text>
+  <text x="135" y="345" class="p">preserve non-equivalent structures</text>
+  <text x="135" y="375" class="p">generate work from residuals</text>
+
+  <text x="600" y="275" class="g">PD</text>
+  <line x1="620" y1="292" x2="620" y2="370" class="line"/>
+  <text x="650" y="315" class="p">test behavioral equivalence</text>
+  <text x="650" y="345" class="p">identify result-sensitive distinctions</text>
+  <text x="650" y="375" class="p">test information loss / minimality</text>
+
+  <text x="70" y="445" class="r">Goal</text>
+  <text x="210" y="445" class="r">Architect</text>
+  <text x="390" y="445" class="r">MT</text>
+  <text x="500" y="445" class="r">Take Two</text>
+
+  <text x="50" y="520" class="h">Reconstruction frontier</text>
+  <text x="70" y="565" class="r">C₁₂₈  L  O  G  A  M_MT  T₂  E  V</text>
+  <text x="70" y="610" class="g">R₁₂₃  D_PD</text>
+
+  <text x="50" y="690" class="p">Color is on the letters themselves. No status square substitutes for component color.</text>
+</svg>
