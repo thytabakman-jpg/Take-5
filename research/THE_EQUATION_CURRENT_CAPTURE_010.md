@@ -1,7 +1,7 @@
 # THE EQUATION — Current Captured Form
 
 Date: 2026-09-25
-Status: CURRENT CAPTURE / PROVISIONAL / NOT FINAL
+Status: SUPERSEDED BY research/THE_EQUATION_CURRENT_CAPTURE_012.md
 Controller context: ICC / Improvement Core
 Purpose: freeze the strongest current equation so later attacks improve from this exact object rather than reconstructing it from memory.
 
