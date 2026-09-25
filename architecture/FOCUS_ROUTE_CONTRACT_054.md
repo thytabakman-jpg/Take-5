@@ -95,6 +95,63 @@ The first ten coordinates align with K_PD projection.
 
 Route may not use hidden conversational intuition as an input coordinate.
 
+
+## 3A. Eight-role routing basis
+
+Route does not operate directly on an unstructured bag of fields.
+
+The recovered eight-role basis is:
+
+T8
+=
+<
+  K,
+  S,
+  O,
+  G,
+  M,
+  C,
+  R,
+  U
+>
+
+with:
+
+K = Context
+S = State
+O = Operator
+G = Generator
+M = Modifier
+C = Control
+R = Router
+U = Update / Dynamics
+
+The routing state rho is projected into these eight role objects before trigger evaluation.
+
+Each role may carry multiple typed fields from rho, but the role identity is preserved.
+
+Route therefore has the form:
+
+rho
+-> T8(rho)
+-> H8(rho)
+-> Trigger_i
+
+where H8 is the typed relation structure among the eight roles.
+
+Relevant relation classes include:
+- dependency;
+- order;
+- authority;
+- provenance;
+- result sensitivity;
+- transition;
+- interaction;
+- update consequence.
+
+The eight-role basis constrains routing so that tool triggers are derived from structure rather than from unconstrained discretionary choice.
+
+
 ## 4. Tool contract
 
 Every tool family T_i has:
@@ -255,6 +312,30 @@ CostProbe_i << CostExec_i
 
 is a design target, not assumed proof.
 
+
+## 8A. A16 placement
+
+A16 is not a primary selector.
+
+Its role is adversarial verification after candidate execution and before strong preservation, equivalence, completion, or promotion claims cross closure.
+
+Operational placement:
+
+Execute
+-> A16 when triggered
+-> Evaluate
+-> Tool Run Closure
+
+A16 may use:
+- holdout;
+- ablation;
+- hostile cases;
+- alternate representations;
+- edge-interaction challenges.
+
+A16 therefore attacks the preservation or completion claim rather than choosing the initial tool package.
+
+
 ## 9. Interaction rule
 
 Triggers are recomputed after every material tool result.
@@ -306,7 +387,13 @@ OPEN -> CANDIDATE_DEFINED_FOR_FULL_SPECTRUM_20
 
 No protected invariant from Wrapper Contract 053 is removed.
 
+Additional preserved structure:
+- the eight-role basis T8=<K,S,O,G,M,C,R,U> now constrains Route;
+- A16 is placed as adversarial verification after execution, not as a free selector.
+
 Remaining OPEN:
+- exact field-to-role projection for every routing-state field;
+- exact H8 relation algebra;
 - proof/validation that the result-sensitivity test is computationally realizable across current object types;
 - runtime implementation of Focus;
 - runtime implementation of all trigger predicates;
