@@ -1,8 +1,8 @@
 schema_version: 0.1
 object_id: QUESTION-TOOL-RENAME-REGISTRY:001
 date: 2026-09-25
-status: CANONICAL_WORKING_NAME_MAP
-scope: current named epistemic/question tools in Take-5
+status: PROVISIONAL_PENDING_LINEAGE_AUDIT
+scope: provisional current named epistemic/question tools in Take-5; do not promote names until historical MT/RTC lineage audit closes
 compatibility_rule: legacy identifiers remain valid internal aliases; new names are canonical user-facing names
 criterion: >
   Include a named tool when its semantic nucleus is a stable information-seeking question.
