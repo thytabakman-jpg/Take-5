@@ -315,10 +315,10 @@ def make_learning_worker(program_id: str) -> Callable[[Mapping[str, Any]], dict[
         results = dict(packet.get("learning_results", {}) or {})
         results[program_id] = result
 
-        obligations = tuple(
+        obligations = [
             o for o in packet.get("obligations", ())
             if o not in spec.covers
-        )
+        ]
 
         status = dict(packet.get("learning_status", {}) or {})
         status[program_id] = {
