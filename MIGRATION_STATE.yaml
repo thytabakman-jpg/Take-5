@@ -48,3 +48,12 @@ open_validation:
 operating_rule:
   new_work_entry: Take-5
   rollback: restore_Reaserch_authority_pointer
+
+drift_control:
+  detected: true
+  detected_date: 2026-09-25
+  source_repository: thytabakman-jpg/Reaserch
+  status: OPEN_RECONCILIATION
+  authority_rule: post_cutover_legacy_writes_do_not_regain_canonical_authority
+  reconciliation_record: integration/REASERCH_POST_MIGRATION_DRIFT_2026-09-25.md
+  transfer_rule: exact_source_plus_target_effect_plus_validation_before_admission
