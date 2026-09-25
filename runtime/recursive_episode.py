@@ -3,6 +3,10 @@
 Implements the current semantic pattern:
 round -> Tool Run Closure -> admitted update -> HF-style reentry.
 A stronger terminal claim may require an external challenger.
+
+Terminal OPEN/BLOCKED closure state is admitted only when the closure contract
+explicitly requests it. This preserves older fail-closed behavior while allowing
+TRC to carry typed OPEN/BLOCKED state into the final episode state.
 """
 from dataclasses import dataclass, field
 from enum import Enum
@@ -26,12 +30,18 @@ class ClosureResult:
     status: str
     value: Any = None
     open_coordinates: tuple[str, ...] = ()
+    admit_on_terminal: bool = False
 
 @dataclass
 class RecursiveReceipt:
     rounds: list[dict[str, Any]] = field(default_factory=list)
     terminal: Terminal = Terminal.CONTINUE
     external_challenge_used: bool = False
+
+def _terminal_closure_state(state, rr, cr, update_fn):
+    if cr.admit_on_terminal:
+        return update_fn(state, rr, cr)
+    return state
 
 def run_recursive_episode(
     initial_state: Any,
@@ -62,9 +72,11 @@ def run_recursive_episode(
         })
 
         if cr.status == "OPEN":
+            state = _terminal_closure_state(state, rr, cr, update_fn)
             receipt.terminal = Terminal.OPEN
             return state, receipt
         if cr.status == "BLOCKED":
+            state = _terminal_closure_state(state, rr, cr, update_fn)
             receipt.terminal = Terminal.BLOCKED
             return state, receipt
 
@@ -82,9 +94,11 @@ def run_recursive_episode(
                 "closure_status": challenge_closure.status,
             })
             if challenge_closure.status == "OPEN":
+                state = _terminal_closure_state(state, challenge, challenge_closure, update_fn)
                 receipt.terminal = Terminal.OPEN
                 return state, receipt
             if challenge_closure.status == "BLOCKED":
+                state = _terminal_closure_state(state, challenge, challenge_closure, update_fn)
                 receipt.terminal = Terminal.BLOCKED
                 return state, receipt
             state = update_fn(state, challenge, challenge_closure)
