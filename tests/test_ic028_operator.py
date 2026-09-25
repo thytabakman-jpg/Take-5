@@ -51,6 +51,17 @@ def test_entry_binds_icc_and_observer_mode():
     assert binding.lease.controller=="IC-028"
     assert "ENTRY_BOUND" in binding.contract.receipt
 
+def test_original_self_application_prompt_auto_selects_observer_first():
+    binding=begin_turn(
+        "Run the equation on itself, then run Goal and then run Architect.",
+        target="the equation",
+        job="self-apply",
+        basis="current",
+        episode_id="auto-observer",
+    )
+    assert binding.contract.initial_mode==MODE_OBSERVE_DECOUPLED
+    assert binding.contract.mode_basis=="PREFLIGHT_CONTAMINATION_RISK"
+
 def test_observer_mode_runs_before_goal_and_plan():
     binding=begin_turn(
         "Run ICC in observer mode",
