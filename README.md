@@ -10,17 +10,18 @@ Promotion authorization: user authorized 2026-09-24
 
 ## Start here
 
-1. `architecture/OBSERVER_ALL_TOOLS_SWEEP_038.md` — observer-mode C01-C49 sweep, root quotient, final wrapper equation, and validation disposition.
-2. `architecture/IC_JANE_WRAPPER_MATH_PLAN_037.md` — formal mathematics of IC, Jane, and the math-first wrapper.
-3. `architecture/ARCHITECTURE_DECISION_036_MATH_FIRST_TOOL_SELECTION.md` — control choice: math first, then goal, architecture, and minimal typed tool selection.
-4. `runtime/math_first_wrapper.py` — validated parallel math-first wrapper around protected Jane + IC.
-5. `runtime/math_first_selector.py` — exact least-cost sufficient-cover selector, opt-in from IC.
-6. `runtime/jane_relevance.py` — typed Jane supervisory-relevance predicate.
-7. `architecture/CANONICAL_FOUNDATION_034.md` — current foundation and the two distinct 36-cell structures.
-8. `MIGRATION_STATE.yaml` — authority, provenance, rollback, and open validation state.
-9. `runtime/system_loop.py` and `runtime/improvement_core.py` — lifecycle and adaptive controller.
-10. `architecture/LEARNING_OPERATOR_TOOLKIT_035.md` and `runtime/learning_operator_tools.py` — typed selectable learning/processing lenses.
-11. `validation/` and `tests/` — readiness, regression, holdout, and execution evidence.
+1. `architecture/MATH_FIRST_WRAPPER_CLOSURE_039.md` — validated final IC/Jane/wrapper equation, implementation evidence, tool placement, and remaining nonblocking work.
+2. `architecture/OBSERVER_ALL_TOOLS_SWEEP_038.md` — observer-mode C01-C49 sweep and root quotient.
+3. `architecture/IC_JANE_WRAPPER_MATH_PLAN_037.md` — formal mathematics of IC, Jane, and the math-first wrapper.
+4. `architecture/ARCHITECTURE_DECISION_036_MATH_FIRST_TOOL_SELECTION.md` — control choice: math first, then goal, architecture, and minimal typed tool selection.
+5. `runtime/math_first_wrapper.py` — validated parallel math-first wrapper around protected Jane + IC.
+6. `runtime/math_first_selector.py` — exact least-cost sufficient-cover selector, opt-in from IC.
+7. `runtime/jane_relevance.py` — typed Jane supervisory-relevance predicate.
+8. `architecture/CANONICAL_FOUNDATION_034.md` — current foundation and the two distinct 36-cell structures.
+9. `MIGRATION_STATE.yaml` — authority, provenance, rollback, and open validation state.
+10. `runtime/system_loop.py` and `runtime/improvement_core.py` — lifecycle and adaptive controller.
+11. `architecture/LEARNING_OPERATOR_TOOLKIT_035.md` and `runtime/learning_operator_tools.py` — typed selectable learning/processing lenses.
+12. `validation/` and `tests/` — readiness, regression, holdout, and execution evidence.
 
 ## Authority rule
 
@@ -44,4 +45,4 @@ The foundation remains factored so future discoveries can add or revise coordina
 
 The learning-operator toolkit is factored the same way. Framework-specific mathematics remains typed and selectable rather than being flattened into one mandatory master loop.
 
-IC and Jane remain protected role-separated suboperators. The new math-first wrapper is implemented in parallel with the older inquiry wrapper so rollback and matched comparison remain available.
+IC and Jane remain protected role-separated suboperators. The validated math-first wrapper is implemented in parallel with the older inquiry wrapper so rollback and matched comparison remain available.
