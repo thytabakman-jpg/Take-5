@@ -2,7 +2,7 @@
 
 Date: 2026-09-25
 Controller: current semantic IC-028 / Diagnosis protocol
-Status: DIAGNOSED / SHARED ROOT GENERATOR IDENTIFIED / RUNTIME REPAIR NOT YET CLAIMED
+Status: SUPERSEDED BY research/ROOT_CAUSE_OBSERVER_MODE_POST_REPAIR_011.md
 
 ## D0 frozen failures
 
