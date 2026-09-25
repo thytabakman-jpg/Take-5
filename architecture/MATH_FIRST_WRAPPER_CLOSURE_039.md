@@ -191,3 +191,22 @@ Nonblocking future work:
 - retire the legacy wrapper only after a separate explicit cleanup decision.
 
 These are expansion/calibration tasks, not missing wrapper mathematics.
+
+
+## 2026-09-25 Take Two discovery-reentry addendum
+
+The earlier statement that no blocking item remained for wrapper mathematics was too strong relative
+to the protected original Take Two behavior.
+
+A closure gap was later demonstrated:
+
+unchanged admitted world state
++ unchanged protected result
++ material representation/view/candidate-universe discovery
+could be treated as relative closure by the wrapper's default state-delta reentry rule.
+
+This is reopened and repaired by:
+architecture/TAKE_TWO_DISCOVERY_REENTRY_INTEGRATION_001.md
+
+The corrected closure condition requires discovery stability in addition to protected-result and
+admitted-state stability.  Take-2 remains untouched as the historical behavioral baseline.
