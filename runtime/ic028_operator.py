@@ -73,7 +73,9 @@ def run_ic028(lease:ControllerLease,state:Any,handlers:dict[str,Callable], *,
                 current=out.get("state",current)
                 material=material or bool(out.get("material_delta"))
                 supervisory=supervisory or bool(out.get("supervisory_relevant"))
-                last_delta=out.get("delta",last_delta)
+                delta=out.get("delta")
+                if delta is not None:
+                    last_delta=delta
                 if stage=="COMPLETE" and out.get("terminal"):
                     receipts.append(OperatorReceipt(stage,"EXECUTED",out))
                     return OperatorResult(current,receipts,True,None)
