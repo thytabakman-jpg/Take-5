@@ -1,10 +1,13 @@
 """Jane integrated interface over Take-5 control services.
 
-Jane is a user-facing system role, not a new authority class.
+Jane is the user-facing interface/facade.  Conversation entry is bound here
+before substantive controller work so controller identity and initial mode do
+not drift inside the host layer.
 """
 from dataclasses import dataclass
 from capability_router import cover_capabilities
 from delegation_officer import plan_delegation
+from entry_contract import bind_entry_contract, entry_is_bound
 
 @dataclass(frozen=True)
 class JanePacket:
@@ -13,6 +16,23 @@ class JanePacket:
     changed:tuple=()
     open_items:tuple=()
     receipts:tuple=()
+
+def begin_turn(user_text, *, target, job, basis, authority=frozenset(),
+               boundary=None, explicit_mode=None, episode_id="chat"):
+    """Bind the entry contract and controller lease before substantive work."""
+    binding=bind_entry_contract(
+        user_text,
+        target=target,
+        job=job,
+        basis=basis,
+        authority=authority,
+        boundary=boundary,
+        explicit_mode=explicit_mode,
+        episode_id=episode_id,
+    )
+    if not entry_is_bound(binding):
+        raise RuntimeError("ENTRY_CONTRACT_NOT_BOUND")
+    return binding
 
 def capability_disposition(blocker,registry=None):
     return cover_capabilities(blocker)
