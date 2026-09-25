@@ -1,9 +1,9 @@
 # IC + Jane + Math-First Wrapper Plan 037
 
 Date: 2026-09-25
-Status: IMPLEMENTED_ON_MAIN_VALIDATION_PENDING
+Status: IMPLEMENTED_VALIDATED
 Runtime changes: IMPLEMENTED via runtime/math_first_wrapper.py, runtime/math_first_selector.py, runtime/jane_relevance.py, plus narrow backward-compatible IC/HF extension points
-Protected decision: do not rebuild IC or Jane; preserve current behavior and interfaces unless a narrowly-scoped verified patch is required. This constraint was preserved in implementation.\n\nImplementation merge: a567245bc62e3746f4fe5eaeec769a7d65245b72
+Protected decision: do not rebuild IC or Jane; preserve current behavior and interfaces unless a narrowly-scoped verified patch is required. This constraint was preserved in implementation.\n\nImplementation merge: a567245bc62e3746f4fe5eaeec769a7d65245b72\nValidation: GitHub Actions run 36154766223 SUCCESS
 
 ## 1. Current Improvement Core mathematics
 
