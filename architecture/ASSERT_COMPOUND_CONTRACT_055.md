@@ -2,9 +2,9 @@
 
 Date: 2026-09-25
 
-Status: CURRENT WORKING DESIGN AUTHORITY
+Status: CURRENT WORKING DESIGN AUTHORITY + RUNTIME ORCHESTRATOR IMPLEMENTED
 
-Runtime effect: NONE until separately implemented and validated
+Runtime effect: COMPOUND ORCHESTRATION IMPLEMENTED ON BRANCH; end-to-end semantic stage binding remains OPEN until validation/admission
 
 Purpose: preserve the current full ASSERT tool as a compound discovery engine rather than allowing later conversations to collapse it back into a one-pass assertion scan.
 
@@ -220,8 +220,33 @@ No stage may disappear through compression without a behavioral equivalence proo
 
 ## 10. Current OPEN coordinates
 
-- exact executable runtime binding for ASSERT*;
+- end-to-end semantic binding of ASSERT/COMPARE/RESOLVE/HERE/INQUIRE/REASSERT stage implementations into the orchestrator;
 - exact geometry assignment for each stage;
 - exact inquiry cost model;
 - exact relationship between ASSERT question frontier and the canonical route trigger ledger;
 - regression/holdout witnesses for stage ablation.
+
+
+## 11. Runtime realization
+
+Executable orchestration surface:
+
+`runtime/assert_compound.py`
+
+Configured-run identity:
+
+`runtime/tool_run_registry.py` registers `ASSERT` as a material strong-claim tool.
+
+Regression surface:
+
+`tests/test_assert_compound.py`
+
+The runtime preserves:
+- all seven protected stages;
+- the mandatory second COMPARE;
+- fixed-point reentry on discovery/world-state change;
+- basis-relative closure;
+- OPEN return when stabilization is not reached;
+- caller-supplied closure gating for result-sensitive OPEN/BLOCKED/CONFLICT obligations.
+
+This implementation establishes the compound orchestration shell. It does not claim that every domain-specific stage implementation or geometry assignment is globally complete.
