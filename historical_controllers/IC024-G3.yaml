@@ -1,0 +1,193 @@
+schema_version: 1
+object_id: IMPROVEMENTCORE:SPEC:2026-09-24-024-G3
+version_id: IC-2026-09-24-024-G3
+date: 2026-09-24
+status: experimental_self_successor_active_reconciled
+authority: semantic_improvement_core_successor_candidate
+mutation_authority: none
+base_spec: projects/improvement-core/versions/IC-2026-09-24-024-G2.yaml
+semantic_inputs:
+  - projects/improvement-core/IC024_AUTONOMOUS_IMPROVEMENT_DECISION_001_2026-09-24.md
+  - projects/improvement-core/validation/HIGHER_ORDER_BEHAVIORAL_ONTOLOGY_MATH_WORKBOOK_001_2026-09-24.md
+  - projects/improvement-core/validation/IC-024_AUTONOMOUS_SELF_RECONSTRUCTION_RUN_001_2026-09-24.md
+
+purpose: >
+  Preserve IC-023 execution-truth and IC-018 protected runtime behavior while importing
+  the C59-C61 continuation-sensitive specialization mathematics and autonomy-routing results.
+  IC-024 is a semantic candidate and cannot self-promote.
+
+ambient:
+  kernel: [K,S,O,G,M,C,R,U]
+  environment: E
+  configured_invocation: [J,Q,A,Gamma,tau]
+  comparison_basis: [K,E,J,L,H_adm,P]
+  generated_continuations_separate: H_gen
+
+selection:
+  primary_unit: configured_behavior
+  relation: Specializes_Bcal(c | c0,T)
+  effect_signature: [SEM,CONT,META]
+  rule: select_nondominated_configured_behavior_that_can_change_live_bottleneck
+  preserve_OPEN_and_incomparability: true
+  named_artifact_role: implementation_and_provenance_handle
+  legacy_PMod_term: historical_only
+
+autonomy_routing:
+  autonomous_lead_when:
+    - representation_live
+    - object_boundary_live
+    - ontology_live
+    - rival_architecture_live
+    - search_topology_live
+  directed_when:
+    - frame_frozen
+    - operationalization_job
+    - verification_job
+    - regression_job
+    - specific_formal_test
+  isolated_paired_when:
+    - authority_difference_is_under_test
+  no_global_autonomy_superiority_claim: true
+
+delegation:
+  compiled_control: [A,Gamma,tau]
+  invocation_mode_I: operationally_reducible_candidate
+  theorem_level_minimality: OPEN
+  semantic_control_does_not_grant:
+    - runtime_mutation_authority
+    - production_mutation_authority
+    - promotion_authority
+
+equivalence:
+  schema: continuation_sensitive
+  observational_equivalence_distinct: true
+  intervention_continuation_equivalence_required_when_result_sensitive: true
+  congruence_under_composition: OPEN
+  finite_sufficient_continuation_basis: OPEN
+
+generic_lifts:
+  X_role: staging_class
+  gate: RobustGeneric_F
+  requirements:
+    - heterogeneous_basis_support
+    - purpose_independence
+    - ablation
+    - non_regression
+    - independent_approval
+
+execution_truth:
+  inherit_from: IC-2026-09-24-023
+  invariants:
+    - planning_is_not_execution
+    - selection_is_not_execution
+    - semantic_application_is_not_implementation_execution
+    - completion_requires_terminal_execution_states_or_typed_blockers
+
+self_application:
+  independent_path_required: true
+  acceptable_paths:
+    - independent_rival
+    - legacy_comparator
+    - negative_control
+    - holdout
+  self_reference_cannot_establish_strict_gain: true
+
+progress:
+  material_cycle_requires_one_of:
+    - object_level_semantic_delta
+    - state_delta
+    - discriminating_evidence
+    - newly_exposed_material_dependency
+    - typed_blocker
+  repeated_meta_narration: NOOP
+
+take_two:
+  current_pd_centered_kernel: preserve_as_comparator
+  candidate_role_for_IC024: adaptive_controller_above_unchanged_kernel
+  install_before_matched_comparison: false
+  next_high_information_test: matched_PD_only_vs_IC024_controlled_same_frozen_corpus
+
+promotion:
+  self_promotion: prohibited
+  current_runtime_authority: IC-2026-09-23-018
+  runtime_promotion_change: none
+
+semantic_successor_inputs:
+  - projects/core-system-mathematics/architecture-v2/08_IC024_THREE_PASS_MATH_RUN_001_2026-09-24.md
+  - projects/improvement-core/IC024_QUOTIENT_MATH_SELF_AND_ECOSYSTEM_IMPROVEMENT_003_2026-09-24.md
+  - projects/improvement-core/validation/IC024_QUOTIENT_PROPAGATION_REORGANIZATION_RUN_004_2026-09-24.md
+  - projects/improvement-core/IC024_POST_QUOTIENT_UPGRADE_DECISION_005_2026-09-24.md
+
+reconciliation:
+  defect: >
+    The finite self-succession lineage inherited C59-C61 semantics while the main IC-024 research
+    lineage subsequently reached architecture-v3 and Decision 005. G2 therefore had the newest
+    closed-loop execution requirement but a stale specialization-first semantic controller.
+  decision: consume_final_succession_key_and_merge_lineages
+  reason: >
+    This is result-sensitive controller drift. Leaving the lineages separate would make the controller
+    installed for the Take-2 experiment knowingly older than the strongest admitted IC-024 semantic candidate.
+
+distinction_first_controller:
+  basis: [D,H,P,observational_equivalence]
+  observation_map: sigma_B
+  behavioral_state: Q_B_equals_Omega_mod_kernel_sigma_B
+  primary_action_vocabulary: unresolved_behavioral_distinctions_and_discriminating_experiments
+  capability_role: executor_library
+  routing:
+    - recover_live_claim_frontier
+    - build_or_validate_basis
+    - quotient_current_candidates
+    - identify_unresolved_distinctions
+    - generate_discriminating_experiment_frontier
+    - compile_minimal_licensed_executor
+    - execute_and_observe
+    - update_quotient
+    - compile_claim_typed_proof_obligations
+    - propagate_by_observation_footprint
+    - reselect
+
+closed_loop_execution:
+  required_cycle: [controller, semantic_worker, result, verification, controller_reentry, reselection_or_typed_stop]
+  intermediate_not_completion: [plan, diagnosis, contract_emission, artifact_creation, ingress_binding, executor_selection]
+  completion_requires: verified_semantic_result_returned_to_controller_and_terminal_reselection
+
+learning:
+  basis_indexed_NoGain: true
+  experiment_coverage: true
+  observation_footprints: true
+  interaction_records: true
+  basis_delta_invalidation: true
+  preserve_incomparable_frontiers: true
+
+proof_obligation_compiler:
+  equivalence: seek_quotient_split
+  specialization: generic_reconstruction_and_ablation
+  coordinate_necessity: projection_and_elimination
+  composition: congruence_and_critical_pair
+  saturation: strict_successor_search_and_coverage
+  generic_lift: heterogeneous_basis_ablation_and_non_regression
+  migration: old_new_signature_preservation
+
+take_two:
+  baseline: unchanged_PD_centered_kernel
+  experimental_controller: IC-2026-09-24-024-G3
+  math_task: experiments/core-system-math-2026-09-24
+  installation_semantics: controller_above_kernel_not_new_kernel_primitive
+  success_test: >
+    A supplied mathematics problem is typed and activated, receives semantic work, returns a result,
+    is verified, and reenters this controller for reselection without requiring repeated user prompts.
+  do_not_claim_persistent_autonomy_without_semantic_worker_binding: true
+
+experimental_self_succession:
+  contract: projects/improvement-core/experiments/IC024_FINITE_SELF_SUCCESSION_001.yaml
+  generation: 3
+  inherited_budget: 0
+  parent: IC-2026-09-24-024-G2
+  activation_consumed_budget: 3
+  production_authority_change: none
+  zero_budget_behavior: self_replacement_prohibited
+  autonomous_decision: >
+    G2 spends the final key because its semantic substrate is demonstrably stale relative to Decision 005.
+    G3 reconciles the newest quotient/distinction-first controller with G2's closed-loop execution correction.
+    No further self-successor is authorized by this experiment.
