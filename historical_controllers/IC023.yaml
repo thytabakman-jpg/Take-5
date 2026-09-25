@@ -1,0 +1,122 @@
+schema_version: 1
+object_id: IMPROVEMENTCORE:SPEC:2026-09-24-023
+version_id: IC-2026-09-24-023
+date: 2026-09-24
+status: candidate_runtime_successor
+authority: semantic_improvement_core_runtime_successor_candidate
+mutation_authority: none
+base_spec: projects/improvement-core/versions/IC-2026-09-23-018.yaml
+semantic_inputs:
+  - projects/improvement-core/versions/IC-2026-09-24-022.yaml
+  - projects/tool-optimization/CAPABILITY_REGISTRY_V4_IC022.yaml
+  - projects/tool-optimization/CAPABILITY_OPERATIONAL_CONTRACT_IC022_V1.yaml
+  - projects/core-system-mathematics/MATHEMATICAL_CAPABILITY_REPERTOIRE_001_2026-09-24.yaml
+  - projects/core-system-mathematics/CORE_EQUATION.md
+  - projects/pd/practical/execution_orders/PCO-2026-09-24-004-improved-core-math.yaml
+
+purpose: >
+  Produce a runtime-successor candidate for the job currently performed by IC-018.
+  Preserve IC-018's adaptive RTC v2, protection, OPEN/incomparability, branch-aware
+  feedback, transfer, and verification behavior while importing validated later
+  selection mathematics and execution-truth controls. This candidate cannot self-promote.
+
+inheritance:
+  preserve_from_IC018:
+    - adaptive_RTC_v2
+    - ResultFrontier_SearchCoverage_separation
+    - independent_successor_verification
+    - branch_and_OPEN_preservation
+    - state_relative_reselection_after_material_delta
+    - coverage_certificate_boundary
+    - no_global_ceiling_from_failed_candidates
+  rule: later_semantics_may_strengthen_but_not_silently_erase_IC018_controls
+
+runtime_job:
+  architecture: [K,S,O,G,M,C,R,U]
+  entry: freeze_target_contract_and_current_state
+  cycle:
+    - DISCOVER_JOBS
+    - COMPILE_CANDIDATES
+    - SELECT_NONDOMINATED_PACKAGE
+    - EXECUTE_OR_SEMANTICALLY_APPLY_WITH_EXPLICIT_STATUS
+    - C_JUDGE
+    - U_UPDATE
+    - R_RECOMPUTE
+    - REENTER_ONLY_ON_MATERIAL_DELTA
+    - FINAL_INDEPENDENT_VERIFY
+
+execution_truth:
+  ledger_states:
+    - DISCOVERED
+    - CONSIDERED
+    - SELECTED
+    - SEMANTICALLY_APPLIED
+    - IMPLEMENTATION_EXECUTED
+    - RESULT_USED
+    - NOT_APPLICABLE
+    - BLOCKED
+  invariants:
+    - planning_is_not_execution
+    - inventory_is_not_execution
+    - retrieval_is_not_execution
+    - semantic_application_is_not_implementation_execution
+    - selected_is_not_executed
+    - no_completion_claim_without_requested_pairwise_ledger_closure
+  frozen_plan_rule: >
+    After a user or controlling contract freezes an execution plan, replanning is
+    subordinate. Each requested object-capability pair must reach a terminal ledger
+    state or a typed blocker before cross-object completion is reported.
+
+selection:
+  repertoire: projects/core-system-mathematics/MATHEMATICAL_CAPABILITY_REPERTOIRE_001_2026-09-24.yaml
+  registry: projects/tool-optimization/CAPABILITY_REGISTRY_V4_IC022.yaml
+  operational_contract: projects/tool-optimization/CAPABILITY_OPERATIONAL_CONTRACT_IC022_V1.yaml
+  rule: cheapest_capability_or_package_that_can_change_live_bottleneck
+  preserve_incomparable: true
+  escalate_only_on:
+    - residual_interaction
+    - noncommutation
+    - failed_sufficiency
+    - unresolved_hidden_dependency
+  negative_space: record_material_nonselection
+
+anti_meta_displacement:
+  progress_measure: >
+    Each controller cycle must produce an object-level semantic/state delta, new
+    discriminating evidence, or a typed blocker. Repeated plans, inventories, or
+    explanations without one are NOOP.
+  noop_reentry: prohibited_without_new_material_input
+
+reporting_contract:
+  default: [done_status,results,changes,next_automatic_action]
+  completion_evidence_required: true
+  distinguish_semantic_from_runtime: true
+
+promotion:
+  self_promotion: prohibited
+  current_authority_remains: IC-2026-09-23-018
+  pointer: projects/pd/practical/PRACTICAL_CORE_CURRENT_ORDER.yaml
+  required_before_promotion:
+    - matched_regression_against_IC018
+    - conversation_failure_fixture
+    - unseen_real_task_holdout
+    - execution_ledger_ablation
+    - runtime_manifest_compatibility
+    - A16_independent_regression
+    - no_loss_of_IC018_RTC_v2_behavior
+  rule: >
+    Promote only through the existing current-order pointer after required validation.
+    Candidate status or recency confers no runtime authority.
+
+strict_gain_claim:
+  status: CANDIDATE
+  proposed_gains:
+    - explicit_execution_truth
+    - anti_meta_displacement
+    - compiled_mathematical_capability_selection
+    - reduced_result_insensitive_tool_search
+    - stronger_completion_evidence
+  nonclaims:
+    - runtime_superiority_not_yet_established
+    - global_tool_completeness_not_established
+    - IC022_not_promoted
