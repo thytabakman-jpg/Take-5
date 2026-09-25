@@ -1,13 +1,14 @@
 """IC-028 operator wrapper.
 
 Curiosity-first inquiry and the complete execution path run under one controller
-lease. Concrete project/tool functions are injected as handlers. The active
-controller may terminate an exploratory campaign early only with an explicit
-answer-sufficiency decision and receipt.
+lease.  A bound entry contract is mandatory before substantive work.  The entry
+mode controls legal stage ordering, so OBSERVE_DECOUPLED performs frozen
+observation and observation reconciliation before goal-directed stages.
 """
 from dataclasses import dataclass
 from typing import Any, Callable
 from controller_lease import ControllerLease, may_select_actions
+from entry_contract import MODE_OBSERVE_DECOUPLED
 from jane_sync import jane_sync
 
 @dataclass
@@ -23,22 +24,44 @@ class OperatorResult:
     terminal:bool
     blocker:str|None=None
 
-STAGES=("RECOVER_GOAL","CURIOSITY_PD","FORMALIZE","PLAN_ORDER","OBSERVE",
-        "OBJECTIFY","GENERATE_WORK","SELECT","BIND","EXECUTE","ADMIT",
-        "RECONCILE","PROPAGATE_AFFECTED_CONE","PERSIST","VERIFY","COMPLETE")
+GOAL_DIRECTED_STAGES=(
+    "RECOVER_GOAL","CURIOSITY_PD","FORMALIZE","PLAN_ORDER","OBSERVE",
+    "OBJECTIFY","GENERATE_WORK","SELECT","BIND","EXECUTE","ADMIT",
+    "RECONCILE","PROPAGATE_AFFECTED_CONE","PERSIST","VERIFY","COMPLETE"
+)
+
+OBSERVER_FIRST_STAGES=(
+    "OBSERVE","OBSERVE_RECONCILE",
+    "RECOVER_GOAL","CURIOSITY_PD","FORMALIZE","PLAN_ORDER",
+    "OBJECTIFY","GENERATE_WORK","SELECT","BIND","EXECUTE","ADMIT",
+    "RECONCILE","PROPAGATE_AFFECTED_CONE","PERSIST","VERIFY","COMPLETE"
+)
+
+def stages_for(entry_contract):
+    if entry_contract.initial_mode==MODE_OBSERVE_DECOUPLED:
+        return OBSERVER_FIRST_STAGES
+    return GOAL_DIRECTED_STAGES
 
 def run_ic028(lease:ControllerLease,state:Any,handlers:dict[str,Callable], *,
-              jane_update:Callable|None=None,controller_decide:Callable|None=None,
-              max_rounds:int=8):
+              entry_contract=None,jane_update:Callable|None=None,
+              controller_decide:Callable|None=None,max_rounds:int=8):
+    if entry_contract is None:
+        return OperatorResult(state,[],False,"ENTRY_CONTRACT_REQUIRED")
+    if lease.controller!=entry_contract.controller:
+        return OperatorResult(state,[],False,"ENTRY_CONTROLLER_MISMATCH")
+    if not getattr(entry_contract,"receipt",None):
+        return OperatorResult(state,[],False,"ENTRY_CONTRACT_UNBOUND")
     if not may_select_actions(lease,"IC-028"):
         return OperatorResult(state,[],False,"LEASE_DENIED")
+
+    stage_plan=stages_for(entry_contract)
     current=state
-    receipts=[]
+    receipts=[OperatorReceipt("ENTRY_CONTRACT","BOUND",entry_contract)]
     for _ in range(max_rounds):
         material=False
         supervisory=False
         last_delta=None
-        for stage in STAGES:
+        for stage in stage_plan:
             fn=handlers.get(stage)
             if fn is None:
                 return OperatorResult(current,receipts,False,f"UNBOUND:{stage}")
