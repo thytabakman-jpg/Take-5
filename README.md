@@ -17,20 +17,20 @@ ICC means Jane + the validated math-first wrapper + Improvement Core / IC-028 + 
 ## Start here
 
 1. `integration/ICC_SHUTDOWN_HANDOFF_2026-09-25.md` — durable session handoff, current ICC identity, protected decisions, validated commits, and exact resume frontier.
-2. `architecture/LEARNING_TOOL_ADMISSION_DECISION_040.md` — implemented/validated typed admission of D6/D8 and learning lenses into IC only when their runtime inputs exist.
-3. `runtime/learning_tool_bridge.py` — executable IC admission bridge for the learning-tool family.
-4. `architecture/MATH_FIRST_WRAPPER_CLOSURE_039.md` — validated final IC/Jane/wrapper equation, implementation evidence, tool placement, and remaining nonblocking work.
-5. `architecture/OBSERVER_ALL_TOOLS_SWEEP_038.md` — observer-mode C01-C49 sweep and root quotient.
-6. `architecture/IC_JANE_WRAPPER_MATH_PLAN_037.md` — formal mathematics of IC, Jane, and the math-first wrapper.
-7. `architecture/ARCHITECTURE_DECISION_036_MATH_FIRST_TOOL_SELECTION.md` — control choice: math first, then goal, architecture, and minimal typed tool selection.
-8. `runtime/math_first_wrapper.py` — validated parallel math-first wrapper around protected Jane + IC.
-9. `runtime/math_first_selector.py` — exact least-cost sufficient-cover selector, opt-in from IC.
-10. `runtime/jane_relevance.py` — typed Jane supervisory-relevance predicate.
-11. `architecture/CANONICAL_FOUNDATION_034.md` — current foundation and the two distinct 36-cell structures.
-12. `MIGRATION_STATE.yaml` — authority, provenance, rollback, and open validation state.
-13. `runtime/system_loop.py` and `runtime/improvement_core.py` — lifecycle and adaptive controller.
-14. `architecture/LEARNING_OPERATOR_TOOLKIT_035.md` and `runtime/learning_operator_tools.py` — typed mathematical definitions for the selectable learning/processing lenses.
-15. `validation/` and `tests/` — readiness, regression, holdout, and execution evidence.
+2. `architecture/KERNEL_MATH_CONTRACT_052.yaml` — review-only exact factorization of K, W_beta, IC, Jane, typed tools, Take Two recovered laws, and the candidate alignment operator.\n3. `architecture/KERNEL_MATH_CONTRACT_052.md` — readable companion to the kernel math contract.\n4. `architecture/LEARNING_TOOL_ADMISSION_DECISION_040.md` — implemented/validated typed admission of D6/D8 and learning lenses into IC only when their runtime inputs exist.
+5. `runtime/learning_tool_bridge.py` — executable IC admission bridge for the learning-tool family.
+6. `architecture/MATH_FIRST_WRAPPER_CLOSURE_039.md` — validated final IC/Jane/wrapper equation, implementation evidence, tool placement, and remaining nonblocking work.
+7. `architecture/OBSERVER_ALL_TOOLS_SWEEP_038.md` — observer-mode C01-C49 sweep and root quotient.
+8. `architecture/IC_JANE_WRAPPER_MATH_PLAN_037.md` — formal mathematics of IC, Jane, and the math-first wrapper.
+9. `architecture/ARCHITECTURE_DECISION_036_MATH_FIRST_TOOL_SELECTION.md` — control choice: math first, then goal, architecture, and minimal typed tool selection.
+10. `runtime/math_first_wrapper.py` — validated parallel math-first wrapper around protected Jane + IC.
+11. `runtime/math_first_selector.py` — exact least-cost sufficient-cover selector, opt-in from IC.
+12. `runtime/jane_relevance.py` — typed Jane supervisory-relevance predicate.
+13. `architecture/CANONICAL_FOUNDATION_034.md` — current foundation and the two distinct 36-cell structures.
+14. `MIGRATION_STATE.yaml` — authority, provenance, rollback, and open validation state.
+15. `runtime/system_loop.py` and `runtime/improvement_core.py` — lifecycle and adaptive controller.
+16. `architecture/LEARNING_OPERATOR_TOOLKIT_035.md` and `runtime/learning_operator_tools.py` — typed mathematical definitions for the selectable learning/processing lenses.
+17. `validation/` and `tests/` — readiness, regression, holdout, and execution evidence.
 
 ## Authority rule
 
@@ -58,4 +58,4 @@ IC and Jane remain protected role-separated suboperators. The validated math-fir
 
 The learning lenses are now first-class IC candidates through a typed bridge. Missing runtime inputs leave the corresponding lens inapplicable and preserve OPEN; no lens is forced onto a problem merely because its mathematics exists.
 
-Current resume frontier: collect real ICC execution receipts, then empirically calibrate tool costs before changing the neutral unit-cost prior.
+Current resume frontier: validate the frozen kernel/alignment mathematics against matched historical ICC runs, specify the alignment reconstruction operator, and only then implement it. The prior empirical execution-receipt/tool-cost frontier remains next after alignment validation.
