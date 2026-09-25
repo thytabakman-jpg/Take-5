@@ -1,0 +1,90 @@
+schema_version: 0.1
+object_id: QUESTION-TOOL-RENAME-REGISTRY:001
+date: 2026-09-25
+status: CANONICAL_WORKING_NAME_MAP
+scope: current named epistemic/question tools in Take-5
+compatibility_rule: legacy identifiers remain valid internal aliases; new names are canonical user-facing names
+criterion: >
+  Include a named tool when its semantic nucleus is a stable information-seeking question.
+  Exclude controllers, generators, admission gates, binders, delegates, state updaters,
+  persistence mechanisms, and recursive wrappers whose primary job is not inquiry.
+universal_question_form: "Q_T(X|J,B) = {a in A_T(X|B) : R_T(X,a|J,B)}"
+
+question_tools:
+  - old: MTA
+    new: Basic Math
+    math: "BM(X)=Min_preorder{m in M_B(X) : Recon_J(m,X) and Closed_J,B(m)}"
+  - old: MT / MT_MODE_SWEEP
+    new: Change Math
+    math: "CM(X)={(phi,delta) : phi in Phi_B(X), delta=Delta_J(X,phi(X)) != 0}"
+  - old: PD
+    new: Difference Math
+    math: "DM(X)={d in D_B(X) : Out_J(X) !~_J Out_J(phi_d(X))}"
+  - old: PD_AUDIT / PDAudit
+    new: Difference Check
+    math: "DC(C)={c in C : ResultSensitive_J(c) and Evidence(c) and Verified(c) and Coverage(c)}"
+  - old: MULTI_OBJECT_MOMT / MultiObject
+    new: Together Math
+    math: "TM(S)={r in F_J(S) : r notin Cl_J,B(union_{P proper_subset S} F_J(P))}"
+  - old: ARCHITECTURE / Architecture
+    new: Structure Math
+    math: "SM(X)=ND{a in A_B(X) : Recon_J(a,X) and Preserve_J(a) and Cover_J(a)}"
+  - old: ROOT_CAUSE / Diagnosis
+    new: Cause Math
+    math: "Cause(X)={h in H_B(X) : Compatible(h,E,C) and RootCriterion_J(h)}"
+  - old: DOS_OBSERVE / GDOS
+    new: Open Look
+    math: "OL(X)=Reconcile({Observe_b(X | optimization_pressure=0) : b in B})"
+  - old: ARA_ARTIFACT_REALITY
+    new: Reality Check
+    math: "RC(o)=Identity(o) and Canon(o) and Currentness(o) and AuthorityTyped(o) and ArtifactDelta(o) terminal"
+  - old: ORPHAN_GHOST_CONFLICT
+    new: Connection Check
+    math: "CC(G)=Orphan(G) union Ghost(G) union Conflict(G)"
+  - old: CURRENTNESS / CurrentnessAudit
+    new: Current Check
+    math: "Current_J(x) iff Delta_J(BuiltBasis(x),LatestBasis(x))=empty and DependentsRevalidated(x)"
+  - old: ROLE_ASSIGNMENT_OWNER_CLOSURE
+    new: Ownership Check
+    math: "Owner(q)={r : Capable(r,q) and Authorized(r,q)}"
+  - old: CONSEQUENCE_AFFECTED_CONE
+    new: Ripple Math
+    math: "RM(delta)=Desc_G(Supp(delta))"
+  - old: RTC_RAISE_CEILING / RTC
+    new: Better Version
+    math: "BV(x)=ND{y : Preserve_J(y) and y >_J x}"
+  - old: MTOS
+    new: Tool Improvement Math
+    math: "TIM(T)=ND{T' : SameJob(T',T) and Preserve_J(T') and T' >_J T}"
+  - old: TRANSFER_CORE
+    new: Transfer Check
+    math: "TC(r,a,b)=License_ab(r) and PreserveSem(r) and Material_b(r)"
+  - old: EXECUTION_TRUTH_ACTIVATION
+    new: Run Check
+    math: "Run(t)=Selected(t) and Bound(t) and Delegated(t) and Executed(t) and Receipted(t) and Reintegrated(t) and Verified(t)"
+  - old: A16_HOLDOUT_ABLATION
+    new: Stress Test
+    math: "ST(x)=HoldoutPass_J(x) and AblationDelta_J(x) != 0 and Preserve_J(x)"
+  - old: GOAL_COMPLETION_CERT
+    new: Completion Check
+    math: "Done_J iff all q in Q_material are Terminal(q) and ConsequencesClosed and Reentry=empty and Verified"
+  - old: BiasPerturbation
+    new: Bias Check
+    math: "BC(H,X,N)={n in N : P(phi_n(X))=P(X) and Out(H,X) !~_P Out(H,phi_n(X))}"
+  - old: HistoricalReconstruction
+    new: History Check
+    math: "HC(x)={h in History : Recon_J(h,x) and ProvenanceValid(h)}"
+  - old: Discriminator
+    new: Focus Check
+    math: "FC(q)={d in D(q) : d changes the live answer partition or resolves a material OPEN coordinate}"
+
+excluded_non_question_named_tools:
+  - ImprovementCore
+  - Reconciler
+  - DelegatedExecutor
+  - HF001
+  - TRC
+  - CapabilityFoundry
+  - EmergentAdmission
+  - ZeroRequest
+  - GOAL_TARGET_FREEZE
