@@ -18,7 +18,8 @@ class JanePacket:
     receipts:tuple=()
 
 def begin_turn(user_text, *, target, job, basis, authority=frozenset(),
-               boundary=None, explicit_mode=None, episode_id="chat"):
+               boundary=None, explicit_mode=None, observer_risk=None,
+               episode_id="chat"):
     """Bind the entry contract and controller lease before substantive work."""
     binding=bind_entry_contract(
         user_text,
@@ -28,6 +29,7 @@ def begin_turn(user_text, *, target, job, basis, authority=frozenset(),
         authority=authority,
         boundary=boundary,
         explicit_mode=explicit_mode,
+        observer_risk=observer_risk,
         episode_id=episode_id,
     )
     if not entry_is_bound(binding):
