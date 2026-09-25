@@ -469,3 +469,23 @@ CAPTURED / DO NOT BUILD YET.
 No claim in this inbox becomes canonical because it is newer, attractive, repeated, mathematical, or implemented somewhere.
 
 The next major move begins only after cross-chat integration has reconciled these objects against GitHub truth.
+
+
+## ICC-123 three-day recovery campaign — 2026-09-25
+
+Current controlling integration campaign:
+- integration/ICC123_THREE_DAY_RECOVERY_CAMPAIGN_001_2026-09-25.md
+- integration/ICC123_THREE_DAY_RECOVERY_STATE_001_2026-09-25.md
+- integration/REASERCH_POST_CUTOVER_RECONCILIATION_PASS_001_2026-09-25.md
+
+Role assignment:
+- ICC-123 = lead planner/reframer/residual coordinator;
+- ICC-128 = admission/closure/reentry partner;
+- ICC-124 = OPEN identity pending lineage recovery.
+
+Selection criterion:
+"most effective" means dominance over recovery coverage, canonical integration, protected-behavior
+preservation, residual discovery, execution reality, closure quality, future reachability, and
+reduction of manual user reprompting. It does not mean fewest tools.
+
+This campaign is now the preferred integration surface for the recovered three-day work.
