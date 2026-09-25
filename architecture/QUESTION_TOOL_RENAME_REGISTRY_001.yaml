@@ -1,7 +1,7 @@
 schema_version: 0.2
 object_id: QUESTION-TOOL-RENAME-REGISTRY:001
 date: 2026-09-25
-status: PROVISIONAL_QUESTION_QUOTIENT_NAME_MAP
+status: CURRENT_BASIS_QUESTION_NAME_MAP
 source_math: research/QUESTION_SEARCH_MATH_001.md
 source_run: research/QUESTION_SEARCH_RUN_001.yaml
 rule: >
@@ -52,13 +52,9 @@ not_question_families:
   - GoalTargetFreeze
   - ImprovementCore
 
-open_merge_tests:
-  - [Q10,Q14]
-  - [Q10,Q12]
-  - [Q15,Q09]
-  - [Q16,Q04]
-  - [Q17,Q22]
-  - [Q21,Q16]
+merge_test_result:
+  source: research/QUESTION_QUOTIENT_MERGE_TESTS_002.md
+  result: ALL_SIX_NO_MERGE
 
 promotion_rule: >
   Do not call the 22 globally minimal. Promote only after the six open equivalence edges
