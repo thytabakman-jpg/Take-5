@@ -1,11 +1,11 @@
 """Jane integrated interface over Take-5 control services.
 
-Jane is the user-facing interface/facade.  Conversation entry is bound here
+Jane is the user-facing interface/facade. Conversation entry is bound here
 before substantive controller work so controller identity and initial mode do
 not drift inside the host layer.
 """
 from dataclasses import dataclass
-from capability_router import cover_capabilities
+from capability_router import coverage
 from delegation_officer import plan_delegation
 from entry_contract import bind_entry_contract, entry_is_bound
 
@@ -34,8 +34,9 @@ def begin_turn(user_text, *, target, job, basis, authority=frozenset(),
         raise RuntimeError("ENTRY_CONTRACT_NOT_BOUND")
     return binding
 
-def capability_disposition(blocker,registry=None):
-    return cover_capabilities(blocker)
+def capability_disposition(blocker, tags=(), *, licensed=None, registry=None):
+    """Return current capability-coverage disposition for the live blocker."""
+    return coverage(str(blocker), tags, licensed=licensed)
 
 def delegate_work(work_items,max_items=4):
     return plan_delegation(work_items,max_items=max_items)
