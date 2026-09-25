@@ -154,3 +154,69 @@ Current interface gaps:
 No runtime migration or kernel reduction is authorized.
 
 E6 kernel-law externalizability remains blocked by historical protected-witness recovery under B4.
+
+
+## ICC-128 kernel witness/placement delta
+
+Current research artifact:
+- research/ICC128_KERNEL_WITNESS_AND_PLACEMENT_001_2026-09-25.md
+
+A conservative historical witness basis has now been frozen from current Take-5, Take Two, early MT lineage, and representative Improvement Core milestones.
+
+The witness basis protects:
+- exact referent/job/baseline continuity;
+- explicit non-expanding authority;
+- nonmutating observation and goal-decoupled reconnaissance;
+- typed consequential transitions;
+- OPEN/BLOCKED/incomparability;
+- execution truth;
+- material-delta reentry;
+- lineage/provenance;
+- Take Two surface minimality;
+- endogenous discovery/candidate-universe change;
+- no self-promotion;
+- basis-relative closure;
+- successor witness preservation;
+- typed separation of result/evidence/authority/state/runtime status.
+
+Basis-relative placement result:
+
+The current 14 laws do not form one natural executable kernel block.
+
+Current research factorization:
+
+K_common^B
+=
+K_ref
+AND K_auth
+AND K_trans
+AND K_admit
+AND K_status
+AND K_prov.
+
+Protected laws that appear externalizable from the common effect gate remain mandatory in typed owners:
+- entry binding -> interface;
+- surface minimality/successor anti-loss -> architecture constitution;
+- observation isolation -> observer/controller;
+- FreezeMath -> wrapper;
+- execution lifecycle -> runtime/interface receipts;
+- closure -> verification/controller;
+- reentry -> controller/currentness;
+- lineage storage -> state;
+- production promotion -> specialized authority gate.
+
+Current architecture hypothesis:
+
+COMMON PROTECTED EFFECT CONTRACT
++
+TYPED STATE-SPECIFIC COMMIT GATES
++
+SEPARATE ARCHITECTURE CONSTITUTION
++
+REPLACEABLE CONTROLLER/WRAPPER/RUNTIME MECHANISMS.
+
+This is research only.
+
+GLOBAL_KERNEL_MINIMALITY remains OPEN because B4 full historical backfill is incomplete.
+
+No runtime/KERNEL.yaml migration is authorized.
