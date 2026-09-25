@@ -120,3 +120,19 @@ Its runtime contract permits generation and admission requests but prohibits sel
 Project-local domain programs remain outside the kernel and consume global kernel/admission contracts.
 
 This integration does not transfer production authority and does not satisfy the promotion benchmark by itself.
+
+
+## 2026-09-25 cross-chat integration freeze
+
+Cross-chat system discoveries, competing formulations, open validation states, and the proposed friend-facing successor have been captured in:
+
+- `integration/CROSS_CHAT_INTEGRATION_INBOX_2026-09-25.md`
+
+Disposition:
+- capture-only;
+- non-authoritative;
+- no major architecture promotion;
+- no new distributable repository yet;
+- integration/currentness/provenance/conflict mapping required first.
+
+The inbox is part of the anti-loss process and does not itself satisfy admission, implementation, validation, promotion, or currentness.
