@@ -109,3 +109,48 @@ E6 K_LAW EXTERNALIZABILITY BLOCKED BY E5 + B4.
 No runtime/kernel promotion is authorized.
 
 The next B5 work item is state-role typing for every load-bearing sink, followed by legal producer/authority/evidence/admission/provenance/reentry contracts and a second dominator test.
+
+
+## ICC-128 state-role typing delta
+
+Current research artifact:
+- research/ICC128_STATE_EFFECT_ROLE_TYPING_001_2026-09-25.md
+
+E5 is now resolved enough for the next experiment.
+
+Current supported state roles include:
+- EPISODE_WORKING;
+- SYSTEM_CONTROL;
+- RESULT;
+- LINEAGE;
+- RESEARCH_CONTROL;
+- SUPERVISORY;
+- CONFIGURATION;
+- VALIDATION_DERIVED.
+
+Key result:
+
+The evidence does not require one physical global updater.
+
+The stronger research hypothesis is:
+
+COMMON KERNEL CONTRACT + TYPED STATE-SPECIFIC COMMIT GATES.
+
+Represent the abstract update role as an indexed family:
+
+U = {U_sigma} over protected state species sigma.
+
+For each protected sink, every legal producer path must cross its typed commit gate C_sigma, and each C_sigma must enforce the applicable common kernel contract.
+
+Highest-priority bypass candidates:
+- SYSTEM_CONTROL through runtime/system_loop.py;
+- LINEAGE through runtime/lineage_state.py;
+- RESEARCH_CONTROL through runtime/research_system.py.
+
+Current interface gaps:
+- RESULT update_fn in math_first_wrapper.py;
+- currentness/authority of inquiry_session/recursive_episode update_fn paths.
+
+No runtime migration or kernel reduction is authorized.
+
+E6 kernel-law externalizability remains blocked by historical protected-witness recovery under B4.
