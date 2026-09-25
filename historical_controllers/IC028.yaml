@@ -1,0 +1,203 @@
+schema_version: 1
+object_id: IMPROVEMENTCORE:SPEC:2026-09-24-028
+version_id: IC-2026-09-24-028
+date: 2026-09-24
+status: semantic_successor_candidate
+authority: semantic_research_only
+mutation_authority: none
+base_spec: projects/improvement-core/versions/IC-2026-09-24-026.yaml
+
+purpose: >
+  Produce the strongest currently supportable goal-to-completion research controller by
+  applying the complete recovered mathematical/tool corpus to IC-026, preserving every
+  demonstrated behavior, explicitly exposing every unresolved mathematical coordinate,
+  and refusing to confuse unresolved research with an implementation defect.
+
+frozen_goal:
+  target: >
+    A system that can receive a broad or messy corpus, including the zero-substantive-job
+    case; recover or generate the governing work object without manufacturing it; resolve
+    identity, authority, state, evidence and protected behavior; select and compose the
+    right capabilities; bind them to executable machinery; act; observe and verify the
+    result; update persistent state; and recursively reselect until the original completion
+    predicate is verified or a typed OPEN/BLOCKED boundary is reached.
+  completion: >
+    Every mathematically understood, task-relevant distinction, law, quotient, frontier,
+    interaction, preservation condition and execution boundary in the current corpus has
+    an explicit placement in the controller or an explicit NOT_APPLICABLE/SUBSUMED
+    disposition; every unresolved load-bearing mathematical coordinate is named OPEN with
+    its discriminator; every historically protected capability has an EMBED, SELECTABLE,
+    SUBSUMED, RETIRE, or OPEN disposition; executable claims are backed by runtime evidence.
+  nonterminal:
+    - plan_only
+    - map_inventory_only
+    - tool_inventory_only
+    - partial_semantic_integration
+    - blocker_repair_without_return
+    - candidate_without_regression
+    - semantic_application_without_runtime_execution
+
+controller_state:
+  Z: [FT,X,A,Cl,B,E,L,Q,P]
+  FT: frozen target and completion semantics
+  X: typed current object/problem/system state
+  A: authority and permissions
+  Cl: admissible action/problem/representation closure
+  B: protected behavior and continuation obligations
+  E: evidence, search, failure and learning history
+  L: execution-truth ledger
+  Q: job-relative behavioral/diagnostic quotient basis
+  P: persistent cumulative capability/provenance state
+
+lower_level_system_algebra:
+  T: [K,S,O,G,M,C,R,U]
+  O_basis_candidate: [DIFFERENTIATE,RELATE,RECONSTRUCT,STRENGTHEN]
+  rule: >
+    Z is controller state and T is lower-level execution/control algebra. They are not
+    competing whole-system maps. Reductions between them require explicit factorization
+    and continuation-preservation witnesses.
+
+control_cycle:
+  - RECOVER_AND_TYPE_INTENT_OR_ZERO_REQUEST_BOUNDARY
+  - FREEZE_OR_RECOVER_FT
+  - RECONSTRUCT_CURRENT_STATE_AND_AUTHORITY
+  - DISCOVER_WORK_WHEN_NO_SUBSTANTIVE_JOB_IS_SUPPLIED
+  - COMPUTE_UNMET_COMPLETION_COORDINATES
+  - COMPUTE_JOB_RELATIVE_QUOTIENT_AND_LIVE_RESIDUAL
+  - RECOVER_ADMISSIBLE_CLOSURE
+  - SELECT_NONDOMINATED_WORK_AND_CAPABILITY_PACKAGE
+  - BIND_SELECTED_CAPABILITY_TO_EXECUTABLE_WORKER
+  - EXECUTE_WITH_EXPLICIT_EXECUTION_TRUTH
+  - OBSERVE_AND_VERIFY_POST_STATE
+  - UPDATE_STATE_EVIDENCE_PROVENANCE_CAPABILITY_AND_LEDGER
+  - RECOMPUTE_QUOTIENT_FRONTIER_AND_AFFECTED_ARCHITECTURE
+  - RUN_RTC_AND_RESELECT_ON_MATERIAL_DELTA
+  - COMPARE_TO_ORIGINAL_COMPLETION_GATE
+  - REENTER_OR_TYPED_STOP
+
+mathematical_integrations:
+  extension_determinacy:
+    disposition: EMBED
+    use: distinguish EX failure from UN failure at selection, interpretation and successor fibers
+  result_sensitivity_and_minimal_support:
+    disposition: EMBED
+    use: preserve only distinctions capable of changing protected results or continuations
+  behavioral_quotient:
+    disposition: EMBED_CONDITIONALLY
+    use: quotient histories/actions only relative to job, observations and admissible continuations
+  factor_fiber_residual:
+    disposition: EMBED
+    use: compare maps/tools by common factor plus irreducible residual rather than names
+  typed_multi_object_relations:
+    disposition: EMBED
+    use: pairwise, joint, direction, hierarchy, representation, order and time/state connection search
+  strict_gain_and_successor_frontier:
+    disposition: EMBED
+    use: partial-order improvement with preservation and incomparable successors
+  routing_nondominated_frontier:
+    disposition: EMBED
+    use: no arbitrary scalar ranking of incomparable eligible actions
+  modifier_noncommutation:
+    disposition: EMBED
+    use: test order only where interaction witnesses exist
+  partial_set_valued_update:
+    disposition: EMBED
+    use: preserve NOOP OPEN BLOCKED FAIL CONFLICT and branch structure
+  continuation_fixed_point_and_reentry:
+    disposition: EMBED_CONDITIONALLY
+    use: goal-relative verified fixed point; finite failure is not global closure
+  authority_resource_carrier:
+    disposition: EMBED_CONDITIONALLY
+    use: keep evidence, result, authority and resource status typed
+  execution_truth:
+    disposition: EMBED
+    use: planning/retrieval/semantic application are not implementation execution
+  zero_request_job_discovery:
+    disposition: EMBED
+    use: separate externally directed work from endogenous work discovery
+  nested_work_and_tool_selection:
+    disposition: EMBED
+    use: outer problem/work selection is distinct from inner capability selection
+  cumulative_capability_preservation:
+    disposition: EMBED_CANDIDATE
+    use: persistent state retains verified reusable contributions unless licensed revision applies
+  job_relative_diagnostic_equivalence:
+    disposition: EMBED_CANDIDATE
+    use: terminal-output equality cannot erase repair-relevant diagnostic/continuation differences
+  capability_program_controller_hierarchy:
+    disposition: EMBED
+    use: capabilities are not programs; programs are not controllers; named historical tools can factor across levels
+  kernel_controller_runtime_layering:
+    disposition: EMBED
+    use: semantic responsibility may be distributed; executable binding remains explicit
+  promotion_semantic_runtime_authority:
+    disposition: EMBED
+    use: semantic evidence cannot self-promote runtime authority
+
+protected_capability_families:
+  - PD_HF001_recursive_discovery
+  - orthogonal_representation_attack
+  - result_sensitivity
+  - multi_object_connector_v2
+  - factorization_quotient_residual
+  - RTC_v2
+  - TransferCore
+  - Diagnosis
+  - A16_regression
+  - recursive_corpus_navigation
+  - zero_request_ingestion_and_job_discovery
+  - closure_revision
+  - delegation_and_child_return
+  - execution_truth
+  - runtime_binding
+  - persistent_state_update
+  - currentness_authority_provenance
+  rule: no_retirement_without_behavioral_subsumption_or_explicit_rejection_evidence
+
+open_research_frontier:
+  O1_representation_factorization:
+    question: exact lossless/lossy maps among Z, T, closure-state and compressed quotient representations
+    blocks: global_map_collapse_and_minimal_state_claims
+    discriminator: construct factorization maps and continuation-preservation counterexamples
+  O2_job_and_behavioral_equivalence:
+    question: exact identity of job, observation basis, diagnostic signature and admissible continuation family
+    blocks: global_quotient_minimality_and_safe_compression
+    discriminator: paired equal-output unequal-continuation systems plus congruence tests
+  O3_authority_closure_evidence_algebra:
+    question: exact algebra relating authority, admissible closure, evidence update, revocation/conflict and promotion
+    blocks: universal_closure_generation_and_promotion_theorem
+    discriminator: independent variation of authority/closure/evidence plus composition/conflict fixtures
+  O4_unbounded_global_completeness_and_termination:
+    question: unbounded controller termination, global M/O minimality, full critical-pair/package completeness and global coverage
+    blocks: global_minimality_global_maximality_and_unconditional_termination_claims
+    discriminator: ranking/well_foundedness proofs or counterexamples plus domain-complete coverage certificates
+
+execution_truth:
+  inherited_from: IC-2026-09-24-023
+  ledger_states: [DISCOVERED,CONSIDERED,SELECTED,SEMANTICALLY_APPLIED,IMPLEMENTATION_EXECUTED,RESULT_USED,NOT_APPLICABLE,BLOCKED]
+  invariants:
+    - planning_is_not_execution
+    - semantic_integration_is_not_runtime_execution
+    - a_failed_runtime_harness_is_not_a_semantic_result
+    - completion_requires_every_requested_live_coordinate_terminal_or_OPEN_BLOCKED
+
+validation_gate:
+  required_before_runtime_promotion:
+    - matched_regression_against_IC018_and_IC026_protected_behavior
+    - legacy_messy_folder_repair_fixture
+    - zero_request_semantic_worker_fixture
+    - broad_corpus_navigation_holdout
+    - job_relative_quotient_counterexample_fixture
+    - authority_closure_ablation
+    - binding_ablation
+    - order_noncommutation_fixture
+    - delegated_child_return
+    - runtime_adapter_selector_integration
+    - independent_A16
+  current_runtime_authority: IC-2026-09-23-018
+  self_promotion: prohibited
+
+completion_status:
+  semantic_integration: COMPLETE_RELATIVE_TO_CURRENT_RECOVERED_MATHEMATICS
+  runtime_replacement: OPEN
+  reason: semantic_worker_binding_and_runtime_validation_not_complete
