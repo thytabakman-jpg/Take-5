@@ -14,6 +14,15 @@ ICC is the user-facing name for the current integrated Take-5 stack. It does not
 
 ICC means Jane + the validated math-first wrapper + Improvement Core / IC-028 + Tool Run Closure + HF reentry + the typed IC tool system.
 
+## Mathematical Interface Architecture
+
+The canonical project surface for mathematical/formal object interfaces, reconstruction status, rendering, currentness, and artifact governance is:
+
+- `projects/mathematical-interface-architecture/PROJECT_CHARTER.md`
+- `projects/mathematical-interface-architecture/ARTIFACT_REGISTRY.yaml`
+
+The active ICC-128 baseline for MIA layout work is Candidate V4. The project artifact set separates mathematics, rendering, currentness, lineage, validation, and operating procedure so layout work cannot silently redefine the mathematical object.
+
 ## Start here
 
 1. `integration/ICC_SHUTDOWN_HANDOFF_2026-09-25.md` — durable session handoff, current ICC identity, protected decisions, validated commits, and exact resume frontier.
