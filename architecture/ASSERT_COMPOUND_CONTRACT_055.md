@@ -4,7 +4,7 @@ Date: 2026-09-25
 
 Status: CURRENT WORKING DESIGN AUTHORITY + RUNTIME ORCHESTRATOR IMPLEMENTED
 
-Runtime effect: COMPOUND ORCHESTRATION IMPLEMENTED ON BRANCH; end-to-end semantic stage binding remains OPEN until validation/admission
+Runtime effect: COMPOUND ORCHESTRATION IMPLEMENTED AND VALIDATED IN MAIN; end-to-end semantic stage binding remains OPEN
 
 Purpose: preserve the current full ASSERT tool as a compound discovery engine rather than allowing later conversations to collapse it back into a one-pass assertion scan.
 
@@ -226,7 +226,6 @@ No stage may disappear through compression without a behavioral equivalence proo
 - exact relationship between ASSERT question frontier and the canonical route trigger ledger;
 - regression/holdout witnesses for stage ablation.
 
-
 ## 11. Runtime realization
 
 Executable orchestration surface:
@@ -240,6 +239,12 @@ Configured-run identity:
 Regression surface:
 
 `tests/test_assert_compound.py`
+
+Validated delivery:
+- PR #22;
+- merge commit `489e5f2abe4e23736d811cd7ec64348b0a2a82b7`;
+- pull-request validation run `36202975935`;
+- test suite, whole-system audit, closed-loop fixture, and zero-request dump all passed.
 
 The runtime preserves:
 - all seven protected stages;
