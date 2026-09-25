@@ -62,6 +62,9 @@ supporting_artifacts:
   - id: MIA-CHECK
     role: VALIDATOR
     path: tests/test_mia_artifact_contract.py
+  - id: MIA-36-AUDIT
+    role: ARCHITECTURE_AUDIT
+    path: projects/mathematical-interface-architecture/ARCHITECTURE_36_AUDIT.md
 
 protected_baseline:
   object: ICC-128
