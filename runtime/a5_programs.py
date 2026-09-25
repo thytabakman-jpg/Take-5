@@ -1,9 +1,21 @@
+from dataclasses import replace
 from a5_core import ProgramRegistry,ProgramSpec
 
 REGISTRY=ProgramRegistry()
 
 def add(pid,source,job,roles,out,validation="fixture",executable=False):
-    REGISTRY.register(ProgramSpec(pid,source,job,tuple(roles.split(",")),(out,),validation,executable))
+    current = pid.startswith("C") and pid[1:].isdigit()
+    configured_run = "RECURSIVE_EPISODE" if current else "UNSPECIFIED"
+    recursion_owner = "HOST_HF001" if current else "UNSPECIFIED"
+    consequence_scope = "MATERIAL_RESULT_OR_SEARCH_DELTA" if current else "UNSPECIFIED"
+    external_escape = "HOLDOUT_FOR_STRONGER_TERMINAL_CLAIM" if current else "UNSPECIFIED"
+    REGISTRY.register(ProgramSpec(
+        pid,source,job,tuple(roles.split(",")),(out,),validation,executable,
+        configured_run,recursion_owner,consequence_scope,external_escape
+    ))
+
+def _mark_executable(pid):
+    REGISTRY._items[pid]=replace(REGISTRY.get(pid),executable=True)
 
 add("C01","CAPABILITY_REGISTRY_V4_IC022","Task and Object Typing","K,S,O,C","typed_task_context")
 add("C02","CAPABILITY_REGISTRY_V4_IC022","Referent Continuity","K,S,O,C","identity_relation")
@@ -118,8 +130,7 @@ def run_orient(program_id, payload):
     raise KeyError(program_id)
 
 for _pid in ("C01","C02","C03","C04","C05","C06"):
-    _old=REGISTRY.get(_pid)
-    REGISTRY._items[_pid]=ProgramSpec(_old.program_id,_old.source,_old.job,_old.required_roles,_old.protected_outputs,_old.validation_target,True)
+    _mark_executable(_pid)
 
 
 def run_map(program_id, payload):
@@ -160,8 +171,7 @@ def run_map(program_id, payload):
     raise KeyError(program_id)
 
 for _pid in ("C07","C08","C09","C10","C11","C12","C13","C49"):
-    _old = REGISTRY.get(_pid)
-    REGISTRY._items[_pid] = ProgramSpec(_old.program_id, _old.source, _old.job, _old.required_roles, _old.protected_outputs, _old.validation_target, True)
+    _mark_executable(_pid)
 
 
 def run_attack(program_id, payload):
@@ -202,8 +212,7 @@ def run_attack(program_id, payload):
     raise KeyError(program_id)
 
 for _pid in ("C14","C15","C16","C17","C18","C19"):
-    _old=REGISTRY.get(_pid)
-    REGISTRY._items[_pid]=ProgramSpec(_old.program_id,_old.source,_old.job,_old.required_roles,_old.protected_outputs,_old.validation_target,True)
+    _mark_executable(_pid)
 
 
 # Generic binding for the remaining typed capability contracts.
@@ -252,5 +261,4 @@ def run_generic(program_id, payload):
     raise KeyError(program_id)
 
 for _pid in tuple(f"C{i:02d}" for i in range(20,49)):
-    _old=REGISTRY.get(_pid)
-    REGISTRY._items[_pid]=ProgramSpec(_old.program_id,_old.source,_old.job,_old.required_roles,_old.protected_outputs,_old.validation_target,True)
+    _mark_executable(_pid)
