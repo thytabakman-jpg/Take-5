@@ -1,0 +1,251 @@
+# THE EQUATION — Observer-First Current Capture 012
+
+Date: 2026-09-25
+Controller: ICC / current semantic IC-028
+Run mode: OBSERVE_DECOUPLED
+Status: CURRENT CAPTURE / PROVISIONAL / OBSERVER-ENTRY REPAIR INTEGRATED
+Predecessor: research/THE_EQUATION_CURRENT_CAPTURE_010.md
+
+## ICC observer-first run
+
+Frozen target:
+The current big equation plus its entry/observer semantics.
+
+Observer returned before Goal/optimization:
+1. the core session equation correctly separates G_Q, E_Q, C_Q, U_Q;
+2. session HF-001 + TRC must remain the recursive wrapper;
+3. the current entry contract is load-bearing;
+4. observer-first selection/order is now implemented and tested;
+5. observer reconciliation must cross a closure handoff before Goal/Plan;
+6. leaving observer entry only in prose makes the equation an incomplete representation of actual control behavior.
+
+Therefore observer preparation becomes an explicit mathematical prefix to the session equation.
+
+## Pre-substantive entry contract
+
+Let:
+
+PEC(u,Z_0)
+=
+<FT,Controller,Mode_0,ModeBasis,Boundary,Authority,ClosureHandoff,Receipt>.
+
+Required invariant:
+
+Bound(PEC)
+prec
+SubstantiveTransition.
+
+Mode_0 is chosen before substantive reasoning by:
+- explicit mode instruction; or
+- preflight contamination-risk classification.
+
+The original self-application class is therefore observer-first without requiring the literal phrase
+"observer mode".
+
+## Observer preparation operator
+
+Define P_EC as the entry preparation operator.
+
+For e = PEC(u,Z_0):
+
+P_e(Z_0)
+=
+case Mode_0(e) of
+
+OBSERVE_DECOUPLED:
+  Close_TRC^obs(
+    Reconcile_obs(
+      DOS(
+        Freeze(Target(e),Boundary(e)),
+        optimization_pressure=0
+      )
+    )
+  )
+
+GOAL_DIRECTED:
+  Z_0.
+
+The observer branch has the strict order:
+
+OBSERVE
+-> OBSERVE_RECONCILE
+-> OBSERVE_TRC
+-> goal-directed continuation.
+
+P_e may update the session input state because admitted observer findings can change the live
+question frontier, evidence, search state, or continuation.
+
+## Core inquiry round
+
+Current substantive inquiry architecture:
+
+G_Q
+generate/instantiate the live question frontier from the current question-category basis and
+applicable state-dependent 36 projections.
+
+E_Q
+select/order/probe/bind/execute the inquiry and return evidence/receipts.
+
+C_Q
+reconcile and admit results while preserving interactions, order effects, OPEN, BLOCKED,
+CONFLICT and INCOMPARABLE.
+
+U_Q
+update governing inquiry state, including evidence, category basis/frontier, coverage/currentness
+and continuation-relevant memory.
+
+One core round:
+
+R_t
+=
+(U_Q o C_Q o E_Q o G_Q)(Z_t).
+
+## Session Tool Run Closure + HF-001
+
+Every material core round crosses Tool Run Closure before recursive continuation.
+
+CoreRound_t
+-> ToolRunClosure
+-> admitted closed consequence state
+-> HF001_Update
+-> next round.
+
+HF-001 reenters on:
+
+Delta_result != 0
+or
+Delta_search != 0
+
+while a live admitted continuation remains.
+
+Terminal states remain basis-relative:
+RELATIVE_CLOSE
+OPEN
+BLOCKED.
+
+## Current full equation
+
+Let:
+
+e_0 = PEC(u,Z_0)
+
+and:
+
+Z_0^+ = P_{e_0}(Z_0).
+
+Then:
+
+Run_Q(u,Z_0)
+=
+HF001_session^TRC
+[
+  U_Q o C_Q o E_Q o G_Q
+]
+(
+  Z_0^+
+).
+
+Substituting the preparation operator:
+
+Run_Q(u,Z_0)
+=
+HF001_session^TRC
+[
+  U_Q o C_Q o E_Q o G_Q
+]
+(
+  P_{PEC(u,Z_0)}(Z_0)
+).
+
+This is the current strongest captured form.
+
+## Compact reading
+
+Bind the target/controller/mode first.
+
+When contamination risk calls for independent observation:
+freeze the object and boundary,
+observe without optimization pressure,
+reconcile the independent observations,
+close their material consequences,
+then enter the ordinary recursive inquiry session.
+
+Inside the session:
+generate the current questions,
+execute them,
+reconcile/admit results,
+update state,
+close every material round,
+and let HF-001 reenter on result or search-state change.
+
+## Where the 22 and 36 live
+
+The current 22 are the current question-category basis inside Z/G_Q.
+They are not frozen as globally complete.
+
+The 36 are state-dependent projections/applicability coordinates used by G_Q.
+They are not separate top-level tools or categories.
+
+Discovery can propose a new category.
+Identity/novelty/admission/update must license its entry into the category basis.
+
+## Observer-mode equation run result
+
+Basic Math:
+observer preparation cannot be deleted without losing the original self-analysis behavior.
+
+Change Math:
+moving observation from after Plan to before Goal changes protected results and therefore is material.
+
+Difference Math:
+mode selection, mode enforcement, mode ordering and observer closure are distinct load-bearing coordinates.
+
+Together Math:
+entry contract x observer selection x ordering x TRC handoff has an interaction residual; implementing
+only one coordinate does not reconstruct the behavior.
+
+Cause Math:
+the prior failure was generated by a missing pre-substantive control contract plus fixed stage ordering.
+
+Better Math:
+the current P_EC prefix is a strict preserved successor to prose-only entry handling.
+
+Reality/Current/Verify:
+the entry/order behavior is implemented in runtime and regression-validated by Take-5 Validation run 133.
+
+Completion:
+full native runtime equivalence to the canonical semantic Tool Run Closure/HF001 session contract remains OPEN.
+
+## Runtime truth
+
+Implemented and tested:
+- entry contract binding;
+- ICC controller latch;
+- explicit observer mode selection;
+- automatic contamination-risk observer selection;
+- observer-first stage ordering;
+- observer reconciliation before Goal;
+- mandatory OBSERVE_TRC handoff before Goal;
+- regression for the original self-application prompt.
+
+Not established:
+- a native generic runtime worker proven equivalent to full canonical Tool Run Closure;
+- complete runtime realization of HF001_session^TRC for every inquiry program.
+
+Therefore the equation remains a semantic current capture with partially validated runtime realization.
+
+## Frozen current equation
+
+e_0 = PEC(u,Z_0)
+
+Z_0^+ = P_{e_0}(Z_0)
+
+Run_Q(u,Z_0)
+=
+HF001_session^TRC
+[
+  U_Q o C_Q o E_Q o G_Q
+]
+(
+  Z_0^+
+).
