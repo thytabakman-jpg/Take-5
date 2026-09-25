@@ -2,16 +2,16 @@
 
 Date 2026-09-25
 Status CANDIDATE / NON-CANONICAL
-Theory source: `architecture/ICC128_GREEN_LAYOUT_THEORY_002_2026-09-25.md`
+Theory source: `architecture/ICC128_GREEN_LAYOUT_THEORY_001_2026-09-25.md`
 Audited source: `thytabakman-jpg/Reaserch/ICC_128_CANDIDATE_V2_2026-09-25.md`
 
 # ICC-128
 
 ## 1 Tool identity
 
-[
+\[
 \color{red}{ICC128}
-]
+\]
 
 ICC-128 remains RED as a fully reconstructed mathematical controller because its internal controller transformation is not fully recovered in the audited source.
 
@@ -19,7 +19,7 @@ ICC-128 remains RED as a fully reconstructed mathematical controller because its
 
 Render the audited component state directly in the characters:
 
-[
+\[
 \color{red}{C_{128}}
 (
 \color{red}{L},
@@ -33,7 +33,7 @@ Render the audited component state directly in the characters:
 \color{red}{E},
 \color{red}{V}
 )
-]
+\]
 
 No component-level state is communicated by a square placed before black text.
 
@@ -59,9 +59,9 @@ The layout does not color prose capability names unless the audited source alrea
 
 ### ICC-123
 
-[
+\[
 \color{green}{R_{123}}
-]
+\]
 
 Capabilities supplied by ICC-123:
 
@@ -74,9 +74,9 @@ These remain nested beneath ICC-123.
 
 ### PD
 
-[
+\[
 \color{green}{D_{PD}}
-]
+\]
 
 Capabilities supplied by PD:
 
@@ -89,47 +89,47 @@ These remain nested beneath PD.
 
 ### Goal
 
-[
+\[
 \color{red}{G}
-]
+\]
 
 Goal can be invoked, but its internal mathematical transformation remains unresolved in the audited source.
 
 ### Architect
 
-[
+\[
 \color{red}{A}
-]
+\]
 
 Architect can be invoked, but its internal mathematical transformation remains unresolved in the audited source.
 
 ### MT
 
-[
+\[
 \color{red}{M_{MT}}
-]
+\]
 
 MT can be invoked, but its internal mathematical transformation remains unresolved in the audited source.
 
 ### Take Two
 
-[
+\[
 \color{red}{T_2}
-]
+\]
 
 Take Two can be invoked, but its internal mathematical transformation remains unresolved in the audited source.
 
 ## 5 LLM substrate
 
-[
+\[
 \color{red}{L}
-]
+\]
 
 The exact mathematical operator remains unresolved.
 
 ## 6 Open reconstruction frontier
 
-[
+\[
 \color{red}{C_{128}},
 \;
 \color{red}{L},
@@ -147,21 +147,21 @@ The exact mathematical operator remains unresolved.
 \color{red}{E},
 \;
 \color{red}{V}
-]
+\]
 
 GREEN recovered components presently visible in Candidate V2:
 
-[
+\[
 \color{green}{R_{123}},
 \;
 \color{green}{D_{PD}}
-]
+\]
 
 ## 7 Provenance
 
 Layout theory:
 
-`architecture/ICC128_GREEN_LAYOUT_THEORY_002_2026-09-25.md`
+`architecture/ICC128_GREEN_LAYOUT_THEORY_001_2026-09-25.md`
 
 GitHub-safe visual fallback:
 
