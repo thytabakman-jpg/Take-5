@@ -1,7 +1,7 @@
 schema_version: 0.1
 object_id: QUESTION-SEARCH-RUN:001
 date: 2026-09-25
-status: BASIS_RELATIVE_FIXED_POINT_CANDIDATE
+status: BASIS_RELATIVE_FIXED_POINT
 basis:
   current_atomic_registry: Reaserch CAPABILITY_REGISTRY_V4_IC022 C01-C49
   historical_behavior_ledger: Reaserch HISTORICAL_CAPABILITY_RECOVERY_LEDGER CAP001-CAP033
@@ -269,16 +269,12 @@ first_pass_findings:
     - Runtime_Binder
     - Holdout_Forge
     - Tool_Synthesizer
-  open_equivalence_edges:
-    - Q10_Reality_Check_vs_Q14_Identity_Check
-    - Q12_Current_Check_vs_temporal_projection_of_Q10
-    - Q15_Dependency_Math_vs_path_projection_of_Q09_Trace_Math
-    - Q16_Relation_Math_vs_low_arity_projection_of_Q04_Together_Math
-    - Q17_Novelty_Check_vs_negative_space_projection_of_Q22_Discovery_Math
-    - Q21_Ownership_Check_vs_governance_specialization_of_Q16_Relation_Math
+  closed_merge_tests:
+    source: research/QUESTION_QUOTIENT_MERGE_TESTS_002.md
+    result: ALL_SIX_NO_MERGE
 
 closure:
   same_basis_new_question_classes_found_on_final_pass: 0
-  status: BASIS_RELATIVE_FIXED_POINT_CANDIDATE
+  status: BASIS_RELATIVE_FIXED_POINT
   global_completeness: OPEN
   reason: portfolio history itself is high_recall_not_proven_exhaustive
