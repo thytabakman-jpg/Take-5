@@ -1,7 +1,9 @@
 """IC-028 operator wrapper.
 
 Curiosity-first inquiry and the complete execution path run under one controller
-lease. Concrete project/tool functions are injected as handlers.
+lease. Concrete project/tool functions are injected as handlers. The active
+controller may terminate an exploratory campaign early only with an explicit
+answer-sufficiency decision and receipt.
 """
 from dataclasses import dataclass
 from typing import Any, Callable
@@ -26,7 +28,8 @@ STAGES=("RECOVER_GOAL","CURIOSITY_PD","FORMALIZE","PLAN_ORDER","OBSERVE",
         "RECONCILE","PROPAGATE_AFFECTED_CONE","PERSIST","VERIFY","COMPLETE")
 
 def run_ic028(lease:ControllerLease,state:Any,handlers:dict[str,Callable], *,
-              jane_update:Callable|None=None,max_rounds:int=8):
+              jane_update:Callable|None=None,controller_decide:Callable|None=None,
+              max_rounds:int=8):
     if not may_select_actions(lease,"IC-028"):
         return OperatorResult(state,[],False,"LEASE_DENIED")
     current=state
@@ -58,6 +61,11 @@ def run_ic028(lease:ControllerLease,state:Any,handlers:dict[str,Callable], *,
             js=jane_sync(material=True,supervisory_relevant=supervisory,
                          update=jane_update,delta=last_delta)
             receipts.append(OperatorReceipt("JANE_SYNC","EXECUTED",js))
+        if controller_decide is not None:
+            decision=controller_decide(current,tuple(receipts))
+            receipts.append(OperatorReceipt("CONTROLLER_DECISION","EXECUTED",decision))
+            if isinstance(decision,dict) and decision.get("answer_sufficient"):
+                return OperatorResult(current,receipts,True,None)
         reenter=handlers.get("REENTER")
         if reenter is None:
             return OperatorResult(current,receipts,False,"UNBOUND:REENTER")
