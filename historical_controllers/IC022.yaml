@@ -1,0 +1,1056 @@
+schema_version: 1
+object_id: IMPROVEMENTCORE:SPEC:2026-09-24-022
+version_id: IC-2026-09-24-022
+date: 2026-09-24
+status: research_candidate_unpromoted
+authority: semantic_improvement_core_experiment
+mutation_authority: none
+constructed_by: IC-2026-09-24-021
+base_spec: projects/improvement-core/versions/IC-2026-09-24-021.yaml
+purpose: >
+  Improve ImprovementCore itself. IC-022 is an experimental successor candidate whose
+  controller is explicitly tasked with discovering, testing, and integrating any
+  material improvement to its own semantic architecture while preserving protected
+  behavior. It may revise its own controller model only through explicit successor
+  candidates, never by self-promotion.
+
+self_improvement_contract:
+  target: ImprovementCore itself
+  protected:
+    - role typing
+    - authority separation
+    - OPEN/INCOMPARABLE preservation
+    - behavioral state sufficiency
+    - legacy capability coverage
+    - branch/protection semantics
+    - result carrier distinctions
+    - no-smuggling constraint
+  strict_gain:
+    - new demonstrated capability
+    - stronger theorem
+    - reduced semantic loss
+    - reduced search redundancy
+    - improved routing efficiency
+    - stronger regression coverage
+  stop_rules:
+    - no material delta
+    - only implementation/documentation changes remain
+    - unresolved issue can be represented by existing semantics without loss
+    - self-reference would be used to justify promotion
+
+controller:
+  model: labeled_recursive_transition_system
+  roles: [K,S,O,G,M,C,R,U]
+  equation: >
+    q_n in R_K(S_n);
+    X_n in G_q(K,S_n,I_n);
+    Y_n = M_q[O_q](K,S_n,I_n,X_n);
+    A_n = C_q(K,S_n,Y_n);
+    S_(n+1) in U_K(S_n,q_n,Y_n,A_n,e_n);
+    q_(n+1) in R_K(S_(n+1)).
+  behavioral_equivalence: >
+    Recursive state equivalence is J-preserving behavioral/bisimulation equivalence over
+    reachable labeled transition systems, preserving protected observations, admissibility,
+    authority, provenance, status, constraints, lineage, and routing.
+  router: >
+    R returns the nondominated eligible frontier; recursive sufficiency requires preservation
+    of future reachable behavior.
+  modifier: >
+    M is a typed partial transformation algebra with six demonstrated configuration axes.
+  update: >
+    U is a typed relational successor correspondence supporting branching, invalidation,
+    and reconciliation.
+  result_carrier:
+    - ACCEPT
+    - CONSTRAIN
+    - OPEN
+    - BLOCKED
+    - FAIL
+    - CONFLICT
+    - NOOP
+
+capability_registry:
+  canonical: projects/tool-optimization/CAPABILITY_REGISTRY_V4_IC022.yaml
+  discoverability_index: projects/tool-optimization/CAPABILITY_REGISTRY_CURRENT.md
+  legacy_registry: projects/pd/practical/PRACTICAL_CORE_CAPABILITY_REGISTRY.yaml
+  operational_contract: projects/tool-optimization/CAPABILITY_OPERATIONAL_CONTRACT_IC022_V1.yaml
+  operational_overlay: projects/tool-optimization/CAPABILITY_OPERATIONAL_OVERLAY_IC022_V1.yaml
+  package_alias_registry: projects/tool-optimization/PACKAGE_ALIAS_REGISTRY_IC022.yaml
+  resolution_spec: projects/tool-optimization/TOOL_REPERTOIRE_RESOLUTION_SPEC_IC022.yaml
+  definition_gate: projects/tool-optimization/DEFINITION_COMPLETENESS_GATE_IC022.yaml
+  negative_space_contract: projects/tool-optimization/PICK_NEGATIVE_SPACE_CONTRACT_IC022.yaml
+  external_capability_registry: projects/tool-optimization/EXTERNAL_CAPABILITY_REGISTRY_IC022_V1.yaml
+  rule: >
+    The canonical internal capability universe is discovered from the current research
+    capability registry at task entry. The legacy practical registry supplies stable
+    provenance IDs and runtime capability references. Do not hard-code a finite list of
+    capability implementations into the controller.
+  normalization: >
+    Resolve registry entries into capability signatures
+    <input,preconditions,information,transform,output,license,consequence,cost,evidence>.
+  selection: >
+    Resolve the smallest semantically appropriate layer, pass the definition-completeness
+    gate, construct the eligible package frontier, record material nonselection reasons,
+    and preserve OPEN/incomparable candidates. Do not assume all discovered capabilities
+    are relevant or executable.
+  optimization: >
+    Activate Tool Optimization only when material repertoire/package evidence changes;
+    otherwise do not recursively re-optimize the repertoire.
+  updated_capabilities: >
+    Any accepted update to the canonical registry becomes discoverable on the next
+    SELECT_INTERNAL_CAPABILITIES cycle without requiring a controller-code rewrite.
+  runtime_boundary: >
+    Discovery does not confer runtime authority. PracticalCore and specialized authority
+    controls remain responsible for execution and mutation.
+
+self_attack_modes:
+  - hidden_dependency_reconstruction
+  - alternate_representation
+  - rival_architecture
+  - noncommutation
+  - state_quotient
+  - critical_pair
+  - termination
+  - capability_ablation
+  - historical_recovery
+  - external_domain_holdout
+  - runtime_boundary
+  - self_reference_attack
+
+candidate_generation:
+  rule: >
+    IC-022 may generate one or more successor architecture candidates. Candidate generation
+    is independent of selection. A candidate is retained only if it demonstrates strict
+    gain without protected-result regression.
+  no_self_promotion: true
+  promotion_authority: projects/pd/practical/PRACTICAL_CORE_CURRENT_ORDER.yaml
+
+cycle:
+  stages:
+    - FREEZE_SELF
+    - DISCOVER_SELF_DEFECTS
+    - TYPE_DEFECTS
+    - DISCOVER_CAPABILITY_REGISTRY
+    - SELECT_INTERNAL_CAPABILITIES
+    - GENERATE_SUCCESSORS
+    - CHALLENGE_SUCCESSORS
+    - EVALUATE_GAIN_AND_PRESERVATION
+    - UPDATE_SELF_STATE
+    - RESELECT
+    - STOP_OR_CONTINUE
+
+validation:
+  inherited:
+    - IC-021 validation pack
+  new:
+    - self-improvement holdout
+    - candidate-vs-self ablation
+    - self-reference attack
+    - regression against IC-021
+    - regression against promoted IC-018
+    - cost/redundancy comparison
+  status: pending
+
+promotion:
+  current_promoted_runtime: IC-2026-09-23-018
+  current_candidate_predecessor: IC-2026-09-24-021
+  status: unpromoted_experiment
+  rule: >
+    IC-022 cannot promote itself. A successful IC-022 run must produce a separate evidence
+    packet demonstrating strict gain over IC-021 and preservation of IC-021 protected
+    behavior, followed by ordinary external promotion validation.
+
+open_frontier:
+  - self-improvement convergence
+  - global M minimality
+  - efficient behavioral quotient computation
+  - U termination and full critical-pair coverage
+  - domain-lift surjectivity
+  - unfamiliar-domain O-basis falsification
+  - executable runtime realization
+
+
+self_improvement_update_001:
+  date: 2026-09-24
+  source: IC-022 five-cycle self-run
+  new_state_model:
+    meta_state:
+      referents:
+        - controller_under_improvement
+        - candidate_successor_under_evaluation
+        - external_promotion_authority
+    evaluation_context:
+      tuple: [subject, comparator, authority, protected_basis]
+      purpose: >
+        Parameterize behavioral equivalence, routing sufficiency, transition preservation,
+        and self-improvement evaluation by the referent and authority layer being evaluated.
+    evidence_state:
+      product: [semantic_evidence, runtime_evidence, authority_gate]
+      rule: >
+        Semantic improvement and runtime realization are independent coordinates. A candidate
+        can be semantically validated while remaining runtime-unpromotable.
+      promotion_status:
+        VALIDATED_SEMANTIC_NOT_RUNTIME_PROMOTABLE:
+          meaning: >
+            Protected semantic behavior and mathematical claims are validated at the declared
+            scope, while runtime execution/promotion evidence remains absent or insufficient.
+  mathematical_effect: >
+    The behavioral relation used for recursive self-improvement is lifted from
+    ~beh_J to ~beh_(J,E) where E is the frozen evaluation context. Promotion is modeled
+    as a typed evidence product followed by an external authority gate.
+  preservation:
+    - no self-promotion
+    - authority separation
+    - protected behavior regression
+    - OPEN/INCOMPARABLE preservation
+    - semantic/runtime distinction
+  status: candidate_refinement_requires_validation
+
+
+pd_system_sweep_001:
+  source_scope:
+    - projects/pd/protocol/PROTOCOL_CURRENT_STATE.md
+    - projects/pd/protocol/OPERATION_LEDGER.md
+    - projects/pd/protocol/MULTI_OBJECT_CONNECTOR_V2_IMPROVEMENT_PLAN_2026-09-23.md
+    - projects/pd/protocol/RTC_V2_CANONICALIZATION_PROPAGATION_PLAN_2026-09-23.md
+    - projects/pd/practical/LICENSED_TRANSITION_CONTRACT.yaml
+    - projects/pd/practical/APPROVED_DELTA_CONTRACT.yaml
+    - projects/pd/practical/EXECUTION_BINDING_CONTRACT.yaml
+    - projects/pd/practical/AUTHORITY_RESOLUTION_CONTRACT.yaml
+    - projects/pd/practical/PROMOTION_TRANSITION_CONTRACT.yaml
+    - projects/pd/practical/FRICTION_CONTAINMENT_CONTRACT.yaml
+    - projects/pd/g2u/REGRESSION_SUITE_v0.1.yaml
+  newly_integrated_capabilities:
+    licensed_transition:
+      semantics: >
+        A result-sensitive edge A --R--> B requires identity continuity, authority
+        continuity, and consequence locality. A licensed edge does not automatically
+        license a composite path. Missing identity/authority/proof remains OPEN or BLOCKED
+        only for the dependent transition.
+      control: projects/pd/practical/LICENSED_TRANSITION_CONTRACT.yaml
+    approved_delta:
+      semantics: >
+        Analysis and recommendation are distinct from an exact approved production delta.
+        Authorized change, target identity, affected scope, protected state, verification,
+        and approval authority are frozen before transaction compilation.
+      control: projects/pd/practical/APPROVED_DELTA_CONTRACT.yaml
+    execution_binding:
+      semantics: >
+        External action is bound to exact authoritative identities and result-sensitive
+        dependencies, then revalidated immediately before mutation. Identity drift blocks
+        execution and requires a new binding/admission cycle.
+      control: projects/pd/practical/EXECUTION_BINDING_CONTRACT.yaml
+    authority_resolution:
+      semantics: >
+        Result-sensitive coordinates resolve to one controlling owner, locator, exact
+        identity, and status without copying truth into the resolver. Multiple plausible
+        owners or missing exact identity remain OPEN.
+      control: projects/pd/practical/AUTHORITY_RESOLUTION_CONTRACT.yaml
+    promotion_transition:
+      semantics: >
+        Attempt authority, technical verification, human acceptance, and canonical promotion
+        are separate permissions. Promotion requires predecessor freshness, candidate
+        identity continuity, acceptance evidence, verification, and promotion authority.
+      control: projects/pd/practical/PROMOTION_TRANSITION_CONTRACT.yaml
+    friction_containment:
+      semantics: >
+        Nonblocking workflow defects and architecture debt do not hijack the active task.
+        A blocker requires a concrete result-sensitive dependency. Repair stops only the
+        dependent action and targets the smallest shared cause.
+      control: projects/pd/practical/FRICTION_CONTAINMENT_CONTRACT.yaml
+    historical_successor_boundary:
+      semantics: >
+        Recovered historical audit semantics and designed runnable successor protocol are
+        distinct objects. Improvements to the successor do not silently rewrite historical
+        constitutive meaning. Transfer requires an explicit preservation/embedding relation.
+      control: projects/pd/protocol/PROTOCOL_CURRENT_STATE.md
+    continuation_basis:
+      semantics: >
+        Recursive behavioral minimality depends on an explicit admissible continuation and
+        observation basis. Quotient/minimality claims remain relative while that basis is
+        OPEN.
+      control: projects/pd/protocol/PROTOCOL_CURRENT_STATE.md
+    external_acquisition:
+      semantics: >
+        Deriving information internally is distinct from obtaining new information from an
+        external information environment. Query, acquisition, and integration are separate
+        typed transitions with provenance-preserving evidence packets.
+      control: projects/pd/protocol/PROTOCOL_CURRENT_STATE.md
+    vulnerability_recurrence_profile:
+      semantics: >
+        Recurrence control requires attacking load-bearing dependencies, locating the
+        earliest affected dependency, retesting forward, detecting recurrence, escalating
+        to the smallest common parent generator, and rerunning regression.
+      control: projects/pd/protocol/PROTOCOL_CURRENT_STATE.md
+  mathematical_integration:
+    boundary_transition: >
+      Add LicensedTransition as a typed admissibility predicate over graph edges. Relation
+      alone never implies permission.
+    execution_freshness: >
+      Add freshness identity checks as an action-boundary invariant, distinct from semantic
+      evaluation.
+    promotion_evidence: >
+      Retain E_sem x E_run x AuthorityGate as the promotion evidence product, now with
+      explicit predecessor/candidate identity continuity.
+    friction: >
+      Treat blocker classification as part of C/U disposition handling, not a new primitive.
+    historical_embedding: >
+      Treat historical-to-successor preservation as an explicit bridge relation, not shared
+      identity.
+    continuation: >
+      Parameterize behavioral equivalence by the declared continuation/observation basis.
+  strict_gain_assessment:
+    result: >
+      These additions strengthen boundary control, authority/freshness semantics, and
+      recursive audit behavior without introducing a ninth system role. They reduce hidden
+      permission leakage and make runtime/promotion claims more precise.
+  status: integrated_candidate_refinement
+
+
+runtime_substrate:
+  status: BLOCKED
+  diagnosis: projects/improvement-core/validation/IC-022_RUNNER_SUBSTRATE_DIAGNOSIS_001_2026-09-24.md
+  backend_problem_id: BPI:20260924:GITHUB-ACTIONS-RUNNER-UNAVAILABLE
+  evidence:
+    runner_id: 0
+    runner_name: ""
+    steps_executed: 0
+  rule: >
+    Runtime promotion remains blocked until GitHub Actions assigns a runner and executes
+    a minimal workflow. IC-022 does not convert runner-unavailability into candidate failure.
+
+tool_ecosystem_optimization_001:
+  controller: IC-022
+  capability_map: projects/improvement-core/tool-ecosystem/TOOL_ECOSYSTEM_CAPABILITY_MAP_001_2026-09-24.md
+  candidate_tools:
+    META-01:
+      path: projects/improvement-core/tool-ecosystem/META-01_CAPABILITY_NORMALIZER_001.yaml
+      disposition: support_candidate
+      role: normalize tool implementations into behavior signatures before comparison
+    META-02:
+      path: projects/improvement-core/tool-ecosystem/META-02_PACKAGE_OPTIMIZER_001.yaml
+      disposition: priority_candidate
+      role: select nondominated minimum-sufficient capability packages
+    META-03:
+      path: projects/improvement-core/tool-ecosystem/META-03_CAPABILITY_GAP_DETECTOR_001.yaml
+      disposition: support_candidate
+      role: distinguish missing capability from missing composition
+    META-04:
+      path: projects/improvement-core/tool-ecosystem/META-04_COMPOSITION_VERIFIER_001.yaml
+      disposition: priority_candidate
+      role: test order sensitivity, redundancy, incompatibility, synergy, and regression of packages
+    META-05:
+      path: projects/improvement-core/tool-ecosystem/META-05_EVIDENCE_SYNTHESIZER_001.yaml
+      disposition: support_candidate
+      role: compare semantic/runtime/authority/cost/preservation evidence at capability level
+  selection_rule: >
+    IC-022 remains the top-level orchestrator. META tools operate on the capability universe
+    and package candidates, not as competing top-level controllers.
+  optimization_equation: >
+    Choose a nondominated package under the active evaluation context, maximizing expected
+    gain and preservation while minimizing redundancy and cost.
+  current_priority:
+    - META-02
+    - META-04
+    - META-01
+    - META-03
+    - META-05
+  validation_state:
+    META-02_fixture: PASS
+    META-04_fixture: PASS
+    META-05_fixture: PASS
+    META-01_behavioral_definition: PASS
+    META-03_behavioral_definition: PASS
+  promotion_rule: >
+    Candidate meta-tools enter the selectable registry only after matched holdouts show a
+    capability-level gain or cost/redundancy reduction that cannot be obtained by existing
+    tools alone.
+
+
+tool_ecosystem_self_improvement_001:
+  controller: IC-022
+  cycles: 5
+  goal: maximize useful system capability while minimizing redundancy, semantic loss, unnecessary tool execution, and false gap creation
+  capability_comparison_key:
+    signature: [input, preconditions, information, transform, output, license, consequence, cost, evidence]
+    rule: tool_name_and_version_are_implementation_metadata_not_comparison_units
+  package_selection:
+    dominance: >
+      P1 dominates P2 only if P1 preserves at least the same protected capability frontier under the active evaluation context and strictly improves at least one declared efficiency, robustness, redundancy, cost, or evidence coordinate.
+    search_order: [singles_first, ordered_pairs_when_interaction_material, higher_order_when_material_noncommutation_or_unique_residual]
+    preserve: [incomparable_packages, OPEN, branch_distinctions]
+  gap_detection:
+    rule: >
+      Do not create a new tool until existing capabilities and compositions have been challenged and shown insufficient for the target job.
+  composition_verification:
+    checks: [semantic_type_compatibility, authority_compatibility, provenance_preservation, OPEN_preservation, incomparable_branch_preservation, state_delta_detection, redundancy, order_sensitivity, protected_behavior]
+  evidence_synthesis:
+    product: [semantic_evidence, runtime_evidence, authority_gate, cost, redundancy, preservation]
+    rule: >
+      Semantic improvement without runtime evidence remains a valid candidate state but is not runtime promotable. Evidence coordinates are never silently collapsed.
+  reselection:
+    trigger: [material_capability_change, package_frontier_change, state_change, new_counterexample, new_evidence]
+  result:
+    verdict: ecosystem_optimization_pass
+    new_top_level_role: false
+    new_IC_version_licensed: false
+    current_controller: IC-022
+
+
+system_audit:
+  artifact: projects/improvement-core/validation/IC-022_SYSTEM_AUDIT_AND_REPAIR_001_2026-09-24.md
+  status: partially_repaired_external_runner_blocker
+  fixed:
+    - portfolio_integrity_workflow_syntax
+    - runtime_health_semantics
+    - backend_problem_recording
+    - runtime_substrate_sentinel
+  blocked_external:
+    - GitHub Actions runner assignment
+  recovery_entry_condition:
+    - runtime_substrate_sentinel successful
+  protected:
+    - promoted_improvement_core_018
+    - no_self_promotion
+    - portfolio_integrity_not_weakened
+
+
+tool_ecosystem_self_improvement_002:
+  date: 2026-09-24
+  run: projects/improvement-core/validation/IC-022_TOOL_ECOSYSTEM_SELF_IMPROVEMENT_010_2026-09-24.md
+  objective: maximize_system_power_and_capability
+  key_result: >
+    Tool optimization is now itself a recursive controlled capability. IC-022 may improve
+    the capability-selection ecosystem while preserving the task-solving controller.
+  selection_unit: capability_signature
+  package_policy:
+    - singles_first
+    - ordered_pairs_on_material_interaction
+    - higher_order_on_unique_residual_or_material_noncommutation
+    - preserve_incomparable_packages
+    - recompute_after_material_state_delta
+  gap_policy:
+    - challenge_existing_compositions_before_new_tool_creation
+    - distinguish_missing_capability_from_wrong_order
+    - distinguish_missing_capability_from_insufficient_state
+    - distinguish_missing_capability_from_boundary_or_evidence_failure
+  interaction_policy:
+    - verify_type_compatibility
+    - verify_authority_compatibility
+    - verify_provenance
+    - preserve_open_and_incomparable
+    - test_order_sensitivity
+    - test_redundancy
+    - test_synergy
+  evidence_policy:
+    product: [semantic_evidence, runtime_evidence, authority_gate]
+    additional_axes: [cost, redundancy, preservation]
+  meta_capabilities:
+    META-01: candidate
+    META-02: priority_candidate
+    META-03: support_candidate
+    META-04: priority_candidate
+    META-05: support_candidate
+  status: recursive_capability_optimization_integrated_candidate
+
+
+hidden_cross_role_math_001:
+  date: 2026-09-24
+  source: projects/core-system-mathematics/algebra/HIDDEN_CROSS_ROLE_MATHEMATICS_001_2026-09-24.md
+  status: active_research_frontier
+  discoveries:
+    - behavioral_equivalence_requires_external_or_fixed_point_continuation_basis
+    - router_nondominated_frontier_requires_existence_condition
+    - package_search_needs_coverage_certificate_for_completeness_claims
+    - cross_role_preservation_needs_composition_laws
+    - control_router_congruence_must_preserve_future_routing
+    - whole_controller_termination_differs_from_local_update_termination
+    - four_core_reduction_requires_explicit_finite_witness_without_semantic_smuggling
+    - domain_lift_requires_composition_preservation_not_only_surjectivity
+    - result_carrier_needs_operational_composition_algebra
+    - authority_packets_need_composition_and_refinement_laws
+    - resource_sensitive_tasks_may_require_resource_state
+  next_math_order:
+    - continuation_basis_and_behavioral_fixed_point
+    - router_frontier_existence
+    - package_coverage_certificate
+    - cross_role_composition_theorems
+    - controller_cycle_termination
+    - carrier_and_authority_algebra
+    - domain_lift_composition
+    - resource_state_sufficiency
+    - independent_four_core_reduction_witnesses
+  significance: >
+    The principal remaining mathematical problem is now cross-role compositional correctness:
+    proving that K,S,O,G,M,C,R,U and the package-selection layer compose without silently
+    losing routing, status, authority, provenance, continuation, resource, or protected
+    behavior information.
+
+
+ten_cycle_update_001:
+  date: 2026-09-24
+  source: projects/improvement-core/validation/IC-022_MATH_SELFIMPROVEMENT_10_CYCLES_001_2026-09-24.md
+  sequence:
+    math_cycles: 5
+    self_improvement_cycles: 5
+  math_deltas:
+    - continuation_basis_fixed_point
+    - router_frontier_existence_regime
+    - package_coverage_certificate
+    - cross_role_preservation_laws
+    - whole_controller_termination
+  self_improvement_deltas:
+    - coverage_aware_package_selection
+    - continuation_and_search_basis_in_evaluation_context
+    - composition_preservation_as_evidence_axis
+    - counterexample_gate_for_new_tool_creation
+    - no_new_core_role_required
+  next_frontier:
+    - operationalize_continuation_fixed_point
+    - prove_router_frontier_existence_conditions
+    - construct_package_coverage_certificates
+    - prove_cross_role_composition_laws
+    - establish_controller_cycle_termination_conditions
+    - complete_carrier_authority_algebra
+    - test_domain_lift_composition
+    - test_resource_sensitive_state
+    - external_four_core_witnesses
+    - runtime_validation
+  status: integrated_open_frontier
+
+
+external_system_leverage_001:
+  date: 2026-09-24
+  source: projects/improvement-core/validation/IC-022_EXTERNAL_SYSTEM_LEVERAGE_SWEEP_001_2026-09-24.md
+  selection_context_extensions:
+    source_role:
+      values: [ENGINE_PRIMARY, EXTERNAL_SUPPLEMENT, INDEPENDENT_CHALLENGE, PROJECT_LOCAL_PRIMARY]
+      semantics: >
+        Describes why a capability is participating in the current episode. Source role is
+        part of package admissibility and prevents over-selection of the global engine.
+    history_status:
+      values: [CURRENT_AUTHORITY, CURRENT_CANDIDATE, HISTORICAL_EVIDENCE, SUPERSEDED]
+      semantics: >
+        Version identity and evidence provenance are separate from runtime currentness.
+    o_basis:
+      values: [B5, B6, OPEN]
+      semantics: >
+        Live rival ontology hypothesis. Current four-core implementation remains a candidate
+        basis; global five-vs-six closure remains unresolved.
+    order_sensitivity:
+      fields: [discovery_order_sensitive, result_order_sensitive, order_invariant_on_declared_basis]
+  architecture_reuse_gate:
+    rule: >
+      A new tool/capability candidate requires failure of existing composition AND failure of
+      authoritative architecture reuse/inheritance before it can be admitted as missing
+      capability.
+  capability_gap_order:
+    - existing_package_test
+    - composition_test
+    - architecture_reuse_test
+    - external_dependency_test
+    - new_capability_candidate
+  strict_gain:
+    result: >
+      Adds cross-project engine containment, architecture inheritance checking, live O-basis
+      branching, and clearer order-sensitivity semantics without introducing a new K/S/O/G/M/C/R/U role.
+  status: integrated_candidate_refinement
+
+
+master_objective_run_001:
+  date: 2026-09-24
+  prompt: projects/improvement-core/MASTER_OBJECTIVE_IC022_2026-09-24.md
+  result: projects/improvement-core/validation/IC-022_MASTER_OBJECTIVE_RUN_001_2026-09-24.md
+  canonical_goal: >
+    Build and continuously improve one self-improving research/control system that discovers
+    useful jobs, selects and composes capabilities from the full available repertoire,
+    executes and learns from state changes, improves its own mathematics and capability
+    repertoire, transfers useful discoveries across projects, and stops only at relative
+    closure or a genuine OPEN boundary.
+  mathematical_focus: cross_role_compositional_correctness
+  architectural_focus: self_improving_capability_selection
+  live_operator_basis: [B5, B6, OPEN]
+  status: canonical_master_objective_active
+
+
+master_objective_run_002:
+  date: 2026-09-24
+  selected_frontier: package_semantics
+  artifact: projects/tool-optimization/PACKAGE_SEMANTICS_CLOSURE_CANDIDATE_001_2026-09-24.md
+  mathematical_gain:
+    - package_behavior_vector_explicit
+    - package_equivalence_defined_over_future_routing_and_state
+    - package_dominance_separated_from_textual_output_equality
+    - package_search_coverage_certificate_defined
+    - package_order_noncommutation_lifted_from_tools_to_packages
+  self_improvement_effect:
+    - META-01_normalization now has a semantic comparison target
+    - META-02_package_optimization now has a typed dominance target
+    - META-04_composition_verification can compare package behavior rather than tool labels
+    - META-05_evidence synthesis can distinguish protected behavior from cost/evidence coordinates
+  status: integrated_candidate_refinement
+
+
+kurepa_learning_001:
+  date: 2026-09-24
+  source: projects/improvement-core/validation/IC-022_KUREPA_CHAT_LEARNING_AUDIT_001_2026-09-24.md
+  new_control_state:
+    problem_formulation:
+      tuple: [target,question_type,success_condition,scope,admissibility,basis,known_unknowns]
+    progress_certificate:
+      tuple: [delta_state,delta_math,delta_frontier,delta_evidence,delta_capability,delta_problem_formulation]
+    plateau_rule: >
+      Repeated cycles with equivalent progress signatures trigger package reselection,
+      alternate representation, problem reformulation, external challenge, or explicit stop.
+    solve_status:
+      values: [SOLVED, DISPROVED, PARTIAL_RESULT, REFORMULATED, OPEN, BLOCKED, NO_PROGRESS]
+    output_depth_separation: >
+      Search depth and user-facing output verbosity are independent coordinates.
+  mathematical_effect: >
+    Progress is treated as a state relation S_(n+1) successor S_n only when material protected
+    information/frontier/evidence or problem-formulation gain is established.
+  strict_gain:
+    - round_count_no_longer_counts_as_progress
+    - problem_reframing_is_first_class
+    - plateau_detected_before_unbounded_iteration
+    - success_condition_is_frozen_or_explicitly_reopened
+  status: integrated_candidate_refinement
+
+
+cross_chat_performance_audit_001:
+  date: 2026-09-24
+  source: projects/improvement-core/validation/IC-022_CROSS_CHAT_PERFORMANCE_AUDIT_001_2026-09-24.md
+  new_control_state:
+    mode:
+      values: [DISCOVERY, COMMITMENT]
+      semantics: >
+        Discovery broadens and tests the result-sensitive frontier. Commitment performs one
+        bounded next-state change against frozen authority/protected coordinates.
+      transition_to_commitment_requires:
+        - target_localized
+        - authority_frozen
+        - protected_coordinates_declared
+        - authorized_delta_declared
+        - acceptance_test_declared
+        - stop_condition_declared
+      transition_to_discovery:
+        - material_result
+        - material_state_update
+        - commitment_failure
+        - new_result_sensitive_dependency
+        - explicit_goal_change
+    progress_certificate:
+      tuple: [math_delta,result_delta,state_delta,evidence_delta,frontier_delta,capability_delta,formulation_delta]
+      no_progress_rule: >
+        Equivalent progress signatures classify the cycle as NO_PROGRESS. Repetition does not
+        convert NO_PROGRESS into progress.
+  strict_gain:
+    - bounds recursive discovery
+    - preserves production authority
+    - separates search depth from repetition
+    - improves plateau detection
+    - makes failure-to-progress a typed state
+  selected_next_action:
+    - formalize_mode_progress_commitment_algebra
+    - test_on_kurepa
+    - test_on_sukkos
+    - test_on_rebt_is_ought
+    - test_on_backend_closure
+    - test_on_canonical_selector
+    - integrate_with_cross_role_math
+  status: integrated_candidate_refinement
+
+
+ten_autonomous_decisions_001:
+  date: 2026-09-24
+  artifact: projects/improvement-core/validation/IC-022_TEN_AUTONOMOUS_DECISIONS_001_2026-09-24.md
+  outcomes:
+    - discovery_commitment_mode
+    - progress_certificate
+    - progress_package_behavior_link
+    - package_coverage_certificate
+    - architecture_reuse_gate
+    - source_role_selection
+    - history_currentness_evidence_state
+    - rival_o_basis_branch
+    - rival_aware_self_improvement
+  selected_next_math:
+    - mode_progress_package_behavior_composition
+    - controller_loop_termination
+    - false_progress_exclusion
+    - cross_role preservation under control-state changes
+  status: integrated_candidate_refinement
+
+
+autonomous_decisions_002:
+  date: 2026-09-24
+  artifact: projects/improvement-core/validation/IC-022_TEN_AUTONOMOUS_DECISIONS_002_2026-09-24.md
+  augmented_controller:
+    tuple: [Mode, ProblemFormulation, State, Package, PackageBehavior, ProgressCert, CoverageCert, R, U, Authority, Evidence]
+    proof_targets:
+      - commitment_safety
+      - progress_preservation
+      - plateau_escape
+      - routing_congruence
+      - coverage_relative_termination
+      - open_and_incomparable_preservation
+      - self_improvement_non_self_justification
+      - convergence_or_explicit_terminal_regimes
+  status: active_mathematical_frontier
+
+
+augmented_controller_convergence_001:
+  date: 2026-09-24
+  artifact: projects/core-system-mathematics/algebra/IC-022_AUGMENTED_CONTROLLER_CONVERGENCE_SAFETY_001_2026-09-24.md
+  findings:
+    commitment_safety: conditionally_closed
+    progress_monotonicity: conditionally_closed
+    plateau_escape: control_closed
+    package_preservation: conditionally_closed
+    coverage_vs_convergence: open
+    routing_congruence: open
+    whole_loop_termination: open
+    self_improvement_safety: conditionally_closed
+  next_theorem:
+    name: progress_to_termination
+    target: >
+      Under well-founded/finite progress, finite strategy-change branching, routing preservation,
+      and terminal OPEN/INCOMPARABLE branches, prove termination of the augmented controller in a
+      typed terminal state.
+  status: active_mathematical_frontier
+
+
+augmented_controller_convergence_attack_002:
+  date: 2026-09-24
+  artifact: projects/core-system-mathematics/algebra/IC-022_AUGMENTED_CONTROLLER_CONVERGENCE_ATTACK_002_2026-09-24.md
+  result:
+    fixed_basis_task_convergence: CONDITIONAL_THEOREM_CANDIDATE
+    open_ended_self_improvement_convergence: OPEN
+    whole_augmented_controller_convergence: OPEN
+  key_discovery: >
+    Self-improvement can expand the search basis, so a rank defined over a fixed state space
+    cannot by itself establish convergence of the self-improving controller.
+  next_math:
+    - product_or_lexicographic_rank
+    - self_improvement_basis_well_foundedness
+    - router_rank_monotonicity
+    - package_coverage_certificate
+    - two_level_task_vs_controller_convergence_theorem
+  status: active_math_frontier
+
+
+two_level_convergence_001:
+  date: 2026-09-24
+  source: projects/core-system-mathematics/algebra/IC-022_TWO_LEVEL_CONVERGENCE_001_2026-09-24.md
+  state_decomposition:
+    rank:
+      tuple: [self_improvement_residual, package_search_residual, task_residual, strategy_change_budget]
+      order: lexicographic
+  theorem_status:
+    fixed_or_bounded_improvement_regime: conditional_termination_schema
+    open_ended_self_improvement: open
+  new_terminal_regimes:
+    - TASK_CLOSED
+    - CONTROLLER_OPEN
+    - GLOBALLY_CLOSED
+  self_improvement_reporting:
+    tuple: [task_gain, controller_gain, improvement_residual_delta, basis_delta, authority_delta]
+  critical_constraint: >
+    Self-improvement cannot be treated as automatically well founded. Global convergence
+    requires a well-founded, finite, ordinal, utility-saturating, or externally bounded
+    improvement residual.
+  next_frontier:
+    - define useful self_improvement_residual
+    - characterize package_search_residual
+    - prove_or_absorb_router_rank_monotonicity
+    - bound_basis_expansion
+    - instantiate_on_actual_IC022
+
+
+twenty_cycle_self_improvement_frontier_001:
+  date: 2026-09-24
+  source: projects/core-system-mathematics/algebra/IC-022_SELF_IMPROVEMENT_FRONTIER_001_2026-09-24.md
+  new_math:
+    improvement_frontier:
+      definition: >
+        The nondominated set of behaviorally distinct, admissible, unexplored improvement
+        classes under evaluation context E.
+      equivalence: behavior_and_protected_coordinate_equivalence_under_E
+      dominance: protected_behavior_and_evidence_cost_preorder_under_E
+    residual: >
+      improvement frontier plus certified-unexplored candidate classes, represented as a
+      downward-closed residual over the admissible improvement universe.
+    basis_expansion_residual: >
+      Separate residual tracking whether the admissible improvement universe itself can still
+      expand.
+  convergence:
+    conditional_saturation_theorem: >
+      Self-improvement terminates relative to E if admissible improvement classes are covered
+      by a finite/well-founded basis, behaviorally equivalent implementations are quotiented,
+      nondominated frontier selection is used, each accepted improvement strictly decreases
+      the improvement residual or terminates, and basis expansion itself is bounded/well founded.
+  next_frontier:
+    - basis_expansion_residual
+    - combined_product_rank
+    - concrete_coverage_certificate_for_improvements
+    - empirical_self_improvement_holdouts
+  status: integrated_candidate_refinement
+
+
+capability_discovery_repair_001:
+  date: 2026-09-24
+  defect: >
+    IC-022 previously contained a hard-coded internal_capability_universe that did not
+    automatically include the newer IC-022-organized 48-capability research registry.
+  diagnosis: >
+    Capability existence and capability discoverability were separated in the repository,
+    but the controller did not bind its selection stage to the canonical registry.
+  repair: >
+    Replace the hard-coded universe with registry-backed discovery and PICK-based
+    nondominated package selection. Legacy PracticalCore registry remains the provenance
+    and runtime-reference layer.
+  protected:
+    - legacy capability coverage
+    - authority separation
+    - no self-promotion
+    - OPEN/incomparability preservation
+    - result carrier distinctions
+    - semantic/runtime evidence separation
+  strict_gain_basis:
+    - reduced capability-selection omission
+    - reduced stale-universe risk
+    - improved routing efficiency
+    - preserved historical provenance
+  regression_checks:
+    - historical A01-A19/I01-I16/T01-T10/V01-V03 remain discoverable
+    - IC-022-organized registry entries are discoverable without code/spec rewrite
+    - runtime authority remains IC-018
+    - updated registry does not imply execution
+    - Tool Optimization does not become mandatory on every selection
+  status: repaired_candidate_requires_validation
+
+
+system_integrity_optimization_001:
+  date: 2026-09-24
+  new_integrity_gate:
+    path: tools/ic022_integrity.py
+    purpose: >
+      Verify identity and boundary consistency among IC-022 semantic candidate state,
+      capability registry, runtime authority pointer, toolchain index, and current delegation
+      layer.
+    checks:
+      - candidate_identity
+      - canonical_capability_registry_pointer
+      - runtime_authority_separation
+      - toolchain_index_consistency
+      - current_delegation_presence
+      - current_delegation_legacy_isolation
+      - capability_registry_size_and_C49
+  semantic_runtime_boundary:
+    semantic_candidate: IC-2026-09-24-022
+    promoted_runtime_authority: IC-2026-09-23-018
+    rule: >
+      A research candidate may improve semantic architecture without becoming runtime authority.
+      Runtime currentness changes only through the external promotion gate.
+  self_improvement_frontier:
+    object: >
+      nondominated unexplored controller-improvement classes under evaluation context E,
+      quotienting behaviorally equivalent candidates and requiring coverage for closure.
+    residual_axes:
+      - unexplored_capability_classes
+      - unexplored_package_classes
+      - unresolved_mathematical_frontiers
+      - unresolved_runtime_validation
+      - unresolved_external_authority
+  integrity_rule: >
+    A material improvement that changes one cross-layer identity/reference must trigger
+    integrity recomputation before commitment or re-selection.
+  status: integrated_candidate_refinement
+
+
+control_plane_001:
+  date: 2026-09-24
+  path: projects/improvement-core/IC022_CONTROL_PLANE.yaml
+  purpose: >
+    Provide one canonical research-side control-plane pointer set so IC-022 does not depend
+    on scattered, independently edited references for candidate identity, runtime authority,
+    capabilities, delegation, integrity, master objective, and mathematical frontier.
+  self_improvement:
+    frontier_object: nondominated_unexplored_improvement_classes
+    residual_basis: [capability_classes, package_classes, mathematics, runtime_validation, external_authority]
+    progress_coordinates:
+      - math_delta
+      - result_delta
+      - state_delta
+      - evidence_delta
+      - frontier_delta
+      - capability_delta
+      - formulation_delta
+  control_modes: [DISCOVERY, COMMITMENT]
+  terminal_statuses: [SOLVED, DISPROVED, PARTIAL_RESULT, REFORMULATED, OPEN, BLOCKED, NO_PROGRESS]
+  promotion:
+    semantic_candidate: IC-022
+    runtime_authority: IC-018
+    external_gate_required: true
+  status: integrated_candidate_refinement
+
+
+tool_improvement_update_002:
+  date: 2026-09-24
+  source: IC-022 second-order tool-improvement pass
+  improvements:
+    definition_completeness: >
+      Every capability/package/external binding is subject to a common completeness gate
+      before selection.
+    package_aliases: >
+      Named composite tools are now explicit package aliases with member capabilities,
+      triggers, owners, and validation paths.
+    negative_space: >
+      Materially considered but unselected candidates carry explicit dispositions and reasons.
+    resolution: >
+      Current capability -> package alias -> local overlay -> external service -> meta-capability
+      -> implementation -> historical evidence, with typed failure states at every boundary.
+    version_identity: >
+      Semantic identity, implementation identity, and historical identity are kept separate.
+  protected:
+    - legacy_coverage
+    - authority_separation
+    - OPEN
+    - incomparability
+    - no_self_promotion
+    - result_carrier_distinctions
+  status: candidate_refinement_requires_validation
+
+
+comprehensive_improvement_pass_004:
+  date: 2026-09-24
+  capability_findings:
+    registry_count_not_completeness_certificate: true
+    semantic_basis_preflight:
+      status: OPEN_CAPABILITY_CANDIDATE
+      reduction_basis: [C01,C10,C11,C20]
+      promotion_requires:
+        - package_equivalence_test
+        - prospective_false_block_test
+        - prospective_semantic_failure_reduction
+    operationalization_residual:
+      meaning: >
+        Known capabilities can remain semantically defined but incompletely individualized,
+        implementation-bound, composition-tested, or prospectively validated.
+  self_improvement_residual:
+    form: product_partial_order
+    coordinates:
+      - basis
+      - operationalization
+      - package
+      - mathematics
+      - runtime
+      - external
+    rule: >
+      Do not silently impose lexicographic priority. A lexicographic rank requires an
+      explicitly licensed priority order for the active evaluation context.
+  strengthened_convergence_target:
+    question: >
+      Can basis expansion be represented inside a fixed higher-order meta-domain B* so
+      discovery changes state inside B* rather than enlarging the state-space domain?
+    consequence: >
+      If a fixed B* and a well-founded strict order on the full residual product exist,
+      accepted strict descent gives relative self-improvement termination without requiring
+      a finite raw capability count.
+  status: integrated_candidate_refinement
+
+
+objective_preservation_update_003:
+  date: 2026-09-24
+  trigger: paperclip_proxy_optimization_failure
+  contract: projects/improvement-core/OBJECTIVE_PRESERVATION_CONTRACT_IC022_V1.yaml
+  bias_controls: projects/tool-optimization/BIAS_CONTROL_OVERLAY_IC022_V1.yaml
+  perturbation_benchmark: projects/tool-optimization/BIAS_PERTURBATION_BENCHMARK_IC022_V1.yaml
+  governing_rule: >
+    Recursive improvement is subordinate to the frozen external task objective. Internal
+    proxies such as commits, architecture richness, formalization, coverage, speed, tool
+    count, successor count, or self-reported improvement never constitute target gain
+    without a causal path to protected target consequences.
+  mandatory_candidates:
+    - NO_CHANGE
+    - REUSE_EXISTING
+    - LOCAL_REPAIR
+    - CLEAN_SHEET_RIVAL
+    - GENERATED_SUCCESSOR
+  progress_typing:
+    - RECORD_CREATED
+    - SEMANTIC_CHANGE
+    - IMPLEMENTATION_CHANGE
+    - RUNTIME_EXECUTED
+    - EMPIRICAL_EVIDENCE_CHANGE
+    - TARGET_RESULT_CHANGE
+  bias_invariance: >
+    Selection and protected dispositions must be invariant under task-irrelevant changes
+    to names, ordering, timestamps, representation form, artifact presence, and user
+    exploration wording. Unexplained instability is BIAS_SIGNAL and blocks promotion.
+  frame_rule: >
+    Frozen frames are provisional under counterevidence. Material milestones, repeated
+    repair, plateau, or unexpected failure trigger an independent reconstruction from the
+    raw target/evidence without exposure to the current frame.
+  no_change_rule: >
+    Correctly finding no material improvement is a successful self-improvement outcome.
+  validation_status: pending_prospective_perturbation_benchmark
+
+
+conversation_failure_repair_2026_09_24:
+  source: current ICC conversation retrospective
+  status: candidate_semantic_repair
+  failure_class: execution_claim_and_meta_process_displacement
+  observed_failures:
+    - repeated planning_or_inventory_reported_in_place_of_requested_execution
+    - semantic_protocol_application_blurred_with_executable_runtime_execution
+    - requested_per_object_one_at_a_time_runs_collapsed_into_cross_tool_synthesis
+    - user_requested_legacy_fallback_not_proven_per_object_before_summary
+    - completion_language_used_without_completion_evidence
+    - replanning_recurred_after_user_had_already_frozen_the_execution_plan
+    - output_length_obscured_execution_status
+  mandatory_execution_ledger:
+    states: [DISCOVERED,CONSIDERED,SELECTED,SEMANTICALLY_APPLIED,IMPLEMENTATION_EXECUTED,RESULT_USED,NOT_APPLICABLE,BLOCKED]
+    rule: >
+      Never report a capability as run from discovery, selection, or semantic application alone.
+      Every requested capability-object pair receives one explicit ledger state.
+  frozen_plan_rule: >
+    Once the user freezes an execution plan, inventory and replanning are subordinate steps,
+    not completion. Continue object-level execution until every requested object has a terminal
+    ledger state or a concrete blocker is recorded.
+  per_object_completion_gate:
+    required:
+      - object_identity
+      - requested_capability_set
+      - ledger_state_for_every_requested_capability
+      - current_tools_pass
+      - closure_test
+      - legacy_fallback_when_still_open
+      - hostile_verification
+      - result_and_open_coordinates
+    rule: no_cross_object_completion_claim_before_each_object_passes_this_gate
+  truth_in_reporting:
+    - say_semantically_applied_when_a_repository_protocol_was_reasoned_through_without_executable_implementation
+    - say_implementation_executed_only_when_an_actual_runtime_or_connector_action_executed_that_implementation
+    - say_not_done_when_the_requested_gate_has_not_closed
+    - planning_inventory_and_retrieval_are_never_execution
+  anti_meta_displacement:
+    measure: >
+      A controller cycle must produce an object-level state delta or a typed blocker.
+      A repeated plan, inventory, or explanation with no such delta is NOOP and cannot
+      satisfy the task.
+  concise_reporting:
+    default_shape: [done_status,results,changes,next_automatic_action]
+    detail: on_request
+  regression_fixture:
+    prompt_pattern: run_all_tools_one_at_a_time_on_each_unresolved_letter_then_compare
+    failure_condition: >
+      assistant returns a plan, inventory, or synthesized result before ledgering every
+      requested capability-object pair.
+  integration_target:
+    - IC022 successor generation
+    - capability operational contract
+    - practical execution reporting
+  authority_boundary: >
+    This block records a semantic candidate repair only. It does not promote IC-022,
+    alter IC-018 runtime authority, or prove executable enforcement.
