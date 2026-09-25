@@ -1,0 +1,284 @@
+schema_version: 0.1
+object_id: QUESTION-SEARCH-RUN:001
+date: 2026-09-25
+status: BASIS_RELATIVE_FIXED_POINT_CANDIDATE
+basis:
+  current_atomic_registry: Reaserch CAPABILITY_REGISTRY_V4_IC022 C01-C49
+  historical_behavior_ledger: Reaserch HISTORICAL_CAPABILITY_RECOVERY_LEDGER CAP001-CAP033
+  named_tool_map: Reaserch TOOL_ECOSYSTEM_CANONICAL_MAP_001
+  maturity_sweep: Reaserch EVERY_TOOL_RECURSIVE_MTA_MATURITY_SWEEP_001
+  full_spectrum: Take-5 runtime/full_spectrum_20.py
+  novel_frontier: Reaserch PR128 N01-N10
+  lineage_math: Take-5 research/QUESTION_SEARCH_MATH_001.md
+global_unknown_history: OPEN
+
+question_families:
+  Q01:
+    name: Basic Math
+    question: What is the smallest adequate mathematical model or reconstruction of this object?
+    math: "BM(X)=Min_preorder{m in M_B(X) : Recon_J(m,X) and Preserve_J(m)}"
+  Q02:
+    name: Change Math
+    question: What changes under an admissible transformation, representation, view, or mode?
+    math: "CM(X)={(phi,delta) : phi in Phi_B(X), delta=Delta_J(X,phi(X)), delta != 0}"
+  Q03:
+    name: Difference Math
+    question: Which admissible differences actually change the protected result?
+    math: "DM(X)={d in D_B(X) : Out_J(X) !~_J Out_J(phi_d(X))}"
+  Q04:
+    name: Together Math
+    question: What appears only when these objects are considered together?
+    math: "TM(S)=F_J(S) \\ Cl_J,B(union_{P proper_subset S} F_J(P))"
+  Q05:
+    name: Structure Math
+    question: What organization, roles, interfaces, dependencies, and obligations constitute this system?
+    math: "SM(X)={a in Struct_B(X) : Recon_K(a,X) and Preserve_K(a) and Obligations_K(a) are typed}"
+  Q06:
+    name: Cause Math
+    question: Which live mechanism or causal/root relation explains the observed contrast?
+    math: "Cause(X)={h in H_B(X) : Compatible(h,E) and Causal_J(h) and RootCriterion_J(h)}"
+  Q07:
+    name: Better Math
+    question: What strictly better same-job version exists while preserving protected behavior?
+    math: "Better(X)=ND{y : SameJob_J(y,X) and Preserve_J(y) and y >_J X}"
+  Q08:
+    name: Transfer Math
+    question: What licensed consequence carries from this source to this target?
+    math: "Transfer(s,t)={r : Relation(s,t,r) and License(r) and MaterialEffect_t(r)}"
+  Q09:
+    name: Trace Math
+    question: What dependency, contribution, provenance, or evidentiary path grounds this result?
+    math: "Trace(x)={p in Paths_B(x) : Licensed(p) and ProvenanceValid(p)}"
+  Q10:
+    name: Reality Check
+    question: Does the claimed object, run, state, or artifact actually exist and correspond to the claim?
+    math: "Reality(o)=Identity(o) and Exists(o) and Connected(o) and EvidenceAdequate(o)"
+  Q11:
+    name: Grounding Check
+    question: What required state is missing, and what represented state lacks valid grounding?
+    math: "Ground(G)=Orphan_J(G) union Ghost_J(G) union GroundingConflict_J(G)"
+  Q12:
+    name: Current Check
+    question: Which representation/version/basis is current and authoritative now?
+    math: "Current(x) iff Delta_J(BuiltBasis(x),LatestAdmittedBasis(x))=empty and AuthorityCurrent(x)"
+  Q13:
+    name: Type Check
+    question: What admissible type does this task or object have?
+    math: "Type(x)={tau in Types_B(x) : Admissible_J(tau,x)}"
+  Q14:
+    name: Identity Check
+    question: Are these references the same continuing object or different referents?
+    math: "Identity(x,y)=EqReferent_J(x,y) in {SAME,DISTINCT,OPEN}"
+  Q15:
+    name: Dependency Math
+    question: What material dependencies or affected paths bear on this result?
+    math: "Dep_J(x)={(u,v) : intervention_on(u) changes protected continuation at v}"
+  Q16:
+    name: Relation Math
+    question: What typed relation holds among these objects?
+    math: "Rel(X)={r in R_B(X) : LicensedRelation_J(r,X)}"
+  Q17:
+    name: Novelty Check
+    question: What is genuinely new, uncovered, or omitted relative to the represented frontier?
+    math: "Novel(X)=Candidate_J(X) \\ Cl_J(KnownFrontier)"
+  Q18:
+    name: Verify Math
+    question: Which claims or candidates survive the required attacks and preservation tests?
+    math: "Verify(C)={c in C : Evidence(c) and Preserve_J(c) and RequiredTests_J(c)=PASS}"
+  Q19:
+    name: Completion Check
+    question: What material unresolved coordinate remains before the declared claim is complete?
+    math: "Done_J iff LiveMaterial_J=empty and ConsequencesClosed and RequiredVerificationTerminal"
+  Q20:
+    name: Goal Math
+    question: What governing goal is actually supported by the available control evidence?
+    math: "Goal(E)=ND{g : Grounded(g,E) and AuthorityTyped(g) and DeterminateEnough_J(g)}"
+  Q21:
+    name: Ownership Check
+    question: What is licensed to govern, own, execute, or verify this obligation?
+    math: "Owner(w)={r : Capable(r,w) and Authorized(r,w) and ScopeCompatible(r,w)}"
+  Q22:
+    name: Discovery Math
+    question: What material question, dependency, object, or relevant region remains undiscovered?
+    math: "Discover(S)=Frontier_B(S) \\ Cl_J(KnownMaterial(S))"
+
+c01_c49:
+  C01: [Q13]
+  C02: [Q14]
+  C03: [Q12]
+  C04: [ACTION_ONLY_FREEZE]
+  C05: [ACTION_ONLY_FREEZE]
+  C06: [Q15]
+  C07: [Q15]
+  C08: [Q15]
+  C09: [Q16]
+  C10: [Q02,Q03]
+  C11: [Q03]
+  C12: [Q03]
+  C13: [Q09]
+  C14: [Q18]
+  C15: [Q17]
+  C16: [Q07]
+  C17: [Q06]
+  C18: [Q06]
+  C19: [Q22]
+  C20: [Q01]
+  C21: [Q07]
+  C22: [Q07]
+  C23: [Q08]
+  C24: [ACTION_ONLY_REPAIR]
+  C25: [Q07]
+  C26: [Q05,Q07,PROJECTION_SYSTEM]
+  C27: [Q05,Q07,PROJECTION_SUBSYSTEM]
+  C28: [Q05,Q07,PROJECTION_COMPONENT]
+  C29: [Q05,Q07,PROJECTION_INTERFACE]
+  C30: [Q05,Q07,PROJECTION_BOUNDARY]
+  C31: [Q05,Q07,PROJECTION_CROSS_LAYER]
+  C32: [CONTROL_ONLY_ROUTING]
+  C33: [Q07]
+  C34: [Q18]
+  C35: [Q07]
+  C36: [ACTION_ONLY_UPDATE]
+  C37: [Q08,Q09]
+  C38: [Q08]
+  C39: [Q08]
+  C40: [Q17]
+  C41: [Q08]
+  C42: [Q08]
+  C43: [ACTION_ONLY_HANDOFF]
+  C44: [Q18]
+  C45: [Q18]
+  C46: [Q06,Q18]
+  C47: [Q19]
+  C48: [Q07]
+  C49: [Q22]
+
+historical_cap001_cap033:
+  CAP001: [Q22,Q15]
+  CAP002: [Q02,Q01]
+  CAP003: [Q03]
+  CAP004: [Q13,Q16]
+  CAP005: [ACTION_ONLY_FREEZE]
+  CAP006: [Q18]
+  CAP007: [Q12]
+  CAP008: [Q19]
+  CAP009: [Q07]
+  CAP010: [Q18]
+  CAP011: [Q19,CONTROL_GATE]
+  CAP012: [Q07]
+  CAP013: [Q18]
+  CAP014: [Q18,WRAPPER_REALIZATION]
+  CAP015: [Q19,WRAPPER_REENTRY]
+  CAP016: [Q06]
+  CAP017: [Q09,Q08]
+  CAP018: [Q22,WRAPPER_REENTRY]
+  CAP019: [Q19]
+  CAP020: [Q18]
+  CAP021: [Q06,Q18]
+  CAP022: [Q18]
+  CAP023: [Q16,Q08]
+  CAP024: [Q14,Q12]
+  CAP025: [Q12,Q18]
+  CAP026: [CONTROL_ONLY_ROUTING]
+  CAP027: [Q19]
+  CAP028: [Q13,CONTROL_ONLY_ROUTING]
+  CAP029: [Q07,Q18,Q14]
+  CAP030: [Q21,Q18]
+  CAP031: [Q08,Q09]
+  CAP032: [Q14,Q12]
+  CAP033: [Q19,Q22]
+
+named_tools:
+  MTA: {residual: [Q01], imports: [Q03,Q18,Q22], lineage: SAME_QUESTION_NEW_MATH, new_name: Basic Math}
+  MT_MODE_SWEEP: {residual: [Q02], lineage: SAME_QUESTION_NEW_MATH, new_name: Change Math}
+  PD: {residual: [Q03], imports: [Q22], lineage: SPLIT_RECURSIVE_WRAPPER_FROM_NUCLEUS, new_name: Difference Math}
+  PD_AUDIT: {residual: [Q18], new_name: Verify Math}
+  MULTI_OBJECT: {residual: [Q04], historical_bundle: [Q16,Q04], lineage: SPLIT_RELATION_FROM_INTERACTION, new_name: Together Math}
+  ARCHITECTURE_ANALYSIS: {residual: [Q05], imports: [Q15,Q04,Q07,Q18], new_name: Structure Math}
+  DIAGNOSIS_ROOT_CAUSE: {residual: [Q06], new_name: Cause Math}
+  RTC_RAISE_THE_CEILING: {residual: [Q07], lineage: SAME_QUESTION_STRONGER_SEARCH, new_name: Better Math}
+  TRANSFER_CORE: {residual: [Q08], imports: [Q09,Q21], new_name: Transfer Math}
+  TRACE: {residual: [Q09], new_name: Trace Math}
+  ARA: {residual: [Q10], new_name: Reality Check}
+  ORPHAN_GHOST: {residual: [Q11], new_name: Grounding Check}
+  CURRENTNESS_AUDIT: {residual: [Q12], new_name: Current Check}
+  GOAL_SPINE: {residual: [Q15], target_specialization: GOAL, new_name: Dependency Math}
+  RECOVERED_GOAL: {residual: [Q20], new_name: Goal Math}
+  GOAL_COMPLETION: {residual: [Q19], lineage: QUESTION_EXPANDED_FROM_BOOLEAN_TO_CONTRACT_OBLIGATION, new_name: Completion Check}
+  GOVERNANCE_ACTIVATION: {residual: [Q21], lineage: QUESTION_EXPANDED_TO_GOVERNANCE_FRONTIER, new_name: Ownership Check}
+  ROLE_ASSIGNMENT_OWNER_CLOSURE: {residual: [Q21], relation_to_governance_activation: MERGE_CANDIDATE}
+  EXECUTION_TRUTH_ACTIVATION: {residual: [Q10], target_specialization: RUN}
+  A16_HOLDOUT_ABLATION: {residual: [Q18,Q06], composite: true}
+  BIAS_PERTURBATION: {residual: [Q03], specialization: NUISANCE_COORDINATE}
+  HISTORICAL_RECONSTRUCTION: {residual: [Q01,Q12,Q18], composite: true}
+  DISCRIMINATOR: {residual: [Q03], mode_specialization: CONTRACT_ISOLATE}
+  GDOS_DOS_OBSERVE: {classification: MODE_ONLY, mode: EXPAND_OBSERVE_ISOLATE}
+  H2_ORTHOGONAL_FIVE_LENS: {residual: [Q18], specialization: FAILURE_MODE_DISTINCT_ATTACKS}
+  RSA: {classification: COMPOSITE_NO_NEW_ATOM, atoms: [Q01,Q18,Q22], target_specialization: SELF}
+  MTM: {classification: ORCHESTRATOR_NO_NEW_ATOM, atoms: [Q01,Q04,Q07,Q10,Q18]}
+  MTOS: {classification: ORCHESTRATOR_NO_NEW_ATOM, atoms: [Q01,Q07,Q04,Q10,Q18]}
+  CONSEQUENCE_CLOSURE: {classification: CONFIGURED_PACKAGE_NO_NEW_ATOM, atoms: [Q15,Q18,Q10], repository_verdict: REDUCE_TO_CONFIGURED_PACKAGE}
+  HF001: {classification: WRAPPER_REENTRY_NO_NEW_ATOM}
+  TOOL_RUN_CLOSURE: {classification: WRAPPER_CLOSURE_NO_NEW_ATOM}
+  RECONCILER: {classification: CONTROL_COMPOSITION_NO_NEW_ATOM}
+  DELEGATED_EXECUTOR: {classification: EXECUTION_NO_NEW_ATOM}
+  CAPABILITY_FOUNDRY: {classification: GENERATOR_NO_NEW_ATOM}
+  EMERGENT_ADMISSION: {classification: GOVERNANCE_GATE_NO_NEW_ATOM}
+  ZERO_REQUEST: {classification: JOB_GENERATION_NO_NEW_ATOM}
+  GOAL_TARGET_FREEZE: {classification: ACTION_ONLY_FREEZE}
+  IMPROVEMENT_CORE: {classification: CONTROLLER_NO_NEW_ATOM}
+
+novel_frontier_n01_n10:
+  N01_CAPABILITY_GAP_MINER: {atoms: [Q17,Q22], lineage: MERGE_WITH_COVERAGE_DISCOVERY_FAMILIES}
+  N02_TOOL_SYNTHESIZER: {classification: GENERATOR_NO_NEW_ATOM}
+  N03_CANDIDATE_UNIVERSE_AUDITOR: {atoms: [Q17]}
+  N04_BASIS_CHANGE_REVALIDATOR: {atoms: [Q15,Q18], classification: COMPOSITE_NO_NEW_ATOM}
+  N05_RUNTIME_BINDER: {classification: EXECUTION_NO_NEW_ATOM}
+  N06_SELECTOR_CALIBRATOR: {atoms: [Q07,Q18], classification: SPECIALIZED_OPTIMIZATION_COMPOSITE}
+  N07_CROSS_MAP_RESIDUAL_SYNTHESIZER: {atoms: [Q04], lineage: MERGE_WITH_TOGETHER_MATH}
+  N08_HOLDOUT_FORGE: {classification: GENERATOR_NO_NEW_ATOM}
+  N09_TOOL_INTERACTION_LAB: {atoms: [Q04,Q18], lineage: TOGETHER_MATH_PLUS_VERIFICATION}
+  N10_SEMANTIC_DRIFT_SENTINEL: {atoms: [Q02,Q12], classification: COMPOSITE_NO_NEW_ATOM}
+
+first_pass_findings:
+  candidate_question_family_count: 22
+  c_capabilities_covered: 49
+  historical_cap_rows_covered: 33
+  novel_frontier_tools_covered: 10
+  major_named_tools_covered: true
+  confirmed_36_projection_collapses:
+    - C26_C31_architecture_improvement
+    - PD_scope_mode_instances
+    - tool_family_scope_variants
+  confirmed_same_question_new_math:
+    - MTA_structural_reductions
+    - MultiObject_arity_to_support_lattice
+    - RTC_search_controller_upgrades
+  confirmed_wrapper_only_changes:
+    - MTA_repository_persistence_closure
+    - HF001_reentry_attachment
+    - Tool_Run_Closure_attachment
+  confirmed_no_new_question_atoms:
+    - GDOS
+    - HF001
+    - Tool_Run_Closure
+    - Consequence_Closure
+    - MTM
+    - MTOS
+    - RSA
+    - Runtime_Binder
+    - Holdout_Forge
+    - Tool_Synthesizer
+  open_equivalence_edges:
+    - Q10_Reality_Check_vs_Q14_Identity_Check
+    - Q12_Current_Check_vs_temporal_projection_of_Q10
+    - Q15_Dependency_Math_vs_path_projection_of_Q09_Trace_Math
+    - Q16_Relation_Math_vs_low_arity_projection_of_Q04_Together_Math
+    - Q17_Novelty_Check_vs_negative_space_projection_of_Q22_Discovery_Math
+    - Q21_Ownership_Check_vs_governance_specialization_of_Q16_Relation_Math
+
+closure:
+  same_basis_new_question_classes_found_on_final_pass: 0
+  status: BASIS_RELATIVE_FIXED_POINT_CANDIDATE
+  global_completeness: OPEN
+  reason: portfolio history itself is high_recall_not_proven_exhaustive
