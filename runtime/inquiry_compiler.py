@@ -1,4 +1,8 @@
-"""Inquiry Compiler candidate: question -> formal inquiry -> PD refinement -> 36 probes."""
+"""Curiosity-first Inquiry Compiler.
+
+Question identity is refined before formalization. PD may reenter after
+formalization when the mathematical representation exposes new distinctions.
+"""
 from dataclasses import dataclass
 
 SCOPES=("SYSTEM","SUBSYSTEM","COMPONENT","INTERFACE","BOUNDARY_DECOMPOSITION","CROSS_LAYER")
@@ -23,7 +27,11 @@ class InquiryProbe:
 def expand36(q):
     return tuple(InquiryProbe(q,s,m) for s in SCOPES for m in MODES)
 
-def compile_question(raw_question,root_translate,pd_enrich):
-    q=root_translate(raw_question)
-    enriched=pd_enrich(q)
-    return enriched,expand36(enriched)
+def compile_question(raw_question,pd_question,root_translate,pd_audit=None):
+    refined=pd_question(raw_question)
+    formal=root_translate(refined)
+    if pd_audit is not None:
+        audited=pd_audit(formal)
+        if audited is not None:
+            formal=audited
+    return formal,expand36(formal)
