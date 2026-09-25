@@ -286,6 +286,32 @@ Examples of valid human corrections include:
 - two equations claimed equivalent are not equivalent;
 - a previously protected behavior vanished.
 
+
+## 8A. Discovery regeneration and fixed-point reentry
+
+HF1 does not inspect only material world-state change.
+
+After an admitted update, the wrapper regenerates the discovery state:
+
+Update
+-> Regenerate Views
+-> Regenerate Question Frontier
+-> Regenerate Candidate Universe
+-> Regenerate Relations
+-> Delta_discovery
+-> HF1
+
+Reentry is required when:
+
+Delta_world != 0
+OR
+Delta_discovery != 0
+
+A stable result is insufficient for closure while the representation, questions, candidates, relations, or other result-sensitive discovery state is still changing.
+
+ASSERT Compound Contract 055 owns the corresponding seven-stage assertion fixed-point engine.
+
+
 ## 9. Wrapper preservation signature
 
 Every wrapper version W_n has a preservation signature:
@@ -398,6 +424,9 @@ I17 visible math may generate result-sensitive human correction
 I18 specified != selected != executed != consumed
 I19 wrapper changes require Delta_Psi accounting
 I20 no protected behavior disappears silently
+I21 discovery-state change can trigger reentry even when world state is unchanged
+I22 relative closure requires discovery stability, not result stability alone
+I23 compound ASSERT retains ASSERT->COMPARE->RESOLVE->HERE->COMPARE->INQUIRE->REASSERT
 ```
 
 ## 13. Current OPEN coordinates
@@ -405,9 +434,9 @@ I20 no protected behavior disappears silently
 The following remain unresolved and must not be painted as closed:
 
 ```
-O1 exact Focus mathematics
-O2 exact deterministic Route mathematics for every tool
-O3 complete trigger equations for the full tool set
+O1 Focus mathematics: CANDIDATE_DEFINED in FOCUS_ROUTE_CONTRACT_054
+O2 deterministic Route mathematics: CANDIDATE_DEFINED in FOCUS_ROUTE_CONTRACT_054
+O3 full-spectrum trigger equations: CANDIDATE_DEFINED in FOCUS_ROUTE_CONTRACT_054
 O4 exact geometry-selection law
 O5 exact Eval mathematics
 O6 exact human-visible-math formalization
@@ -425,6 +454,8 @@ This artifact complements rather than silently supersedes:
 - runtime/math_first_wrapper.py
 - runtime/tool_run_closure.py
 - runtime/hf_controller.py
+- architecture/FOCUS_ROUTE_CONTRACT_054.md
+- architecture/ASSERT_COMPOUND_CONTRACT_055.md
 
 Where this working design differs from executable runtime, the difference is OPEN until implementation and verification.
 
@@ -436,6 +467,12 @@ Wrapper design work is relatively closed only when:
 Delta_Psi_result_sensitive = empty
 AND
 runtime_behavior matches admitted wrapper contract
+AND
+DiscoveryStable
+AND
+QuestionClosed
+AND
+ResidualClosed
 AND
 no live HF1 reentry trigger remains
 ```
