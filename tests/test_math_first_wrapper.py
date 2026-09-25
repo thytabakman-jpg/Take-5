@@ -6,6 +6,7 @@ from dataclasses import dataclass
 from jane import begin_turn
 from jane_supervisor import JaneSupervisoryState
 from math_first_wrapper import run_math_first_wrapper
+from representation_discovery import DiscoveryDelta
 
 
 @dataclass(frozen=True)
@@ -17,6 +18,13 @@ class Cert:
 class Closure:
     state:dict
     certificate:Cert
+
+
+@dataclass(frozen=True)
+class DiscoveryClosure:
+    state:dict
+    certificate:Cert
+    discovery_delta:DiscoveryDelta
 
 
 def _binding():
@@ -182,3 +190,47 @@ def test_jane_sync_runs_only_for_supervisory_relevant_admitted_delta():
     assert out.jane_state["syncs"]==1
     assert "provenance" in out.jane_state["changed"]
     assert out.rounds[0].jane_synced
+
+
+def test_take_two_discovery_delta_reenters_without_world_state_change():
+    """A new view/candidate cannot be mistaken for closure just because state is stable."""
+    binding=_binding()
+    rounds={"n":0}
+
+    def close(pre,ic_result,packet):
+        rounds["n"] += 1
+        material = rounds["n"] == 1
+        return DiscoveryClosure(
+            dict(pre),
+            Cert("CLOSED"),
+            DiscoveryDelta(
+                view_changed=material,
+                candidate_universe_changed=material,
+            ),
+        )
+
+    out=run_math_first_wrapper(
+        binding,
+        {"answer":"same"},
+        {},
+        observe_fn=lambda s,b:s,
+        formalize_fn=lambda o,b:{"m":"same"},
+        goal_fn=lambda m,b:"g",
+        architect_fn=lambda m,g,s,b:{
+            "type":"system","scope":"local","readings":[],"result_sensitive":[],
+            "selectors":[],"provenance":[],"open":[],"obligations":[],
+        },
+        ic_fn=lambda p:dict(p),
+        closure_fn=close,
+        update_fn=lambda p,c:c.state,
+        jane_update_fn=None,
+        result_fn=lambda s:s["answer"],
+    )
+
+    assert out.status=="CLOSED_RELATIVE"
+    assert len(out.rounds)==2
+    assert out.rounds[0].result_stable
+    assert out.rounds[0].discovery_material
+    assert out.rounds[0].reentry
+    assert not out.rounds[1].discovery_material
+    assert not out.rounds[1].reentry
