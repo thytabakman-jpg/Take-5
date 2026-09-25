@@ -65,3 +65,21 @@ def test_open_closure_stops_without_update():
     assert state==0
     assert receipt.terminal==Terminal.OPEN
     assert not updated
+
+
+def test_terminal_open_can_admit_typed_closure_state():
+    def round_fn(s):
+        return RoundResult("r",result_delta=True,open_coordinates=("Q",))
+    def closure_fn(s,r):
+        return ClosureResult("OPEN",value={"open":("Q",)},open_coordinates=("Q",),admit_on_terminal=True)
+    def update_fn(s,r,c):
+        return {**s,"open":c.value["open"]}
+    def terminal_fn(s,r,c):
+        return Terminal.CONTINUE
+
+    state,receipt=run_recursive_episode(
+        {},round_fn=round_fn,closure_fn=closure_fn,update_fn=update_fn,
+        terminal_fn=terminal_fn
+    )
+    assert receipt.terminal==Terminal.OPEN
+    assert state["open"]==("Q",)
