@@ -61,3 +61,12 @@ IC and Jane remain protected role-separated suboperators. The validated math-fir
 The learning lenses are now first-class IC candidates through a typed bridge. Missing runtime inputs leave the corresponding lens inapplicable and preserve OPEN; no lens is forced onto a problem merely because its mathematics exists.
 
 Current resume frontier: validate the frozen kernel/alignment mathematics against matched historical ICC runs, specify the alignment reconstruction operator, and only then implement it. The prior empirical execution-receipt/tool-cost frontier remains next after alignment validation.
+
+## GitHub operating boundary
+
+Repository governance is defined in `GITHUB_GOVERNANCE.md`.
+
+Material canonical changes use branch -> pull request -> validation -> admission -> merge.
+`MIGRATION_STATE.yaml` remains the authority pointer: Take-5 is canonical working state and
+Reaserch is rollback/provenance evidence. Post-cutover Reaserch writes require explicit
+reconciliation and do not become current by recency.
