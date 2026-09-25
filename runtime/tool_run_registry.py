@@ -7,14 +7,15 @@ LEARNING_TOOLS=tuple(spec.program_id for spec in LEARNING_SPECS)
 MATERIAL_TOOLS=tuple([f"C{i:02d}" for i in range(1,50)]+[
 "ImprovementCore","MTA","Architecture","PD","PDAudit","GDOS","Discriminator","Reconciler",
 "DelegatedExecutor","HF001","TRC","RTC","BiasPerturbation","CurrentnessAudit",
-"CapabilityFoundry","EmergentAdmission","HistoricalReconstruction","ZeroRequest","MultiObject","Diagnosis"
+"CapabilityFoundry","EmergentAdmission","HistoricalReconstruction","ZeroRequest","MultiObject","Diagnosis",
+"ASSERT"
 ]+list(LEARNING_TOOLS))
 
 def _spec(tool):
     strong=(
         tool in {
             "ImprovementCore","MTA","Architecture","PD","PDAudit","GDOS","RTC",
-            "CurrentnessAudit","MultiObject","Diagnosis"
+            "CurrentnessAudit","MultiObject","Diagnosis","ASSERT"
         }
         or tool in LEARNING_TOOLS
     )
