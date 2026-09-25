@@ -1,7 +1,7 @@
 # Artifact-to-Work Intake Contract 001
 
 Date: 2026-09-25
-Status: CANDIDATE INTERFACE CONTRACT / NOT YET IMPLEMENTED
+Status: CANDIDATE INTERFACE CONTRACT / BRIDGE IMPLEMENTED / SEMANTIC COVERAGE OPEN
 Source campaign: integration/ICC123_THREE_DAY_RECOVERY_CAMPAIGN_001_2026-09-25.md
 
 ## Job
@@ -160,8 +160,33 @@ V8 extracted executable claim cannot become executable without binding.
 V9 all admitted candidates reach Work/currentness or a typed terminal disposition.
 V10 false-negative holdout on unfamiliar artifacts.
 
+## Implementation evidence
+
+Current bridge:
+- runtime/artifact_intake.py
+
+Current regression coverage:
+- tests/test_artifact_intake.py
+
+Implemented behavior includes:
+- traversal receipts for every supplied admitted artifact;
+- accounting for every configured extraction generator per artifact;
+- typed unresolved extraction on generator failure;
+- routing of material ACCEPT/OPEN candidates into existing Work state;
+- no multiplication of rejected/non-load-bearing or known-equivalent candidates;
+- executable claims remain OPEN until bound;
+- generator-basis change detection for required re-evaluation.
+
+Validation evidence:
+- commit bc9c8c21b0b0137df12da603a7963d2d152af1d3 adds the executable bridge and tests;
+- Take-5 Validation run 36184950453 succeeded on the later main head and includes these regressions.
+
+This does not establish complete semantic extraction. The admitted generator basis, witness coverage,
+false-negative holdout, and generator-evolution re-scan behavior remain open validation work.
+
 ## Current disposition
 
 Mathematical/interface contract: SPECIFIED.
-Runtime implementation: OPEN.
+Runtime bridge: IMPLEMENTED_AND_REGRESSION_TESTED.
+Generator/semantic coverage: OPEN.
 Global semantic completeness: NOT CLAIMED.
