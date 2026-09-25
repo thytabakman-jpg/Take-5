@@ -1,7 +1,7 @@
 # Learning Tool Admission Decision 040
 
 Date: 2026-09-25
-Status: CANDIDATE_VALIDATION
+Status: IMPLEMENTED_VALIDATED
 Decision owner: IC
 Scope: post-wrapper next action
 
@@ -182,6 +182,25 @@ The candidate is acceptable only when all of the following hold:
 8. all tool IDs and obligation IDs are unique;
 9. every learning tool has a complete configured-run identity;
 10. the full Take-5 validation gate passes.
+
+## Validation evidence
+
+Implementation merged through PR #5.
+
+Merge commit:
+
+`4a5aef9d328023044e2ee18bcb691b009f2125a2`
+
+Main validation:
+
+- GitHub Actions run `36164389061`
+- conclusion: SUCCESS
+- full pytest suite passed
+- canonical whole-system audit passed
+- closed-loop fixture passed
+- zero-request dump passed
+
+The typed bridge is now part of the canonical Take-5 runtime.
 
 ## Deferred choices
 
