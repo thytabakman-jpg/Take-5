@@ -30,15 +30,15 @@ For every smallest mathematically meaningful rendered component, the characters 
 
 Allowed GREEN form:
 
-[
+\[
 \color{green}{R_{123}}
-]
+\]
 
 Allowed RED form:
 
-[
+\[
 \color{red}{G}
-]
+\]
 
 Not allowed:
 
@@ -55,7 +55,7 @@ Color is applied independently to every mathematically meaningful atom.
 
 Example:
 
-[
+\[
 \color{red}{C_{128}}
 (
 \color{red}{L},
@@ -69,7 +69,7 @@ Example:
 \color{red}{E},
 \color{red}{V}
 )
-]
+\]
 
 The expression is not assigned one overall color.
 
@@ -79,13 +79,13 @@ When a recovered relation is rendered, each mathematical component receives its 
 
 Example:
 
-[
+\[
 \color{green}{ICC128}
 \;\color{green}{\rightarrow}\;
 \color{green}{ICC123}
 \;\color{green}{\rightarrow}\;
 \color{green}{R_{123}}
-]
+\]
 
 This rendering is permitted only when all three components and both displayed relations are already GREEN in the audited source.
 
@@ -109,17 +109,17 @@ This hierarchy is presentation structure. It does not create new mathematics.
 
 The renderer must use a color-capable representation.
 
-For ChatGPT or MathJax-capable Markdown, use explicit inline or display math color commands such as:
+For ChatGPT or MathJax-capable Markdown, use real math delimiters. A color command outside a math delimiter is invalid because it renders as ordinary text. Use explicit display math such as:
 
-[
+\[
 \color{green}{x}
-]
+\]
 
 and
 
-[
+\[
 \color{red}{x}
-]
+\]
 
 For GitHub diagrams or any surface where inline math color is not reliably preserved, use an SVG where the text element itself has the required fill color.
 
@@ -174,8 +174,12 @@ The renderer may display inherited RED components.
 
 It may not introduce a new RED mathematical component.
 
+## Surface-syntax gate
+
+Before rendering, every state-bearing `\\color{...}{...}` token must occur inside a recognized math environment such as `\\[ ... \\]` or `\\( ... \\)`. A bare Markdown bracket pair `[ ... ]` is not a math environment and is a rendering failure.
+
 ## Failure test
 
-The renderer fails when any mathematical component that has a GREEN or RED state is displayed in ordinary black text while relying on a nearby square, legend, heading, or prose statement to communicate its state.
+The renderer fails when any mathematical component that has a GREEN or RED state is displayed in ordinary black text while relying on a nearby square, legend, heading, or prose statement to communicate its state. It also fails when a color command is emitted outside a recognized math delimiter.
 
 That failure invalidates the rendered output.
