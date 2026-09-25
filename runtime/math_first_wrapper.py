@@ -53,6 +53,7 @@ class WrapperRound:
     jane_synced: bool
     reentry: bool
     result_stable: bool
+    discovery_material: bool = False
 
 
 @dataclass(frozen=True)
@@ -120,6 +121,41 @@ def _closure_status(closure: Any) -> str:
     if status is not None:
         return str(status)
     raise RuntimeError("CLOSURE_STATUS_UNAVAILABLE")
+
+
+def _closure_discovery_material(closure: Any) -> bool:
+    """Return whether closure exposed a continuation-relevant discovery delta.
+
+    The closure may carry a DiscoveryDelta object or a mapping.  This keeps the
+    wrapper generic while protecting Take-Two-style reentry when representation,
+    views, question frontier, candidate universe, relations, evidence/authority,
+    or runtime reality change without a world-state mutation.
+    """
+    delta = getattr(closure, "discovery_delta", None)
+    if delta is None and isinstance(closure, Mapping):
+        delta = closure.get("discovery_delta")
+    if delta is None:
+        return False
+
+    material = getattr(delta, "material", None)
+    if material is not None:
+        return bool(material)
+
+    if isinstance(delta, Mapping):
+        if "material" in delta:
+            return bool(delta["material"])
+        keys = (
+            "state_changed",
+            "view_changed",
+            "question_frontier_changed",
+            "candidate_universe_changed",
+            "relation_changed",
+            "authority_or_evidence_changed",
+            "runtime_reality_changed",
+        )
+        return any(bool(delta.get(key)) for key in keys)
+
+    return bool(delta)
 
 
 def _ic_final_packet(ic_result: Any):
@@ -223,6 +259,7 @@ def run_math_first_wrapper(
         closure_status = _closure_status(closure)
         state = update_fn(pre_state, closure)
         delta = infer_delta(pre_state, state)
+        discovery_material = _closure_discovery_material(closure)
 
         relevance = bool(
             relevance_fn(delta, frozen_math=frozen, entry_binding=binding)
@@ -246,13 +283,19 @@ def run_math_first_wrapper(
 
         if closure_status in {"OPEN", "BLOCKED"}:
             receipts.append(
-                WrapperRound(index, frozen.fingerprint, closure_status, delta.changed, synced, False, result_stable)
+                WrapperRound(
+                    index, frozen.fingerprint, closure_status, delta.changed,
+                    synced, False, result_stable, discovery_material,
+                )
             )
             return MathFirstResult(state, jane_state, closure_status, tuple(receipts))
 
         if closure_status not in {"CLOSED", "RELATIVE_CLOSED", "CLOSED_RELATIVE"}:
             receipts.append(
-                WrapperRound(index, frozen.fingerprint, closure_status, delta.changed, synced, False, result_stable)
+                WrapperRound(
+                    index, frozen.fingerprint, closure_status, delta.changed,
+                    synced, False, result_stable, discovery_material,
+                )
             )
             return MathFirstResult(state, jane_state, "BLOCKED", tuple(receipts), "UNSUPPORTED_CLOSURE_STATUS")
 
@@ -261,6 +304,7 @@ def run_math_first_wrapper(
             if reentry_fn is not None
             else delta.material
         )
+        needs_reentry = bool(needs_reentry or discovery_material)
 
         receipts.append(
             WrapperRound(
@@ -271,6 +315,7 @@ def run_math_first_wrapper(
                 synced,
                 bool(needs_reentry),
                 result_stable,
+                discovery_material,
             )
         )
 
