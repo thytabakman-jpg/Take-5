@@ -1,7 +1,7 @@
 """IC-028 operator wrapper.
 
-Composes inquiry, reconciliation, persistence/supervision and reentry under one
-controller lease. Concrete project/tool functions are injected as handlers.
+Curiosity-first inquiry and the complete execution path run under one controller
+lease. Concrete project/tool functions are injected as handlers.
 """
 from dataclasses import dataclass
 from typing import Any, Callable
@@ -21,8 +21,9 @@ class OperatorResult:
     terminal:bool
     blocker:str|None=None
 
-STAGES=("RECOVER_GOAL","CURIOSITY_PD","FORMALIZE","PLAN_ORDER","EXECUTE",
-        "ADMIT","RECONCILE","PERSIST","VERIFY")
+STAGES=("RECOVER_GOAL","CURIOSITY_PD","FORMALIZE","PLAN_ORDER","OBSERVE",
+        "OBJECTIFY","GENERATE_WORK","SELECT","BIND","EXECUTE","ADMIT",
+        "RECONCILE","PROPAGATE_AFFECTED_CONE","PERSIST","VERIFY","COMPLETE")
 
 def run_ic028(lease:ControllerLease,state:Any,handlers:dict[str,Callable], *,
               jane_update:Callable|None=None,max_rounds:int=8):
@@ -47,6 +48,9 @@ def run_ic028(lease:ControllerLease,state:Any,handlers:dict[str,Callable], *,
                 material=material or bool(out.get("material_delta"))
                 supervisory=supervisory or bool(out.get("supervisory_relevant"))
                 last_delta=out.get("delta",last_delta)
+                if stage=="COMPLETE" and out.get("terminal"):
+                    receipts.append(OperatorReceipt(stage,"EXECUTED",out))
+                    return OperatorResult(current,receipts,True,None)
             elif out is not None:
                 current=out
             receipts.append(OperatorReceipt(stage,"EXECUTED",out))
