@@ -1,43 +1,47 @@
-# ICC-128 Output Layout Candidate 001
+# ICC-128 Output Layout Candidate 002
 
 Date 2026-09-25
 Status CANDIDATE / NON-CANONICAL
-Theory source: `architecture/ICC128_GREEN_LAYOUT_THEORY_001_2026-09-25.md`
+Theory source: `architecture/ICC128_GREEN_LAYOUT_THEORY_002_2026-09-25.md`
 Audited source: `thytabakman-jpg/Reaserch/ICC_128_CANDIDATE_V2_2026-09-25.md`
 
 # ICC-128
 
-## 1. Tool Identity
+## 1 Tool identity
 
-🟩 ICC-128
+[
+\color{red}{ICC128}
+]
 
-Displayed object: ICC-128 Candidate V2.
+ICC-128 remains RED as a fully reconstructed mathematical controller because its internal controller transformation is not fully recovered in the audited source.
 
-## 2. Core Mathematics
+## 2 Core mathematics
 
-Render the existing ICC-128 equations from the audited source exactly as audited.
+Render the audited component state directly in the characters:
 
-Apply color only to the smallest mathematically meaningful components.
+[
+\color{red}{C_{128}}
+(
+\color{red}{L},
+\color{red}{O},
+\color{green}{R_{123}},
+\color{green}{D_{PD}},
+\color{red}{G},
+\color{red}{A},
+\color{red}{M_{MT}},
+\color{red}{T_2},
+\color{red}{E},
+\color{red}{V}
+)
+]
 
-Current audited status from Candidate V2:
+No component-level state is communicated by a square placed before black text.
 
-🟥 controller / selector / admission / reentry / closure operation  
-🟥 ChatGPT language-model substrate  
-🟥 observer transformation  
-🟩 ICC-123 residual/distinction-generation operation  
-🟩 PD result-sensitive differentiation operation  
-🟥 goal-recovery operation  
-🟥 architecture-selection/reconstruction operation  
-🟥 MT transformation/perturbation operation  
-🟥 Take-Two representation/work-generation operation  
-🟥 execution transformation  
-🟥 verification transformation
+## 3 Native ICC-128 capabilities
 
-No new equation is introduced in this layout.
+These capabilities are attributed directly to ICC-128 in the audited source.
 
-## 3. Native Capabilities
-
-Capabilities presently attributed directly to ICC-128 in the audited source:
+Their rendered mathematical state must be taken from the audited reconstruction. Where no recovered mathematical atom exists, keep the capability as prose and do not invent a symbol.
 
 - controller/orchestration authority
 - recursive reentry
@@ -49,102 +53,124 @@ Capabilities presently attributed directly to ICC-128 in the audited source:
 - reconsideration after new observations
 - preservation of OPEN and unresolved work
 
-Each item retains the audited recovery color when rendered.
+The layout does not color prose capability names unless the audited source already contains a smallest mathematical component corresponding to that capability.
 
-Do not infer GREEN from placement in this section.
+## 4 Invokable tools
 
-## 4. Invokable Tools
+### ICC-123
 
-### 🟩 ICC-123 invocation relation
+[
+\color{green}{R_{123}}
+]
 
-Capabilities supplied through ICC-123:
+Capabilities supplied by ICC-123:
 
 - discover residual distinctions
 - preserve non-equivalent structures
 - identify unresolved structure hidden by the current representation
 - generate additional work/questions from residuals
 
-These capabilities are visually nested beneath ICC-123.
+These remain nested beneath ICC-123.
 
-They are not repeated as native ICC-128 capabilities unless separate evidence establishes native implementation.
+### PD
 
-### 🟩 PD invocation relation
+[
+\color{green}{D_{PD}}
+]
 
-Capabilities supplied through PD:
+Capabilities supplied by PD:
 
-- test whether apparently equivalent objects are behaviorally equivalent
+- test behavioral equivalence
 - identify result-sensitive distinctions
-- test whether a representation loses information
-- test minimality of a proposed representation
+- test information loss
+- test minimality
 
-These capabilities are visually nested beneath PD.
+These remain nested beneath PD.
 
-### 🟥 Goal audited mathematics
+### Goal
 
-ICC-128 can invoke Goal according to the audited source.
+[
+\color{red}{G}
+]
 
-Its internal mathematical reconstruction remains RED in Candidate V2.
+Goal can be invoked, but its internal mathematical transformation remains unresolved in the audited source.
 
-Display Goal beneath Invokable Tools, with its unresolved components colored RED at component level.
+### Architect
 
-### 🟥 Architect audited mathematics
+[
+\color{red}{A}
+]
 
-ICC-128 can invoke Architecture according to the audited source.
+Architect can be invoked, but its internal mathematical transformation remains unresolved in the audited source.
 
-Its internal mathematical reconstruction remains RED in Candidate V2.
+### MT
 
-Display Architect beneath Invokable Tools, with its unresolved components colored RED at component level.
+[
+\color{red}{M_{MT}}
+]
 
-### 🟥 MT audited mathematics
+MT can be invoked, but its internal mathematical transformation remains unresolved in the audited source.
 
-ICC-128 can invoke MT according to the audited source.
+### Take Two
 
-Its internal mathematical reconstruction remains RED in Candidate V2.
+[
+\color{red}{T_2}
+]
 
-Display MT beneath Invokable Tools, with its unresolved components colored RED at component level.
+Take Two can be invoked, but its internal mathematical transformation remains unresolved in the audited source.
 
-### 🟥 Take Two audited mathematics
+## 5 LLM substrate
 
-ICC-128 can invoke Take Two according to the audited source.
+[
+\color{red}{L}
+]
 
-Its internal mathematical reconstruction remains RED in Candidate V2.
+The exact mathematical operator remains unresolved.
 
-Display Take Two beneath Invokable Tools, with its unresolved components colored RED at component level.
+## 6 Open reconstruction frontier
 
-## 5. LLM Substrate
+[
+\color{red}{C_{128}},
+\;
+\color{red}{L},
+\;
+\color{red}{O},
+\;
+\color{red}{G},
+\;
+\color{red}{A},
+\;
+\color{red}{M_{MT}},
+\;
+\color{red}{T_2},
+\;
+\color{red}{E},
+\;
+\color{red}{V}
+]
 
-Capabilities attributed to the language-model substrate in the audited source:
+GREEN recovered components presently visible in Candidate V2:
 
-- generate candidate interpretations
-- generate candidate questions
-- synthesize evidence across representations
-- propose transformations and architectures
+[
+\color{green}{R_{123}},
+\;
+\color{green}{D_{PD}}
+]
 
-The exact mathematical operator remains RED in the audited source.
+## 7 Provenance
 
-This content is displayed as audited RED content, not as a newly created layout operator.
+Layout theory:
 
-## 6. Open Reconstruction Frontier
+`architecture/ICC128_GREEN_LAYOUT_THEORY_002_2026-09-25.md`
 
-Display only unresolved components already present in the audited object.
+GitHub-safe visual fallback:
 
-Do not generate new placeholders.
+`assets/icc128/icc128-green-red-layout-v2.svg`
 
-Do not create labels that pretend to formalize unresolved mathematics.
+Audited source:
 
-## 7. Provenance
-
-Layout theory artifact:
-`architecture/ICC128_GREEN_LAYOUT_THEORY_001_2026-09-25.md`
-
-Concrete layout artifact:
-`validation/ICC128_OUTPUT_LAYOUT_CANDIDATE_001_2026-09-25.md`
-
-Audited ICC-128 source:
 `thytabakman-jpg/Reaserch/ICC_128_CANDIDATE_V2_2026-09-25.md`
 
-## Result
+## Rendering requirement
 
-The layout design itself contains no newly introduced RED mathematical component.
-
-RED remains visible only where it belongs: inside the historical or currently audited ICC-128 object.
+A conforming output is invalid when state-bearing mathematical characters appear black and their state is communicated only by a square, legend, or prose label.
