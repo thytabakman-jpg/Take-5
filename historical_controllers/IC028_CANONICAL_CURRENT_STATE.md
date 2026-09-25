@@ -370,3 +370,47 @@ Current semantic finalization evidence:
 `projects/improvement-core/tool-ecosystem/IMPROVEMENT_CORE_MTA_FINALIZATION_001_2026-09-24.md`
 
 This is a semantic-currentness decision. Promoted runtime authority remains separately governed and is not changed by this integration.
+
+
+## Take-5 runtime realization update — 2026-09-25
+
+Current successor-development runtime evidence now includes a validated generic realization of the
+entry-prepared HF-001 + Tool Run Closure inquiry pattern.
+
+Current Equation capture:
+`research/THE_EQUATION_CURRENT_CAPTURE_014.md`
+
+Runtime realization evidence:
+`research/ICC_HISTORICAL_REPAIR_PATTERN_RUNTIME_REALIZATION_013.md`
+
+Implemented modules:
+- `runtime/entry_contract.py` — frozen target/controller/initial-mode entry contract;
+- `runtime/tool_run_closure.py` — generic recursive Tool Run Closure orchestration;
+- `runtime/recursive_episode.py` — interleaved closure-before-reentry HF-style session host;
+- `runtime/inquiry_session.py` — executable facade for the current Big Equation;
+- `runtime/ic028_operator.py` — mode-dependent observer-first ordering and entry enforcement.
+
+Validated protected behavior:
+- observer-first can be selected before goal/plan contamination;
+- the original self-application prompt is a regression fixture;
+- observer reconciliation crosses a closure boundary before core session work;
+- induced consequences recursively reenter TRC;
+- exact duplicate consequence identities are reversibly subsumed;
+- pending authorization and unknown consumer state remain OPEN;
+- terminal OPEN/BLOCKED closure state can be admitted when explicitly licensed;
+- recursive session rounds cross closure before update/reentry.
+
+Validation:
+Take-5 Validation run 139, validate job SUCCESS.
+
+Runtime truth is now split rather than represented by one broad OPEN:
+- generic TRC orchestration runtime: IMPLEMENTED_AND_TESTED;
+- generic HF recursive interleaving runtime: IMPLEMENTED_AND_TESTED;
+- Big Equation executable facade: IMPLEMENTED_AND_TESTED;
+- all-domain harvest/effect/verification/consumer bindings: PARTIAL / OPEN;
+- host persistence between chat turns: OPEN;
+- IC-028 runtime promotion: NOT AUTHORIZED.
+
+This update does not change the authority boundary:
+semantic candidate remains IC-028;
+promoted runtime remains IC-018 until a separate promotion decision is licensed.
