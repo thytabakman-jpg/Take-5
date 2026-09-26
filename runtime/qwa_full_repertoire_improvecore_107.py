@@ -10,6 +10,7 @@ from tool_run_registry import MATERIAL_TOOLS, CONFIGURED_RUNS
 from global_tool_execution import build_tool_execution_plan
 from question_worth_asking import QuestionCandidate, select_question
 from capability_runtime import execute_capability
+from learning_tool_bridge import make_learning_worker
 
 from learning_tool_bridge import SPECS as LEARNING_SPECS
 from improvement_core_dispatch import dispatch_improvement_core
