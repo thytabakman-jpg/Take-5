@@ -36,7 +36,7 @@ Controller:
 - IC-028
 
 Current regime version:
-- 084
+- 085
 
 Current invocation path:
 
@@ -44,6 +44,7 @@ user phrase
 -> runtime/improvement_core_dispatch.py
 -> [when target/job/basis are absent] runtime/improvement_core_upstream.py
 -> runtime/improvement_core_regime.py
+-> [when outside evidence/tool need is live] runtime/improvement_core_external_acquisition.py
 -> runtime/improvement_core_manager.py
 -> runtime/ic028_operator.py
 
@@ -105,6 +106,9 @@ architecture/IMPROVEMENT_CORE_ACTIVATION_083.md
 18. Take-5 authority, provenance, currentness, execution, closure and reentry safeguards.
 19. protected transition integrity across canonical identity, dispatch, execution, consumption, state update, reentry, and the user-visible boundary.
 20. bare ImproveCore invocation can seed governed upstream discovery from an addressable corpus without host-invented substantive job coordinates.
+21. materially required external evidence/tools are acquired before brute-force internal reconstruction when a bound adapter exists.
+22. unavailable materially required external capability preserves OPEN rather than manufacturing internal closure.
+23. external outputs enter as evidence and do not self-authorize.
 
 ## Cross-repository lineage
 
@@ -169,19 +173,21 @@ Global minimality remains OPEN.
 6. runtime/improvement_core_dispatch.py
 7. runtime/improvement_core_upstream.py
 8. runtime/improvement_core_regime.py
-9. runtime/improvement_core_manager.py
-10. runtime/ic028_operator.py
-11. runtime/improvement_core_recursive_manager.py
-12. runtime/improvement_core_learning_memory.py
-13. architecture/IMPROVEMENT_CORE_MAXIMIZATION_081.md
-14. architecture/CROSS_REPOSITORY_IMPROVEMENTCORE_LINEAGE_CHOICE_080.md
-15. research/IMPROVEMENT_CORE_USAGE_AUDIT_078_2026-09-26.md
-16. architecture/MATH_FIRST_WRAPPER_CLOSURE_039.md
-17. architecture/FULL_RUN_DEFAULT_DISPATCH_CONTRACT_066.md
-18. architecture/CANONICAL_TOOL_IDENTITY_REPAIR_076.md
-19. architecture/PROTECTED_TRANSITION_INTEGRITY_090.md
-20. integration/CURRENT_PROTECTED_TRANSITION_INTEGRITY.md
-21. MIGRATION_STATE.yaml
+9. runtime/improvement_core_external_acquisition.py
+10. architecture/IMPROVEMENT_CORE_EXTERNAL_ACQUISITION_090.md
+11. runtime/improvement_core_manager.py
+12. runtime/ic028_operator.py
+13. runtime/improvement_core_recursive_manager.py
+14. runtime/improvement_core_learning_memory.py
+15. architecture/IMPROVEMENT_CORE_MAXIMIZATION_081.md
+16. architecture/CROSS_REPOSITORY_IMPROVEMENTCORE_LINEAGE_CHOICE_080.md
+17. research/IMPROVEMENT_CORE_USAGE_AUDIT_078_2026-09-26.md
+18. architecture/MATH_FIRST_WRAPPER_CLOSURE_039.md
+19. architecture/FULL_RUN_DEFAULT_DISPATCH_CONTRACT_066.md
+20. architecture/CANONICAL_TOOL_IDENTITY_REPAIR_076.md
+21. architecture/PROTECTED_TRANSITION_INTEGRITY_090.md
+22. integration/CURRENT_PROTECTED_TRANSITION_INTEGRITY.md
+23. MIGRATION_STATE.yaml
 
 ## Related current recovery anchors
 
@@ -234,6 +240,16 @@ When target/job/basis are not supplied, the dispatcher can accept an addressable
 Partial target/job/basis coordinates fail closed. Missing corpus also fails closed.
 
 This closes the repository-side zero-request runtime gap. Universal external-host interception remains OPEN.
+
+## External acquisition
+
+When state signals a material need for fresh/outside evidence or an external capability, ImproveCore performs an external-acquisition preflight before substantive internal reconstruction. Bound adapters can represent connected sources, repository research, web search, or external tools.
+
+When the need is material and no adequate adapter is available, the regime returns a typed OPEN gap rather than treating internal guessing as completion.
+
+External outputs remain evidence. They still pass through normal admission, verification, authority, currentness, and reentry controls.
+
+Automatic discovery of every host capability and universal host interception remain OPEN.
 
 ## OPEN coordinates
 
