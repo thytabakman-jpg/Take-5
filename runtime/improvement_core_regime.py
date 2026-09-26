@@ -7,7 +7,8 @@ outside capability is unavailable, the regime preserves a typed OPEN gap
 instead of pretending internal work closed it.
 """
 from dataclasses import dataclass
-from typing import Any, Callable
+import json
+from typing import Any, Callable, Mapping
 
 from improvement_core_manager import (
     run_improvement_core_manager,
@@ -121,6 +122,174 @@ def _record_recursive_knowledge(recursive_result,knowledge_ledger,basis):
         )
 
 
+def _material_configured_round(raw,delta):
+    raw=raw if isinstance(raw,Mapping) else {}
+    delta=delta if isinstance(delta,Mapping) else {}
+    return bool(
+        raw.get("material_delta")
+        or delta.get("material_result_delta")
+        or delta.get("material_search_delta")
+        or delta.get("material_discovery_delta")
+        or delta.get("negative_evidence")
+        or delta.get("open_refinement")
+        or delta.get("changed_representation")
+    )
+
+
+def _record_configured_tool_knowledge(state,knowledge_ledger,basis):
+    """Durably capture every material configured-tool round before closure.
+
+    Configured execution state is transient controller state. This bridge converts
+    material configured outputs, including intermediate HF2 rounds, into durable
+    knowledge nodes with tool identity, execution basis, provenance, evidence,
+    dependency coordinates, related/affected objects, and recurrence metadata.
+    """
+    if not isinstance(state,dict):
+        return
+
+    for output_index,output in enumerate(state.get("configured_tool_outputs",())):
+        if not isinstance(output,Mapping):
+            continue
+
+        tool_id=str(output.get("tool_id","")).strip()
+        if not tool_id:
+            continue
+
+        binding=output.get("binding",{})
+        binding=dict(binding) if isinstance(binding,Mapping) else {}
+        recurrence=output.get("recurrence")
+        recurrence=dict(recurrence) if isinstance(recurrence,Mapping) else {}
+        trace=tuple(recurrence.get("trace",())) if recurrence else ()
+
+        structural_dependencies={
+            f"configured_tool:{tool_id}",
+        }
+        for key in ("invocation_profile","geometry","recurrence_engine"):
+            value=binding.get(key)
+            if value:
+                structural_dependencies.add(f"{key}:{value}")
+
+        captured=False
+        for round_index,row in enumerate(trace):
+            if not isinstance(row,Mapping):
+                continue
+            raw=row.get("raw_result",{})
+            raw=dict(raw) if isinstance(raw,Mapping) else {}
+            delta=row.get("delta",{})
+            delta=dict(delta) if isinstance(delta,Mapping) else {}
+            if not _material_configured_round(raw,delta):
+                continue
+
+            related={
+                str(x) for x in raw.get("related_objects",()) if str(x)
+            }
+            affected={
+                str(x) for x in raw.get("affected_objects",()) if str(x)
+            }
+            related.update(affected)
+            related.update({tool_id,f"configured_run:{tool_id}"})
+
+            deps={
+                str(x) for x in raw.get("dependency_footprint",()) if str(x)
+            }
+            deps.update(structural_dependencies)
+
+            statement=json.dumps(
+                {
+                    "tool_id":tool_id,
+                    "status":str(raw.get("status",output.get("status","EXECUTED"))),
+                    "execution_truth":str(
+                        raw.get(
+                            "execution_truth",
+                            output.get("execution_truth","IMPLEMENTATION_EXECUTED"),
+                        )
+                    ),
+                    "result":raw.get("result",output.get("result")),
+                },
+                sort_keys=True,
+                separators=(",",":"),
+                default=str,
+            )
+            knowledge_ledger.record(
+                kind="MATERIAL_TRANSITION",
+                statement=statement,
+                basis_id=str(basis),
+                source_episode="improvement-core-configured-tool",
+                source_route=f"configured_tool:{tool_id}",
+                disposition="CAPTURED",
+                related_objects=tuple(sorted(related)),
+                dependency_footprint=tuple(sorted(deps)),
+                evidence_refs=tuple(
+                    str(x) for x in raw.get("evidence",output.get("evidence",()))
+                    if str(x)
+                ),
+                metadata={
+                    "configured_output_index":output_index,
+                    "hf2_round_index":round_index,
+                    "binding":binding,
+                    "recurrence_engine":recurrence.get("engine"),
+                    "recurrence_status":recurrence.get("status"),
+                    "recurrence_disposition":row.get("disposition"),
+                    "delta":delta,
+                    "affected_objects":tuple(sorted(affected)),
+                },
+            )
+            captured=True
+
+        if captured:
+            continue
+        if not bool(output.get("material_delta",False)):
+            continue
+
+        related={
+            str(x) for x in output.get("related_objects",()) if str(x)
+        }
+        affected={
+            str(x) for x in output.get("affected_objects",()) if str(x)
+        }
+        related.update(affected)
+        related.update({tool_id,f"configured_run:{tool_id}"})
+
+        deps={
+            str(x) for x in output.get("dependency_footprint",()) if str(x)
+        }
+        deps.update(structural_dependencies)
+
+        statement=json.dumps(
+            {
+                "tool_id":tool_id,
+                "status":str(output.get("status","EXECUTED")),
+                "execution_truth":str(
+                    output.get("execution_truth","IMPLEMENTATION_EXECUTED")
+                ),
+                "result":output.get("result"),
+            },
+            sort_keys=True,
+            separators=(",",":"),
+            default=str,
+        )
+        knowledge_ledger.record(
+            kind="MATERIAL_TRANSITION",
+            statement=statement,
+            basis_id=str(basis),
+            source_episode="improvement-core-configured-tool",
+            source_route=f"configured_tool:{tool_id}",
+            disposition="CAPTURED",
+            related_objects=tuple(sorted(related)),
+            dependency_footprint=tuple(sorted(deps)),
+            evidence_refs=tuple(
+                str(x) for x in output.get("evidence",()) if str(x)
+            ),
+            metadata={
+                "configured_output_index":output_index,
+                "binding":binding,
+                "recurrence_engine":recurrence.get("engine"),
+                "recurrence_status":recurrence.get("status"),
+                "affected_objects":tuple(sorted(affected)),
+            },
+        )
+
+
 def run_improvement_core_regime(
     user_text:str,
     *,
@@ -183,6 +352,7 @@ def run_improvement_core_regime(
     current=manager_result.result.state
     _record_stage_learning(current,lm)
     _record_stage_knowledge(current,kl,basis)
+    _record_configured_tool_knowledge(current,kl,basis)
 
     live=isinstance(current,dict) and bool(current.get("live_continuation"))
     if not live:
