@@ -36,7 +36,7 @@ Controller:
 - IC-028
 
 Current regime version:
-- 087
+- 088
 
 Current invocation path:
 
@@ -59,6 +59,13 @@ runtime/improvement_core_regime.py
 
 Learning memory participates through:
 - runtime/improvement_core_learning_memory.py
+
+Every governed run also ends with:
+- runtime/improvement_core_afterrun.py
+- runtime/improvement_core_response_bias.py
+- runtime/object_lifecycle.py
+
+The after-run records learning, projects the recovered response preference, scans system and input-framing bias risks, and processes newly surfaced managed objects through the prospective lifecycle. Preference never overrides evidence or typed execution/currentness status.
 
 The narrow runtime/improvement_core.py remains subordinate and is not the user-facing manager identity.
 
@@ -114,6 +121,11 @@ architecture/IMPROVEMENT_CORE_ACTIVATION_083.md
 26. representation sufficiency is continuation-relative.
 27. discovery/representation/candidate-universe changes can force reentry.
 28. previously verified active contributions cannot silently disappear without explicit revision.
+29. every governed run executes ImproveCoreAfterRun before return.
+30. response preference is projected on every governed run without truth authority.
+31. system-side and input-framing bias risks are scanned on every governed run.
+32. new managed IDEA/PROJECT/TOOL/PROGRAM objects enter prospective semantic lifecycle capture.
+33. project/idea obligations remain typed and OPEN where unresolved rather than being hidden by a cloned file tree.
 29. entry mode preserves orthogonal breadth, direction, and coupling coordinates.
 30. broad observer and focused resolution remain distinct observer configurations.
 31. focused resolution remains observer-first rather than silently becoming outcome-directed action.
@@ -338,3 +350,14 @@ Universal host interception remains OPEN.
 - recursive ImprovementCore
 - ImproveCore learning memory
 - Take Two ImproveCore vision
+
+
+## Mandatory after-run response, bias and object lifecycle 088
+
+Every governed ImprovementCore use now produces an after-run receipt containing self-improvement learning, the current response-preference projection, bias-risk corrections, and lifecycle receipts for newly surfaced managed objects.
+
+The recovered durable semantic package is CORE.md + MANIFEST.md + 36 directed scope-transition pages. Project and idea lifecycle obligations are layered on top rather than replacing this package with six arbitrary files.
+
+Project readiness debt from the registered Reaserch corpus is tracked at integration/PROJECT_READINESS_QUEUE_093.yaml. That scan does not silently change canonical project goals; existing authority gates remain in force.
+
+The new ImproveCoreAfterRun tool itself is captured at semantic_objects/tool-improvecore-after-run with 38 required pages. Its cell-specific transition semantics remain explicitly OPEN where not yet proven.
