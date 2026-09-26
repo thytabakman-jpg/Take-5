@@ -8,6 +8,7 @@ from dataclasses import dataclass
 from capability_router import coverage
 from delegation_officer import plan_delegation
 from entry_contract import bind_entry_contract, entry_is_bound
+from jane_continuity import recover_continuity, controller_context
 
 @dataclass(frozen=True)
 class JanePacket:
@@ -51,3 +52,20 @@ def human_view(packet):
         "open":packet.open_items,
         "receipt_count":len(packet.receipts),
     }
+
+
+def recover_turn_continuity(currentness, *, protected_behaviors=(), open_coordinates=(),
+                            capability_gaps=(), evidence_refs=()):
+    """Recover typed supervisory continuity context for a new turn.
+
+    This exposes durable entry-state reconstruction through Jane's normal interface
+    without granting Jane substantive controller authority.
+    """
+    packet=recover_continuity(
+        currentness,
+        protected_behaviors=protected_behaviors,
+        open_coordinates=open_coordinates,
+        capability_gaps=capability_gaps,
+        evidence_refs=evidence_refs,
+    )
+    return packet,controller_context(packet)
