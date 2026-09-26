@@ -1,0 +1,144 @@
+schema_version: 1
+object_id: TAKE5_TARGET_GAP_LEDGER_091
+date: 2026-09-26
+status: IMPROVECORE_CANDIDATE
+target: architecture/TAKE5_TARGET_SYSTEM_091.md
+
+success_condition:
+  ordinary_entry:
+    - reconstruct_current_state
+    - discover_justified_work
+    - select_and_bind_real_capabilities
+    - acquire_outside_evidence_when_valuable
+    - execute_and_record_truth
+    - admit_reconcile_verify
+    - propagate_affected_cone
+    - persist_event_and_current_state
+    - regenerate_frontier
+    - automatically_reenter
+    - return_relative_close_or_typed_gap
+
+gaps:
+  - id: G01
+    name: entry_state_reconstruction
+    status: PARTIAL
+    owner: Jane
+    current_evidence: architecture/DESIRED_JANE_TOOL_061.md
+    target: reconstruct target job basis constraints currentness provenance and frontier from durable state/history
+    first_proof: entry holdout requiring no manually supplied state packet
+
+  - id: G02
+    name: zero_request_upstream_discovery
+    status: OPEN
+    owner: EndogenousWork+ImprovementCore
+    current_evidence: architecture/IMPROVEMENT_CORE_MAXIMIZATION_081.md
+    target: corpus/state-grounded work generation without manufacturing authority
+    first_proof: prospective no-substantive-job holdout producing justified work and correct non-work
+
+  - id: G03
+    name: automatic_recursive_handler_binding
+    status: OPEN
+    owner: ImprovementCore
+    current_evidence: architecture/IMPROVEMENT_CORE_ACTIVATION_083.md
+    target: derive child execution bindings from admitted capability/runtime registry
+    first_proof: live continuation executes child without caller supplying recursive_handlers
+
+  - id: G04
+    name: full_capability_reachability
+    status: OPEN
+    owner: CapabilityRuntime
+    current_evidence: research/BEHAVIOR_FIRST_CAPABILITY_UNIVERSE_001.md
+    target: every materially distinct admitted executable capability can be selected bound executed and result-used when its trigger is live
+    first_proof: matched familiar/unfamiliar capability holdouts plus selected-vs-executed ledger
+
+  - id: G05
+    name: discovery_to_work_to_reentry
+    status: PARTIAL
+    owner: Jane+EndogenousWork+ImprovementCore
+    current_evidence: architecture/DESIRED_JANE_TOOL_061.md
+    target: every continuity-relevant discovery automatically becomes typed work or terminal non-work disposition
+    first_proof: discovery generated mid-run reaches execution/disposition without user prompt
+
+  - id: G06
+    name: durable_event_history
+    status: PARTIAL
+    owner: Kernel+ResearchState
+    current_evidence: runtime/research_system.py
+    target: append-only event/execution history sufficient to reconstruct current state and replay decisions
+    first_proof: rebuild current state from history after deleting derived cache/state
+
+  - id: G07
+    name: automatic_affected_cone_propagation
+    status: PARTIAL
+    owner: Kernel+Currentness
+    current_evidence: research/IC023_AUTONOMOUS_CONVERSATION_READ_042.md
+    target: material delta automatically identifies and revalidates every affected consumer
+    first_proof: injected upstream semantic change causes all dependent currentness receipts to reopen
+
+  - id: G08
+    name: semantic_anti_orphan_closure
+    status: OPEN
+    owner: CorpusAudit
+    current_evidence: audit/FULL_CORPUS_PLACEMENT_AUDIT_2026-09-26.md
+    target: every material corpus finding receives semantic disposition and canonical relation
+    first_proof: final SemanticDispositionLedger plus ProofCore PASS on frozen corpus
+
+  - id: G09
+    name: outside_capability_routing
+    status: CANDIDATE_VALIDATED_BRANCH
+    owner: ImprovementCore
+    current_evidence: architecture/IMPROVEMENT_CORE_EXTERNAL_ACQUISITION_090.md
+    target: outside evidence/tool route precedes expensive internal reconstruction when higher-value and preserves OPEN when unavailable
+    first_proof: merged validation plus live host adapter holdouts
+
+  - id: G10
+    name: universal_host_interception
+    status: OPEN
+    owner: HostBoundary
+    current_evidence: integration/CURRENT_IMPROVEMENT_CORE.md
+    target: ordinary host entry cannot bypass canonical bootstrap/controller/wrapper
+    first_proof: host-level integration test across independent sessions
+
+  - id: G11
+    name: route_cost_calibration
+    status: OPEN
+    owner: ImprovementCore
+    current_evidence: architecture/ARCHITECTURE_DECISION_036_MATH_FIRST_TOOL_SELECTION.md
+    target: empirically grounded tool and external-acquisition cost model
+    first_proof: matched cheap-route versus broad-attack benchmark corpus
+
+  - id: G12
+    name: autonomous_multi_episode_holdouts
+    status: OPEN
+    owner: Validation
+    current_evidence: architecture/CROSS_REPOSITORY_IMPROVEMENTCORE_LINEAGE_CHOICE_080.md
+    target: verified cumulative behavior across unlike multi-episode tasks
+    first_proof: prospective holdouts demonstrating memory propagation reselection and closure
+
+priority_order:
+  - G01
+  - G05
+  - G03
+  - G06
+  - G07
+  - G04
+  - G02
+  - G09
+  - G08
+  - G11
+  - G12
+  - G10
+
+priority_reason:
+  principle: restore_closed_loop_before_expanding_capability_count
+  explanation: >
+    Entry reconstruction, discovery-to-work continuity, child binding, durable history,
+    and affected-cone propagation are the shortest dependency chain that turns existing
+    pieces into one autonomous operating loop. More tools do not repair a broken loop.
+
+completion_gate:
+  requires:
+    - all_priority_gaps_terminal_or_typed_open_with_nonfalse_completion_scope
+    - prospective_holdouts_pass
+    - ProofCore_passes_target_contract
+    - ordinary_entry_uses_current_regime
