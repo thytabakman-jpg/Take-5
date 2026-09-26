@@ -72,6 +72,39 @@
         "capability_preservation": 36265770012,
         "merge_commit": "4fcbb2ef98e830d648ff09c4630d3440b0c2a1fb"
       }
+    },
+    {
+      "knowledge_id": "K-improvecore-hf2-choice-20260926",
+      "kind": "SOLUTION",
+      "statement": "ImprovementCore with HF2 chose to close ImprovementCore's own explicit protected-behavior manifest first.",
+      "basis_id": "take5-regime-090",
+      "disposition": "CAPTURED",
+      "related_objects": [
+        "ImprovementCore",
+        "HF002",
+        "ToolManifest",
+        "ConfiguredFunctionIR"
+      ],
+      "dependency_footprint": [
+        "runtime/tool_manifest.py",
+        "runtime/tool_manifest_audit.py",
+        "runtime/configured_function_ir.py",
+        "integration/CURRENT_TOOL_REALITY.md"
+      ],
+      "evidence_refs": [
+        "artifacts/improvecore/IMPROVEMENTCORE_HF2_CHOICE_001_2026-09-26.json",
+        "architecture/IMPROVEMENT_CORE_FUNCTION_FIRST_HOLDOUT_112.md",
+        "integration/CURRENT_TOOL_REALITY.md"
+      ],
+      "provenance": [
+        {
+          "source_episode": "improvecore-hf2-make-a-choice-20260926-001",
+          "source_route": "HF002_RELATIVE_CLOSE"
+        }
+      ],
+      "metadata": {
+        "choice": "CLOSE_IMPROVEMENTCORE_EXPLICIT_PROTECTED_BEHAVIOR_MANIFEST_FIRST"
+      }
     }
   ],
   "history": [
@@ -118,6 +151,18 @@
       "metadata": {
         "validation_status": "SUCCESS"
       }
+    },
+    {
+      "sequence": 4,
+      "knowledge_id": "K-improvecore-hf2-choice-20260926",
+      "action": "CAPTURE",
+      "disposition": "CAPTURED",
+      "source_episode": "improvecore-hf2-make-a-choice-20260926-001",
+      "source_route": "HF002_RELATIVE_CLOSE",
+      "evidence_refs": [
+        "artifacts/improvecore/IMPROVEMENTCORE_HF2_CHOICE_001_2026-09-26.json"
+      ],
+      "metadata": {}
     }
   ]
 }
