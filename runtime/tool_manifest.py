@@ -81,6 +81,18 @@ GENERIC_BINDINGS=(
         "runtime/protected_transition_integrity.py",
         "tests/test_protected_transition_integrity.py",
     ),
+    ProtectedBinding(
+        "CONFIGURED_HF2_RECURRENCE",
+        "CROSS",
+        "runtime/configured_hf2_execution.py",
+        "tests/test_full_invocation_portfolio.py",
+    ),
+    ProtectedBinding(
+        "FULL_CONFIGURED_INVOCATION_PROFILE",
+        "CROSS",
+        "runtime/direct_tool_command_gateway.py",
+        "tests/test_full_invocation_portfolio.py",
+    ),
 )
 
 MT_BINDINGS=GENERIC_BINDINGS+(
