@@ -1,7 +1,7 @@
 schema_version: 0.1
 workstream_id: ICWS-2026-09-26-CONCURRENCY-PREFLIGHT-084
 status: ISOLATED_CANDIDATE
-base_commit: d03228490a33998245fcd8ed6de77f013162781d
+base_commit: 39ca5616d3d8e23042f0ac887d0a447e24ec8ddf
 frozen_job: >
   Improve ImprovementCore without colliding with concurrent ImproveCore work by
   making declared workstream dependency footprints executable as a fail-closed
