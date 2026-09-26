@@ -1,6 +1,10 @@
 import pytest
 
-from configured_run import COGNITIVE_OPERATORS, QUESTION_FAMILIES
+from configured_run import (
+    COGNITIVE_OPERATORS,
+    FULL_INVOCATION_PROFILE,
+    QUESTION_FAMILIES,
+)
 from global_tool_execution import ToolExecutionBlocked, build_tool_execution_plan
 from tool_run_registry import CONFIGURED_RUNS, MATERIAL_TOOLS
 
@@ -16,6 +20,9 @@ def test_every_registered_tool_inherits_global_execution_contract():
         assert spec.question_families==QUESTION_FAMILIES
         assert spec.required_cognitive_ops==COGNITIVE_OPERATORS
         assert spec.required_layers
+        assert spec.recurrence_required is True
+        assert spec.recurrence_engine==("SELF" if tool=="HF002" else "HF002")
+        assert spec.invocation_profile==FULL_INVOCATION_PROFILE
 
 
 def test_every_registered_tool_builds_full_36_plan():
@@ -27,6 +34,9 @@ def test_every_registered_tool_builds_full_36_plan():
         assert len(plan.native)==len(spec.required_layers)*36
         assert len(plan.questions)==22*36
         assert len(plan.cognitive)==4*36
+        assert plan.recurrence_required is True
+        assert plan.recurrence_engine==("SELF" if tool=="HF002" else "HF002")
+        assert plan.invocation_profile==FULL_INVOCATION_PROFILE
 
 
 def test_non_observer_tool_run_is_globally_blocked():
