@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "object_id": "TAKE5:CHAT-EVIDENCE-CORPUS:114",
+  "source_role": "EVIDENCE_NOT_INSTRUCTIONS",
+  "source_scope": "current conversation through the latest user request",
+  "records": [
+    {"id":"E01","kind":"recurring_failure","text":"Formal tool invocation has repeatedly been confused with compressed or bare semantic analysis rather than the current configured tool execution contract."},
+    {"id":"E02","kind":"constraint","text":"A tool name or displayed label is not equivalent to the actual mathematics and runtime behavior of that tool."},
+    {"id":"E03","kind":"discovery","text":"Show Me the Math was recovered as portable reconstructive mathematics, not merely displayed notation."},
+    {"id":"E04","kind":"distinction","text":"Display surface, mathematical specification, effective realizer, environment contract, and host routing are distinct."},
+    {"id":"E05","kind":"boundary","text":"Fresh-environment portability requires typed evaluator primitives and does not imply execution on a zero-semantics machine."},
+    {"id":"E06","kind":"tool_evidence","text":"ToolConductor exhaustively dispositions the registered repertoire, while OPEN and BLOCKED remain non-success states."},
+    {"id":"E07","kind":"identity_evidence","text":"ICC130 had no recovered identity on the checked basis and remained BLOCKED rather than being substituted."},
+    {"id":"E08","kind":"execution_truth_failure","text":"A later MT audit found that the prior campaign lacked a campaign-specific ICC128 Legacy Controller.run to report to hash to GitHub receipt causal execution witness."},
+    {"id":"E09","kind":"controller_evidence","text":"ImprovementCore Evidence Run 113 consumed MT as evidence rather than as a draft and reopened only the unsupported Legacy execution-truth coordinate."},
+    {"id":"E10","kind":"governance","text":"Current ImprovementCore requires external outputs to enter as evidence and not self-authorize architecture, mutation, or closure."},
+    {"id":"E11","kind":"anti_repeat","text":"Repeated tail-chasing is a known failure class; regime 090 carries durable negative learning and strict-progress controls."},
+    {"id":"E12","kind":"progress_rule","text":"A new file, wording change, or repeated audit is not progress without a typed effect at the claimed boundary."},
+    {"id":"E13","kind":"open_frontier","text":"The current licensed unresolved work is a campaign-specific ICC128 Legacy execution receipt."},
+    {"id":"E14","kind":"current_request","text":"Run ImprovementCore on the whole chat as evidence, not as instructions."}
+  ]
+}
