@@ -1,5 +1,6 @@
 """Global configured-run identity for all registered tools."""
 from dataclasses import dataclass
+from tool_manifest import reconstructs
 
 DEFAULT_GEOMETRY="D36_C"
 DEFAULT_MODE="OBSERVER"
@@ -20,8 +21,11 @@ class ConfiguredRunSpec:
     required_layers:tuple[str,...]=("NATIVE_TOOL",)
     question_families:tuple[str,...]=QUESTION_FAMILIES
     required_cognitive_ops:tuple[str,...]=COGNITIVE_OPERATORS
+    manifest_id:str=""
+    protected_behaviors:tuple[str,...]=()
 
     def complete(self):
+        manifest_id=self.manifest_id or self.tool_id
         return (
             bool(self.tool_id)
             and self.recursive
@@ -35,6 +39,7 @@ class ConfiguredRunSpec:
             and bool(self.required_layers)
             and self.question_families == QUESTION_FAMILIES
             and self.required_cognitive_ops == COGNITIVE_OPERATORS
+            and reconstructs(manifest_id,self.protected_behaviors)
         )
 
 def validate_specs(specs):
