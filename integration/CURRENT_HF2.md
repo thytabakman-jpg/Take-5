@@ -79,13 +79,43 @@ Recovered from Reaserch:
 
 Take-5 promotion is new and requires Take-5 validation.
 
+## Current registered-repertoire promotion
+
+The current finite registered Take-5 repertoire now carries HF2 recurrence as part of the full configured invocation identity.
+
+For current registered tool T:
+
+Rec(T)=HF002
+
+except:
+
+Rec(HF002)=SELF.
+
+Current invocation profile:
+
+FULL_CONFIGURED_HF2_V1.
+
+Protected routes include:
+- direct imperative formal-tool commands;
+- ImprovementCore selected-tool execution;
+- PTI end-to-end configured transitions;
+- ToolConductor factor execution.
+
+Recovery anchor:
+
+integration/CURRENT_FULL_TOOL_INVOCATION.md
+
+Whole-repertoire audit:
+
+runtime/full_invocation_portfolio.py
+
 ## OPEN
 
-- universal wrapper promotion for every Take-5 configured tool;
+- open-world future or unregistered formal objects until admitted and validated;
 - minimal generic local state;
 - infinite-frontier fairness;
 - unbounded termination;
-- universal host binding.
+- universal external-host binding.
 
 
 ## Take-5 promotion evidence
@@ -97,7 +127,7 @@ PR #65
 Promoted validated use:
 HF2[RootCause] local same-capability recurrence.
 
-Universal HF2 wrapper promotion across every configured Take-5 tool remains OPEN.
+The historical all-tool promotion frontier is now CLOSED_RELATIVE for the current registered Take-5 repertoire. Open-world and external-host universality remain outside that finite claim.
 
 
 ## ImprovementCore campaign composition
@@ -128,8 +158,7 @@ and changed semantic state. HF1 upstream reentry escapes the local loop.
 Validation surface:
 architecture/IMPROVEMENT_CORE_DEFAULT_HF2_118.md
 
-This promotion is ImprovementCore-specific. Universal HF2 wrapper promotion across every
-configured Take-5 tool remains OPEN.
+This was the first user-facing default promotion. The later FULL_CONFIGURED_HF2_V1 repair generalized recurrence across the current registered Take-5 repertoire. Open-world and external-host universality remain outside that finite claim.
 
 
 ## ImprovementCore default-promotion evidence
@@ -142,4 +171,34 @@ PR #116
 Promoted validated use:
 HF2[ImprovementCore] as default local same-capability recurrence.
 
-Universal HF2 promotion across every configured tool remains OPEN.
+Current registered-repertoire HF2 promotion is CLOSED_RELATIVE under FULL_CONFIGURED_HF2_V1. Future unregistered/open-world tools and universal external-host binding remain outside that closure.
+
+
+## Full configured invocation promotion evidence
+
+Primary profile merge:
+
+PR #117
+merge: 2b86fdc500f5ad1b35fa578b7c96bd92feb99f41
+
+Regime-091 transported validation:
+- Take-5 Validation 36270850293 SUCCESS
+- Capability Preservation 36270850299 SUCCESS
+
+Post-merge bypass closure:
+
+PR #119
+merge: f35577993d076e9113db0bc6e62b91d89b062565
+
+Post-merge validation:
+- Take-5 Validation 36271301228 SUCCESS
+- Capability Preservation 36271301286 SUCCESS
+
+Post-merge Think-big reentry:
+tests/test_improvecore_hf2_think_big_reentry_20260926.py
+
+Final repository-owned disposition:
+
+CURRENT_REGISTERED_REPERTOIRE_HF2_INVOCATION = CLOSED_RELATIVE.
+
+Universal external host interception = EXTERNAL_NOT_OWNED.
