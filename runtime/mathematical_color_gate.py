@@ -28,6 +28,7 @@ class RecoveryAssessment:
     claim: str
     required_coordinates: tuple[str, ...]
     unresolved_coordinates: tuple[str, ...]
+    complete_for_use: bool
     status: MathStatus
 
 
@@ -39,10 +40,11 @@ def assess_recovery(
     required_coordinates: Sequence[str],
     coordinate_status: Mapping[str, str],
 ) -> RecoveryAssessment:
-    """Derive emission status relative to the current job and claim.
+    """Return a binary complete-for-use verdict for this exact job and claim.
 
-    Fail closed. A name, partial implementation, or locally verified subclaim
-    does not make the larger object RECOVERED.
+    GREEN/RECOVERED is permitted only when the entire mathematics required by
+    this exact use is figured out. Any missing, partial, ambiguous, conflicting,
+    open, blocked, or merely proposed required coordinate returns NO/UNRESOLVED.
     """
     required = tuple(required_coordinates)
     unresolved: list[str] = []
@@ -54,13 +56,15 @@ def assess_recovery(
         if coordinate_status.get(coordinate, "MISSING") not in RECOVERED_COORDINATE_STATUSES:
             unresolved.append(coordinate)
 
-    status = MathStatus.RECOVERED if required and not unresolved else MathStatus.UNRESOLVED
+    complete_for_use = bool(required) and not unresolved
+    status = MathStatus.RECOVERED if complete_for_use else MathStatus.UNRESOLVED
     return RecoveryAssessment(
         object_id=object_id,
         job=job,
         claim=claim,
         required_coordinates=required,
         unresolved_coordinates=tuple(unresolved),
+        complete_for_use=complete_for_use,
         status=status,
     )
 
