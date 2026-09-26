@@ -1,0 +1,30 @@
+name: ImproveCore Five Cycle Whole Repo 106
+
+on:
+  push:
+    branches:
+      - 'improvecore/five-cycle-whole-repo-106-20260926'
+    paths:
+      - 'runtime/improvecore_five_cycle_106.py'
+      - 'integration/IMPROVECORE_FIVE_CYCLE_WHOLE_REPO_INPUT_106_2026-09-26.md'
+      - '.github/workflows/improvecore-five-cycle-106.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run five chained ImproveCore passes
+        run: PYTHONPATH=runtime:. python3 runtime/improvecore_five_cycle_106.py
+      - name: Upload five-cycle report
+        uses: actions/upload-artifact@v4
+        with:
+          name: improvecore-five-cycle-106
+          path: runtime/state/improvecore-five-cycle-106/report.json
