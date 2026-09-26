@@ -46,5 +46,12 @@
     "pd_goal_changed": false,
     "pd_goal_change_requires_explicit_approval": true
   },
-  "status": "CANDIDATE_AWAITING_REPOSITORY_VALIDATION"
+  "status": "VALIDATED_CURRENT_EXPERIMENT",
+  "validation": {
+    "take5_validation_run": 36265194313,
+    "take5_validation_conclusion": "success",
+    "capability_preservation_run": 36265194305,
+    "capability_preservation_conclusion": "success",
+    "merge_commit": "9bfc10803c048d53f5cb21c27c494a972d4431fa"
+  }
 }

@@ -1,7 +1,7 @@
 # ImprovementCore Function-First Heterogeneous Holdout 112
 
 Date: 2026-09-26
-Status: EXECUTED EXPERIMENT / NOT SYSTEM-WIDE PROMOTED
+Status: VALIDATED CURRENT EXPERIMENT / NOT SYSTEM-WIDE PROMOTED
 Controller: ImprovementCore
 Canonical repository: thytabakman-jpg/Take-5
 
@@ -201,3 +201,15 @@ OPEN.
 
 PD CANONICAL GOAL CHANGE:
 NOT PERFORMED.
+
+
+## Validation receipt
+
+Take-5 Validation:
+36265194313 SUCCESS.
+
+Capability Preservation:
+36265194305 SUCCESS.
+
+Initial experiment merge:
+9bfc10803c048d53f5cb21c27c494a972d4431fa.
