@@ -104,7 +104,7 @@ Learning memory is active in two places:
 
 An unchanged blocked route remains blocked until a changed coordinate intersects its recorded dependency footprint.
 
-A selected formal tool must cross the configured execution bridge before EXECUTE can count it as run. The bridge binds the current full configured plan and invokes a host-bound adapter. A missing adapter preserves OPEN with the selected tool identity; generic EXECUTE reasoning cannot substitute for the tool call.
+A selected formal tool must cross the configured execution bridge before EXECUTE can count it as run. The bridge binds the current FULL_CONFIGURED_HF2_V1 plan and executes the bound adapter through the configured recurrence engine. Ordinary registered tools use HF002; HF002 itself uses SELF recurrence. A missing adapter preserves OPEN with the selected tool identity; generic EXECUTE reasoning cannot substitute for the tool call.
 
 This configured-tool execution repair is recorded in:
 architecture/IMPROVEMENT_CORE_CONFIGURED_TOOL_EXECUTION_109.md
