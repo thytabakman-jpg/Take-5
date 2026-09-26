@@ -3,7 +3,7 @@ name: IC123 Math Recovery 001
 on:
   push:
     branches:
-      - improvecore/ic123-math-recovery-20260926
+      - improvecore/ic123-math-recovery-r2-20260926
   workflow_dispatch:
 
 jobs:
