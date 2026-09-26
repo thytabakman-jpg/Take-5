@@ -1,0 +1,84 @@
+schema_version: 1
+object_id: TAKE5:IC128-LEGACY-BEHAVIOR-BENCHMARK:129
+date: 2026-09-26
+status: CURRENT_RESTORATION_BENCHMARK
+
+reference:
+  frozen_object: TAKE5:ICC128-LEGACY:001
+  source_repository: thytabakman-jpg/Reaserch
+  source_commit: e4c76c595b44a35fd9efc02cde8979e656ef54e8
+  controller_loop: [G_Q, G_W, S, E, A, U, G_Q]
+
+purpose: >
+  Evaluate whether a candidate ImprovementCore restores the protected behavior that made the
+  frozen ICC128 Legacy controller fast, self-directed, result-sensitive, and useful without
+  requiring the user to manage its internal tool sequence.
+
+protected_behaviors:
+  - id: REAL_GOAL_RECOVERY
+    required: true
+    failure: user_must_script_internal_tool_order
+  - id: ENDOGENOUS_QUESTION_GENERATION
+    required: true
+    failure: unresolved_state_does_not_generate_next_material_question
+  - id: DISCRIMINATING_WORK_GENERATION
+    required: true
+    failure: questions_do_not_generate_result_sensitive_probe_or_work
+  - id: CHEAP_DIRECT_PATH
+    required: true
+    failure: broad_machinery_runs_when_one_validated_route_preserves_the_job
+  - id: NONDOMINATED_PLURALITY
+    required: true
+    failure: incomparable_live_routes_are_scalar_collapsed_without_license
+  - id: RESULT_SENSITIVE_RESELECTION
+    required: true
+    failure: material_delta_does_not_recompute_affected_frontier
+  - id: NO_PREMATURE_TERMINALITY
+    required: true
+    failure: controller_stops_with_live_admissible_inquiry
+  - id: INTERNAL_AUTONOMY
+    required: true
+    failure: user_is_asked_for_information_the_system_can_acquire_or_infer_through_licensed_work
+  - id: MEMORY_WITHOUT_CONTEXT_BLOAT
+    required: true
+    failure: archive_completeness_requires_loading_full_history_into_active_state
+  - id: EXECUTION_TRUTH
+    required: true
+    failure: selection_or_artifact_creation_is_reported_as_execution
+  - id: DURABLE_MATERIAL_CAPTURE
+    required: true
+    failure: material_discovery_can_disappear_without_typed_provenance_or_disposition
+  - id: RESPONSE_DISCIPLINE
+    required: true
+    failure: internal_control_ceremony_replaces_the_useful_user_result
+
+holdout_requirements:
+  unlike_domains_minimum: 4
+  include:
+    - research_or_formal_reasoning
+    - artifact_or_document_work
+    - debugging_or_system_repair
+    - ordinary_project_decision
+  no_user_tool_sequence: true
+  compare_against:
+    - frozen_ICC128_Legacy
+    - current_ImprovementCore
+  causal_ablation:
+    required: true
+    target: inquiry_generation_and_result_sensitive_reselection
+
+promotion:
+  rule: >
+    A candidate may replace the current user-facing ImprovementCore behavior only after every
+    required protected behavior passes on the declared heterogeneous holdout basis and current
+    safety, authority, execution-truth, provenance, persistence, and OPEN/BLOCKED/CONFLICT
+    protections are preserved or replaced by witnessed strict gains.
+  newer_or_more_complex_is_not_gain: true
+
+anti_churn:
+  reopen_only_on:
+    - failing_protected_behavior
+    - newly_recovered_historical_evidence
+    - execution_or_currentness_break
+    - real_project_failure
+  unchanged_repair_route: NO_GAIN

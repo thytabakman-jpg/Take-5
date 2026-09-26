@@ -51,6 +51,11 @@ REQUIRED_FILES=(
     "runtime/improvement_core_knowledge_ledger.py",
     "integration/IMPROVEMENT_CORE_KNOWLEDGE_LEDGER_113.json",
     "architecture/IMPROVEMENT_CORE_MATERIAL_KNOWLEDGE_CAPTURE_113.md",
+    "architecture/IMPROVEMENT_CORE_LEGACY_RESTORATION_TARGET_129.md",
+    "integration/IC128_LEGACY_BEHAVIOR_BENCHMARK_129.yaml",
+    "runtime/recovery_corpus_manifest.py",
+    "tests/test_recovery_corpus_manifest.py",
+    "tests/test_ic128_legacy_behavior_benchmark_129.py",
     "runtime/improvement_core_progress_relation.py",
     "architecture/IMPROVEMENT_CORE_CANONICAL_PROGRESS_MATHEMATICS_001_2026-09-26.md",
     "architecture/IMPROVEMENT_CORE_ANTI_REPEAT_110.md",
@@ -176,6 +181,10 @@ def validate_recovery()->dict:
             failures.append("BOUND_ZIP_INTAKE_ANCHOR_MISSING")
         if "every declared ZIP member is accounted for" not in anchor:
             failures.append("ZIP_MEMBER_ACCOUNTING_ANCHOR_MISSING")
+        if "Active Legacy restoration objective" not in anchor:
+            failures.append("LEGACY_RESTORATION_OBJECTIVE_ANCHOR_MISSING")
+        if "full-history archive is durable evidence/memory" not in anchor:
+            failures.append("LEGACY_RESTORATION_MEMORY_BOUNDARY_MISSING")
         if "typed BOUND_ZIP external-acquisition outputs execute exact binding" not in anchor:
             failures.append("EXTERNAL_BOUND_ZIP_EXECUTION_ANCHOR_MISSING")
         if "bound-ZIP processing failures convert the external acquisition to OPEN_GAP" not in anchor:

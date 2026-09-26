@@ -378,6 +378,22 @@ Repository-governed material capture is now an executable invariant candidate. I
 access to chats, external sources, or thoughts that never enter a Take-5-aware governed path.
 Universal record-everything remains outside repository authority for unexposed sources.
 
+## Active Legacy restoration objective
+
+The user-facing restoration target is tracked separately from the current controller identity:
+
+- architecture/IMPROVEMENT_CORE_LEGACY_RESTORATION_TARGET_129.md
+- integration/IC128_LEGACY_BEHAVIOR_BENCHMARK_129.yaml
+- runtime/recovery_corpus_manifest.py
+
+This work does not mutate the frozen ICC128 Legacy object and does not self-promote a successor.
+It establishes the evidence/corpus boundary and behavioral acceptance test for restoring the
+Legacy-style endogenous inquiry, cheap-path routing, and result-sensitive reselection behavior
+without discarding current execution-truth, authority, provenance, persistence, or typed
+OPEN/BLOCKED/CONFLICT protections.
+
+A full-history archive is durable evidence/memory, not mandatory active context.
+
 ## Related current recovery anchors
 
 - integration/CURRENT_MATHEMATICAL_COLORING.md
