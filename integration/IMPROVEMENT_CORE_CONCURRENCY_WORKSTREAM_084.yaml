@@ -1,0 +1,29 @@
+schema_version: 0.1
+workstream_id: ICWS-2026-09-26-CONCURRENCY-PREFLIGHT-084
+status: ISOLATED_CANDIDATE
+base_commit: d03228490a33998245fcd8ed6de77f013162781d
+frozen_job: >
+  Improve ImprovementCore without colliding with concurrent ImproveCore work by
+  making declared workstream dependency footprints executable as a fail-closed
+  preflight.
+authority: runtime_candidate_no_promotion
+read_set:
+  - integration/CURRENT_IMPROVEMENT_CORE.md
+  - research/IMPROVEMENT_CORE_USAGE_AUDIT_078_2026-09-26.md
+  - architecture/IMPROVEMENT_CORE_ACTIVATION_083.md
+  - thytabakman-jpg/Reaserch:projects/improvement-core/IMPROVEMENT_CORE_CONCURRENT_WORKSTREAM_PROTOCOL_CURRENT.yaml
+  - thytabakman-jpg/Reaserch:projects/improvement-core/concurrency/reconciliations/CONCURRENT_IMPROVEMENTCORE_RECONCILIATION_001_2026-09-26.md
+  - thytabakman-jpg/Reaserch:projects/improvement-core/concurrency/reconciliations/IC031_DCC001_RECONCILIATION_001_2026-09-26.md
+intended_write_set:
+  - runtime/improvement_core_concurrency.py
+  - tests/test_improvement_core_concurrency.py
+  - architecture/IMPROVEMENT_CORE_CONCURRENCY_PREFLIGHT_084.md
+  - integration/IMPROVEMENT_CORE_CONCURRENCY_WORKSTREAM_084.yaml
+protected_behavior:
+  - no_last_writer_wins
+  - explicit_dependency_footprints
+  - frozen_base
+  - fail_closed_unknown_registry
+  - no_currentness_promotion
+  - no_controller_identity_change
+terminal_disposition: VALIDATE_THEN_RECONCILE
