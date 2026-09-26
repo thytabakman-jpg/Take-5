@@ -39,7 +39,6 @@ def discover_upstream_seed(corpus: Iterable[Any]) -> UpstreamSeed:
             "observation":episode.result,
             "authority":"observe",
         },
-        "live_continuation":True,
     }
     return UpstreamSeed(
         target=target,
