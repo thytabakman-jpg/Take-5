@@ -1,6 +1,6 @@
 # ICC-128 System Closure Ledger 056 — 2026-09-25
 
-Status: CURRENT CLOSURE PROPOSAL / BRANCH VALIDATION REQUIRED  
+Status: CURRENT BASIS CLOSED / MERGED AND VALIDATED  
 Canonical repository: thytabakman-jpg/Take-5  
 Legacy repository: thytabakman-jpg/Reaserch = provenance/rollback only  
 Controller: ICC-128  
@@ -308,27 +308,23 @@ Disposition: FUTURE_PRODUCT / NONBLOCKING.
 
 Take-5 closure does not depend on creating a second repository.
 
-## 7. Remaining blocking obligations after this reduction
+## 7. Blocking obligations
 
-B1. PR #24 validation must pass before typed state-commit migration is admitted.
+None remain in the recovered current basis.
 
-B2. RESULT state must be explicitly bound to the typed commit contract rather than relying only on caller-supplied update_fn semantics.
+Discharged:
+- B1: PR #24 validation passed, run 36203721183 SUCCESS, and PR #24 merged.
+- B2: RESULT state is guarded by the typed RESULT commit gate in runtime/math_first_wrapper.py.
+- B3: runtime/result_path_registry.py gives exactly one default RESULT path; legacy facades are comparators.
+- B4: integration/REASERCH_POST_CUTOVER_RECONCILIATION_FINAL_002_2026-09-25.md closes the declared drift set.
+- B5: integration/CROSS_CHAT_INTEGRATION_CLOSURE_MARKER_060_2026-09-25.md supersedes the active integration surface for the recovered basis.
 
-B3. Alternate inquiry/recursive RESULT facades must be dispositioned as default, comparator, or deprecated so protected result authority is not ambiguous.
-
-B4. Post-cutover Reaserch drift must receive final source-by-source dispositions and then be marked reconciled.
-
-B5. Cross-chat integration inbox must be superseded by one closed currentness/provenance/dependency/conflict map once B1-B4 are complete.
-
-Everything else is either already implemented/validated, research-nonblocking, external-boundary, or future product work.
+Residual research is explicitly nonblocking or external-boundary.
 
 ## 8. Stopping rule
 
-This repair episode closes when:
+This repair episode is closed relative to the recovered current basis because B1-B5 are discharged, validation is green, and main contains the repaired runtime plus reconciliation artifacts.
 
-1. B1-B5 are discharged;
-2. validation is green;
-3. main contains the closure ledger and updated migration/currentness state;
-4. ASSERT re-run finds no result-sensitive untyped residual among the original GitHub problem list.
+Future ASSERT reentry is triggered by a new material witness, a regression, a new post-cutover legacy change, or a new result-sensitive residual.
 
 A new future discovery reopens only its affected dependency cone.
