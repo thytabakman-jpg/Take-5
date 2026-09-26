@@ -1,6 +1,6 @@
 """Current cumulative-autonomous ImprovementCore regime surface.
 
-The regime preserves canonical 084 zero-request entry at the dispatch boundary and adds a first-class external-acquisition preflight.  When outside
+The regime preserves canonical zero-request entry at the dispatch boundary, basis-relative route calibration and relation admission in upstream discovery, and a first-class external-acquisition preflight.  When outside
 evidence or an outside capability has material expected value, ImprovementCore
 uses a bound host adapter before expensive internal reconstruction.  When the
 outside capability is unavailable, the regime preserves a typed OPEN gap
@@ -22,7 +22,7 @@ from improvement_core_external_acquisition import (
     merge_external_outputs,
 )
 
-REGIME_VERSION="087"
+REGIME_VERSION="088"
 
 @dataclass(frozen=True)
 class ImprovementCoreRegime:
