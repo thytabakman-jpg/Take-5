@@ -39,12 +39,16 @@ migration_invariants:
   - selected_is_not_executed
   - equal_cardinality_is_not_equal_role
   - later_discovery_can_trigger_rebase_and_repeat_migration
-open_validation:
-  - empirical_IC030_dominance
+blocking_validation:
+  - PR24_typed_state_commit_and_closure_validation
+research_nonblocking:
+  - empirical_IC030_dominance_unless_promotion_reopened
   - expand_outward_isolate_matched_ablation
-  - unrestricted_candidate_universe_completeness
-  - kernel_global_minimality
-  - historical_backfill_beyond_current_migration_packet
+  - kernel_basis_relative_minimality_rechecks
+  - historical_backfill_on_new_material_witness
+nonfinite_requirements_replaced:
+  unrestricted_candidate_universe_completeness: admitted_corpus_coverage_plus_reentry
+  global_kernel_minimality: basis_relative_irreducibility_plus_reentry
 operating_rule:
   new_work_entry: Take-5
   rollback: restore_Reaserch_authority_pointer
@@ -53,7 +57,7 @@ drift_control:
   detected: true
   detected_date: 2026-09-25
   source_repository: thytabakman-jpg/Reaserch
-  status: OPEN_RECONCILIATION
+  status: RECONCILED_DECLARED_DRIFT_SET
   authority_rule: post_cutover_legacy_writes_do_not_regain_canonical_authority
-  reconciliation_record: integration/REASERCH_POST_MIGRATION_DRIFT_2026-09-25.md
-  transfer_rule: exact_source_plus_target_effect_plus_validation_before_admission
+  reconciliation_record: integration/REASERCH_POST_CUTOVER_RECONCILIATION_FINAL_002_2026-09-25.md
+  transfer_rule: exact_source_plus_target_effect_plus_validation_before_admission\n  future_reopen_rule: only_new_material_post_cutover_evidence_reopens_its_affected_cone

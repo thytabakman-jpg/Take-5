@@ -1,6 +1,7 @@
 """System architecture: interface, research process, research state, and history-based closure."""
 from dataclasses import dataclass,field
 from enum import Enum
+from state_commit import CommitReceipt,StateRole,require_role
 
 class ClaimStatus(str,Enum):
     PROPOSED="PROPOSED"; WORKING="WORKING"; SUPPORTED="SUPPORTED"; ADMITTED="ADMITTED"
@@ -11,11 +12,19 @@ class ResearchState:
     history:list=field(default_factory=list)
     discharged:set=field(default_factory=set)
 
-    def record_claim(self,claim_id,status,evidence=()):
-        self.claims[claim_id]={"status":ClaimStatus(status),"evidence":tuple(evidence)}
+    def record_claim(self,claim_id,status,evidence=(),*,commit_receipt:CommitReceipt|None=None):
+        resolved=ClaimStatus(status)
+        if resolved==ClaimStatus.ADMITTED:
+            if commit_receipt is None:
+                raise PermissionError("ADMITTED_CLAIM_REQUIRES_COMMIT_RECEIPT")
+            require_role(commit_receipt,StateRole.RESEARCH_CONTROL)
+            if not evidence:
+                raise PermissionError("ADMITTED_CLAIM_REQUIRES_EVIDENCE")
+        self.claims[claim_id]={"status":resolved,"evidence":tuple(evidence)}
         self.history.append(("CLAIM",claim_id,status))
 
-    def discharge(self,work_id):
+    def discharge(self,work_id,*,commit_receipt:CommitReceipt):
+        require_role(commit_receipt,StateRole.RESEARCH_CONTROL)
         self.discharged.add(work_id)
         self.history.append(("DISCHARGE",work_id))
 

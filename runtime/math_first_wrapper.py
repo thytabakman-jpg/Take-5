@@ -28,6 +28,7 @@ from typing import Any, Callable, Mapping
 from entry_contract import EntryBinding, entry_is_bound
 from jane_relevance import is_supervisory_relevant
 from jane_sync import jane_sync
+from state_commit import CommitRequest, StateRole, authorize_commit, CommitBlocked
 
 
 @dataclass(frozen=True)
@@ -221,6 +222,36 @@ def run_math_first_wrapper(
 
         closure = closure_fn(pre_state, ic_result, packet)
         closure_status = _closure_status(closure)
+
+        # OPEN/BLOCKED may carry diagnostic/residual state back to the caller, but
+        # only a successful result crosses the protected RESULT commit gate.
+        if closure_status in {"CLOSED", "RELATIVE_CLOSED", "CLOSED_RELATIVE"}:
+            result_count = len(getattr(ic_result, "results", ()) or ())
+            requires_execution = bool(packet.get("obligations"))
+            try:
+                authorize_commit(
+                    CommitRequest(
+                        role=StateRole.RESULT,
+                        effect="ADMIT_WRAPPER_RESULT",
+                        target=str(binding.contract.frozen_target),
+                        job=str(binding.lease.job),
+                        baseline=fingerprint(pre_state),
+                        authority_before=frozenset(binding.contract.authority),
+                        authority_after=frozenset(packet.get("authority", binding.contract.authority)),
+                        evidence=(f"closure:{closure_status}", f"math:{frozen.fingerprint}"),
+                        provenance=(f"math_first_wrapper:round:{index}",),
+                        execution_receipt=(f"ic_results:{result_count}" if result_count else None),
+                        verification_receipt=f"closure:{closure_status}",
+                        status=closure_status,
+                        material=True,
+                    ),
+                    require_execution=requires_execution,
+                    require_verification=True,
+                    require_evidence=True,
+                )
+            except CommitBlocked as exc:
+                return MathFirstResult(state, jane_state, "BLOCKED", tuple(receipts), str(exc))
+
         state = update_fn(pre_state, closure)
         delta = infer_delta(pre_state, state)
 

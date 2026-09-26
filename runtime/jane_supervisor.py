@@ -5,6 +5,7 @@ primary episode action selection while another controller holds the lease.
 """
 from dataclasses import dataclass,field
 from typing import Any
+from state_commit import CommitReceipt,StateRole,require_role
 
 @dataclass
 class JaneSupervisoryState:
@@ -13,10 +14,12 @@ class JaneSupervisoryState:
     alerts:list=field(default_factory=list)
     receipts:list=field(default_factory=list)
 
-def update_after_admitted_delta(state:JaneSupervisoryState, delta:Any, *, canonical_version=None, receipt=None):
+def update_after_admitted_delta(state:JaneSupervisoryState, delta:Any, *, commit_receipt:CommitReceipt, canonical_version=None, receipt=None):
+    require_role(commit_receipt,StateRole.SUPERVISORY)
     state.material_deltas.append(delta)
     if canonical_version is not None:
         state.canonical_version=canonical_version
+    state.receipts.append(commit_receipt)
     if receipt is not None:
         state.receipts.append(receipt)
     return state

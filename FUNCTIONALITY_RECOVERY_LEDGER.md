@@ -136,3 +136,14 @@ Disposition:
 - integration/currentness/provenance/conflict mapping required first.
 
 The inbox is part of the anti-loss process and does not itself satisfy admission, implementation, validation, promotion, or currentness.
+
+
+## 2026-09-25 ICC-128 closure pass
+
+The closure criterion is finite: the declared/admitted corpus receives a disposition, protected behavior has reconstruction/implementation evidence or a typed residual, no known material candidate disappears, and a later new witness reopens only its affected cone.
+
+New strict gain recovered from post-cutover Reaserch: pre-math object-hypothesis-space recovery.
+
+PR #24 adds common typed state commit enforcement across SYSTEM_CONTROL, RESULT, LINEAGE, RESEARCH_CONTROL and SUPERVISORY state plus unique default result-path authority.
+
+Open-world requirements such as unrestricted future candidate completeness are no longer finite readiness predicates; corpus coverage plus reentry replaces them.
