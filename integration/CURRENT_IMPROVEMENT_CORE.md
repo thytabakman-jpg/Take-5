@@ -60,6 +60,13 @@ runtime/improvement_core_regime.py
 Learning memory participates through:
 - runtime/improvement_core_learning_memory.py
 
+Every governed run ends with:
+- runtime/improvement_core_afterrun.py
+- runtime/improvement_core_response_bias.py
+- runtime/object_lifecycle.py
+
+The after-run records learning, projects the recovered response preference, scans system and input-framing bias risks, and processes new managed objects through the prospective lifecycle. Structural self-change remains strict-gain and authority-gated.
+
 The narrow runtime/improvement_core.py remains subordinate and is not the user-facing manager identity.
 
 ## What is actually active now
@@ -105,7 +112,13 @@ architecture/IMPROVEMENT_CORE_ACTIVATION_083.md
 17. Take-4 cumulative-autonomy target;
 18. Take-5 authority, provenance, currentness, execution, closure and reentry safeguards.
 19. protected transition integrity across canonical identity, dispatch, execution, consumption, state update, reentry, and the user-visible boundary.
-20. bare ImproveCore invocation can seed governed upstream discovery from an addressable corpus without host-invented substantive job coordinates.
+20. bare ImproveCore invocation can seed governed upstream discovery from an addressable corpus without host-invented substantive job coordinates;
+21. mandatory after-run self-improvement on every governed use;
+22. response preference projected on every governed use without truth authority;
+23. system-bias guard pass on every governed use;
+24. input-framing bias-risk pass on every governed use;
+25. prospective new IDEA/PROJECT/TOOL/PROGRAM semantic capture;
+26. new project/idea lifecycle obligations remain typed rather than inferred from one cloned file tree.
 21. materially required external evidence/tools are acquired before brute-force internal reconstruction when a bound adapter exists.
 22. unavailable materially required external capability preserves OPEN rather than manufacturing internal closure.
 23. external outputs enter as evidence and do not self-authorize.
@@ -295,3 +308,24 @@ Universal host interception remains OPEN.
 - recursive ImprovementCore
 - ImproveCore learning memory
 - Take Two ImproveCore vision
+
+
+## Mandatory after-run response, bias and object lifecycle 093
+
+Every governed ImprovementCore use now returns an after-run receipt containing:
+- self-improvement learning and frontier;
+- the current response-preference projection;
+- system-side and input-framing bias-risk corrections;
+- lifecycle receipts for newly surfaced managed objects.
+
+The response preference is operational style/projection evidence, not factual authority.
+
+New managed objects use the recovered semantic package:
+CORE + MANIFEST + 36 directed scope-transition pages.
+Projects and ideas then receive their own typed bootstrap obligations rather than one
+identical cloned project tree.
+
+Project readiness debt is tracked at:
+integration/PROJECT_READINESS_QUEUE_093.yaml
+
+The project scan does not silently change canonical goals. Existing approval gates remain authoritative.
