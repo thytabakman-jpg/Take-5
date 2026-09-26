@@ -29,6 +29,7 @@ from entry_contract import EntryBinding, entry_is_bound
 from jane_relevance import is_supervisory_relevant
 from jane_sync import jane_sync
 from state_commit import CommitRequest, StateRole, authorize_commit, CommitBlocked
+from icc_bootstrap import ICCBootstrapBlocked, require_icc_bootstrap
 
 
 @dataclass(frozen=True)
@@ -168,6 +169,7 @@ def run_math_first_wrapper(
     initial_state: Any,
     initial_jane_state: Any,
     *,
+    bootstrap_fn: Callable[[Any, EntryBinding], Any],
     observe_fn: Callable[[Any, EntryBinding], Any],
     formalize_fn: Callable[[Any, EntryBinding], Any],
     goal_fn: Callable[[Any, EntryBinding], Any],
@@ -182,9 +184,22 @@ def run_math_first_wrapper(
     result_equivalent_fn: Callable[[Any, Any], bool] | None = None,
     max_rounds: int = 16,
 ) -> MathFirstResult:
-    """Execute the math-first wrapper while preserving IC/Jane role boundaries."""
+    """Execute the ICC wrapper after mandatory ASSERT->GOAL observer bootstrap."""
     if not entry_is_bound(binding):
         return MathFirstResult(initial_state, initial_jane_state, "BLOCKED", (), "ENTRY_CONTRACT_REQUIRED")
+
+    try:
+        bootstrap_receipt = require_icc_bootstrap(
+            bootstrap_fn(deepcopy(initial_state), binding)
+        )
+    except (ICCBootstrapBlocked, Exception) as exc:
+        return MathFirstResult(
+            initial_state,
+            initial_jane_state,
+            "BLOCKED",
+            (),
+            str(exc),
+        )
 
     equivalent = result_equivalent_fn or (lambda a, b: a == b)
     state = deepcopy(initial_state)
