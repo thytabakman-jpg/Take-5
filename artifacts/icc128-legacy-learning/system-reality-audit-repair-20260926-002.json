@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "run_id": "icc128-legacy-system-reality-20260926-002",
+  "date": "2026-09-26",
+  "controller": "ICC128 Legacy",
+  "frozen_source": "thytabakman-jpg/Reaserch@e4c76c595b44a35fd9efc02cde8979e656ef54e8",
+  "target_repository": "thytabakman-jpg/Take-5",
+  "target_main_at_observation": "e2bb5490c3ed18ba4bc34709aa280cb3939f0268",
+  "observed_tree_entries": 736,
+  "rewritten_prompt": "Audit the entire current canonical Take-5 tree as a system, not as isolated files. Find the smallest generators of repeated false closure, downgrade, and re-solving. In particular compare declared tool identity, protected-behavior reconstruction, native executable realization, and current recovery authority. Repair the generator so a strong closure claim is impossible unless those layers agree. Preserve ICC128 Legacy and Reaserch unchanged. Synchronize recovery surfaces, add regression evidence, and leave any genuinely unresolved capability explicitly OPEN rather than simulating it.",
+  "generated_questions": [
+    "What single generator lets Take-5 report closure while deeper tool-reality layers remain open?",
+    "Which recovery surfaces can reintroduce the old false-closure state after the root guard is repaired?",
+    "After the guard and recovery synchronization, what remains genuinely open?"
+  ],
+  "selected_work": [
+    "join configured identity, explicit manifest identity, protected behavior, and native realization",
+    "install a strong whole-portfolio tool-reality gate",
+    "synchronize current recovery entry surfaces",
+    "classify residuals without coercing OPEN to PASS"
+  ],
+  "root_findings": [
+    {
+      "id": "DISTRIBUTED_IDENTITY_WITHOUT_RECONSTRUCTION_CLOSURE",
+      "evidence": [
+        "tests/test_current_portfolio_identity.py permits CLOSED_RELATIVE over declared configured identity",
+        "tests/test_tool_manifest_audit.py keeps ImprovementCore and GOAL generic-only OPEN",
+        "runtime/tool_run_registry.py omits ImprovementCore tool-specific protected behaviors from ConfiguredRunSpec",
+        "runtime/portable_tool_conductor.py reports missing native realizations for eleven registered named tools"
+      ]
+    },
+    {
+      "id": "RECOVERY_SURFACE_CURRENTNESS_FRAGMENTATION",
+      "evidence": [
+        "README.md still points first to the 2026-09-25 shutdown handoff",
+        "README.md current resume frontier predates multiple 2026-09-26 repairs",
+        "FUNCTIONALITY_RECOVERY_LEDGER.md contains historical partial-status text without a current strong tool-reality gate"
+      ]
+    }
+  ],
+  "admitted_repairs": [
+    "add runtime/tool_reality_audit.py",
+    "add tests/test_tool_reality_audit.py",
+    "add integration/CURRENT_TOOL_REALITY.md",
+    "update current recovery entry surfaces to distinguish narrow configured identity from strong tool reality"
+  ],
+  "native_unrecovered": [
+    "MTA",
+    "Architecture",
+    "PD",
+    "PDAudit",
+    "GDOS",
+    "Discriminator",
+    "RTC",
+    "BiasPerturbation",
+    "MultiObject",
+    "Diagnosis",
+    "GOAL"
+  ],
+  "legacy_residuals_preserved": [
+    "SNAPSHOT_SELF_CONTAINMENT_OPEN",
+    "PERSISTENCE_IDENTITY_CONFLICT"
+  ],
+  "external_not_owned": [
+    "UNIVERSAL_HOST_INTERCEPTION"
+  ],
+  "frozen_legacy_mutated": false,
+  "reaserch_mutated": false,
+  "terminal_status": "OPEN",
+  "terminal_reason": "root false-closure generator repaired on candidate branch; genuine native-realization, legacy-package, and external-host residuals remain explicitly open",
+  "final_ephemeral_memory": {
+    "admitted_effects": [
+      "ADD_STRONG_TOOL_REALITY_GATE",
+      "SYNC_RECOVERY_AUTHORITY",
+      "CLASSIFY_RESIDUALS"
+    ],
+    "post_report_disposition": "DISCARD"
+  }
+}
