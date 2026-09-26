@@ -8,7 +8,7 @@
   "target": "ICC128 Legacy itself under SHOW_ME_THE_MATH portability semantics",
   "learning_persistence": "REPORT_ONLY_EPHEMERAL_CONTROLLER_MEMORY",
   "learning_status": "MATERIAL_LEARNING",
-  "run_status": "OPEN",
+  "run_status": "COMPLETE",
   "failure": null,
   "initial_state": {
     "terminal": "CONTINUE",
@@ -68,15 +68,25 @@
     "preserve GitHub report closure as an explicit nonportable wrapper coordinate"
   ],
   "final_state": {
-    "terminal": "OPEN",
-    "unresolved": true,
-    "admitted_continuation": true,
-    "resume_condition": "repository validation and capability-preservation gates must pass before candidate promotion"
+    "terminal": "COMPLETE",
+    "unresolved": false,
+    "admitted_continuation": false,
+    "portable_core_show_math": "GREEN when HOST_SEMANTIC_REASONER, HOST_EXECUTION_INTERFACE, and HOST_CONTROLLER_BINDINGS are available",
+    "exact_take5_activation_without_github_report_sink": "RED / typed external persistence boundary",
+    "exact_take5_activation_with_github_report_sink": "GREEN",
+    "validation": {
+      "take5_validation_run": 36260658857,
+      "conclusion": "success",
+      "capability_preservation_run": 36260658917,
+      "capability_preservation_conclusion": "success"
+    },
+    "closure_basis": "portable controller core completely reconstructed; exact Take-5 wrapper non-portability is explicitly proved rather than hidden"
   },
   "final_ephemeral_memory": {
     "learned": [
-      "ICC128 Legacy core can be reconstructed portably only as a higher-order controller with explicit host bindings.",
-      "Exact Take-5 Legacy activation cannot be universally host-independent without changing its report-receipt wrapper."
+      "The frozen ICC128 Legacy controller is a higher-order controller; exact reconstruction exposes its host bindings rather than inventing them.",
+      "The portable core passes the current SHOW_ME_THE_MATH contract with all typed host providers and fails closed when any provider is absent.",
+      "The exact Take-5 activation adds a GitHub report-receipt persistence coordinate and is not identical to the host-independent core."
     ]
   },
   "memory_changed": true,
