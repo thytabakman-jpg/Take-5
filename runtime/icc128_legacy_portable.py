@@ -5,8 +5,9 @@ higher-order nature of the frozen controller: open-ended semantic generation,
 capability execution, admission, update, and optional discovery closure are
 bindings with explicit contracts rather than hidden implementations.
 
-The exact Take-5 activation adds a GitHub-report receipt gate.  This module
-models that gate but does not claim that an unrelated environment owns GitHub.
+The exact Take-5 activation adds both a GitHub-report receipt gate and a causal
+execution-claim attestation gate.  This module models those gates but does not
+claim that an unrelated environment owns GitHub or the Take-5 attestor.
 """
 from __future__ import annotations
 
@@ -495,8 +496,13 @@ CURRENT LEGACY ACTIVATION WRAPPER:
   memory persists within one run.
   after every run, Report(run) is produced.
   controller memory is discarded after report submission.
-  exact Take-5 run closure additionally requires a GitHub commit receipt:
-    LegacyRunClosed(run) iff GitHubReportCommitReceipt(run) exists.
+  exact Take-5 run closure additionally requires:
+    - a causal VERIFIED execution-claim receipt;
+    - a GitHub report commit receipt.
+
+    LegacyRunClosed(run)
+      iff ExecutionClaim(run)=VERIFIED
+      and GitHubReportCommitReceipt(run) exists.
 
 HIGHER-ORDER BINDING CONTRACT:
   The frozen controller is parameterized by
@@ -512,7 +518,10 @@ PORTABILITY:
   A new reasoning host can instantiate the higher-order controller without repository
   or conversation history when it supplies the above bindings from its own reasoning
   and available execution environment.
-  Exact Take-5 activation closure additionally requires the Take-5 GitHub receipt primitive.
+  Exact Take-5 activation closure additionally requires:
+    TAKE5_GITHUB_REPORT_SINK
+    and
+    TAKE5_EXECUTION_CLAIM_ATTESTOR.
 """
 
 
@@ -650,7 +659,7 @@ def exact_take5_activation_package()->dict[str,Any]:
     }
     package["obligations"]["persistence"]={
         "status":"SATISFIED",
-        "witness":"every run emits a learning report; controller memory is discarded after submission; Take-5 closure requires GitHub commit receipt",
+        "witness":"every run emits a learning report; controller memory is discarded after submission; Take-5 closure requires both a causal VERIFIED execution claim and GitHub commit receipt",
     }
     package["protected_behavior"]=tuple(package["protected_behavior"])+(
         "take5_report_receipt_required_for_activation_closure",
