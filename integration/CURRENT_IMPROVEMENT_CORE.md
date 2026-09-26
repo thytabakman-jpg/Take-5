@@ -36,13 +36,14 @@ Controller:
 - IC-028
 
 Current regime version:
-- 090
+- 091
 
 Current invocation path:
 
 user phrase
 -> runtime/improvement_core_dispatch.py
 -> [when target/job/basis are absent] runtime/improvement_core_upstream.py
+-> runtime/improvement_core_hf2_default.py
 -> runtime/improvement_core_regime.py
 -> [when outside evidence/tool need is live] runtime/improvement_core_external_acquisition.py
 -> runtime/improvement_core_manager.py
@@ -51,7 +52,11 @@ user phrase
 -> bound configured-tool adapter
 -> native tool result consumed into controller state
 
-When the stage result still has live continuation:
+For ordinary user-facing invocation, HF2 is the default local same-capability recurrence layer.
+It reapplies the complete ImprovementCore pass only after a witnessed material effect and a changed
+semantic state. HF1 upstream invalidation exits the local HF2 loop for parent reentry.
+
+When the stage result still has live continuation inside one ImprovementCore pass:
 
 runtime/improvement_core_regime.py
 -> runtime/improvement_core_recursive_manager.py
@@ -157,6 +162,10 @@ architecture/IMPROVEMENT_CORE_ACTIVATION_083.md
 48. explicit material knowledge events crossing the current regime are durably captured with basis, provenance, dependencies, evidence, related objects, and typed disposition.
 49. admitted recursive material transitions are durably captured even when no richer explicit knowledge event was authored.
 50. capture does not self-authorize: CAPTURED, ADMITTED, CURRENT, REJECTED, SUPERSEDED, OPEN, BLOCKED, and CONFLICT remain distinct.
+51. ordinary user-facing ImprovementCore uses HF2 as its default local same-capability recurrence operator.
+52. HF2 recurrence requires both a material-effect witness and changed semantic state; execution bookkeeping alone cannot trigger recurrence.
+53. HF1 upstream reentry escapes local HF2 rather than being swallowed by same-capability recurrence.
+54. direct run_improvement_core_regime remains the one-pass controlled/debug surface.
 
 ## Cross-repository lineage
 
@@ -264,7 +273,8 @@ Open-world global maximality/minimality is not a licensed completion claim. Curr
 16. runtime/repertoire_reachability.py
 17. integration/IMPROVEMENTCORE_HISTORICAL_REPLAY_BASIS_001.json
 18. runtime/historical_replay_audit.py
-19. runtime/improvement_core_regime.py
+19. runtime/improvement_core_hf2_default.py
+20. runtime/improvement_core_regime.py
 20. runtime/improvement_core_external_acquisition.py
 21. architecture/IMPROVEMENT_CORE_EXTERNAL_ACQUISITION_090.md
 22. runtime/improvement_core_manager.py
@@ -288,6 +298,31 @@ Open-world global maximality/minimality is not a licensed completion claim. Curr
 37. integration/CURRENT_PROTECTED_TRANSITION_INTEGRITY.md
 38. MIGRATION_STATE.yaml
 
+
+## Default HF2 local recurrence
+
+Regime 091 promotes the previously validated explicit HF2[ImprovementCore] campaign composition
+into the normal user-facing invocation path.
+
+Canonical user-facing entry:
+
+runtime/improvement_core_hf2_default.py
+
+Mathematical role:
+
+ImprovementCore_091 = HF2[ImprovementCore_one_pass].
+
+HF2 owns only local same-capability recurrence. ImprovementCore retains global work discovery,
+selection, cross-capability replanning, admission, knowledge integration and terminality. HF1
+retains upstream invalidation/reentry classification. TRC retains consequence closure.
+
+Reapplication requires a material-effect witness plus a changed semantic projection. Pass-scoped
+traces, configured-tool receipts and binding bookkeeping do not count as semantic change.
+
+Direct runtime/improvement_core_regime.py remains the one-pass controlled/debug surface.
+
+Recovery/validation surface:
+architecture/IMPROVEMENT_CORE_DEFAULT_HF2_118.md
 
 ## Function-first configured identity experiment
 

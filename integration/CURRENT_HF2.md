@@ -119,6 +119,14 @@ Observed behavior:
 
 This validates the explicit campaign composition.
 
-It does not promote HF2 as a universal wrapper for all ImprovementCore invocations.
+Regime-091 candidate promotion:
 
-Universal HF2 wrapper promotion remains OPEN.
+HF2[ImprovementCore] is now proposed as the default local recurrence layer for ordinary
+user-facing ImprovementCore invocation. Reapplication requires both a material-effect witness
+and changed semantic state. HF1 upstream reentry escapes the local loop.
+
+Validation surface:
+architecture/IMPROVEMENT_CORE_DEFAULT_HF2_118.md
+
+This promotion is ImprovementCore-specific. Universal HF2 wrapper promotion across every
+configured Take-5 tool remains OPEN.

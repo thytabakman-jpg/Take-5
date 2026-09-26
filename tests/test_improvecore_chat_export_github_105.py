@@ -154,7 +154,7 @@ def test_chat_export_to_github_problem_runs_through_current_improvecore():
 
     state = out.result.state
     assert resolution.controller == "IC-028"
-    assert resolution.entrypoint.endswith("run_improvement_core_regime")
+    assert resolution.entrypoint.endswith("run_improvement_core_with_hf2")
     assert out.result.terminal is True
     assert state["execution_result"]["github_direct_transport_proven"] is True
     assert state["execution_result"]["archive_generation_executed"] is False

@@ -172,7 +172,7 @@ def test_current_chat_runs_through_actual_improvecore_dispatch():
     print("IMPROVECORE_CHAT_103_RECEIPT=" + json.dumps(receipt, sort_keys=True, default=str))
 
     assert resolution.controller == "IC-028"
-    assert resolution.entrypoint.endswith("run_improvement_core_regime")
+    assert resolution.entrypoint.endswith("run_improvement_core_with_hf2")
     assert out.result.terminal is True
     assert state["chat_observation"]["exact_snapshot_present"] is True
     assert state["execution_result"]["dispatcher_crossed"] is True

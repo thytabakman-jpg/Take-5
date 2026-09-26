@@ -24,7 +24,7 @@ def _handlers(calls):
 def test_improvecore_user_phrase_resolves_to_current_regime():
     r=resolve_improvement_core_invocation("ImproveCore, solve this")
     assert r.controller=="IC-028"
-    assert r.entrypoint.endswith("run_improvement_core_regime")
+    assert r.entrypoint.endswith("run_improvement_core_with_hf2")
 
 def test_improvement_core_phrase_resolves_to_same_regime():
     a=resolve_improvement_core_invocation("ImproveCore this")
@@ -42,7 +42,7 @@ def test_dispatch_executes_rich_controller_path_through_current_regime():
         handlers=_handlers(calls),
     )
     assert resolution.controller=="IC-028"
-    assert resolution.entrypoint.endswith("run_improvement_core_regime")
+    assert resolution.entrypoint.endswith("run_improvement_core_with_hf2")
     assert "GENERATE_WORK" in out.receipt.stages
     assert "ADMIT" in out.receipt.stages
     assert "PERSIST" in out.receipt.stages
@@ -50,6 +50,7 @@ def test_dispatch_executes_rich_controller_path_through_current_regime():
     assert "REENTER" in out.receipt.stages
     assert out.result.terminal
     assert out.status=="COMPLETE"
+    assert out.hf2_status=="RELATIVE_CLOSE"
 
 
 def test_dispatch_can_seed_from_corpus_without_host_supplied_job_coordinates():
