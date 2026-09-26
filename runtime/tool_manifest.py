@@ -110,6 +110,33 @@ HF002_BINDINGS=GENERIC_BINDINGS+(
     ),
 )
 
+IMPROVECORE_AFTERRUN_BINDINGS=GENERIC_BINDINGS+(
+    ProtectedBinding(
+        "IMPROVECORE_AFTER_EVERY_RUN","POST",
+        "runtime/improvement_core_regime.py","tests/test_improvement_core_afterrun.py",
+    ),
+    ProtectedBinding(
+        "SELF_IMPROVEMENT_STRICT_GAIN_GATED","INTRA",
+        "runtime/improvement_core_afterrun.py","tests/test_improvement_core_afterrun.py",
+    ),
+    ProtectedBinding(
+        "SELF_IMPROVEMENT_LEARNING_ALWAYS_RECORDED","POST",
+        "runtime/improvement_core_afterrun.py","tests/test_improvement_core_afterrun.py",
+    ),
+    ProtectedBinding(
+        "RESPONSE_PREFERENCE_ALWAYS_PROJECTED","POST",
+        "runtime/improvement_core_response_bias.py","tests/test_improvement_core_afterrun_controls.py",
+    ),
+    ProtectedBinding(
+        "BIAS_CONTROL_ALWAYS_RUN","POST",
+        "runtime/improvement_core_response_bias.py","tests/test_improvement_core_afterrun_controls.py",
+    ),
+    ProtectedBinding(
+        "NEW_OBJECT_LIFECYCLE_ALWAYS_CHECKED","POST",
+        "runtime/object_lifecycle.py","tests/test_improvement_core_afterrun_controls.py",
+    ),
+)
+
 ROOT_CAUSE_BINDINGS=GENERIC_BINDINGS+(
     ProtectedBinding(
         "ROOT_CAUSE_ROOTNESS_SELECTOR",
@@ -159,6 +186,14 @@ ASSERT_BINDINGS=GENERIC_BINDINGS+(
 )
 
 OVERRIDES={
+    "ImproveCoreAfterRun":ToolManifest(
+        tool_id="ImproveCoreAfterRun",
+        native_semantics="ImproveCoreAfterRun",
+        geometry_policy="D36_C",
+        closure_contract="TRC_SELF_IMPROVEMENT_DISPOSITION",
+        reentry_contract="IMPROVEMENTCORE_ON_MATERIAL_STRICT_GAIN",
+        bindings=IMPROVECORE_AFTERRUN_BINDINGS,
+    ),
     "MT":ToolManifest(
         tool_id="MT",
         native_semantics="MT",
