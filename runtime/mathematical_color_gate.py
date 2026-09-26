@@ -1,8 +1,9 @@
-"""Fail-closed user-visible mathematical color emission gate.
+"""Fail-closed user-visible mathematical status emission.
 
 Mathematical and formal-system objects are emitted as typed fragments carrying
-their recovery state. The renderer owns the color projection; callers do not
-hand-author HTML or drop status before emission.
+their recovery state. Recovery state is semantic. Rendering is channel-specific.
+
+No caller may hand-author color markup or drop status before emission.
 """
 from __future__ import annotations
 
@@ -15,6 +16,21 @@ from typing import Iterable, Sequence
 class MathStatus(str, Enum):
     RECOVERED = "RECOVERED"
     UNRESOLVED = "UNRESOLVED"
+
+
+class RenderMode(str, Enum):
+    LATEX_COLOR = "LATEX_COLOR"
+    STATUS_PREFIX = "STATUS_PREFIX"
+
+
+@dataclass(frozen=True)
+class RenderChannel:
+    name: str
+    mode: RenderMode
+
+
+TAKE5_LATEX = RenderChannel("take5_latex", RenderMode.LATEX_COLOR)
+PORTABLE_TEXT = RenderChannel("portable_text", RenderMode.STATUS_PREFIX)
 
 
 @dataclass(frozen=True)
@@ -48,12 +64,25 @@ MATH_SIGNAL_PATTERN = re.compile(
 )
 
 
-def render_math(fragment: MathFragment) -> str:
+def _status_prefix(status: MathStatus) -> str:
+    return "🟢" if status is MathStatus.RECOVERED else "🔴"
+
+
+def render_math(fragment: MathFragment, channel: RenderChannel = TAKE5_LATEX) -> str:
     latex = fragment.latex.strip()
     if not latex:
         raise ColorInvariantViolation("EMPTY_MATH_FRAGMENT")
-    color = "green" if fragment.status is MathStatus.RECOVERED else "red"
-    return rf"\color{{{color}}}{{{latex}}}"
+    if not isinstance(fragment.status, MathStatus):
+        raise ColorInvariantViolation("MATH_STATUS_REQUIRED")
+
+    if channel.mode is RenderMode.LATEX_COLOR:
+        color = "green" if fragment.status is MathStatus.RECOVERED else "red"
+        return rf"\color{{{color}}}{{{latex}}}"
+
+    if channel.mode is RenderMode.STATUS_PREFIX:
+        return f"{_status_prefix(fragment.status)} {latex}"
+
+    raise ColorInvariantViolation("UNSUPPORTED_RENDER_MODE")
 
 
 def _raw_text_contains_load_bearing_math(text: str) -> bool:
@@ -78,19 +107,22 @@ def verify_fragments(fragments: Sequence[Fragment]) -> None:
         raise ColorInvariantViolation("UNTYPED_FRAGMENT")
 
 
-def emit_user_visible(fragments: Iterable[Fragment]) -> str:
-    """Render only verified typed fragments.
+def emit_user_visible(
+    fragments: Iterable[Fragment],
+    *,
+    channel: RenderChannel = TAKE5_LATEX,
+) -> str:
+    """Render verified typed fragments through an explicit channel adapter.
 
-    Fail closed: load-bearing mathematics/formal-system names cannot travel as
-    ordinary text. They must be MathFragment values with explicit recovery
-    status, so status survives all the way to the visible renderer.
+    The status survives even when literal color is unavailable. Portable
+    channels receive an unambiguous status prefix instead of raw markup.
     """
     parts = tuple(fragments)
     verify_fragments(parts)
     rendered: list[str] = []
     for fragment in parts:
         if isinstance(fragment, MathFragment):
-            rendered.append(render_math(fragment))
+            rendered.append(render_math(fragment, channel))
         else:
             rendered.append(fragment.text)
     return "".join(rendered)

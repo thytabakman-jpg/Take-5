@@ -1,4 +1,9 @@
-from mathematical_color_gate import MathFragment, MathStatus, TextFragment
+from mathematical_color_gate import (
+    MathFragment,
+    MathStatus,
+    PORTABLE_TEXT,
+    TextFragment,
+)
 from result_path_registry import PATHS, default_result_path, emit_default_result, result_path
 
 
@@ -26,3 +31,15 @@ def test_default_result_emission_uses_color_gate():
         r"\color{green}{\operatorname{ASSERT}} "
         r"\color{green}{A^{36}}"
     )
+
+
+def test_default_result_can_use_portable_channel_without_status_loss():
+    out = emit_default_result(
+        (
+            MathFragment(r"\operatorname{ASSERT}", MathStatus.RECOVERED),
+            TextFragment(" "),
+            MathFragment("X", MathStatus.UNRESOLVED),
+        ),
+        channel=PORTABLE_TEXT,
+    )
+    assert out == r"🟢 \operatorname{ASSERT} 🔴 X"

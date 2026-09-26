@@ -3,12 +3,17 @@
 Exactly one path is the default protected RESULT path. Alternate facades remain
 available for comparison/regression but do not acquire result authority by existence.
 The default user-visible emission path is fail-closed through the mathematical
-color invariant gate.
+status emission gate, with an explicit renderer channel.
 """
 from dataclasses import dataclass
 from typing import Iterable
 
-from mathematical_color_gate import Fragment, emit_user_visible
+from mathematical_color_gate import (
+    Fragment,
+    RenderChannel,
+    TAKE5_LATEX,
+    emit_user_visible,
+)
 
 
 @dataclass(frozen=True)
@@ -59,7 +64,11 @@ def result_path(name: str) -> ResultPath:
     return next(p for p in PATHS if p.name == name)
 
 
-def emit_default_result(fragments: Iterable[Fragment]) -> str:
+def emit_default_result(
+    fragments: Iterable[Fragment],
+    *,
+    channel: RenderChannel = TAKE5_LATEX,
+) -> str:
     """Canonical user-visible emission boundary for the default result path."""
     default_result_path()
-    return emit_user_visible(fragments)
+    return emit_user_visible(fragments, channel=channel)
