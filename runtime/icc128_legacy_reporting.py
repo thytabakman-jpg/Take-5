@@ -185,7 +185,8 @@ def require_github_receipt(
     )
 
 
-def closure_allowed(receipt: LearningReportReceipt | None) -> bool:
+def persistence_receipt_present(receipt: LearningReportReceipt | None) -> bool:
+    """Persistence witness only. This is not sufficient for Legacy run closure."""
     return receipt is not None and bool(receipt.commit_sha and receipt.report_sha256)
 
 
@@ -295,7 +296,7 @@ def require_attested_github_receipt(
 
 
 def _learning_persistence_receipt_valid(receipt: LearningReportReceipt | None) -> bool:
-    return receipt is not None and bool(receipt.commit_sha and receipt.report_sha256)
+    return persistence_receipt_present(receipt)
 
 
 def attested_closure_allowed(receipt: AttestedLearningReportReceipt | None) -> bool:
