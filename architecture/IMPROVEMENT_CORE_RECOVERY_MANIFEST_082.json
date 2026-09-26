@@ -5,7 +5,7 @@
   "status": "CURRENT",
   "canonical_repository": "thytabakman-jpg/Take-5",
   "controller": "IC-028",
-  "regime_version": "087",
+  "regime_version": "088",
   "invocation": {
     "aliases": [
       "ImproveCore",
@@ -17,7 +17,7 @@
   },
   "regime": {
     "surface": "runtime/improvement_core_regime.py",
-    "version": "087",
+    "version": "088",
     "stage_manager": "runtime/improvement_core_manager.py",
     "operator": "runtime/ic028_operator.py",
     "recursive_manager": "runtime/improvement_core_recursive_manager.py",
@@ -26,7 +26,13 @@
     "learning_activation": "RECURSIVE_ROUTE_GATE_AND_STAGE_LEARNING_EVENTS",
     "narrow_subordinate": "runtime/improvement_core.py",
     "external_acquisition": "runtime/improvement_core_external_acquisition.py",
-    "mode_geometry": "runtime/entry_contract.py"
+    "mode_geometry": "runtime/entry_contract.py",
+    "afterrun_tool": "runtime/improvement_core_afterrun.py",
+    "afterrun_activation": "MANDATORY_AFTER_EVERY_GOVERNED_USE",
+    "response_bias_control": "runtime/improvement_core_response_bias.py",
+    "response_bias_activation": "MANDATORY_AFTERRUN",
+    "object_lifecycle": "runtime/object_lifecycle.py",
+    "object_lifecycle_activation": "NEW_OBJECTS_STATE_CHANNEL"
   },
   "evidence": {
     "maximization": "architecture/IMPROVEMENT_CORE_MAXIMIZATION_081.md",
@@ -60,7 +66,9 @@
         "validation_run": "36222874741"
       }
     ],
-    "protected_transition_integrity": "architecture/PROTECTED_TRANSITION_INTEGRITY_090.md"
+    "protected_transition_integrity": "architecture/PROTECTED_TRANSITION_INTEGRITY_090.md",
+    "afterrun_self_improvement": "architecture/IMPROVECORE_AFTER_RUN_FULL_TOOL_092.md",
+    "response_bias_object_lifecycle": "architecture/IMPROVECORE_RESPONSE_BIAS_OBJECT_LIFECYCLE_093.md"
   },
   "protected_behaviors": [
     "CONTROLLER_OWNERSHIP",
@@ -93,7 +101,13 @@
     "CUMULATIVE_VERIFIED_CONTRIBUTION_PRESERVATION",
     "MODE_GEOMETRY_BREADTH_DIRECTION_COUPLING",
     "BROAD_OBSERVER_AND_FOCUSED_RESOLUTION_REMAIN_DISTINCT",
-    "FOCUSED_RESOLUTION_PRESERVES_OBSERVER_FIRST_ORDER"
+    "FOCUSED_RESOLUTION_PRESERVES_OBSERVER_FIRST_ORDER",
+    "MANDATORY_AFTER_RUN_SELF_IMPROVEMENT",
+    "SELF_IMPROVEMENT_LEARNING_ALWAYS_RECORDED",
+    "SELF_IMPROVEMENT_STRICT_GAIN_AND_AUTHORITY_GATED",
+    "RESPONSE_PREFERENCE_ALWAYS_PROJECTED",
+    "BIAS_CONTROL_ALWAYS_RUN",
+    "NEW_OBJECT_LIFECYCLE_ALWAYS_CHECKED"
   ],
   "open": [
     "RELATION_GENERATOR_BASIS",
