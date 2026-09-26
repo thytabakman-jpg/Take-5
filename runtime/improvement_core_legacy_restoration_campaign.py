@@ -54,6 +54,10 @@ def evidence_snapshot():
         "candidate_tests_present":tests,
         "candidate_reuses_legacy":"icc128_legacy.activate()" in candidate_text,
         "candidate_uses_current_tool_bridge":"execute_bound_tools" in candidate_text,
+        "candidate_entry_contract":"bind_entry_contract" in candidate_text,
+        "candidate_external_acquisition":"acquire_external" in candidate_text,
+        "candidate_knowledge_ledger":"KnowledgeLedger" in candidate_text,
+        "candidate_outer_hf2":"HF002RecursiveContinuation" in candidate_text or "run_improvement_core_with_hf2" in candidate_text,
         "candidate_cheap_direct_test":"test_cheap_direct_executes_one_minimal_package" in tests_text,
         "candidate_plurality_test":"test_deep_route_preserves_nondominated_plurality" in tests_text,
         "candidate_reselection_test":"test_material_delta_records_reselection_requirement" in tests_text,
@@ -167,6 +171,10 @@ def handlers():
                         "tests_present":snap["candidate_tests_present"],
                         "reuses_frozen_legacy":snap["candidate_reuses_legacy"],
                         "uses_current_tool_bridge":snap["candidate_uses_current_tool_bridge"],
+                        "entry_contract":snap["candidate_entry_contract"],
+                        "external_acquisition":snap["candidate_external_acquisition"],
+                        "knowledge_ledger":snap["candidate_knowledge_ledger"],
+                        "outer_hf2":snap["candidate_outer_hf2"],
                         "cheap_direct_test":snap["candidate_cheap_direct_test"],
                         "plurality_test":snap["candidate_plurality_test"],
                         "reselection_test":snap["candidate_reselection_test"],
@@ -178,18 +186,33 @@ def handlers():
                     s["campaign_phase"]=11
                     return {"state":s,"material_delta":True}
                 if phase==11:
-                    s["promotion_decision"]={
-                        "status":"OPEN",
-                        "reason":"control mechanics implemented; heterogeneous semantic holdouts and causal ablation remain required by benchmark",
-                        "selected_next":"RUN_HETEROGENEOUS_BEHAVIORAL_HOLDOUTS",
-                        "reject":{
-                            "PROMOTE_IMMEDIATELY":"insufficient behavioral evidence",
-                            "REDESIGN_AGAIN":"no failing implemented-control witness",
-                        },
-                    }
+                    if not s.get("candidate_static_complete",False):
+                        s["promotion_decision"]={
+                            "status":"OPEN",
+                            "reason":"Legacy core exists but the selected LEGACY_LOOP_MODERN_GUARDS architecture is not fully realized",
+                            "selected_next":"INTEGRATE_MODERN_GUARD_WRAPPER",
+                            "missing_guards":[k for k,v in s.get("successor_audit",{}).items() if not v],
+                            "reject":{"PROMOTE_IMMEDIATELY":"selected architecture is only partially implemented","REDESIGN_AGAIN":"core control law already passes its tests"},
+                        }
+                    else:
+                        s["promotion_decision"]={
+                            "status":"OPEN",
+                            "reason":"control mechanics implemented; heterogeneous semantic holdouts and causal ablation remain required by benchmark",
+                            "selected_next":"RUN_HETEROGENEOUS_BEHAVIORAL_HOLDOUTS",
+                            "reject":{"PROMOTE_IMMEDIATELY":"insufficient behavioral evidence","REDESIGN_AGAIN":"no failing implemented-control witness"},
+                        }
                     s["campaign_phase"]=12
                     return {"state":s,"material_delta":True}
                 if phase==12:
+                    if s.get("promotion_decision",{}).get("selected_next")=="INTEGRATE_MODERN_GUARD_WRAPPER":
+                        s["implementation_target"]={
+                            "new_runtime":"runtime/improvement_core_legacy_restored.py",
+                            "wraps":"runtime/improvement_core_legacy_candidate.py",
+                            "required_services":["entry_contract","external_acquisition","knowledge_ledger","HF002"],
+                            "preserve":["configured_tool_bridge","OPEN_BLOCKED_CONFLICT","frozen Legacy semantics"],
+                        }
+                        s["campaign_phase"]=13
+                        return {"state":s,"material_delta":True}
                     s["holdout_target"]={
                         "unlike_domains_minimum":4,
                         "no_user_tool_sequence":True,
