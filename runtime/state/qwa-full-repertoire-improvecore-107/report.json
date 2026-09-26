@@ -1,0 +1,1829 @@
+{
+  "improvecore": {
+    "admission": {
+      "admitted_for_experiment": [
+        "IC-EVIDENCE-TARGET-TYPING"
+      ],
+      "not_canonically_promoted": true
+    },
+    "architecture_decision": "Do not add a new controller. First repair evaluation target typing; separately investigate a compositional unified native-execution adapter for registered named tools.",
+    "controller": "IC-028",
+    "entrypoint": "runtime.improvement_core_regime.run_improvement_core_regime",
+    "regime_version": "088",
+    "result": {
+      "next_experiment": "matched holdout + negative control across the four evaluation targets",
+      "portfolio_gap": "Some registered named tools have complete configured plans but no single unified native semantic adapter in this sweep harness. This is an execution-surface gap, not evidence that their individual native modules are absent.",
+      "selected_candidate": "IC-EVIDENCE-TARGET-TYPING",
+      "selected_question": "Which ZIP-derived improvement candidate produces verified gain once artifact quality is separated from method efficacy, interaction efficacy, and reduction adequacy?",
+      "strict_gain_claim": "OPEN_PENDING_MATCHED_BENCHMARK"
+    },
+    "status": "COMPLETE",
+    "terminal": true,
+    "terminal_disposition": "RELATIVE_CLOSE_EXPERIMENT_SELECTED",
+    "trace": [
+      "OBSERVE",
+      "OBSERVE_RECONCILE",
+      "OBSERVE_TRC",
+      "RECOVER_GOAL",
+      "CURIOSITY_PD",
+      "FORMALIZE",
+      "PLAN_ORDER",
+      "OBJECTIFY",
+      "GENERATE_WORK",
+      "SELECT",
+      "BIND",
+      "EXECUTE",
+      "ADMIT",
+      "RECONCILE",
+      "PROPAGATE_AFFECTED_CONE",
+      "PERSIST",
+      "VERIFY",
+      "COMPLETE"
+    ],
+    "verification": {
+      "all_C01_C49_native_executed": true,
+      "all_learning_workers_native_called": true,
+      "all_registered_tools_received_configured_plan_or_explicit_exclusion": true,
+      "native_adapter_gaps_preserved_open": true
+    }
+  },
+  "question_worth_asking": {
+    "blocked": [
+      "Q-GLOBAL-BEST"
+    ],
+    "calibration_note": "Coordinates are current-run heuristic inputs in [0,1], not empirically calibrated universal weights.",
+    "configured_plan": {
+      "cells": 36,
+      "cognitive_cells": 144,
+      "geometry": "D36_C",
+      "mode": "OBSERVER",
+      "native_cells": 36,
+      "question_cells": 792
+    },
+    "frontier": [
+      "Q-EVIDENCE-TARGET",
+      "Q-NATIVE-TRACE"
+    ],
+    "selected": [
+      {
+        "burden": 0.44999999999999996,
+        "id": "Q-EVIDENCE-TARGET",
+        "text": "Which ZIP-derived improvement candidate produces verified gain once artifact quality is separated from method efficacy, interaction efficacy, and reduction adequacy?",
+        "value": 3.9000000000000004,
+        "worth": 2.6896551724137936
+      }
+    ],
+    "status": "SELECTED"
+  },
+  "repertoire_sweep": {
+    "c_native_executed": 49,
+    "configured_plan_failures": 0,
+    "excluded_until_positioned_runs": [
+      "ImprovementCore",
+      "QuestionWorthAsking"
+    ],
+    "learning_native_called": 11,
+    "named_open_no_uniform_adapter": 28,
+    "registered_total": 90,
+    "status_counts": {
+      "NATIVE_EXECUTED": 49,
+      "NATIVE_EXECUTED_OPEN_OR_ACCEPT": 11,
+      "OPEN_NO_UNIFIED_NATIVE_ADAPTER": 28
+    }
+  },
+  "tool_rows": [
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "native_result": {
+        "status": "ACCEPT",
+        "typed_task_context": {
+          "object": "ZIP-derived candidate portfolio",
+          "question": "Which ZIP-derived improvement candidate produces verified gain once artifact quality is separated from method efficacy, interaction efficacy, and reduction adequacy?",
+          "task": "evaluate_improvecore_growth"
+        }
+      },
+      "status": "NATIVE_EXECUTED",
+      "tool_id": "C01"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "native_result": {
+        "identity_relation": "SAME_REFERENT",
+        "status": "ACCEPT"
+      },
+      "status": "NATIVE_EXECUTED",
+      "tool_id": "C02"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "native_result": {
+        "current": "current-regime",
+        "status": "ACCEPT"
+      },
+      "status": "NATIVE_EXECUTED",
+      "tool_id": "C03"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "native_result": {
+        "frozen_source_packet": {
+          "claim": "evidence-target typing is a strict-gain candidate requiring experiment",
+          "source_id": "zip-study-106"
+        },
+        "status": "ACCEPT"
+      },
+      "status": "NATIVE_EXECUTED",
+      "tool_id": "C04"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "native_result": {
+        "frozen_target_contract": {
+          "protected": [
+            "exact_question",
+            "evidence_target_typing",
+            "open_preservation"
+          ],
+          "target": "ImproveCore evaluation validity"
+        },
+        "status": "ACCEPT"
+      },
+      "status": "NATIVE_EXECUTED",
+      "tool_id": "C05"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "native_result": {
+        "external_dependency_map": [
+          {
+            "availability": "AVAILABLE",
+            "id": "matched_holdouts"
+          },
+          {
+            "availability": "AVAILABLE",
+            "id": "negative_controls"
+          }
+        ],
+        "status": "ACCEPT"
+      },
+      "status": "NATIVE_EXECUTED",
+      "tool_id": "C06"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "native_result": {
+        "status": "ACCEPT",
+        "typed_dependency_edges": [
+          {
+            "from": "artifact_quality",
+            "material": true,
+            "to": "method_efficacy"
+          },
+          {
+            "from": "method_efficacy",
+            "material": true,
+            "to": "interaction_efficacy"
+          }
+        ]
+      },
+      "status": "NATIVE_EXECUTED",
+      "tool_id": "C07"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "native_result": {
+        "plural_dependency_spines": [
+          [
+            "question",
+            "experiment",
+            "evidence",
+            "admission",
+            "reentry"
+          ]
+        ],
+        "status": "ACCEPT"
+      },
+      "status": "NATIVE_EXECUTED",
+      "tool_id": "C08"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "native_result": {
+        "status": "ACCEPT",
+        "typed_layer_graph": [
+          {
+            "attribution": "evaluation",
+            "from": "question",
+            "relation_type": "tests",
+            "to": "experiment"
+          },
+          {
+            "attribution": "runtime",
+            "from": "experiment",
+            "relation_type": "produces",
+            "to": "evidence"
+          }
+        ]
+      },
+      "status": "NATIVE_EXECUTED",
+      "tool_id": "C09"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "native_result": {
+        "invariant": false,
+        "representation_residual": [
+          {
+            "id": "four-target",
+            "result": "separate"
+          },
+          {
+            "id": "collapsed",
+            "result": "conflated"
+          }
+        ],
+        "status": "ACCEPT"
+      },
+      "status": "NATIVE_EXECUTED",
+      "tool_id": "C10"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "native_result": {
+        "minimal_sensitive_supports": [
+          "artifact_adequacy",
+          "method_efficacy",
+          "interaction_efficacy",
+          "reduction_adequacy"
+        ],
+        "status": "ACCEPT"
+      },
+      "status": "NATIVE_EXECUTED",
+      "tool_id": "C11"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "native_result": {
+        "invariant_core": [
+          "method_efficacy"
+        ],
+        "residual": [
+          "artifact_adequacy",
+          "interaction_efficacy",
+          "reduction_adequacy"
+        ],
+        "status": "ACCEPT"
+      },
+      "status": "NATIVE_EXECUTED",
+      "tool_id": "C12"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "native_result": {
+        "attributed_edge_chain": [
+          {
+            "attribution": "evaluation",
+            "from": "question",
+            "relation_type": "tests",
+            "to": "experiment"
+          },
+          {
+            "attribution": "runtime",
+            "from": "experiment",
+            "relation_type": "produces",
+            "to": "evidence"
+          }
+        ],
+        "status": "ACCEPT"
+      },
+      "status": "NATIVE_EXECUTED",
+      "tool_id": "C13"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "native_result": {
+        "hostile_residuals": [
+          {
+            "id": "evaluation-conflation",
+            "material": true
+          },
+          {
+            "id": "output-equivalence-not-semantic-redundancy",
+            "material": true
+          }
+        ],
+        "status": "ACCEPT"
+      },
+      "status": "NATIVE_EXECUTED",
+      "tool_id": "C14"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "native_result": {
+        "covered": [
+          "artifact_quality"
+        ],
+        "novel_residual": [
+          "interaction_efficacy",
+          "method_efficacy",
+          "reduction_adequacy"
+        ],
+        "status": "ACCEPT",
+        "terminology_only": false
+      },
+      "status": "NATIVE_EXECUTED",
+      "tool_id": "C15"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "native_result": {
+        "change_frontier": [
+          {
+            "id": "IC-EVIDENCE-TARGET-TYPING",
+            "preserves": [
+              "exact_question",
+              "evidence_target_typing",
+              "open_preservation"
+            ],
+            "question": "Which ZIP-derived improvement candidate produces verified gain once artifact quality is separated from method efficacy, interaction efficacy, and reduction adequacy?",
+            "strict_gain": true
+          }
+        ],
+        "status": "ACCEPT"
+      },
+      "status": "NATIVE_EXECUTED",
+      "tool_id": "C16"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "native_result": {
+        "mechanism_dispositions": [
+          {
+            "id": "evaluation-validity",
+            "material": true,
+            "mechanism": "target conflation"
+          }
+        ],
+        "status": "ACCEPT",
+        "unresolved": []
+      },
+      "status": "NATIVE_EXECUTED",
+      "tool_id": "C17"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "native_result": {
+        "root_disposition": {
+          "evidence": "pd-archives",
+          "id": "method-claim-overreach",
+          "terminal": true
+        },
+        "status": "ACCEPT"
+      },
+      "status": "NATIVE_EXECUTED",
+      "tool_id": "C18"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "native_result": {
+        "discovered": [
+          "evaluation-validity",
+          "matched-holdout",
+          "negative-control"
+        ],
+        "discovery_trace": [
+          "evaluation-validity",
+          "matched-holdout",
+          "negative-control"
+        ],
+        "status": "ACCEPT"
+      },
+      "status": "NATIVE_EXECUTED",
+      "tool_id": "C19"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "native_result": {
+        "rivals": [
+          {
+            "id": "single-score"
+          },
+          {
+            "id": "four-target-typing"
+          }
+        ],
+        "status": "ACCEPT"
+      },
+      "status": "NATIVE_EXECUTED",
+      "tool_id": "C20"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "native_result": {
+        "candidates": [
+          {
+            "id": "IC-EVIDENCE-TARGET-TYPING",
+            "preserves": [
+              "exact_question",
+              "evidence_target_typing",
+              "open_preservation"
+            ],
+            "question": "Which ZIP-derived improvement candidate produces verified gain once artifact quality is separated from method efficacy, interaction efficacy, and reduction adequacy?",
+            "strict_gain": true
+          }
+        ],
+        "status": "ACCEPT"
+      },
+      "status": "NATIVE_EXECUTED",
+      "tool_id": "C21"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "native_result": {
+        "improvement_frontier": [
+          {
+            "id": "IC-EVIDENCE-TARGET-TYPING",
+            "preserves": [
+              "exact_question",
+              "evidence_target_typing",
+              "open_preservation"
+            ],
+            "question": "Which ZIP-derived improvement candidate produces verified gain once artifact quality is separated from method efficacy, interaction efficacy, and reduction adequacy?",
+            "strict_gain": true
+          }
+        ],
+        "status": "ACCEPT"
+      },
+      "status": "NATIVE_EXECUTED",
+      "tool_id": "C22"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "native_result": {
+        "status": "ACCEPT",
+        "typed_relation": {
+          "relation": "candidate-evidence",
+          "source": "zip-study-106",
+          "target": "ImproveCore"
+        }
+      },
+      "status": "NATIVE_EXECUTED",
+      "tool_id": "C23"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "native_result": {
+        "repaired_candidate": {
+          "id": "IC-EVIDENCE-TARGET-TYPING",
+          "preserves": [
+            "exact_question",
+            "evidence_target_typing",
+            "open_preservation"
+          ],
+          "question": "Which ZIP-derived improvement candidate produces verified gain once artifact quality is separated from method efficacy, interaction efficacy, and reduction adequacy?",
+          "strict_gain": true
+        },
+        "status": "ACCEPT"
+      },
+      "status": "NATIVE_EXECUTED",
+      "tool_id": "C24"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "native_result": {
+        "equivalent_candidate": {
+          "id": "IC-EVIDENCE-TARGET-TYPING",
+          "preserves": [
+            "exact_question",
+            "evidence_target_typing",
+            "open_preservation"
+          ],
+          "question": "Which ZIP-derived improvement candidate produces verified gain once artifact quality is separated from method efficacy, interaction efficacy, and reduction adequacy?",
+          "strict_gain": true
+        },
+        "status": "ACCEPT"
+      },
+      "status": "NATIVE_EXECUTED",
+      "tool_id": "C25"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "native_result": {
+        "architecture_successor": {
+          "id": "IC-EVIDENCE-TARGET-TYPING",
+          "preserves": [
+            "exact_question",
+            "evidence_target_typing",
+            "open_preservation"
+          ],
+          "question": "Which ZIP-derived improvement candidate produces verified gain once artifact quality is separated from method efficacy, interaction efficacy, and reduction adequacy?",
+          "strict_gain": true
+        },
+        "status": "ACCEPT"
+      },
+      "status": "NATIVE_EXECUTED",
+      "tool_id": "C26"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "native_result": {
+        "status": "ACCEPT",
+        "subsystem_successor": {
+          "id": "IC-EVIDENCE-TARGET-TYPING",
+          "preserves": [
+            "exact_question",
+            "evidence_target_typing",
+            "open_preservation"
+          ],
+          "question": "Which ZIP-derived improvement candidate produces verified gain once artifact quality is separated from method efficacy, interaction efficacy, and reduction adequacy?",
+          "strict_gain": true
+        }
+      },
+      "status": "NATIVE_EXECUTED",
+      "tool_id": "C27"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "native_result": {
+        "component_successor": {
+          "id": "IC-EVIDENCE-TARGET-TYPING",
+          "preserves": [
+            "exact_question",
+            "evidence_target_typing",
+            "open_preservation"
+          ],
+          "question": "Which ZIP-derived improvement candidate produces verified gain once artifact quality is separated from method efficacy, interaction efficacy, and reduction adequacy?",
+          "strict_gain": true
+        },
+        "status": "ACCEPT"
+      },
+      "status": "NATIVE_EXECUTED",
+      "tool_id": "C28"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "native_result": {
+        "interface_successor": {
+          "id": "IC-EVIDENCE-TARGET-TYPING",
+          "preserves": [
+            "exact_question",
+            "evidence_target_typing",
+            "open_preservation"
+          ],
+          "question": "Which ZIP-derived improvement candidate produces verified gain once artifact quality is separated from method efficacy, interaction efficacy, and reduction adequacy?",
+          "strict_gain": true
+        },
+        "status": "ACCEPT"
+      },
+      "status": "NATIVE_EXECUTED",
+      "tool_id": "C29"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "native_result": {
+        "boundary_successor": {
+          "id": "IC-EVIDENCE-TARGET-TYPING",
+          "preserves": [
+            "exact_question",
+            "evidence_target_typing",
+            "open_preservation"
+          ],
+          "question": "Which ZIP-derived improvement candidate produces verified gain once artifact quality is separated from method efficacy, interaction efficacy, and reduction adequacy?",
+          "strict_gain": true
+        },
+        "status": "ACCEPT"
+      },
+      "status": "NATIVE_EXECUTED",
+      "tool_id": "C30"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "native_result": {
+        "status": "ACCEPT",
+        "synchronized_architecture": {
+          "id": "IC-EVIDENCE-TARGET-TYPING",
+          "preserves": [
+            "exact_question",
+            "evidence_target_typing",
+            "open_preservation"
+          ],
+          "question": "Which ZIP-derived improvement candidate produces verified gain once artifact quality is separated from method efficacy, interaction efficacy, and reduction adequacy?",
+          "strict_gain": true
+        }
+      },
+      "status": "NATIVE_EXECUTED",
+      "tool_id": "C31"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "native_result": {
+        "routes": [
+          {
+            "id": "evidence-target-experiment",
+            "licensed": true,
+            "reachable": true
+          }
+        ],
+        "status": "ACCEPT"
+      },
+      "status": "NATIVE_EXECUTED",
+      "tool_id": "C32"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "native_result": {
+        "gain_disposition": "STRICT_GAIN",
+        "status": "ACCEPT"
+      },
+      "status": "NATIVE_EXECUTED",
+      "tool_id": "C33"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "native_result": {
+        "regression_disposition": "PASS",
+        "status": "ACCEPT"
+      },
+      "status": "NATIVE_EXECUTED",
+      "tool_id": "C34"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "native_result": {
+        "nondominated_set": [
+          {
+            "id": "IC-EVIDENCE-TARGET-TYPING",
+            "preserves": [
+              "exact_question",
+              "evidence_target_typing",
+              "open_preservation"
+            ],
+            "question": "Which ZIP-derived improvement candidate produces verified gain once artifact quality is separated from method efficacy, interaction efficacy, and reduction adequacy?",
+            "strict_gain": true
+          }
+        ],
+        "status": "ACCEPT"
+      },
+      "status": "NATIVE_EXECUTED",
+      "tool_id": "C35"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "native_result": {
+        "affected_update": {
+          "evaluation": "typed-four-target"
+        },
+        "status": "ACCEPT"
+      },
+      "status": "NATIVE_EXECUTED",
+      "tool_id": "C36"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "native_result": {
+        "provenance_chain": [
+          "zip-study-106",
+          "pd-evidence",
+          "run-107"
+        ],
+        "status": "ACCEPT"
+      },
+      "status": "NATIVE_EXECUTED",
+      "tool_id": "C37"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "native_result": {
+        "license_disposition": "USER_AUTHORIZED_EXPERIMENT",
+        "status": "ACCEPT"
+      },
+      "status": "NATIVE_EXECUTED",
+      "tool_id": "C38"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "native_result": {
+        "status": "ACCEPT",
+        "target_effect": {
+          "expected": "higher claim discipline",
+          "target": "evaluation validity"
+        }
+      },
+      "status": "NATIVE_EXECUTED",
+      "tool_id": "C39"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "native_result": {
+        "coverage": {
+          "targets": [
+            "artifact",
+            "method",
+            "interaction",
+            "reduction"
+          ]
+        },
+        "status": "ACCEPT"
+      },
+      "status": "NATIVE_EXECUTED",
+      "tool_id": "C40"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "native_result": {
+        "rescue_disposition": "RECOVERABLE",
+        "status": "ACCEPT"
+      },
+      "status": "NATIVE_EXECUTED",
+      "tool_id": "C41"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "native_result": {
+        "status": "ACCEPT",
+        "transfer_status": "ADMISSIBLE_EXPERIMENT"
+      },
+      "status": "NATIVE_EXECUTED",
+      "tool_id": "C42"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "native_result": {
+        "handoff": {
+          "payload": "sweep-report",
+          "to": "ImproveCore"
+        },
+        "status": "ACCEPT"
+      },
+      "status": "NATIVE_EXECUTED",
+      "tool_id": "C43"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "native_result": {
+        "status": "ACCEPT",
+        "verification": "PASS"
+      },
+      "status": "NATIVE_EXECUTED",
+      "tool_id": "C44"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "native_result": {
+        "holdout_result": "PASS",
+        "status": "ACCEPT"
+      },
+      "status": "NATIVE_EXECUTED",
+      "tool_id": "C45"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "native_result": {
+        "causal_effect": true,
+        "status": "ACCEPT"
+      },
+      "status": "NATIVE_EXECUTED",
+      "tool_id": "C46"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "native_result": {
+        "closure_disposition": "RELATIVE_CLOSED",
+        "status": "ACCEPT"
+      },
+      "status": "NATIVE_EXECUTED",
+      "tool_id": "C47"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "native_result": {
+        "status": "ACCEPT",
+        "strict_gain_or_failure": [
+          {
+            "id": "IC-EVIDENCE-TARGET-TYPING",
+            "preserves": [
+              "exact_question",
+              "evidence_target_typing",
+              "open_preservation"
+            ],
+            "question": "Which ZIP-derived improvement candidate produces verified gain once artifact quality is separated from method efficacy, interaction efficacy, and reduction adequacy?",
+            "strict_gain": true
+          }
+        ]
+      },
+      "status": "NATIVE_EXECUTED",
+      "tool_id": "C48"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "native_result": {
+        "exact_object_set": [
+          "zip-study-106",
+          "current-improvecore"
+        ],
+        "navigation_trace": [
+          {
+            "id": "zip-study-106",
+            "task_relevant": true
+          },
+          {
+            "id": "current-improvecore",
+            "task_relevant": true
+          }
+        ],
+        "status": "ACCEPT"
+      },
+      "status": "NATIVE_EXECUTED",
+      "tool_id": "C49"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "note": "Configured D36_C plan is executable; this run found no single generic native semantic adapter for this registered named tool. No semantic run is fabricated.",
+      "status": "OPEN_NO_UNIFIED_NATIVE_ADAPTER",
+      "tool_id": "MT"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "note": "Configured D36_C plan is executable; this run found no single generic native semantic adapter for this registered named tool. No semantic run is fabricated.",
+      "status": "OPEN_NO_UNIFIED_NATIVE_ADAPTER",
+      "tool_id": "MTA"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "note": "Configured D36_C plan is executable; this run found no single generic native semantic adapter for this registered named tool. No semantic run is fabricated.",
+      "status": "OPEN_NO_UNIFIED_NATIVE_ADAPTER",
+      "tool_id": "Architecture"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "note": "Configured D36_C plan is executable; this run found no single generic native semantic adapter for this registered named tool. No semantic run is fabricated.",
+      "status": "OPEN_NO_UNIFIED_NATIVE_ADAPTER",
+      "tool_id": "PD"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "note": "Configured D36_C plan is executable; this run found no single generic native semantic adapter for this registered named tool. No semantic run is fabricated.",
+      "status": "OPEN_NO_UNIFIED_NATIVE_ADAPTER",
+      "tool_id": "PDAudit"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "note": "Configured D36_C plan is executable; this run found no single generic native semantic adapter for this registered named tool. No semantic run is fabricated.",
+      "status": "OPEN_NO_UNIFIED_NATIVE_ADAPTER",
+      "tool_id": "GDOS"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "note": "Configured D36_C plan is executable; this run found no single generic native semantic adapter for this registered named tool. No semantic run is fabricated.",
+      "status": "OPEN_NO_UNIFIED_NATIVE_ADAPTER",
+      "tool_id": "Discriminator"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "note": "Configured D36_C plan is executable; this run found no single generic native semantic adapter for this registered named tool. No semantic run is fabricated.",
+      "status": "OPEN_NO_UNIFIED_NATIVE_ADAPTER",
+      "tool_id": "Reconciler"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "note": "Configured D36_C plan is executable; this run found no single generic native semantic adapter for this registered named tool. No semantic run is fabricated.",
+      "status": "OPEN_NO_UNIFIED_NATIVE_ADAPTER",
+      "tool_id": "DelegatedExecutor"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "note": "Configured D36_C plan is executable; this run found no single generic native semantic adapter for this registered named tool. No semantic run is fabricated.",
+      "status": "OPEN_NO_UNIFIED_NATIVE_ADAPTER",
+      "tool_id": "HF001"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "note": "Configured D36_C plan is executable; this run found no single generic native semantic adapter for this registered named tool. No semantic run is fabricated.",
+      "status": "OPEN_NO_UNIFIED_NATIVE_ADAPTER",
+      "tool_id": "HF002"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "note": "Configured D36_C plan is executable; this run found no single generic native semantic adapter for this registered named tool. No semantic run is fabricated.",
+      "status": "OPEN_NO_UNIFIED_NATIVE_ADAPTER",
+      "tool_id": "RootCause"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "note": "Configured D36_C plan is executable; this run found no single generic native semantic adapter for this registered named tool. No semantic run is fabricated.",
+      "status": "OPEN_NO_UNIFIED_NATIVE_ADAPTER",
+      "tool_id": "TRC"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "note": "Configured D36_C plan is executable; this run found no single generic native semantic adapter for this registered named tool. No semantic run is fabricated.",
+      "status": "OPEN_NO_UNIFIED_NATIVE_ADAPTER",
+      "tool_id": "RTC"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "note": "Configured D36_C plan is executable; this run found no single generic native semantic adapter for this registered named tool. No semantic run is fabricated.",
+      "status": "OPEN_NO_UNIFIED_NATIVE_ADAPTER",
+      "tool_id": "BiasPerturbation"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "note": "Configured D36_C plan is executable; this run found no single generic native semantic adapter for this registered named tool. No semantic run is fabricated.",
+      "status": "OPEN_NO_UNIFIED_NATIVE_ADAPTER",
+      "tool_id": "CurrentnessAudit"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "note": "Configured D36_C plan is executable; this run found no single generic native semantic adapter for this registered named tool. No semantic run is fabricated.",
+      "status": "OPEN_NO_UNIFIED_NATIVE_ADAPTER",
+      "tool_id": "CapabilityFoundry"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "note": "Configured D36_C plan is executable; this run found no single generic native semantic adapter for this registered named tool. No semantic run is fabricated.",
+      "status": "OPEN_NO_UNIFIED_NATIVE_ADAPTER",
+      "tool_id": "EmergentAdmission"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "note": "Configured D36_C plan is executable; this run found no single generic native semantic adapter for this registered named tool. No semantic run is fabricated.",
+      "status": "OPEN_NO_UNIFIED_NATIVE_ADAPTER",
+      "tool_id": "HistoricalReconstruction"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "note": "Configured D36_C plan is executable; this run found no single generic native semantic adapter for this registered named tool. No semantic run is fabricated.",
+      "status": "OPEN_NO_UNIFIED_NATIVE_ADAPTER",
+      "tool_id": "ZeroRequest"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "note": "Configured D36_C plan is executable; this run found no single generic native semantic adapter for this registered named tool. No semantic run is fabricated.",
+      "status": "OPEN_NO_UNIFIED_NATIVE_ADAPTER",
+      "tool_id": "MultiObject"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "note": "Configured D36_C plan is executable; this run found no single generic native semantic adapter for this registered named tool. No semantic run is fabricated.",
+      "status": "OPEN_NO_UNIFIED_NATIVE_ADAPTER",
+      "tool_id": "Diagnosis"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 72,
+        "question_cells": 792
+      },
+      "note": "Configured D36_C plan is executable; this run found no single generic native semantic adapter for this registered named tool. No semantic run is fabricated.",
+      "status": "OPEN_NO_UNIFIED_NATIVE_ADAPTER",
+      "tool_id": "ASSERT"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "note": "Configured D36_C plan is executable; this run found no single generic native semantic adapter for this registered named tool. No semantic run is fabricated.",
+      "status": "OPEN_NO_UNIFIED_NATIVE_ADAPTER",
+      "tool_id": "GOAL"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "note": "Configured D36_C plan is executable; this run found no single generic native semantic adapter for this registered named tool. No semantic run is fabricated.",
+      "status": "OPEN_NO_UNIFIED_NATIVE_ADAPTER",
+      "tool_id": "SolutionToMyProblem"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "note": "Configured D36_C plan is executable; this run found no single generic native semantic adapter for this registered named tool. No semantic run is fabricated.",
+      "status": "OPEN_NO_UNIFIED_NATIVE_ADAPTER",
+      "tool_id": "DesiredJane"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "note": "Configured D36_C plan is executable; this run found no single generic native semantic adapter for this registered named tool. No semantic run is fabricated.",
+      "status": "OPEN_NO_UNIFIED_NATIVE_ADAPTER",
+      "tool_id": "LambdaMath"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "note": "Configured D36_C plan is executable; this run found no single generic native semantic adapter for this registered named tool. No semantic run is fabricated.",
+      "status": "OPEN_NO_UNIFIED_NATIVE_ADAPTER",
+      "tool_id": "SemanticResolutionPipeline"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "native_result": {
+        "learning_status": {
+          "L-D6": {
+            "missing_inputs": [
+              "state",
+              "sense",
+              "d4",
+              "ground"
+            ],
+            "status": "OPEN"
+          }
+        }
+      },
+      "status": "NATIVE_EXECUTED_OPEN_OR_ACCEPT",
+      "tool_id": "L-D6"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "native_result": {
+        "learning_status": {
+          "L-D8": {
+            "missing_inputs": [
+              "state",
+              "sense",
+              "orient",
+              "d4",
+              "ground",
+              "prune"
+            ],
+            "status": "OPEN"
+          }
+        }
+      },
+      "status": "NATIVE_EXECUTED_OPEN_OR_ACCEPT",
+      "tool_id": "L-D8"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "native_result": {
+        "learning_status": {
+          "L-KOLB": {
+            "missing_inputs": [
+              "experience",
+              "reflect",
+              "abstract",
+              "experiment",
+              "enact"
+            ],
+            "status": "OPEN"
+          }
+        }
+      },
+      "status": "NATIVE_EXECUTED_OPEN_OR_ACCEPT",
+      "tool_id": "L-KOLB"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "native_result": {
+        "learning_status": {
+          "L-DIKW": {
+            "missing_inputs": [
+              "data",
+              "context",
+              "contextualize",
+              "models",
+              "description_length",
+              "actions",
+              "expected_utility"
+            ],
+            "status": "OPEN"
+          }
+        }
+      },
+      "status": "NATIVE_EXECUTED_OPEN_OR_ACCEPT",
+      "tool_id": "L-DIKW"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "native_result": {
+        "learning_status": {
+          "L-PP": {
+            "missing_inputs": [
+              "observation",
+              "model",
+              "predict",
+              "prediction_error",
+              "revise"
+            ],
+            "status": "OPEN"
+          }
+        }
+      },
+      "status": "NATIVE_EXECUTED_OPEN_OR_ACCEPT",
+      "tool_id": "L-PP"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "native_result": {
+        "learning_status": {
+          "L-BAYES": {
+            "missing_inputs": [
+              "prior",
+              "likelihood"
+            ],
+            "status": "OPEN"
+          }
+        }
+      },
+      "status": "NATIVE_EXECUTED_OPEN_OR_ACCEPT",
+      "tool_id": "L-BAYES"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "native_result": {
+        "learning_status": {
+          "L-ACTIVE-INFERENCE": {
+            "missing_inputs": [
+              "policies",
+              "expected_free_energy"
+            ],
+            "status": "OPEN"
+          }
+        }
+      },
+      "status": "NATIVE_EXECUTED_OPEN_OR_ACCEPT",
+      "tool_id": "L-ACTIVE-INFERENCE"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "native_result": {
+        "learning_status": {
+          "L-ACTOR-CRITIC": {
+            "missing_inputs": [
+              "reward",
+              "discount",
+              "value_now",
+              "value_next",
+              "value_parameters",
+              "policy_parameters",
+              "critic_update",
+              "actor_update"
+            ],
+            "status": "OPEN"
+          }
+        }
+      },
+      "status": "NATIVE_EXECUTED_OPEN_OR_ACCEPT",
+      "tool_id": "L-ACTOR-CRITIC"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "native_result": {
+        "learning_status": {
+          "L-RATE-DISTORTION": {
+            "missing_inputs": [
+              "candidates",
+              "max_distortion"
+            ],
+            "status": "OPEN"
+          }
+        }
+      },
+      "status": "NATIVE_EXECUTED_OPEN_OR_ACCEPT",
+      "tool_id": "L-RATE-DISTORTION"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "native_result": {
+        "learning_status": {
+          "L-OODA": {
+            "missing_inputs": [
+              "state",
+              "observe",
+              "orient",
+              "decide",
+              "act"
+            ],
+            "status": "OPEN"
+          }
+        }
+      },
+      "status": "NATIVE_EXECUTED_OPEN_OR_ACCEPT",
+      "tool_id": "L-OODA"
+    },
+    {
+      "configured_plan": {
+        "cells": 36,
+        "cognitive_cells": 144,
+        "geometry": "D36_C",
+        "mode": "OBSERVER",
+        "native_cells": 36,
+        "question_cells": 792
+      },
+      "native_result": {
+        "learning_status": {
+          "L-FUNCTIONAL-STACK": {
+            "missing_inputs": [
+              "state",
+              "input_layer",
+              "operational_layer",
+              "structural_layer",
+              "executive_layer"
+            ],
+            "status": "OPEN"
+          }
+        }
+      },
+      "status": "NATIVE_EXECUTED_OPEN_OR_ACCEPT",
+      "tool_id": "L-FUNCTIONAL-STACK"
+    }
+  ]
+}
