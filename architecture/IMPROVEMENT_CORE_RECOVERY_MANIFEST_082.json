@@ -79,5 +79,11 @@
     "CHEAP_ROUTE_VS_BROAD_ATTACK_CALIBRATION",
     "GLOBAL_MAXIMALITY_MINIMALITY",
     "PORTFOLIO_TOOL_IDENTITY_BACKFILL"
-  ]
+  ],
+  "math": {
+    "current_surface": "architecture/IMPROVEMENT_CORE_MATHEMATICS_086.md",
+    "preferred_controller": "C_PLUS_JK",
+    "state": "Z_X_LEARNING_MEMORY",
+    "recursive_child_actions": "IN_ADMISSIBLE_ACTION_SPACE"
+  }
 }
