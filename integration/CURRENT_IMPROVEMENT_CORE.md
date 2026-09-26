@@ -46,6 +46,7 @@ user phrase
 -> runtime/improvement_core_hf2_default.py
 -> runtime/improvement_core_regime.py
 -> [when outside evidence/tool need is live] runtime/improvement_core_external_acquisition.py
+-> [typed BOUND_ZIP output] exact binding -> archive expansion -> artifact_intake -> obligations
 -> runtime/improvement_core_manager.py
 -> runtime/ic028_operator.py
 -> [when SELECT names a registered formal tool] runtime/improvement_core_tool_bridge.py
@@ -172,6 +173,8 @@ architecture/IMPROVEMENT_CORE_ACTIVATION_083.md
 56. selected-tool recurrence identity is carried by ConfiguredRunSpec and ToolExecutionPlan and checked by the whole-repertoire audit.
 57. exact external ZIP evidence is fail-closed against immutable source byte-count/hash before entering artifact intake.
 58. every declared ZIP member is accounted for, while binary/encrypted/unreadable members remain explicit unresolved evidence rather than disappearing.
+59. typed BOUND_ZIP external-acquisition outputs execute exact binding, archive expansion, artifact intake, and work lifting before controller stages.
+60. bound-ZIP processing failures convert the external acquisition to OPEN_GAP, preventing false controller closure; raw archive bytes and generator callables are not persisted in controller evidence.
 
 ## Cross-repository lineage
 
@@ -462,7 +465,7 @@ When the need is material and no adequate adapter is available, the regime retur
 
 External outputs remain evidence. They still pass through normal admission, verification, authority, currentness, and reentry controls.
 
-When the external evidence is a bound ZIP archive, runtime/archive_artifact_intake.py verifies the immutable source byte-count/hash, accounts for every declared member, routes UTF-8 text members into the existing ArtifactRecord path with source/member provenance, and preserves non-text or unreadable members as unresolved evidence. This adapter remains subordinate to external acquisition and artifact_intake; it is not a peer controller.
+When the external evidence is a bound ZIP archive, runtime/improvement_core_external_acquisition.py recognizes the typed BOUND_ZIP host-output contract before controller stages. It invokes runtime/archive_artifact_intake.py to verify immutable source byte-count/hash and account for every member, then sends text members through runtime/artifact_intake.py. Material extracted candidates are lifted into the existing obligations surface. Binary/encrypted/unreadable members remain unresolved evidence. Binding or intake failure converts the external decision to OPEN_GAP, and raw archive bytes plus generator callables are removed before persistent controller evidence is formed. The archive adapter remains subordinate to external acquisition and artifact_intake; it is not a peer controller.
 
 Automatic discovery of every external-host capability remains outside the repository unless the host exposes an adapter. Universal host interception is classified EXTERNAL_NOT_OWNED.
 
