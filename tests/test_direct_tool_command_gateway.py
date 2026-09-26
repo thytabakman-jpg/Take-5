@@ -28,7 +28,11 @@ def test_direct_command_binding_uses_current_full_configured_plan():
     assert len(binding.plan.cells)==36
     assert len(binding.plan.questions)==22*36
     assert len(binding.plan.cognitive)==4*36
+    assert binding.plan.recurrence_required is True
+    assert binding.plan.recurrence_engine=="HF002"
+    assert binding.plan.invocation_profile=="FULL_CONFIGURED_HF2_V1"
     assert binding.summary["configured_hf2_execution"]=="SHARED_GATE"
+    assert binding.summary["recurrence_engine"]=="HF002"
 
 
 def test_direct_command_executes_through_same_hf2_bridge():
