@@ -5,7 +5,7 @@
   "status": "CURRENT",
   "canonical_repository": "thytabakman-jpg/Take-5",
   "controller": "IC-028",
-  "regime_version": "089",
+  "regime_version": "090",
   "invocation": {
     "aliases": [
       "ImproveCore",
@@ -17,7 +17,7 @@
   },
   "regime": {
     "surface": "runtime/improvement_core_regime.py",
-    "version": "089",
+    "version": "090",
     "stage_manager": "runtime/improvement_core_manager.py",
     "operator": "runtime/ic028_operator.py",
     "recursive_manager": "runtime/improvement_core_recursive_manager.py",
@@ -27,7 +27,9 @@
     "narrow_subordinate": "runtime/improvement_core.py",
     "external_acquisition": "runtime/improvement_core_external_acquisition.py",
     "mode_geometry": "runtime/entry_contract.py",
-    "configured_tool_bridge": "runtime/improvement_core_tool_bridge.py"
+    "configured_tool_bridge": "runtime/improvement_core_tool_bridge.py",
+    "canonical_progress": "runtime/improvement_core_progress_relation.py",
+    "durable_learning": "integration/IMPROVEMENT_CORE_DURABLE_LEARNING_110.json"
   },
   "evidence": {
     "maximization": "architecture/IMPROVEMENT_CORE_MAXIMIZATION_081.md",
@@ -80,7 +82,9 @@
       "capability_preservation_run": "36227477597",
       "merge_commit": "04d6cc4d1935ee72e29909cb3bc7c4ee3616ade0"
     },
-    "configured_tool_execution": "architecture/IMPROVEMENT_CORE_CONFIGURED_TOOL_EXECUTION_109.md"
+    "configured_tool_execution": "architecture/IMPROVEMENT_CORE_CONFIGURED_TOOL_EXECUTION_109.md",
+    "canonical_progress": "architecture/IMPROVEMENT_CORE_CANONICAL_PROGRESS_MATHEMATICS_001_2026-09-26.md",
+    "anti_repeat": "architecture/IMPROVEMENT_CORE_ANTI_REPEAT_110.md"
   },
   "protected_behaviors": [
     "CONTROLLER_OWNERSHIP",
@@ -121,7 +125,12 @@
     "SELECTED_FORMAL_TOOL_REQUIRES_CONFIGURED_NATIVE_EXECUTION",
     "MISSING_SELECTED_TOOL_ADAPTER_PRESERVES_OPEN",
     "CONFIGURED_TOOL_RESULT_CONSUMED_BEFORE_GENERIC_EXECUTE",
-    "PLAN_REACHABILITY_DISTINCT_FROM_EXECUTION_REACHABILITY"
+    "PLAN_REACHABILITY_DISTINCT_FROM_EXECUTION_REACHABILITY",
+    "CANONICAL_PROGRESS_RELATION_GOVERNS_RECURSIVE_GAIN",
+    "DURABLE_NEGATIVE_ROUTE_MEMORY",
+    "LEARNED_NO_GAIN_FILTERS_BEFORE_FRONTIER",
+    "SEMANTIC_CYCLE_NO_GAIN_BLOCKING",
+    "RETRY_REQUIRES_RELEVANT_CHANGE"
   ],
   "open": [],
   "math": {
@@ -132,7 +141,10 @@
     "runtime": "runtime/improvement_core_math.py",
     "regression": "tests/test_improvement_core_math_086.py",
     "math_spine": "runtime/improvement_core_math_spine.py",
-    "corpus_integration": "architecture/IMPROVEMENT_CORE_MATH_CORPUS_INTEGRATION_090.md"
+    "corpus_integration": "architecture/IMPROVEMENT_CORE_MATH_CORPUS_INTEGRATION_090.md",
+    "progress_relation": "runtime/improvement_core_progress_relation.py",
+    "progress_surface": "architecture/IMPROVEMENT_CORE_CANONICAL_PROGRESS_MATHEMATICS_001_2026-09-26.md",
+    "durable_learning": "integration/IMPROVEMENT_CORE_DURABLE_LEARNING_110.json"
   },
   "external_limits": [
     "UNIVERSAL_HOST_INTERCEPTION_EXTERNAL_NOT_OWNED"
@@ -143,6 +155,7 @@
     "NEW_HOST_INTEGRATION_CAPABILITY",
     "NEW_CONFIGURED_TOOL_OR_PROTECTED_BEHAVIOR",
     "HOLDOUT_OR_REPLAY_FAILURE",
-    "MATERIAL_REPRESENTATION_OR_CANDIDATE_UNIVERSE_CHANGE"
+    "MATERIAL_REPRESENTATION_OR_CANDIDATE_UNIVERSE_CHANGE",
+    "DURABLE_LEARNING_LEDGER_CONTRADICTION"
   ]
 }
