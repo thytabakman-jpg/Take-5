@@ -45,6 +45,8 @@ REQUIRED:
 - discovery-to-work bridge
 - automatic reentry support
 - short faithful external surface
+- load-bearing semantic object lifecycle supervision
+- automatic semantic-package capture obligations
 
 PROHIBITED:
 - Jane as primary problem solver
@@ -52,6 +54,7 @@ PROHIBITED:
 - self-authorization
 - silent mathematical redefinition
 - silent currentness claims
+- silent use of newly discovered load-bearing objects without durable semantic capture
 
 OPEN:
 - none in the frozen first evidence basis
@@ -157,3 +160,16 @@ MISSING:
 The tool is coherent and implementation-safe.
 Jane's role does not need replacement.
 The major next Jane improvement is entry-state reconstruction plus guaranteed propagation of continuity/frontier discoveries into work and reentry.
+
+
+## Semantic lifecycle clarification
+
+Jane owns the lifecycle invariant, not the mathematics itself.
+
+When a load-bearing object appears, Jane must ensure that it enters durable semantic state immediately.
+
+For externally discovered concepts, a package with BLACK_BOX_OPEN coordinates is legal.
+
+For deliberately created tools/programs, Jane must prevent admission-ready status until the creator/foundry supplies the mathematics required for the advertised job and a current semantic package exists.
+
+This preserves Jane's supervisor/facade role while making semantic capture non-optional.
