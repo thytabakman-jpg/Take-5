@@ -67,6 +67,13 @@
         "merge_commit": "04d6cc4d1935ee72e29909cb3bc7c4ee3616ade0",
         "validation_run": "36227477555",
         "capability_preservation_run": "36227477597"
+      },
+      {
+        "pr": 87,
+        "merge_commit": "44cea13bdcd1e2c06fe44699d4152d653180daa9",
+        "validation_run": "36249459966",
+        "capability_preservation_run": "36249459971",
+        "regime_version": "090"
       }
     ],
     "protected_transition_integrity": "architecture/PROTECTED_TRANSITION_INTEGRITY_090.md",
@@ -84,7 +91,13 @@
     },
     "configured_tool_execution": "architecture/IMPROVEMENT_CORE_CONFIGURED_TOOL_EXECUTION_109.md",
     "canonical_progress": "architecture/IMPROVEMENT_CORE_CANONICAL_PROGRESS_MATHEMATICS_001_2026-09-26.md",
-    "anti_repeat": "architecture/IMPROVEMENT_CORE_ANTI_REPEAT_110.md"
+    "anti_repeat": "architecture/IMPROVEMENT_CORE_ANTI_REPEAT_110.md",
+    "anti_repeat_validation": {
+      "pr": 87,
+      "validation_run": "36249459966",
+      "capability_preservation_run": "36249459971",
+      "merge_commit": "44cea13bdcd1e2c06fe44699d4152d653180daa9"
+    }
   },
   "protected_behaviors": [
     "CONTROLLER_OWNERSHIP",

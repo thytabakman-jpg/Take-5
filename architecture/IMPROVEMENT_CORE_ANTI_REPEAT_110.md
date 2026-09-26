@@ -1,7 +1,7 @@
 # ImproveCore Anti-Repeat and Durable Progress 110
 
 Date: 2026-09-26
-Status: IMPLEMENTED CANDIDATE
+Status: IMPLEMENTED / VALIDATED / MERGED
 Target regime: 090
 
 ## Root defect
@@ -45,3 +45,12 @@ Repository commits remain a host responsibility. The runtime guarantee is that a
 ## Closure rule
 
 A new file, timestamp, wording change, or repeated audit is not progress by itself. Reentry requires a typed effect at the claimed boundary or a licensed change that invalidates the prior no-gain record.
+
+
+## Validation evidence
+
+PR #87
+- merge commit 44cea13bdcd1e2c06fe44699d4152d653180daa9
+- Take-5 Validation 36249459966
+- Capability Preservation 36249459971
+- full test suite, canonical whole-system audit, closed-loop fixture, zero-request dump, and capability-preservation gate passed on the exact PR head before merge.
