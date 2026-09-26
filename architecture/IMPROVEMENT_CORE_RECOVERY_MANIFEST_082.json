@@ -5,7 +5,7 @@
   "status": "CURRENT",
   "canonical_repository": "thytabakman-jpg/Take-5",
   "controller": "IC-028",
-  "regime_version": "089",
+  "regime_version": "090",
   "invocation": {
     "aliases": [
       "ImproveCore",
@@ -17,7 +17,7 @@
   },
   "regime": {
     "surface": "runtime/improvement_core_regime.py",
-    "version": "089",
+    "version": "090",
     "stage_manager": "runtime/improvement_core_manager.py",
     "operator": "runtime/ic028_operator.py",
     "recursive_manager": "runtime/improvement_core_recursive_manager.py",
@@ -80,7 +80,11 @@
       "capability_preservation_run": "36227477597",
       "merge_commit": "04d6cc4d1935ee72e29909cb3bc7c4ee3616ade0"
     },
-    "configured_tool_execution": "architecture/IMPROVEMENT_CORE_CONFIGURED_TOOL_EXECUTION_109.md"
+    "configured_tool_execution": "architecture/IMPROVEMENT_CORE_CONFIGURED_TOOL_EXECUTION_109.md",
+    "policy_math": "architecture/IMPROVEMENT_CORE_MATHEMATICS_086.md",
+    "current_mt": "integration/CURRENT_MT.md",
+    "corpus_orphan_accounting": "architecture/CORPUS_ORPHAN_ACCOUNTING_COMPLETENESS_110.md",
+    "ic123_all_tool_red_closure": "research/IC123_ALL_TOOL_RED_CLOSURE_110_2026-09-26.md"
   },
   "protected_behaviors": [
     "CONTROLLER_OWNERSHIP",
@@ -121,7 +125,10 @@
     "SELECTED_FORMAL_TOOL_REQUIRES_CONFIGURED_NATIVE_EXECUTION",
     "MISSING_SELECTED_TOOL_ADAPTER_PRESERVES_OPEN",
     "CONFIGURED_TOOL_RESULT_CONSUMED_BEFORE_GENERIC_EXECUTE",
-    "PLAN_REACHABILITY_DISTINCT_FROM_EXECUTION_REACHABILITY"
+    "PLAN_REACHABILITY_DISTINCT_FROM_EXECUTION_REACHABILITY",
+    "SET_VALUED_POLICY_CORRESPONDENCE_WITH_EXPLICIT_RESOLUTION",
+    "MT_W1_W8_HISTORICAL_WITNESS_RECONSTRUCTION",
+    "BASIS_RELATIVE_CORPUS_ORPHAN_ACCOUNTING_COMPLETENESS"
   ],
   "open": [],
   "math": {
@@ -132,7 +139,9 @@
     "runtime": "runtime/improvement_core_math.py",
     "regression": "tests/test_improvement_core_math_086.py",
     "math_spine": "runtime/improvement_core_math_spine.py",
-    "corpus_integration": "architecture/IMPROVEMENT_CORE_MATH_CORPUS_INTEGRATION_090.md"
+    "corpus_integration": "architecture/IMPROVEMENT_CORE_MATH_CORPUS_INTEGRATION_090.md",
+    "policy_type": "SET_VALUED_NONDOMINATED_CORRESPONDENCE",
+    "policy_resolver": "runtime/improvement_core_math_spine.py"
   },
   "external_limits": [
     "UNIVERSAL_HOST_INTERCEPTION_EXTERNAL_NOT_OWNED"
