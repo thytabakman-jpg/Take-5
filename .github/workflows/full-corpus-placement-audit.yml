@@ -1,0 +1,19 @@
+name: full-corpus-placement-audit
+on:
+  push:
+    branches:
+      - improvecore/full-corpus-placement-audit-20260926
+  workflow_dispatch:
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Scan every text line
+        run: python tools/full_corpus_placement_audit.py --root . --out audit/runtime/FULL_CORPUS_CONTENT_AUDIT.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: full-corpus-content-audit
+          path: audit/runtime/
