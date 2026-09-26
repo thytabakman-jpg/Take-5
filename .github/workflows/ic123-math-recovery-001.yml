@@ -20,7 +20,16 @@ jobs:
         env:
           PYTHONPATH: runtime
         run: |
-          pytest -q             tests/test_improvement_core_order_math.py             tests/test_improvement_core_progress_relation.py             tests/test_assert_compound.py             tests/test_assert_full36.py             tests/test_mt_semantic_return_gate.py             tests/test_root_cause_hf2.py             tests/test_question_worth_asking.py             tests/test_solution_to_my_problem.py             tests/test_improvement_core_math_spine.py             tests/test_improvement_core_tool_bridge.py
+          pytest -q \
+            tests/test_improvement_core_order_math.py \
+            tests/test_assert_compound.py \
+            tests/test_assert_full36.py \
+            tests/test_mt_semantic_return_gate.py \
+            tests/test_root_cause_hf2.py \
+            tests/test_question_worth_asking.py \
+            tests/test_solution_to_my_problem.py \
+            tests/test_improvement_core_math_spine.py \
+            tests/test_improvement_core_tool_bridge.py
       - name: Run IC123 coordinated campaign
         env:
           PYTHONPATH: runtime
