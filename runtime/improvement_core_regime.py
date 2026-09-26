@@ -181,16 +181,16 @@ def _record_configured_tool_knowledge(state,knowledge_ledger,basis):
                 continue
 
             related={
-                str(x) for x in raw.get("related_objects",()) if str(x)
+                str(x) for x in (raw.get("related_objects") or ()) if str(x)
             }
             affected={
-                str(x) for x in raw.get("affected_objects",()) if str(x)
+                str(x) for x in (raw.get("affected_objects") or ()) if str(x)
             }
             related.update(affected)
             related.update({tool_id,f"configured_run:{tool_id}"})
 
             deps={
-                str(x) for x in raw.get("dependency_footprint",()) if str(x)
+                str(x) for x in (raw.get("dependency_footprint") or ()) if str(x)
             }
             deps.update(structural_dependencies)
 
@@ -220,7 +220,7 @@ def _record_configured_tool_knowledge(state,knowledge_ledger,basis):
                 related_objects=tuple(sorted(related)),
                 dependency_footprint=tuple(sorted(deps)),
                 evidence_refs=tuple(
-                    str(x) for x in raw.get("evidence",output.get("evidence",()))
+                    str(x) for x in (raw.get("evidence") or output.get("evidence") or ())
                     if str(x)
                 ),
                 metadata={
@@ -242,16 +242,16 @@ def _record_configured_tool_knowledge(state,knowledge_ledger,basis):
             continue
 
         related={
-            str(x) for x in output.get("related_objects",()) if str(x)
+            str(x) for x in (output.get("related_objects") or ()) if str(x)
         }
         affected={
-            str(x) for x in output.get("affected_objects",()) if str(x)
+            str(x) for x in (output.get("affected_objects") or ()) if str(x)
         }
         related.update(affected)
         related.update({tool_id,f"configured_run:{tool_id}"})
 
         deps={
-            str(x) for x in output.get("dependency_footprint",()) if str(x)
+            str(x) for x in (output.get("dependency_footprint") or ()) if str(x)
         }
         deps.update(structural_dependencies)
 
@@ -278,7 +278,7 @@ def _record_configured_tool_knowledge(state,knowledge_ledger,basis):
             related_objects=tuple(sorted(related)),
             dependency_footprint=tuple(sorted(deps)),
             evidence_refs=tuple(
-                str(x) for x in output.get("evidence",()) if str(x)
+                str(x) for x in (output.get("evidence") or ()) if str(x)
             ),
             metadata={
                 "configured_output_index":output_index,
