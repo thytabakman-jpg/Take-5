@@ -13,6 +13,7 @@ MANDATORY_STAGES=(
     ("PD","Q03","Difference Math"),
     ("PDAudit","Q18","Verify Math"),
     ("MTA","Q01","Basic Math"),
+    ("MT","Q02","Change Math"),
     ("PDAudit","Q18","Verify Math"),
     ("C47","Q19","Completion Check"),
 )
@@ -23,6 +24,8 @@ CONDITIONAL_STAGES={
     "CURRENTNESS_OPEN":("CurrentnessAudit","Q12","Current Check"),
     "DEPENDENCY_OPEN":("C06","Q15","Dependency Math"),
     "RELATION_OPEN":("C09","Q16","Relation Math"),
+    "STRUCTURE_OPEN":("Architecture","Q05","Structure Math"),
+    "INTERACTION_OPEN":("MultiObject","Q04","Together Math"),
     "CAUSE_OPEN":("Diagnosis","Q06","Cause Math"),
     "DISCOVERY_OPEN":("C19","Q22","Discovery Math"),
     "REALITY_OPEN":("C44","Q18","Verify Math"),
