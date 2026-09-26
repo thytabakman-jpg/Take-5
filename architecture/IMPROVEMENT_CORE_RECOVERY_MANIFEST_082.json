@@ -40,6 +40,11 @@
         "pr": 52,
         "merge_commit": "e2341b350e68bddc798ad1437e445b866698f31d",
         "validation_run": "36220247129"
+      },
+      {
+        "pr": 53,
+        "merge_commit": "2dfe684886898f5a39ccd6c06f9a0b9e27695ff7",
+        "validation_run": "36220513144"
       }
     ]
   },
