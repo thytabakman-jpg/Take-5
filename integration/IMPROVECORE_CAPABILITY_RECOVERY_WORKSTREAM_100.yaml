@@ -27,6 +27,10 @@ intended_write_set:
   - architecture/TAKE_TWO_OPERATING_LAW_099.md
   - integration/IMPROVECORE_RECOVERY_BLUEPRINT_100.md
   - integration/IMPROVECORE_CAPABILITY_RECOVERY_WORKSTREAM_100.yaml
+  - runtime/kernel_preservation.py
+  - tests/test_kernel_preservation.py
+  - integration/CAPABILITY_PRESERVATION_MANIFEST_100.json
+  - tests/test_capability_preservation_manifest.py
 protected_behavior:
   - no_last_writer_wins
   - no_currentness_promotion
