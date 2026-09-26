@@ -36,7 +36,7 @@ Controller:
 - IC-028
 
 Current regime version:
-- 085
+- 086
 
 Current invocation path:
 
@@ -107,6 +107,11 @@ architecture/IMPROVEMENT_CORE_ACTIVATION_083.md
 19. corpus-seeded zero-request entry without host-authored substantive job coordinates.
 20. mode-cube entry identity across breadth, direction, and coupling.
 21. broad observer and focused resolution remain distinct rather than collapsing into one observer label.
+22. hard admissibility precedes routing preference.
+23. plural child candidates preserve a nondominated frontier unless an explicit policy selects among them.
+24. state/representation adequacy is tested against protected continuation distinctions.
+25. discovery, representation, authority, evidence, scope, mode, or runtime deltas can reopen work when material.
+26. verified reusable contributions remain reachable unless explicitly revised or retracted.
 
 ## Cross-repository lineage
 
@@ -150,6 +155,27 @@ EXPAND+OBSERVE+DECOUPLED -> RECONCILE -> CONTRACT+OBSERVE -> ACT when licensed.
 
 This preserves independent discovery before narrowing and prevents focused resolution from silently becoming outcome-directed optimization.
 
+## Recovered mathematical spine
+
+The cross-lineage math audit is captured in:
+architecture/IMPROVEMENT_CORE_MATH_CORPUS_INTEGRATION_090.md
+
+Runtime strict-gain witnesses:
+runtime/improvement_core_math_spine.py
+
+The imported laws are:
+- typed partial/set-valued maps rather than forced total functions;
+- continuation-relative state sufficiency;
+- hard admissibility before preference;
+- nondominated set-valued routing;
+- typed OPEN/BLOCKED/CONFLICT transition outcomes;
+- material discovery/representation/evidence/authority/runtime reentry;
+- local HF2 recurrence distinct from global parent recurrence;
+- basis-relative closure rather than resource-stop closure;
+- cumulative verified contribution preservation/reachability.
+
+Historical equations remain provenance unless they change protected controller behavior under the current basis.
+
 ## Current mathematical organization
 
 Current strict-gain math surface:
@@ -188,20 +214,22 @@ Global minimality remains OPEN.
 3. architecture/IMPROVEMENT_CORE_ACTIVATION_083.md
 4. architecture/IMPROVEMENT_CORE_MATHEMATICS_086.md
 5. runtime/improvement_core_math.py
-6. runtime/improvement_core_dispatch.py
-7. runtime/improvement_core_upstream.py
-8. runtime/improvement_core_regime.py
-9. runtime/improvement_core_manager.py
-10. runtime/ic028_operator.py
-11. runtime/improvement_core_recursive_manager.py
-12. runtime/improvement_core_learning_memory.py
-13. architecture/IMPROVEMENT_CORE_MAXIMIZATION_081.md
-14. architecture/CROSS_REPOSITORY_IMPROVEMENTCORE_LINEAGE_CHOICE_080.md
-15. research/IMPROVEMENT_CORE_USAGE_AUDIT_078_2026-09-26.md
-16. architecture/MATH_FIRST_WRAPPER_CLOSURE_039.md
-17. architecture/FULL_RUN_DEFAULT_DISPATCH_CONTRACT_066.md
-18. architecture/CANONICAL_TOOL_IDENTITY_REPAIR_076.md
-19. MIGRATION_STATE.yaml
+6. runtime/improvement_core_math_spine.py
+7. architecture/IMPROVEMENT_CORE_MATH_CORPUS_INTEGRATION_090.md
+8. runtime/improvement_core_dispatch.py
+9. runtime/improvement_core_upstream.py
+10. runtime/improvement_core_regime.py
+11. runtime/improvement_core_manager.py
+12. runtime/ic028_operator.py
+13. runtime/improvement_core_recursive_manager.py
+14. runtime/improvement_core_learning_memory.py
+15. architecture/IMPROVEMENT_CORE_MAXIMIZATION_081.md
+16. architecture/CROSS_REPOSITORY_IMPROVEMENTCORE_LINEAGE_CHOICE_080.md
+17. research/IMPROVEMENT_CORE_USAGE_AUDIT_078_2026-09-26.md
+18. architecture/MATH_FIRST_WRAPPER_CLOSURE_039.md
+19. architecture/FULL_RUN_DEFAULT_DISPATCH_CONTRACT_066.md
+20. architecture/CANONICAL_TOOL_IDENTITY_REPAIR_076.md
+21. MIGRATION_STATE.yaml
 
 ## Related current recovery anchors
 
