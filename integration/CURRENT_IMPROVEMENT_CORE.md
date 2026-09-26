@@ -394,6 +394,57 @@ OPEN/BLOCKED/CONFLICT protections.
 
 A full-history archive is durable evidence/memory, not mandatory active context.
 
+## Legacy-restored repository entrypoint
+
+Repository restoration status:
+CLOSED_RELATIVE.
+
+Canonical restored surfaces:
+- runtime/improvement_core_restored_dispatch.py
+- runtime/improvement_core_legacy_restored.py
+- runtime/improvement_core_legacy_candidate.py
+- integration/IC128_LEGACY_BEHAVIOR_BENCHMARK_129.yaml
+- artifacts/improvecore/LEGACY_CANDIDATE_CONTROL_HOLDOUT_131_2026-09-26.md
+- artifacts/improvecore/LEGACY_RESTORED_SEMANTIC_HOLDOUT_132_2026-09-26.md
+- artifacts/improvecore/IMPROVEMENTCORE_LEGACY_RESTORATION_CLOSURE_133_2026-09-26.md
+
+The restored controller recovers the frozen ICC128 Legacy endogenous loop:
+
+G_Q -> G_W -> S -> E -> A -> U -> G_Q
+
+and its state-relative rho_128 routing, including CHEAP_DIRECT and result-sensitive reselection,
+while retaining current entry/authority binding, external acquisition, configured-tool execution
+truth, OPEN/BLOCKED/CONFLICT preservation, knowledge capture, observer fail-closed behavior, and
+outer HF002 recurrence.
+
+The restored repository dispatch requires an explicit semantic provider. When that provider is
+missing, the restored path returns RESTORED_SEMANTIC_PROVIDER_REQUIRED as OPEN. It does not silently
+substitute the older fixed-stage controller and call that restored execution.
+
+runtime/improvement_core_dispatch.py and the regime-091 fixed-stage path remain compatibility/debug
+surfaces while automatic host semantic binding is unavailable. Their continued existence is not a
+license to redefine the restored controller semantics.
+
+Full conversation/file history is durable recovery evidence, not mandatory active context. The
+requested master three-month archive remains externally unresolved until an exact archive object is
+addressable.
+
+Validation basis:
+- four unlike control holdouts PASS;
+- two causal ablations PASS;
+- four unlike semantic-routing holdouts PASS under the explicit evidence class
+  HOST_MODEL_SUPPLIED_SEMANTIC_FRONTIER + REPOSITORY_CONTROL_EXECUTION;
+- this semantic evidence is not independent-agent replication.
+
+Terminal anti-churn rule:
+no further controller repair is licensed without a failing protected behavioral witness, newly
+recovered historical evidence that changes the target, an execution/currentness/provenance break,
+or a real project exposing a material controller failure. Unchanged repair routes are NO_GAIN.
+
+Remaining external limits:
+- MASTER_THREE_MONTH_ARCHIVE_NOT_YET_ADDRESSABLE;
+- AUTOMATIC_UNIVERSAL_CHAT_HOST_SEMANTIC_BINDING_EXTERNAL_NOT_OWNED.
+
 ## Related current recovery anchors
 
 - integration/CURRENT_MATHEMATICAL_COLORING.md
