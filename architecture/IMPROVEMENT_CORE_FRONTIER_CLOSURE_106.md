@@ -58,17 +58,27 @@ A host that never invokes Take-5 cannot be controlled by Take-5 code.
 Disposition:
 CLOSED_RELATIVE_CURRENT_CONFIGURED_REPERTOIRE.
 
-Evidence:
+Regime-089 correction:
+the regime-088 evidence established identity and configured-plan reachability,
+but that was not enough to establish selected-tool execution. A complete plan is
+not an executed tool.
+
+Current evidence:
 runtime/repertoire_reachability.py
 tests/test_repertoire_reachability.py
 runtime/protected_transition_portfolio.py
-tests/test_protected_transition_portfolio.py.
+tests/test_protected_transition_portfolio.py
+runtime/improvement_core_tool_bridge.py
+tests/test_improvement_core_tool_bridge.py
+architecture/IMPROVEMENT_CORE_CONFIGURED_TOOL_EXECUTION_109.md.
 
-Every current CONFIGURED_RUN has a complete current identity, complete global
-execution plan, and protected-transition reconstruction under the current basis.
+Every current CONFIGURED_RUN now has a complete current identity, complete global
+execution plan, protected-transition reconstruction, and a tested
+controller-to-bound-adapter invocation path with result consumption.
 
-This is controller/configured-run reachability, not a claim that every historical
-tool has a standalone native runtime facade.
+This remains controller/configured-run reachability. Native semantic adapter
+availability for every historical tool is host-relative and is not inferred
+from plan completeness.
 
 ### 5 Historical matched replays
 
@@ -181,3 +191,19 @@ Validation evidence:
 - merge commit 04d6cc4d1935ee72e29909cb3bc7c4ee3616ade0
 
 This does not assert open-world completeness.
+
+
+## Regime-089 execution correction
+
+The original regime-088 closure record conflated configured-plan reachability
+with execution reachability. Regime 089 preserves the valid identity/plan
+evidence and adds the missing execution edge:
+
+selected formal tool
+-> configured bridge bind
+-> adapter invocation
+-> result consumption.
+
+A selected tool with no bound adapter remains OPEN. This correction is a strict
+strengthening of coordinate 4 and does not reopen unrelated frontier
+coordinates.
