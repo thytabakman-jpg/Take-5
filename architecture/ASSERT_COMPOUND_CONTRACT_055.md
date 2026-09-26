@@ -188,21 +188,34 @@ The wrapper does not replace ASSERT*.
 
 The logical/kernel legality layer remains prior to ASSERT.
 
-## 8. Geometry
+## 8. Geometry and current-use full-36 compatibility
 
 No component receives an untyped bare "36" label.
 
-Each ASSERT component may use an explicit geometry chosen from the currently admitted geometry family:
+For normal current-use ASSERT, the operational compatibility default is typed D36_C and all three required surfaces are materialized before the run is considered complete:
 
+ASSERT Layer 1:
+- all seven protected ASSERT stages x all 36 D36_C cells.
+
+ASSERT Layer 2:
+- all current question families Q01-Q22 x all 36 D36_C cells.
+
+Cognitive 36:
+- DIFFERENTIATE, RELATE, RECONSTRUCT, STRENGTHEN x all 36 D36_C cells.
+
+Executable coverage surface:
+runtime/assert_full36.py
+
+This fixes current invocation behavior. It does not settle the larger geometry/provenance problem. The exact optimal geometry-selection law and historical Layer 1 / Layer 2 provenance remain OPEN in integration/ASSERT_FULL36_ARCHITECTURE_DEBT_071_2026-09-25.md.
+
+Other admitted geometry types remain:
 1
 D36_C
 D36_H
 D216
 D288
 
-or a later admitted geometry.
-
-Geometry is selected by typed applicability, not by naming convention.
+A different geometry requires explicit authorization rather than silent downgrade.
 
 ## 9. Preservation requirement
 
@@ -221,7 +234,9 @@ No stage may disappear through compression without a behavioral equivalence proo
 ## 10. Current OPEN coordinates
 
 - end-to-end semantic binding of ASSERT/COMPARE/RESOLVE/HERE/INQUIRE/REASSERT stage implementations into the orchestrator;
-- exact geometry assignment for each stage;
+- exact globally optimal geometry-selection law beyond the current-use mandatory D36_C compatibility default;
+- historical provenance and intended semantics of the Layer 1 / Layer 2 split;
+- historical provenance and intended nesting of the four cognitive operators;
 - exact inquiry cost model;
 - exact relationship between ASSERT question frontier and the canonical route trigger ledger;
 - regression/holdout witnesses for stage ablation.
