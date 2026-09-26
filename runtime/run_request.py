@@ -31,6 +31,7 @@ class RunRequest:
     recursive: bool
     closure_required: bool
     reentry_required: bool
+    semantic_before_return: bool
 
 
 ALIASES = {
@@ -83,6 +84,7 @@ def resolve_run_request(text: str) -> RunRequest:
             recursive=False,
             closure_required=False,
             reentry_required=False,
+            semantic_before_return=False,
         )
 
     spec = CONFIGURED_RUNS.get(tool)
@@ -97,4 +99,5 @@ def resolve_run_request(text: str) -> RunRequest:
         recursive=spec.recursive,
         closure_required=spec.closure_required,
         reentry_required=spec.reentry_required,
+        semantic_before_return=(tool=="MT"),
     )
