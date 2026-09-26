@@ -22,6 +22,8 @@ REQUIRED_FILES=(
     "runtime/improvement_core_math.py",
     "tests/test_improvement_core_math_086.py",
     "runtime/improvement_core_dispatch.py",
+    "runtime/entry_contract.py",
+    "runtime/mode_selector.py",
     "runtime/improvement_core_upstream.py",
     "runtime/improvement_core_regime.py",
     "runtime/improvement_core_manager.py",
@@ -76,6 +78,10 @@ def validate_recovery()->dict:
         if math_state.get("runtime")!="runtime/improvement_core_math.py":
             failures.append("IMPROVEMENT_CORE_MATH_RUNTIME_DRIFT")
 
+        mode_runtime=manifest.get("regime",{}).get("mode_runtime")
+        if mode_runtime!="runtime/entry_contract.py":
+            failures.append("MODE_PROFILE_RUNTIME_MISSING")
+
         upstream=manifest.get("invocation",{}).get("upstream_discovery")
         if upstream!="runtime/improvement_core_upstream.py":
             failures.append("UPSTREAM_DISCOVERY_RUNTIME_MISSING")
@@ -91,7 +97,7 @@ def validate_recovery()->dict:
             failures.append("MAXIMIZATION_STATUS_STALE")
 
         anchor=_read("integration/CURRENT_IMPROVEMENT_CORE.md")
-        if "Current regime version:\n- 084" not in anchor:
+        if "Current regime version:\n- 085" not in anchor:
             failures.append("RECOVERY_ANCHOR_REGIME_VERSION_DRIFT")
 
         handoff=_read("integration/ICC_SHUTDOWN_HANDOFF_2026-09-25.md")
