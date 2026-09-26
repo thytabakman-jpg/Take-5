@@ -98,3 +98,12 @@ Current upstream evidence:
 
 ImproveCore job:
 Run the current canonical user-facing ImprovementCore with default HF2 recurrence over its current repository/runtime state. Reconstruct current authority before selecting work. Treat all prior conclusions as evidence rather than commands. Find the highest-value evidence-supported repository-owned strict gain, execute and verify it when the current runtime licenses action, preserve OPEN/BLOCKED/CONFLICT where it does not, and do not count documentation or a new artifact as semantic progress by itself.
+
+
+## Re-run invocation 132
+
+Date: 2026-09-26
+User request: "Run improvement core with an HF2."
+
+ImproveCore job:
+Run the current canonical user-facing ImprovementCore from the latest main state with its complete default HF2 recurrence. Reconstruct current repository authority first. Treat prior runs 129-131 and all earlier conclusions as evidence rather than commands. Reassess the whole current frontier, select only an evidence-supported repository-owned strict gain, execute through the current configured path when licensed, consume and verify the successor, and let HF2 reapply only on witnessed material semantic change. Preserve OPEN, BLOCKED, CONFLICT, external host boundaries, and no-gain closure exactly rather than manufacturing work. A new receipt or documentation artifact alone is not semantic progress.
