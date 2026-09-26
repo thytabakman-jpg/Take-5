@@ -1,7 +1,7 @@
 # Mathematical Color Invariant 062
 
 Date: 2026-09-25
-Status: IMPLEMENTED CANDIDATE / VALIDATION REQUIRED
+Status: IMPLEMENTED / VALIDATED / MERGED IN TAKE-5
 
 ## Job
 
@@ -66,7 +66,7 @@ Example:
 
 "The runtime contains hf1_reentry_route" may be GREEN when directly verified.
 
-"HF1 is mathematically complete" remains RED while the complete HF1 state space, transition semantics, minimality, or sufficiency remain open.
+"HF1 mathematics is complete relative to the typed packet interface" may now be GREEN when evaluated against HF1 Mathematics 084 and its validated runtime/tests. A stronger claim such as "HF1 is globally minimal inside the entire Take-5 controller" remains RED because that stronger job is still OPEN.
 
 ## Dependency inheritance
 
@@ -113,9 +113,9 @@ to the older finite formal-label pattern.
 
 ## Relationship to wrapper
 
-This contract supplies a candidate resolution for Wrapper Canonical Contract 053 open coordinate O6, human-visible-math formalization.
+This contract now supplies the validated Take-5 resolution for the human-visible-math emission coordinate: typed formal-label identity, glyph-level rendering, plain-label response-boundary rejection, and recovery tests are integrated.
 
-O6 remains not fully promoted until integration with the emission path and regression evidence are established.
+The external-host boundary remains OPEN because repository code cannot compel a host that never loads the Take-5 emission path.
 
 
 ## Assistant response boundary
@@ -157,3 +157,11 @@ Load:
 
 A new load-bearing formal object is not emission-ready until its canonical identity,
 aliases, typed status path, and plain-text bypass regression are registered.
+
+
+## Validation evidence — 2026-09-26
+
+PR #55
+Merge: 39ca5616d3d8e23042f0ac887d0a447e24ec8ddf
+Validation run: 36221315384
+Conclusion: SUCCESS
