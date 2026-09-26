@@ -36,7 +36,7 @@ Controller:
 - IC-028
 
 Current regime version:
-- 083
+- 084
 
 Current invocation path:
 
@@ -102,6 +102,11 @@ architecture/IMPROVEMENT_CORE_ACTIVATION_083.md
 16. Take-3 strict-gain architecture admission;
 17. Take-4 cumulative-autonomy target;
 18. Take-5 authority, provenance, currentness, execution, closure and reentry safeguards.
+19. hard admissibility before routing preference.
+20. nondominated plural routing without forced scalar winner.
+21. continuation-relative state/representation sufficiency.
+22. discovery-sensitive reentry.
+23. cumulative verified contribution preservation/reachability.
 
 ## Cross-repository lineage
 
@@ -124,6 +129,16 @@ Take-5
 
 Decision:
 architecture/CROSS_REPOSITORY_IMPROVEMENTCORE_LINEAGE_CHOICE_080.md
+
+## Recovered mathematical spine
+
+Cross-lineage integration:
+architecture/IMPROVEMENT_CORE_MATH_CORPUS_INTEGRATION_090.md
+
+Executable strict-gain witnesses:
+runtime/improvement_core_math_spine.py
+
+The recovered spine adds typed partial/set-valued controller semantics, continuation-relative state adequacy, hard admissibility before preference, nondominated routing, discovery-sensitive reentry, basis-relative closure, local/global recurrence separation, and cumulative contribution preservation.
 
 ## Current mathematical organization
 
@@ -163,7 +178,9 @@ Global minimality remains OPEN.
 3. architecture/IMPROVEMENT_CORE_ACTIVATION_083.md
 4. architecture/IMPROVEMENT_CORE_MATHEMATICS_086.md
 5. runtime/improvement_core_math.py
-6. runtime/improvement_core_dispatch.py
+6. runtime/improvement_core_math_spine.py
+7. architecture/IMPROVEMENT_CORE_MATH_CORPUS_INTEGRATION_090.md
+8. runtime/improvement_core_dispatch.py
 7. runtime/improvement_core_regime.py
 8. runtime/improvement_core_manager.py
 9. runtime/ic028_operator.py
