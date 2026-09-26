@@ -11,6 +11,7 @@ from dataclasses import dataclass, asdict, field
 from typing import Any, Callable
 
 from improvement_core_learning_memory import LearningMemory
+from improvement_core_math_spine import ControllerOption, nondominated_frontier
 
 TERMINAL={"COMPLETE","OPEN","BLOCKED","CONFLICT"}
 ADMISSION={"ADMIT","REJECT","RECONCILE","OPEN","NO_GAIN"}
@@ -40,7 +41,7 @@ class ManagerTrace:
 
 @dataclass
 class RecursiveImprovementCoreManager:
-    select_child_job:Callable[[dict[str,Any],dict[str,Any]], dict[str,Any] | None]
+    select_child_job:Callable[[dict[str,Any],dict[str,Any]], dict[str,Any] | list[dict[str,Any]] | tuple[dict[str,Any],...] | None]
     run_child:Callable[[ChildJob], ChildReturn]
     admit_child:Callable[[ChildReturn,dict[str,Any],dict[str,Any]], tuple[str,dict[str,Any]]]
     update_parent:Callable[[dict[str,Any],dict[str,Any],str,dict[str,Any]], tuple[dict[str,Any],dict[str,Any]]]
@@ -90,6 +91,48 @@ class RecursiveImprovementCoreManager:
                     "traces":[asdict(t) for t in self.traces],
                     "blocker":None,
                 }
+
+            if isinstance(selected,(list,tuple)):
+                raw_candidates=tuple(selected)
+                options=tuple(
+                    ControllerOption(
+                        option_id=str(x.get("id")),
+                        goal_gain=float(x.get("goal_gain",0.0)),
+                        information_gain=float(x.get("information_gain",0.0)),
+                        search_gain=float(x.get("search_gain",0.0)),
+                        cost=float(x.get("cost",0.0)),
+                        risk=float(x.get("risk",0.0)),
+                        reversible=bool(x.get("reversible",True)),
+                        preserves_protected=bool(x.get("preserves_protected",True)),
+                        authorized=bool(x.get("authorized",True)),
+                        reachable=bool(x.get("reachable",True)),
+                        status=str(x.get("status","CANDIDATE")),
+                        metadata=x,
+                    )
+                    for x in raw_candidates
+                )
+                frontier=nondominated_frontier(options)
+                if not frontier.nondominated:
+                    return {
+                        "status":"OPEN","state":z,"memory":m,
+                        "traces":[asdict(t) for t in self.traces],
+                        "blocker":"IC_MANAGER_NO_ADMISSIBLE_CHILD_JOB",
+                        "frontier":{"rejected":frontier.rejected},
+                    }
+                by_id={str(x.get("id")):x for x in raw_candidates}
+                if len(frontier.nondominated)>1:
+                    requested=str(z.get("frontier_choice_id",""))
+                    frontier_ids=tuple(x.option_id for x in frontier.nondominated)
+                    if requested not in frontier_ids:
+                        return {
+                            "status":"OPEN","state":z,"memory":m,
+                            "traces":[asdict(t) for t in self.traces],
+                            "blocker":"IC_MANAGER_PLURAL_NONDOMINATED_CHILD_FRONTIER",
+                            "frontier":{"nondominated":frontier_ids,"rejected":frontier.rejected},
+                        }
+                    selected=by_id[requested]
+                else:
+                    selected=by_id[frontier.nondominated[0].option_id]
 
             basis=str(selected.get("basis_id") or z.get("basis_id") or f"basis:{i}")
             route_id=str(selected.get("route_id") or selected.get("id"))
