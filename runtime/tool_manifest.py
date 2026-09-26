@@ -86,6 +86,15 @@ MT_BINDINGS=GENERIC_BINDINGS+(
     ),
 )
 
+HF001_BINDINGS=GENERIC_BINDINGS+(
+    ProtectedBinding(
+        "HF001_GOVERNED_EPISODE",
+        "INTRA",
+        "runtime/hf1_episode.py",
+        "tests/test_hf1_episode.py",
+    ),
+)
+
 ASSERT_BINDINGS=GENERIC_BINDINGS+(
     ProtectedBinding(
         "ASSERT_COMPOUND_STAGE_ORDER",
@@ -121,6 +130,14 @@ OVERRIDES={
         closure_contract="TRC",
         reentry_contract="HF001",
         bindings=MT_BINDINGS,
+    ),
+    "HF001":ToolManifest(
+        tool_id="HF001",
+        native_semantics="HF001",
+        geometry_policy="D36_C",
+        closure_contract="TRC",
+        reentry_contract="HF001",
+        bindings=HF001_BINDINGS,
     ),
     "ASSERT":ToolManifest(
         tool_id="ASSERT",
