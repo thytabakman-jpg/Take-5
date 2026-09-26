@@ -32,6 +32,7 @@ def test_foundry_cannot_self_authorize():
         functionally_subsumed=never_subsumed,
         material_goal_gain=always_gain,
         architecture_compatible=compatible,
+        package_verifier=lambda oid: True,
     )
     assert r.disposition == FoundryDisposition.REJECT
 
@@ -41,6 +42,7 @@ def test_complete_novel_candidate_only_requests_admission():
         functionally_subsumed=never_subsumed,
         material_goal_gain=always_gain,
         architecture_compatible=compatible,
+        package_verifier=lambda oid: True,
     )
     assert r.disposition == FoundryDisposition.ADMISSION_REQUEST
 
@@ -52,6 +54,7 @@ def test_duplicate_is_subsumed():
         functionally_subsumed=lambda a,b: True,
         material_goal_gain=always_gain,
         architecture_compatible=compatible,
+        package_verifier=lambda oid: True,
     )
     assert r.disposition == FoundryDisposition.SUBSUME
 
@@ -61,6 +64,7 @@ def test_incomplete_contract_remains_open():
         functionally_subsumed=never_subsumed,
         material_goal_gain=always_gain,
         architecture_compatible=compatible,
+        package_verifier=lambda oid: True,
     )
     assert r.disposition == FoundryDisposition.OPEN
 
@@ -70,6 +74,7 @@ def test_failed_gain_or_compatibility_remains_open():
         functionally_subsumed=never_subsumed,
         material_goal_gain=lambda x: False,
         architecture_compatible=lambda x: False,
+        package_verifier=lambda oid: True,
     )
     assert r.disposition == FoundryDisposition.OPEN
 
@@ -120,6 +125,19 @@ def test_created_tool_with_partial_required_math_remains_open():
         functionally_subsumed=never_subsumed,
         material_goal_gain=always_gain,
         architecture_compatible=compatible,
+        package_verifier=lambda oid: True,
     )
     assert r.disposition == FoundryDisposition.OPEN
     assert "required_mathematics_unrecovered" in r.reasons
+
+
+def test_created_tool_cannot_self_assert_package_currentness():
+    c=spec("C_SELF")
+    r=CapabilityFoundry().evaluate(
+        c,
+        functionally_subsumed=never_subsumed,
+        material_goal_gain=always_gain,
+        architecture_compatible=compatible,
+    )
+    assert r.disposition == FoundryDisposition.OPEN
+    assert "semantic_package_missing_or_stale" in r.reasons

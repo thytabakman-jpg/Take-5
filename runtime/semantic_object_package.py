@@ -165,3 +165,15 @@ def package_complete(paths:Iterable[str])->bool:
     required={"CORE.md","MANIFEST.md"}
     transition_paths={f"transitions/{n}" for n in expected_transition_names()}
     return required <= ps and transition_paths <= ps
+
+
+def verify_materialized_package(base:Path, object_id:str)->bool:
+    """Verify package reality from durable storage rather than caller assertion."""
+    root=base/slug(object_id)
+    if not (root/"CORE.md").is_file() or not (root/"MANIFEST.md").is_file():
+        return False
+    transitions=root/"transitions"
+    if not transitions.is_dir():
+        return False
+    actual={p.name for p in transitions.iterdir() if p.is_file()}
+    return set(expected_transition_names()) <= actual
