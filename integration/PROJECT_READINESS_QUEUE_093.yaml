@@ -1,0 +1,64 @@
+schema_version: 1
+date: 2026-09-26
+status: active_recovery_queue
+source_repository: thytabakman-jpg/Reaserch
+source_registry: PORTFOLIO.yaml
+canonical_system_repository: thytabakman-jpg/Take-5
+
+rule:
+  semantic_package: "CORE + MANIFEST + 36 directed transition pages for new managed/load-bearing objects"
+  project_readiness: "typed project-specific obligations in addition to semantic package"
+  authority: "do not mutate canonical goals without the existing approval gate"
+
+projects:
+  pd:
+    lifecycle: active
+    structural_readiness: strong
+    open: []
+  canonical-authority:
+    lifecycle: active
+    structural_readiness: strong
+    open: []
+  jewish-holiday-booklets:
+    lifecycle: active
+    structural_readiness: strong
+    open: [migration_reconstructed_not_validated]
+  curriculum-design-research:
+    lifecycle: paused
+    structural_readiness: deferred_recovery
+    open: [project_page_missing, state_missing]
+  feminine-divine-reference:
+    lifecycle: paused
+    structural_readiness: deferred_recovery
+    open: [project_page_missing, state_missing, provenance_missing]
+  psychological-distress:
+    lifecycle: active
+    structural_readiness: recovery_required
+    open: [state_missing, provenance_missing]
+  irrational-belief-origins:
+    lifecycle: active
+    structural_readiness: recovery_required
+    open: [state_missing, provenance_missing]
+  orthodox-gender-norms-rebt:
+    lifecycle: paused
+    structural_readiness: deferred_recovery
+    open: [project_page_missing, state_missing, provenance_missing]
+  rebt-is-ought:
+    lifecycle: active
+    structural_readiness: recovery_required
+    open: [provenance_missing_at_expected_local_path]
+  improvement-core:
+    lifecycle: active
+    structural_readiness: strong
+    open: [cross_repository_currentness_reconciliation]
+  sort-later:
+    lifecycle: active
+    structural_readiness: recovery_required
+    open:
+      - state_missing
+      - provenance_missing
+      - intentional_object_type_check_before_any_goal_file_requirement
+
+closure:
+  status: OPEN
+  reason: "readiness repairs that alter authoritative project goals require existing authority/approval gates; paused projects remain validly paused"
