@@ -10,6 +10,8 @@ from icc128_legacy_portable import (
     F128,
     portable_core_package,
     portable_core_environment,
+    exact_take5_activation_package,
+    exact_take5_activation_environment,
     take5_activation_closed,
 )
 from show_me_the_math_portable import assess, surface_value, SURFACE_EQUATION
@@ -93,3 +95,27 @@ def test_show_me_the_math_fails_closed_without_higher_order_controller_bindings(
     for name in ("package_compiler","admission_binding","update_binding","discovery_closure_binding"):
         assert name in out.unavailable_primitives
     assert surface_value(package,environment)==0
+
+
+def test_current_show_me_the_math_proves_exact_take5_activation_needs_report_sink():
+    package=exact_take5_activation_package()
+    no_sink=exact_take5_activation_environment(
+        semantic_reasoner_available=True,
+        execution_interface_available=True,
+        controller_bindings_available=True,
+        github_report_sink_available=False,
+    )
+    out=assess(package,no_sink)
+    assert not out.complete
+    assert "github_report_commit_receipt" in out.unavailable_primitives
+    assert surface_value(package,no_sink)==0
+
+    with_sink=exact_take5_activation_environment(
+        semantic_reasoner_available=True,
+        execution_interface_available=True,
+        controller_bindings_available=True,
+        github_report_sink_available=True,
+    )
+    closed=assess(package,with_sink)
+    assert closed.complete
+    assert surface_value(package,with_sink)==1
