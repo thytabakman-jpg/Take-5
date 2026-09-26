@@ -1,0 +1,707 @@
+{
+  "schema_version": 1,
+  "object_id": "TAKE5_IMPROVECORE_REGRESSION_CLOSURE_BASIS_110",
+  "date": "2026-09-26",
+  "status": "CURRENT_BASIS_CANDIDATE",
+  "canonical_repository": "thytabakman-jpg/Take-5",
+  "source_repository": {
+    "repository": "thytabakman-jpg/Reaserch",
+    "observed_main_tree_sha": "f5fe9810ab9953e903cd6626a572c5f36e54a839",
+    "witness_registry": "projects/improvement-core/lineage/IC_HISTORICAL_WITNESS_REGISTRY_001_2026-09-26.yaml",
+    "lineage_proof": "projects/improvement-core/validation/CURRENT_IC_LINEAGE_PRESERVATION_PROOFCORE_002_2026-09-26.md",
+    "tool_inventory": "projects/improvement-core/audits/ALL_TOOL_MATH_INVENTORY_001_2026-09-26.md",
+    "realization_map": "projects/core-system-mathematics/math/BACKEND_SYNCHRONIZATION_RUNTIME_SUBSTRATE_MAP_001_2026-09-24.md"
+  },
+  "ic123": {
+    "role": "RESIDUAL_ADEQUACY_CONTROLLER",
+    "rule": "Residual = RecoveredBasis - CurrentAccountedBasis; closure requires Residual = empty",
+    "witness_id": "ICC123_RESIDUAL_ADEQUACY",
+    "runtime_status": "DEDICATED_RUNTIME_OPEN; semantics used here as the regression residual gate"
+  },
+  "ic118": {
+    "role": "REALIZATION_SEPARATION_GATE",
+    "identity_status": "CONVERSATION_LABEL_NO_STANDALONE_REPOSITORY_CONTROLLER",
+    "formula": "Availability = SemanticAvailability * RuntimeAvailability * Authority",
+    "use_in_this_job": "Do not treat semantic recovery, configured planning, or bridge reachability as native execution. Operational closure requires all three coordinates or an explicit typed non-operational/open disposition."
+  },
+  "historical_witnesses": [
+    {
+      "id": "IC001_FRAME_CHECKPOINT",
+      "source": "IC-001",
+      "disposition": "SUBSUMED_WITH_WITNESS"
+    },
+    {
+      "id": "IC002_REPEAT_VS_SUCCESSOR",
+      "source": "IC-002",
+      "disposition": "SUBSUMED_WITH_WITNESS"
+    },
+    {
+      "id": "IC003_RELATIVE_REOPEN",
+      "source": "IC-003",
+      "disposition": "CONSUMED"
+    },
+    {
+      "id": "IC004_REPAIR_VS_CEILING",
+      "source": "IC-004",
+      "disposition": "SUBSUMED_WITH_WITNESS"
+    },
+    {
+      "id": "IC005_DISTINCTION_ADEQUACY",
+      "source": "IC-005",
+      "disposition": "SUBSUMED_WITH_WITNESS"
+    },
+    {
+      "id": "IC006_BRIDGE_SYNTHESIS",
+      "source": "IC-006",
+      "disposition": "SUBSUMED_WITH_WITNESS"
+    },
+    {
+      "id": "IC007_TRAJECTORY_ITERATION",
+      "source": "IC-007",
+      "disposition": "SUBSUMED_WITH_WITNESS"
+    },
+    {
+      "id": "IC008_PRECONVERGENCE_RELATIONAL_CHALLENGE",
+      "source": "IC-008",
+      "disposition": "CONSUMED"
+    },
+    {
+      "id": "IC009_MISSING_DISTINCTION_SET",
+      "source": "IC-009",
+      "disposition": "SUBSUMED_WITH_WITNESS"
+    },
+    {
+      "id": "IC011_ADAPTIVE_OUTER_CYCLE",
+      "source": "IC-011",
+      "disposition": "SUBSUMED_WITH_WITNESS"
+    },
+    {
+      "id": "IC012_STATE_RELATIVE_CAPABILITY_SELECTION",
+      "source": "IC-012",
+      "disposition": "CONSUMED"
+    },
+    {
+      "id": "IC013_LOCAL_CAPABILITY_RECURRENCE",
+      "source": "IC-013",
+      "disposition": "CONSUMED"
+    },
+    {
+      "id": "IC014_INDEPENDENT_LOCAL_CHALLENGE",
+      "source": "IC-014",
+      "disposition": "CONSUMED"
+    },
+    {
+      "id": "IC015_CYCLE_ANCESTRY_PRESERVATION",
+      "source": "IC-015",
+      "disposition": "SUBSUMED_WITH_WITNESS"
+    },
+    {
+      "id": "IC017_BRANCH_PROTECTION_LIFECYCLE",
+      "source": "IC-017",
+      "disposition": "SUBSUMED_WITH_WITNESS"
+    },
+    {
+      "id": "IC018_RUNTIME_EXECUTION_SEPARATION",
+      "source": "IC-018",
+      "disposition": "CONSUMED"
+    },
+    {
+      "id": "IC019_TYPED_RECURSIVE_STATE",
+      "source": "IC-019",
+      "disposition": "SUBSUMED_WITH_WITNESS"
+    },
+    {
+      "id": "IC020_SET_VALUED_MRU",
+      "source": "IC-020",
+      "disposition": "SUBSUMED_WITH_WITNESS"
+    },
+    {
+      "id": "IC021_BEHAVIORAL_CONTINUATION_EQUIVALENCE",
+      "source": "IC-021",
+      "disposition": "CONSUMED"
+    },
+    {
+      "id": "IC022_SELF_IMPROVEMENT_PACKAGE_COVERAGE",
+      "source": "IC-022",
+      "disposition": "SUBSUMED_WITH_WITNESS"
+    },
+    {
+      "id": "IC023_EXECUTION_TRUTH",
+      "source": "IC-023",
+      "disposition": "CONSUMED"
+    },
+    {
+      "id": "IC024_CONTINUATION_EQUIVALENCE",
+      "source": "IC-024",
+      "disposition": "CONSUMED"
+    },
+    {
+      "id": "IC024G2_CLOSED_LOOP_WORKER_RETURN",
+      "source": "IC-024-G2",
+      "disposition": "CONSUMED"
+    },
+    {
+      "id": "IC024G3_DISTINCTION_FIRST_CLOSED_LOOP",
+      "source": "IC-024-G3",
+      "disposition": "SUBSUMED_WITH_WITNESS"
+    },
+    {
+      "id": "IC025_GOVERNING_GOAL_PERSISTENCE",
+      "source": "IC-025",
+      "disposition": "CONSUMED"
+    },
+    {
+      "id": "IC026_SAME_CYCLE_REPAIR_RETURN",
+      "source": "IC-026",
+      "disposition": "CONSUMED"
+    },
+    {
+      "id": "IC028_LAYERED_GOAL_TO_COMPLETION",
+      "source": "IC-028",
+      "disposition": "CONSUMED"
+    },
+    {
+      "id": "IC029_SELF_MANAGED_INVOCATION",
+      "source": "IC-029",
+      "disposition": "CONSUMED"
+    },
+    {
+      "id": "IC030_MANAGER_CHILD_SEPARATION",
+      "source": "IC-030",
+      "disposition": "CONSUMED"
+    },
+    {
+      "id": "IC031_COMPOUNDING_DISCOVERY",
+      "source": "IC-031",
+      "disposition": "CONSUMED"
+    },
+    {
+      "id": "ICC123_RESIDUAL_ADEQUACY",
+      "source": "ICC-123",
+      "disposition": "CONSUMED"
+    },
+    {
+      "id": "ICC128_ADAPTIVE_INTERFACE_SELECTION",
+      "source": "ICC-128",
+      "disposition": "SUBSUMED_WITH_WITNESS"
+    }
+  ],
+  "evidence_gaps": [
+    {
+      "id": "IC-016",
+      "status": "MISSING_EVIDENCE",
+      "rule": "do not interpolate"
+    },
+    {
+      "id": "IC-027",
+      "status": "MISSING_EVIDENCE",
+      "rule": "do not interpolate"
+    }
+  ],
+  "historical_tool_inventory": [
+    {
+      "id": "DIFFERENTIATE",
+      "name": "Differentiate",
+      "math_status": "CAPABILITY_MATH_RECOVERED",
+      "disposition": "SEMANTIC_SURFACE_RECOVERED"
+    },
+    {
+      "id": "RELATE",
+      "name": "Relate",
+      "math_status": "CAPABILITY_MATH_RECOVERED",
+      "disposition": "SEMANTIC_SURFACE_RECOVERED"
+    },
+    {
+      "id": "RECONSTRUCT",
+      "name": "Reconstruct",
+      "math_status": "CAPABILITY_MATH_RECOVERED",
+      "disposition": "SEMANTIC_SURFACE_RECOVERED"
+    },
+    {
+      "id": "STRENGTHEN",
+      "name": "Strengthen",
+      "math_status": "CAPABILITY_MATH_RECOVERED",
+      "disposition": "SEMANTIC_SURFACE_RECOVERED"
+    },
+    {
+      "id": "FACTOR",
+      "name": "Factorization / Quotient",
+      "math_status": "CAPABILITY_MATH_RECOVERED",
+      "disposition": "SEMANTIC_SURFACE_RECOVERED"
+    },
+    {
+      "id": "PD",
+      "name": "PD",
+      "math_status": "SUBSTANTIAL_PARTIAL_FULLMATH_OPEN",
+      "disposition": "SEMANTIC_SURFACE_OPEN_COORDINATES"
+    },
+    {
+      "id": "PDAUDIT",
+      "name": "PDAudit",
+      "math_status": "SUBSTANTIAL_PARTIAL_FULLMATH_OPEN",
+      "disposition": "SEMANTIC_SURFACE_OPEN_COORDINATES"
+    },
+    {
+      "id": "MT",
+      "name": "MT",
+      "math_status": "MATH_RECOVERED_CURRENT",
+      "disposition": "SEMANTIC_SURFACE_RECOVERED"
+    },
+    {
+      "id": "MTA",
+      "name": "MTA",
+      "math_status": "SUBSTANTIAL_PARTIAL_FULLMATH_OPEN",
+      "disposition": "SEMANTIC_SURFACE_OPEN_COORDINATES"
+    },
+    {
+      "id": "RTC",
+      "name": "Raise the Ceiling",
+      "math_status": "MATH_RECOVERED_CURRENT",
+      "disposition": "SEMANTIC_SURFACE_RECOVERED"
+    },
+    {
+      "id": "MULTI-OBJECT",
+      "name": "Multi-Object",
+      "math_status": "MATH_RECOVERED_CURRENT",
+      "disposition": "SEMANTIC_SURFACE_RECOVERED"
+    },
+    {
+      "id": "ARCHITECTURE-ANALYSIS",
+      "name": "Architect",
+      "math_status": "SUBSTANTIAL_PARTIAL_FULLMATH_OPEN",
+      "disposition": "SEMANTIC_SURFACE_OPEN_COORDINATES"
+    },
+    {
+      "id": "DIAGNOSIS",
+      "name": "Diagnosis / Root Cause",
+      "math_status": "SUBSTANTIAL_PARTIAL_FULLMATH_OPEN",
+      "disposition": "SEMANTIC_SURFACE_OPEN_COORDINATES"
+    },
+    {
+      "id": "ARA-001",
+      "name": "Artifact Reality Audit",
+      "math_status": "SUBSTANTIAL_PARTIAL_FULLMATH_OPEN",
+      "disposition": "SEMANTIC_SURFACE_OPEN_COORDINATES"
+    },
+    {
+      "id": "ORPHAN-GHOST",
+      "name": "Orphan / Ghost / OrphanScan",
+      "math_status": "SUBSTANTIAL_PARTIAL_FULLMATH_OPEN",
+      "disposition": "SEMANTIC_SURFACE_OPEN_COORDINATES"
+    },
+    {
+      "id": "TRANSFER-CORE",
+      "name": "TransferCore",
+      "math_status": "SUBSTANTIAL_PARTIAL_FULLMATH_OPEN",
+      "disposition": "SEMANTIC_SURFACE_OPEN_COORDINATES"
+    },
+    {
+      "id": "GOAL-SPINE",
+      "name": "Goal Spine",
+      "math_status": "SUBSTANTIAL_PARTIAL_FULLMATH_OPEN",
+      "disposition": "SEMANTIC_SURFACE_OPEN_COORDINATES"
+    },
+    {
+      "id": "HERE-001",
+      "name": "HERE / What-is-here",
+      "math_status": "MATH_RECOVERED_CURRENT",
+      "disposition": "SEMANTIC_SURFACE_RECOVERED"
+    },
+    {
+      "id": "PROOFCORE",
+      "name": "ProofCore",
+      "math_status": "MATH_RECOVERED_CURRENT",
+      "disposition": "SEMANTIC_SURFACE_RECOVERED"
+    },
+    {
+      "id": "DCC-001",
+      "name": "Discovery Closure Core",
+      "math_status": "MATH_RECOVERED_CURRENT",
+      "disposition": "SEMANTIC_SURFACE_RECOVERED"
+    },
+    {
+      "id": "TOOL-RUN-CLOSURE",
+      "name": "Tool Run Closure / TRC",
+      "math_status": "MATH_RECOVERED_CURRENT",
+      "disposition": "SEMANTIC_SURFACE_RECOVERED"
+    },
+    {
+      "id": "HF-001",
+      "name": "HF1",
+      "math_status": "MATH_RECOVERED_CURRENT",
+      "disposition": "SEMANTIC_SURFACE_RECOVERED"
+    },
+    {
+      "id": "HF-002",
+      "name": "HF2",
+      "math_status": "MATH_RECOVERED_CURRENT",
+      "disposition": "SEMANTIC_SURFACE_RECOVERED"
+    },
+    {
+      "id": "FTW-001",
+      "name": "Formal Tool Wrapper",
+      "math_status": "MATH_RECOVERED_CURRENT",
+      "disposition": "SEMANTIC_SURFACE_RECOVERED"
+    },
+    {
+      "id": "MTOS-001",
+      "name": "MTOS",
+      "math_status": "SUBSTANTIAL_PARTIAL_FULLMATH_OPEN",
+      "disposition": "SEMANTIC_SURFACE_OPEN_COORDINATES"
+    },
+    {
+      "id": "MTM",
+      "name": "MTM",
+      "math_status": "SUBSTANTIAL_PARTIAL_FULLMATH_OPEN",
+      "disposition": "SEMANTIC_SURFACE_OPEN_COORDINATES"
+    },
+    {
+      "id": "RSA-001",
+      "name": "Recursive Self Application",
+      "math_status": "MATH_RECOVERED_CURRENT",
+      "disposition": "SEMANTIC_SURFACE_RECOVERED"
+    },
+    {
+      "id": "H2-ORTHOGONAL-FIVE-LENS",
+      "name": "H2",
+      "math_status": "SUBSTANTIAL_PARTIAL_FULLMATH_OPEN",
+      "disposition": "SEMANTIC_SURFACE_OPEN_COORDINATES"
+    },
+    {
+      "id": "IMPROVEMENTCORE",
+      "name": "ImproveCore / ICC family",
+      "math_status": "MATH_RECOVERED_CURRENT + HISTORICAL_MATH_RECOVERED_RELATIVE",
+      "disposition": "SEMANTIC_SURFACE_RECOVERED"
+    },
+    {
+      "id": "PRACTICALCORE",
+      "name": "PracticalCore",
+      "math_status": "SUBSTANTIAL_PARTIAL_FULLMATH_OPEN",
+      "disposition": "SEMANTIC_SURFACE_OPEN_COORDINATES"
+    },
+    {
+      "id": "TAKE-TWO",
+      "name": "Take Two",
+      "math_status": "MATH_RECOVERED_CURRENT + HISTORICAL_FULLMATH_OPEN",
+      "disposition": "SEMANTIC_SURFACE_OPEN_COORDINATES"
+    },
+    {
+      "id": "ASSERT",
+      "name": "ASSERT",
+      "math_status": "MATH_RECOVERED_CURRENT + HISTORICAL_FULLMATH_OPEN",
+      "disposition": "SEMANTIC_SURFACE_OPEN_COORDINATES"
+    },
+    {
+      "id": "GOAL",
+      "name": "GOAL",
+      "math_status": "MATH_RECOVERED_CURRENT + HISTORICAL_FULLMATH_OPEN",
+      "disposition": "SEMANTIC_SURFACE_OPEN_COORDINATES"
+    },
+    {
+      "id": "Take Three",
+      "name": "clean-room/minimal reconstruction/control experiment; Task/Finding/Action/Result style state",
+      "math_status": "SUBSTANTIAL_PARTIAL_FULLMATH_OPEN",
+      "disposition": "SEMANTIC_SURFACE_OPEN_COORDINATES"
+    },
+    {
+      "id": "Take Four",
+      "name": "informed reconstruction/experimental restoration; recreated endogenous work-generation behavior",
+      "math_status": "SUBSTANTIAL_PARTIAL_FULLMATH_OPEN",
+      "disposition": "SEMANTIC_SURFACE_OPEN_COORDINATES"
+    },
+    {
+      "id": "Take Five / Take-5",
+      "name": "candidate integrated/canonical successor architecture and component-placement program",
+      "math_status": "SUBSTANTIAL_PARTIAL_FULLMATH_OPEN",
+      "disposition": "SEMANTIC_SURFACE_OPEN_COORDINATES"
+    },
+    {
+      "id": "Take Six",
+      "name": "proposed successor label, not adopted",
+      "math_status": "NOT_SEPARATE_TOOL / NO TOOL MATH REQUIRED unless revived",
+      "disposition": "NON_PEER_CLASSIFIED"
+    },
+    {
+      "id": "Jane",
+      "name": "user-facing/supervisory continuity system across currentness/provenance/question/capability state; multiple historical meanings",
+      "math_status": "SUBSTANTIAL_PARTIAL_FULLMATH_OPEN",
+      "disposition": "SEMANTIC_SURFACE_OPEN_COORDINATES"
+    },
+    {
+      "id": "Gene",
+      "name": "intended kernel role named historically",
+      "math_status": "NO_ADEQUATE_MATH_RECOVERED",
+      "disposition": "OPEN_IDENTITY_OR_MATH"
+    },
+    {
+      "id": "HCC",
+      "name": "Observer-governed solver; P1-P10 and quotient/reentry equations recovered",
+      "math_status": "SUBSTANTIAL_PARTIAL_FULLMATH_OPEN",
+      "disposition": "SEMANTIC_SURFACE_OPEN_COORDINATES"
+    },
+    {
+      "id": "ICC-123 / IC123",
+      "name": "configured residual-adequacy guard over represented problem/controller state",
+      "math_status": "MATH_RECOVERED_CURRENT",
+      "disposition": "SEMANTIC_SURFACE_RECOVERED"
+    },
+    {
+      "id": "ICC-128 / IC128",
+      "name": "adaptive selection/admission/update/reentry controller with mathematical-interface index",
+      "math_status": "MATH_RECOVERED_CURRENT",
+      "disposition": "SEMANTIC_SURFACE_RECOVERED"
+    },
+    {
+      "id": "ICC100",
+      "name": "historical lineage/mode name mentioned in prior work",
+      "math_status": "NO_ADEQUATE_MATH_RECOVERED",
+      "disposition": "OPEN_IDENTITY_OR_MATH"
+    },
+    {
+      "id": "IOOC / INWARD_OUTWARD_OBSERVATION_CYCLE",
+      "name": "multiscale inward/outward observation cycle with typed mathematical object in old ecosystem map",
+      "math_status": "SUBSTANTIAL_PARTIAL_FULLMATH_OPEN",
+      "disposition": "SEMANTIC_SURFACE_OPEN_COORDINATES"
+    },
+    {
+      "id": "AuditCore",
+      "name": "historical practical audit engine now factored into PD/PracticalCore capabilities",
+      "math_status": "SUBSTANTIAL_PARTIAL_FULLMATH_OPEN",
+      "disposition": "SEMANTIC_SURFACE_OPEN_COORDINATES"
+    },
+    {
+      "id": "Architecture Improvement",
+      "name": "strict-successor projection of Architecture Analysis",
+      "math_status": "NOT_SEPARATE_TOOL",
+      "disposition": "NON_PEER_CLASSIFIED"
+    },
+    {
+      "id": "Consequence Closure",
+      "name": "historical name/alias resolved into Tool Run Closure",
+      "math_status": "NOT_SEPARATE_TOOL",
+      "disposition": "NON_PEER_CLASSIFIED"
+    },
+    {
+      "id": "Root Cause",
+      "name": "alias/specialization of Diagnosis",
+      "math_status": "NOT_SEPARATE_TOOL",
+      "disposition": "NON_PEER_CLASSIFIED"
+    },
+    {
+      "id": "OrphanScan",
+      "name": "alias/family view of Orphan/Ghost",
+      "math_status": "NOT_SEPARATE_TOOL",
+      "disposition": "NON_PEER_CLASSIFIED"
+    },
+    {
+      "id": "Raise the Ceiling",
+      "name": "user-facing name for RTC/STRENGTHEN configured line",
+      "math_status": "NOT_SEPARATE HISTORICAL IDENTITY from RTC",
+      "disposition": "NON_PEER_CLASSIFIED"
+    },
+    {
+      "id": "PDM / PD-system",
+      "name": "historical aliases/configurations of PD",
+      "math_status": "NOT_SEPARATE_TOOL",
+      "disposition": "NON_PEER_CLASSIFIED"
+    },
+    {
+      "id": "PD Multi-Object Connector",
+      "name": "historical configured relation tool now MULTI-OBJECT",
+      "math_status": "NOT_SEPARATE CURRENT IDENTITY",
+      "disposition": "NON_PEER_CLASSIFIED"
+    },
+    {
+      "id": "Black Box / BlackBox Challenge",
+      "name": "challenge operation/package used in tool-smash runs",
+      "math_status": "NOT CURRENTLY A SEPARATE FORMAL TOOL; standalone FullMath absent",
+      "disposition": "SEMANTIC_SURFACE_RECOVERED"
+    },
+    {
+      "id": "Observer",
+      "name": "mode/service/entry discipline, not a peer substantive tool",
+      "math_status": "NOT_SEPARATE_TOOL",
+      "disposition": "NON_PEER_CLASSIFIED"
+    },
+    {
+      "id": "COMPARE",
+      "name": "internal ASSERT operation",
+      "math_status": "NOT_SEPARATE_TOOL; standalone math not canonically isolated",
+      "disposition": "NON_PEER_CLASSIFIED"
+    },
+    {
+      "id": "RESOLVE",
+      "name": "internal ASSERT operation",
+      "math_status": "NOT_SEPARATE_TOOL; standalone math not canonically isolated",
+      "disposition": "NON_PEER_CLASSIFIED"
+    },
+    {
+      "id": "INQUIRE",
+      "name": "internal ASSERT/Inquiry operation",
+      "math_status": "NOT_SEPARATE_TOOL; standalone math lives in Inquiry Kernel rather than separate tool",
+      "disposition": "NON_PEER_CLASSIFIED"
+    },
+    {
+      "id": "REASSERT",
+      "name": "internal ASSERT operation",
+      "math_status": "NOT_SEPARATE_TOOL",
+      "disposition": "NON_PEER_CLASSIFIED"
+    },
+    {
+      "id": "PROBLEM",
+      "name": "dependency-spine node historically invoked as a tool-like step",
+      "math_status": "SUBSTANTIAL ROLE RECOVERED, STANDALONE FULLMATH OPEN",
+      "disposition": "SEMANTIC_SURFACE_OPEN_COORDINATES"
+    },
+    {
+      "id": "ROOT",
+      "name": "dependency-spine node; overlaps Diagnosis/Root Cause",
+      "math_status": "NOT SEPARATE unless a nonredundant residual is recovered",
+      "disposition": "SEMANTIC_SURFACE_RECOVERED"
+    },
+    {
+      "id": "SOLUTION",
+      "name": "dependency-spine node",
+      "math_status": "NO STANDALONE FULLMATH / NOT CURRENT PEER TOOL",
+      "disposition": "SEMANTIC_SURFACE_RECOVERED"
+    },
+    {
+      "id": "EXECUTE",
+      "name": "dependency-spine/runtime action stage",
+      "math_status": "NOT SEPARATE TOOL",
+      "disposition": "SEMANTIC_SURFACE_RECOVERED"
+    },
+    {
+      "id": "VERIFY",
+      "name": "dependency-spine verification stage",
+      "math_status": "NOT SEPARATE TOOL; verification capability distributed",
+      "disposition": "SEMANTIC_SURFACE_RECOVERED"
+    },
+    {
+      "id": "historical HF-001 old recursive audit",
+      "name": "predecessor behavior distributed across HF1 + HF2 + manager",
+      "math_status": "HISTORICAL_FULLMATH_OPEN beyond recovered witness package",
+      "disposition": "SEMANTIC_SURFACE_OPEN_COORDINATES"
+    },
+    {
+      "id": "historical HF-002 Orthogonal Five-Lens",
+      "name": "predecessor naming collision with current HF2; maps to H2",
+      "math_status": "PARTIAL / alias-like historical configuration",
+      "disposition": "SEMANTIC_SURFACE_OPEN_COORDINATES"
+    },
+    {
+      "id": "HF-003 PDAudit 1.0",
+      "name": "historical PDAudit configuration",
+      "math_status": "HISTORICAL_FULLMATH_OPEN",
+      "disposition": "SEMANTIC_SURFACE_OPEN_COORDINATES"
+    },
+    {
+      "id": "HF-004 PDAudit 1.1",
+      "name": "historical PDAudit configuration",
+      "math_status": "HISTORICAL_FULLMATH_OPEN",
+      "disposition": "SEMANTIC_SURFACE_OPEN_COORDINATES"
+    },
+    {
+      "id": "HF-005 Artifact repair/governance",
+      "name": "historical governance configuration",
+      "math_status": "SUBSTANTIAL_PARTIAL_FULLMATH_OPEN",
+      "disposition": "SEMANTIC_SURFACE_OPEN_COORDINATES"
+    },
+    {
+      "id": "RP-001 Recursive vulnerability/root cause",
+      "name": "composite adaptive control profile in PD",
+      "math_status": "SUBSTANTIAL_PARTIAL_FULLMATH_OPEN",
+      "disposition": "SEMANTIC_SURFACE_OPEN_COORDINATES"
+    },
+    {
+      "id": "RP-002 Rival reconstruction/clean-sheet",
+      "name": "historical challenge configuration",
+      "math_status": "SUBSTANTIAL_PARTIAL_FULLMATH_OPEN",
+      "disposition": "SEMANTIC_SURFACE_OPEN_COORDINATES"
+    },
+    {
+      "id": "RP-003 Source/provenance/bridge",
+      "name": "historical challenge configuration",
+      "math_status": "SUBSTANTIAL_PARTIAL_FULLMATH_OPEN",
+      "disposition": "SEMANTIC_SURFACE_OPEN_COORDINATES"
+    },
+    {
+      "id": "RP-004 Naming/referent",
+      "name": "historical challenge configuration",
+      "math_status": "SUBSTANTIAL_PARTIAL_FULLMATH_OPEN",
+      "disposition": "SEMANTIC_SURFACE_OPEN_COORDINATES"
+    },
+    {
+      "id": "RP-005 Goal architecture/history",
+      "name": "historical challenge configuration",
+      "math_status": "SUBSTANTIAL_PARTIAL_FULLMATH_OPEN",
+      "disposition": "SEMANTIC_SURFACE_OPEN_COORDINATES"
+    },
+    {
+      "id": "RP-006 Formal theorem-readiness",
+      "name": "historical challenge configuration",
+      "math_status": "SUBSTANTIAL_PARTIAL_FULLMATH_OPEN",
+      "disposition": "SEMANTIC_SURFACE_OPEN_COORDINATES"
+    },
+    {
+      "id": "RP-007 Publication/novelty/comparator",
+      "name": "historical challenge configuration",
+      "math_status": "SUBSTANTIAL_PARTIAL_FULLMATH_OPEN",
+      "disposition": "SEMANTIC_SURFACE_OPEN_COORDINATES"
+    },
+    {
+      "id": "RP-008 Epistemic-function/alignment",
+      "name": "historical challenge configuration",
+      "math_status": "SUBSTANTIAL_PARTIAL_FULLMATH_OPEN",
+      "disposition": "SEMANTIC_SURFACE_OPEN_COORDINATES"
+    },
+    {
+      "id": "RP-009 Layered control-map/coverage",
+      "name": "historical challenge configuration",
+      "math_status": "SUBSTANTIAL_PARTIAL_FULLMATH_OPEN",
+      "disposition": "SEMANTIC_SURFACE_OPEN_COORDINATES"
+    },
+    {
+      "id": "LL-001 Five-lens library",
+      "name": "challenge library",
+      "math_status": "NOT PEER TOOL",
+      "disposition": "NON_PEER_CLASSIFIED"
+    },
+    {
+      "id": "LL-002 Ten-lens library",
+      "name": "challenge library",
+      "math_status": "NOT PEER TOOL",
+      "disposition": "NON_PEER_CLASSIFIED"
+    },
+    {
+      "id": "LL-003 Domain lens packs",
+      "name": "challenge library",
+      "math_status": "NOT PEER TOOL",
+      "disposition": "NON_PEER_CLASSIFIED"
+    },
+    {
+      "id": "CM-001 Ordered composition/feedback",
+      "name": "composition configuration",
+      "math_status": "SUBSTANTIAL_PARTIAL_FULLMATH_OPEN",
+      "disposition": "SEMANTIC_SURFACE_OPEN_COORDINATES"
+    }
+  ],
+  "successor_rule": {
+    "allowed_dispositions": [
+      "CONSUMED",
+      "SUBSUMED_WITH_WITNESS",
+      "NOT_APPLICABLE_WITH_PROOF",
+      "OPEN",
+      "BLOCKED"
+    ],
+    "forbidden_dispositions": [
+      "LOST",
+      "UNACCOUNTED"
+    ],
+    "silent_omission": "REJECT_SUCCESSOR"
+  },
+  "current_tool_rule": {
+    "source": "runtime/tool_run_registry.py::CONFIGURED_RUNS",
+    "requirement": "Every current configured tool must have identity, complete configured D36_C plan, protected-transition reconstruction, and controller-to-adapter invocation reachability. A real episode may claim native execution only from a bound native adapter receipt."
+  }
+}
