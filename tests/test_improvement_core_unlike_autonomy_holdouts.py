@@ -39,14 +39,18 @@ HOLDOUTS=(
     ),
 )
 
+def run(name,corpus):
+    resolution,out=dispatch_improvement_core(
+        "Run ImproveCore",
+        corpus=corpus,
+        state={"holdout":name},
+        handlers=handlers(),
+    )
+    return resolution,out
+
 def test_unlike_zero_request_corpora_all_enter_governed_improvecore():
     for name,corpus in HOLDOUTS:
-        resolution,out=dispatch_improvement_core(
-            "Run ImproveCore",
-            corpus=corpus,
-            state={"holdout":name},
-            handlers=handlers(),
-        )
+        resolution,out=run(name,corpus)
         assert resolution.controller=="IC-028"
         assert out.status=="COMPLETE"
         assert out.result.state["upstream_discovery"]["status"]=="OBSERVED"
@@ -54,3 +58,17 @@ def test_unlike_zero_request_corpora_all_enter_governed_improvecore():
         assert out.receipt.entry_receipt
         assert "GENERATE_WORK" in out.receipt.stages
         assert "VERIFY" in out.receipt.stages
+
+def test_relational_holdout_uses_broad_route_and_admits_reference_relation():
+    _,out=run(*HOLDOUTS[0])
+    d=out.result.state["upstream_discovery"]
+    assert d["route"]=="BROAD"
+    rel=d["relation_state"]
+    assert rel["generator_ids"]
+    assert rel["licensed"]
+    assert rel["licensed"][0]["relation_id"]=="REFERENCES"
+    assert rel["licensed"][0]["arguments"]==("g1","g2")
+
+def test_flat_version_holdout_uses_cheap_route():
+    _,out=run(*HOLDOUTS[1])
+    assert out.result.state["upstream_discovery"]["route"]=="CHEAP"
