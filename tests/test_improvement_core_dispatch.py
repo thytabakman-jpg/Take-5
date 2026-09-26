@@ -50,3 +50,47 @@ def test_dispatch_executes_rich_controller_path_through_current_regime():
     assert "REENTER" in out.receipt.stages
     assert out.result.terminal
     assert out.status=="COMPLETE"
+
+def test_dispatch_can_seed_from_corpus_without_host_supplied_job_coordinates():
+    calls=[]
+    resolution,out=dispatch_improvement_core(
+        "ImproveCore. Fix it.",
+        corpus=[
+            {"id":"m1","text":"Run ImproveCore with no assignment."},
+            {"id":"m2","text":"Look at everything."},
+            {"id":"m3","text":"Fix it."},
+        ],
+        state={},
+        handlers=_handlers(calls),
+    )
+    assert resolution.controller=="IC-028"
+    assert out.result.state["upstream_discovery"]["status"]=="OBSERVED"
+    assert out.result.state["upstream_discovery"]["corpus_size"]==3
+    assert "RECOVER_GOAL" in out.receipt.stages
+    assert "GENERATE_WORK" in out.receipt.stages
+    assert out.status=="COMPLETE"
+
+def test_dispatch_rejects_partial_host_coordinates():
+    try:
+        dispatch_improvement_core(
+            "ImproveCore",
+            target="problem",
+            state={},
+            handlers=_handlers([]),
+        )
+    except RuntimeError as exc:
+        assert str(exc)=="IMPROVEMENT_CORE_PARTIAL_ENTRY_COORDINATES"
+    else:
+        raise AssertionError("expected partial entry coordinates to fail closed")
+
+def test_dispatch_requires_corpus_when_no_job_coordinates_are_supplied():
+    try:
+        dispatch_improvement_core(
+            "ImproveCore",
+            state={},
+            handlers=_handlers([]),
+        )
+    except RuntimeError as exc:
+        assert str(exc)=="IMPROVEMENT_CORE_CORPUS_REQUIRED_FOR_UPSTREAM_DISCOVERY"
+    else:
+        raise AssertionError("expected missing corpus to fail closed")
