@@ -170,6 +170,8 @@ architecture/IMPROVEMENT_CORE_ACTIVATION_083.md
 54. direct run_improvement_core_regime remains the one-pass controlled/debug surface.
 55. selected registered formal tools inherit FULL_CONFIGURED_HF2_V1 rather than a one-shot bridge convention.
 56. selected-tool recurrence identity is carried by ConfiguredRunSpec and ToolExecutionPlan and checked by the whole-repertoire audit.
+57. exact external ZIP evidence is fail-closed against immutable source byte-count/hash before entering artifact intake.
+58. every declared ZIP member is accounted for, while binary/encrypted/unreadable members remain explicit unresolved evidence rather than disappearing.
 
 ## Cross-repository lineage
 
@@ -279,28 +281,31 @@ Open-world global maximality/minimality is not a licensed completion claim. Curr
 18. runtime/historical_replay_audit.py
 19. runtime/improvement_core_hf2_default.py
 20. runtime/improvement_core_regime.py
-20. runtime/improvement_core_external_acquisition.py
-21. architecture/IMPROVEMENT_CORE_EXTERNAL_ACQUISITION_090.md
-22. runtime/improvement_core_manager.py
-23. runtime/ic028_operator.py
-24. runtime/improvement_core_tool_bridge.py
-25. architecture/IMPROVEMENT_CORE_CONFIGURED_TOOL_EXECUTION_109.md
-26. runtime/improvement_core_recursive_manager.py
-27. runtime/improvement_core_learning_memory.py
-28. integration/IMPROVEMENT_CORE_DURABLE_LEARNING_110.json
-29. runtime/improvement_core_knowledge_ledger.py
-30. integration/IMPROVEMENT_CORE_KNOWLEDGE_LEDGER_113.json
-31. architecture/IMPROVEMENT_CORE_MATERIAL_KNOWLEDGE_CAPTURE_113.md
-32. runtime/improvement_core_progress_relation.py
-30. architecture/IMPROVEMENT_CORE_CANONICAL_PROGRESS_MATHEMATICS_001_2026-09-26.md
-31. architecture/IMPROVEMENT_CORE_ANTI_REPEAT_110.md
-32. architecture/IMPROVEMENT_CORE_INDEXED_PROGRESS_MATHEMATICS_111.md
-33. runtime/improvement_core_order_math.py
-34. architecture/IMPROVEMENT_CORE_MAXIMIZATION_081.md
-35. architecture/CROSS_REPOSITORY_IMPROVEMENTCORE_LINEAGE_CHOICE_080.md
-36. architecture/PROTECTED_TRANSITION_INTEGRITY_090.md
-37. integration/CURRENT_PROTECTED_TRANSITION_INTEGRITY.md
-38. MIGRATION_STATE.yaml
+21. runtime/improvement_core_external_acquisition.py
+22. architecture/IMPROVEMENT_CORE_EXTERNAL_ACQUISITION_090.md
+23. architecture/ARTIFACT_TO_WORK_INTAKE_CONTRACT_001_2026-09-25.md
+24. runtime/artifact_intake.py
+25. runtime/archive_artifact_intake.py
+26. runtime/improvement_core_manager.py
+27. runtime/ic028_operator.py
+28. runtime/improvement_core_tool_bridge.py
+29. architecture/IMPROVEMENT_CORE_CONFIGURED_TOOL_EXECUTION_109.md
+30. runtime/improvement_core_recursive_manager.py
+31. runtime/improvement_core_learning_memory.py
+32. integration/IMPROVEMENT_CORE_DURABLE_LEARNING_110.json
+33. runtime/improvement_core_knowledge_ledger.py
+34. integration/IMPROVEMENT_CORE_KNOWLEDGE_LEDGER_113.json
+35. architecture/IMPROVEMENT_CORE_MATERIAL_KNOWLEDGE_CAPTURE_113.md
+36. runtime/improvement_core_progress_relation.py
+37. architecture/IMPROVEMENT_CORE_CANONICAL_PROGRESS_MATHEMATICS_001_2026-09-26.md
+38. architecture/IMPROVEMENT_CORE_ANTI_REPEAT_110.md
+39. architecture/IMPROVEMENT_CORE_INDEXED_PROGRESS_MATHEMATICS_111.md
+40. runtime/improvement_core_order_math.py
+41. architecture/IMPROVEMENT_CORE_MAXIMIZATION_081.md
+42. architecture/CROSS_REPOSITORY_IMPROVEMENTCORE_LINEAGE_CHOICE_080.md
+43. architecture/PROTECTED_TRANSITION_INTEGRITY_090.md
+44. integration/CURRENT_PROTECTED_TRANSITION_INTEGRITY.md
+45. MIGRATION_STATE.yaml
 
 
 ## Default HF2 local recurrence
@@ -456,6 +461,8 @@ When state signals a material need for fresh/outside evidence or an external cap
 When the need is material and no adequate adapter is available, the regime returns a typed OPEN gap rather than treating internal guessing as completion.
 
 External outputs remain evidence. They still pass through normal admission, verification, authority, currentness, and reentry controls.
+
+When the external evidence is a bound ZIP archive, runtime/archive_artifact_intake.py verifies the immutable source byte-count/hash, accounts for every declared member, routes UTF-8 text members into the existing ArtifactRecord path with source/member provenance, and preserves non-text or unreadable members as unresolved evidence. This adapter remains subordinate to external acquisition and artifact_intake; it is not a peer controller.
 
 Automatic discovery of every external-host capability remains outside the repository unless the host exposes an adapter. Universal host interception is classified EXTERNAL_NOT_OWNED.
 

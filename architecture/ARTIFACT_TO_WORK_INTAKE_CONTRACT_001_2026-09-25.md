@@ -190,3 +190,50 @@ Mathematical/interface contract: SPECIFIED.
 Runtime bridge: IMPLEMENTED_AND_REGRESSION_TESTED.
 Generator/semantic coverage: OPEN.
 Global semantic completeness: NOT CLAIMED.
+
+
+## Bound external ZIP adapter
+
+Exact external ZIP evidence now enters through:
+
+runtime/archive_artifact_intake.py
+
+This adapter is upstream of artifact_intake and does not replace its ownership.
+
+For an immutable GitHub artifact reference R and exact bytes B:
+
+BindZip(R,B)
+->
+<archive verification,
+ complete member-accounting receipts,
+ text ArtifactRecords,
+ unresolved non-text/unreadable members>.
+
+Binding is fail-closed on byte-count or SHA-256 mismatch.
+
+Every declared ZIP member receives exactly one accounting receipt.
+Duplicate member names remain distinct by member index.
+The adapter does not extract to the filesystem.
+Member-count and total-uncompressed-byte bounds are enforced before member routing.
+
+UTF-8 and UTF-8-SIG members become existing ArtifactRecord objects with source-object,
+archive-hash, member-index, member-name, and member-hash provenance.
+
+Binary, encrypted, or unreadable members remain typed unresolved evidence.
+Therefore:
+
+ZIPTraversalComplete
+does not imply
+ZIPSemanticExtractionComplete.
+
+This closes the repository-owned transition from exact bound ZIP bytes into the existing
+artifact-intake lifecycle without creating a peer controller.
+
+## Additional validation obligations
+
+V11 exact external object byte-count/hash mismatch fails closed.
+V12 every declared ZIP member receives one accounting receipt.
+V13 duplicate ZIP member names remain distinct.
+V14 archive size/member limits fail closed.
+V15 routed text members preserve immutable external-object and member provenance into artifact_intake.
+V16 binary/encrypted/unreadable members remain explicit unresolved evidence rather than disappearing.

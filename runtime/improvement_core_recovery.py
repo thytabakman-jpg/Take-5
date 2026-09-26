@@ -35,6 +35,10 @@ REQUIRED_FILES=(
     "tests/test_improvement_core_mode_profile.py",
     "runtime/improvement_core_upstream.py",
     "runtime/improvement_core_external_acquisition.py",
+    "architecture/ARTIFACT_TO_WORK_INTAKE_CONTRACT_001_2026-09-25.md",
+    "runtime/artifact_intake.py",
+    "runtime/archive_artifact_intake.py",
+    "tests/test_archive_artifact_intake.py",
     "runtime/improvement_core_tool_bridge.py",
     "architecture/IMPROVEMENT_CORE_CONFIGURED_TOOL_EXECUTION_109.md",
     "runtime/improvement_core_regime.py",
@@ -133,6 +137,10 @@ def validate_recovery()->dict:
             failures.append("EXTERNAL_ACQUISITION_RUNTIME_MISSING")
         if regime.get("configured_tool_bridge")!="runtime/improvement_core_tool_bridge.py":
             failures.append("CONFIGURED_TOOL_BRIDGE_RUNTIME_MISSING")
+        if regime.get("artifact_intake")!="runtime/artifact_intake.py":
+            failures.append("ARTIFACT_INTAKE_RUNTIME_MISSING")
+        if regime.get("archive_artifact_intake")!="runtime/archive_artifact_intake.py":
+            failures.append("ARCHIVE_ARTIFACT_INTAKE_RUNTIME_MISSING")
         if regime.get("canonical_progress")!="runtime/improvement_core_progress_relation.py":
             failures.append("CANONICAL_PROGRESS_RUNTIME_DRIFT")
         if regime.get("durable_learning")!="integration/IMPROVEMENT_CORE_DURABLE_LEARNING_110.json":
@@ -161,6 +169,10 @@ def validate_recovery()->dict:
             failures.append("DURABLE_LEARNING_ANCHOR_MISSING")
         if "default local same-capability recurrence" not in anchor:
             failures.append("DEFAULT_HF002_ANCHOR_MISSING")
+        if "exact external ZIP evidence is fail-closed" not in anchor:
+            failures.append("BOUND_ZIP_INTAKE_ANCHOR_MISSING")
+        if "every declared ZIP member is accounted for" not in anchor:
+            failures.append("ZIP_MEMBER_ACCOUNTING_ANCHOR_MISSING")
 
         if manifest.get("open") not in ([], ()):
             failures.append("RECOVERY_MANIFEST_OPEN_COORDINATES_STALE")
