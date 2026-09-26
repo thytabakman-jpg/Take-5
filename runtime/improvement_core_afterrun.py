@@ -7,11 +7,14 @@ explicit strict-gain evaluator and optional authorized applier.
 """
 from __future__ import annotations
 from dataclasses import dataclass, asdict
+from pathlib import Path
 from typing import Any, Callable
 import hashlib
 import json
 
 from improvement_core_learning_memory import LearningMemory
+from improvement_core_response_bias import CURRENT_RESPONSE_PROFILE, scan_bias_risks
+from object_lifecycle import bootstrap_state_objects, candidates_from_state
 
 TERMINAL_GAIN={"COMPLETE","RELATIVE_CLOSE","CLOSED_RELATIVE"}
 TERMINAL_GAP={"OPEN","BLOCKED","CONFLICT","RESOURCE_STOP"}
@@ -46,6 +49,9 @@ class AfterRunReceipt:
     learning_recorded:bool
     next_frontier:tuple[str,...]
     open:tuple[str,...]
+    response_profile:tuple[str,...]=()
+    bias_audit:Any=None
+    object_lifecycle:tuple=()
 
 def _stable_id(payload:dict[str,Any])->str:
     raw=json.dumps(payload,sort_keys=True,default=str,separators=(",",":")).encode()
@@ -57,7 +63,7 @@ def _signals(state:Any)->tuple[str,...]:
     keys=(
         "live_continuation","unmapped_questions","open","blocked","conflict",
         "learning_events","external_acquisition_receipt","material_delta",
-        "changed_coordinates","invalidated_dependencies",
+        "changed_coordinates","invalidated_dependencies","response_feedback","new_objects",
     )
     return tuple(k for k in keys if state.get(k))
 
@@ -144,12 +150,40 @@ def run_afterrun_improvement(
     recursive_result:dict|None=None,
     strict_gain_evaluator:Callable[[SelfImprovementCandidate,AfterRunObservation],dict]|None=None,
     authorized_applier:Callable[[SelfImprovementCandidate,dict],dict]|None=None,
+    user_text:str="",
+    object_package_base:Path|str|None="semantic_objects",
 )->AfterRunReceipt:
     obs=observe_after_run(
         episode_id=episode_id,basis_id=basis_id,status=status,
         blocker=blocker,state=state,recursive_result=recursive_result,
     )
     candidate=generate_candidate(obs)
+
+    # Response preference and bias correction run on every governed episode.
+    bias_audit=scan_bias_risks(user_text,state)
+    response_profile=CURRENT_RESPONSE_PROFILE.protected_behaviors
+
+    # New managed objects are captured prospectively through the recovered
+    # CORE + MANIFEST + 36-transition package.  Project/idea obligations remain
+    # visible even after the semantic package itself is materialized.
+    lifecycle=()
+    lifecycle_open=[]
+    raw_candidates=candidates_from_state(state)
+    if raw_candidates:
+        if object_package_base is None:
+            lifecycle_open.append("OBJECT_PACKAGE_BASE_UNBOUND")
+        else:
+            try:
+                lifecycle=bootstrap_state_objects(Path(object_package_base),state)
+            except Exception as exc:
+                lifecycle_open.append(f"OBJECT_LIFECYCLE_BLOCKED:{type(exc).__name__}")
+    lifecycle_frontier=tuple(
+        f"object_lifecycle:{r.object_id}"
+        for r in lifecycle
+        if r.obligations or r.open or not r.package_current
+    )
+    for r in lifecycle:
+        lifecycle_open.extend(f"{r.object_id}:{x}" for x in r.open)
 
     # Every use produces learning, even when the correct structural disposition is NO_GAIN.
     route_id=f"improvecore:episode:{episode_id}"
@@ -177,14 +211,17 @@ def run_afterrun_improvement(
 
     if candidate is None:
         return AfterRunReceipt(
-            "ImproveCoreAfterRun",obs,None,"NO_STRUCTURAL_GAIN",False,True,(),()
+            "ImproveCoreAfterRun",obs,None,"NO_STRUCTURAL_GAIN",False,True,
+            lifecycle_frontier,tuple(lifecycle_open),
+            response_profile,bias_audit,lifecycle,
         )
 
-    frontier=(candidate.target,)
+    frontier=(candidate.target,)+lifecycle_frontier
     if strict_gain_evaluator is None:
         return AfterRunReceipt(
             "ImproveCoreAfterRun",obs,candidate,"CANDIDATE_OPEN",False,True,
-            frontier,("STRICT_GAIN_EVALUATOR_UNBOUND",)
+            frontier,("STRICT_GAIN_EVALUATOR_UNBOUND",)+tuple(lifecycle_open),
+            response_profile,bias_audit,lifecycle,
         )
 
     verdict=dict(strict_gain_evaluator(candidate,obs) or {})
@@ -193,7 +230,7 @@ def run_afterrun_improvement(
         raise ValueError("IC_AFTERRUN_INVALID_STRICT_GAIN_DISPOSITION")
 
     applied=False
-    open_items=[]
+    open_items=list(lifecycle_open)
     if disposition=="STRICT_GAIN":
         if authorized_applier is None:
             open_items.append("AUTHORIZED_APPLIER_UNBOUND")
@@ -205,5 +242,6 @@ def run_afterrun_improvement(
 
     return AfterRunReceipt(
         "ImproveCoreAfterRun",obs,candidate,disposition,applied,True,
-        frontier,tuple(open_items)
+        frontier,tuple(open_items),
+        response_profile,bias_audit,lifecycle,
     )
