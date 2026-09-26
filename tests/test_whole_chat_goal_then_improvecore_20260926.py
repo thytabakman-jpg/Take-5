@@ -72,7 +72,7 @@ def goal_adapter(state,plan):
         "material_delta":prior!=GOAL_RESULT,
         "hf2_live_local":prior!=GOAL_RESULT,
         "hf2_local_close":prior==GOAL_RESULT,
-        "trc_terminal":prior==GOAL_RESULT,
+        "trc_terminal":True,
         "evidence":EVIDENCE_PATHS+("CURRENT_CHAT_DELTAS",),
     }
 
@@ -167,7 +167,7 @@ def improvement_core_adapter(state,plan):
         "material_delta":prior!=semantic,
         "hf2_live_local":prior!=semantic,
         "hf2_local_close":prior==semantic,
-        "trc_terminal":prior==semantic,
+        "trc_terminal":True,
         "evidence":("GOAL_RESULT",)+EVIDENCE_PATHS+("CURRENT_CHAT_DELTAS",),
     }
 
