@@ -75,11 +75,19 @@ def test_math_preserves_frozen_controller_signature_and_capability_family():
 
 def test_exact_take5_activation_remains_distinct_from_portable_core():
     assert not take5_activation_closed(None)
+    assert not take5_activation_closed({
+        "repository":"thytabakman-jpg/Take-5",
+        "path":"artifacts/icc128-legacy-learning/x.json",
+        "commit_sha":"abc",
+        "report_sha256":"def",
+    })
     assert take5_activation_closed({
         "repository":"thytabakman-jpg/Take-5",
         "path":"artifacts/icc128-legacy-learning/x.json",
         "commit_sha":"abc",
         "report_sha256":"def",
+        "execution_claim_level":"VERIFIED",
+        "execution_claim_evidence_sha256":"ghi",
     })
 
 
@@ -116,6 +124,17 @@ def test_current_show_me_the_math_proves_exact_take5_activation_needs_report_sin
         controller_bindings_available=True,
         github_report_sink_available=True,
     )
-    closed=assess(package,with_sink)
+    still_open=assess(package,with_sink)
+    assert not still_open.complete
+    assert "execution_claim_receipt" in still_open.unavailable_primitives
+
+    with_sink_and_attestor=exact_take5_activation_environment(
+        semantic_reasoner_available=True,
+        execution_interface_available=True,
+        controller_bindings_available=True,
+        github_report_sink_available=True,
+        execution_claim_attestor_available=True,
+    )
+    closed=assess(package,with_sink_and_attestor)
     assert closed.complete
-    assert surface_value(package,with_sink)==1
+    assert surface_value(package,with_sink_and_attestor)==1

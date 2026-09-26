@@ -98,3 +98,27 @@ Promoted validated use:
 HF2[RootCause] local same-capability recurrence.
 
 Universal HF2 wrapper promotion across every configured Take-5 tool remains OPEN.
+
+
+## ImprovementCore campaign composition
+
+Validated explicit campaign composition:
+
+HF2[ImprovementCore]_campaign
+
+Evidence:
+- artifacts/improvecore/IMPROVEMENTCORE_HF2_OBSERVER_CAMPAIGN_115_2026-09-26.md
+- artifacts/improvecore/IMPROVEMENTCORE_HF2_THINK_BIG_SELECTION_116_2026-09-26.md
+- artifacts/improvecore/IMPROVEMENTCORE_HF2_THINK_BIG_FIX_CLOSURE_117_2026-09-26.md
+
+Observed behavior:
+- observer pass reapplied the same ImprovementCore capability twice on material/local/live deltas and then RELATIVE_CLOSE;
+- action pass with command "Think big, fix this." reapplied ImprovementCore once after execution-truth strengthening and then RELATIVE_CLOSE;
+- PTI remained preserved;
+- universal host interception remained EXTERNAL_NOT_OWNED.
+
+This validates the explicit campaign composition.
+
+It does not promote HF2 as a universal wrapper for all ImprovementCore invocations.
+
+Universal HF2 wrapper promotion remains OPEN.

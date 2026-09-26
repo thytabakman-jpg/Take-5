@@ -5,8 +5,9 @@ higher-order nature of the frozen controller: open-ended semantic generation,
 capability execution, admission, update, and optional discovery closure are
 bindings with explicit contracts rather than hidden implementations.
 
-The exact Take-5 activation adds a GitHub-report receipt gate.  This module
-models that gate but does not claim that an unrelated environment owns GitHub.
+The exact Take-5 activation adds both a GitHub-report receipt gate and a causal
+execution-claim attestation gate.  This module models those gates but does not
+claim that an unrelated environment owns GitHub or the Take-5 attestor.
 """
 from __future__ import annotations
 
@@ -349,6 +350,8 @@ def take5_activation_closed(receipt:Mapping[str,Any]|None)->bool:
         and str(receipt.get("path","")).startswith("artifacts/icc128-legacy-learning/")
         and str(receipt.get("commit_sha","")).strip()
         and str(receipt.get("report_sha256","")).strip()
+        and receipt.get("execution_claim_level")=="VERIFIED"
+        and str(receipt.get("execution_claim_evidence_sha256","")).strip()
     )
 
 
@@ -493,8 +496,13 @@ CURRENT LEGACY ACTIVATION WRAPPER:
   memory persists within one run.
   after every run, Report(run) is produced.
   controller memory is discarded after report submission.
-  exact Take-5 run closure additionally requires a GitHub commit receipt:
-    LegacyRunClosed(run) iff GitHubReportCommitReceipt(run) exists.
+  exact Take-5 run closure additionally requires:
+    - a causal VERIFIED execution-claim receipt;
+    - a GitHub report commit receipt.
+
+    LegacyRunClosed(run)
+      iff ExecutionClaim(run)=VERIFIED
+      and GitHubReportCommitReceipt(run) exists.
 
 HIGHER-ORDER BINDING CONTRACT:
   The frozen controller is parameterized by
@@ -510,7 +518,10 @@ PORTABILITY:
   A new reasoning host can instantiate the higher-order controller without repository
   or conversation history when it supplies the above bindings from its own reasoning
   and available execution environment.
-  Exact Take-5 activation closure additionally requires the Take-5 GitHub receipt primitive.
+  Exact Take-5 activation closure additionally requires:
+    TAKE5_GITHUB_REPORT_SINK
+    and
+    TAKE5_EXECUTION_CLAIM_ATTESTOR.
 """
 
 
@@ -635,27 +646,34 @@ def exact_take5_activation_package()->dict[str,Any]:
         "dependencies":("ICC128_LEGACY_CORE","GITHUB_REPORT_GATE")
     }
     package["definitions"]["GITHUB_REPORT_GATE"]={
-        "dependencies":("github_report_commit_receipt",)
+        "dependencies":("github_report_commit_receipt","execution_claim_receipt")
     }
     package["load_bearing_symbols"]=("ICC128_LEGACY_ACTIVATED",)
     package["runtime_primitives"]["github_report_commit_receipt"]={
         "typed_contract":"run report -> Take-5 GitHub commit receipt with repository/path/commit_sha/report_sha256",
         "provider":"TAKE5_GITHUB_REPORT_SINK",
     }
+    package["runtime_primitives"]["execution_claim_receipt"]={
+        "typed_contract":"causal controller execution -> VERIFIED execution-claim receipt covering identity/plan/dispatch/execution/consumption/persistence/verification",
+        "provider":"TAKE5_EXECUTION_CLAIM_ATTESTOR",
+    }
     package["obligations"]["persistence"]={
         "status":"SATISFIED",
-        "witness":"every run emits a learning report; controller memory is discarded after submission; Take-5 closure requires GitHub commit receipt",
+        "witness":"every run emits a learning report; controller memory is discarded after submission; Take-5 closure requires both a causal VERIFIED execution claim and GitHub commit receipt",
     }
     package["protected_behavior"]=tuple(package["protected_behavior"])+(
         "take5_report_receipt_required_for_activation_closure",
+        "causal_execution_claim_required_for_activation_closure",
         "cross_run_controller_memory_not_inherited",
     )
     package["equivalence_tests"]=tuple(package["equivalence_tests"])+(
         "missing_take5_report_sink_turns_show_math_red",
-        "valid_take5_report_receipt_allows_activation_closure",
+        "missing_execution_claim_attestor_turns_show_math_red",
+        "valid_take5_report_and_execution_claim_receipts_allow_activation_closure",
     )
     package["environment_contract"]["providers"]=tuple(package["environment_contract"]["providers"])+(
         "TAKE5_GITHUB_REPORT_SINK",
+        "TAKE5_EXECUTION_CLAIM_ATTESTOR",
     )
     return package
 
@@ -666,6 +684,7 @@ def exact_take5_activation_environment(
     execution_interface_available:bool=True,
     controller_bindings_available:bool=True,
     github_report_sink_available:bool=False,
+    execution_claim_attestor_available:bool=False,
 )->dict[str,Any]:
     environment=portable_core_environment(
         semantic_reasoner_available=semantic_reasoner_available,
@@ -673,6 +692,7 @@ def exact_take5_activation_environment(
         controller_bindings_available=controller_bindings_available,
     )
     environment["providers"]["TAKE5_GITHUB_REPORT_SINK"]=bool(github_report_sink_available)
+    environment["providers"]["TAKE5_EXECUTION_CLAIM_ATTESTOR"]=bool(execution_claim_attestor_available)
     return environment
 
 

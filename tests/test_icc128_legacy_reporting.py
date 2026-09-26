@@ -85,7 +85,8 @@ def test_github_receipt_is_required_for_closure():
         path="artifacts/icc128-legacy-learning/legacy-run-004.json",
         commit_sha="abc123",
     )
-    assert reporting.closure_allowed(receipt) is True
+    # Persistence is necessary but no longer sufficient for a run-closure claim.
+    assert reporting.closure_allowed(receipt) is False
     assert reporting.closure_allowed(None) is False
 
 
@@ -102,3 +103,34 @@ def test_wrong_report_destination_fails_closed():
             path="artifacts/icc128-legacy-learning/legacy-run-005.json",
             commit_sha="abc123",
         )
+
+
+
+def test_attested_runtime_report_and_github_receipt_close_legacy_run():
+    calls=[]
+    def controller_run(state,memory):
+        calls.append((dict(state),dict(memory)))
+        return sample_result()
+
+    run_result,report,execution_receipt=reporting.run_and_build_attested_learning_report(
+        run_id="legacy-run-attested",
+        controller_run=controller_run,
+        initial_state={"terminal":"CONTINUE"},
+        initial_memory={},
+        plan_evidence="test:configured-legacy-plan",
+    )
+    assert calls==[({"terminal":"CONTINUE"}, {})]
+    assert run_result["status"]=="COMPLETE"
+    assert report["execution_claim_status"]=="VERIFIED"
+    assert report["execution_claim"]["claimed_level"]=="CONSUMED"
+
+    attested=reporting.require_attested_github_receipt(
+        report=report,
+        execution_receipt=execution_receipt,
+        repository="thytabakman-jpg/Take-5",
+        path="artifacts/icc128-legacy-learning/legacy-run-attested.json",
+        commit_sha="abc123",
+    )
+    assert attested.execution_receipt.level().value=="VERIFIED"
+    assert reporting.attested_closure_allowed(attested) is True
+    assert reporting.closure_allowed(attested) is True

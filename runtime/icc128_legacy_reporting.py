@@ -14,6 +14,13 @@ import copy
 import hashlib
 import json
 
+from execution_claim_integrity import (
+    ExecutionClaimLevel,
+    ExecutionClaimReceipt,
+    extend_execution_claim,
+    require_execution_claim,
+)
+
 REPORT_REPOSITORY = "thytabakman-jpg/Take-5"
 REPORT_DIRECTORY = "artifacts/icc128-legacy-learning"
 SOURCE_COMMIT = "e4c76c595b44a35fd9efc02cde8979e656ef54e8"
@@ -178,5 +185,140 @@ def require_github_receipt(
     )
 
 
-def closure_allowed(receipt: LearningReportReceipt | None) -> bool:
+def persistence_receipt_present(receipt: LearningReportReceipt | None) -> bool:
+    """Persistence witness only. This is not sufficient for Legacy run closure."""
     return receipt is not None and bool(receipt.commit_sha and receipt.report_sha256)
+
+
+@dataclass(frozen=True)
+class AttestedLearningReportReceipt:
+    learning_receipt: LearningReportReceipt
+    execution_receipt: ExecutionClaimReceipt
+
+
+def _runtime_result_digest(run_result: dict[str, Any]) -> str:
+    raw=json.dumps(_jsonable(run_result),sort_keys=True,separators=(",",":"))
+    return hashlib.sha256(raw.encode("utf-8")).hexdigest()
+
+
+def run_and_build_attested_learning_report(
+    *,
+    run_id: str,
+    controller_run,
+    initial_state: dict[str, Any],
+    initial_memory: dict[str, Any],
+    plan_evidence: str,
+):
+    """Invoke the supplied controller runtime and causally bind its result to a report.
+
+    The function itself owns the dispatch -> execution -> consumption chain.
+    A caller cannot obtain an attested report from a prewritten narrative object
+    without crossing the controller_run callable here.
+    """
+    if not callable(controller_run):
+        raise ICC128LegacyReportingError("ICC128_LEGACY_CONTROLLER_RUN_CALLABLE_REQUIRED")
+    if not str(plan_evidence).strip():
+        raise ICC128LegacyReportingError("ICC128_LEGACY_PLAN_EVIDENCE_REQUIRED")
+
+    run_result=controller_run(
+        copy.deepcopy(initial_state),
+        copy.deepcopy(initial_memory),
+    )
+    if not isinstance(run_result,dict):
+        raise ICC128LegacyReportingError("ICC128_LEGACY_RUNTIME_RESULT_MAPPING_REQUIRED")
+
+    execution_digest=_runtime_result_digest(run_result)
+    dispatch_ref=(
+        str(getattr(controller_run,"__module__","runtime"))
+        +"."+str(getattr(controller_run,"__qualname__",getattr(controller_run,"__name__","controller_run")))
+    )
+
+    execution_receipt=ExecutionClaimReceipt(
+        object_id="ICC128 Legacy",
+        claim_id=str(run_id),
+        claimed_level=ExecutionClaimLevel.CONSUMED,
+        evidence={
+            "identity":f"icc128-legacy-source:{SOURCE_COMMIT}",
+            "plan":str(plan_evidence),
+            "dispatch":dispatch_ref,
+            "execution":f"run-result-sha256:{execution_digest}",
+            "consumption":"icc128_legacy_reporting.run_and_build_attested_learning_report",
+        },
+    )
+    require_execution_claim(
+        execution_receipt,
+        minimum_level=ExecutionClaimLevel.CONSUMED,
+    )
+
+    report=build_learning_report(
+        run_id=run_id,
+        run_result=run_result,
+        initial_state=initial_state,
+        initial_memory=initial_memory,
+    )
+    report["execution_claim"]=execution_receipt.payload()
+    report["execution_claim_status"]="VERIFIED"
+    report["execution_result_sha256"]=execution_digest
+    return run_result,report,execution_receipt
+
+
+def require_attested_github_receipt(
+    *,
+    report: dict[str, Any],
+    execution_receipt: ExecutionClaimReceipt,
+    repository: str,
+    path: str,
+    commit_sha: str,
+) -> AttestedLearningReportReceipt:
+    """Upgrade a causal runtime/report receipt through persistence and verification."""
+    run_id=str(report.get("run_id",""))
+    expected_hash=report_sha256(report)
+    learning=require_github_receipt(
+        run_id=run_id,
+        report_sha256=expected_hash,
+        repository=repository,
+        path=path,
+        commit_sha=commit_sha,
+    )
+
+    persisted=extend_execution_claim(
+        execution_receipt,
+        claimed_level=ExecutionClaimLevel.PERSISTED,
+        evidence={"persistence":f"github:{repository}@{commit_sha}:{path}"},
+    )
+    verified=extend_execution_claim(
+        persisted,
+        claimed_level=ExecutionClaimLevel.VERIFIED,
+        evidence={"verification":f"report-sha256:{expected_hash}"},
+    )
+    require_execution_claim(verified,minimum_level=ExecutionClaimLevel.VERIFIED)
+    return AttestedLearningReportReceipt(learning,verified)
+
+
+def _learning_persistence_receipt_valid(receipt: LearningReportReceipt | None) -> bool:
+    return persistence_receipt_present(receipt)
+
+
+def attested_closure_allowed(receipt: AttestedLearningReportReceipt | None) -> bool:
+    if receipt is None:
+        return False
+    try:
+        require_execution_claim(
+            receipt.execution_receipt,
+            minimum_level=ExecutionClaimLevel.VERIFIED,
+        )
+    except Exception:
+        return False
+    return _learning_persistence_receipt_valid(receipt.learning_receipt)
+
+
+def closure_allowed(receipt) -> bool:
+    """Normal Legacy closure is now fail-closed on causal execution attestation.
+
+    A bare GitHub learning-report receipt proves persistence only.  It no longer
+    proves that the reported run actually crossed the controller runtime.
+    """
+    return (
+        isinstance(receipt,AttestedLearningReportReceipt)
+        and attested_closure_allowed(receipt)
+    )
