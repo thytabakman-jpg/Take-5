@@ -1,0 +1,31 @@
+{
+  "schema_version": "0.1",
+  "object_id": "TAKE6:BOOTSTRAP:001",
+  "status": "SUCCESSOR_CANDIDATE",
+  "date": "2026-09-26",
+  "authority": "NONE_UNTIL_PROMOTION",
+  "files": [
+    "README.md",
+    "KERNEL.yaml",
+    "ARCHITECTURE.md",
+    "MIGRATION_FROM_TAKE5.md",
+    "schemas/event.schema.json",
+    "schemas/tool-capsule.schema.json",
+    "runtime/archive.py",
+    "runtime/compiler.py",
+    "runtime/invocation.py",
+    "tests/test_invariants.py"
+  ],
+  "source_refs": {
+    "take5": "thytabakman-jpg/Take-5@df714811ab14e6d2d4dc0154f2a7136cb4794617",
+    "reaserch_observed": "thytabakman-jpg/Reaserch@1a18aa206c037709b1b17b6240c3ed8c9bc9e4f8"
+  },
+  "design_decision": "Separate immutable evidence/event history from deterministically compiled semantic current state and disposable runtime execution.",
+  "promotion_blockers": [
+    "new repository not yet instantiated",
+    "predecessor corpus not yet fully ingested",
+    "tool capsules not yet migrated",
+    "behavioral preservation suite not yet passed",
+    "fresh-checkout reconstruction not yet certified"
+  ]
+}
