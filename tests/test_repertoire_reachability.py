@@ -7,3 +7,4 @@ def test_current_finite_repertoire_has_controller_execution_reachability_evidenc
     assert out.failures==()
     assert out.identity_checked==len(CONFIGURED_RUNS)
     assert out.transition_checked==len(CONFIGURED_RUNS)
+    assert out.bridge_execution_checked==len(CONFIGURED_RUNS)
