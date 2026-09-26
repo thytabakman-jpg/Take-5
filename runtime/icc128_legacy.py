@@ -4,6 +4,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from pathlib import Path
 import importlib.util
+import sys
 
 DISPLAY_NAME = "ICC128 Legacy"
 SOURCE_REPOSITORY = "thytabakman-jpg/Reaserch"
@@ -28,6 +29,7 @@ def _load(module_name: str, filename: str):
     if spec is None or spec.loader is None:
         raise RuntimeError(f"ICC128_LEGACY_LOAD_FAILED:{filename}")
     module = importlib.util.module_from_spec(spec)
+    sys.modules[module_name] = module
     spec.loader.exec_module(module)
     return module
 
