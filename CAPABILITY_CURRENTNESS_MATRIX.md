@@ -1,6 +1,6 @@
 # Capability and Currentness Preservation Matrix 002
 
-Date: 2026-09-24
+Date: 2026-09-25
 Status: CURRENT-BASIS WORKING MATRIX
 Architecture basis: EWG-ARCH-001
 
@@ -14,7 +14,7 @@ Architecture basis: EWG-ARCH-001
 | claim lifecycle and evidence-bearing admission | research_system.py | implemented + tested |
 | history reconstructibility/workflow faithfulness closure | research_system.py | implemented + tested |
 | configured-run identity | configured_run.py + tool_run_registry.py | implemented + tested |
-| compound ASSERT orchestration | assert_compound.py + tool_run_registry.py | implemented; branch regression pending CI |
+| compound ASSERT orchestration | assert_compound.py + tool_run_registry.py | implemented + validated in PR #22 |
 | recursive closure/reentry | recursive_episode.py + HF/TRC | implemented + tested |
 | K_PD projection/obligation exposure | kpd_projection.py | implemented + tested |
 | mode cube breadth x direction x coupling | mode_selector.py | implemented + tested |
