@@ -58,6 +58,12 @@
         "pr": 69,
         "merge_commit": "73639b7292e0e0d2b876b1751109255038e7f69b",
         "validation_run": "36222874741"
+      },
+      {
+        "pr": 84,
+        "merge_commit": "04d6cc4d1935ee72e29909cb3bc7c4ee3616ade0",
+        "validation_run": "36227477555",
+        "capability_preservation_run": "36227477597"
       }
     ],
     "protected_transition_integrity": "architecture/PROTECTED_TRANSITION_INTEGRITY_090.md",
@@ -66,7 +72,13 @@
     "host_boundary": "architecture/HOST_INTERCEPTION_AUTHORITY_BOUNDARY_001_2026-09-26.md",
     "historical_replay_basis": "integration/IMPROVEMENTCORE_HISTORICAL_REPLAY_BASIS_001.json",
     "repertoire_reachability": "runtime/repertoire_reachability.py",
-    "current_portfolio_identity": "runtime/current_portfolio_identity.py"
+    "current_portfolio_identity": "runtime/current_portfolio_identity.py",
+    "frontier_closure_validation": {
+      "pr": 84,
+      "take5_validation_run": "36227477555",
+      "capability_preservation_run": "36227477597",
+      "merge_commit": "04d6cc4d1935ee72e29909cb3bc7c4ee3616ade0"
+    }
   },
   "protected_behaviors": [
     "CONTROLLER_OWNERSHIP",

@@ -1,7 +1,7 @@
 # Relation Basis and Admission Contract 001
 
 Date: 2026-09-26
-Status: CANDIDATE CURRENT-BASIS CLOSURE
+Status: CURRENT VALIDATED BASIS-RELATIVE CONTRACT
 Source lineage:
 - Reaserch/projects/pd/working/RELATE_MATHEMATICAL_REDUCTION_001_2026-09-24.md
 - Reaserch/projects/core-system-mathematics/math/09_RELATIONS_FACTORIZATION.md
@@ -54,3 +54,10 @@ GLOBAL_RELATION_GENERATOR_COMPLETENESS = NOT A VALID CLOSED-WORLD CLAIM.
 
 A material new generator class changes the basis and reopens affected relation
 claims through normal discovery/reentry.
+
+## Validation
+
+Admitted with ImproveCore regime 088 through PR #84.
+Take-5 Validation run 36227477555 passed.
+Capability Preservation run 36227477597 passed.
+Merge: 04d6cc4d1935ee72e29909cb3bc7c4ee3616ade0.

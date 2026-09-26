@@ -1,7 +1,7 @@
 # ImprovementCore Frontier Closure 106
 
 Date: 2026-09-26
-Status: CANDIDATE CURRENT-BASIS CLOSURE
+Status: CURRENT VALIDATED BASIS-RELATIVE CLOSURE
 Parent: integration/CURRENT_IMPROVEMENT_CORE.md
 
 ## Scope
@@ -166,7 +166,7 @@ These changes materially alter normal zero-request ImproveCore behavior:
 - relation basis/admission is active;
 - closure/open coordinates change.
 
-Therefore the canonical regime advances from 087 to 088 after validation.
+The canonical regime advanced from 087 to 088 through validated PR #84.
 
 ## Closure claim
 
@@ -174,6 +174,10 @@ Relative to the recovered/current basis:
 
 IMPROVEMENTCORE_FRONTIER_106 = CLOSED_RELATIVE
 
-subject to successful repository validation.
+Validation evidence:
+- PR #84
+- Take-5 Validation run 36227477555: SUCCESS
+- Capability Preservation run 36227477597: SUCCESS
+- merge commit 04d6cc4d1935ee72e29909cb3bc7c4ee3616ade0
 
 This does not assert open-world completeness.
