@@ -8,6 +8,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
+from global_tool_execution import execute_protected_transition
 from direct_tool_command_gateway import (
     bind_direct_tool_commands,
     direct_tool_ids,
@@ -142,6 +143,45 @@ def audit_full_invocation_portfolio()->FullInvocationPortfolioAudit:
             if missing.blocker!=f"CONFIGURED_TOOL_ADAPTER_REQUIRED:{tool_id}":
                 failures.append(
                     f"{tool_id}:MISSING_ADAPTER_BLOCKER:{missing.blocker}"
+                )
+
+
+            pti=execute_protected_transition(
+                spec,
+                behavior_id="FULL_CONFIGURED_INVOCATION_PROFILE",
+                dispatch_fn=lambda current_plan,_tool_id=tool_id:(
+                    {"tool_id":_tool_id},
+                    f"portfolio-pti-dispatch:{_tool_id}",
+                ),
+                execute_fn=lambda value,current_plan,_tool_id=tool_id:(
+                    {"tool_id":_tool_id,"executed":True},
+                    f"portfolio-pti-execution:{_tool_id}",
+                ),
+                consume_fn=lambda value,current_plan,_tool_id=tool_id:(
+                    {"consumed":value},
+                    f"portfolio-pti-consume:{_tool_id}",
+                ),
+                update_fn=lambda value,current_plan,_tool_id=tool_id:(
+                    {"updated":value},
+                    f"portfolio-pti-update:{_tool_id}",
+                ),
+                reentry_fn=lambda value,current_plan,_tool_id=tool_id:(
+                    {"reentered":value},
+                    f"portfolio-pti-reentry:{_tool_id}",
+                ),
+                emission_audit_fn=lambda value,current_plan,_tool_id=tool_id:(
+                    f"portfolio-pti-emission:{_tool_id}"
+                ),
+            )
+            recurrence_ev=pti.transition_receipt.evidence.get("execution","")
+            expected_recurrence=(
+                "configured-recurrence:SELF:SELF_CLOSE:rounds=1"
+                if tool_id=="HF002"
+                else "configured-recurrence:HF002:RELATIVE_CLOSE:rounds=1"
+            )
+            if expected_recurrence not in recurrence_ev:
+                failures.append(
+                    f"{tool_id}:PTI_RECURRENCE_EVIDENCE:{recurrence_ev}"
                 )
 
         except Exception as exc:
