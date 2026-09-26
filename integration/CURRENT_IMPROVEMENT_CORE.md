@@ -168,6 +168,8 @@ architecture/IMPROVEMENT_CORE_ACTIVATION_083.md
 52. HF2 recurrence requires both a material-effect witness and changed semantic state; execution bookkeeping alone cannot trigger recurrence.
 53. HF1 upstream reentry escapes local HF2 rather than being swallowed by same-capability recurrence.
 54. direct run_improvement_core_regime remains the one-pass controlled/debug surface.
+55. selected registered formal tools inherit FULL_CONFIGURED_HF2_V1 rather than a one-shot bridge convention.
+56. selected-tool recurrence identity is carried by ConfiguredRunSpec and ToolExecutionPlan and checked by the whole-repertoire audit.
 
 ## Cross-repository lineage
 
@@ -375,6 +377,7 @@ Universal record-everything remains outside repository authority for unexposed s
 - integration/CURRENT_HF2.md
 - integration/CURRENT_ROOT_CAUSE.md
 - integration/CURRENT_PROTECTED_TRANSITION_INTEGRITY.md
+- integration/CURRENT_FULL_TOOL_INVOCATION.md
 
 ## Machine verification
 
