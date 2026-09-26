@@ -80,3 +80,27 @@ AND wrapper_required(R(U)) = false.
 ## Consequence
 
 A tool implementation may expose a core semantic operator internally, but user-facing dispatch cannot select it merely because the user used the short name of the tool.
+
+## MT before-return semantic gate
+
+Configured MT also owns a synchronous semantic-enrichment gate before user-visible return.
+
+When MT exposes BLACK_BOX_OPEN object o:
+
+MT(x)
+-> SemanticResolutionPass(o)
+-> Admit(material semantic delta)
+-> re-run MT on the enriched state when the delta is result-sensitive
+-> return when MT result is stable, the semantic pass yields no material delta, a stage returns OPEN/BLOCKED, or the bounded round limit is reached.
+
+This does not require full semantic closure.
+
+Unresolved residue remains BLACK_BOX_OPEN with retained evidence and re-enters on a later encounter.
+
+Therefore configured "run MT" means:
+- full wrapper;
+- D36_C geometry;
+- recursion/closure/reentry;
+- synchronous bounded semantic enrichment before return.
+
+Bare/core MT bypasses this gate.
