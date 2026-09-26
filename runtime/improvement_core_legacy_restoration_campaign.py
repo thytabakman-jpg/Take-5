@@ -26,6 +26,8 @@ CANDIDATE=ROOT/"runtime/improvement_core_legacy_candidate.py"
 CANDIDATE_TESTS=ROOT/"tests/test_improvement_core_legacy_candidate.py"
 RESTORED=ROOT/"runtime/improvement_core_legacy_restored.py"
 RESTORED_TESTS=ROOT/"tests/test_improvement_core_legacy_restored.py"
+CONTROL_RECEIPT=ROOT/"artifacts/improvecore/LEGACY_CANDIDATE_CONTROL_HOLDOUT_131_2026-09-26.md"
+SEMANTIC_RECEIPT=ROOT/"artifacts/improvecore/LEGACY_RESTORED_SEMANTIC_HOLDOUT_132_2026-09-26.md"
 
 def read(p): return p.read_text(encoding="utf-8")
 
@@ -42,6 +44,8 @@ def evidence_snapshot():
     restored_text=read(RESTORED) if restored else ""
     restored_tests=RESTORED_TESTS.exists()
     restored_tests_text=read(RESTORED_TESTS) if restored_tests else ""
+    control_receipt=read(CONTROL_RECEIPT) if CONTROL_RECEIPT.exists() else ""
+    semantic_receipt=read(SEMANTIC_RECEIPT) if SEMANTIC_RECEIPT.exists() else ""
     return {
         "fixed_goal_directed_stage_train":"GOAL_DIRECTED_STAGES=(" in operator,
         "goal_stage_count":len(GOAL_DIRECTED_STAGES),
@@ -74,6 +78,9 @@ def evidence_snapshot():
         "candidate_reselection_test":"test_material_delta_records_reselection_requirement" in tests_text,
         "candidate_liveness_test":"test_live_inquiry_cannot_silently_terminate" in tests_text,
         "candidate_fail_closed_test":"test_missing_configured_tool_adapter_preserves_open" in tests_text,
+        "control_holdout_pass":"4/4 PASS" in control_receipt and "2/2 PASS" in control_receipt,
+        "semantic_holdout_pass":"4/4 PASS" in semantic_receipt and "HOST_MODEL_SUPPLIED_SEMANTIC_FRONTIER + REPOSITORY_CONTROL_EXECUTION" in semantic_receipt,
+        "semantic_evidence_nonindependent":"not independent-agent replication" in semantic_receipt.lower(),
     }
 
 def handlers():
@@ -136,7 +143,18 @@ def handlers():
                         "REDESIGN_AGAIN",
                     )
                 elif phase==12:
-                    s["work_frontier"]=("BUILD_HOLDOUT_AND_ABLATION_CAMPAIGN",)
+                    s["work_frontier"]=(
+                        "INTEGRATE_MODERN_GUARD_WRAPPER",
+                        "RUN_CONTROL_HOLDOUTS",
+                        "RUN_SEMANTIC_HOLDOUTS",
+                        "ASSESS_REPOSITORY_PROMOTION_BOUNDARY",
+                    )
+                elif phase==13:
+                    s["work_frontier"]=(
+                        "ADD_GOVERNED_RESTORED_DISPATCH",
+                        "REPLACE_CURRENT_DISPATCH_WITHOUT_HOST_BINDING",
+                        "REDESIGN_CONTROLLER_AGAIN",
+                    )
                 else:
                     s["work_frontier"]=()
             elif stage=="SELECT":
@@ -146,7 +164,8 @@ def handlers():
                     2:"IMPLEMENT_ADAPTIVE_LEGACY_CORE_CANDIDATE",
                     10:"AUDIT_IMPLEMENTED_CANDIDATE",
                     11:"RUN_HETEROGENEOUS_BEHAVIORAL_HOLDOUTS",
-                    12:"BUILD_HOLDOUT_AND_ABLATION_CAMPAIGN",
+                    12:"RESOLVE_CURRENT_PROMOTION_RESIDUAL",
+                    13:"ADD_GOVERNED_RESTORED_DISPATCH",
                 }
                 s["selected_work"]=choices.get(phase,"NONE")
             elif stage=="BIND":
@@ -203,48 +222,73 @@ def handlers():
                     return {"state":s,"material_delta":True}
                 if phase==11:
                     if not s.get("candidate_static_complete",False):
-                        s["promotion_decision"]={
-                            "status":"OPEN",
-                            "reason":"Legacy core exists but the selected LEGACY_LOOP_MODERN_GUARDS architecture is not fully realized",
-                            "selected_next":"INTEGRATE_MODERN_GUARD_WRAPPER",
-                            "missing_guards":[k for k,v in s.get("successor_audit",{}).items() if not v],
-                            "reject":{"PROMOTE_IMMEDIATELY":"selected architecture is only partially implemented","REDESIGN_AGAIN":"core control law already passes its tests"},
-                        }
+                        selected_next="INTEGRATE_MODERN_GUARD_WRAPPER"
+                        reason="selected LEGACY_LOOP_MODERN_GUARDS architecture is not fully realized"
+                    elif not snap["control_holdout_pass"]:
+                        selected_next="RUN_CONTROL_HOLDOUTS"
+                        reason="implemented control law lacks declared heterogeneous control/ablation receipt"
+                    elif not snap["semantic_holdout_pass"]:
+                        selected_next="RUN_SEMANTIC_HOLDOUTS"
+                        reason="control mechanics pass but unlike semantic routing evidence is still absent"
                     else:
-                        s["promotion_decision"]={
-                            "status":"OPEN",
-                            "reason":"control mechanics implemented; heterogeneous semantic holdouts and causal ablation remain required by benchmark",
-                            "selected_next":"RUN_HETEROGENEOUS_BEHAVIORAL_HOLDOUTS",
-                            "reject":{"PROMOTE_IMMEDIATELY":"insufficient behavioral evidence","REDESIGN_AGAIN":"no failing implemented-control witness"},
-                        }
+                        selected_next="ASSESS_REPOSITORY_PROMOTION_BOUNDARY"
+                        reason="implementation, control holdouts, ablations, modern guards, and multi-domain semantic routing all pass on their declared evidence classes"
+                    s["promotion_decision"]={
+                        "status":"OPEN",
+                        "reason":reason,
+                        "selected_next":selected_next,
+                        "evidence_class_boundary":{
+                            "semantic_holdouts_nonindependent":snap["semantic_evidence_nonindependent"],
+                            "universal_host_model_binding":"NOT_REPOSITORY_OWNED",
+                        },
+                        "reject":{
+                            "PROMOTE_WITHOUT_HOST_BINDING":"repository cannot manufacture open-ended semantic generation",
+                            "REDESIGN_AGAIN":"no failing controller witness currently licenses another redesign",
+                        },
+                    }
                     s["campaign_phase"]=12
                     return {"state":s,"material_delta":True}
                 if phase==12:
-                    if s.get("promotion_decision",{}).get("selected_next")=="INTEGRATE_MODERN_GUARD_WRAPPER":
+                    selected_next=s.get("promotion_decision",{}).get("selected_next")
+                    if selected_next=="INTEGRATE_MODERN_GUARD_WRAPPER":
                         s["implementation_target"]={
                             "new_runtime":"runtime/improvement_core_legacy_restored.py",
                             "wraps":"runtime/improvement_core_legacy_candidate.py",
                             "required_services":["entry_contract","external_acquisition","knowledge_ledger","HF002"],
-                            "preserve":["configured_tool_bridge","OPEN_BLOCKED_CONFLICT","frozen Legacy semantics"],
                         }
-                        s["campaign_phase"]=13
-                        return {"state":s,"material_delta":True}
-                    s["holdout_target"]={
-                        "unlike_domains_minimum":4,
-                        "no_user_tool_sequence":True,
-                        "causal_ablation":True,
-                        "compare":["frozen ICC128 Legacy","current ImprovementCore","candidate"],
-                        "do_not_repair_again_until_holdouts_fail":True,
-                    }
+                    elif selected_next=="RUN_CONTROL_HOLDOUTS":
+                        s["implementation_target"]="runtime/improvement_core_legacy_holdout_campaign.py"
+                    elif selected_next=="RUN_SEMANTIC_HOLDOUTS":
+                        s["implementation_target"]="runtime/improvement_core_legacy_semantic_holdouts_132.py"
+                    elif selected_next=="ASSESS_REPOSITORY_PROMOTION_BOUNDARY":
+                        s["promotion_boundary"]={
+                            "repository_restored_controller":"ADMISSION_READY",
+                            "semantic_provider_contract":"REQUIRED",
+                            "automatic_universal_chat_host_binding":"EXTERNAL_NOT_OWNED",
+                            "selected_next":"ADD_GOVERNED_RESTORED_DISPATCH",
+                            "rule":"route to restored controller when an explicit semantic provider is bound; never silently substitute the fixed-stage controller under a restored-execution claim",
+                        }
                     s["campaign_phase"]=13
+                    return {"state":s,"material_delta":True}
+                if phase==13:
+                    if s.get("promotion_boundary",{}).get("selected_next")=="ADD_GOVERNED_RESTORED_DISPATCH":
+                        s["implementation_target"]={
+                            "new_runtime":"runtime/improvement_core_restored_dispatch.py",
+                            "semantic_provider":"explicit required host binding",
+                            "fallback":"typed OPEN when restored semantics are requested but provider is unavailable",
+                            "compatibility":"existing fixed-stage dispatch remains available as legacy compatibility/debug surface until host binding is universal",
+                        }
+                    s["campaign_phase"]=14
                     return {"state":s,"material_delta":True}
                 s["hf2_disable_local_recurrence"]=True
                 return {"state":s,"material_delta":False}
             elif stage=="ADMIT":
                 s["admission"]="ADMIT_STRICT_GAIN_ONLY"
             elif stage=="RECONCILE":
-                if int(s.get("campaign_phase",0))>=13:
-                    s["remaining_residual"]="heterogeneous behavioral holdout + causal ablation execution"
+                if int(s.get("campaign_phase",0))>=14:
+                    s["remaining_residual"]="implement governed restored dispatch; universal automatic host semantic binding remains external"
+                elif int(s.get("campaign_phase",0))>=13:
+                    s["remaining_residual"]="repository promotion boundary / semantic host binding"
                 elif int(s.get("campaign_phase",0))>=3 and not snap["candidate_present"]:
                     s["remaining_residual"]="implement candidate runtime"
             elif stage=="PROPAGATE_AFFECTED_CONE":
