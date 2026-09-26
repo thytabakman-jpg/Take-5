@@ -1,7 +1,7 @@
 # ImprovementCore Indexed Progress Mathematics 111
 
 Date: 2026-09-26
-Status: VALIDATED REGIME-090 STRICT-GAIN SUCCESSOR / PR ADMISSION PENDING
+Status: PROMOTED CURRENT LONGITUDINAL PROGRESS MATHEMATICS / REGIME 090
 Base: Take-5 regime 090
 Controller target: ImprovementCore
 Primary defect attacked: transition-local progress evidence was being asked to serve as the global strict-improvement relation
@@ -721,3 +721,18 @@ IC123 Math Recovery 001:
 - campaign receipt artifact uploaded
 
 This is branch-level validation. Current-system promotion still requires Take-5 Validation and Capability Preservation on the pull request.
+
+
+## 23. Current promotion evidence
+
+PR #90
+- merge: 924f0123d0ec3490cccc8c01667654c8166436c6
+- Take-5 Validation: 36249848074 SUCCESS
+- Capability Preservation: 36249848079 SUCCESS
+- branch IC123 Math Recovery: 36249781890 SUCCESS
+- focused branch regressions: 73 PASS
+
+Current role:
+- regime-090 `improvement_core_progress_relation.py` remains the local causal transition gate;
+- `improvement_core_order_math.py` is the longitudinal state-comparison layer;
+- `C^+` remains the controller-dynamics abstraction.
