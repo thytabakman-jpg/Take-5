@@ -1,8 +1,8 @@
 """Recovery validator for current ImprovementCore.
 
-This module provides an executable witness that the documented recovery surface
-still reconstructs the current user-facing regime and that key currentness
-pointers have not drifted.
+Currentness is versioned against the live regime rather than frozen to one merge
+hash. Historical merge/validation receipts remain provenance, while behavioral
+identity is checked against the executable regime surface.
 """
 from __future__ import annotations
 
@@ -17,6 +17,7 @@ ROOT=Path(__file__).resolve().parents[1]
 REQUIRED_FILES=(
     "integration/CURRENT_IMPROVEMENT_CORE.md",
     "architecture/IMPROVEMENT_CORE_RECOVERY_MANIFEST_082.json",
+    "architecture/IMPROVEMENT_CORE_ACTIVATION_083.md",
     "runtime/improvement_core_dispatch.py",
     "runtime/improvement_core_regime.py",
     "runtime/improvement_core_manager.py",
@@ -28,9 +29,6 @@ REQUIRED_FILES=(
     "research/IMPROVEMENT_CORE_USAGE_AUDIT_078_2026-09-26.md",
     "integration/ICC_SHUTDOWN_HANDOFF_2026-09-25.md",
 )
-
-EXPECTED_MERGE="4408dc5918f1593ecdada8cd7905a4c0346867e1"
-EXPECTED_VALIDATION_RUN="36220020527"
 
 def _read(rel:str)->str:
     return (ROOT/rel).read_text(encoding="utf-8")
@@ -63,23 +61,25 @@ def validate_recovery()->dict:
             failures.append("RECOVERY_MANIFEST_CONTROLLER_DRIFT")
         if manifest.get("invocation",{}).get("entrypoint")!="runtime.improvement_core_regime.run_improvement_core_regime":
             failures.append("RECOVERY_MANIFEST_ENTRYPOINT_DRIFT")
-        evidence=manifest.get("evidence",{})
-        if evidence.get("merge_commit")!=EXPECTED_MERGE:
-            failures.append("RECOVERY_MANIFEST_MERGE_DRIFT")
-        if str(evidence.get("validation_run"))!=EXPECTED_VALIDATION_RUN:
-            failures.append("RECOVERY_MANIFEST_VALIDATION_DRIFT")
+        if str(manifest.get("regime_version"))!=str(CURRENT_REGIME.version):
+            failures.append("RECOVERY_MANIFEST_REGIME_VERSION_DRIFT")
+
+        regime=manifest.get("regime",{})
+        if regime.get("recursive_activation")!="LIVE_CONTINUATION":
+            failures.append("RECURSIVE_ACTIVATION_CONTRACT_MISSING")
+        if regime.get("learning_activation")!="RECURSIVE_ROUTE_GATE_AND_STAGE_LEARNING_EVENTS":
+            failures.append("LEARNING_ACTIVATION_CONTRACT_MISSING")
 
         max_doc=_read("architecture/IMPROVEMENT_CORE_MAXIMIZATION_081.md")
         if "Status: IMPLEMENTED / VALIDATED / MERGED" not in max_doc:
             failures.append("MAXIMIZATION_STATUS_STALE")
-        if EXPECTED_MERGE not in max_doc:
-            failures.append("MAXIMIZATION_MERGE_WITNESS_MISSING")
-        if EXPECTED_VALIDATION_RUN not in max_doc:
-            failures.append("MAXIMIZATION_VALIDATION_WITNESS_MISSING")
+
+        anchor=_read("integration/CURRENT_IMPROVEMENT_CORE.md")
+        if "Current regime version:\n- 083" not in anchor:
+            failures.append("RECOVERY_ANCHOR_REGIME_VERSION_DRIFT")
 
         handoff=_read("integration/ICC_SHUTDOWN_HANDOFF_2026-09-25.md")
-        marker="1. `integration/CURRENT_IMPROVEMENT_CORE.md`"
-        if marker not in handoff:
+        if "1. `integration/CURRENT_IMPROVEMENT_CORE.md`" not in handoff:
             failures.append("HANDOFF_CURRENT_ANCHOR_MISSING")
 
     return {
@@ -88,6 +88,7 @@ def validate_recovery()->dict:
         "failures":tuple(failures),
         "controller":resolution.controller,
         "entrypoint":resolution.entrypoint,
+        "regime_version":CURRENT_REGIME.version,
     }
 
 if __name__=="__main__":

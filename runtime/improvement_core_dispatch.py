@@ -1,18 +1,16 @@
 """User-invocation dispatch for Improvement Core.
 
 Ordinary user phrases that name ImproveCore/Improvement Core resolve to the
-current cumulative-autonomous ImprovementCore regime. This prevents the host
-from silently selecting the narrower obligation/package runtime as the
-user-facing controller.
-
-This module resolves and dispatches the controller path. It does not manufacture
-stage handlers, authority, or child jobs.
+current cumulative-autonomous ImprovementCore regime. The dispatch preserves
+optional recursive-management and learning-memory inputs so live continuation
+cannot be silently dropped at the regime boundary.
 """
 from dataclasses import dataclass
 from typing import Any, Callable
 
 from entry_contract import resolve_controller
 from improvement_core_regime import run_improvement_core_regime
+from improvement_core_learning_memory import LearningMemory
 
 IMPROVEMENT_CORE_CONTROLLER="IC-028"
 
@@ -45,6 +43,8 @@ def dispatch_improvement_core(
     jane_update:Callable|None=None,
     controller_decide:Callable|None=None,
     max_rounds:int=8,
+    recursive_handlers:dict[str,Callable]|None=None,
+    learning_memory:LearningMemory|None=None,
 ):
     resolution=resolve_improvement_core_invocation(user_text)
     result=run_improvement_core_regime(
@@ -61,5 +61,7 @@ def dispatch_improvement_core(
         jane_update=jane_update,
         controller_decide=controller_decide,
         max_rounds=max_rounds,
+        recursive_handlers=recursive_handlers,
+        learning_memory=learning_memory,
     )
     return resolution,result
