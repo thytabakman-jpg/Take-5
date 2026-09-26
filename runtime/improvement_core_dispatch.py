@@ -1,17 +1,18 @@
 """User-invocation dispatch for Improvement Core.
 
 Ordinary user phrases that name ImproveCore/Improvement Core resolve to the
-canonical rich manager entry. This prevents the host from silently selecting
-the narrower obligation/package runtime as the user-facing controller.
+current cumulative-autonomous ImprovementCore regime. This prevents the host
+from silently selecting the narrower obligation/package runtime as the
+user-facing controller.
 
-This module only resolves and dispatches the controller path. It does not
-manufacture stage handlers or authority.
+This module resolves and dispatches the controller path. It does not manufacture
+stage handlers, authority, or child jobs.
 """
 from dataclasses import dataclass
 from typing import Any, Callable
 
 from entry_contract import resolve_controller
-from improvement_core_manager import run_improvement_core_manager
+from improvement_core_regime import run_improvement_core_regime
 
 IMPROVEMENT_CORE_CONTROLLER="IC-028"
 
@@ -26,7 +27,7 @@ def resolve_improvement_core_invocation(user_text:str)->InvocationResolution:
         raise RuntimeError(f"IMPROVEMENT_CORE_CONTROLLER_UNRESOLVED:{controller}")
     return InvocationResolution(
         controller=controller,
-        entrypoint="runtime.improvement_core_manager.run_improvement_core_manager",
+        entrypoint="runtime.improvement_core_regime.run_improvement_core_regime",
     )
 
 def dispatch_improvement_core(
@@ -46,7 +47,7 @@ def dispatch_improvement_core(
     max_rounds:int=8,
 ):
     resolution=resolve_improvement_core_invocation(user_text)
-    result=run_improvement_core_manager(
+    result=run_improvement_core_regime(
         user_text,
         target=target,
         job=job,
