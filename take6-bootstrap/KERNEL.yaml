@@ -1,0 +1,92 @@
+schema_version: "0.1"
+system: TAKE-6
+status: GREENFIELD_SUCCESSOR_BOOTSTRAP
+production_authority: none
+predecessor_evidence:
+  - thytabakman-jpg/Reaserch
+  - thytabakman-jpg/Take-2
+  - thytabakman-jpg/Take-3
+  - thytabakman-jpg/Take-4
+  - thytabakman-jpg/Take-5
+
+kernel_role: >
+  Preserve immutable evidence, compile current semantic state deterministically,
+  execute exact content-addressed capsules, record receipts, and fail closed on ambiguity.
+
+authoritative_planes:
+  evidence:
+    authoritative: true
+    contains:
+      - content_addressed_raw_objects
+      - immutable_semantic_objects
+      - append_only_events
+      - provenance
+      - historical_dispositions
+  semantic:
+    authoritative: derived
+    contains:
+      - compiled_object_graph
+      - unique_current_versions_or_typed_conflict
+      - dependency_cones
+      - open_obligations
+      - exact_tool_capsules
+  execution:
+    authoritative: false
+    contains:
+      - ephemeral_runtime
+      - invocation_capsules
+      - execution_receipts
+      - verification_receipts
+      - emitted_events
+
+forbidden_authorities:
+  - hand_authored_current_pointer
+  - hand_authored_registry_projection
+  - chat_memory
+  - markdown_summary
+  - compressed_view
+  - latest_file_by_timestamp
+  - latest_commit_by_recency_alone
+
+kernel_primitives:
+  - VERIFY_CONTENT_IDENTITY
+  - APPEND_EVENT
+  - COMPILE_STATE
+  - RESOLVE_EXACT_OBJECT
+  - VERIFY_PROMOTION
+  - EXECUTE_CAPSULE
+  - RECORD_RECEIPT
+  - COMPUTE_AFFECTED_CONE
+  - REENTER
+
+invariants:
+  immutable_history: >
+    An existing content-addressed object or event is never mutated in place.
+  generated_currentness: >
+    CURRENT is a compiler result, never an authored fact.
+  unique_current_or_typed_conflict: >
+    Every subject compiles to exactly one CURRENT version or to OPEN/BLOCKED/CONFLICT.
+  compression_non_authority: >
+    Lossy projections are non-authoritative and must rehydrate exact source objects before result-sensitive use.
+  capability_preservation: >
+    A successor cannot promote while a predecessor protected behavior disappears without preservation witness,
+    authorized supersession, or explicit OPEN/BLOCKED/CONFLICT.
+  consequence_closure: >
+    Every material event computes an affected dependency cone and every member receives a typed disposition.
+  execution_truth: >
+    Selection, binding, execution, consumption, verification, persistence, and completion remain distinct.
+  archive_completeness: >
+    Every material supplied artifact is byte-accounted, content-addressed, provenance-linked, and dispositioned.
+  source_projection_separation: >
+    Generated views may be deleted and rebuilt without information loss.
+  host_boundary_truth: >
+    Repository-local code never claims universal interception of unrelated hosts.
+
+promotion_rule: >
+  Promote(v -> v') only when identity closure, dependency closure, protected-behavior preservation,
+  required validation, migration closure, consequence closure, and currentness compilation all pass,
+  with no unresolved conflict hidden by a projection.
+
+migration_rule: >
+  Migrate evidence, semantic identity, authority, capability, state, provenance, and protected behavior.
+  Do not mass-copy predecessor files as current architecture.

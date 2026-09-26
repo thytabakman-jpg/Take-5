@@ -1,0 +1,49 @@
+{
+  "schema_version": "0.1",
+  "object_id": "TAKE6:BOOTSTRAP:001",
+  "status": "GREENFIELD_SUCCESSOR_CANDIDATE_CORE_VALIDATED",
+  "date": "2026-09-26",
+  "authority": "NONE_UNTIL_PROMOTION",
+  "files": [
+    "README.md",
+    "KERNEL.yaml",
+    "ARCHITECTURE.md",
+    "ARCHIVE_DURABILITY.md",
+    "MIGRATION_FROM_TAKE5.md",
+    "IMPROVEMENTCORE_DECISION.md",
+    "BOOT_SEQUENCE.md",
+    "VALIDATION_001.md",
+    "schemas/artifact.schema.json",
+    "schemas/event.schema.json",
+    "schemas/semantic-object.schema.json",
+    "schemas/tool-capsule.schema.json",
+    "runtime/archive.py",
+    "runtime/authority.py",
+    "runtime/checkpoint.py",
+    "runtime/compiler.py",
+    "runtime/durability.py",
+    "runtime/invocation.py",
+    "runtime/propagation.py",
+    "runtime/promotion.py",
+    "tests/test_invariants.py"
+  ],
+  "source_refs": {
+    "take5": "thytabakman-jpg/Take-5@df714811ab14e6d2d4dc0154f2a7136cb4794617",
+    "reaserch_observed": "thytabakman-jpg/Reaserch@1a18aa206c037709b1b17b6240c3ed8c9bc9e4f8"
+  },
+  "design_decision": "Separate immutable evidence/event history from deterministically compiled semantic current state and disposable runtime execution.",
+  "promotion_blockers": [
+    "separate Take-6 GitHub repository not yet instantiated",
+    "independent cold-replica trust domain not yet provisioned",
+    "predecessor corpus not yet fully ingested and checkpointed",
+    "tool capsules not yet migrated from full predecessor repertoire",
+    "protected-behavior differential suite not yet passed on real corpus",
+    "Legacy ImprovementCore holdouts not yet passed in Take-6 runtime",
+    "fresh-checkout/disaster reconstruction not yet certified on real corpus"
+  ],
+  "validation": {
+    "status": "PASS_RELATIVE_TO_BOOTSTRAP_FIXTURES",
+    "isolated_tests_passed": 14,
+    "production_promotion": false
+  }
+}

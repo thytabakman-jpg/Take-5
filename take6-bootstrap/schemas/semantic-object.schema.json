@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "take6:semantic-object:0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "object_id",
+    "kind",
+    "definition",
+    "source_cids",
+    "dependency_ids",
+    "protected_behaviors",
+    "status"
+  ],
+  "properties": {
+    "object_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "kind": {
+      "enum": [
+        "IDEA",
+        "DISTINCTION",
+        "RELATION",
+        "EQUATION",
+        "CAPABILITY",
+        "TOOL",
+        "WRAPPER",
+        "CONTROLLER",
+        "RUNTIME",
+        "PROJECT_STATE",
+        "DECISION",
+        "FAILURE",
+        "BENCHMARK",
+        "OPEN_QUESTION",
+        "OTHER"
+      ]
+    },
+    "definition": {
+      "type": "object"
+    },
+    "source_cids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^sha256:[0-9a-f]{64}$"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "dependency_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "protected_behaviors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "status": {
+      "enum": [
+        "CANDIDATE",
+        "ADMITTED",
+        "CURRENT",
+        "HISTORICAL",
+        "SUPERSEDED",
+        "REJECTED",
+        "OPEN",
+        "BLOCKED",
+        "CONFLICT"
+      ]
+    },
+    "open_coordinates": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    }
+  }
+}

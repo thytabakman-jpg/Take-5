@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "take6:event:0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "event_id",
+    "kind",
+    "subject",
+    "payload_cid",
+    "parents",
+    "basis_cid",
+    "authority",
+    "effects"
+  ],
+  "properties": {
+    "event_id": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "kind": {
+      "enum": [
+        "INGEST",
+        "DEFINE",
+        "ADMIT",
+        "SUPERSEDE",
+        "REJECT",
+        "PROMOTE",
+        "RELATE",
+        "OPEN",
+        "BLOCK",
+        "CONFLICT",
+        "EXECUTION_RECEIPT",
+        "VERIFICATION_RECEIPT"
+      ]
+    },
+    "subject": {
+      "type": "string",
+      "minLength": 1
+    },
+    "payload_cid": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "parents": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^sha256:[0-9a-f]{64}$"
+      },
+      "uniqueItems": true
+    },
+    "basis_cid": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "authority": {
+      "type": "string",
+      "minLength": 1
+    },
+    "effects": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "supersedes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^sha256:[0-9a-f]{64}$"
+      },
+      "uniqueItems": true
+    }
+  }
+}

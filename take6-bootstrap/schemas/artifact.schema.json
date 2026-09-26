@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "take6:artifact:0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "artifact_id",
+    "payload_cid",
+    "byte_count",
+    "media_type",
+    "source",
+    "ingestion_disposition"
+  ],
+  "properties": {
+    "artifact_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "payload_cid": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "byte_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "media_type": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source": {
+      "type": "object",
+      "required": [
+        "kind",
+        "locator"
+      ],
+      "properties": {
+        "kind": {
+          "enum": [
+            "GIT",
+            "ZIP",
+            "CHAT_EXPORT",
+            "UPLOAD",
+            "GENERATED",
+            "OTHER"
+          ]
+        },
+        "locator": {
+          "type": "string",
+          "minLength": 1
+        },
+        "repository": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "ref": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "original_path": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "ingestion_disposition": {
+      "enum": [
+        "INGESTED",
+        "UNREADABLE",
+        "ENCRYPTED",
+        "BINARY_PRESERVED",
+        "OPEN",
+        "BLOCKED"
+      ]
+    },
+    "extracted_cids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^sha256:[0-9a-f]{64}$"
+      },
+      "uniqueItems": true
+    },
+    "duplicate_payload_of": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    }
+  }
+}
