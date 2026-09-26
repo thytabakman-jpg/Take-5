@@ -489,3 +489,24 @@ preservation, residual discovery, execution reality, closure quality, future rea
 reduction of manual user reprompting. It does not mean fewest tools.
 
 This campaign is now the preferred integration surface for the recovered three-day work.
+
+
+## ICC wrapper redesign capture — 2026-09-25 late session
+
+Durable provenance capture:
+- `integration/ICC_WRAPPER_REDESIGN_CONVERSATION_CAPTURE_074_2026-09-25.md`
+
+Candidate architecture extracted from that conversation:
+- `architecture/ICC_QUESTION_DEPENDENCY_WRAPPER_075.md`
+
+Key ideas preserved:
+- ICC reframed from next-tool selection toward goal-relative problem completion.
+- mandatory pre/post ICC dependency frame;
+- MTPD before GOAL;
+- GOAL → ARCHITECT separation;
+- 36-question coverage compressed through DIFFERENTIATE / RELATE / RECONSTRUCT / STRENGTHEN;
+- IC-028, ICC-123, ICC-128 assigned differentiated roles rather than blind tool-smashing;
+- local + terminal HF1;
+- deferred redesign of all tools as a question-dependency graph `<Question, Prerequisites, AnswerType, Enables>`.
+
+Neither record is automatically canonical merely by capture.
