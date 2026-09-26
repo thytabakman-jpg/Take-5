@@ -8,7 +8,7 @@ MATERIAL_TOOLS=tuple([f"C{i:02d}" for i in range(1,50)]+[
 "ImprovementCore","MT","MTA","Architecture","PD","PDAudit","GDOS","Discriminator","Reconciler",
 "DelegatedExecutor","HF001","HF002","RootCause","TRC","RTC","BiasPerturbation","CurrentnessAudit",
 "CapabilityFoundry","EmergentAdmission","HistoricalReconstruction","ZeroRequest","MultiObject","Diagnosis",
-"ASSERT","GOAL","SolutionToMyProblem","DesiredJane","QuestionWorthAsking","LambdaMath","SemanticResolutionPipeline"
+"ASSERT","GOAL","SolutionToMyProblem","DesiredJane","QuestionWorthAsking","LambdaMath","SemanticResolutionPipeline","ImproveCoreAfterRun"
 ]+list(LEARNING_TOOLS))
 
 ASSERT_LAYERS=("ASSERT_LAYER_1","ASSERT_LAYER_2")
@@ -17,6 +17,14 @@ PROTECTED_BEHAVIORS={
     "MT":("MT_BLACK_BOX_SEMANTIC_RETURN_GATE",),
     "HF001":("HF001_GOVERNED_EPISODE",),
     "HF002":("HF002_LOCAL_RECURSIVE_CONTINUATION",),
+    "ImproveCoreAfterRun":(
+        "IMPROVECORE_AFTER_EVERY_RUN",
+        "SELF_IMPROVEMENT_STRICT_GAIN_GATED",
+        "SELF_IMPROVEMENT_LEARNING_ALWAYS_RECORDED",
+        "RESPONSE_PREFERENCE_ALWAYS_PROJECTED",
+        "BIAS_CONTROL_ALWAYS_RUN",
+        "NEW_OBJECT_LIFECYCLE_ALWAYS_CHECKED",
+    ),
     "RootCause":(
         "ROOT_CAUSE_ROOTNESS_SELECTOR",
         "ROOT_CAUSE_HF002_LOCAL_RECURRENCE",
@@ -35,7 +43,7 @@ def _spec(tool):
         tool in {
             "ImprovementCore","MT","MTA","Architecture","PD","PDAudit","GDOS","RootCause","RTC",
             "CurrentnessAudit","MultiObject","Diagnosis","ASSERT","GOAL","SolutionToMyProblem","DesiredJane",
-            "QuestionWorthAsking","LambdaMath","SemanticResolutionPipeline"
+            "QuestionWorthAsking","LambdaMath","SemanticResolutionPipeline","ImproveCoreAfterRun"
         }
         or tool in LEARNING_TOOLS
     )
