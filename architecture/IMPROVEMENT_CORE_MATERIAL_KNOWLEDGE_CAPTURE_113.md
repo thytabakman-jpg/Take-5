@@ -40,7 +40,7 @@ New durable ledger:
 
 integration/IMPROVEMENT_CORE_KNOWLEDGE_LEDGER_113.json
 
-The current ImprovementCore regime now loads the ledger and captures two classes.
+The current ImprovementCore regime now loads the ledger and captures three classes.
 
 ### Explicit knowledge events
 
@@ -71,6 +71,25 @@ The regime now converts material recursive traces into durable MATERIAL_TRANSITI
 
 This prevents a strict-gain discovery from existing only in transient parent/child state.
 
+### Configured-tool material rounds
+
+The configured-tool bridge executes registered formal tools under the current full configured
+profile and HF2 recurrence. Those results are controller state before persistence.
+
+The bridge now preserves material/linkage metadata on configured outputs, and the regime converts
+every material configured-tool HF2 round into a durable MATERIAL_TRANSITION node before episode
+closure. SELF-recurrent or non-traced configured executions use the material final output.
+
+This closes the repository-owned seam:
+
+material configured-tool execution
+-> transient configured_tool_outputs
+-?> durable interconnected knowledge.
+
+The durable node retains tool identity, basis, provenance, evidence references, configured
+invocation dependencies, explicit dependency footprint, related objects, affected objects,
+execution truth, and recurrence metadata.
+
 ## Knowledge object
 
 A durable node contains:
@@ -94,8 +113,9 @@ The ledger also retains an append-only history of capture/integration transition
 
 ## Anti-loss law
 
-Let M(e) mean that event e is emitted as an explicit knowledge event or appears in an admitted
-recursive trace with a material delta/progress effect.
+Let M(e) mean that event e is emitted as an explicit knowledge event, appears in an admitted
+recursive trace with a material delta/progress effect, or is a material configured-tool execution
+round crossing the governed ImprovementCore path.
 
 Let P(e) mean that the knowledge ledger contains a durable node for e and a provenance history
 entry.
