@@ -20,5 +20,8 @@ Activation rules:
 6. Do not silently apply later Take-5 wrapper semantics to this legacy controller.
 7. The current host can instantiate the frozen semantic-model and execution interfaces without redefining them.
 8. External state-changing actions remain bounded by current host authority.
+9. Every Legacy run requires a learning report under `artifacts/icc128-legacy-learning/`, including zero-learning and failed runs.
+10. The run is not closed until a GitHub commit receipt exists for that report.
+11. Final within-run learned memory is discarded after report submission; the next activation starts fresh.
 
 Ordinary `ICC128` remains the current system object. `ICC128 Legacy` is explicit opt-in.
