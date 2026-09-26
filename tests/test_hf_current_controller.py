@@ -1,5 +1,5 @@
 from kpd_projection import project,obligation_equivalent
-from hf_controller import decide,trc
+from hf_controller import decide,trc,hf1_reentry_route
 
 BASE={"identity":"i","type":"t","scope":"s","job":"j","readings":[],"result_sensitive":[],"selectors":[],"authority":[],"provenance":[],"open":[]}
 
@@ -27,3 +27,14 @@ def test_trc_reenters_only_on_material_projection_change():
     nxt=dict(BASE); nxt["identity"]="i2"
     assert trc(True,BASE,nxt)=="REENTER_KPD"
     assert trc(False,BASE,nxt)=="NO_REENTRY"
+
+def test_hf1_world_or_discovery_delta_reenters_observation():
+    assert hf1_reentry_route(world_changed=True,discovery_changed=False).action=="REENTER_OBSERVE"
+    assert hf1_reentry_route(world_changed=False,discovery_changed=True).action=="REENTER_OBSERVE"
+
+def test_hf1_result_sensitive_delta_reverifies_without_world_or_discovery_change():
+    assert hf1_reentry_route(
+        world_changed=False,
+        discovery_changed=False,
+        result_sensitive_delta=True,
+    ).action=="REVERIFY"
