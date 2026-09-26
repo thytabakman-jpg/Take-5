@@ -72,13 +72,58 @@ It is one typed action family inside the same endogenous continuation controller
 
 ## Policy
 
+The previously open policy coordinate is now typed as a set-valued choice correspondence.
+
+Let H_(J,K)(z,m) be the hard-admissible action set after authority, protected-behavior,
+reachability, status, and learning-memory gates.
+
+For each admissible action a define the current configured preference vector
+
+v(a)
+=
+<goal_gain,information_gain,search_gain,-cost,-risk,reversible>.
+
+Define strict Pareto dominance:
+
+b >_(z,m) a
+
+iff b is no worse than a on every configured preference coordinate and strictly
+better on at least one.
+
+Then:
+
+pi^+_(J,K)
+:
+Z^+
+rightrightarrows
+A
+
+with
+
 pi^+_(J,K)(z,m)
+=
+ND(H_(J,K)(z,m)).
 
-selects from A^+(z,m).
+Thus pi^+ is a correspondence, not an underspecified single-action function.
 
-The policy therefore depends on both live semantic state and learned route history.
+Search and experimentation are not hidden inside the selector. They are typed actions
+inside H_(J,K), so an information-gathering probe can appear on the same nondominated
+frontier as direct work.
 
-This makes negative evidence causally relevant to future selection rather than merely
+Execution resolution is separate:
+
+Resolve(pi^+(z,m),c)
+=
+- the unique frontier action when the frontier is singleton;
+- the explicitly licensed frontier action c when the frontier is plural and c belongs to it;
+- OPEN_INCOMPARABLE_FRONTIER when the frontier is plural and no licensed choice exists;
+- OPEN_NO_ADMISSIBLE_ACTION when continuation is live but the frontier is empty;
+- TERMINAL_EMPTY only when continuation is not live.
+
+This preserves incomparability rather than smuggling a scalar tie-breaker into pi^+.
+
+The policy depends on both live semantic state and learned route history.
+Negative evidence is therefore causally relevant to future selection rather than merely
 stored provenance.
 
 ## Transition
@@ -192,7 +237,6 @@ Those are result-sensitive distinctions, so the augmented state is not cosmetic.
 
 ## Remaining OPEN
 
-- exact mathematical type of pi^+ when policy selection itself performs search;
 - whether memory can be safely quotiented by a sufficient statistic;
 - global minimality of Z^+;
 - exact upstream zero-request relation generator;
