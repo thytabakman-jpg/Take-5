@@ -1,0 +1,37 @@
+name: ImproveCore Minimal Chat HF2 Campaign
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'runtime/improvement_core_minimal_chat_campaign.py'
+      - 'runtime/improvement_core_self_study.py'
+      - 'artifacts/improvecore/IMPROVEMENTCORE_MINIMAL_CHAT_EVIDENCE_2026-09-26.md'
+      - '.github/workflows/improvecore-minimal-chat-hf2-campaign.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'runtime/improvement_core_minimal_chat_campaign.py'
+      - 'runtime/improvement_core_self_study.py'
+      - 'artifacts/improvecore/IMPROVEMENTCORE_MINIMAL_CHAT_EVIDENCE_2026-09-26.md'
+      - '.github/workflows/improvecore-minimal-chat-hf2-campaign.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  campaign:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run repeated minimal-prompt ImprovementCore + HF2 campaign
+        run: PYTHONPATH=runtime:. python3 runtime/improvement_core_minimal_chat_campaign.py --episodes 4
+      - name: Upload campaign receipt
+        uses: actions/upload-artifact@v4
+        with:
+          name: improvecore-minimal-chat-hf2-campaign
+          path: runtime/state/improvecore-minimal-chat-campaign/report.json
