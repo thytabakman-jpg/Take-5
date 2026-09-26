@@ -162,19 +162,20 @@ Global minimality remains OPEN.
 2. architecture/IMPROVEMENT_CORE_RECOVERY_MANIFEST_082.json
 3. architecture/IMPROVEMENT_CORE_ACTIVATION_083.md
 4. architecture/IMPROVEMENT_CORE_MATHEMATICS_086.md
-4. runtime/improvement_core_dispatch.py
-5. runtime/improvement_core_regime.py
-6. runtime/improvement_core_manager.py
-7. runtime/ic028_operator.py
-8. runtime/improvement_core_recursive_manager.py
-9. runtime/improvement_core_learning_memory.py
-10. architecture/IMPROVEMENT_CORE_MAXIMIZATION_081.md
-11. architecture/CROSS_REPOSITORY_IMPROVEMENTCORE_LINEAGE_CHOICE_080.md
-12. research/IMPROVEMENT_CORE_USAGE_AUDIT_078_2026-09-26.md
-13. architecture/MATH_FIRST_WRAPPER_CLOSURE_039.md
-14. architecture/FULL_RUN_DEFAULT_DISPATCH_CONTRACT_066.md
-15. architecture/CANONICAL_TOOL_IDENTITY_REPAIR_076.md
-16. MIGRATION_STATE.yaml
+5. runtime/improvement_core_math.py
+6. runtime/improvement_core_dispatch.py
+7. runtime/improvement_core_regime.py
+8. runtime/improvement_core_manager.py
+9. runtime/ic028_operator.py
+10. runtime/improvement_core_recursive_manager.py
+11. runtime/improvement_core_learning_memory.py
+12. architecture/IMPROVEMENT_CORE_MAXIMIZATION_081.md
+13. architecture/CROSS_REPOSITORY_IMPROVEMENTCORE_LINEAGE_CHOICE_080.md
+14. research/IMPROVEMENT_CORE_USAGE_AUDIT_078_2026-09-26.md
+15. architecture/MATH_FIRST_WRAPPER_CLOSURE_039.md
+16. architecture/FULL_RUN_DEFAULT_DISPATCH_CONTRACT_066.md
+17. architecture/CANONICAL_TOOL_IDENTITY_REPAIR_076.md
+18. MIGRATION_STATE.yaml
 
 ## Related current recovery anchors
 
@@ -206,6 +207,11 @@ PR #52
 PR #53
 - merge 2dfe684886898f5a39ccd6c06f9a0b9e27695ff7
 - validation 36220513144
+
+PR #55
+- merge 39ca5616d3d8e23042f0ac887d0a447e24ec8ddf
+- validation 36221315384
+- augmented controller math C^+ validated as a strict-gain current abstraction
 
 ## OPEN coordinates
 

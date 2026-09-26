@@ -1,7 +1,7 @@
 # HF1 Mathematics 084
 
 Date: 2026-09-26
-Status: IMPLEMENTED CANDIDATE / VALIDATION REQUIRED
+Status: IMPLEMENTED / VALIDATED / MERGED
 
 ## Identity
 
@@ -149,3 +149,13 @@ result_sensitive_state occurs upstream. HF1 requires those signatures and fails 
 when they are absent rather than guessing them.
 
 Global minimality of the entire Take-5 controller is not claimed.
+
+
+## Validation evidence
+
+PR #55
+Merge: 39ca5616d3d8e23042f0ac887d0a447e24ec8ddf
+Validation run: 36221315384
+Conclusion: SUCCESS
+
+This closes the prior HF1 two-loop mathematical residual relative to the typed packet interface.
