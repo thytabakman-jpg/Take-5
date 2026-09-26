@@ -23,7 +23,7 @@ typed external primitives.
 
 ## 36-cell quotient
 
-The 36 configured MT cells collapse to seven non-equivalent distinctions.
+The 36 configured MT cells collapse to eight non-equivalent distinctions.
 
 1. DISPLAYED_EQUATION != RECONSTRUCTIBLE_MATHEMATICAL_OBJECT
 2. NAMED_SYMBOL != DEFINED_SYMBOL
@@ -31,7 +31,7 @@ The 36 configured MT cells collapse to seven non-equivalent distinctions.
 4. INTERFACE_SUFFICIENT != PORTABLE_IMPLEMENTATION_COMPLETE
 5. HIDDEN_DEPENDENCY != TYPED_EXTERNAL_PRIMITIVE
 6. SYNTACTIC_EQUALITY != PROTECTED_BEHAVIOR_EQUIVALENCE
-7. SEMANTIC_RECOVERY != FRESH_ENVIRONMENT_INSTANTIABILITY
+7. SEMANTIC_RECOVERY != FRESH_ENVIRONMENT_INSTANTIABILITY\n8. PROVENANCE_REFERENCE != RUNTIME_DEPENDENCY
 
 No cell supplies grounds for weakening any of these distinctions.
 
@@ -165,3 +165,22 @@ Material missing pieces before this change:
 - the historical Full Tool Mathematical Identity contract was not present at the expected Take-5 current path.
 
 These are the repair targets of this change.
+
+
+## Validation-discovered distinction
+
+Take-5 Validation initially failed on the pre-existing takeover-independence test because
+the explicit ICC128 Legacy bridge records the historical Reaserch repository name as
+provenance.
+
+Inspection showed:
+- the Legacy loader executes the local Take-5 frozen snapshot;
+- it does not fetch or execute Reaserch;
+- the learning reporter records source_repository as provenance metadata;
+- the Legacy manifest forbids source mutation and writes to Reaserch.
+
+Therefore the validator was repaired to preserve the actual invariant:
+
+Take-5 runtime must not depend on the predecessor repository.
+
+A provenance-only historical identifier is not itself a runtime dependency.
