@@ -167,3 +167,24 @@ Chat-derived RootCause execution:
 
 Run record:
 research/ROOT_CAUSE_RUN_CURRENT_CHAT_089_2026-09-26.md
+
+
+## Post-repair recheck
+
+The repair predicted by first run 089 was implemented as Protected Transition Integrity 090.
+
+Validation:
+- PR #69
+- merge 73639b7292e0e0d2b876b1751109255038e7f69b
+- validation 36222874741
+
+Executable recheck:
+runtime/protected_transition_root_recheck.py
+
+Result relative to the repaired Take-5 state:
+
+- internal PROTECTED_TRANSITION_INTEGRITY_FAILURE is no longer root-admissible for the remaining residual;
+- remaining root candidate: HOST_INTEGRATION_BYPASS;
+- meaning: an external host can still bypass Take-5 entirely.
+
+This is a narrower residual than the original whole-chat root.

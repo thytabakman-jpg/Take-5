@@ -1,7 +1,7 @@
 # Protected Transition Integrity 090
 
 Date: 2026-09-26
-Status: IMPLEMENTED CANDIDATE / VALIDATION REQUIRED
+Status: IMPLEMENTED / VALIDATED / MERGED
 
 ## Origin
 
@@ -129,3 +129,25 @@ configured execution only after:
 5. the repair is merged.
 
 The stronger claim "this can never recur in any host" is not licensed.
+
+
+## Validation evidence
+
+PR #69
+Merge: 73639b7292e0e0d2b876b1751109255038e7f69b
+Validation run: 36222874741
+Conclusion: SUCCESS
+
+The whole configured-tool portfolio inherited PTI, the end-to-end execution gate
+returned VERIFIED only with all seven witnesses, and the missing-edge fixture failed closed.
+
+## Post-repair root recheck
+
+runtime/protected_transition_root_recheck.py
+
+After portfolio PTI passes, RootCause no longer treats the internal
+PROTECTED_TRANSITION_INTEGRITY_FAILURE as the root of the remaining host-bypass residual.
+
+The surviving residual candidate is HOST_INTEGRATION_BYPASS.
+
+Therefore the internal generator is closed relative to repository-governed configured execution.

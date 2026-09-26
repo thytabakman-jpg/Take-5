@@ -102,6 +102,7 @@ architecture/IMPROVEMENT_CORE_ACTIVATION_083.md
 16. Take-3 strict-gain architecture admission;
 17. Take-4 cumulative-autonomy target;
 18. Take-5 authority, provenance, currentness, execution, closure and reentry safeguards.
+19. protected transition integrity across canonical identity, dispatch, execution, consumption, state update, reentry, and the user-visible boundary.
 
 ## Cross-repository lineage
 
@@ -175,7 +176,9 @@ Global minimality remains OPEN.
 15. architecture/MATH_FIRST_WRAPPER_CLOSURE_039.md
 16. architecture/FULL_RUN_DEFAULT_DISPATCH_CONTRACT_066.md
 17. architecture/CANONICAL_TOOL_IDENTITY_REPAIR_076.md
-18. MIGRATION_STATE.yaml
+18. architecture/PROTECTED_TRANSITION_INTEGRITY_090.md
+19. integration/CURRENT_PROTECTED_TRANSITION_INTEGRITY.md
+20. MIGRATION_STATE.yaml
 
 ## Related current recovery anchors
 
@@ -183,6 +186,7 @@ Global minimality remains OPEN.
 - integration/CURRENT_HF1.md
 - integration/CURRENT_HF2.md
 - integration/CURRENT_ROOT_CAUSE.md
+- integration/CURRENT_PROTECTED_TRANSITION_INTEGRITY.md
 
 ## Machine verification
 
@@ -214,6 +218,11 @@ PR #55
 - merge 39ca5616d3d8e23042f0ac887d0a447e24ec8ddf
 - validation 36221315384
 - augmented controller math C^+ validated as a strict-gain current abstraction
+
+PR #69
+- merge 73639b7292e0e0d2b876b1751109255038e7f69b
+- validation 36222874741
+- protected transition integrity promoted as a generic configured-system invariant
 
 ## OPEN coordinates
 

@@ -50,8 +50,14 @@
         "pr": 55,
         "merge_commit": "39ca5616d3d8e23042f0ac887d0a447e24ec8ddf",
         "validation_run": "36221315384"
+      },
+      {
+        "pr": 69,
+        "merge_commit": "73639b7292e0e0d2b876b1751109255038e7f69b",
+        "validation_run": "36222874741"
       }
-    ]
+    ],
+    "protected_transition_integrity": "architecture/PROTECTED_TRANSITION_INTEGRITY_090.md"
   },
   "protected_behaviors": [
     "CONTROLLER_OWNERSHIP",
@@ -71,7 +77,8 @@
     "UNCHANGED_NO_GAIN_ROUTE_BLOCKED",
     "DEPENDENCY_SENSITIVE_ROUTE_REOPENING",
     "STAGE_LEARNING_EVENTS_CAN_ENTER_MEMORY",
-    "OPEN_BLOCKED_CONFLICT_PRESERVATION"
+    "OPEN_BLOCKED_CONFLICT_PRESERVATION",
+    "PROTECTED_TRANSITION_INTEGRITY"
   ],
   "open": [
     "ZERO_REQUEST_UPSTREAM_DISCOVERY_RUNTIME",
