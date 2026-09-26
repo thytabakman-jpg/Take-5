@@ -1,0 +1,30 @@
+name: ImproveCore ZIP Study 106
+
+on:
+  push:
+    branches:
+      - run/improvecore-zip-study-106
+    paths:
+      - 'runtime/improvecore_zip_study_106.py'
+      - 'integration/IMPROVECORE_ZIP_STUDY_INPUT_106_2026-09-26.md'
+      - 'research/IMPROVECORE_ZIP_EVIDENCE_106_2026-09-26.md'
+      - '.github/workflows/improvecore-zip-study-106.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  zip-study:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run current ImproveCore on ZIP evidence
+        run: PYTHONPATH=runtime:. python3 runtime/improvecore_zip_study_106.py
+      - name: Upload ZIP study receipt
+        uses: actions/upload-artifact@v4
+        with:
+          name: improvecore-zip-study-106
+          path: runtime/state/improvecore-zip-study-106/report.json
