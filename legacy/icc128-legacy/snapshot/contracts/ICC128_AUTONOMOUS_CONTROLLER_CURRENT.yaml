@@ -1,0 +1,157 @@
+schema_version: 0.1
+object_id: REASERCH:ICC128-AUTONOMOUS-CONTROLLER:001
+date: 2026-09-25
+status: current_semantic_runtime_contract
+purpose: >
+  Restore the historical ICC-128 endogenous problem-solving mechanism. This contract is
+  distinct from the newer ASSERT/PROBLEM/ROOT/GOAL dependency-spine work. It governs how
+  ICC itself generates questions, turns them into work/probes, selects among them,
+  executes, assimilates results, updates per-object memory, and recursively continues.
+
+historical_basis:
+  equation_catalog: two_month_equation_recovery_catalog.md
+  recovered_equations:
+    controller: "ICC_128 = C_128(Z_t, F_128, MI_t)"
+    chooser: "Q_t = rho_128(Z_t, MI_t) subseteq F_128"
+    execute: "Y_t = Run_128(Q_t, Z_t, MI_t)"
+    sync: "MI_(t+1) = Sync_128(MI_t, Y_t)"
+    update: "Z_(t+1) = U_128(Z_t, Y_t, MI_(t+1))"
+    expanded_loop: "Z -> G_Q -> Q -> G_W -> W -> S -> W* -> E -> R -> A -> Z' -> G_Q"
+
+controller_state:
+  Z: governing problem/controller state
+  MI:
+    meaning: per_object_mathematical_and_status_memory
+    required_fields:
+      - ObjectID
+      - VersionID
+      - Math
+      - ComponentStatus
+      - WholeStatus
+      - Renderer
+      - Freshness
+
+repertoire:
+  historical_symbolic_ids: [L, O, R123, D_PD, G, A, M_MT, T2, E, V]
+  resolution_rule: >
+    Preserve these historical IDs until each symbol has a fully recovered canonical mapping.
+    A missing mapping is OPEN and does not license substitution by a similarly named modern tool.
+
+pipeline:
+  - G_Q
+  - G_W
+  - S
+  - E
+  - A
+  - U
+  - G_Q
+
+operators:
+  G_Q:
+    job: >
+      Generate live questions/discriminators from unresolved state, current evidence, object
+      memory, failed prior routes, representation alternatives, and newly exposed residuals.
+    output: question_frontier
+  G_W:
+    job: >
+      For each live question, generate candidate probes/work capable of answering or
+      discriminating it. Do not equate a question with a tool.
+    output: work_frontier
+  S:
+    job: >
+      Select a nondominated continuation package using relevance, expected information gain,
+      dependency leverage, continuation value, authority, cost, risk, and preserved plurality.
+    output: selected_work
+  E:
+    job: >
+      Bind and execute selected work through actual available implementations with explicit
+      execution truth.
+    output: returned_results
+  A:
+    job: >
+      Admit/reconcile returned results, preserving conflict, OPEN, failed probes, provenance,
+      negative evidence, and question-consumption dispositions.
+    output: admitted_delta
+  U:
+    job: >
+      Update Z and MI, invalidate stale support, regenerate affected frontiers, and determine
+      earliest valid reentry.
+    output: successor_state
+
+rho_128:
+  definition: >
+    The controller policy that maps current Z and MI to the live inquiry/continuation subset
+    selected from the current repertoire and generated work frontier.
+  must_consider:
+    - unresolved_question_frontier
+    - object_and_version_identity
+    - mathematical_status
+    - whole_vs_component_status
+    - freshness
+    - failed_and_negative_probe_memory
+    - OPEN_and_CONFLICT
+    - representation_change
+    - capability_availability
+    - authority
+    - expected_information_gain
+    - dependency_leverage
+    - continuation_value
+  anti_regression:
+    - never_replace_endogenous_selection_with_user_authored_tool_sequence
+    - never_collapse_question_selection_into_tool_selection
+    - never_drop_UNKNOWN_without_probe_or_typed_block
+    - never_stop_merely_because_current_work_package_finished
+
+reentry:
+  invariant: >
+    When the successor is not terminal, G_Q must be able to produce a nonempty live frontier
+    whenever an admitted continuation exists.
+  terminal_classes: [COMPLETE, OPEN, BLOCKED, CONFLICT]
+  typed_stop_only: true
+
+relationship_to_new_goal_spine:
+  status: DISTINCT_COMPLEMENTARY_OBJECT
+  rule: >
+    The new ASSERT/PROBLEM/ROOT/GOAL architecture can supply state, dependencies, or goals to
+    ICC-128. It does not replace rho_128 or the endogenous question/work/selection loop.
+
+runtime_boundary:
+  current_repository_realization: runtime/icc128_autonomous_controller.py
+  host_model_adapter_required_for_open_ended_semantic_generation: true
+  native_chat_universal_binding: OPEN
+
+
+rho_policy_ref:
+  contract: projects/improvement-core/ICC128_RHO_POLICY_CURRENT.yaml
+  runtime: runtime/rho128_policy.py
+  historical_source: IC-2026-09-23-012
+  role: >
+    Supply state-relative live-job discovery routing, repertoire/package comparison,
+    nondominated selection, cheap-path choice, and material-delta reselection for rho_128.
+    Open-ended semantic G_Q/G_W generation remains a distinct model-adapter responsibility.
+
+
+semantic_generator_ref:
+  contract: projects/improvement-core/ICC128_SEMANTIC_GENERATOR_CURRENT.yaml
+  runtime_adapter: runtime/icc128_semantic_generator_adapter.py
+  historical_source: old_recursive_PD_audit
+  role: >
+    Supply G_Q/G_W semantic generation from the unresolved structure of the current epistemic
+    state. The active reasoning model instantiates the semantic generation through the adapter;
+    rho_128 then performs state-relative selection using ICC128_RHO_POLICY_CURRENT.yaml.
+
+
+effectiveness_control_ref:
+  contract: projects/improvement-core/IMPROVEMENT_CORE_EFFECTIVENESS_CONTROL_CURRENT.yaml
+  role: >
+    Preserve NoGain/rejection memory, plan invalidation, result-sensitive reselection,
+    and the historical effectiveness criterion across autonomous controller iterations.
+
+
+observer_control_ref:
+  hcc_contract: projects/improvement-core/HCC_OBSERVER_GOVERNED_SOLVER_CONTRACT_001_2026-09-25.md
+  mathematics: projects/improvement-core/tool-ecosystem/OBSERVER_MODE_MATHEMATICS_002_2026-09-25.md
+  role: >
+    Autonomous G_Q/G_W generation and rho_128 selection are observer-governed. Representation-sensitive
+    episodes require a frozen goal-independent observation ledger before generation/selection, and
+    material representation change forces re-observation before reentry continues.

@@ -1,0 +1,65 @@
+schema_version: 1
+object_id: TAKE5:ICC128-LEGACY:001
+display_name: "ICC128 Legacy"
+status: FROZEN_ACTIVATABLE_LEGACY_TOOL
+activation_phrases:
+  - "activate ICC128 Legacy"
+  - "run ICC128 Legacy"
+  - "use ICC128 Legacy"
+
+source:
+  repository: thytabakman-jpg/Reaserch
+  commit: e4c76c595b44a35fd9efc02cde8979e656ef54e8
+  boundary_reason: last_explicit_all_live_frontiers_closure_before_later_presentation_drift
+  source_mutation_authorized: false
+
+freeze:
+  immutable: true
+  follow_source_main: false
+  follow_take5_current_icc128: false
+  follow_take5_improvementcore: false
+  update_rule: never_mutate_this_object_create_a_new_legacy_object_for_any_other_basis
+
+authority:
+  current_system_authority: false
+  replaces_current_improvementcore: false
+  writes_to_reaserch: false
+  invocation: explicit_opt_in_only
+
+activation:
+  registry: runtime/legacy_tool_registry.py
+  loader: runtime/icc128_legacy.py
+  current_host_role: instantiate_frozen_semantic_and_execution_interfaces_only
+  current_wrapper_substitution: forbidden
+
+snapshot_files:
+  - source_path: "runtime/icc128_autonomous_controller.py"
+    source_blob_sha: "26c1c0cdcf48dbeeaf89b97f8b7556efd084acfa"
+    snapshot_path: "legacy/icc128-legacy/snapshot/runtime/icc128_autonomous_controller.py"
+  - source_path: "runtime/icc128_semantic_generator_adapter.py"
+    source_blob_sha: "7902ff2954f39d322a44bec5d8f122c3302e9fc6"
+    snapshot_path: "legacy/icc128-legacy/snapshot/runtime/icc128_semantic_generator_adapter.py"
+  - source_path: "runtime/rho128_policy.py"
+    source_blob_sha: "b9688ab3d388ba76e93f0ec4d8713b9ebcea98de"
+    snapshot_path: "legacy/icc128-legacy/snapshot/runtime/rho128_policy.py"
+  - source_path: "projects/improvement-core/ICC128_AUTONOMOUS_CONTROLLER_CURRENT.yaml"
+    source_blob_sha: "e0eb421d8b4bf424f0bc1814f152ac98becc7f53"
+    snapshot_path: "legacy/icc128-legacy/snapshot/contracts/ICC128_AUTONOMOUS_CONTROLLER_CURRENT.yaml"
+  - source_path: "projects/improvement-core/ICC128_RHO_POLICY_CURRENT.yaml"
+    source_blob_sha: "f916e3f5ccdf9c25bb177cd9dea8da83a5c500ba"
+    snapshot_path: "legacy/icc128-legacy/snapshot/contracts/ICC128_RHO_POLICY_CURRENT.yaml"
+  - source_path: "projects/improvement-core/ICC128_SEMANTIC_GENERATOR_CURRENT.yaml"
+    source_blob_sha: "19a6bdc37555dd02bf116bd1308c499c339dc819"
+    snapshot_path: "legacy/icc128-legacy/snapshot/contracts/ICC128_SEMANTIC_GENERATOR_CURRENT.yaml"
+  - source_path: "projects/improvement-core/tool-ecosystem/ICC128_FULL_TOOL_MATH_002_2026-09-26.md"
+    source_blob_sha: "eef6b2df3c7e567e50e5b3402ec9607827f290d5"
+    snapshot_path: "legacy/icc128-legacy/snapshot/math/ICC128_FULL_TOOL_MATH_002_2026-09-26.md"
+  - source_path: "projects/improvement-core/tool-ecosystem/ICC128_PRESENTATION_CURRENT.yaml"
+    source_blob_sha: "9b290e5790200e272f021be97d8c2048072d7d7d"
+    snapshot_path: "legacy/icc128-legacy/snapshot/presentation/ICC128_PRESENTATION_CURRENT.yaml"
+  - source_path: "ICC_128_CANDIDATE_V12_FRONTIER_CLOSED_2026-09-26.md"
+    source_blob_sha: "3cbc5345349b539bfad0f3104f803727c1adf8c1"
+    snapshot_path: "legacy/icc128-legacy/snapshot/presentation/ICC_128_CANDIDATE_V12_FRONTIER_CLOSED_2026-09-26.md"
+  - source_path: "projects/improvement-core/validation/ICC128_RUNTIME_AND_HOST_BOUNDARY_CLOSURE_001_2026-09-26.md"
+    source_blob_sha: "78ae5739092f1d147c2155c890e0e6dcc51e20ad"
+    snapshot_path: "legacy/icc128-legacy/snapshot/validation/ICC128_RUNTIME_AND_HOST_BOUNDARY_CLOSURE_001_2026-09-26.md"
