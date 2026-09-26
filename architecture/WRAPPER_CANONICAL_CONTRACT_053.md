@@ -26,7 +26,21 @@ The wrapper therefore needs its own preservation contract.
 
 ## 2. Wrapper identity
 
-The wrapper is the orchestration object around protected tools, Jane, IC, closure, update, and reentry.
+PD result for the term "wrapper":
+
+The term is load-bearing and is not globally singular. It must be typed by role.
+
+Current distinctions:
+
+- Tool wrapper: orchestration applied around one protected native tool execution.
+- Canonical system wrapper: the ordered math-first control spine defined by this contract.
+- Geometry wrapper: the geometry-indexed expansion applied to a tool or stage.
+- Response wrapper: the user-visible emission/preflight boundary.
+- Historical wrapper: an earlier preserved wrapper version used only for provenance or comparison.
+
+Unqualified "wrapper" means the canonical system wrapper only inside this artifact. Outside this artifact, the role must be recoverable from context or explicitly named.
+
+The canonical system wrapper is the orchestration object around protected tools, Jane, IC, closure, update, and reentry.
 
 It is not the native tool itself.
 

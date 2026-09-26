@@ -122,6 +122,23 @@ def render_math(fragment: MathFragment | AssessedMathFragment) -> str:
     return rf"\color{{{color}}}{{{latex}}}"
 
 
+def render_formal_label(label: str, status: MathStatus) -> str:
+    """Render a formal-system name as a colored mathematical glyph.
+
+    This is the supported chat-safe path for labels such as ASSERT, GOAL,
+    WRAPPER, PD, MT, and ICC-128. Raw HTML is never an admissible substitute.
+    """
+    normalized = label.strip()
+    if not normalized:
+        raise ColorInvariantViolation("EMPTY_FORMAL_LABEL")
+    if not isinstance(status, MathStatus):
+        raise ColorInvariantViolation("MATH_STATUS_REQUIRED")
+    if not FORMAL_OBJECT_PATTERN.fullmatch(normalized):
+        raise ColorInvariantViolation("FORMAL_LABEL_NOT_REGISTERED")
+    latex_label = normalized.replace(" ", r"\,").replace("-", r"{-}")
+    return render_math(MathFragment(rf"\operatorname{{{latex_label}}}", status))
+
+
 def _raw_text_contains_load_bearing_math(text: str) -> bool:
     return bool(FORMAL_OBJECT_PATTERN.search(text) or MATH_SIGNAL_PATTERN.search(text))
 
