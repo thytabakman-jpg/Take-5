@@ -513,6 +513,77 @@ PORTABILITY:
 """
 
 
+def portable_core_package(
+    *,
+    semantic_reasoner_available:bool,
+    execution_interface_available:bool=True,
+)->dict[str,Any]:
+    """Package shape consumed by Take-5's SHOW_ME_THE_MATH checker."""
+    return {
+        "full_math":PORTABLE_MATH,
+        "run_spec":{
+            "controller":"C_128",
+            "bindings":("G_Q","G_W","S","E","A","U","DCC"),
+            "terminal":tuple(sorted(TERMINAL)),
+            "resource_bound":"declared max_iterations",
+        },
+        "definitions":{
+            "ICC128_LEGACY_CORE":{"dependencies":("CONTROLLER_LOOP","SEMANTIC_GENERATION","RHO_POLICY","CAPABILITY_GAP","RESELECTION")},
+            "CONTROLLER_LOOP":{"dependencies":("finite_maps","finite_sequences","boolean_logic","semantic_reasoner","execution_interface")},
+            "SEMANTIC_GENERATION":{"dependencies":("finite_maps","finite_sequences","boolean_logic","semantic_reasoner")},
+            "RHO_POLICY":{"dependencies":("finite_sets","finite_sequences","integer_order","boolean_logic")},
+            "CAPABILITY_GAP":{"dependencies":("finite_sets","set_difference")},
+            "RESELECTION":{"dependencies":("finite_maps","boolean_logic")},
+        },
+        "load_bearing_symbols":("ICC128_LEGACY_CORE",),
+        "initialization":{
+            "defined":True,
+            "state":"finite mapping containing terminal/admitted_continuation plus job state",
+            "memory":"finite mapping; initially host-supplied, normally empty for Legacy activation",
+        },
+        "runtime_primitives":{
+            "finite_maps":{"typed_contract":"finite partial map lookup/update","available":True},
+            "finite_sequences":{"typed_contract":"finite ordered sequence operations","available":True},
+            "finite_sets":{"typed_contract":"finite set operations","available":True},
+            "set_difference":{"typed_contract":"A x A -> A","available":True},
+            "integer_order":{"typed_contract":"total order on integers","available":True},
+            "boolean_logic":{"typed_contract":"Boolean connectives","available":True},
+            "semantic_reasoner":{
+                "typed_contract":"state x memory -> schema-valid state-relative questions/work",
+                "available":bool(semantic_reasoner_available),
+            },
+            "execution_interface":{
+                "typed_contract":"selected work x state x memory -> result records; unavailable external actions return typed BLOCKED",
+                "available":bool(execution_interface_available),
+            },
+        },
+        "persistence":{
+            "specified":True,
+            "core":"within-run memory only",
+            "legacy_activation":"final controller memory discarded after report submission; report persists",
+        },
+        "protected_behavior":(
+            "dynamic_state_relative_selection",
+            "question_selection_distinct_from_tool_selection",
+            "schema_valid_state_relative_semantic_generation",
+            "execution_truth_before_admission",
+            "discovery_closure_receipt_when_required",
+            "typed_terminal_and_reentry",
+            "OPEN_BLOCKED_CONFLICT_preservation",
+            "negative_memory_affects_future_selection",
+            "no_self_promotion",
+        ),
+        "equivalence_tests":(
+            "two_step_fixture_reaches_COMPLETE",
+            "empty_GQ_with_live_continuation_raises",
+            "live_question_without_selection_raises",
+            "discovery_delta_without_DCC_raises",
+            "CONTINUE_without_admitted_continuation_raises",
+            "rho_policy_matches_frozen dominance/frontier semantics",
+        ),
+    }
+
+
 def _fixture_model(payload:dict[str,Any])->dict[str,Any]:
     step=int(payload["state"].get("step",0))
     if step>=2:
