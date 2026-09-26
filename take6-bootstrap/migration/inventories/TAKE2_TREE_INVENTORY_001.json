@@ -1,0 +1,271 @@
+{
+  "schema_version": "0.1",
+  "source_repository": "thytabakman-jpg/Take-2",
+  "source_commit": "a0e94004e80b34837b2577ac8f2e96f1ff886e98",
+  "source_tree_sha": "aef214dcce4a5aab599e301afd5a0295acb77168",
+  "recursive_tree_truncated": false,
+  "entry_count": 37,
+  "blob_count": 23,
+  "tree_count": 14,
+  "entries": [
+    {
+      "path": ".github",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "8714779db99dd36216bbbc74ebb013e6ee1be7a4",
+      "size": null
+    },
+    {
+      "path": ".github/workflows",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "ed08e41add885c9a44f2d40b811050999f2069eb",
+      "size": null
+    },
+    {
+      "path": ".github/workflows/kernel-fitness.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "89b055098925811f2f0051d28ecb8868e2fbb62f",
+      "size": 317
+    },
+    {
+      "path": "ARCHITECTURE.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4756bddf214471b9480b4a55dac6be66ede20587",
+      "size": 3181
+    },
+    {
+      "path": "EXPERIMENT.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7efb69b7075bb9d19248d797e928f18f40797ba3",
+      "size": 1216
+    },
+    {
+      "path": "KERNEL.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "97af03762c1ad3c6730dcacd73280b99e8b8ecfd",
+      "size": 1028
+    },
+    {
+      "path": "MIGRATION.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8ccc937b4ad7d3594ae2d160df39fd579b78adac",
+      "size": 787
+    },
+    {
+      "path": "PLAN.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3e312d42be71929626f327f4648a4b141acc0376",
+      "size": 2399
+    },
+    {
+      "path": "README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6917c2c97d2e9a7448140a9166d45f339be3f20b",
+      "size": 694
+    },
+    {
+      "path": "audits",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "304ed1fa640c84c5736efcf624ac1f372fc7a168",
+      "size": null
+    },
+    {
+      "path": "audits/BOOTSTRAP_REATTACK_001.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2bff74520a4c959ac321080c0d24138bbc4425b0",
+      "size": 1669
+    },
+    {
+      "path": "experiments",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "5e49db69ca691351c3c7246474719464cce30ef4",
+      "size": null
+    },
+    {
+      "path": "experiments/001-rebt-isought",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "3e0c6fe52464bef56d432ab2986aa6146adc2480",
+      "size": null
+    },
+    {
+      "path": "experiments/001-rebt-isought/FINAL_REATTACK.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9d36c5e9b579b2a410855d71bd99e3fb87faaf9c",
+      "size": 843
+    },
+    {
+      "path": "experiments/001-rebt-isought/POST_REATTACK.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5b2f015222361362c07ea9c8b847e40ea5d60ddb",
+      "size": 2317
+    },
+    {
+      "path": "experiments/001-rebt-isought/REPORT.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f0f3deb8d6fe0427cfe25e33387ecd73a404e7ce",
+      "size": 7591
+    },
+    {
+      "path": "experiments/001-rebt-isought/transition.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "208e823b88472ae25352e630c5e97422f912c20c",
+      "size": 1157
+    },
+    {
+      "path": "experiments/002-operator-math",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "e2ce366f0dc4d6a2d28246a5fd36c4b0992b18ac",
+      "size": null
+    },
+    {
+      "path": "experiments/002-operator-math/PLAN.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "889e33bee49a34a05a21360dc6133fb3f04ae696",
+      "size": 3452
+    },
+    {
+      "path": "experiments/003-compositional-core",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "98152f7409a5eef9b02214e81f547b1d3f99aabf",
+      "size": null
+    },
+    {
+      "path": "experiments/003-compositional-core/REPORT.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9821a5854ea7c7a0778fdcde652bf1565a13515c",
+      "size": 2425
+    },
+    {
+      "path": "experiments/004-modifier-router-math",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "bdf22edb0afba1debe596989b38e7cfced354669",
+      "size": null
+    },
+    {
+      "path": "experiments/004-modifier-router-math/REPORT.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "736a34500e8b3c2710f5e25daeec04399f701b7d",
+      "size": 2198
+    },
+    {
+      "path": "experiments/005-update-transition-math",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "1430d493dc30f3e5791c46dda5bddcdd97e67958",
+      "size": null
+    },
+    {
+      "path": "experiments/005-update-transition-math/REPORT.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3b4783d0c212a9042824a20733b37f8b93935c3a",
+      "size": 1811
+    },
+    {
+      "path": "experiments/006-state-math",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "1c68f7b3e855cac193c8d396cf2c03761b502cea",
+      "size": null
+    },
+    {
+      "path": "experiments/006-state-math/REPORT.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "bf61096858139f9b613e46bb4e084d424c32b6cf",
+      "size": 1294
+    },
+    {
+      "path": "experiments/LAB_PACKET_001_PD_OWNERSHIP_ABLATION.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "194e4dc45cef9393c4b0642ecb3a0eda2a932211",
+      "size": 1186
+    },
+    {
+      "path": "experiments/core-system-math-2026-09-24",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "7313e3d2f072e2d2e6bb4376769bd54359eca6db",
+      "size": null
+    },
+    {
+      "path": "experiments/core-system-math-2026-09-24/CHALLENGE.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "626f56830097c58d2f565c3808163345d29e4368",
+      "size": 1500
+    },
+    {
+      "path": "experiments/core-system-math-2026-09-24/SNAPSHOT.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d22136c54de89ead92d136411e507e23dd2daf4f",
+      "size": 38541
+    },
+    {
+      "path": "pd",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "fc692a5c53b98848b6ecaf3a61eb82c0b961b42b",
+      "size": null
+    },
+    {
+      "path": "pd/CORE.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1a9ba22e2fd85a620d52aed54f4842e5bee62966",
+      "size": 2432
+    },
+    {
+      "path": "state",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "16fcbccb1bbe2086424ec2d6ade846d2879520b5",
+      "size": null
+    },
+    {
+      "path": "state/ledger.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e194d2b697d16b4cb8a34afe1770fb483d877f00",
+      "size": 9132
+    },
+    {
+      "path": "tools",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "6e32e747779d206da854571067818b5bf2c1ee53",
+      "size": null
+    },
+    {
+      "path": "tools/check_kernel.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "84a53da546600fe87ea68f2455a289aa16a2d2ec",
+      "size": 1308
+    }
+  ]
+}

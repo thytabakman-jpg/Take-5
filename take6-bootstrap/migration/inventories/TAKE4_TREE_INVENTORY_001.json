@@ -1,0 +1,460 @@
+{
+  "schema_version": "0.1",
+  "source_repository": "thytabakman-jpg/Take-4",
+  "source_commit": "1a8008aa97f0a153e6c0b922e596aa978cc671c3",
+  "source_tree_sha": "f991edf4d0a3e122daebabe54b46f269ab1ccaec",
+  "recursive_tree_truncated": false,
+  "entry_count": 64,
+  "blob_count": 50,
+  "tree_count": 14,
+  "entries": [
+    {
+      "path": ".github",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "d146fca5ac2947027aeec3aeeca4df9206de144a",
+      "size": null
+    },
+    {
+      "path": ".github/workflows",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "b6dde85a9d58af9dfd5a11d1a4cdac02472de023",
+      "size": null
+    },
+    {
+      "path": ".github/workflows/closed-loop.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "98387c920035e6d4ed2deee6fa8b60884a612eb1",
+      "size": 431
+    },
+    {
+      "path": ".github/workflows/ic28-corpus.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "dd9e83c8da461050306d47503177c0d1f81a06e5",
+      "size": 750
+    },
+    {
+      "path": ".github/workflows/icc-adaptive-harness.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "db8b9722cf02537d2d5e998fbf64b99afe240e85",
+      "size": 532
+    },
+    {
+      "path": ".github/workflows/map-ingestion.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c08f1375d45205f901ee60e47a35b413695fb88a",
+      "size": 730
+    },
+    {
+      "path": "BENCHMARKS.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "16347047521d76c5cf0ac126f160abe3171ca227",
+      "size": 1756
+    },
+    {
+      "path": "ICC_CONTROL_PROMPT.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fd7666a543db48a60165130beb15e2cbc9f05f25",
+      "size": 3725
+    },
+    {
+      "path": "KERNEL.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "463a3bcafe88511df609f0d26bc7ed503dd68f78",
+      "size": 1213
+    },
+    {
+      "path": "README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f3bea01c908fc48983694c6f6bece8a6beca546f",
+      "size": 1740
+    },
+    {
+      "path": "experiments",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "873dfc6bc414168e5ea818382354cb4e1bd65824",
+      "size": null
+    },
+    {
+      "path": "experiments/001-bootstrap",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "52b0f1e348162ea8283c80f4343a2c9648abe6e9",
+      "size": null
+    },
+    {
+      "path": "experiments/001-bootstrap/RESULT.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "63286301de4afa6a3844f33f31d7bb1c78c2c57d",
+      "size": 633
+    },
+    {
+      "path": "experiments/002-controller-math",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "5d38f41ed4b480a635a9cd8347e6945240c5c20d",
+      "size": null
+    },
+    {
+      "path": "experiments/002-controller-math/EQUIVALENCE_DIVERGENCE.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0ad73fed9ec0fd2eea45fc073eae1f47887a14f5",
+      "size": 9106
+    },
+    {
+      "path": "experiments/002-controller-math/PROGRAM.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d2ed8343087bed3220b58390cf7b788b90505343",
+      "size": 5863
+    },
+    {
+      "path": "experiments/002-controller-math/TOOL_SATURATION_ATTACK.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3427ecbf729fbe0c7a4fe9846f823a9505a9079b",
+      "size": 9679
+    },
+    {
+      "path": "experiments/003-autonomous-witness",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "b65411bee2bce46ee6722a315f05a41b374523c1",
+      "size": null
+    },
+    {
+      "path": "experiments/003-autonomous-witness/EVALUATOR_SPEC.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fa649aeaac56197a55ca8540c38e4f7eb2e36def",
+      "size": 1390
+    },
+    {
+      "path": "experiments/003-autonomous-witness/FIXTURE.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "149e932402a98700a92e3f57e43e1a353d8d6e37",
+      "size": 1534
+    },
+    {
+      "path": "experiments/003-autonomous-witness/RESULT.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "729f71cb9732049f7399c51188a544427613e961",
+      "size": 2281
+    },
+    {
+      "path": "experiments/003-autonomous-witness/TRACES.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "dda49d8a993866bfd655c59ce4206adb15947a34",
+      "size": 1898
+    },
+    {
+      "path": "experiments/004-closed-loop",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "f1746dc9843454dbcbc35b39c7c9336be23a6977",
+      "size": null
+    },
+    {
+      "path": "experiments/004-closed-loop/ICC_REWRITTEN_PROMPT.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e9912f2b33fd40f7347f2e22f365504ffbe57352",
+      "size": 881
+    },
+    {
+      "path": "experiments/004-closed-loop/README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "50e73b0983cddf4b93b7d9375ff7aabc7f934d2e",
+      "size": 567
+    },
+    {
+      "path": "experiments/004-closed-loop/loop.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "19d124500bead37cb993f997a5710fe982f1d86f",
+      "size": 2578
+    },
+    {
+      "path": "experiments/005-six-generation-autonomy",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "130962f5a07cd981633bfe2f9057c6ada87ed878",
+      "size": null
+    },
+    {
+      "path": "experiments/005-six-generation-autonomy/GEN1_HANDOFF.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1529136b2c73d35a4b72ee4370e87376bbb1be53",
+      "size": 1305
+    },
+    {
+      "path": "experiments/005-six-generation-autonomy/GEN2_REASSESSMENT.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ac92b76d37fb2d2a99ffcc8650adf2de3a70ec66",
+      "size": 1566
+    },
+    {
+      "path": "experiments/005-six-generation-autonomy/PROGRAM.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "16d8f7d1471a3d1bfaf3e585b620bb0196083eab",
+      "size": 5125
+    },
+    {
+      "path": "experiments/006-adaptive-program",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "5e2446745ee0bd9e0ce0ae84b4e81b7a7525ac8f",
+      "size": null
+    },
+    {
+      "path": "experiments/006-adaptive-program/BLOCKER_DIAGNOSIS_001.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c682ec0efc2bf2f47ef67e71927d2d637e53a6ee",
+      "size": 1443
+    },
+    {
+      "path": "experiments/006-adaptive-program/HANDOFF_GEN1.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5f4daa7f3866a37b6f788fd3e71075e494cc616f",
+      "size": 982
+    },
+    {
+      "path": "experiments/006-adaptive-program/PROGRAM.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c04c1e1581d7fa97232450808b07cd476334e9d6",
+      "size": 5269
+    },
+    {
+      "path": "experiments/006-adaptive-program/TRACE_SCHEMA.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5c888ffb02a679ee71724b55a1b6d169c60d1bd8",
+      "size": 554
+    },
+    {
+      "path": "experiments/006-adaptive-program/WHATS_NEXT_REPAIR.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "811f0a5aa4cc19fc85f04eceeb357b1cda7d2025",
+      "size": 1882
+    },
+    {
+      "path": "experiments/006-adaptive-program/fixtures.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9d68acfa2b3efa97e23669a3131c7d7300754c6c",
+      "size": 831
+    },
+    {
+      "path": "experiments/006-adaptive-program/harness.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4a6dbe8a329999a4e76d77b7ee603face30283f2",
+      "size": 741
+    },
+    {
+      "path": "experiments/006-adaptive-program/mutations.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "20c0c121a9eef069153a1ee2f35a64c527e1b5ee",
+      "size": 332
+    },
+    {
+      "path": "experiments/006-adaptive-program/oracle.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0f50170b2b84d44624793ea2aa55d6ff7191554d",
+      "size": 319
+    },
+    {
+      "path": "experiments/007-ten-step-recursive-autonomy",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "f7505a1d21ea894a627f47776ed4f85e8972c3e4",
+      "size": null
+    },
+    {
+      "path": "experiments/007-ten-step-recursive-autonomy/CHARTER.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d94f35a3a841bbeacc390f218f779388410e9a98",
+      "size": 2290
+    },
+    {
+      "path": "experiments/007-ten-step-recursive-autonomy/STEP01_CHILD_SWARM.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a0f7067295e8d64ece69740f3732a88c0c72df95",
+      "size": 946
+    },
+    {
+      "path": "experiments/007-ten-step-recursive-autonomy/STEP02_ORACLE_ATTACK.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "46d857f45c271ad428606a24ef1678ca175b8ce2",
+      "size": 585
+    },
+    {
+      "path": "experiments/007-ten-step-recursive-autonomy/STEP03_TRACE_MODEL.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c4b901017f042520768dc511a49d16bd7dec4507",
+      "size": 557
+    },
+    {
+      "path": "experiments/007-ten-step-recursive-autonomy/STEP04_IMPLEMENTATION.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3b7af904ef7c8f8e5264558ed356cd917425e01d",
+      "size": 373
+    },
+    {
+      "path": "experiments/007-ten-step-recursive-autonomy/STEP05_ADVERSARIAL_SUITE.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e43ca7d5a8c5a7f498a941ba1b91e06dc3564c31",
+      "size": 603
+    },
+    {
+      "path": "experiments/007-ten-step-recursive-autonomy/STEP06_MAP_REASSESSMENT.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1b2338fac17e32181583a5e59819cd58bc1c1104",
+      "size": 1040
+    },
+    {
+      "path": "experiments/007-ten-step-recursive-autonomy/STEP07_INTERACTION.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9eac5d538b06a78ddd6a33b1ea385ed52a62e47c",
+      "size": 799
+    },
+    {
+      "path": "experiments/007-ten-step-recursive-autonomy/STEP08_COMPRESSION_ATTACK.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ff11a4b15465090da7732798b52a0109aef9ab2d",
+      "size": 1066
+    },
+    {
+      "path": "experiments/007-ten-step-recursive-autonomy/STEP09_RIVAL_REPRESENTATION.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ab167301b75e586522327aa2724761dda4860d79",
+      "size": 1048
+    },
+    {
+      "path": "experiments/007-ten-step-recursive-autonomy/STEP10_SYNTHESIS.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c307db31d86634b68ecb67959eb9473cd2f26ebc",
+      "size": 2003
+    },
+    {
+      "path": "experiments/007-ten-step-recursive-autonomy/test_trace_oracle.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d99b36e929cd194d4e0bba8ffdd69a0a4bc03dcc",
+      "size": 1290
+    },
+    {
+      "path": "experiments/007-ten-step-recursive-autonomy/trace_oracle.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7d25abbd2dc658b9fba29642eda32d8447085e13",
+      "size": 1152
+    },
+    {
+      "path": "experiments/008-autonomous-goal-reconstruction",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "659ebe53ae9caf9110e19706895006b720f6642b",
+      "size": null
+    },
+    {
+      "path": "experiments/008-autonomous-goal-reconstruction/GOAL_RECONSTRUCTION.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c1be011597a7a9d9ae7fd4fb840b0396a0834bfa",
+      "size": 4745
+    },
+    {
+      "path": "experiments/009-map-ingestion",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "988b866dd47a065a234c010925498903b6072c20",
+      "size": null
+    },
+    {
+      "path": "experiments/009-map-ingestion/README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "421ebb829c15d891ac36012813dbbe1a618cc7a4",
+      "size": 729
+    },
+    {
+      "path": "experiments/009-map-ingestion/ingest.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "bae0d72fce6350a7609e0d8b38b336dd546808c2",
+      "size": 3238
+    },
+    {
+      "path": "experiments/010-ic28-corpus",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "f9a89b5616a93a09d129eeba6c9afaa1d611aff5",
+      "size": null
+    },
+    {
+      "path": "experiments/010-ic28-corpus/README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b7aa04897171cd30fcea19f34b3c2226a7c23802",
+      "size": 2001
+    },
+    {
+      "path": "experiments/010-ic28-corpus/ingest.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2c6fd676edc575816791789c563acef15a568a7f",
+      "size": 2647
+    },
+    {
+      "path": "tools",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "ade4a05cfcc67aaed4e8299c8d0fafe16d760b4f",
+      "size": null
+    },
+    {
+      "path": "tools/check_kernel.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "02c867a081cb59f6848fc7b74c59880663040401",
+      "size": 670
+    }
+  ]
+}

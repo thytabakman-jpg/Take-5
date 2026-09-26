@@ -625,3 +625,13 @@ Its architectural correction is to separate immutable evidence/event history, de
 The bootstrap core currently passes 14 isolated anti-regression invariants.
 
 Take-5 remains current working authority until the Take-6 migration and promotion gates close.
+
+
+Take-6 migration source freeze:
+take6-bootstrap/migration/SOURCE_MANIFEST_001.json
+
+Current source-freeze result:
+- Reaserch and Take-2 through Take-5 frozen by exact commit and tree SHA;
+- 3,352 recursive tree entries and 3,175 Git blobs inventoried with non-truncated coverage;
+- the frozen legacy ImprovementCore reference preserved separately;
+- the intended two external GitHub ZIP identities remain OPEN and are not guessed.
