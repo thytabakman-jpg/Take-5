@@ -1,0 +1,83 @@
+schema_version: 1
+project: mathematical-interface-architecture
+status: CURRENT_CANDIDATE
+date: 2026-09-25
+canonical_repository: thytabakman-jpg/Take-5
+
+core_role_count: 8
+
+core_artifacts:
+  - id: MIA-CHARTER
+    role: PROJECT_CHARTER
+    path: projects/mathematical-interface-architecture/PROJECT_CHARTER.md
+    status: CURRENT
+    authority: PROJECT
+  - id: MIA-MODEL
+    role: CANONICAL_MODEL
+    path: projects/mathematical-interface-architecture/CANONICAL_MODEL.md
+    status: CURRENT_CANDIDATE
+    authority: PROJECT
+    baseline: ICC-128 Candidate V4
+  - id: MIA-COLOR
+    role: PRESENTATION_INVARIANT
+    path: projects/mathematical-interface-architecture/MATHEMATICAL_COLOR_INVARIANT.md
+    status: CURRENT
+    authority: PROJECT
+  - id: MIA-REGISTRY
+    role: ARTIFACT_REGISTRY
+    path: projects/mathematical-interface-architecture/ARTIFACT_REGISTRY.yaml
+    status: CURRENT
+    authority: PROJECT
+  - id: MIA-CURRENTNESS
+    role: CURRENTNESS_SOURCE_MANIFEST
+    path: projects/mathematical-interface-architecture/CURRENTNESS_SOURCE_MANIFEST.md
+    status: CURRENT
+    authority: PROJECT
+  - id: MIA-FRICTION
+    role: FRICTION_GAP_LEDGER
+    path: projects/mathematical-interface-architecture/FRICTION_GAP_LEDGER.md
+    status: LIVE
+    authority: PROJECT
+  - id: MIA-VALIDATION
+    role: VALIDATION_CONTRACT
+    path: projects/mathematical-interface-architecture/VALIDATION_CONTRACT.md
+    status: CURRENT
+    authority: PROJECT
+  - id: MIA-SOP
+    role: OPERATING_SOP
+    path: projects/mathematical-interface-architecture/NEW_PROJECT_ARTIFACT_SOP.md
+    status: CURRENT_CANDIDATE
+    authority: PROJECT
+
+supporting_artifacts:
+  - id: MIA-ASSET-CORE
+    role: RENDERED_ASSET
+    path: assets/mia/icc128-v4-core.svg
+  - id: MIA-ASSET-FAMILY
+    role: RENDERED_ASSET
+    path: assets/mia/icc128-v4-family.svg
+  - id: MIA-ASSET-COLOR
+    role: RENDERED_SPECIMEN
+    path: assets/mia/mathematical-color-invariant-specimen.svg
+  - id: MIA-CHECK
+    role: VALIDATOR
+    path: tests/test_mia_artifact_contract.py
+  - id: MIA-36-AUDIT
+    role: ARCHITECTURE_AUDIT
+    path: projects/mathematical-interface-architecture/ARCHITECTURE_36_AUDIT.md
+
+protected_baseline:
+  object: ICC-128
+  version: Candidate V4
+  equation: "ICC₁₂₈ = C₁₂₈(Zₜ, F₁₂₈, MIₜ)"
+  source: thytabakman-jpg/Reaserch/ICC_128_CANDIDATE_V4_CLEAN_2026-09-25.md
+
+rules:
+  - one_current_baseline
+  - no_math_change_during_layout_only_work
+  - glyph_status_at_point_of_use
+  - visible_renderer_syntax_prohibited
+  - source_is_not_authority
+  - newer_is_not_current_by_itself
+  - unresolved_is_open
+  - every_material_delta_reopens_affected_artifacts
