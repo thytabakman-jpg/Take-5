@@ -36,7 +36,7 @@ Controller:
 - IC-028
 
 Current regime version:
-- 083
+- 092
 
 Current invocation path:
 
@@ -57,6 +57,12 @@ runtime/improvement_core_regime.py
 
 Learning memory participates through:
 - runtime/improvement_core_learning_memory.py
+
+Every governed run now ends with:
+- runtime/improvement_core_afterrun.py
+- tool identity ImproveCoreAfterRun
+
+This post-run pass always records learning and produces a next self-improvement frontier. Structural self-change remains strict-gain and authority-gated.
 
 The narrow runtime/improvement_core.py remains subordinate and is not the user-facing manager identity.
 
@@ -102,7 +108,10 @@ architecture/IMPROVEMENT_CORE_ACTIVATION_083.md
 16. Take-3 strict-gain architecture admission;
 17. Take-4 cumulative-autonomy target;
 18. Take-5 authority, provenance, currentness, execution, closure and reentry safeguards.
-19. protected transition integrity across canonical identity, dispatch, execution, consumption, state update, reentry, and the user-visible boundary.
+19. protected transition integrity across canonical identity, dispatch, execution, consumption, state update, reentry, and the user-visible boundary;
+20. mandatory ImproveCoreAfterRun execution after every governed use;
+21. every run records self-improvement learning even when structural disposition is NO_GAIN;
+22. self-modification requires strict-gain evidence and authorized application.
 
 ## Cross-repository lineage
 
@@ -170,7 +179,9 @@ Global minimality remains OPEN.
 9. runtime/ic028_operator.py
 10. runtime/improvement_core_recursive_manager.py
 11. runtime/improvement_core_learning_memory.py
-12. architecture/IMPROVEMENT_CORE_MAXIMIZATION_081.md
+12. runtime/improvement_core_afterrun.py
+13. architecture/IMPROVECORE_AFTER_RUN_FULL_TOOL_092.md
+14. architecture/IMPROVEMENT_CORE_MAXIMIZATION_081.md
 13. architecture/CROSS_REPOSITORY_IMPROVEMENTCORE_LINEAGE_CHOICE_080.md
 14. research/IMPROVEMENT_CORE_USAGE_AUDIT_078_2026-09-26.md
 15. architecture/MATH_FIRST_WRAPPER_CLOSURE_039.md
@@ -269,3 +280,10 @@ Universal host interception remains OPEN.
 - recursive ImprovementCore
 - ImproveCore learning memory
 - Take Two ImproveCore vision
+
+
+## Mandatory after-run self-improvement 092
+
+Every governed ImprovementCore use now executes ImproveCoreAfterRun before returning. The tool observes the episode result, records gain/no-gain/open evidence into learning memory, generates a residual self-improvement candidate when warranted, and updates the next improvement frontier. A clean successful run can return NO_STRUCTURAL_GAIN. A structural candidate cannot apply without both STRICT_GAIN evidence and an authorized applier. This makes continuous improvement mandatory while preventing forced drift.
+
+TransferCore is now a configured related tool with recovery anchor `integration/CURRENT_TRANSFERCORE.md`.
