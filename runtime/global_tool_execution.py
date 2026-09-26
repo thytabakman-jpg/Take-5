@@ -55,6 +55,9 @@ class ToolExecutionPlan:
     mode: str
     wrapper_required: bool
     geometry: str
+    recurrence_required: bool
+    recurrence_engine: str
+    invocation_profile: str
     cells: tuple[D36CCell, ...]
     native: tuple[tuple[str, D36CCell], ...]
     questions: tuple[tuple[str, D36CCell], ...]
