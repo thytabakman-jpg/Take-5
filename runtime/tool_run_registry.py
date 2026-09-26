@@ -6,7 +6,7 @@ LEARNING_TOOLS=tuple(spec.program_id for spec in LEARNING_SPECS)
 
 MATERIAL_TOOLS=tuple([f"C{i:02d}" for i in range(1,50)]+[
 "ImprovementCore","MT","MTA","Architecture","PD","PDAudit","GDOS","Discriminator","Reconciler",
-"DelegatedExecutor","HF001","TRC","RTC","BiasPerturbation","CurrentnessAudit",
+"DelegatedExecutor","HF001","HF002","RootCause","TRC","RTC","BiasPerturbation","CurrentnessAudit",
 "CapabilityFoundry","EmergentAdmission","HistoricalReconstruction","ZeroRequest","MultiObject","Diagnosis",
 "ASSERT","GOAL","SolutionToMyProblem","DesiredJane","QuestionWorthAsking","LambdaMath","SemanticResolutionPipeline"
 ]+list(LEARNING_TOOLS))
@@ -16,6 +16,12 @@ ASSERT_LAYERS=("ASSERT_LAYER_1","ASSERT_LAYER_2")
 PROTECTED_BEHAVIORS={
     "MT":("MT_BLACK_BOX_SEMANTIC_RETURN_GATE",),
     "HF001":("HF001_GOVERNED_EPISODE",),
+    "HF002":("HF002_LOCAL_RECURSIVE_CONTINUATION",),
+    "RootCause":(
+        "ROOT_CAUSE_ROOTNESS_SELECTOR",
+        "ROOT_CAUSE_HF002_LOCAL_RECURRENCE",
+        "ROOT_CAUSE_IMPROVEMENTCORE_PARENT_HANDOFF",
+    ),
     "ASSERT":(
         "ASSERT_COMPOUND_STAGE_ORDER",
         "ASSERT_SECOND_COMPARE_REQUIRED",
@@ -27,7 +33,7 @@ PROTECTED_BEHAVIORS={
 def _spec(tool):
     strong=(
         tool in {
-            "ImprovementCore","MT","MTA","Architecture","PD","PDAudit","GDOS","RTC",
+            "ImprovementCore","MT","MTA","Architecture","PD","PDAudit","GDOS","RootCause","RTC",
             "CurrentnessAudit","MultiObject","Diagnosis","ASSERT","GOAL","SolutionToMyProblem","DesiredJane",
             "QuestionWorthAsking","LambdaMath","SemanticResolutionPipeline"
         }
