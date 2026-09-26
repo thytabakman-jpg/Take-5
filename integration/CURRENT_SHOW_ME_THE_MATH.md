@@ -1,86 +1,153 @@
-# CURRENT SHOW ME THE MATH — Recovery Anchor 001
+# CURRENT SHOW ME THE MATH — Recovery Anchor 002
 
 Date: 2026-09-26
-Status: TAKE-5 CURRENT RECOVERY AUTHORITY
+Status: TAKE-5 CURRENT / SELF-HOSTING CANDIDATE
 Canonical repository: thytabakman-jpg/Take-5
 
 ## Meaning
 
-When the user says "show me the math", the default target is not a pretty equation
-or a prose description.
+"Show me the math" means:
 
-The target is the complete portable reconstructive mathematics for the named formal
-object, relative to the declared job and typed external environment.
+Recover and display the complete portable reconstructive mathematics of the target
+formal object so that its protected behavior can be reconstructed in a fresh environment
+without hidden conversation history or repository knowledge.
 
-Canonical condition:
+It is a request/job contract, not a configured tool.
 
-ShowMathComplete_(J,K)(Package,T;E0)
+## Generic object mathematics
 
-iff the load-bearing symbol graph is recursively closed, initialization is executable,
-runtime primitives are explicitly typed and available, persistence is specified, and
-a fresh instantiation preserves the protected behavior of T.
+For target object X, package P and environment E:
 
-## Fresh-environment test
+LB(P,X)
+=
+mu S .
+(
+Roots(P,X)
+union
+Union_(s in S) Dependencies_P(s)
+).
 
-fresh environment
-+ PortableMath_(J,K)(T;E0)
--> T'
+DefinitionClosed(P,X,E)
+iff every symbol in LB(P,X) is either package-defined or an explicitly typed primitive
+whose provider is available in E.
 
-with
+Let Req(Kind(X)) be the obligations required by the mathematical species of X.
 
-T' equiv_(J,K,Protected) T.
+ObligationClosed(P,Kind(X))
+iff every required obligation is either SATISFIED or NOT_APPLICABLE with a typed witness.
 
-The fresh environment is assumed to have no conversation history and no Take-5/Reaserch
-repository knowledge unless a repository is explicitly included as an external primitive.
+Then:
 
-## Fail-closed rule
+ShowMathComplete_(J,K)(P,X;E)
+iff
+DefinitionClosed(P,X,E)
+and
+ObligationClosed(P,Kind(X))
+and
+RealizerAvailable(P,E)
+and
+PortableEquivalent_(J,K)(Instantiate(P,E),X).
 
-For this job, a load-bearing symbol is GREEN only when its complete recursive meaning
-is available from the supplied package or an explicitly typed primitive.
+The user-visible operator is:
 
-Otherwise it is RED/OPEN.
+SMTM_(J,K)(P,X,E)
+=
+GREEN
 
-A familiar label, confidence, prior conversation, repository pointer, or named tool is
-not enough.
+when ShowMathComplete holds, and
 
-## Response behavior
+SMTM_(J,K)(P,X,E)
+=
+RED(Residuals(P,X,E))
 
-Default response:
-1. mathematics first;
-2. actual operators, relations, state, transitions and closure;
-3. recursively expose load-bearing definitions;
-4. expose typed primitives;
-5. expose missing definitions/dependencies in RED;
-6. do not silently borrow hidden context;
-7. distinguish reconstructed math from runtime executability.
+otherwise.
 
-When the user asks for only the equation, keep the surface compact but do not color a
-symbol green when its recursive mathematics is not available.
+## Self application
+
+Let S = SHOW_ME_THE_MATH.
+
+Kind(S)=REQUEST_CONTRACT.
+
+Req(REQUEST_CONTRACT)
+=
+{Recognition,Evaluation,Projection}.
+
+Therefore S is not required to possess a configured-tool RunSpec or persistent controller
+memory. Those coordinates are NOT_APPLICABLE only with explicit witnesses.
+
+The standalone realization is:
+
+runtime/show_me_the_math_portable.py
+
+Its external environment contract is:
+
+CPython 3.12+ standard library.
+
+Repository access required: false.
+Conversation history required: false.
+
+The self-hosting success criterion is:
+
+SMTM(P_S,S,E_python)=GREEN.
+
+## Effective fresh-environment test
+
+tests/test_show_me_the_math_self_hosting.py copies only
+runtime/show_me_the_math_portable.py into an isolated temporary directory and executes
+it as a new Python process.
+
+The same regression also:
+- runs the current MT semantic return gate on the repaired self-package and requires
+  CLOSED_RELATIVE with no open objects;
+- runs the current ToolConductor across the complete registered MATERIAL_TOOLS repertoire
+  and requires exactly one conductor-level disposition per tool;
+- preserves fail-closed RED behavior when a hidden dependency or required request-contract
+  obligation is removed.
+
+## Color rule
+
+For this exact job:
+
+GREEN_(showmath)(s)
+
+iff s lies in a recursively closed dependency cone terminating only in supplied
+definitions or explicitly typed available primitives and all kind-relevant portability
+obligations are closed.
+
+Otherwise:
+
+RED_(showmath)(s).
+
+A repository pointer, familiar name, remembered conversation meaning, or prose label
+cannot promote a symbol.
 
 ## Canonical files
 
-Formal contract:
+Generic portability contract:
+architecture/PORTABLE_MATHEMATICAL_OBJECT_CONTRACT_001_2026-09-26.md
+
+Tool specialization:
 architecture/FULL_TOOL_MATHEMATICAL_IDENTITY_CONTRACT_002_2026-09-26.md
 
-MT audit:
-research/MT_SHOW_ME_THE_MATH_PORTABILITY_AUDIT_001_2026-09-26.md
+MT self-hosting repair:
+research/MT_SHOW_ME_THE_MATH_SELF_HOSTING_002_2026-09-26.md
 
-Runtime policy:
+Standalone realization:
+runtime/show_me_the_math_portable.py
+
+Compatibility checker:
 runtime/show_me_the_math_contract.py
 
-Tests:
-tests/test_show_me_the_math_contract.py
+Self-hosting regression:
+tests/test_show_me_the_math_self_hosting.py
 
 Color integration:
 integration/CURRENT_MATHEMATICAL_COLORING.md
 
-## Object classification
-
-SHOW_ME_THE_MATH is a request/job contract.
-It is not a newly minted formal tool.
-It does not replace MT, GOAL, ICC, Tool Conductor, or ImproveCore.
-
 ## Host boundary
 
-Take-5 can enforce this contract only on execution/emission paths that load Take-5.
-An unrelated host that never consults Take-5 remains an external host boundary.
+The mathematical package is portable to a fresh Python environment.
+
+Automatic interpretation of the phrase in a chat host that never loads the Take-5
+contract remains an external host-routing boundary. That host boundary is not part of
+the portability proof of the mathematical object itself.
