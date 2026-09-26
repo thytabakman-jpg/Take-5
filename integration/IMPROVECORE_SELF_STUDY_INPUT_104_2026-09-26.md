@@ -51,3 +51,10 @@ integration/CURRENT_IMPROVEMENT_CORE.md
 
 Prior current-chat execution receipt:
 artifacts/improvecore/IMPROVECORE_CURRENT_CHAT_RUN_103_RECEIPT_2026-09-26.md
+
+## Re-run invocation 107
+
+Date: 2026-09-26
+User request: "Improve core run it."
+
+Interpretation: run the current canonical ImproveCore, using the current recovery anchor and runtime as authority. Treat prior self-study findings as evidence only. Re-evaluate against the current regime and do not preserve a candidate merely because it appeared in run 104.
