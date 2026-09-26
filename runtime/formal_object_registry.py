@@ -27,6 +27,10 @@ MANUAL_ALIASES={
     "HF-1":"HF001",
     "HF-001":"HF001",
     "HF 1":"HF001",
+    "HF2":"HF002",
+    "HF-2":"HF002",
+    "HF-002":"HF002",
+    "HF 2":"HF002",
 }
 
 def _variants(name:str):
