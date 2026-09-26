@@ -253,15 +253,28 @@ SELECTED
 
 ## 8. Human-visible mathematics
 
-Visible mathematics is a load-bearing feedback channel, not presentation only.
+Visible mathematics is a load-bearing inspection and feedback channel, not presentation only.
 
-Let:
+For every load-bearing formal object x selected for user-visible emission, let rho(x) be its recovered
+status and V_H(x) its visible glyph-level rendering.
 
 ```
-V_H(W,x) = M_visible
+rho(x) = RECOVERED  => V_H(x) = GREEN_GLYPH(x)
+rho(x) = UNRESOLVED => V_H(x) = RED_GLYPH(x)
 ```
 
-and human correction produce:
+The projection is exact for status. Missing glyph color, plain-text substitution, emoji/prefix,
+colored box, raw HTML span, or another alternate encoding does not satisfy the contract.
+
+```
+VisibleStatus(x) = FormalStatus(x)
+AND
+StatusIsRenderedOnGlyph(x)
+```
+
+A user-visible color mismatch is a result-sensitive system observation, not cosmetic feedback.
+
+Let human correction produce:
 
 ```
 Delta_H
@@ -278,6 +291,8 @@ ResultSensitive(Delta_H)
 
 Examples of valid human corrections include:
 
+- a recovered object is not visibly green;
+- an unresolved object is not visibly red;
 - two mathematical objects were conflated;
 - a load-bearing term is undefined;
 - a stage is in the wrong order;
@@ -427,6 +442,7 @@ I20 no protected behavior disappears silently
 I21 discovery-state change can trigger reentry even when world state is unchanged
 I22 relative closure requires discovery stability, not result stability alone
 I23 compound ASSERT retains ASSERT->COMPARE->RESOLVE->HERE->COMPARE->INQUIRE->REASSERT
+I24 load-bearing visible formal objects preserve status through mandatory glyph-level color
 ```
 
 ## 13. Current OPEN coordinates
@@ -439,7 +455,6 @@ O2 deterministic Route mathematics: CANDIDATE_DEFINED in FOCUS_ROUTE_CONTRACT_05
 O3 full-spectrum trigger equations: CANDIDATE_DEFINED in FOCUS_ROUTE_CONTRACT_054
 O4 exact geometry-selection law
 O5 exact Eval mathematics
-O6 exact human-visible-math formalization
 O7 cost/gain law for cheap probe versus heavy execution where deterministic triggers do not fully settle mode
 O8 implementation parity between this design artifact and runtime/math_first_wrapper.py
 ```

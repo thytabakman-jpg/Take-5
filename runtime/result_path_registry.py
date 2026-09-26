@@ -2,8 +2,8 @@
 
 Exactly one path is the default protected RESULT path. Alternate facades remain
 available for comparison/regression but do not acquire result authority by existence.
-The default user-visible emission path is fail-closed through the mathematical
-status emission gate, with an explicit renderer channel.
+The default user-visible emission path is fail-closed through the mandatory
+mathematical glyph-color gate.
 """
 from dataclasses import dataclass
 from typing import Iterable
@@ -12,8 +12,6 @@ from mathematical_color_gate import (
     AssessedMathFragment,
     Fragment,
     MathFragment,
-    RenderChannel,
-    TAKE5_LATEX,
     TextFragment,
     ColorInvariantViolation,
     emit_user_visible,
@@ -68,16 +66,11 @@ def result_path(name: str) -> ResultPath:
     return next(p for p in PATHS if p.name == name)
 
 
-def emit_default_result(
-    fragments: Iterable[Fragment],
-    *,
-    channel: RenderChannel = TAKE5_LATEX,
-) -> str:
+def emit_default_result(fragments: Iterable[Fragment]) -> str:
     """Canonical user-visible emission boundary for the default result path.
 
     Formal math may reach this authoritative boundary only after a complete-for-use
-    assessment. Raw MathFragment values remain available for low-level renderer tests
-    but cannot self-certify recovery on the default result path.
+    assessment. Raw MathFragment values cannot self-certify recovery.
     """
     default_result_path()
     parts = tuple(fragments)
@@ -86,4 +79,4 @@ def emit_default_result(
             raise ColorInvariantViolation("UNASSESSED_MATH_AT_DEFAULT_RESULT_BOUNDARY")
         if not isinstance(fragment, (TextFragment, AssessedMathFragment)):
             raise ColorInvariantViolation("UNTYPED_DEFAULT_RESULT_FRAGMENT")
-    return emit_user_visible(parts, channel=channel)
+    return emit_user_visible(parts)

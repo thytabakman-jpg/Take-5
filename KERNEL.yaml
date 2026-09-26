@@ -141,17 +141,15 @@ capability_coverage_obligation:
 
 mathematical_color_emission:
   invariant: >-
-    Every load-bearing mathematical object reaching a user-visible emission boundary carries an
-    explicit recovery status through rendering. Recovery status is semantic and must survive
-    independently of renderer capability. Color is the preferred projection when supported;
-    unsupported channels use a lossless status fallback. Missing status, untyped mathematical
-    emission, and hand-authored HTML color markup are blocked.
+    Every load-bearing mathematical or formal-system object reaching a user-visible emission
+    boundary carries an explicit recovery status and renders that status on the glyph itself.
+    RECOVERED renders green. UNRESOLVED renders red. Missing glyph color is a fidelity failure,
+    not a reason to substitute an emoji, prefix, box, raw HTML span, or other fallback.
   runtime: runtime/mathematical_color_gate.py
   default_result_boundary: runtime/result_path_registry.py:emit_default_result
   statuses:
-    RECOVERED: green_or_green_status_marker
-    UNRESOLVED: red_or_red_status_marker
-  render_modes:
-    LATEX_COLOR: preferred_when_supported
-    STATUS_PREFIX: portable_lossless_fallback
+    RECOVERED: green_glyph
+    UNRESOLVED: red_glyph
+  required_projection: LATEX_GLYPH_COLOR
+  fallback_projection: forbidden
   fail_closed: true

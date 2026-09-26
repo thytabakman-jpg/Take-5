@@ -4,7 +4,6 @@ from mathematical_color_gate import (
     AssessedMathFragment,
     ColorInvariantViolation,
     MathStatus,
-    PORTABLE_TEXT,
     TextFragment,
     assess_recovery,
 )
@@ -34,7 +33,7 @@ def _assessed(latex, object_id, complete=True):
     return AssessedMathFragment(latex, a)
 
 
-def test_default_result_emission_uses_color_gate():
+def test_default_result_emission_uses_glyph_color():
     out = emit_default_result(
         (
             _assessed(r"\operatorname{ASSERT}", "ASSERT"),
@@ -48,17 +47,9 @@ def test_default_result_emission_uses_color_gate():
     )
 
 
-def test_default_result_can_use_portable_channel_without_status_loss():
-    out = emit_default_result(
-        (
-            _assessed(r"\operatorname{ASSERT}", "ASSERT"),
-            TextFragment(" "),
-            _assessed("X", "X", complete=False),
-        ),
-        channel=PORTABLE_TEXT,
-    )
-    assert out == r"🟢 \operatorname{ASSERT} 🔴 X"
-
+def test_default_result_renders_unresolved_red():
+    out = emit_default_result((_assessed("X", "X", complete=False),))
+    assert out == r"\color{red}{X}"
 
 
 def test_default_result_rejects_unassessed_math():
