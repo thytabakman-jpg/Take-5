@@ -111,6 +111,16 @@
       "effect": "runtime/improvement_core_recursive_manager.py",
       "consumer": "runtime/improvement_core_regime.py",
       "recovery": "architecture/IMPROVEMENT_CORE_RECOVERY_MANIFEST_082.json"
+    },
+    "IMPROVECORE_MODE_GEOMETRY": {
+      "identity": "integration/CURRENT_IMPROVEMENT_CORE.md",
+      "semantics": "runtime/entry_contract.py",
+      "reachability": "runtime/improvement_core_dispatch.py",
+      "selection": "runtime/entry_contract.py",
+      "execution": "runtime/ic028_operator.py",
+      "effect": "runtime/ic028_operator.py",
+      "consumer": "runtime/improvement_core_regime.py",
+      "recovery": "architecture/IMPROVEMENT_CORE_RECOVERY_MANIFEST_082.json"
     }
   }
 }
