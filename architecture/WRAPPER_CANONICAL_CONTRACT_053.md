@@ -52,10 +52,12 @@ It is not a synonym for "36".
 
 ## 3. Current wrapper spine
 
-The current working design is:
+The current working design has a mandatory observer-mode bootstrap before every ICC run:
 
 ```
-B_J
+ASSERT_obs
+-> GOAL_obs
+-> B_J
 -> O
 -> Phi
 -> Freeze
@@ -91,7 +93,11 @@ W[K]
   o Phi
   o O
   o B_J
+  o GOAL_obs
+  o ASSERT_obs
 ```
+
+ASSERT_obs and GOAL_obs are mandatory ICC bootstrap stages. They run in observer mode, in that order, before any other ICC analysis, routing, execution, or state-changing work. They use the current full wrapped ASSERT and GOAL tool definitions rather than bare/core forms.
 
 HF1 is mandatory. A wrapper without HF1 is a one-pass pipeline, not the current wrapper.
 
@@ -100,6 +106,14 @@ Tool Run Closure remains before persistent update.
 Jane synchronization remains after admitted state change and before reentry.
 
 ## 4. Stage jobs
+
+### ASSERT_obs
+
+Run the current full wrapped ASSERT tool in observer mode on the incoming ICC target. This is the first ICC wrapper action and may not be skipped, reordered, or replaced by a compressed/bare ASSERT run.
+
+### GOAL_obs
+
+Run the current full wrapped GOAL tool in observer mode on the ASSERT-observed target. This is the second ICC wrapper action and completes the mandatory bootstrap before ICC proceeds to binding, observation, formalization, routing, execution, or update.
 
 ### B_J
 
@@ -457,6 +471,9 @@ I21 discovery-state change can trigger reentry even when world state is unchange
 I22 relative closure requires discovery stability, not result stability alone
 I23 compound ASSERT retains ASSERT->COMPARE->RESOLVE->HERE->COMPARE->INQUIRE->REASSERT
 I24 load-bearing visible formal objects preserve status through mandatory glyph-level color
+I25 every ICC run begins with full wrapped ASSERT in observer mode
+I26 full wrapped GOAL in observer mode runs immediately after ASSERT and before any other ICC work
+I27 ASSERT_obs -> GOAL_obs bootstrap cannot be bypassed by direct routing, execution, or bare/core substitution
 ```
 
 ## 13. Current OPEN coordinates
