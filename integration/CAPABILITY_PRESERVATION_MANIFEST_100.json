@@ -81,6 +81,16 @@
       "effect": "integration/IMPROVECORE_RECOVERY_BLUEPRINT_100.md",
       "consumer": "integration/IMPROVECORE_CAPABILITY_RECOVERY_WORKSTREAM_100.yaml",
       "recovery": "integration/CAPABILITY_PRESERVATION_MANIFEST_100.json"
+    },
+    "IMPROVECORE_ZERO_REQUEST_UPSTREAM": {
+      "identity": "integration/CURRENT_IMPROVEMENT_CORE.md",
+      "semantics": "runtime/improvement_core_upstream.py",
+      "reachability": "runtime/improvement_core_dispatch.py",
+      "selection": "runtime/improvement_core_dispatch.py",
+      "execution": "runtime/improvement_core_upstream.py",
+      "effect": "runtime/improvement_core_upstream.py",
+      "consumer": "runtime/improvement_core_regime.py",
+      "recovery": "architecture/IMPROVEMENT_CORE_RECOVERY_MANIFEST_082.json"
     }
   }
 }
