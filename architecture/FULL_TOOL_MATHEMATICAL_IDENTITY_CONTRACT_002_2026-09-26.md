@@ -130,12 +130,12 @@ ProtectedObservables_(J,K)(T')
 equiv
 ProtectedObservables_(J,K)(T).
 
-ShowMathComplete_(J,K)(T;E0)
+ShowMathComplete_(J,K)(Package,T;E0)
 iff
 DefinitionClosed_(J,K)(Package,E0,T)
-and InitializationExecutable
-and RuntimePrimitivesAvailable
-and PersistenceSpecified
+and InitializationExecutable(Package,E0,T)
+and RuntimePrimitivesAvailable(Package,E0)
+and PersistenceSpecified(Package,T)
 and PortableEquivalent_(J,K)(T',T).
 
 A source pointer is evidence/provenance, not a substitute for package closure.
