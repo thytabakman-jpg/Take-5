@@ -14,6 +14,7 @@ from dataclasses import asdict, dataclass, field
 from typing import Any, Callable, Mapping, Protocol
 import hashlib
 import json
+import copy
 
 TERMINAL=frozenset({"COMPLETE","OPEN","BLOCKED","CONFLICT"})
 CONTINUE="CONTINUE"
@@ -623,6 +624,56 @@ def portable_core_environment(
         },
         "self_file_present":True,
     }
+
+
+
+def exact_take5_activation_package()->dict[str,Any]:
+    package=copy.deepcopy(portable_core_package())
+    package["object_id"]="TAKE5:ICC128-LEGACY:001"
+    package["signature"]="ICC128LegacyTake5 : State x Memory x HostBindings x ReportSink -> ActivatedLegacyResult"
+    package["definitions"]["ICC128_LEGACY_ACTIVATED"]={
+        "dependencies":("ICC128_LEGACY_CORE","GITHUB_REPORT_GATE")
+    }
+    package["definitions"]["GITHUB_REPORT_GATE"]={
+        "dependencies":("github_report_commit_receipt",)
+    }
+    package["load_bearing_symbols"]=("ICC128_LEGACY_ACTIVATED",)
+    package["runtime_primitives"]["github_report_commit_receipt"]={
+        "typed_contract":"run report -> Take-5 GitHub commit receipt with repository/path/commit_sha/report_sha256",
+        "provider":"TAKE5_GITHUB_REPORT_SINK",
+    }
+    package["obligations"]["persistence"]={
+        "status":"SATISFIED",
+        "witness":"every run emits a learning report; controller memory is discarded after submission; Take-5 closure requires GitHub commit receipt",
+    }
+    package["protected_behavior"]=tuple(package["protected_behavior"])+(
+        "take5_report_receipt_required_for_activation_closure",
+        "cross_run_controller_memory_not_inherited",
+    )
+    package["equivalence_tests"]=tuple(package["equivalence_tests"])+(
+        "missing_take5_report_sink_turns_show_math_red",
+        "valid_take5_report_receipt_allows_activation_closure",
+    )
+    package["environment_contract"]["providers"]=tuple(package["environment_contract"]["providers"])+(
+        "TAKE5_GITHUB_REPORT_SINK",
+    )
+    return package
+
+
+def exact_take5_activation_environment(
+    *,
+    semantic_reasoner_available:bool,
+    execution_interface_available:bool=True,
+    controller_bindings_available:bool=True,
+    github_report_sink_available:bool=False,
+)->dict[str,Any]:
+    environment=portable_core_environment(
+        semantic_reasoner_available=semantic_reasoner_available,
+        execution_interface_available=execution_interface_available,
+        controller_bindings_available=controller_bindings_available,
+    )
+    environment["providers"]["TAKE5_GITHUB_REPORT_SINK"]=bool(github_report_sink_available)
+    return environment
 
 
 def _fixture_model(payload:dict[str,Any])->dict[str,Any]:
