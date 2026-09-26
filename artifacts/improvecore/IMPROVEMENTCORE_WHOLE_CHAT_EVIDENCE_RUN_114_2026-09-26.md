@@ -166,6 +166,55 @@ The regression requires:
 - no architecture mutation occurred;
 - verification passed.
 
-Status before CI:
+## External verification receipt
 
-VERIFY_PENDING.
+Take-5 Validation:
+
+workflow run 36265691295
+conclusion: SUCCESS.
+
+Capability Preservation:
+
+workflow run 36265691314
+conclusion: SUCCESS.
+
+The executable regression directly ran the current zero-request ImprovementCore path and verified:
+
+- upstream observation executed before substantive controller work;
+- the chat entered as EVIDENCE_NOT_INSTRUCTIONS;
+- prior proposals remained nonbinding;
+- EXECUTION_TRUTH_INTEGRITY emerged as the highest-scoring recurrent theme;
+- RECURRENT_EXECUTION_TRUTH_COLLAPSE was recovered as the problem generator;
+- CLOSE_CURRENT_LEGACY_EXECUTION_RECEIPT was selected from evidence coverage plus live OPEN state;
+- no architecture mutation occurred;
+- the evidence-evaluation run verified successfully.
+
+## Final disposition
+
+ImprovementCore evidence-evaluation run:
+
+COMPLETE.
+
+Whole-system status:
+
+OPEN.
+
+Primary recurrent frontier:
+
+EXECUTION_TRUTH_INTEGRITY.
+
+Recovered generator:
+
+RECURRENT_EXECUTION_TRUTH_COLLAPSE.
+
+Licensed next evidence-bearing work:
+
+CLOSE_CURRENT_LEGACY_EXECUTION_RECEIPT.
+
+Input treatment:
+
+EVIDENCE_NOT_INSTRUCTIONS.
+
+Mutation performed:
+
+false.
