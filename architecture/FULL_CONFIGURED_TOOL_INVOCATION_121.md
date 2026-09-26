@@ -1,7 +1,7 @@
 # Full Configured Tool Invocation 121
 
 Date: 2026-09-26
-Status: IMPLEMENTED CANDIDATE / THINK-BIG REPAIR
+Status: CURRENT / VALIDATED / MERGED
 Origin:
 - MT direct-tool/HF2 prompt audit 118
 - GOAL direct-tool/HF2 118
@@ -293,3 +293,40 @@ The current repository-owned full-invocation invariant is enforced across:
 Inner native semantic functions such as capability_runtime.execute_capability and individual
 learning operators are implementations inside a configured invocation, not independent claims
 of a full configured tool run.
+
+
+## Validation and merge evidence
+
+Primary full-profile repair:
+
+PR #117
+
+merge:
+2b86fdc500f5ad1b35fa578b7c96bd92feb99f41
+
+Regime-091 transported validation:
+- Take-5 Validation 36270850293 SUCCESS
+- Capability Preservation 36270850299 SUCCESS
+
+Post-merge bypass closure:
+
+PR #119
+
+merge:
+f35577993d076e9113db0bc6e62b91d89b062565
+
+Post-merge validation:
+- Take-5 Validation 36271301228 SUCCESS
+- Capability Preservation 36271301286 SUCCESS
+
+Final ImprovementCore + HF2 reentry:
+
+artifacts/improvecore/IMPROVEMENTCORE_HF2_THINK_BIG_REENTRY_122_2026-09-26.md
+
+Current finite registered-repertoire disposition:
+
+CLOSED_RELATIVE.
+
+Universal external-host interception:
+
+EXTERNAL_NOT_OWNED.
