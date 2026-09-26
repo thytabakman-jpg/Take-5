@@ -1,7 +1,7 @@
 # CURRENT HF2 — Recovery Anchor 001
 
 Date: 2026-09-26
-Status: TAKE-5 CANDIDATE / VALIDATION REQUIRED
+Status: TAKE-5 CURRENT / VALIDATED FOR PROMOTED USE
 
 ## Identity
 
@@ -86,3 +86,15 @@ Take-5 promotion is new and requires Take-5 validation.
 - infinite-frontier fairness;
 - unbounded termination;
 - universal host binding.
+
+
+## Take-5 promotion evidence
+
+PR #65
+- merge 691462f614dc026ad199f1b343496d06bca4da1e
+- validation run 36222526907
+
+Promoted validated use:
+HF2[RootCause] local same-capability recurrence.
+
+Universal HF2 wrapper promotion across every configured Take-5 tool remains OPEN.
