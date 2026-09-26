@@ -75,6 +75,12 @@ GENERIC_BINDINGS=(
         "runtime/configured_run.py",
         "tests/test_configured_run_spec.py",
     ),
+    ProtectedBinding(
+        "PROTECTED_TRANSITION_INTEGRITY",
+        "CROSS",
+        "runtime/protected_transition_integrity.py",
+        "tests/test_protected_transition_integrity.py",
+    ),
 )
 
 MT_BINDINGS=GENERIC_BINDINGS+(
