@@ -162,10 +162,11 @@ def test_regime_learning_memory_blocks_unchanged_no_gain_route():
 
 def test_current_regime_is_versioned_and_exposes_active_components():
     assert CURRENT_REGIME.controller=="IC-028"
-    assert CURRENT_REGIME.version=="088"
+    assert CURRENT_REGIME.version=="089"
     assert "improvement_core_manager" in CURRENT_REGIME.stage_manager
     assert "recursive_manager" in CURRENT_REGIME.recursive_manager
     assert "learning_memory" in CURRENT_REGIME.learning_memory
+    assert "improvement_core_tool_bridge" in CURRENT_REGIME.configured_tool_bridge
 
 
 def test_recursive_manager_preserves_plural_nondominated_frontier():
@@ -205,3 +206,56 @@ def test_recursive_manager_filters_protected_regression_before_choice():
     out=mgr.run({"terminal":"CONTINUE","live_continuation":True,"basis_id":"b0"},{})
     assert out["status"]=="COMPLETE"
     assert out["traces"][0]["selected_job"]["id"]=="safe"
+
+
+def test_regime_threads_selected_formal_tool_into_real_adapter_execution():
+    handlers=_stage_handlers(live=False)
+    original_select=handlers["SELECT"]
+    def select_tool(state):
+        out=original_select(state)
+        out["state"]={**out["state"],"selected_tool":"RootCause"}
+        return out
+    handlers["SELECT"]=select_tool
+
+    calls=[]
+    def root_adapter(state,plan):
+        calls.append((plan.tool_id,len(plan.cells)))
+        return {
+            "status":"EXECUTED",
+            "result":{"root":"TOOL_SELECTION_EXECUTION_SEAM"},
+            "material_delta":True,
+        }
+
+    out=run_improvement_core_regime(
+        "ImproveCore, solve this",
+        target="problem",
+        job="solve",
+        basis="current",
+        state={},
+        handlers=handlers,
+        configured_tool_adapters={"RootCause":root_adapter},
+    )
+    assert out.status=="COMPLETE"
+    assert calls==[("RootCause",36)]
+    assert out.result.state["configured_tool_outputs"][0]["tool_id"]=="RootCause"
+
+
+def test_regime_preserves_missing_tool_adapter_blocker():
+    handlers=_stage_handlers(live=False)
+    original_select=handlers["SELECT"]
+    def select_tool(state):
+        out=original_select(state)
+        out["state"]={**out["state"],"selected_tool":"RootCause"}
+        return out
+    handlers["SELECT"]=select_tool
+
+    out=run_improvement_core_regime(
+        "ImproveCore, solve this",
+        target="problem",
+        job="solve",
+        basis="current",
+        state={},
+        handlers=handlers,
+    )
+    assert out.status=="OPEN"
+    assert out.blocker=="CONFIGURED_TOOL_ADAPTER_REQUIRED:RootCause"
