@@ -145,6 +145,10 @@ architecture/IMPROVEMENT_CORE_ACTIVATION_083.md
 41. learned no-gain routes are filtered before nondominated frontier construction.
 42. explicit same-basis semantic no-effect cycles are recorded as CYCLE_NO_GAIN.
 43. retry of a blocked route requires a relevant dependency/basis change or another explicit defeat condition.
+44. local transition progress and longitudinal state improvement remain distinct mathematical claims.
+45. longitudinal strict improvement is basis-indexed and transitive inside one admitted comparison frame.
+46. cross-basis longitudinal comparison requires explicit transport into a common episode-wide basis rather than a Boolean reconciliation flag.
+47. effect witnesses establish local causal transition evidence; they do not by themselves define the longitudinal preorder.
 
 ## Cross-repository lineage
 
@@ -265,7 +269,9 @@ Open-world global maximality/minimality is not a licensed completion claim. Curr
 29. runtime/improvement_core_progress_relation.py
 30. architecture/IMPROVEMENT_CORE_CANONICAL_PROGRESS_MATHEMATICS_001_2026-09-26.md
 31. architecture/IMPROVEMENT_CORE_ANTI_REPEAT_110.md
-32. architecture/IMPROVEMENT_CORE_MAXIMIZATION_081.md
+32. architecture/IMPROVEMENT_CORE_INDEXED_PROGRESS_MATHEMATICS_111.md
+33. runtime/improvement_core_order_math.py
+34. architecture/IMPROVEMENT_CORE_MAXIMIZATION_081.md
 33. architecture/CROSS_REPOSITORY_IMPROVEMENTCORE_LINEAGE_CHOICE_080.md
 34. architecture/PROTECTED_TRANSITION_INTEGRITY_090.md
 35. integration/CURRENT_PROTECTED_TRANSITION_INTEGRITY.md

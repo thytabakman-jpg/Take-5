@@ -560,3 +560,17 @@ Promotion requires executable tests for:
 - local-versus-global closure separation.
 
 No current pointer changes merely because this artifact exists.
+
+
+## Longitudinal comparison companion
+
+Regime 090 promotes this document's strict-progress relation as the local transition admission gate.
+
+The distinct longitudinal/system comparison problem is governed by:
+
+- `architecture/IMPROVEMENT_CORE_INDEXED_PROGRESS_MATHEMATICS_111.md`
+- `runtime/improvement_core_order_math.py`
+
+A local effect witness establishes one transition's causal, boundary-verified progress. It does not independently establish a transitive order over arbitrary controller states or across basis changes.
+
+Longitudinal strict-improvement claims therefore use the basis-indexed preorder and, for cross-basis episodes, one admitted common `ComparisonFrame`.

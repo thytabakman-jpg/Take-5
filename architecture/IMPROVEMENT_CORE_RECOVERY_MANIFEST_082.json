@@ -29,7 +29,8 @@
     "mode_geometry": "runtime/entry_contract.py",
     "configured_tool_bridge": "runtime/improvement_core_tool_bridge.py",
     "canonical_progress": "runtime/improvement_core_progress_relation.py",
-    "durable_learning": "integration/IMPROVEMENT_CORE_DURABLE_LEARNING_110.json"
+    "durable_learning": "integration/IMPROVEMENT_CORE_DURABLE_LEARNING_110.json",
+    "longitudinal_progress": "runtime/improvement_core_order_math.py"
   },
   "evidence": {
     "maximization": "architecture/IMPROVEMENT_CORE_MAXIMIZATION_081.md",
@@ -97,7 +98,8 @@
       "validation_run": "36249459966",
       "capability_preservation_run": "36249459971",
       "merge_commit": "44cea13bdcd1e2c06fe44699d4152d653180daa9"
-    }
+    },
+    "longitudinal_progress": "architecture/IMPROVEMENT_CORE_INDEXED_PROGRESS_MATHEMATICS_111.md"
   },
   "protected_behaviors": [
     "CONTROLLER_OWNERSHIP",
@@ -143,7 +145,10 @@
     "DURABLE_NEGATIVE_ROUTE_MEMORY",
     "LEARNED_NO_GAIN_FILTERS_BEFORE_FRONTIER",
     "SEMANTIC_CYCLE_NO_GAIN_BLOCKING",
-    "RETRY_REQUIRES_RELEVANT_CHANGE"
+    "RETRY_REQUIRES_RELEVANT_CHANGE",
+    "LOCAL_TRANSITION_PROGRESS_DISTINCT_FROM_LONGITUDINAL_STATE_ORDER",
+    "LONGITUDINAL_PROGRESS_USES_BASIS_INDEXED_PREORDER",
+    "CROSS_BASIS_LONGITUDINAL_COMPARISON_REQUIRES_COMMON_FRAME"
   ],
   "open": [],
   "math": {
@@ -157,7 +162,10 @@
     "corpus_integration": "architecture/IMPROVEMENT_CORE_MATH_CORPUS_INTEGRATION_090.md",
     "progress_relation": "runtime/improvement_core_progress_relation.py",
     "progress_surface": "architecture/IMPROVEMENT_CORE_CANONICAL_PROGRESS_MATHEMATICS_001_2026-09-26.md",
-    "durable_learning": "integration/IMPROVEMENT_CORE_DURABLE_LEARNING_110.json"
+    "durable_learning": "integration/IMPROVEMENT_CORE_DURABLE_LEARNING_110.json",
+    "longitudinal_progress_runtime": "runtime/improvement_core_order_math.py",
+    "longitudinal_progress_surface": "architecture/IMPROVEMENT_CORE_INDEXED_PROGRESS_MATHEMATICS_111.md",
+    "cross_basis_comparison": "EPISODE_WIDE_COMMON_COMPARISON_FRAME"
   },
   "external_limits": [
     "UNIVERSAL_HOST_INTERCEPTION_EXTERNAL_NOT_OWNED"
