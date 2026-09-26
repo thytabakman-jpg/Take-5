@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "run_id": "improvecore-hf2-make-a-choice-20260926-001",
+  "controller": "ImprovementCore",
+  "recursive_continuation": "HF002",
+  "directive": "make a choice",
+  "basis": "current Take-5 repository state plus current ImprovementCore/HF2 recovery anchors",
+  "candidates": [
+    "close ImprovementCore explicit protected-behavior manifest",
+    "close ToolConductor explicit protected-behavior manifest",
+    "promote function-first IR system-wide",
+    "recover PD/PDAudit/Architecture native runtimes",
+    "promote HF2 universally across configured tools",
+    "pursue universal record-everything host interception"
+  ],
+  "choice": "CLOSE_IMPROVEMENTCORE_EXPLICIT_PROTECTED_BEHAVIOR_MANIFEST_FIRST",
+  "reason": [
+    "function-first holdout identifies the identity graph as the prerequisite frontier",
+    "ImprovementCore already has a recovered runtime entrypoint but remains generic-only at the manifest layer",
+    "ImprovementCore is the parent controller for selection, admission, persistence, verification and reentry",
+    "closing its explicit identity is prerequisite-strengthening and lower-cost than recovering multiple missing runtimes",
+    "system-wide function-IR promotion remains downstream of identity closure",
+    "universal host interception remains external-not-owned",
+    "universal HF2 promotion lacks current evidence that it is the highest-leverage next repair"
+  ],
+  "hf2_disposition": "RELATIVE_CLOSE",
+  "next_action": "recover and validate the exact tool-specific protected behaviors of ImprovementCore in runtime/tool_manifest.py and the corresponding witness tests; do not change other tool identities in the same move"
+}
