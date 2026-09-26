@@ -36,3 +36,43 @@ def operator_context(state:JaneSupervisoryState):
         "open_alerts":tuple(a for a in state.alerts if a.get("status")=="WORK_CANDIDATE"),
         "receipt_count":len(state.receipts),
     }
+
+
+def semantic_capture_obligation(
+    state:JaneSupervisoryState,
+    *,
+    object_id:str,
+    term:str,
+    source:str,
+    load_bearing:bool|None,
+    package_current:bool,
+    created_here:bool=False,
+    math_complete_for_use:bool=False,
+):
+    """Create mandatory semantic-lifecycle work for a load-bearing object.
+
+    Discovered terms may remain BLACK_BOX_OPEN with a durable package.
+    Deliberately created tools/programs must not be treated as admission-ready
+    while required mathematics for their advertised use remains unresolved.
+    """
+    # Unknown load-bearingness is a reason to capture, not a reason to prune.
+    # This prevents the detector's own incompleteness from silently losing terms.
+    if load_bearing is False:
+        return None
+    if package_current and (not created_here or math_complete_for_use):
+        return None
+    kind="CREATED_OBJECT_MATH_AND_PACKAGE" if created_here else "LOAD_BEARING_TERM_PACKAGE"
+    alert={
+        "kind":kind,
+        "object_id":object_id,
+        "term":term,
+        "source":source,
+        "status":"WORK_CANDIDATE",
+        "load_bearing_status":"CONFIRMED" if load_bearing is True else "OPEN",
+        "required":(
+            "semantic_package",
+            "mathematical_basis" if created_here else "typed_open_semantics",
+        ),
+    }
+    state.alerts.append(alert)
+    return alert

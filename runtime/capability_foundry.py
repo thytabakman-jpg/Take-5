@@ -29,6 +29,16 @@ class CapabilitySpec:
     dependencies: tuple[str,...]=()
     persistence: str="EPHEMERAL"
     grants_authority: bool=False
+    semantic_object_id: str=""
+    mathematical_basis: str=""
+    math_required_coordinates: tuple[str,...]=()
+    math_recovered_coordinates: tuple[str,...]=()
+    semantic_package_current: bool=False
+
+    def math_complete_for_use(self)->bool:
+        required=set(self.math_required_coordinates)
+        recovered=set(self.math_recovered_coordinates)
+        return bool(self.mathematical_basis.strip()) and bool(required) and required <= recovered
 
     def executable_contract_complete(self)->bool:
         return all([
@@ -65,6 +75,20 @@ class CapabilityFoundry:
             return FoundryResult(candidate,FoundryDisposition.REJECT,("self_authorization_prohibited",))
         if not candidate.executable_contract_complete():
             return FoundryResult(candidate,FoundryDisposition.OPEN,("incomplete_execution_contract",))
+        if candidate.capability_type in {CapabilityType.TOOL, CapabilityType.META_TOOL, CapabilityType.PROGRAM}:
+            missing=[]
+            if not candidate.semantic_object_id.strip():
+                missing.append("semantic_object_id_missing")
+            if not candidate.mathematical_basis.strip():
+                missing.append("mathematical_basis_missing")
+            if not candidate.math_required_coordinates:
+                missing.append("required_math_coordinates_unspecified")
+            elif not candidate.math_complete_for_use():
+                missing.append("required_mathematics_unrecovered")
+            if not candidate.semantic_package_current:
+                missing.append("semantic_package_missing_or_stale")
+            if missing:
+                return FoundryResult(candidate,FoundryDisposition.OPEN,tuple(missing))
         for old in self.existing.values():
             if functionally_subsumed(candidate,old):
                 return FoundryResult(candidate,FoundryDisposition.SUBSUME,(f"subsumed_by:{old.capability_id}",))

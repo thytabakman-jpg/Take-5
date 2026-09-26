@@ -15,6 +15,11 @@ def spec(cid="C_NEW", grants=False, transform="x->y"):
         dependencies=("K","C","R"),
         persistence="CANDIDATE",
         grants_authority=grants,
+        semantic_object_id=f"TOOL:{cid}",
+        mathematical_basis="typed transform/input/output/success/failure contract",
+        math_required_coordinates=("input","transform","output","success","failure"),
+        math_recovered_coordinates=("input","transform","output","success","failure"),
+        semantic_package_current=True,
     )
 
 def never_subsumed(a,b): return False
@@ -67,3 +72,54 @@ def test_failed_gain_or_compatibility_remains_open():
         architecture_compatible=lambda x: False,
     )
     assert r.disposition == FoundryDisposition.OPEN
+
+
+def test_created_tool_without_math_or_package_remains_open():
+    c=CapabilitySpec(
+        capability_id="C_UNBOUND",
+        capability_type=CapabilityType.TOOL,
+        trigger="gap",
+        input_contract="x",
+        transform="x->y",
+        output_contract="y",
+        success="closed",
+        failure="open",
+        persistence="CANDIDATE",
+    )
+    r=CapabilityFoundry().evaluate(
+        c,
+        functionally_subsumed=never_subsumed,
+        material_goal_gain=always_gain,
+        architecture_compatible=compatible,
+    )
+    assert r.disposition == FoundryDisposition.OPEN
+    assert "mathematical_basis_missing" in r.reasons
+    assert "required_math_coordinates_unspecified" in r.reasons
+    assert "semantic_package_missing_or_stale" in r.reasons
+
+
+def test_created_tool_with_partial_required_math_remains_open():
+    c=CapabilitySpec(
+        capability_id="C_PARTIAL",
+        capability_type=CapabilityType.TOOL,
+        trigger="gap",
+        input_contract="x",
+        transform="x->y",
+        output_contract="y",
+        success="closed",
+        failure="open",
+        persistence="CANDIDATE",
+        semantic_object_id="TOOL:C_PARTIAL",
+        mathematical_basis="candidate equations",
+        math_required_coordinates=("input","transform","output"),
+        math_recovered_coordinates=("input","transform"),
+        semantic_package_current=True,
+    )
+    r=CapabilityFoundry().evaluate(
+        c,
+        functionally_subsumed=never_subsumed,
+        material_goal_gain=always_gain,
+        architecture_compatible=compatible,
+    )
+    assert r.disposition == FoundryDisposition.OPEN
+    assert "required_mathematics_unrecovered" in r.reasons

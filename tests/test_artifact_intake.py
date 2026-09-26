@@ -57,7 +57,7 @@ def test_material_candidate_enters_existing_work_lifecycle():
     assert len(work) == 1
     assert work[0].target == "c1"
     assert "a" in work[0].provenance
-    assert work[0].obligation.startswith("ACCEPT:")
+    assert work[0].obligation.startswith("OPEN:")
 
 
 def test_non_load_bearing_and_known_equivalent_do_not_multiply_work():
@@ -108,3 +108,17 @@ def test_unbound_executable_claim_remains_open_work():
 def test_generator_basis_change_requires_recheck():
     assert not generator_basis_changed(["g1", "g2"], ["g2", "g1"])
     assert generator_basis_changed(["g1"], ["g1", "g2"])
+
+
+def test_material_candidate_accepts_only_after_semantic_package_exists():
+    artifact = ArtifactRecord("a", "x")
+    def g(a):
+        return [{
+            "candidate_id": "captured",
+            "candidate_type": "SEMANTIC_PRIMITIVE",
+            "source_span": "x",
+            "load_bearing": True,
+            "semantic_package_current": True,
+        }]
+    r = intake([artifact], {"g": g})
+    assert candidate_admission(r.candidates[0]) == Admission.ACCEPT
