@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "run_id": 112,
+  "date": "2026-09-26",
+  "top_level_order": [
+    "GOAL",
+    "ICC-123",
+    "ImprovementCore"
+  ],
+  "execution_basis": {
+    "repository_regime": "090",
+    "goal_execution": "HOST_BOUND_CONFIGURED",
+    "icc123_execution": "HOST_BOUND_CONFIGURED",
+    "goal_mt_prerequisite": true,
+    "geometry": "D36_C",
+    "cells": 36,
+    "question_projections": 792,
+    "cognitive_projections": 144
+  },
+  "governing_goal": {
+    "id": "G_STAR_DURABLE_CUMULATIVE_IMPROVEMENT",
+    "status": "CLOSED_RELATIVE",
+    "requirements": [
+      "CURRENTNESS",
+      "MATH_FIRST",
+      "REAL_TOOL_EXECUTION",
+      "PROTECTED_NONREGRESSION",
+      "LOCAL_PROGRESS_TRUTH",
+      "LONGITUDINAL_PROGRESS_TRUTH",
+      "ANTI_REPEAT",
+      "PERSISTENCE",
+      "CLOSURE_REENTRY",
+      "USER_REPROMPT_REDUCTION"
+    ]
+  },
+  "residuals": [
+    {
+      "id": "R1",
+      "kind": "TOOL_EXECUTION_VS_SEMANTIC_WORKER_AVAILABILITY",
+      "owner": "REPOSITORY_HOST_BOUNDARY",
+      "candidate": "IC-HOST-CAPABILITY-DISCOVERY"
+    },
+    {
+      "id": "R2",
+      "kind": "REPOSITORY_CURRENTNESS_VS_HOST_CURRENTNESS",
+      "owner": "HOST_BOUNDARY",
+      "candidate": "IC-HOST-CAPABILITY-DISCOVERY"
+    },
+    {
+      "id": "R3",
+      "kind": "CONVERSATION_RECOVERY_VS_DURABLE_CANONICAL_INPUT",
+      "owner": "REPOSITORY_HOST_BOUNDARY",
+      "candidate": "IC-DURABLE-RUN-JOURNAL"
+    },
+    {
+      "id": "R4",
+      "kind": "ICC_ROLE_IDENTITY_VS_CONFIGURED_MATERIAL_TOOL_IDENTITY",
+      "owner": "ARCHITECTURE",
+      "candidate": "OPEN"
+    },
+    {
+      "id": "R5",
+      "kind": "LOCAL_TOOL_BRIDGE_VS_GLOBAL_ADAPTER_DISCOVERY",
+      "owner": "REPOSITORY_HOST_BOUNDARY",
+      "candidate": "IC-HOST-CAPABILITY-DISCOVERY"
+    }
+  ],
+  "do_not_reopen_without_defeating_evidence": [
+    "REGIME_090_LOCAL_PROGRESS_GATE",
+    "REGIME_090_DURABLE_NEGATIVE_LEARNING",
+    "REGIME_090_SEMANTIC_CYCLE_BLOCKING",
+    "INDEXED_LONGITUDINAL_PROGRESS_MATH",
+    "BURDEN_TIE_CORRECTION",
+    "CONFIGURED_TOOL_EXECUTION_BRIDGE"
+  ],
+  "improvecore_directive": [
+    "consume this handoff causally, not as inert corpus text",
+    "prefer repository-owned activation/binding/discovery gains",
+    "preserve universal host enforcement as OPEN when unowned",
+    "reject artifact-only changes as progress when semantics are unchanged"
+  ]
+}
