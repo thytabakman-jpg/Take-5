@@ -91,6 +91,16 @@
       "effect": "runtime/improvement_core_upstream.py",
       "consumer": "runtime/improvement_core_regime.py",
       "recovery": "architecture/IMPROVEMENT_CORE_RECOVERY_MANIFEST_082.json"
+    },
+    "IMPROVECORE_EXTERNAL_ACQUISITION": {
+      "identity": "architecture/IMPROVEMENT_CORE_EXTERNAL_ACQUISITION_090.md",
+      "semantics": "runtime/improvement_core_external_acquisition.py",
+      "reachability": "runtime/improvement_core_dispatch.py",
+      "selection": "runtime/improvement_core_external_acquisition.py",
+      "execution": "runtime/improvement_core_external_acquisition.py",
+      "effect": "runtime/improvement_core_regime.py",
+      "consumer": "runtime/improvement_core_manager.py",
+      "recovery": "architecture/IMPROVEMENT_CORE_RECOVERY_MANIFEST_082.json"
     }
   }
 }
