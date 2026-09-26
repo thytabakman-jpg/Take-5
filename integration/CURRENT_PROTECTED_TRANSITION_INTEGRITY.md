@@ -1,7 +1,7 @@
 # CURRENT PROTECTED TRANSITION INTEGRITY — Recovery Anchor 090
 
 Date: 2026-09-26
-Status: CURRENT CANDIDATE / VALIDATION REQUIRED
+Status: CURRENT / VALIDATED / MERGED
 
 ## Start here
 
@@ -76,3 +76,25 @@ research/ROOT_CAUSE_RUN_CURRENT_CHAT_089_2026-09-26.md
 - proof that these seven coordinates are globally minimal;
 - automatic witness generation for every external execution environment;
 - cross-repository enforcement outside Take-5.
+
+
+## Validated implementation evidence
+
+PR #69
+- merge 73639b7292e0e0d2b876b1751109255038e7f69b
+- validation 36222874741
+- portfolio audit passed
+- end-to-end PTI execution fixture passed
+- missing reentry witness fixture failed closed
+
+## Post-repair disposition
+
+Internal Take-5 configured execution:
+CLOSED_RELATIVE.
+
+Remaining external residual:
+HOST_INTEGRATION_BYPASS.
+
+Executable recheck:
+runtime/protected_transition_root_recheck.py
+tests/test_protected_transition_root_recheck.py
