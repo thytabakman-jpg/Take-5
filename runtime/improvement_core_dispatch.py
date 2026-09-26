@@ -2,8 +2,7 @@
 
 Ordinary user phrases that name ImproveCore/Improvement Core resolve to the
 current cumulative-autonomous ImprovementCore regime. The dispatch preserves
-optional recursive-management and learning-memory inputs so live continuation
-cannot be silently dropped at the regime boundary.
+recursive-management, learning-memory, and host-provided outside-tool adapters.
 """
 from dataclasses import dataclass
 from typing import Any, Callable
@@ -45,6 +44,9 @@ def dispatch_improvement_core(
     max_rounds:int=8,
     recursive_handlers:dict[str,Callable]|None=None,
     learning_memory:LearningMemory|None=None,
+    external_adapters:dict[str,Callable]|None=None,
+    force_external:bool=False,
+    allow_external_gap:bool=True,
 ):
     resolution=resolve_improvement_core_invocation(user_text)
     result=run_improvement_core_regime(
@@ -63,5 +65,8 @@ def dispatch_improvement_core(
         max_rounds=max_rounds,
         recursive_handlers=recursive_handlers,
         learning_memory=learning_memory,
+        external_adapters=external_adapters,
+        force_external=force_external,
+        allow_external_gap=allow_external_gap,
     )
     return resolution,result
