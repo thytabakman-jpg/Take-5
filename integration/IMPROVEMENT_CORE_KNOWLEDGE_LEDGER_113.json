@@ -110,8 +110,8 @@
       "knowledge_id": "K-improvecore-default-hf2-091-20260926",
       "kind": "SOLUTION",
       "statement": "User-facing ImprovementCore promotes HF2 as its default local same-capability recurrence operator while preserving ImprovementCore global control.",
-      "basis_id": "take5-regime-091-candidate",
-      "disposition": "CAPTURED",
+      "basis_id": "take5-regime-091",
+      "disposition": "CURRENT",
       "related_objects": [
         "ImprovementCore",
         "HF002",
@@ -125,7 +125,11 @@
       "evidence_refs": [
         "architecture/IMPROVEMENT_CORE_DEFAULT_HF2_118.md",
         "artifacts/improvecore/IMPROVEMENTCORE_HF2_OBSERVER_CAMPAIGN_115_2026-09-26.md",
-        "artifacts/improvecore/IMPROVEMENTCORE_HF2_THINK_BIG_FIX_CLOSURE_117_2026-09-26.md"
+        "artifacts/improvecore/IMPROVEMENTCORE_HF2_THINK_BIG_FIX_CLOSURE_117_2026-09-26.md",
+        "PR #116",
+        "Take-5 Validation 36270165005",
+        "Capability Preservation 36270165051",
+        "merge ef2ef2a6fa0c4093c28654f4fda04d68eb4d9869"
       ],
       "provenance": [
         {
@@ -134,7 +138,10 @@
         }
       ],
       "metadata": {
-        "validation_status": "PENDING"
+        "validation_status": "SUCCESS",
+        "take5_validation": 36270165005,
+        "capability_preservation": 36270165051,
+        "merge_commit": "ef2ef2a6fa0c4093c28654f4fda04d68eb4d9869"
       }
     }
   ],
@@ -207,6 +214,23 @@
       ],
       "metadata": {
         "validation_status": "PENDING"
+      }
+    },
+    {
+      "sequence": 6,
+      "knowledge_id": "K-improvecore-default-hf2-091-20260926",
+      "action": "INTEGRATE",
+      "disposition": "CURRENT",
+      "source_episode": "improvecore-default-hf2-promotion-20260926",
+      "source_route": "post-validation-promotion",
+      "evidence_refs": [
+        "PR #116",
+        "Take-5 Validation 36270165005",
+        "Capability Preservation 36270165051",
+        "merge ef2ef2a6fa0c4093c28654f4fda04d68eb4d9869"
+      ],
+      "metadata": {
+        "validation_status": "SUCCESS"
       }
     }
   ]
