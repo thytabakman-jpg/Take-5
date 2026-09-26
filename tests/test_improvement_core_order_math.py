@@ -1,5 +1,6 @@
 from runtime.improvement_core_order_math import (
     ClosureState,
+    ComparisonFrame,
     ExecutionLevel,
     NoGainRecord,
     StepReceipt,
@@ -10,6 +11,8 @@ from runtime.improvement_core_order_math import (
     cycle_no_gain,
     equivalent_state,
     finite_fixed_basis_execution_bound,
+    frame_chain_strict,
+    strict_improvement_in_frame,
     retry_licensed,
     strict_improvement,
     weak_improvement,
@@ -192,3 +195,35 @@ def test_closure_requires_zero_gap_current_coverage_and_empty_frontier():
 
 def test_finite_fixed_basis_bound_is_state_route_product():
     assert finite_fixed_basis_execution_bound(7,11)==77
+
+
+def test_episode_wide_comparison_frame_makes_three_basis_chain_transitive():
+    a=s("a",basis="ba",models=("a:m1","a:m2","a:m3"),execution=ExecutionLevel.SELECTED)
+    b=s("b",basis="bb",models=("b:m1","b:m2"),execution=ExecutionLevel.EXECUTED)
+    c=s("c",basis="bc",models=("c:m1",),execution=ExecutionLevel.VERIFIED,goals=("c:g1",))
+    frame=ComparisonFrame(
+        "frame-1",
+        "omega",
+        {
+            "ba":{"a:m1":"m1","a:m2":"m2","a:m3":"m3"},
+            "bb":{"b:m1":"m1","b:m2":"m2"},
+            "bc":{"c:m1":"m1","c:g1":"g1"},
+        },
+        evidence=("single-common-frame-audit",),
+    )
+    assert strict_improvement_in_frame(a,b,frame)
+    assert strict_improvement_in_frame(b,c,frame)
+    assert strict_improvement_in_frame(a,c,frame)
+    assert frame_chain_strict((a,b,c),frame)
+
+
+def test_comparison_frame_fails_closed_when_one_basis_has_no_transport():
+    a=s("a",basis="ba")
+    b=s("b",basis="missing")
+    frame=ComparisonFrame(
+        "frame-1",
+        "omega",
+        {"ba":{}},
+        evidence=("frame-audit",),
+    )
+    assert not strict_improvement_in_frame(a,b,frame)
