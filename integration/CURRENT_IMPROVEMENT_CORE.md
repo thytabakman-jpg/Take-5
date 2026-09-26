@@ -11,6 +11,21 @@ lost, downgraded, compressed, ambiguously invoked, or partially reconstructed.
 
 Use repository evidence before chat memory when the repository contains the current object.
 
+## Governing instruction
+
+When ImproveCore is invoked on a repair/recovery problem:
+
+- documentation and persistence are required side obligations, not substitutes for solving the governing problem;
+- treat the user's proposed framing, tool sequence, and candidate fix as evidence rather than binding architecture;
+- reconstruct the real job from current evidence;
+- let the parent ImproveCore choose child work, ordering, reentry, and stopping;
+- continue after documentation when a material operational gap remains;
+- do not call a capability restored merely because it is documented, registered, imported, or named;
+- require activation on the normal operating path when the behavior is applicable;
+- preserve OPEN/BLOCKED/CONFLICT when the next step is not licensed.
+
+This instruction exists because the current conversation exposed a live example: recursive management and learning memory were documented and present in the regime surface but were not actually executed until Activation Repair 083.
+
 ## Current identity
 
 User names:
@@ -173,6 +188,10 @@ PR #51
 PR #52
 - merge e2341b350e68bddc798ad1437e445b866698f31d
 - validation 36220247129
+
+PR #53
+- merge 2dfe684886898f5a39ccd6c06f9a0b9e27695ff7
+- validation 36220513144
 
 ## OPEN coordinates
 
