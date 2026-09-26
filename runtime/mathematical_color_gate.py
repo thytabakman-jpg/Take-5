@@ -95,7 +95,17 @@ class MathFragment:
     status: MathStatus
 
 
-Fragment = TextFragment | MathFragment
+@dataclass(frozen=True)
+class AssessedMathFragment:
+    latex: str
+    assessment: RecoveryAssessment
+
+    @property
+    def status(self) -> MathStatus:
+        return self.assessment.status
+
+
+Fragment = TextFragment | MathFragment | AssessedMathFragment
 
 
 class ColorInvariantViolation(RuntimeError):
@@ -119,7 +129,7 @@ def _status_prefix(status: MathStatus) -> str:
     return "🟢" if status is MathStatus.RECOVERED else "🔴"
 
 
-def render_math(fragment: MathFragment, channel: RenderChannel = TAKE5_LATEX) -> str:
+def render_math(fragment: MathFragment | AssessedMathFragment, channel: RenderChannel = TAKE5_LATEX) -> str:
     latex = fragment.latex.strip()
     if not latex:
         raise ColorInvariantViolation("EMPTY_MATH_FRAGMENT")
@@ -142,7 +152,7 @@ def _raw_text_contains_load_bearing_math(text: str) -> bool:
 
 def verify_fragments(fragments: Sequence[Fragment]) -> None:
     for fragment in fragments:
-        if isinstance(fragment, MathFragment):
+        if isinstance(fragment, (MathFragment, AssessedMathFragment)):
             if not isinstance(fragment.status, MathStatus):
                 raise ColorInvariantViolation("MATH_STATUS_REQUIRED")
             if not fragment.latex.strip():
@@ -172,7 +182,7 @@ def emit_user_visible(
     verify_fragments(parts)
     rendered: list[str] = []
     for fragment in parts:
-        if isinstance(fragment, MathFragment):
+        if isinstance(fragment, (MathFragment, AssessedMathFragment)):
             rendered.append(render_math(fragment, channel))
         else:
             rendered.append(fragment.text)
