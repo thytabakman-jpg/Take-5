@@ -33,7 +33,8 @@ ICC means Jane + the validated math-first wrapper + Improvement Core / IC-028 + 
 15. `runtime/system_loop.py` and `runtime/improvement_core.py` — lifecycle and adaptive controller.
 16. `architecture/LEARNING_OPERATOR_TOOLKIT_035.md` and `runtime/learning_operator_tools.py` — typed mathematical definitions for the selectable learning/processing lenses.
 17. `architecture/ASSERT_COMPOUND_CONTRACT_055.md` + `runtime/assert_compound.py` — current compound ASSERT fixed-point contract and executable orchestration shell.
-18. `validation/` and `tests/` — readiness, regression, holdout, and execution evidence.
+18. `architecture/QUESTION_WORTH_ASKING_CONTRACT_056.md` + `runtime/question_worth_asking.py` — question-frontier valuation and selection tool.
+19. `validation/` and `tests/` — readiness, regression, holdout, and execution evidence.
 
 ## Authority rule
 
