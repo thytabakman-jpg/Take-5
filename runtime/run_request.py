@@ -42,7 +42,10 @@ ALIASES = {
     "pdaudit": "PDAudit",
     "assert": "ASSERT",
     "goal": "GOAL",
-    "root cause": "Diagnosis",
+    "architect": "Architecture",
+    "architecture": "Architecture",
+    "root cause": "RootCause",
+    "rootcause": "RootCause",
 }
 
 DEFAULT_GEOMETRY = {
@@ -51,6 +54,8 @@ DEFAULT_GEOMETRY = {
     "PDAudit": Geometry.D36_C,
     "ASSERT": Geometry.D36_C,
     "GOAL": Geometry.D36_C,
+    "Architecture": Geometry.D36_C,
+    "RootCause": Geometry.D36_C,
 }
 
 
