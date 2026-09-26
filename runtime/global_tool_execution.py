@@ -20,6 +20,7 @@ from configured_run import (
     DEFAULT_GEOMETRY,
     DEFAULT_MODE,
     QUESTION_FAMILIES,
+    FULL_INVOCATION_PROFILE,
     ConfiguredRunSpec,
 )
 from run_geometry import ModeFace
