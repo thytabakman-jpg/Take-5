@@ -28,7 +28,6 @@ CONDITIONAL_STAGES={
     "INTERACTION_OPEN":("MultiObject","Q04","Together Math"),
     "CAUSE_OPEN":("Diagnosis","Q06","Cause Math"),
     "DISCOVERY_OPEN":("C19","Q22","Discovery Math"),
-    "REALITY_OPEN":("C44","Q18","Verify Math"),
     "NOVELTY_OPEN":("C15","Q17","Novelty Check"),
 }
 
@@ -63,6 +62,11 @@ def plan_black_box_resolution(object_id:str,residuals:Iterable[str]=())->Semanti
 def configured_work_obligations(plan:SemanticResolutionPlan)->tuple[str,...]:
     return tuple(f"RUN_CONFIGURED:{s.tool_id}:{plan.object_id}" for s in plan.stages)
 
+KNOWN_RUNTIME_GAPS={"REALITY_OPEN":"Q10 Reality Check has question-family math but no clean configured runtime surface yet."}
+
 def unexplained_residuals(plan:SemanticResolutionPlan)->tuple[str,...]:
     known=set(CONDITIONAL_STAGES)
     return tuple(r for r in plan.residuals if r not in known)
+
+def runtime_gaps(plan:SemanticResolutionPlan)->tuple[tuple[str,str],...]:
+    return tuple((r,KNOWN_RUNTIME_GAPS[r]) for r in plan.residuals if r in KNOWN_RUNTIME_GAPS)
