@@ -230,6 +230,75 @@ The regression directly runs the current ImprovementCore dispatcher/regime/IC-02
 against the machine-readable MT evidence packet and checks the observer-first stage
 receipts and final evidence-based decision.
 
-Status before CI:
+## Basis transport
 
-VERIFY_PENDING.
+MT evidence target basis:
+
+6a1594ae8c92e8bb6ef173f51e68f1e30dd48154.
+
+Current ImprovementCore validation base:
+
+9bfc10803c048d53f5cb21c27c494a972d4431fa.
+
+The newer base includes the function-first PD discovery integration.
+
+The evidence conclusion survives transport to that current controller basis.
+
+## External verification receipt
+
+Take-5 Validation:
+
+workflow run 36265231391
+conclusion: SUCCESS.
+
+Capability Preservation:
+
+workflow run 36265231408
+conclusion: SUCCESS.
+
+The executable regression directly ran the current:
+
+dispatch_improvement_core
+-> run_improvement_core_regime
+-> run_improvement_core_manager
+-> run_ic028
+
+path in OBSERVE_DECOUPLED mode.
+
+It verified:
+
+- full MT configured plan remains 36 / 792 / 144;
+- the mandatory black-box spine remains PD -> PDAudit -> MTA -> MT -> PDAudit -> C47;
+- the MT packet is admitted as EVIDENCE_NOT_DRAFT;
+- ImprovementCore generates its own work frontier;
+- ImprovementCore selects OBTAIN_CAMPAIGN_SPECIFIC_LEGACY_EXECUTION_RECEIPT;
+- no repository mutation occurs in this evidence-evaluation run;
+- verified positive campaign claims remain preserved;
+- prior campaign closure is reopened to VERIFY_REQUIRED;
+- no new architecture is admitted from the MT artifact.
+
+## Final disposition
+
+ImprovementCore evidence-evaluation run:
+
+COMPLETE.
+
+MT audit:
+
+CLOSED_RELATIVE.
+
+Prior campaign execution-truth status:
+
+VERIFY_REQUIRED.
+
+Licensed next work:
+
+OBTAIN_CAMPAIGN_SPECIFIC_LEGACY_EXECUTION_RECEIPT.
+
+Mutation performed:
+
+false.
+
+Input treatment:
+
+EVIDENCE_NOT_DRAFT.
