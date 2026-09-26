@@ -555,3 +555,22 @@ PR #116
 - Capability Preservation: 36270165051 SUCCESS
 - ordinary user-facing ImprovementCore now includes HF2 local recurrence by default;
 - ImprovementCore now has an explicit tool-specific protected-behavior manifest.
+
+
+## Greenfield successor program — Take-6 — 2026-09-26
+
+ImprovementCore has admitted a greenfield successor program in response to the long-horizon regression/persistence problem.
+
+Decision receipt:
+artifacts/improvecore/IMPROVEMENTCORE_GREENFIELD_TAKE6_RUN_133_2026-09-26.md
+
+Bootstrap root:
+take6-bootstrap/
+
+Take-6 is not current runtime authority.
+
+Its architectural correction is to separate immutable evidence/event history, deterministically compiled semantic current state, and disposable exact-capsule runtime execution. Human CURRENT pages and registry views are generated projections rather than independent authorities.
+
+The bootstrap core currently passes 14 isolated anti-regression invariants.
+
+Take-5 remains current working authority until the Take-6 migration and promotion gates close.
