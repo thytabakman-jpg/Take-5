@@ -1,7 +1,7 @@
 # CURRENT ROOT CAUSE — Recovery Anchor 087
 
 Date: 2026-09-26
-Status: CURRENT CANDIDATE / VALIDATION REQUIRED
+Status: CURRENT / VALIDATED / MERGED
 Canonical repository: thytabakman-jpg/Take-5
 
 ## Identity
@@ -147,3 +147,23 @@ Any successor must preserve:
 - causal-cycle formalism;
 - external counterfactual intervention execution;
 - universal host binding.
+
+
+## First validated run
+
+PR #65
+- merge 691462f614dc026ad199f1b343496d06bca4da1e
+- validation run 36222526907
+- full Take-5 test suite passed
+- canonical whole-system audit passed
+- closed-loop fixture passed
+- zero-request dump passed
+
+Chat-derived RootCause execution:
+- recurrence packet contained six recurring failure classes from the current conversation;
+- local HF2 rounds: 2;
+- selected root candidate: PROTECTED_TRANSITION_INTEGRITY_FAILURE;
+- parent handoff: ImprovementCore / ADMIT_ROOT_CAUSE_AND_REPLAN.
+
+Run record:
+research/ROOT_CAUSE_RUN_CURRENT_CHAT_089_2026-09-26.md
