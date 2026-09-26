@@ -496,6 +496,65 @@ PERSISTED.
 Giant report:
 PERSISTED by this commit.
 
-Final campaign status before external test receipt:
+## 14. External verification receipt
 
-VERIFY_REQUIRED.
+Take-5 Validation:
+
+workflow run 36261176017
+conclusion: SUCCESS.
+
+Capability Preservation:
+
+workflow run 36261176015
+conclusion: SUCCESS.
+
+The validation run executed the campaign regression, which verified:
+
+- full configured MT plan: 36 cells, 792 question projections, 144 cognitive projections;
+- full configured GOAL plan: wrapper required, OBSERVER, 36 cells;
+- ToolConductor traversal: 91 registered factors, exactly one disposition each;
+- ToolConductor portability-open set cardinality: 31;
+- ToolConductor self-factor: EXECUTED_SELF_WITNESS;
+- ICC130 absent from the current registered repertoire;
+- standalone ICC128 Legacy portable reference executes successfully;
+- ICC128 Legacy report schema/run identity is present;
+- giant report and dedicated math Markdown artifacts are present.
+
+## 15. Final campaign disposition
+
+MT current request:
+CLOSED_RELATIVE.
+
+MT whole conversation:
+CLOSED_RELATIVE.
+
+GOAL:
+CLOSED_RELATIVE.
+
+ToolConductor:
+EXHAUSTIVE_COVERAGE / PORTABILITY_OPEN.
+
+ICC130:
+BLOCKED_IDENTITY_UNRECOVERED.
+
+ICC128 Legacy controller:
+COMPLETE.
+
+ICC128 Legacy reporting:
+COMMITTED / RECEIPT EXISTS.
+
+Math file:
+PERSISTED.
+
+Giant report:
+PERSISTED.
+
+Repository-native verification:
+PASS.
+
+Final campaign status:
+
+COMPLETE_RELATIVE.
+
+The remaining OPEN/BLOCKED frontiers are explicitly part of the final state rather than
+failures hidden by the campaign.
