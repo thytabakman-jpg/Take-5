@@ -7,6 +7,7 @@ legacy_authority: thytabakman-jpg/Reaserch
 architecture_status: UNFROZEN
 
 governing_principles:
+  - mathematical_color_state_survives_user_visible_emission
   - preserve_protected_behavior
   - evidence_does_not_self_authorize
   - semantic_success_is_not_runtime_execution
@@ -137,3 +138,15 @@ capability_coverage_obligation:
   execution_owner: RUNTIME
   receipt_owner: STATE
   verification_owner: VERIFICATION
+
+mathematical_color_emission:
+  invariant: >-
+    Every load-bearing mathematical object reaching a user-visible emission boundary carries an
+    explicit recovery status through rendering. RECOVERED renders green; UNRESOLVED renders red.
+    Missing status, untyped mathematical emission, and hand-authored HTML color markup are blocked.
+  runtime: runtime/mathematical_color_gate.py
+  default_result_boundary: runtime/result_path_registry.py:emit_default_result
+  statuses:
+    RECOVERED: green
+    UNRESOLVED: red
+  fail_closed: true
