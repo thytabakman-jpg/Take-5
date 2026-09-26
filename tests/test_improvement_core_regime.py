@@ -259,3 +259,28 @@ def test_regime_preserves_missing_tool_adapter_blocker():
     )
     assert out.status=="OPEN"
     assert out.blocker=="CONFIGURED_TOOL_ADAPTER_REQUIRED:RootCause"
+
+
+def test_recursive_manager_executes_explicit_choice_from_plural_nondominated_frontier():
+    def select(z,m):
+        return [
+            {"id":"a","basis_id":"b0","goal_gain":3,"information_gain":1,"cost":2},
+            {"id":"b","basis_id":"b0","goal_gain":1,"information_gain":4,"cost":1},
+        ]
+    def child(job):
+        return ChildReturn(
+            child_id=job.id,job_id=job.job["id"],
+            execution_truth="FULL_MATCH",result={"picked":job.job["id"]},basis_id=job.basis_id,
+        )
+    def admit(ret,z,m):
+        return "ADMIT",{"material_result_delta":True,"picked":ret.result["picked"]}
+    def update(z,m,a,d):
+        z=dict(z);z["picked"]=d["picked"];z["terminal"]="COMPLETE";z["live_continuation"]=False
+        return z,m
+    mgr=RecursiveImprovementCoreManager(select,child,admit,update)
+    out=mgr.run({
+        "terminal":"CONTINUE","live_continuation":True,"basis_id":"b0",
+        "frontier_choice_id":"b",
+    },{})
+    assert out["status"]=="COMPLETE"
+    assert out["state"]["picked"]=="b"
