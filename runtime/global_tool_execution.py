@@ -69,6 +69,9 @@ class ToolExecutionPlan:
             self.mode == DEFAULT_MODE
             and self.wrapper_required
             and self.geometry == DEFAULT_GEOMETRY
+            and self.recurrence_required
+            and self.recurrence_engine in {"HF002","SELF"}
+            and self.invocation_profile == FULL_INVOCATION_PROFILE
             and len(self.cells) == 36
             and bool(self.native)
             and len(self.questions) == len(QUESTION_FAMILIES) * 36
