@@ -51,3 +51,18 @@ Historical compositional reconstruction is not universal equivalence.
 ## Supersession note
 
 Matrix 001 is superseded because it predated C20-C48 bindings, prospective holdout, persistent lineage, emergent admission, configured-run identity, the mode cube, and EWG-ARCH-001.
+
+
+## 2026-09-25 ICC-128 closure delta
+
+Pending PR #24 validation:
+- common typed protected state commit contract: implemented;
+- SYSTEM_CONTROL mutation/discharge gate: implemented;
+- persistent LINEAGE commit gate: implemented;
+- ADMITTED RESEARCH_CONTROL gate: implemented;
+- SUPERVISORY admitted-delta gate: implemented;
+- RESULT commit gate in math-first wrapper: implemented;
+- unique default RESULT path registry: implemented;
+- pre-math object hypothesis recovery: implemented.
+
+These rows become implemented + tested only after the PR validation gate passes.
