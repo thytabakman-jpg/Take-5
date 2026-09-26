@@ -36,7 +36,7 @@ Controller:
 - IC-028
 
 Current regime version:
-- 087
+- 088
 
 Current invocation path:
 
@@ -117,6 +117,10 @@ architecture/IMPROVEMENT_CORE_ACTIVATION_083.md
 29. entry mode preserves orthogonal breadth, direction, and coupling coordinates.
 30. broad observer and focused resolution remain distinct observer configurations.
 31. focused resolution remains observer-first rather than silently becoming outcome-directed action.
+32. zero-request upstream discovery selects CHEAP versus BROAD observation under an explicit current policy rather than silently equating low cost with effectiveness.
+33. zero-request relation candidates are admitted under an explicit typed, evidence-bearing, basis-relative relation contract.
+34. the current configured repertoire has machine-audited identity and protected-transition reachability under the declared basis.
+35. historical strong/weak replay witnesses remain attached to the current recovery basis and reopen affected lineage when contradicted.
 
 ## Cross-repository lineage
 
@@ -202,7 +206,7 @@ invocation and self-management envelope
 L3
 active recursive parent/child management and basis-relative learning memory
 
-Global minimality remains OPEN.
+Open-world global maximality/minimality is not a licensed completion claim. Current closure is basis-relative and reopens on a material change to the admitted generator, representation, evidence, tool, or continuation basis.
 
 ## Recovery load order
 
@@ -215,7 +219,12 @@ Global minimality remains OPEN.
 7. architecture/IMPROVEMENT_CORE_MATH_CORPUS_INTEGRATION_090.md
 8. runtime/improvement_core_dispatch.py
 9. runtime/improvement_core_upstream.py
-10. runtime/improvement_core_regime.py
+10. architecture/RELATION_BASIS_AND_ADMISSION_001_2026-09-26.md
+11. runtime/relation_kernel.py
+12. runtime/improvement_core_route_calibration.py
+13. architecture/IMPROVEMENT_CORE_FRONTIER_CLOSURE_106.md
+14. architecture/HOST_INTERCEPTION_AUTHORITY_BOUNDARY_001_2026-09-26.md
+15. runtime/improvement_core_regime.py
 11. runtime/improvement_core_external_acquisition.py
 12. architecture/IMPROVEMENT_CORE_EXTERNAL_ACQUISITION_090.md
 13. runtime/improvement_core_manager.py
@@ -282,7 +291,7 @@ When target/job/basis are not supplied, the dispatcher can accept an addressable
 
 Partial target/job/basis coordinates fail closed. Missing corpus also fails closed.
 
-This closes the repository-side zero-request runtime gap. Universal external-host interception remains OPEN.
+This closes the repository-side zero-request runtime gap. Upstream entry now carries an explicit CHEAP/BROAD route disposition and basis-relative typed relation state. Universal external-host interception is outside repository authority rather than an unresolved repository implementation.
 
 ## External acquisition
 
@@ -292,21 +301,25 @@ When the need is material and no adequate adapter is available, the regime retur
 
 External outputs remain evidence. They still pass through normal admission, verification, authority, currentness, and reentry controls.
 
-Automatic discovery of every host capability and universal host interception remain OPEN.
+Automatic discovery of every external-host capability remains outside the repository unless the host exposes an adapter. Universal host interception is classified EXTERNAL_NOT_OWNED.
 
-## OPEN coordinates
+## Current-basis closure and reentry
 
-- exact relation-generator basis;
-- relation-admission mathematics;
-- universal host interception;
-- full repertoire reachability evidence;
-- matched historical high/low alignment replays;
-- unlike prospective autonomous holdouts;
-- cheap-route versus broad-attack calibration;
-- global ImprovementCore maximality/minimality;
-- portfolio-wide tool-specific identity reconstruction.
+The nine OPEN coordinates carried by regime 087 have been dispositioned in:
+architecture/IMPROVEMENT_CORE_FRONTIER_CLOSURE_106.md.
 
-OPEN coordinates must remain visible through compression and future refactors.
+Current-basis dispositions:
+- relation generator basis: SPECIFIED for the current admitted basis;
+- relation admission mathematics: SPECIFIED_AND_EXECUTABLE;
+- universal host interception: EXTERNAL_NOT_OWNED;
+- configured-repertoire reachability: CLOSED_RELATIVE;
+- historical matched replay basis: CLOSED_RELATIVE;
+- unlike autonomy holdouts: CLOSED_RELATIVE;
+- cheap-route versus broad-attack calibration: IMPLEMENTED_CURRENT_POLICY;
+- open-world global maximality/minimality: REJECTED_AS_COMPLETION_CRITERION;
+- current portfolio identity: CLOSED_RELATIVE.
+
+This is not open-world completeness. A material new relation generator, historical witness, host integration, configured tool/protected behavior, holdout failure, or representation/candidate-universe change reopens only the affected dependency cone.
 
 ## Anti-loss rule
 
@@ -324,7 +337,7 @@ Silent omission is regression.
 
 Repository correctness does not compel an external host session that never loads this path.
 
-Universal host interception remains OPEN.
+Universal host interception is EXTERNAL_NOT_OWNED. A future host-side integration hook may reopen this boundary as a new executable capability.
 
 ## Search aliases
 
