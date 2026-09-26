@@ -178,6 +178,16 @@ a genuine semantic improvement can cost more and still be a semantic improvement
 
 Burden becomes a strict-gain coordinate only inside semantic equivalence.
 
+The full weak progress relation therefore uses a lexicographic rule:
+
+x preceq*_beta y
+
+iff either:
+- y is a strict semantic refinement of x, regardless of burden; or
+- x and y are semantically equivalent and c_y <= c_x.
+
+Thus a semantically identical but more burdensome successor is not a weak improvement, while a genuine semantic gain can remain an improvement even when it costs more.
+
 Define semantic equivalence:
 
 x ~=_beta y
@@ -187,7 +197,7 @@ x <=_beta y
 and
 y <=_beta x.
 
-Then the strict improvement relation is:
+Then the strict improvement relation is the strict part of this lexicographic progress order:
 
 x <_beta y
 
@@ -736,3 +746,17 @@ Current role:
 - regime-090 `improvement_core_progress_relation.py` remains the local causal transition gate;
 - `improvement_core_order_math.py` is the longitudinal state-comparison layer;
 - `C^+` remains the controller-dynamics abstraction.
+
+
+## 24. Burden tie-case correction
+
+Post-promotion consistency audit found one implementation-level mismatch with the stated semantics: the first implementation let semantic equivalence make `weak_improvement` true even when the successor had strictly higher burden.
+
+The corrected law is:
+
+- semantic strict gain dominates burden and remains improvement;
+- inside semantic equivalence, burden must be nonincreasing for weak improvement;
+- inside semantic equivalence, strictly lower burden yields strict improvement;
+- same semantics with higher burden is a regression in the longitudinal comparison layer.
+
+This correction preserves the transitivity tests and does not modify regime-090 local causal transition admission.

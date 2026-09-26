@@ -49,6 +49,20 @@ def test_semantic_gain_is_not_vetoed_by_higher_burden():
     assert strict_improvement(a,b)
 
 
+
+def test_semantically_equal_higher_burden_is_not_weak_improvement():
+    a=s("a",burden=2.0)
+    b=s("b",burden=5.0)
+    assert not weak_improvement(a,b)
+    assert not strict_improvement(a,b)
+
+
+def test_semantic_gain_can_still_cost_more():
+    a=s("a",models=("m1","m2","m3"),burden=2.0)
+    b=s("b",models=("m1","m2"),burden=8.0)
+    assert weak_improvement(a,b)
+    assert strict_improvement(a,b)
+
 def test_lower_burden_is_gain_only_inside_semantic_equivalence():
     a=s("a",burden=5.0)
     b=s("b",burden=2.0)
