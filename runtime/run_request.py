@@ -49,6 +49,8 @@ DEFAULT_GEOMETRY = {
     "MT": Geometry.D36_C,
     "PD": Geometry.D36_C,
     "PDAudit": Geometry.D36_C,
+    "ASSERT": Geometry.D36_C,
+    "GOAL": Geometry.D36_C,
 }
 
 
