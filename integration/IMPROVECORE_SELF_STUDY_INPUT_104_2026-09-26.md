@@ -83,3 +83,18 @@ Consume that handoff as evidence, reconstruct the current regime from repository
 
 Persisted structured handoff:
 - artifacts/improvecore/GOAL_IC123_PRE_IMPROVECORE_112_2026-09-26.json
+
+
+## Re-run invocation 123
+
+Date: 2026-09-26
+User request: "Run improvement core."
+
+Current upstream evidence:
+- PR #119 merged the post-merge Think-big repair that closed remaining repository-owned full-tool HF2 bypasses across direct commands, ImprovementCore selected-tool execution, PTI, and ToolConductor factor execution.
+- PR #121 persisted and merged the GOAL -> MT -> GOAL -> IC123 -> ImprovementCore host-restriction audit.
+- Preserve repository-owned FULL_CONFIGURED_HF2_V1 closure unless current runtime evidence defeats it.
+- Universal ChatGPT host interception remains EXTERNAL_NOT_OWNED unless a real host-side binding is now present.
+
+ImproveCore job:
+Run the current canonical user-facing ImprovementCore with default HF2 recurrence over its current repository/runtime state. Reconstruct current authority before selecting work. Treat all prior conclusions as evidence rather than commands. Find the highest-value evidence-supported repository-owned strict gain, execute and verify it when the current runtime licenses action, preserve OPEN/BLOCKED/CONFLICT where it does not, and do not count documentation or a new artifact as semantic progress by itself.
