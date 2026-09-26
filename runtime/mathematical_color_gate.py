@@ -69,21 +69,6 @@ def assess_recovery(
     )
 
 
-class RenderMode(str, Enum):
-    LATEX_COLOR = "LATEX_COLOR"
-    STATUS_PREFIX = "STATUS_PREFIX"
-
-
-@dataclass(frozen=True)
-class RenderChannel:
-    name: str
-    mode: RenderMode
-
-
-TAKE5_LATEX = RenderChannel("take5_latex", RenderMode.LATEX_COLOR)
-PORTABLE_TEXT = RenderChannel("portable_text", RenderMode.STATUS_PREFIX)
-
-
 @dataclass(frozen=True)
 class TextFragment:
     text: str
@@ -113,6 +98,7 @@ class ColorInvariantViolation(RuntimeError):
 
 
 FORBIDDEN_RAW_MARKUP = ("<span", "</span>", "style=", "color:")
+FORBIDDEN_FALLBACK_MARKERS = ("🟢", "🔴")
 FORMAL_OBJECT_PATTERN = re.compile(
     r"(?i)(?<![A-Za-z0-9_])("
     r"ASSERT|COMPARE|RESOLVE|HERE|INQUIRE|REASSERT|ROOT[ _-]?CAUSE|GOAL|"
@@ -125,25 +111,15 @@ MATH_SIGNAL_PATTERN = re.compile(
 )
 
 
-def _status_prefix(status: MathStatus) -> str:
-    return "🟢" if status is MathStatus.RECOVERED else "🔴"
-
-
-def render_math(fragment: MathFragment | AssessedMathFragment, channel: RenderChannel = TAKE5_LATEX) -> str:
+def render_math(fragment: MathFragment | AssessedMathFragment) -> str:
     latex = fragment.latex.strip()
     if not latex:
         raise ColorInvariantViolation("EMPTY_MATH_FRAGMENT")
     if not isinstance(fragment.status, MathStatus):
         raise ColorInvariantViolation("MATH_STATUS_REQUIRED")
 
-    if channel.mode is RenderMode.LATEX_COLOR:
-        color = "green" if fragment.status is MathStatus.RECOVERED else "red"
-        return rf"\color{{{color}}}{{{latex}}}"
-
-    if channel.mode is RenderMode.STATUS_PREFIX:
-        return f"{_status_prefix(fragment.status)} {latex}"
-
-    raise ColorInvariantViolation("UNSUPPORTED_RENDER_MODE")
+    color = "green" if fragment.status is MathStatus.RECOVERED else "red"
+    return rf"\color{{{color}}}{{{latex}}}"
 
 
 def _raw_text_contains_load_bearing_math(text: str) -> bool:
@@ -162,28 +138,31 @@ def verify_fragments(fragments: Sequence[Fragment]) -> None:
             lowered = fragment.text.lower()
             if any(marker in lowered for marker in FORBIDDEN_RAW_MARKUP):
                 raise ColorInvariantViolation("RAW_COLOR_MARKUP_FORBIDDEN")
+            if any(marker in fragment.text for marker in FORBIDDEN_FALLBACK_MARKERS):
+                raise ColorInvariantViolation("STATUS_FALLBACK_FORBIDDEN")
             if _raw_text_contains_load_bearing_math(fragment.text):
                 raise ColorInvariantViolation("UNTYPED_LOAD_BEARING_MATH")
             continue
         raise ColorInvariantViolation("UNTYPED_FRAGMENT")
 
 
-def emit_user_visible(
-    fragments: Iterable[Fragment],
-    *,
-    channel: RenderChannel = TAKE5_LATEX,
-) -> str:
-    """Render verified typed fragments through an explicit channel adapter.
+def verify_rendered_output(rendered: str) -> None:
+    if any(marker in rendered.lower() for marker in FORBIDDEN_RAW_MARKUP):
+        raise ColorInvariantViolation("RAW_COLOR_MARKUP_FORBIDDEN")
+    if any(marker in rendered for marker in FORBIDDEN_FALLBACK_MARKERS):
+        raise ColorInvariantViolation("STATUS_FALLBACK_FORBIDDEN")
 
-    The status survives even when literal color is unavailable. Portable
-    channels receive an unambiguous status prefix instead of raw markup.
-    """
+
+def emit_user_visible(fragments: Iterable[Fragment]) -> str:
+    """Render verified typed fragments using mandatory glyph-level LaTeX color."""
     parts = tuple(fragments)
     verify_fragments(parts)
     rendered: list[str] = []
     for fragment in parts:
         if isinstance(fragment, (MathFragment, AssessedMathFragment)):
-            rendered.append(render_math(fragment, channel))
+            rendered.append(render_math(fragment))
         else:
             rendered.append(fragment.text)
-    return "".join(rendered)
+    out = "".join(rendered)
+    verify_rendered_output(out)
+    return out
