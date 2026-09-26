@@ -513,21 +513,12 @@ PORTABILITY:
 """
 
 
-def portable_core_package(
-    *,
-    semantic_reasoner_available:bool,
-    execution_interface_available:bool=True,
-    controller_bindings_available:bool=True,
-)->dict[str,Any]:
-    """Package shape consumed by Take-5's SHOW_ME_THE_MATH checker."""
+def portable_core_package()->dict[str,Any]:
+    """Current SHOW_ME_THE_MATH package for the frozen controller core."""
     return {
-        "full_math":PORTABLE_MATH,
-        "run_spec":{
-            "controller":"C_128",
-            "bindings":("G_Q","G_W","S","E","A","U","DCC"),
-            "terminal":tuple(sorted(TERMINAL)),
-            "resource_bound":"declared max_iterations",
-        },
+        "object_id":"TAKE5:ICC128-LEGACY-PORTABLE-CORE:001",
+        "kind":"TOOL",
+        "signature":"ICC128LegacyCore : State x Memory x HostBindings -> TerminalResult",
         "definitions":{
             "ICC128_LEGACY_CORE":{"dependencies":("CONTROLLER_LOOP","SEMANTIC_GENERATION","RHO_POLICY","CAPABILITY_GAP","RESELECTION")},
             "CONTROLLER_LOOP":{"dependencies":(
@@ -541,47 +532,43 @@ def portable_core_package(
             "RESELECTION":{"dependencies":("finite_maps","boolean_logic")},
         },
         "load_bearing_symbols":("ICC128_LEGACY_CORE",),
-        "initialization":{
-            "defined":True,
-            "state":"finite mapping containing terminal/admitted_continuation plus job state",
-            "memory":"finite mapping; initially host-supplied, normally empty for Legacy activation",
-        },
         "runtime_primitives":{
-            "finite_maps":{"typed_contract":"finite partial map lookup/update","available":True},
-            "finite_sequences":{"typed_contract":"finite ordered sequence operations","available":True},
-            "finite_sets":{"typed_contract":"finite set operations","available":True},
-            "set_difference":{"typed_contract":"A x A -> A","available":True},
-            "integer_order":{"typed_contract":"total order on integers","available":True},
-            "boolean_logic":{"typed_contract":"Boolean connectives","available":True},
+            "finite_maps":{"typed_contract":"finite partial map lookup/update","provider":"CPYTHON_STDLIB_3_12"},
+            "finite_sequences":{"typed_contract":"finite ordered sequence operations","provider":"CPYTHON_STDLIB_3_12"},
+            "finite_sets":{"typed_contract":"finite set operations","provider":"CPYTHON_STDLIB_3_12"},
+            "set_difference":{"typed_contract":"A x A -> A","provider":"CPYTHON_STDLIB_3_12"},
+            "integer_order":{"typed_contract":"total order on integers","provider":"CPYTHON_STDLIB_3_12"},
+            "boolean_logic":{"typed_contract":"Boolean connectives","provider":"CPYTHON_STDLIB_3_12"},
             "semantic_reasoner":{
                 "typed_contract":"state x memory -> schema-valid state-relative questions/work",
-                "available":bool(semantic_reasoner_available),
+                "provider":"HOST_SEMANTIC_REASONER",
             },
             "execution_interface":{
-                "typed_contract":"selected work x state x memory -> result records; unavailable external actions return typed BLOCKED",
-                "available":bool(execution_interface_available),
+                "typed_contract":"selected work x state x memory -> execution-truth result records",
+                "provider":"HOST_EXECUTION_INTERFACE",
             },
             "package_compiler":{
-                "typed_contract":"question/work frontier x state x memory x F_128 -> finite candidate package set preserving jobs, inputs, authority, burden and protected plurality",
-                "available":bool(controller_bindings_available),
+                "typed_contract":"question/work frontier x state x memory x F_128 -> finite package frontier plus required jobs and package-to-work binding",
+                "provider":"HOST_CONTROLLER_BINDINGS",
             },
             "admission_binding":{
                 "typed_contract":"result records x state x memory -> admitted delta preserving OPEN, CONFLICT, provenance, rejection and negative evidence",
-                "available":bool(controller_bindings_available),
+                "provider":"HOST_CONTROLLER_BINDINGS",
             },
             "update_binding":{
                 "typed_contract":"state x memory x admitted delta -> successor state x successor memory with stale-support invalidation and typed terminal/reentry state",
-                "available":bool(controller_bindings_available),
+                "provider":"HOST_CONTROLLER_BINDINGS",
             },
             "discovery_closure_binding":{
-                "typed_contract":"discovery-sensitive admitted delta x state x memory -> normalized delta carrying dcc_receipt; required only when candidate_discovery_deltas is nonempty",
-                "available":bool(controller_bindings_available),
+                "typed_contract":"discovery-sensitive delta x state x memory -> normalized delta carrying dcc_receipt",
+                "provider":"HOST_CONTROLLER_BINDINGS",
             },
         },
-        "persistence":{
-            "specified":True,
-            "core":"within-run memory only",
-            "legacy_activation":"final controller memory discarded after report submission; report persists",
+        "obligations":{
+            "run_spec":{"status":"SATISFIED","witness":"Controller.run plus explicit <G_Q,G_W,S,E,A,U,DCC> binding contract"},
+            "initialization":{"status":"SATISFIED","witness":"finite state and memory mappings; Legacy activation starts without inherited prior-run learned memory"},
+            "execution":{"status":"SATISFIED","witness":"single-file Controller.run realizes the frozen loop and fails closed on missing liveness/selection/DCC/reentry conditions"},
+            "persistence":{"status":"SATISFIED","witness":"within-run memory is explicit; current Legacy activation discards final controller memory after report submission"},
         },
         "protected_behavior":(
             "dynamic_state_relative_selection",
@@ -602,6 +589,39 @@ def portable_core_package(
             "CONTINUE_without_admitted_continuation_raises",
             "rho_policy_matches_frozen dominance/frontier semantics",
         ),
+        "realizer":{
+            "kind":"PYTHON_STDLIB_MODULE",
+            "entrypoint":"Controller.run",
+            "embedded":True,
+            "min_python":(3,12),
+        },
+        "environment_contract":{
+            "repository_required":False,
+            "conversation_history_required":False,
+            "providers":(
+                "CPYTHON_STDLIB_3_12",
+                "HOST_SEMANTIC_REASONER",
+                "HOST_EXECUTION_INTERFACE",
+                "HOST_CONTROLLER_BINDINGS",
+            ),
+        },
+    }
+
+
+def portable_core_environment(
+    *,
+    semantic_reasoner_available:bool,
+    execution_interface_available:bool=True,
+    controller_bindings_available:bool=True,
+)->dict[str,Any]:
+    return {
+        "providers":{
+            "CPYTHON_STDLIB_3_12":True,
+            "HOST_SEMANTIC_REASONER":bool(semantic_reasoner_available),
+            "HOST_EXECUTION_INTERFACE":bool(execution_interface_available),
+            "HOST_CONTROLLER_BINDINGS":bool(controller_bindings_available),
+        },
+        "self_file_present":True,
     }
 
 
