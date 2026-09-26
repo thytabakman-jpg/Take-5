@@ -1,0 +1,12 @@
+schema_version: 1
+object_id: REASERCH:ICC128-PRESENTATION-CURRENT:001
+date: 2026-09-26
+status: current_presentation_projection
+object: ICC-128
+presentation: ICC_128_CANDIDATE_V12_FRONTIER_CLOSED_2026-09-26.md
+math_authority: projects/improvement-core/tool-ecosystem/ICC128_FULL_TOOL_MATH_002_2026-09-26.md
+lineage_audit: projects/improvement-core/validation/ICC128_PRESENTATION_LINEAGE_EQUIVALENCE_001_2026-09-26.md
+state_minimality_and_coverage: projects/improvement-core/tool-ecosystem/ICC128_STATE_MINIMALITY_AND_COVERAGE_CLOSURE_001_2026-09-26.md
+child_interface_sufficiency: projects/improvement-core/tool-ecosystem/ICC128_CHILD_INTERFACE_SUFFICIENCY_001_2026-09-26.md
+runtime_boundary: projects/improvement-core/validation/ICC128_RUNTIME_AND_HOST_BOUNDARY_CLOSURE_001_2026-09-26.md
+rule: presentation currentness is separate from mathematical currentness and runtime promotion; layout changes must preserve the current FullMath signature or receive an explicit non-equivalent disposition
