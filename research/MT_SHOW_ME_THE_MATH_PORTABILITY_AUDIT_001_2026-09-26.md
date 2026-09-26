@@ -114,11 +114,12 @@ Therefore:
 
 ShowMathComplete_(J,K)(Package,T;E0)
 iff
-DefinitionClosed_(J,K)(Package,E0,T)
+T' = Instantiate(Package,E0)
+and DefinitionClosed_(J,K)(Package,E0,T)
 and InitializationExecutable(Package,E0,T)
 and RuntimePrimitivesAvailable(Package,E0)
 and PersistenceSpecified(Package,T)
-and ProtectedEquivalent_(J,K)(T',T).
+and PortableEquivalent_(J,K)(T',T).
 
 ## Color consequence
 
