@@ -1,0 +1,3376 @@
+{
+  "schema": "FULL_CORPUS_PLACEMENT_MANIFEST/v1",
+  "date": "2026-09-26",
+  "repository": "thytabakman-jpg/Take-5",
+  "branch": "improvecore/full-corpus-placement-audit-20260926",
+  "tree_truncated": false,
+  "total_files": 559,
+  "coverage": "every blob in recursive git tree",
+  "placement_counts": {
+    "GENERAL": 192,
+    "STATE_CONFIG": 3,
+    "VERIFICATION": 88,
+    "ARCHITECTURE": 54,
+    "NAVIGATION": 1,
+    "EVIDENCE_HISTORY": 16,
+    "CURRENT_CONTROL": 26,
+    "RESEARCH": 77,
+    "EXECUTABLE": 102
+  },
+  "files": [
+    {
+      "path": ".github/CODEOWNERS",
+      "sha": "da4af01b4b902e663c15085e3107a03d1557f65e",
+      "size": 66,
+      "placement": "GENERAL"
+    },
+    {
+      "path": ".github/dependabot.yml",
+      "sha": "7a161daa79a647519a4026cff6bd700c47ac94a4",
+      "size": 410,
+      "placement": "STATE_CONFIG"
+    },
+    {
+      "path": ".github/pull_request_template.md",
+      "sha": "a5aacfbe353775cab8599b9a05b98299bc744f25",
+      "size": 667,
+      "placement": "GENERAL"
+    },
+    {
+      "path": ".github/workflows/a5-tests.yml",
+      "sha": "4547b2a3b7c15407f92e25a30088fb3ea2dbc678",
+      "size": 2818,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": ".gitignore",
+      "sha": "0ebdc9fd56002b2e15fb02d2aa2c80904c6ca786",
+      "size": 357,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "ARCHITECTURE_CANDIDATE.yaml",
+      "sha": "fb123af4875fb6046c97b392e0fab0098cbcb863",
+      "size": 3656,
+      "placement": "ARCHITECTURE"
+    },
+    {
+      "path": "CAPABILITY_CURRENTNESS_MATRIX.md",
+      "sha": "4f519679847336196e0ef9224d23466ea3bd9868",
+      "size": 4029,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "CURRENTNESS_AND_PLACEMENT_PROGRAM.md",
+      "sha": "be7e5f90ce93a2e81866859f25ddc7580b9ddcdd",
+      "size": 1875,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "FINISH_LINE.md",
+      "sha": "44593a450a4bfa7848ff7c4eb007f819a85bfa72",
+      "size": 1274,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "FUNCTIONALITY_RECOVERY_LEDGER.md",
+      "sha": "107553a08a6934a2b45cae68197dc40b6a5b8b39",
+      "size": 5374,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "GITHUB_GOVERNANCE.md",
+      "sha": "065a330c69f0daf6a600912a9fee1b75976ba3ec",
+      "size": 3117,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "ICC_AUTONOMOUS_STEWARDSHIP.md",
+      "sha": "afdc32a488dfe25b6604646f2b4ad6023eafe5f0",
+      "size": 6564,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "KERNEL.yaml",
+      "sha": "2b3d0689887671fe1aec16a4360d834029ecd8fd",
+      "size": 4531,
+      "placement": "ARCHITECTURE"
+    },
+    {
+      "path": "MAP_CAPTURE_POLICY.md",
+      "sha": "08e73e08d8e96c1d0bb10e5e1112dde06e0706fd",
+      "size": 672,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "MIGRATION_STATE.yaml",
+      "sha": "4716c300ed404bb32c5c6b03802638fc91f20bf7",
+      "size": 2396,
+      "placement": "STATE_CONFIG"
+    },
+    {
+      "path": "PROMOTION_BENCHMARK.md",
+      "sha": "038dd3288048529eda3b3f835acfd27fc1b30dfe",
+      "size": 1456,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "README.md",
+      "sha": "6f19b75f914262779f63ea0e2a6f8517dba38cfa",
+      "size": 5755,
+      "placement": "NAVIGATION"
+    },
+    {
+      "path": "SECURITY.md",
+      "sha": "9cbd828d33f8f46f973df7b7f287f823fe9a5e5e",
+      "size": 1083,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "SUCCESSOR_CHARTER.md",
+      "sha": "e6b786a01e55b0458c6a20088451bfa274108298",
+      "size": 1862,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "architecture/A5_BEHAVIORAL_ARCHITECTURE_CANDIDATE_004.md",
+      "sha": "a83091c5d912a61ade198eeacdfbdfeb5a13a8ae",
+      "size": 5635,
+      "placement": "ARCHITECTURE"
+    },
+    {
+      "path": "architecture/ARCHITECTURE_DECISION_036_MATH_FIRST_TOOL_SELECTION.md",
+      "sha": "39088b15ad5550a3d646594688f969899106dafe",
+      "size": 5382,
+      "placement": "ARCHITECTURE"
+    },
+    {
+      "path": "architecture/ARCHITECTURE_SCAN_013.md",
+      "sha": "58df9f47ee28e78f8e5ef238b9f49683cdf2ccfe",
+      "size": 2508,
+      "placement": "ARCHITECTURE"
+    },
+    {
+      "path": "architecture/ARTIFACT_TO_WORK_INTAKE_CONTRACT_001_2026-09-25.md",
+      "sha": "c8706f9e35638ccbc596acef18dfa5b3f05ebfd9",
+      "size": 5479,
+      "placement": "ARCHITECTURE"
+    },
+    {
+      "path": "architecture/ASSERT_COMPOUND_CONTRACT_055.md",
+      "sha": "c36d1a6e8c4f724833c6208bd55aa1d75e635586",
+      "size": 6223,
+      "placement": "ARCHITECTURE"
+    },
+    {
+      "path": "architecture/ASSISTANT_RESPONSE_EMISSION_BOUNDARY_065.md",
+      "sha": "a839d9de2551ef89fd511b597f1bf52451ea65f3",
+      "size": 2676,
+      "placement": "ARCHITECTURE"
+    },
+    {
+      "path": "architecture/CANONICAL_FOUNDATION_034.md",
+      "sha": "6c0d24017ac2937e086e87dabfc1db3b46ca7caf",
+      "size": 3474,
+      "placement": "ARCHITECTURE"
+    },
+    {
+      "path": "architecture/CANONICAL_TOOL_IDENTITY_REPAIR_076.md",
+      "sha": "af597974b8087b27b9e867f0ae91f1c13f0bdefa",
+      "size": 2203,
+      "placement": "ARCHITECTURE"
+    },
+    {
+      "path": "architecture/CAPABILITY_ADMISSION_PACK_001.yaml",
+      "sha": "ac97b2152741f5252bab77eb7fa4f525a4abb39b",
+      "size": 3037,
+      "placement": "ARCHITECTURE"
+    },
+    {
+      "path": "architecture/CORRECTED_MODE_CAPABILITY_RESEARCH_ARCHITECTURE_002.md",
+      "sha": "99a1b90c379ef67fb4488ca33350854a814b27ea",
+      "size": 10257,
+      "placement": "ARCHITECTURE"
+    },
+    {
+      "path": "architecture/CROSS_REPOSITORY_IMPROVEMENTCORE_LINEAGE_CHOICE_080.md",
+      "sha": "5f4a6d7a67d57798d9e684f4ad9da6774881e880",
+      "size": 7072,
+      "placement": "ARCHITECTURE"
+    },
+    {
+      "path": "architecture/DESIRED_JANE_TOOL_061.md",
+      "sha": "55f621d82dc1b640ba6e1d076388df7c4a9d9eea",
+      "size": 6066,
+      "placement": "ARCHITECTURE"
+    },
+    {
+      "path": "architecture/FOCUS_ROUTE_CONTRACT_054.md",
+      "sha": "8d05b8a83deb08b8a7bb4d2145177c5f15af8e90",
+      "size": 10140,
+      "placement": "ARCHITECTURE"
+    },
+    {
+      "path": "architecture/FULL_RUN_DEFAULT_DISPATCH_CONTRACT_066.md",
+      "sha": "f360ef397234eefbc9259838414465cd29bc29c2",
+      "size": 2523,
+      "placement": "ARCHITECTURE"
+    },
+    {
+      "path": "architecture/GLOBAL_TOOL_EXECUTION_CONTRACT_072.md",
+      "sha": "da625653cf5b8626a0effc4c2aad37f02f31b631",
+      "size": 2256,
+      "placement": "ARCHITECTURE"
+    },
+    {
+      "path": "architecture/HF1_MATHEMATICS_084.md",
+      "sha": "8f5ab3fc8ce499692f5cc35fd37e4c1385925dc5",
+      "size": 3292,
+      "placement": "ARCHITECTURE"
+    },
+    {
+      "path": "architecture/IC028_ADVANCED_ROOT_ARCH_FULLSPECTRUM_047.md",
+      "sha": "3566899068cf4b1a41bf8fadfe3dfe5e0e74a311",
+      "size": 10744,
+      "placement": "ARCHITECTURE"
+    },
+    {
+      "path": "architecture/IC028_COMPOUNDING_RECONCILE_049.md",
+      "sha": "b0cc87663fd29a69f9701a94862d38e8526cb054",
+      "size": 7043,
+      "placement": "ARCHITECTURE"
+    },
+    {
+      "path": "architecture/IC028_INQUIRY_COMPILER_051.md",
+      "sha": "4e4bbf91264b3b536e038108c42a65e224f5c71f",
+      "size": 5673,
+      "placement": "ARCHITECTURE"
+    },
+    {
+      "path": "architecture/IC028_ROLE_SEPARATION_DECISION_045.md",
+      "sha": "88cb281335c9e2dfdf7ae06c1d453de52f48d380",
+      "size": 5579,
+      "placement": "ARCHITECTURE"
+    },
+    {
+      "path": "architecture/IC028_TERM_MT_MOMT_ROLE_DECISION_046.md",
+      "sha": "b6d1b179cdab18c9d9fbe6ffa090b2dc00fb31d3",
+      "size": 11084,
+      "placement": "ARCHITECTURE"
+    },
+    {
+      "path": "architecture/IC029_IMPROVED_CORE_SELF_AUDITED_MAP_076.md",
+      "sha": "6c4b4ba342005e3597a59a9d86e670026ea008e6",
+      "size": 4951,
+      "placement": "ARCHITECTURE"
+    },
+    {
+      "path": "architecture/ICC_QUESTION_DEPENDENCY_WRAPPER_075.md",
+      "sha": "f5ae5130517a0c0a323e91b3c4378a6af75b8bf1",
+      "size": 3839,
+      "placement": "ARCHITECTURE"
+    },
+    {
+      "path": "architecture/IC_JANE_WRAPPER_MATH_PLAN_037.md",
+      "sha": "4ff005b8598f23ad646c8fd3cd23787ec44804a9",
+      "size": 9860,
+      "placement": "ARCHITECTURE"
+    },
+    {
+      "path": "architecture/IMPROVEMENT_CORE_ACTIVATION_083.md",
+      "sha": "3888f2eb07c7b5b0711b3a3296305221e2c4787b",
+      "size": 2832,
+      "placement": "ARCHITECTURE"
+    },
+    {
+      "path": "architecture/IMPROVEMENT_CORE_INVOCATION_DISPATCH_079.md",
+      "sha": "a828deda7c70431a8fad7a7704a9f4a3a78c86b1",
+      "size": 941,
+      "placement": "ARCHITECTURE"
+    },
+    {
+      "path": "architecture/IMPROVEMENT_CORE_MATHEMATICS_086.md",
+      "sha": "4ff5a0e1e21c0266bc2b6e2bd8d3159e8c3b6a7b",
+      "size": 4614,
+      "placement": "ARCHITECTURE"
+    },
+    {
+      "path": "architecture/IMPROVEMENT_CORE_MAXIMIZATION_081.md",
+      "sha": "99b20e3944b6181a8da53a1bbcfefe3ae09132a7",
+      "size": 5298,
+      "placement": "ARCHITECTURE"
+    },
+    {
+      "path": "architecture/IMPROVEMENT_CORE_RECOVERY_MANIFEST_082.json",
+      "sha": "380f30162b0494e72c06e22a3a2714462f9ad2f2",
+      "size": 3260,
+      "placement": "ARCHITECTURE"
+    },
+    {
+      "path": "architecture/KERNEL_MATH_CONTRACT_052.md",
+      "sha": "9d3e55799c1131e7d166dab3d0611fb9348ef698",
+      "size": 7302,
+      "placement": "ARCHITECTURE"
+    },
+    {
+      "path": "architecture/KERNEL_MATH_CONTRACT_052.yaml",
+      "sha": "dc5b788c4a786a3799cc61f97b1a33b954304b2e",
+      "size": 9567,
+      "placement": "ARCHITECTURE"
+    },
+    {
+      "path": "architecture/LAMBDA_MATH_QUESTION_TOOL_CONTRACT_063.md",
+      "sha": "87c41ccd267491d0f0db5c1b4a0c6572505cb8df",
+      "size": 3317,
+      "placement": "ARCHITECTURE"
+    },
+    {
+      "path": "architecture/LEARNING_OPERATOR_TOOLKIT_035.md",
+      "sha": "bf17a5960895aaf3239cf4c54fe0d70445bfd1a6",
+      "size": 12480,
+      "placement": "ARCHITECTURE"
+    },
+    {
+      "path": "architecture/LEARNING_TOOL_ADMISSION_DECISION_040.md",
+      "sha": "67544e08caaf6143d2afaf0e2c29c169cab9433d",
+      "size": 4811,
+      "placement": "ARCHITECTURE"
+    },
+    {
+      "path": "architecture/LOAD_BEARING_SEMANTIC_OBJECT_PACKAGE_CONTRACT_064.md",
+      "sha": "41d5599c1433aab0653c0ad38a59ba9a8df839cc",
+      "size": 5599,
+      "placement": "ARCHITECTURE"
+    },
+    {
+      "path": "architecture/MATHEMATICAL_COLOR_INVARIANT_062.md",
+      "sha": "db70a5b15ab849a4abb85e52531674810b5b60ca",
+      "size": 5304,
+      "placement": "ARCHITECTURE"
+    },
+    {
+      "path": "architecture/MATH_FIRST_WRAPPER_CLOSURE_039.md",
+      "sha": "27e678c05b5002686e799705116dbafde8dac886",
+      "size": 5024,
+      "placement": "ARCHITECTURE"
+    },
+    {
+      "path": "architecture/MODE_CUBE_CAPABILITY_ARCHITECTURE_001.md",
+      "sha": "5427fdf7b2f537c4c3b3765f1f5a7b4be9636827",
+      "size": 6321,
+      "placement": "ARCHITECTURE"
+    },
+    {
+      "path": "architecture/MODE_CUBE_CAPABILITY_BUILD_PACK_001.yaml",
+      "sha": "acb4b991aeec534b85dbfdbc8e6d842287e51a56",
+      "size": 7610,
+      "placement": "ARCHITECTURE"
+    },
+    {
+      "path": "architecture/OBJECT_HYPOTHESIS_RECOVERY_058.md",
+      "sha": "ebb12ef5e15f11e6731530ad2142d24167433ba5",
+      "size": 1617,
+      "placement": "ARCHITECTURE"
+    },
+    {
+      "path": "architecture/OBSERVER_ALL_TOOLS_SWEEP_038.md",
+      "sha": "2bbaac4d49fb43f038b74fe37d513de5cf68e2dc",
+      "size": 10042,
+      "placement": "ARCHITECTURE"
+    },
+    {
+      "path": "architecture/QUESTION_TOOL_RENAME_REGISTRY_001.yaml",
+      "sha": "b9594ab6538bb543448557feb427c8ce93fa4935",
+      "size": 2847,
+      "placement": "ARCHITECTURE"
+    },
+    {
+      "path": "architecture/QUESTION_WORTH_ASKING_CONTRACT_056.md",
+      "sha": "82c2c40ceed6a0b5a5b519407f1d2bae3d74f9e0",
+      "size": 2222,
+      "placement": "ARCHITECTURE"
+    },
+    {
+      "path": "architecture/RESULT_PATH_AUTHORITY_DECISION_057.md",
+      "sha": "fb3b980ff8fcf8473f089e0d5e08dc3ca6b4c57c",
+      "size": 984,
+      "placement": "ARCHITECTURE"
+    },
+    {
+      "path": "architecture/SIX_BY_SIX_BY_SIX_FOUNDATION_031.md",
+      "sha": "6a71715354630dfb75e4fed27da6ef08515b47d5",
+      "size": 5591,
+      "placement": "ARCHITECTURE"
+    },
+    {
+      "path": "architecture/SOLUTION_TO_MY_PROBLEM_CONTRACT_059.md",
+      "sha": "4e50153a09626807fecbdad5a5f007b4b3252088",
+      "size": 3205,
+      "placement": "ARCHITECTURE"
+    },
+    {
+      "path": "architecture/SOLUTION_TO_MY_PROBLEM_CONTRACT_060.md",
+      "sha": "085aef6df0e1c09bf250fdb79874fc4ef2f6cc58",
+      "size": 2787,
+      "placement": "ARCHITECTURE"
+    },
+    {
+      "path": "architecture/WRAPPER_CANONICAL_CONTRACT_053.md",
+      "sha": "a90a24e3f97c137a21c95c732c59c856626808da",
+      "size": 14560,
+      "placement": "ARCHITECTURE"
+    },
+    {
+      "path": "architecture/WRAPPER_TERM_PD_064.md",
+      "sha": "b7d84235d8fc065128d0e67c5af9028ded23433c",
+      "size": 1303,
+      "placement": "ARCHITECTURE"
+    },
+    {
+      "path": "campaign/ARCHITECTURE_ANALYSIS_CORE_DISCOVERY_PLAN_009.md",
+      "sha": "ae2d99a1f946b3b43d772d04b79154fa1d186019",
+      "size": 7343,
+      "placement": "ARCHITECTURE"
+    },
+    {
+      "path": "campaign/ARCHITECTURE_GOAL_SPINE_REENTRY_010.md",
+      "sha": "49460ec97857518056a3a122bd8cbcd6bbe1a4f8",
+      "size": 3427,
+      "placement": "ARCHITECTURE"
+    },
+    {
+      "path": "campaign/ATTACK_POSTFLIGHT_12_LENSES_009.md",
+      "sha": "f6345c96cf5c4a83a0366fcf52e9b4302d33dbec",
+      "size": 2259,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "campaign/IC022_GOAL_FREEZE_001.md",
+      "sha": "0499c89cc97498ae7c993654d8b917b0e61ab703",
+      "size": 3417,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "campaign/IC023_ADAPTIVE_BUILD_PLAN_006.md",
+      "sha": "279471e1808335eb2d5af7c0092ff323734e320b",
+      "size": 3255,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "campaign/IC023_EXECUTION_GATE_001.md",
+      "sha": "407f4d4e4c0b1cdf597225dd57c417a43853bc15",
+      "size": 3194,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "campaign/IC023_GATE_002.md",
+      "sha": "b8b1f15f0a8a8471f622cec5fbaa72ae4a4b11bb",
+      "size": 1521,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "campaign/IC023_GATE_003.md",
+      "sha": "cb4a562803503e4675ab8b5541ef1d9f109bf3df",
+      "size": 1617,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "campaign/IC023_GATE_004.md",
+      "sha": "74200718c0e8c75751bbafe1ac93fcdf33afae40",
+      "size": 1747,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "campaign/IC023_GATE_005.md",
+      "sha": "8ef447e89417faee79221bfeee8dd51f2e072665",
+      "size": 1635,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "campaign/IC023_PROMPT_REWRITE_003.md",
+      "sha": "9ce728986f9a2021aa63adcfd32215ec1663f8e5",
+      "size": 2043,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "campaign/IC023_REASSESSMENT_007.md",
+      "sha": "dda31d6705de6915a90161f7c22f4e7875c08b4c",
+      "size": 1268,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "campaign/IC024_EXECUTION_TRANCHE_001.md",
+      "sha": "763b7c15fd3497f5c2731d042fd0b4b7f7116cbc",
+      "size": 2723,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "campaign/IC024_EXECUTION_TRANCHE_002.md",
+      "sha": "2a59fb998001ac31305e03adc8517ae9457629ec",
+      "size": 5281,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "campaign/IC026_ACTUAL_GOAL_001.md",
+      "sha": "3ca46ac214b895a37d9b0e37d5aa70a6e2d2091c",
+      "size": 2806,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "campaign/IC026_ACTUAL_GOAL_GATE_001.md",
+      "sha": "bea9ca1f6f76b21abc11deb655fcfa2ce8bacf8e",
+      "size": 2541,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "campaign/IC026_BLOCKER_REPAIR_001.md",
+      "sha": "c861e8c92ebe4c4c8007dde8561790079a64580d",
+      "size": 1884,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "campaign/IC026_FROZEN_TARGET_002_FOUNDATION_BEFORE_MIGRATION.md",
+      "sha": "dd4f3c246c6f05481a556ba23b14c9b7cdeb7ad8",
+      "size": 3657,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "campaign/IC_12_BEFORE_12_AFTER_PROTOCOL_008.md",
+      "sha": "822d59358d7caf9b566b5c6aa093e9976572060d",
+      "size": 3768,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "campaign/IMPROVEMENT_CORE_ALL_TOOLS_CAMPAIGN_001.md",
+      "sha": "19bd4d5e46bbb9ffc6b4ff45b31715030d9d01cb",
+      "size": 9955,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "campaign/IMPROVEMENT_CORE_GOAL_RECOVERY_ARCHITECTURE_REENTRY_008.md",
+      "sha": "1f197dd6e99c7708688b56483d582d3ecd6d1804",
+      "size": 3763,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "campaign/IMPROVEMENT_CORE_MTA_TARGET_SELECTION_001.md",
+      "sha": "f9541185bee8c1a2e306679e07bd6174384ca8eb",
+      "size": 6007,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "campaign/MTA_ARCHITECTURE_IC_EXECUTION_005.md",
+      "sha": "b0708c6ca143890dedf7dda7e517c54e892e45af",
+      "size": 4658,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "campaign/MTA_COMPLETION_012.md",
+      "sha": "3223ed9d601c21e77f64750f6839885bd14bc174",
+      "size": 1502,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "campaign/MTA_EXECUTION_SUBSTRATE_REENTRY_007.md",
+      "sha": "a996e58e1e8807e0b5950571fba00044df52824b",
+      "size": 2895,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "campaign/TWO_PASS_FULL_REPERTOIRE_CAMPAIGN_006.md",
+      "sha": "4951064009c25371bfc7aca698e1ee68c50a0f73",
+      "size": 3445,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "dump/example-zero/notes.txt",
+      "sha": "139dd4e1d0a3d29a2e2e4e67ffb7801a9989614c",
+      "size": 207,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "dump/example-zero/take5.json",
+      "sha": "16286310794843dd01abcf934bf4385c9aab6547",
+      "size": 22,
+      "placement": "STATE_CONFIG"
+    },
+    {
+      "path": "historical_controllers/IC022.yaml",
+      "sha": "66a353802953a15c9923c0a8a155e7e205f30597",
+      "size": 46306,
+      "placement": "EVIDENCE_HISTORY"
+    },
+    {
+      "path": "historical_controllers/IC023.yaml",
+      "sha": "b78d61bf9034bf3d94717ee69505cc9bb76993f8",
+      "size": 4580,
+      "placement": "EVIDENCE_HISTORY"
+    },
+    {
+      "path": "historical_controllers/IC024-G1.yaml",
+      "sha": "7e664b906a80d8f9382f9f2a8e910e88162b6ab3",
+      "size": 4369,
+      "placement": "EVIDENCE_HISTORY"
+    },
+    {
+      "path": "historical_controllers/IC024-G2.yaml",
+      "sha": "aac2a13f555c91f62478cc8c1aa36dde05529142",
+      "size": 5418,
+      "placement": "EVIDENCE_HISTORY"
+    },
+    {
+      "path": "historical_controllers/IC024-G3.yaml",
+      "sha": "4e05c9752bd546153a8be42ad492d5130262853a",
+      "size": 7378,
+      "placement": "EVIDENCE_HISTORY"
+    },
+    {
+      "path": "historical_controllers/IC024.yaml",
+      "sha": "cf63e738aaf9400d0f765dc270db1ceb34d7ec62",
+      "size": 3591,
+      "placement": "EVIDENCE_HISTORY"
+    },
+    {
+      "path": "historical_controllers/IC028.yaml",
+      "sha": "641e1d02bf4baa1f2dd50e70891261a155904834",
+      "size": 9338,
+      "placement": "EVIDENCE_HISTORY"
+    },
+    {
+      "path": "historical_controllers/IC028_CANONICAL_CURRENT_STATE.md",
+      "sha": "6b9859b581062f6c5ea2f5c952244f89952612ff",
+      "size": 18322,
+      "placement": "CURRENT_CONTROL"
+    },
+    {
+      "path": "historical_controllers/README.md",
+      "sha": "f21ec21bfb661b9d0045f8ec6065d34a9eaef71b",
+      "size": 2404,
+      "placement": "EVIDENCE_HISTORY"
+    },
+    {
+      "path": "integration/ASSERT_FULL36_ARCHITECTURE_DEBT_071_2026-09-25.md",
+      "sha": "020018d2485aca9d38288d77fca321410fe445d7",
+      "size": 2591,
+      "placement": "CURRENT_CONTROL"
+    },
+    {
+      "path": "integration/CROSS_CHAT_INTEGRATION_CLOSURE_MARKER_060_2026-09-25.md",
+      "sha": "8412ffc827cb27f9d897b2c8a988638bb719b239",
+      "size": 968,
+      "placement": "CURRENT_CONTROL"
+    },
+    {
+      "path": "integration/CROSS_CHAT_INTEGRATION_INBOX_2026-09-25.md",
+      "sha": "c657443cd11d20349ac35baeabd1d7708a3a061c",
+      "size": 20332,
+      "placement": "CURRENT_CONTROL"
+    },
+    {
+      "path": "integration/CURRENT_HF1.md",
+      "sha": "684001c249d113cb677a6c8d4b2daf27a451031c",
+      "size": 2522,
+      "placement": "CURRENT_CONTROL"
+    },
+    {
+      "path": "integration/CURRENT_IMPROVEMENT_CORE.md",
+      "sha": "611a7214c90d029bfb47951bf08878087a5be0c3",
+      "size": 8126,
+      "placement": "CURRENT_CONTROL"
+    },
+    {
+      "path": "integration/CURRENT_MATHEMATICAL_COLORING.md",
+      "sha": "5722ff1fabe426851cbee44133e466690fc13422",
+      "size": 3680,
+      "placement": "CURRENT_CONTROL"
+    },
+    {
+      "path": "integration/GITHUB_ROOT_CAUSE_PD_REPAIR_2026-09-25.md",
+      "sha": "d0589a8b510c61774f52a8ebdf3c99c90cfa4836",
+      "size": 3605,
+      "placement": "CURRENT_CONTROL"
+    },
+    {
+      "path": "integration/ICC123_CURRENTNESS_DELTA_002_2026-09-25.md",
+      "sha": "7eb0585507d9cbfa3450e82062e20038ff494618",
+      "size": 7412,
+      "placement": "CURRENT_CONTROL"
+    },
+    {
+      "path": "integration/ICC123_THREE_DAY_DEPENDENCY_PROVENANCE_MAP_001.yaml",
+      "sha": "41384b2901130ed817e96945697795ce183bcd1a",
+      "size": 5180,
+      "placement": "CURRENT_CONTROL"
+    },
+    {
+      "path": "integration/ICC123_THREE_DAY_RECOVERY_CAMPAIGN_001_2026-09-25.md",
+      "sha": "7d2f4a25449ab90aac4d85b0d25320e5e6b9f01a",
+      "size": 5768,
+      "placement": "CURRENT_CONTROL"
+    },
+    {
+      "path": "integration/ICC123_THREE_DAY_RECOVERY_STATE_001_2026-09-25.md",
+      "sha": "e7aa4ccd52a76c94e91c249745d600c57055cee3",
+      "size": 12062,
+      "placement": "CURRENT_CONTROL"
+    },
+    {
+      "path": "integration/ICC124_LINEAGE_RECOVERY_001_2026-09-25.md",
+      "sha": "3cc9023b05743ad2019bc61ee502ce1bbb6f05da",
+      "size": 1220,
+      "placement": "CURRENT_CONTROL"
+    },
+    {
+      "path": "integration/ICC128_KERNEL_RESEARCH_RELATIVE_CLOSURE_001_2026-09-25.md",
+      "sha": "caf703619a81b6efc951667272a053e49df55d34",
+      "size": 5705,
+      "placement": "CURRENT_CONTROL"
+    },
+    {
+      "path": "integration/ICC128_SYSTEM_CLOSURE_LEDGER_056_2026-09-25.md",
+      "sha": "682f976e4b4a5a3586e8e184ff671450ea6f5b9e",
+      "size": 12534,
+      "placement": "CURRENT_CONTROL"
+    },
+    {
+      "path": "integration/ICC23_ICC128_SEMANTIC_DRIFT_REPAIR_066_2026-09-25.md",
+      "sha": "08b00dc4299d8e4c39d8dea42a8c020e29d37333",
+      "size": 4164,
+      "placement": "CURRENT_CONTROL"
+    },
+    {
+      "path": "integration/ICC_SHUTDOWN_HANDOFF_2026-09-25.md",
+      "sha": "6e58ddbc307932c1972dad42308f7801b7db713b",
+      "size": 11080,
+      "placement": "CURRENT_CONTROL"
+    },
+    {
+      "path": "integration/ICC_WRAPPER_REDESIGN_CONVERSATION_CAPTURE_074_2026-09-25.md",
+      "sha": "4adb2e0f90bd7303dba8168a902a000877b627b7",
+      "size": 10488,
+      "placement": "CURRENT_CONTROL"
+    },
+    {
+      "path": "integration/OBSERVER_MODE_REPROMPT_DEFECT_073_2026-09-25.md",
+      "sha": "1642c462fffb573d1f6d8a39d4e6b7a2cc5eb457",
+      "size": 2047,
+      "placement": "CURRENT_CONTROL"
+    },
+    {
+      "path": "integration/REASERCH_POST_CUTOVER_RECONCILIATION_FINAL_002_2026-09-25.md",
+      "sha": "9ff1a5ee81f89c8502dc2bf31b4db4805308ffc7",
+      "size": 4644,
+      "placement": "CURRENT_CONTROL"
+    },
+    {
+      "path": "integration/REASERCH_POST_CUTOVER_RECONCILIATION_PASS_001_2026-09-25.md",
+      "sha": "a2c6fc48b64512b3ac8dd2e4497f7d8215a78dc6",
+      "size": 2498,
+      "placement": "CURRENT_CONTROL"
+    },
+    {
+      "path": "integration/REASERCH_POST_MIGRATION_DRIFT_2026-09-25.md",
+      "sha": "7a37ca8e93c98cefae85f61aa4b02e9a279ec136",
+      "size": 1683,
+      "placement": "CURRENT_CONTROL"
+    },
+    {
+      "path": "integration/SEMANTIC_PACKAGE_BACKFILL_001_2026-09-25.md",
+      "sha": "ee7d02a00276362dedec668f7dc79375830f23c8",
+      "size": 1484,
+      "placement": "CURRENT_CONTROL"
+    },
+    {
+      "path": "migration/LEGACY_CONNECTION_AND_QUEUE_POLICY_025.md",
+      "sha": "82b8cbd57fe0b8b85d62b5ef3aa49ceeb5bf348b",
+      "size": 2594,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "migration/LEGACY_ISSUE_WORK_IMPORT_001.md",
+      "sha": "35fa7a8130ba7a5d520b3d07d80258334d4e3c36",
+      "size": 1404,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "provenance/ic030/IC030_36_ARCHITECTURE_VALIDATION_001_2026-09-24.md",
+      "sha": "765c403dbc1451a0d2598befc288a437f9e78a76",
+      "size": 2854,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "provenance/ic030/IC030_SCOPE_MODE_POLICY_REGISTRY_001_2026-09-24.yaml",
+      "sha": "49df33ac4b72f626a0fd5e2da6445ac8cbf46d01",
+      "size": 2634,
+      "placement": "EVIDENCE_HISTORY"
+    },
+    {
+      "path": "provenance/ic030/IMPROVECORE_36_CELL_SCOPE_MODE_AUDIT_001_2026-09-24.md",
+      "sha": "41cb0fef9730ad81113bf81a2f0a5dd1fadd3cc5",
+      "size": 17799,
+      "placement": "EVIDENCE_HISTORY"
+    },
+    {
+      "path": "provenance/reaserch-migration-2026-09-24/00_START_HERE.md",
+      "sha": "4ee366e489ff548b0686d4a244adce6911369566",
+      "size": 2084,
+      "placement": "EVIDENCE_HISTORY"
+    },
+    {
+      "path": "provenance/reaserch-migration-2026-09-24/01_STATE.yaml",
+      "sha": "33ff9fbeeaf148a38408c4db2a412408e6a420c3",
+      "size": 3186,
+      "placement": "EVIDENCE_HISTORY"
+    },
+    {
+      "path": "provenance/reaserch-migration-2026-09-24/02_MATHEMATICS.md",
+      "sha": "3c8952cb6a02d42de4897f93e7a3f6b92cb0fce9",
+      "size": 5135,
+      "placement": "EVIDENCE_HISTORY"
+    },
+    {
+      "path": "provenance/reaserch-migration-2026-09-24/03_PROVENANCE_AND_SUPERSESSION.md",
+      "sha": "69c1f66e2ca583e77efa4a36ab305411f5a1a4ff",
+      "size": 2421,
+      "placement": "EVIDENCE_HISTORY"
+    },
+    {
+      "path": "provenance/reaserch-migration-2026-09-24/04_MIGRATION_RUNBOOK.md",
+      "sha": "5218e658d7d81410bcbd0b54cbd0c2cdfecf8c5d",
+      "size": 2740,
+      "placement": "EVIDENCE_HISTORY"
+    },
+    {
+      "path": "provenance/reaserch-migration-2026-09-24/05_BACKFILL_QUEUE.md",
+      "sha": "0676a0316289d079808d013d32f23de1f7c29504",
+      "size": 2951,
+      "placement": "EVIDENCE_HISTORY"
+    },
+    {
+      "path": "requirements-dev.txt",
+      "sha": "7345f250f23f668c1016f96cf5ba9a21d0869119",
+      "size": 14,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "research/ALL_TOOLS_PLAN_ATTACK_032.md",
+      "sha": "96c03a69025df603f1faf5e85f2cc209d3e02ce8",
+      "size": 6026,
+      "placement": "RESEARCH"
+    },
+    {
+      "path": "research/ARCHITECT_RUN_ON_RECURSIVE_INQUIRY_GOAL_008.md",
+      "sha": "8ba0ed1c11dcefd9ea56a326a72ca2b706209136",
+      "size": 6594,
+      "placement": "RESEARCH"
+    },
+    {
+      "path": "research/ARTIFACT_REALITY_FOUNDATION_CANDIDATE_001.md",
+      "sha": "3cf5532af163acabb7b7783e8853599f4f280af0",
+      "size": 2642,
+      "placement": "RESEARCH"
+    },
+    {
+      "path": "research/ASSERT_AFTER_MT_BLACK_BOX_LIFECYCLE_069_2026-09-25.md",
+      "sha": "029f7411eed686a1af333074e866341c538e4a62",
+      "size": 2731,
+      "placement": "RESEARCH"
+    },
+    {
+      "path": "research/ASSERT_BLACK_BOX_RESOLUTION_PIPELINE_070_2026-09-25.md",
+      "sha": "d6c7b02716678917b48863ef16fb0220b3c80e56",
+      "size": 2228,
+      "placement": "RESEARCH"
+    },
+    {
+      "path": "research/AUDIT_KERNEL_001.md",
+      "sha": "51e41ac6f36c8566056516d3f237a1a882d9fc3c",
+      "size": 2820,
+      "placement": "RESEARCH"
+    },
+    {
+      "path": "research/BEHAVIOR_FIRST_CAPABILITY_UNIVERSE_001.md",
+      "sha": "0099403bc3cfe3818c14f60251d1a813186b3323",
+      "size": 8033,
+      "placement": "RESEARCH"
+    },
+    {
+      "path": "research/CAPABILITY_MODE_COVERAGE_MAP_001.md",
+      "sha": "293e73e4aafa59097a9a98ff673945afc3696c29",
+      "size": 2684,
+      "placement": "RESEARCH"
+    },
+    {
+      "path": "research/CAPABILITY_UNIVERSE_CROSSWALK_QUOTIENT_002.md",
+      "sha": "5d04527d4b98db3c0959f6fc54bf8a87555d9b6a",
+      "size": 9549,
+      "placement": "RESEARCH"
+    },
+    {
+      "path": "research/CROSS_PROJECT_MODE_EXPERIMENT_001.md",
+      "sha": "3b2ac307be32363f974336b3bd4a0ac91903a765",
+      "size": 3324,
+      "placement": "RESEARCH"
+    },
+    {
+      "path": "research/CROSS_PROJECT_MODE_EXPERIMENT_001_SYNTHESIS.md",
+      "sha": "5eacd47d2be2a6673f9c27bf627ac962459884e0",
+      "size": 2459,
+      "placement": "RESEARCH"
+    },
+    {
+      "path": "research/CURRENTNESS_AUDIT_CA001.md",
+      "sha": "643250d8f50267f36be8299be3c7903d11cd3bab",
+      "size": 2061,
+      "placement": "RESEARCH"
+    },
+    {
+      "path": "research/DOS002_WHOLE_SYSTEM_AND_THREE_LEVEL_ARCHITECTURE.md",
+      "sha": "e52524ab5f9e55d0db0a47ff12c129d57c3389a4",
+      "size": 8796,
+      "placement": "RESEARCH"
+    },
+    {
+      "path": "research/DOS003_PAIRWISE_LEVEL_BOUNDARIES.md",
+      "sha": "ebc5edb2f168ea25acc65944a2fff1612c044637",
+      "size": 6177,
+      "placement": "RESEARCH"
+    },
+    {
+      "path": "research/DOS_OBSERVER_ON_ONE_EQUATION_005.md",
+      "sha": "404c24f929a806ff47d1bcdd927018492bd1bc33",
+      "size": 2536,
+      "placement": "RESEARCH"
+    },
+    {
+      "path": "research/DUAL_ROOT_CAUSE_027.md",
+      "sha": "d61d21a15dcf1a148d86d2ef4c685e3a940c537d",
+      "size": 3842,
+      "placement": "RESEARCH"
+    },
+    {
+      "path": "research/EMERGENT_OBJECT_ADMISSION_REFLEXIVE_HARDENING_001.md",
+      "sha": "86559673753a1364d4215420a91ca1a4d22046bc",
+      "size": 9392,
+      "placement": "RESEARCH"
+    },
+    {
+      "path": "research/EXTERNAL_ARCHITECTURE_COMPARISON_001.md",
+      "sha": "d7d805cf4addbd023cfce89c255f35c0ed6e8b73",
+      "size": 3247,
+      "placement": "RESEARCH"
+    },
+    {
+      "path": "research/FROZEN_OBJECT_STRUCTURAL_SWEEP_REPLICATION_010.md",
+      "sha": "0d11e48216e825303e2f13348d216a26f5f72b10",
+      "size": 9491,
+      "placement": "RESEARCH"
+    },
+    {
+      "path": "research/GDOS_COLLATERAL_DISCOVERIES_001.md",
+      "sha": "487e30b122259113b5f998c3b36a7b2b5b741eeb",
+      "size": 5407,
+      "placement": "RESEARCH"
+    },
+    {
+      "path": "research/GDOS_CROSS_SECTIONAL_STUDY_001.md",
+      "sha": "5f0a6e582bf28a69792822e188b4a5ff29e44a79",
+      "size": 8886,
+      "placement": "RESEARCH"
+    },
+    {
+      "path": "research/GDOS_FIRST_TRANCHE_RESULTS_001.md",
+      "sha": "4ee7ca33074c0a9083fb125f1bc661c945270c71",
+      "size": 14388,
+      "placement": "RESEARCH"
+    },
+    {
+      "path": "research/GDOS_OBSERVATION_MODE_BIAS_MT_001.md",
+      "sha": "2069ed861aff31459ad130948cf9098e91f5bfb1",
+      "size": 5186,
+      "placement": "RESEARCH"
+    },
+    {
+      "path": "research/GOAL_DECOUPLED_OBSERVATION_SWEEP_DOS001.md",
+      "sha": "e27c219f7fd7a4119b3a7fddfc77e076981cc5f3",
+      "size": 3288,
+      "placement": "RESEARCH"
+    },
+    {
+      "path": "research/GOAL_RUN_ON_RECURSIVE_INQUIRY_007.md",
+      "sha": "a951527987dc2cd4d7c682782236c13f7b4cf069",
+      "size": 3053,
+      "placement": "RESEARCH"
+    },
+    {
+      "path": "research/HF_CURRENTNESS_REENTRY_019.md",
+      "sha": "23ce95ec02ced899bf964856f500a913f38aff88",
+      "size": 1472,
+      "placement": "RESEARCH"
+    },
+    {
+      "path": "research/IC023_AUTONOMOUS_CONVERSATION_READ_042.md",
+      "sha": "e1170881a8a00249a629d412fae343c91c4b0086",
+      "size": 2658,
+      "placement": "RESEARCH"
+    },
+    {
+      "path": "research/IC028_CURIOSITY_FIRST_PD_053.md",
+      "sha": "8ab1be7aaf3fb3eeadf8f9264241e0e594ecc631",
+      "size": 10922,
+      "placement": "RESEARCH"
+    },
+    {
+      "path": "research/IC028_FULL_SPECTRUM_INQUIRY_CLOSURE_052.md",
+      "sha": "1a26361f25a9a8736282c248470129c61167de89",
+      "size": 5944,
+      "placement": "RESEARCH"
+    },
+    {
+      "path": "research/IC028_OBSERVER_WHOLE_SYSTEM_RUN_044.md",
+      "sha": "ffc4c5822fdb24341bc360ae31e018fc17182a1a",
+      "size": 7408,
+      "placement": "RESEARCH"
+    },
+    {
+      "path": "research/IC028_TOOL_AS_QUESTION_CAMPAIGN_050.md",
+      "sha": "e357bfcb0b29b924b99515c983c7df2154f28973",
+      "size": 6716,
+      "placement": "RESEARCH"
+    },
+    {
+      "path": "research/ICC123_KERNEL_ENFORCEMENT_TOPOLOGY_001_2026-09-25.md",
+      "sha": "54ae7c80a7d35309e7a22cd15815ce4f305ef904",
+      "size": 8277,
+      "placement": "RESEARCH"
+    },
+    {
+      "path": "research/ICC128_COMPLETE_MEDIATION_EXPERIMENT_001_2026-09-25.md",
+      "sha": "f022c151ca581b3a0d60c933092a33afebb7403b",
+      "size": 12155,
+      "placement": "RESEARCH"
+    },
+    {
+      "path": "research/ICC128_KERNEL_WITNESS_AND_PLACEMENT_001_2026-09-25.md",
+      "sha": "65b93241d657ec2dbb332ae0ce9a63ef8210ecf8",
+      "size": 14352,
+      "placement": "RESEARCH"
+    },
+    {
+      "path": "research/ICC128_STATE_EFFECT_ROLE_TYPING_001_2026-09-25.md",
+      "sha": "80dd781a53d4e3f2bc4a98836983bc88130e9ab2",
+      "size": 10957,
+      "placement": "RESEARCH"
+    },
+    {
+      "path": "research/ICC_HISTORICAL_REPAIR_PATTERN_RUNTIME_REALIZATION_013.md",
+      "sha": "e572b9bb10b129ed0151337875e42769a9901e59",
+      "size": 5322,
+      "placement": "RESEARCH"
+    },
+    {
+      "path": "research/ICC_ONE_EQUATION_QUESTION_COMPRESSION_003.md",
+      "sha": "3be78fe28e49dcf9eb2950b5e91d0f40227c6058",
+      "size": 2240,
+      "placement": "RESEARCH"
+    },
+    {
+      "path": "research/IC_KERNEL_TOOL_USE_ROOT_CAUSE_001.md",
+      "sha": "18093976dc402a23c5bb81cabad736037c508e07",
+      "size": 3970,
+      "placement": "RESEARCH"
+    },
+    {
+      "path": "research/IMPROVECORE_FOUNDATION_CAMPAIGN_033.md",
+      "sha": "ba48733685ac2f26d5521bf500ed7cc656df0d87",
+      "size": 9366,
+      "placement": "RESEARCH"
+    },
+    {
+      "path": "research/IMPROVECORE_MODE_CUBE_DECISION_001.md",
+      "sha": "2eaa500f072eb53d7d154bd40eb86545097f4a2d",
+      "size": 3527,
+      "placement": "RESEARCH"
+    },
+    {
+      "path": "research/IMPROVECORE_POST_MIGRATION_CAMPAIGN_037.md",
+      "sha": "2d66b7a0f4e95dd202d477fe9bf0c05b21fcc0f2",
+      "size": 7772,
+      "placement": "RESEARCH"
+    },
+    {
+      "path": "research/IMPROVECORE_RECURSIVE_WRAPPER_REPAIR_001.md",
+      "sha": "564bb921db5fb53545b6e825755d340de86f69b6",
+      "size": 6963,
+      "placement": "RESEARCH"
+    },
+    {
+      "path": "research/IMPROVEMENT_CORE_RUN_ON_ONE_EQUATION_004.md",
+      "sha": "b0886ef2ac7f363ae989d53f7021d8c40652ee96",
+      "size": 4773,
+      "placement": "RESEARCH"
+    },
+    {
+      "path": "research/IMPROVEMENT_CORE_USAGE_AUDIT_078_2026-09-26.md",
+      "sha": "d226959a4a09bfeed145c20acc170f930e0ad5bb",
+      "size": 5101,
+      "placement": "RESEARCH"
+    },
+    {
+      "path": "research/JANE_MTA_ROOT_CAUSE_CAMPAIGN_039.md",
+      "sha": "c1ba7d9b2cf789c9cc0ea96e8feb76878e33f329",
+      "size": 13004,
+      "placement": "RESEARCH"
+    },
+    {
+      "path": "research/JANE_TD_ROOT_MOMT_IC028_CAMPAIGN_040.md",
+      "sha": "0712a948211b01585eb996c9f009cee7f2d8b3a0",
+      "size": 8852,
+      "placement": "RESEARCH"
+    },
+    {
+      "path": "research/KERNEL_MODE_EXPERIMENT_001.md",
+      "sha": "c7a34e78c2f8e08b21eda07206bc9a0ee94da13f",
+      "size": 5615,
+      "placement": "ARCHITECTURE"
+    },
+    {
+      "path": "research/LIVE_TEST_IS_OUGHT_REBT_036.md",
+      "sha": "c13c05ad0102650a4d9016d87dff2717d96ec23b",
+      "size": 8111,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "research/MTA_CONFIGURED_RUN_IDENTITY_RECURSIVE_005.md",
+      "sha": "3bef4970fda751060b42403dfb5ea5cf28ab02d8",
+      "size": 6021,
+      "placement": "RESEARCH"
+    },
+    {
+      "path": "research/MTA_LEGAL_TRANSITION_REENTRY_004.md",
+      "sha": "5f6bde1afda8fd53a4c57e9255ef3dc3f7a6e45d",
+      "size": 6370,
+      "placement": "RESEARCH"
+    },
+    {
+      "path": "research/MTA_ROOT_CAUSE_WHOLE_RESPONSE_038.md",
+      "sha": "3f9aa9bc9f5bd6d52b32c83435c532e956912163",
+      "size": 9129,
+      "placement": "RESEARCH"
+    },
+    {
+      "path": "research/MTA_RTC_AUTHORITATIVE_TRANSITION_CLOSURE_005.md",
+      "sha": "463992fef0e757250cc5596afb68e2bfbe09ddd1",
+      "size": 11214,
+      "placement": "RESEARCH"
+    },
+    {
+      "path": "research/MTA_SEMANTIC_GOVERNANCE_ADMISSION_001.md",
+      "sha": "60ce123d728381e6e528696910e253076f44f7b9",
+      "size": 4753,
+      "placement": "RESEARCH"
+    },
+    {
+      "path": "research/MTA_SEMANTIC_GOVERNANCE_EXHAUSTIVE_SWEEP_003.md",
+      "sha": "87b057d3c759018b579d778f3f0099584dd500e1",
+      "size": 14228,
+      "placement": "RESEARCH"
+    },
+    {
+      "path": "research/MT_ARCH_HF_CURRENTNESS_AUDIT_018.md",
+      "sha": "707e780f51bb8f79863741481cae295a52931cee",
+      "size": 5476,
+      "placement": "RESEARCH"
+    },
+    {
+      "path": "research/MT_BIAS_MODE_CAPABILITY_USE_001.md",
+      "sha": "e2c119ffc50b78839164aa71f5cb73a80819ec12",
+      "size": 8923,
+      "placement": "RESEARCH"
+    },
+    {
+      "path": "research/MT_CAPABILITY_MODE_CUBE_003.md",
+      "sha": "9e1c3c05fc4732c7ac0c0c14b4de21d30266f9ff",
+      "size": 9180,
+      "placement": "RESEARCH"
+    },
+    {
+      "path": "research/MT_FULL_WRAPPED_SEMANTIC_LIFECYCLE_068_2026-09-25.md",
+      "sha": "df8e66db1cc284928aa331bef6558b54ed409dc9",
+      "size": 8566,
+      "placement": "RESEARCH"
+    },
+    {
+      "path": "research/MT_GDOS_COUNTER_REGIME_IC_SKILL_USE_001.md",
+      "sha": "7f8dfe67e2b66b8817509131c125b7a3a712f316",
+      "size": 6953,
+      "placement": "RESEARCH"
+    },
+    {
+      "path": "research/MT_IC029_RESPONSE_AUDIT_077_2026-09-25.md",
+      "sha": "66f20c0ee730eec445b6dc1cf764e108a81adf7b",
+      "size": 4145,
+      "placement": "RESEARCH"
+    },
+    {
+      "path": "research/MT_MODE_BIAS_DELEGATION_SYNTHESIS_002.md",
+      "sha": "cc1edda673cbf86f89877db46a2beca2ade6507f",
+      "size": 8337,
+      "placement": "RESEARCH"
+    },
+    {
+      "path": "research/MULTIOBJECT_MIDDLE_ALGEBRA_RESIDUAL_ATTACK_003.md",
+      "sha": "7a4a57e70d43d42eaf002fe525c068445b787b71",
+      "size": 5272,
+      "placement": "RESEARCH"
+    },
+    {
+      "path": "research/PD_CORE_001.md",
+      "sha": "e5ef39323e4c91dfce8c78a3f47ed68f23c60bdf",
+      "size": 2304,
+      "placement": "RESEARCH"
+    },
+    {
+      "path": "research/PD_KERNEL_001.md",
+      "sha": "38bd2e6d5eeddcf8f46141181875e12946defd75",
+      "size": 3075,
+      "placement": "RESEARCH"
+    },
+    {
+      "path": "research/PROJECT_LOCAL_PROGRAMS_001.md",
+      "sha": "cfa202183b6bf67a69dd682ce48109208f8f167a",
+      "size": 2727,
+      "placement": "RESEARCH"
+    },
+    {
+      "path": "research/QUESTION_LINEAGE_AUDIT_001.md",
+      "sha": "ae08d4389dce0f90e6c1b1f185e5cf05d192eabb",
+      "size": 6128,
+      "placement": "RESEARCH"
+    },
+    {
+      "path": "research/QUESTION_QUOTIENT_MERGE_TESTS_002.md",
+      "sha": "5c148f4cbf3177d764bb36f96f3f821a98f0ca2a",
+      "size": 3506,
+      "placement": "RESEARCH"
+    },
+    {
+      "path": "research/QUESTION_SEARCH_MATH_001.md",
+      "sha": "5c92532e7e31435622d5b4f30d39461e2cb85f7e",
+      "size": 3802,
+      "placement": "RESEARCH"
+    },
+    {
+      "path": "research/QUESTION_SEARCH_RUN_001.yaml",
+      "sha": "f86b03cf2ee021f4b3acf41c61a9f13d3cc57e07",
+      "size": 11653,
+      "placement": "RESEARCH"
+    },
+    {
+      "path": "research/RCDL_MIGRATION_IMPACT_029.md",
+      "sha": "688530cfc980626ae355405035d5d8479d9481df",
+      "size": 3258,
+      "placement": "RESEARCH"
+    },
+    {
+      "path": "research/RECURSIVE_GDOS_RERUN_001.md",
+      "sha": "63553f08fab040202a17e379434cf37073ce22d6",
+      "size": 9666,
+      "placement": "RESEARCH"
+    },
+    {
+      "path": "research/RECURSIVE_INQUIRY_EQUATION_SELF_APPLICATION_006.md",
+      "sha": "14b3d554e6d0f925e47a6d2bbe4dfcadc5d9cea9",
+      "size": 6617,
+      "placement": "RESEARCH"
+    },
+    {
+      "path": "research/ROOT_CAUSE_ENTRY_CONTRACT_GAP_009.md",
+      "sha": "4ff8bb3bef12cc4d672309af9c029cc17a0176d0",
+      "size": 9414,
+      "placement": "RESEARCH"
+    },
+    {
+      "path": "research/ROOT_CAUSE_IC_ARCHITECTURE_REPAIR_022.md",
+      "sha": "8e0a7e1f204dc9ba31100b96d69f9f9800cdc21c",
+      "size": 3705,
+      "placement": "RESEARCH"
+    },
+    {
+      "path": "research/ROOT_CAUSE_OBSERVER_MODE_POST_REPAIR_011.md",
+      "sha": "63fd5f00df9e6bc630fbf77ab81331b513cacae0",
+      "size": 5643,
+      "placement": "RESEARCH"
+    },
+    {
+      "path": "research/SEMANTIC_GOVERNANCE_ADMISSION_CLOSURE_002.md",
+      "sha": "cdd83e9e22ca04700bb38b0b38eb93a1345d7dee",
+      "size": 10963,
+      "placement": "RESEARCH"
+    },
+    {
+      "path": "research/SEMANTIC_GOVERNANCE_ADMISSION_SELF_APPLICATION_001.md",
+      "sha": "c097108dec849dba290119de716ebddebc53e894",
+      "size": 1913,
+      "placement": "RESEARCH"
+    },
+    {
+      "path": "research/SIX_SCOPE_FOUNDATION_REBASE_030.md",
+      "sha": "d863ab561ef4d8310d7820982519028a65428591",
+      "size": 5590,
+      "placement": "RESEARCH"
+    },
+    {
+      "path": "research/THE_EQUATION_CURRENT_CAPTURE_010.md",
+      "sha": "1cfbb0ae69e2ac788b500f047b9da68c3ceb887e",
+      "size": 3827,
+      "placement": "CURRENT_CONTROL"
+    },
+    {
+      "path": "research/THE_EQUATION_CURRENT_CAPTURE_012.md",
+      "sha": "36bf9f80cd88a57821b01b355885dd7b70262bea",
+      "size": 6018,
+      "placement": "CURRENT_CONTROL"
+    },
+    {
+      "path": "research/THE_EQUATION_CURRENT_CAPTURE_014.md",
+      "sha": "98399925498f0356c398ab0d075682a6a932d561",
+      "size": 3460,
+      "placement": "CURRENT_CONTROL"
+    },
+    {
+      "path": "research/TOOL_LINEAGE_RECOVERY_CONTRACT_001_2026-09-25.md",
+      "sha": "a1aa5cb537f1a26452fd7be9ad1fb2a35bf6ac3f",
+      "size": 3401,
+      "placement": "RESEARCH"
+    },
+    {
+      "path": "runtime/DUMP_INTERFACE.md",
+      "sha": "11c9f34b1a3579366cef3bf853794c30c72bb335",
+      "size": 698,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/WORKER_ADAPTER_CONTRACT.md",
+      "sha": "a59fb42a1ef94109ce19a53316e95ca8802aa4c4",
+      "size": 641,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/a5_core.py",
+      "sha": "8294fb356aa10d950d56302a11949e94de50f53b",
+      "size": 5106,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/a5_programs.py",
+      "sha": "a5aa0dd9b7a44775fe7d5763ad05f120a0b7ddfa",
+      "size": 18675,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/activation_bridge.py",
+      "sha": "0bacff7da19e50bc94585c6e59f10376f43111a7",
+      "size": 3090,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/artifact_intake.py",
+      "sha": "1e73b646c9d864c2dae117d4e98ad8857a99eab3",
+      "size": 6846,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/assert_compound.py",
+      "sha": "5cf33074a2341504824a78739790511ff2ee6a4b",
+      "size": 4616,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/assert_full36.py",
+      "sha": "d70900a53ab7e370fed0817e133377984cac87f7",
+      "size": 2520,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/autonomous_observer.py",
+      "sha": "b61294868aac1736eab6fe77fcd09c907c1c27c2",
+      "size": 1074,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/capability_foundry.py",
+      "sha": "692b392995d3a3d153e2b76082c0dada44dd3009",
+      "size": 4151,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/capability_router.py",
+      "sha": "c2f611a152d6e4b543328ad6393db98a7cdacfda",
+      "size": 4800,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/capability_runtime.py",
+      "sha": "a038f6ae5b976eac8993e0ff019f2a1a7839d418",
+      "size": 535,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/closed_loop.py",
+      "sha": "13abea6c62cd591488f6de81f075022034f17a41",
+      "size": 1810,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/closed_loop_v2.py",
+      "sha": "bf91fa8fb2aec23f2cb9c250aa8f90263141ec3a",
+      "size": 742,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/configured_run.py",
+      "sha": "655cc61a9b1d7aeda854befe293c4acb66b3571d",
+      "size": 1714,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/continuation_engine.py",
+      "sha": "537eae02c692070e7e2bee892f89e57d421d8982",
+      "size": 1842,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/controller_episode.py",
+      "sha": "303a973a6da8e5a19b2f8b4b2437ae7b343e8937",
+      "size": 1546,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/controller_lease.py",
+      "sha": "92236df38cc1098c186a3fb32afe4c5bc5391451",
+      "size": 714,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/coordinate_registry.py",
+      "sha": "1dc7d119481e76b5758571acb64298acaa1bf57d",
+      "size": 1352,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/currentness_audit.py",
+      "sha": "fe06f5f15453b2a747b9443878ef748486b493b6",
+      "size": 1545,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/delegation.py",
+      "sha": "3d602b438a07205e9b0523d9a47b6addc9f86090",
+      "size": 846,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/delegation_officer.py",
+      "sha": "6532f947ce597114c039d5ffb955fd54ef29f344",
+      "size": 911,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/desired_jane.py",
+      "sha": "18f47b71976a26fe1dfeff2fc4c9a53699bcb320",
+      "size": 5825,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/emergent_admission.py",
+      "sha": "e35d3fa5980af5f113f50958ffbfd8d45795a101",
+      "size": 961,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/endogenous_work.py",
+      "sha": "01ae66415d95b4ad4c085fe1f65983ff7c027fd2",
+      "size": 2247,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/entry_contract.py",
+      "sha": "321c8f03579ca1e7c27df7311146a52bc21263b6",
+      "size": 4248,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/evidence_ledger.py",
+      "sha": "64ea2ddf21ef4ae09d582cbe4f9b6456d413ec12",
+      "size": 2538,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/folder_refinery.py",
+      "sha": "6df7c6a0bfc6fad145ab468958b11c91ae0a1b59",
+      "size": 1100,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/foundation_snapshot.py",
+      "sha": "c23239bf3ce9a6e9cd06e4e3d60ab3bc50a6a538",
+      "size": 997,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/full_spectrum_20.py",
+      "sha": "dc99945f8839f44bbbe4f2b8ab7fe40c75098188",
+      "size": 996,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/global_tool_execution.py",
+      "sha": "4102dc29188fdf408f2bfad14dc5079f8b7b6105",
+      "size": 2797,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/hf1_episode.py",
+      "sha": "18b7a0b3c48b4d207508b6f939dafb5650d9fe2e",
+      "size": 8102,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/hf1_recovery.py",
+      "sha": "888f0d6539aba49b1462687ae3447edcc3b63392",
+      "size": 1351,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/hf_controller.py",
+      "sha": "156873eaaea0717146c69335179fb048ad956251",
+      "size": 2686,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/historical_controller.py",
+      "sha": "df284bb41a07d5a8663a8706f7e906f194c134ec",
+      "size": 1212,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/historical_reconstruction.py",
+      "sha": "5541cf1592e6170b17184db19176dca7ed067417",
+      "size": 1794,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/ic028_challenger.py",
+      "sha": "eda4e5d90e5f34d21e013a79e9b8841e07486c34",
+      "size": 956,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/ic028_operator.py",
+      "sha": "f81250c33f82c27b11220a1b6d73cad46a163aa8",
+      "size": 4733,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/icc_bootstrap.py",
+      "sha": "b09db426b86eca14421d84afa0b82dc7f88c7008",
+      "size": 3355,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/icc_entry.py",
+      "sha": "4548a48e69c3b855757dc99ee08814aac6387f9f",
+      "size": 2061,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/improvement_core.py",
+      "sha": "6fa4a374d7a9536f2fee36cc281982263ca3f4d2",
+      "size": 3869,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/improvement_core_dispatch.py",
+      "sha": "00d3abf1afddac4b4caf5836e0fce5141fb8aad6",
+      "size": 2149,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/improvement_core_learning_memory.py",
+      "sha": "1b8de1ae5b9f1a30d52664eb4d3a5b59b8ab0c0c",
+      "size": 2171,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/improvement_core_manager.py",
+      "sha": "59890f798396730c86162cc5acecd696436c5986",
+      "size": 2385,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/improvement_core_math.py",
+      "sha": "9e0f10ccbfbdbc29d140a1e5b0648e122d952c8d",
+      "size": 1609,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/improvement_core_recovery.py",
+      "sha": "d754489d4127a903db19f153be90ded883219dec",
+      "size": 4890,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/improvement_core_recursive_manager.py",
+      "sha": "c4393c217a39920be7f2c3ff0d5482e4f2958e40",
+      "size": 5638,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/improvement_core_regime.py",
+      "sha": "a08e1c5f11b2967b9faa500109f6e295924155a9",
+      "size": 4805,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/inquiry_bridge.py",
+      "sha": "806176aa00cce78b77b481f2e85e79c2260e2c9b",
+      "size": 2114,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/inquiry_compiler.py",
+      "sha": "be50d603e6a3a3ca6d1b3e4cf85c5e681d48432a",
+      "size": 1088,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/inquiry_session.py",
+      "sha": "3a964a49a1e2e67a6e16ade3a808cc1f09e0b4a3",
+      "size": 3419,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/jane.py",
+      "sha": "1c8cb55efcd0259b6055263e04025a982080af08",
+      "size": 1751,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/jane_question_frontier.py",
+      "sha": "ff26b2e248f787588719202eff31753a716b15b7",
+      "size": 891,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/jane_relevance.py",
+      "sha": "331fdfdae4d0e917adc538576560461a307496ba",
+      "size": 2118,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/jane_supervisor.py",
+      "sha": "e242fd80ae3d77956a68cfd72200a689ce38d4c3",
+      "size": 4337,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/jane_sync.py",
+      "sha": "e94da98da81a037d91ad5cc275c2639ac2177e69",
+      "size": 593,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/jhb_greenfield.py",
+      "sha": "85f8193ece4fe1740bee24dc25021648ce9e4119",
+      "size": 1147,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/kernel_f1.py",
+      "sha": "fab0875e79b055976ba4f1c7784e8440c1c17dd5",
+      "size": 2192,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/kpd_projection.py",
+      "sha": "91a6a4d31354c2685917c1880ae8bd1b29f781d1",
+      "size": 736,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/lambda_math.py",
+      "sha": "df19db5c8235c7cee6bf4c008d607269025a8bae",
+      "size": 2205,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/learning_operator_tools.py",
+      "sha": "b62ca9c28f2683f2e94381cccbcc48ea24eeb560",
+      "size": 8979,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/learning_tool_bridge.py",
+      "sha": "e617f487500bb5ea55712830b7f3207afca14e8e",
+      "size": 10902,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/lineage_state.py",
+      "sha": "72dcccfb27baa6f5d50a7956995665e077620fcc",
+      "size": 1172,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/material_delta.py",
+      "sha": "e52c9ec43f3907a8720994da71c0c556d9d3d987",
+      "size": 852,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/math_first_selector.py",
+      "sha": "05286846b4c59e63d39242f3be750d2e94d695bb",
+      "size": 5033,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/math_first_wrapper.py",
+      "sha": "82c815efac97ec485db6bea8b0e57c6483c5335b",
+      "size": 12152,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/mathematical_color_gate.py",
+      "sha": "509ca1f4ae9e4ce1b9171ca0917969611fb182b8",
+      "size": 7297,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/mathematical_color_recovery.py",
+      "sha": "7d59fa827a836da0a38e8acbec3230444142a661",
+      "size": 1356,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/mo_mt.py",
+      "sha": "8d26b2c48cbf492d779f3f8a818894b2f9a1efaf",
+      "size": 1020,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/mode_centers.py",
+      "sha": "51f6bba79ea1a6bd36fc744746aae13def153891",
+      "size": 1090,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/mode_selector.py",
+      "sha": "ae261ea5ee3e999e99bb92e482eb46100e539885",
+      "size": 657,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/mt_semantic_return_gate.py",
+      "sha": "dc4c35d7b265adcd45a530cfcb763b14c625ba88",
+      "size": 4045,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/object_recovery.py",
+      "sha": "d4b6ed4231991e6965ad7a7d6ec9cd573b3c9ea6",
+      "size": 1833,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/question_worth_asking.py",
+      "sha": "215ecfcf1e2cfb2083bee0f6f4238ebde63f989c",
+      "size": 2455,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/rcdl.py",
+      "sha": "ae9ebccaaad642c5b729d08efbca940c3d0ed5bc",
+      "size": 1042,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/readiness_proof.py",
+      "sha": "6713554fefb37dc72be3f062f4581fb59ac46a68",
+      "size": 877,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/reconcile.py",
+      "sha": "caf41b696392ece9043717d441e7162299fb7163",
+      "size": 554,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/recursive_episode.py",
+      "sha": "736e0ad77b6baab131065ea6a2cca3f0a7a48d6f",
+      "size": 4272,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/reflexive_currentness.py",
+      "sha": "c9bb559c9f40917ef8f7f913ed831e67ad382f15",
+      "size": 905,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/representation_discovery.py",
+      "sha": "70638134cfe19f97bdf0fef01873412522c17e02",
+      "size": 1819,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/research_system.py",
+      "sha": "c1ddde525981e9b536ff7a8ae2c17314e0c1f7f7",
+      "size": 2042,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/result_path_registry.py",
+      "sha": "8e1a67a18a11ce9ae297dbfe07048c6ee67a3162",
+      "size": 2406,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/role_assignment.py",
+      "sha": "dc932857dcfea0c7f63f9ed14d2c3e509ea18483",
+      "size": 473,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/run_geometry.py",
+      "sha": "a9678b55a970411e905c102323ef417b85bead10",
+      "size": 1494,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/run_request.py",
+      "sha": "e0b65aa38cb48e81ad383868198235a70658f481",
+      "size": 2841,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/scope_mode_36.py",
+      "sha": "8edd985f89ccc9e95bbc458702699af5eba01cc8",
+      "size": 1102,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/scope_ontology.py",
+      "sha": "99318c0e1af5c85d3f60ebf0d01342f2ce09dddd",
+      "size": 1600,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/semantic_object_package.py",
+      "sha": "e04f13545783d1b3626f75b0e4dd6894460cedd2",
+      "size": 5401,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/semantic_resolution_pipeline.py",
+      "sha": "075fc1e02a7f1036fa30fe5422d8c0db07ebe93c",
+      "size": 2697,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/solution_to_my_problem.py",
+      "sha": "8fb2340f348915501461287b4fbef438d0aa4f1a",
+      "size": 4828,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/state_commit.py",
+      "sha": "3f5917c8aceb9bb9857a8911cce23bbe648ffb70",
+      "size": 3257,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/system_audit.py",
+      "sha": "cf64793f975723ea20b03dd0ba44b00dd60a3497",
+      "size": 6718,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/system_loop.py",
+      "sha": "9a09be025c2be123cf64c556d08b4b5da36951d2",
+      "size": 3788,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/take5_dump.py",
+      "sha": "86eca5dd0bc38ec03de61e07c3c6e63bae870866",
+      "size": 2794,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/tool_manifest.py",
+      "sha": "58c821c0438a53794fb172eb1837beb4b79c5ef2",
+      "size": 4951,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/tool_manifest_audit.py",
+      "sha": "3a84bea89f9e209ea7f23a1fc302197d54ed2a1d",
+      "size": 1041,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/tool_maturity.py",
+      "sha": "73b7e0246fe91bab14d257c65d5ea2ea2933ab2f",
+      "size": 1629,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/tool_run_closure.py",
+      "sha": "4d3d8906f450ddc56134a87003d681d770a6a40c",
+      "size": 8885,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/tool_run_registry.py",
+      "sha": "1b16a9ff3905c1aa04265729ead621d7df8e474f",
+      "size": 1916,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/work_geometry.py",
+      "sha": "6ef6b68ce9b6b88446f73797ba4d3ad333f237a0",
+      "size": 718,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/work_views.py",
+      "sha": "049be53ccbf7e546d337d1d5dc8cbb749c59ff22",
+      "size": 935,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "runtime/zero_request_episode.py",
+      "sha": "8ac09d2965e840fb94c4613b66ae3ebfba08a72c",
+      "size": 700,
+      "placement": "EXECUTABLE"
+    },
+    {
+      "path": "semantic_objects/semantic-object-package/CORE.md",
+      "sha": "b708a0be411d9aef33ac8a90983e79255fb6f0ff",
+      "size": 1001,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/semantic-object-package/MANIFEST.md",
+      "sha": "af53c32127797974b4aa4ff3ec89842d34d64e09",
+      "size": 308,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/semantic-object-package/transitions/boundary_decomposition__to__boundary_decomposition.md",
+      "sha": "2616d6e5a69f5deee303dc5cf3970d746fe6c208",
+      "size": 515,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/semantic-object-package/transitions/boundary_decomposition__to__component.md",
+      "sha": "91a4d654b152bf311b7cebd032ee1c014986d966",
+      "size": 496,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/semantic-object-package/transitions/boundary_decomposition__to__cross_layer.md",
+      "sha": "fde0e43eb3fc7f0020f83199d040953d1a153fcf",
+      "size": 500,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/semantic-object-package/transitions/boundary_decomposition__to__interface.md",
+      "sha": "73bd4abd7b43c56fbdc209d39006353280066abb",
+      "size": 496,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/semantic-object-package/transitions/boundary_decomposition__to__subsystem.md",
+      "sha": "db670c779f430ea40e4a04f3d7dd7da92da1b90c",
+      "size": 496,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/semantic-object-package/transitions/boundary_decomposition__to__system.md",
+      "sha": "fe53872cd0394b34b16019c37d9612cabb8eb48b",
+      "size": 490,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/semantic-object-package/transitions/component__to__boundary_decomposition.md",
+      "sha": "c0cd8043fc3215980b5a0aa1eb043485d94ca98c",
+      "size": 496,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/semantic-object-package/transitions/component__to__component.md",
+      "sha": "aa967506cafe97e5ccc6ce0b2ea464f4d83e2e9a",
+      "size": 463,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/semantic-object-package/transitions/component__to__cross_layer.md",
+      "sha": "c19a7e3578cf15db7228ae80f800e7b806314080",
+      "size": 472,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/semantic-object-package/transitions/component__to__interface.md",
+      "sha": "de5daa6517ac91dbae079c313051d1760abe3b63",
+      "size": 465,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/semantic-object-package/transitions/component__to__subsystem.md",
+      "sha": "8a8df15d1be74a9614a49f36e89709828140c92f",
+      "size": 463,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/semantic-object-package/transitions/component__to__system.md",
+      "sha": "78e6e97a2ccf15a9f833e4bc0863be4efd7d9e6c",
+      "size": 457,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/semantic-object-package/transitions/cross_layer__to__boundary_decomposition.md",
+      "sha": "599af04b1516ac73073a8de2a88a214aa8356c43",
+      "size": 500,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/semantic-object-package/transitions/cross_layer__to__component.md",
+      "sha": "a56224bd8ee509ba7734dff1960e40cf3b72ab07",
+      "size": 472,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/semantic-object-package/transitions/cross_layer__to__cross_layer.md",
+      "sha": "94f65709b7a5d23f162c5f2097c0454072e246ac",
+      "size": 471,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/semantic-object-package/transitions/cross_layer__to__interface.md",
+      "sha": "cf636086e77d2dc00e27c297ac0e8ea2b98b5677",
+      "size": 472,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/semantic-object-package/transitions/cross_layer__to__subsystem.md",
+      "sha": "c503b1489e603d84d4a6d560e441919cc0543fc4",
+      "size": 472,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/semantic-object-package/transitions/cross_layer__to__system.md",
+      "sha": "72bbe2541fdceaa7cbca429341c5c55b7150071d",
+      "size": 466,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/semantic-object-package/transitions/interface__to__boundary_decomposition.md",
+      "sha": "a0d3d3dec1bfce517d64f944f1e657d517702e93",
+      "size": 496,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/semantic-object-package/transitions/interface__to__component.md",
+      "sha": "a91889c7be04c2fc67bdfa6649c205afaf153d4f",
+      "size": 465,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/semantic-object-package/transitions/interface__to__cross_layer.md",
+      "sha": "d15979982677994b5931c44ced8adaaed090d6fd",
+      "size": 472,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/semantic-object-package/transitions/interface__to__interface.md",
+      "sha": "55654dfbb5a71ae9255cbe7147c5692dd7c93ec3",
+      "size": 463,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/semantic-object-package/transitions/interface__to__subsystem.md",
+      "sha": "f6a2fd7c14d18517963326592a9d335a95cb97d4",
+      "size": 465,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/semantic-object-package/transitions/interface__to__system.md",
+      "sha": "0acee8f5551ab80f2d7b4fa4c0c29c0a6937569c",
+      "size": 459,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/semantic-object-package/transitions/subsystem__to__boundary_decomposition.md",
+      "sha": "f663bd71ba5821186d95fdfb4d1cdb1518dbec3b",
+      "size": 496,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/semantic-object-package/transitions/subsystem__to__component.md",
+      "sha": "aec9a2e7d656a7ca8d7673622d30bc54c379f848",
+      "size": 466,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/semantic-object-package/transitions/subsystem__to__cross_layer.md",
+      "sha": "20f733243e90db8ebb5d08e9ac1e9738325f60b8",
+      "size": 472,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/semantic-object-package/transitions/subsystem__to__interface.md",
+      "sha": "af3f0f4d13349b3d9fb44af8bdcd788e664f5b76",
+      "size": 465,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/semantic-object-package/transitions/subsystem__to__subsystem.md",
+      "sha": "64fb007c7cdcfac07d2a394f6d02a359e9af9cf1",
+      "size": 463,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/semantic-object-package/transitions/subsystem__to__system.md",
+      "sha": "10410c2c8325401de93be755c414823990a56cb1",
+      "size": 457,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/semantic-object-package/transitions/system__to__boundary_decomposition.md",
+      "sha": "3299472b6523cf267f47788d2353a2b63601db8c",
+      "size": 490,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/semantic-object-package/transitions/system__to__component.md",
+      "sha": "dcdb6f08750ce9df8e67ff42c5761a886faaac33",
+      "size": 460,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/semantic-object-package/transitions/system__to__cross_layer.md",
+      "sha": "3c6cc95ff41a217bf9b5636d1d93b7fad4f0ffcd",
+      "size": 466,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/semantic-object-package/transitions/system__to__interface.md",
+      "sha": "44efd7a4f649e7a301f88c3ebc56726a8463365e",
+      "size": 459,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/semantic-object-package/transitions/system__to__subsystem.md",
+      "sha": "0d2d1b1152e54cf6cb7f1ceef95a32bffe2efcee",
+      "size": 460,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/semantic-object-package/transitions/system__to__system.md",
+      "sha": "a9acf445c8e3d516d374fd9a6bc4458778b72e54",
+      "size": 451,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-black-box/CORE.md",
+      "sha": "e7f837518dfee0d6e2361cde563fa4cf47c2ce79",
+      "size": 1046,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-black-box/MANIFEST.md",
+      "sha": "678b080fcfae074e8f03f4820406c5ebc9523731",
+      "size": 330,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-black-box/transitions/boundary_decomposition__to__boundary_decomposition.md",
+      "sha": "1f9eca017029774b2350144109716a61f9402fc7",
+      "size": 568,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-black-box/transitions/boundary_decomposition__to__component.md",
+      "sha": "6fdf9df6b042222ed3c58302eef5189c09f916ad",
+      "size": 549,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-black-box/transitions/boundary_decomposition__to__cross_layer.md",
+      "sha": "4e33eb66bbd59bae70fd576234fcb7d74674fe37",
+      "size": 553,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-black-box/transitions/boundary_decomposition__to__interface.md",
+      "sha": "bc1a139a7e960514783e02b3f810d6ee950d63da",
+      "size": 549,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-black-box/transitions/boundary_decomposition__to__subsystem.md",
+      "sha": "8d51f889a8dd13ec4b22a2ac23e566211c0eefa0",
+      "size": 549,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-black-box/transitions/boundary_decomposition__to__system.md",
+      "sha": "fd761d38dd0237d93c47f6c5a9f867c5f10dffc9",
+      "size": 543,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-black-box/transitions/component__to__boundary_decomposition.md",
+      "sha": "a6e31d8ae5a7fc811f4cdad098882a6b4e646fd8",
+      "size": 549,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-black-box/transitions/component__to__component.md",
+      "sha": "43a8eeaa7f7876b2c07b1b5eaf896b9f868f57a7",
+      "size": 516,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-black-box/transitions/component__to__cross_layer.md",
+      "sha": "5df6333e077dedbcce5dcf9e1672612340b0e70f",
+      "size": 525,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-black-box/transitions/component__to__interface.md",
+      "sha": "e9fafd9383f584a2e77bbdbe64ba612d374738d5",
+      "size": 518,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-black-box/transitions/component__to__subsystem.md",
+      "sha": "69974166af480a8c6f493110ff793a64ec241655",
+      "size": 516,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-black-box/transitions/component__to__system.md",
+      "sha": "529aec5a5a5c550d41f8bc1ed977ccabc888b3a2",
+      "size": 510,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-black-box/transitions/cross_layer__to__boundary_decomposition.md",
+      "sha": "1599986fbe46991eb74a1407686913fbddb71699",
+      "size": 553,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-black-box/transitions/cross_layer__to__component.md",
+      "sha": "1eb442bd9496cc5cbf16fe59093c26e8d24a2856",
+      "size": 525,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-black-box/transitions/cross_layer__to__cross_layer.md",
+      "sha": "155c07dd27316ffdfb0c001877822ab732ed92ee",
+      "size": 524,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-black-box/transitions/cross_layer__to__interface.md",
+      "sha": "ace98c8290233eb1e52659845edd5d2458a0809b",
+      "size": 525,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-black-box/transitions/cross_layer__to__subsystem.md",
+      "sha": "0fdfedc0f348b58c7fc48a0066f3ac1e34c1100a",
+      "size": 525,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-black-box/transitions/cross_layer__to__system.md",
+      "sha": "7b8a968678b9934a67cc308accbf9956801423eb",
+      "size": 519,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-black-box/transitions/interface__to__boundary_decomposition.md",
+      "sha": "c47281ba8401c4df280d61b2248ac89ef31e757f",
+      "size": 549,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-black-box/transitions/interface__to__component.md",
+      "sha": "42b0e970d122e30ab2956751545cefe9de617368",
+      "size": 518,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-black-box/transitions/interface__to__cross_layer.md",
+      "sha": "f0ca7c2abe67d10cfd283c9e795f2e674f96eeab",
+      "size": 525,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-black-box/transitions/interface__to__interface.md",
+      "sha": "56121c6f9e2acbee098aca672a46970be7ab81ee",
+      "size": 516,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-black-box/transitions/interface__to__subsystem.md",
+      "sha": "20576011a0470922cab630df2524575c71f9ccc9",
+      "size": 518,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-black-box/transitions/interface__to__system.md",
+      "sha": "95ba0b5c6fbe59dac9c141ac4cf8e15fafae0bf2",
+      "size": 512,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-black-box/transitions/subsystem__to__boundary_decomposition.md",
+      "sha": "d83b4970afa3dfce2794082d26d1dfe5466cc680",
+      "size": 549,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-black-box/transitions/subsystem__to__component.md",
+      "sha": "79ba1542b68a8d6e13fb0f5b194614e970b0af87",
+      "size": 519,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-black-box/transitions/subsystem__to__cross_layer.md",
+      "sha": "92b961fa6362143d8968bd97a1a4887213ecfabc",
+      "size": 525,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-black-box/transitions/subsystem__to__interface.md",
+      "sha": "3702c5788ba41b11e33b7d8c213c1123f8a7c1cb",
+      "size": 518,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-black-box/transitions/subsystem__to__subsystem.md",
+      "sha": "be61c6e9144e550d8676050fe01735961fe9c3e8",
+      "size": 516,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-black-box/transitions/subsystem__to__system.md",
+      "sha": "23dc7f5ca45c6177aeeb7da7947f922cfedaedcc",
+      "size": 510,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-black-box/transitions/system__to__boundary_decomposition.md",
+      "sha": "995ab15131d0e7ffa8987ec54c5e45c0ec3640bf",
+      "size": 543,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-black-box/transitions/system__to__component.md",
+      "sha": "cceeea0f56f271c7b2826f31f5a645377ed201e8",
+      "size": 513,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-black-box/transitions/system__to__cross_layer.md",
+      "sha": "ba243b9c2afd188190042373d9a61aedefc2c2c1",
+      "size": 519,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-black-box/transitions/system__to__interface.md",
+      "sha": "ca045ab31ce16b2a2794cd0b2723187c0b73a258",
+      "size": 512,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-black-box/transitions/system__to__subsystem.md",
+      "sha": "878c23c64be70b0a30ee6ce03a348d42c4bb77cc",
+      "size": 513,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-black-box/transitions/system__to__system.md",
+      "sha": "4bf83ea737e2666acc679d1a8718c0dd02a9bc43",
+      "size": 504,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-load-bearing/CORE.md",
+      "sha": "3998f9add75a3433b6963818e5b4e192b1bd94d0",
+      "size": 1044,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-load-bearing/MANIFEST.md",
+      "sha": "c17dd8ffc21c4b3008096c5bf10f22a249318b2c",
+      "size": 298,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-load-bearing/transitions/boundary_decomposition__to__boundary_decomposition.md",
+      "sha": "c305ad86b4d2e4bf710177022b59d304490ffeb0",
+      "size": 498,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-load-bearing/transitions/boundary_decomposition__to__component.md",
+      "sha": "be7bfec2bc639f890c3fd13e3cd660bc55927324",
+      "size": 479,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-load-bearing/transitions/boundary_decomposition__to__cross_layer.md",
+      "sha": "0cac4863209a325f53b9e892d340c4aaf624228b",
+      "size": 483,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-load-bearing/transitions/boundary_decomposition__to__interface.md",
+      "sha": "db0fdd60d6db26a800e213c494dd62c388a947fb",
+      "size": 479,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-load-bearing/transitions/boundary_decomposition__to__subsystem.md",
+      "sha": "814c307a7ea16b8626a1972833f90bc2707b2d59",
+      "size": 479,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-load-bearing/transitions/boundary_decomposition__to__system.md",
+      "sha": "7e39148dcb6b3e9c7c0600e4b6b04a19dec31311",
+      "size": 473,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-load-bearing/transitions/component__to__boundary_decomposition.md",
+      "sha": "26f47bd32c5fae5af009e334856af0cebd062820",
+      "size": 479,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-load-bearing/transitions/component__to__component.md",
+      "sha": "d3777e4bd5c206a4d5b929f388751d4d85086ab9",
+      "size": 446,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-load-bearing/transitions/component__to__cross_layer.md",
+      "sha": "71235d9fdf936c7a00a9c31d0bf4c2d484b918b3",
+      "size": 455,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-load-bearing/transitions/component__to__interface.md",
+      "sha": "4eee984087388d605600ef5e5d733976e94e5b3e",
+      "size": 448,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-load-bearing/transitions/component__to__subsystem.md",
+      "sha": "84160becd5163cb69dda4d18003f4e21767654d5",
+      "size": 446,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-load-bearing/transitions/component__to__system.md",
+      "sha": "e834b1e298650c4d3ee2101b96346ab7be1c8978",
+      "size": 440,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-load-bearing/transitions/cross_layer__to__boundary_decomposition.md",
+      "sha": "0fe95d090332075f636d146f48466baab18c15cd",
+      "size": 483,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-load-bearing/transitions/cross_layer__to__component.md",
+      "sha": "551be70c31edff53fef6b145d6c7ffc87077845a",
+      "size": 455,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-load-bearing/transitions/cross_layer__to__cross_layer.md",
+      "sha": "5b78c1b0cebeb0d444aee25d0bc4077e8a5c87a6",
+      "size": 454,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-load-bearing/transitions/cross_layer__to__interface.md",
+      "sha": "7c3be9c7f5e75e58fa4ea69d3d8ed1622000b078",
+      "size": 455,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-load-bearing/transitions/cross_layer__to__subsystem.md",
+      "sha": "084426e898ad11eb4fd953bd601d461e4020baa5",
+      "size": 455,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-load-bearing/transitions/cross_layer__to__system.md",
+      "sha": "9bc7faaf9cf5df941ded6f11c6c509b6d38e64cf",
+      "size": 449,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-load-bearing/transitions/interface__to__boundary_decomposition.md",
+      "sha": "c0b3e88e63c7c53767694f911bc6aa5b93174120",
+      "size": 479,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-load-bearing/transitions/interface__to__component.md",
+      "sha": "91cb578c819ea7875aec0eff47bca45bddb98953",
+      "size": 448,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-load-bearing/transitions/interface__to__cross_layer.md",
+      "sha": "522cb8c3b9bda42cee874b5dd07b0189e1844cc9",
+      "size": 455,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-load-bearing/transitions/interface__to__interface.md",
+      "sha": "0fe3e2f1fa097fc91d1560851c39486267d36589",
+      "size": 446,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-load-bearing/transitions/interface__to__subsystem.md",
+      "sha": "bd1b558c89a239e30ea99a093b692f6f4fb8724d",
+      "size": 448,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-load-bearing/transitions/interface__to__system.md",
+      "sha": "63eed2bcbd0a4620194a878e3baa769bbf403af3",
+      "size": 442,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-load-bearing/transitions/subsystem__to__boundary_decomposition.md",
+      "sha": "c7f39616e8fa26058d41c13b90746166cb9c8bc6",
+      "size": 479,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-load-bearing/transitions/subsystem__to__component.md",
+      "sha": "d62b10e620c2812f198618277eab6d0a2f73578e",
+      "size": 449,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-load-bearing/transitions/subsystem__to__cross_layer.md",
+      "sha": "c4fcaf7b979013528d5bdf45cd0042d4180dc765",
+      "size": 455,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-load-bearing/transitions/subsystem__to__interface.md",
+      "sha": "e7a0ce5343d1f808a32f413f75fdddd6ec48ca13",
+      "size": 448,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-load-bearing/transitions/subsystem__to__subsystem.md",
+      "sha": "05a6b5a9cca7effa3a3be62c196142048d93283a",
+      "size": 446,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-load-bearing/transitions/subsystem__to__system.md",
+      "sha": "030464b14ffe8c37c6e61a6319cce420d5d7a833",
+      "size": 440,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-load-bearing/transitions/system__to__boundary_decomposition.md",
+      "sha": "f44ed15f6105306feb536f55ecbad0eb27392384",
+      "size": 473,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-load-bearing/transitions/system__to__component.md",
+      "sha": "101a9b8053f6d0ecdb7cc12c69f3575956d602e9",
+      "size": 443,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-load-bearing/transitions/system__to__cross_layer.md",
+      "sha": "0f49f795b844925674d5224fad797f448f2e8081",
+      "size": 449,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-load-bearing/transitions/system__to__interface.md",
+      "sha": "e5f4836b065a0caf26e373f56bddf9b5fb8a724e",
+      "size": 442,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-load-bearing/transitions/system__to__subsystem.md",
+      "sha": "51a879cfbb68e8917293015493645c2e31cca582",
+      "size": 443,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-load-bearing/transitions/system__to__system.md",
+      "sha": "b8b155a4293a08e68dcc8d2db052e88100446cae",
+      "size": 434,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-tool/CORE.md",
+      "sha": "91cbd039ddbf8286d3dfd0006e7e684c4bc4830f",
+      "size": 968,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-tool/MANIFEST.md",
+      "sha": "99e8f46875cfd85683583b7fe44bcfda7aaee56e",
+      "size": 320,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-tool/transitions/boundary_decomposition__to__boundary_decomposition.md",
+      "sha": "bf1288ef4494fa66c4b7975e46bcf9b730130bb7",
+      "size": 558,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-tool/transitions/boundary_decomposition__to__component.md",
+      "sha": "d514c70ce934e67abcddb0cdfdc3c0100a86d557",
+      "size": 539,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-tool/transitions/boundary_decomposition__to__cross_layer.md",
+      "sha": "c0ae30b9d5dd25a7974a0e10a4b0f4e4d799938e",
+      "size": 543,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-tool/transitions/boundary_decomposition__to__interface.md",
+      "sha": "90e15bd49fd476a8be7ac7f861098e85b985a593",
+      "size": 539,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-tool/transitions/boundary_decomposition__to__subsystem.md",
+      "sha": "00469bf8b0e7e38354b98c2bbbff1caf87d6d50e",
+      "size": 539,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-tool/transitions/boundary_decomposition__to__system.md",
+      "sha": "197fea55dde430b2b6471931fa61995b6007c200",
+      "size": 533,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-tool/transitions/component__to__boundary_decomposition.md",
+      "sha": "9b85654bc5e3833396ec89b2b1af8a52bcdb86b0",
+      "size": 539,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-tool/transitions/component__to__component.md",
+      "sha": "4b64594b66a839662a5722fd3cdd7cf18f10c284",
+      "size": 506,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-tool/transitions/component__to__cross_layer.md",
+      "sha": "de32e8261b110b0c923b0de3a3bd3783a4c1c1ff",
+      "size": 515,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-tool/transitions/component__to__interface.md",
+      "sha": "8e585e9078cfd207bf469a8cc90ebe467f7bf341",
+      "size": 508,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-tool/transitions/component__to__subsystem.md",
+      "sha": "4ae3fd87b38bc9af1bf6c47a6d138ace252cdc51",
+      "size": 506,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-tool/transitions/component__to__system.md",
+      "sha": "6f7bd10010e196a00ebdf493defd723372561d85",
+      "size": 500,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-tool/transitions/cross_layer__to__boundary_decomposition.md",
+      "sha": "c97ecadf2edcfea04237bcc21cb704a732c06783",
+      "size": 543,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-tool/transitions/cross_layer__to__component.md",
+      "sha": "394dfa540fb9e8f54d32b29d61e26a3c562fb495",
+      "size": 515,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-tool/transitions/cross_layer__to__cross_layer.md",
+      "sha": "2572f8d9bf44026eef8dedb5888ecc641f2c4269",
+      "size": 514,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-tool/transitions/cross_layer__to__interface.md",
+      "sha": "6f90197b73843b813dbe6f159c1eebf0f6eb7fc3",
+      "size": 515,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-tool/transitions/cross_layer__to__subsystem.md",
+      "sha": "070919e0abd48d765565d2fa655f0b3345307bf0",
+      "size": 515,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-tool/transitions/cross_layer__to__system.md",
+      "sha": "3b6ecfc09f1566c282c29d81c988ceb9a71f6960",
+      "size": 509,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-tool/transitions/interface__to__boundary_decomposition.md",
+      "sha": "609c7ff3fe41361fb4d25f9852ddd99be9ae7b12",
+      "size": 539,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-tool/transitions/interface__to__component.md",
+      "sha": "380aff9e1645b833c67ae400fedaf89e54bef47d",
+      "size": 508,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-tool/transitions/interface__to__cross_layer.md",
+      "sha": "127e127d1f640e7e653618f9bccd3edd343a42fe",
+      "size": 515,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-tool/transitions/interface__to__interface.md",
+      "sha": "83320ec99d58a62a633855f61971002cc71d9de3",
+      "size": 506,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-tool/transitions/interface__to__subsystem.md",
+      "sha": "4fe445246933b406423625ca5898d93dd461bdb2",
+      "size": 508,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-tool/transitions/interface__to__system.md",
+      "sha": "bcb9b758212ff55d2a72f9a07d5acf7c294652a6",
+      "size": 502,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-tool/transitions/subsystem__to__boundary_decomposition.md",
+      "sha": "191b065604316479389f43fdb4b5ce62f0dea79b",
+      "size": 539,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-tool/transitions/subsystem__to__component.md",
+      "sha": "8710177f547aafc0f3a4008bf6bac68f60ad6ef9",
+      "size": 509,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-tool/transitions/subsystem__to__cross_layer.md",
+      "sha": "b7ff2cd3f969d1ef8efd57547dd02ba9d1b075ae",
+      "size": 515,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-tool/transitions/subsystem__to__interface.md",
+      "sha": "3d434c5d6ced389d2313f8c8b7b8f7955ae789f9",
+      "size": 508,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-tool/transitions/subsystem__to__subsystem.md",
+      "sha": "5bebde83ed18fd81415bcd7a5ecad4a4ef96df22",
+      "size": 506,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-tool/transitions/subsystem__to__system.md",
+      "sha": "f632975496465d7024e3e4b0ce4f2c84be43af0e",
+      "size": 500,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-tool/transitions/system__to__boundary_decomposition.md",
+      "sha": "7f30cac8bfa4b0304dd442353a69b2dbb58beeac",
+      "size": 533,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-tool/transitions/system__to__component.md",
+      "sha": "350b9cc2621494d5712bfb929c415b0a37fc29c8",
+      "size": 503,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-tool/transitions/system__to__cross_layer.md",
+      "sha": "75e8e4e82f3c06cf0eb316538cbc205f278e39e5",
+      "size": 509,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-tool/transitions/system__to__interface.md",
+      "sha": "02d9f9f60b226749aa6782a44bb96000e56184a6",
+      "size": 502,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-tool/transitions/system__to__subsystem.md",
+      "sha": "0855b8398f110f5dd8233830617ba30a5c4b173a",
+      "size": 503,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "semantic_objects/term-tool/transitions/system__to__system.md",
+      "sha": "af2b375808ed3ba2aaf66f605af1c88a397352bb",
+      "size": 494,
+      "placement": "GENERAL"
+    },
+    {
+      "path": "tests/test_a5_core.py",
+      "sha": "48e1b68d05e1e1a179e5924c02c5833df7f6652d",
+      "size": 1112,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "tests/test_a5_registry.py",
+      "sha": "31b1b7313a6949c3eb7d9e84850a3c30d95fc4f5",
+      "size": 4823,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "tests/test_activation_bridge.py",
+      "sha": "69b2c87b08e8cb9ed490c58a1e1c462d889b4884",
+      "size": 1535,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "tests/test_all_capabilities_execute.py",
+      "sha": "0a947aa7255ce8cba8d8622402f825d8a3636c9a",
+      "size": 2627,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "tests/test_artifact_intake.py",
+      "sha": "1002b122f78e851f104afda39514e7aa28f877c7",
+      "size": 4499,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "tests/test_assert_compound.py",
+      "sha": "ba8f8b6dfc5965987cfd53f9fa4353b4835e3c99",
+      "size": 3637,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "tests/test_assert_full36.py",
+      "sha": "e7402f4a5b0bb60c3be6c2da1c608e7a4fed0762",
+      "size": 1316,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "tests/test_capability_foundry.py",
+      "sha": "6c56263555861c94e2909ad6cec6852abd82689a",
+      "size": 4841,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "tests/test_capability_router.py",
+      "sha": "37ca0ba4af9f4909771dfbacdc236a6f0ae34a55",
+      "size": 1048,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "tests/test_configured_run_spec.py",
+      "sha": "ec801862694fbcfabf22850e77de3f58db44d72e",
+      "size": 493,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "tests/test_controller_episode.py",
+      "sha": "0de255651868730bec83238527d85ae9263297e5",
+      "size": 787,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "tests/test_coordinate_registry.py",
+      "sha": "ad06573fbcd6124086788995bf68cb93dff6c8bc",
+      "size": 696,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "tests/test_currentness_audit.py",
+      "sha": "93c88363e743d0084c49d3a705a00358933f65c5",
+      "size": 1622,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "tests/test_delegation_lineage.py",
+      "sha": "8a1d77dad3b0f385b334534eaeebb0bd9fdced9b",
+      "size": 1886,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "tests/test_desired_jane.py",
+      "sha": "e22dfed07ad6209cc57e5e49a23631ea682bf053",
+      "size": 1872,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "tests/test_desired_jane_registry.py",
+      "sha": "e926d8ee241a77f02cdb2831af760099090ecc89",
+      "size": 312,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "tests/test_evidence_ledger.py",
+      "sha": "17df6c85a8e939eba897288f9508a737bf9e9686",
+      "size": 1524,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "tests/test_foundation_takeover.py",
+      "sha": "7107a283a609868b14c86b7d128615f54f646cff",
+      "size": 1272,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "tests/test_global_tool_execution.py",
+      "sha": "02abab3e6d100764c9a1e62627fa81cccafde59c",
+      "size": 1548,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "tests/test_hf1_episode.py",
+      "sha": "39b70101c30b007853ee138c7d66378d284f6fe9",
+      "size": 3268,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "tests/test_hf1_recovery.py",
+      "sha": "1a9a92d7b969b4eaeb177a8626d5f3481fdb6150",
+      "size": 210,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "tests/test_hf_current_controller.py",
+      "sha": "5acf5d59c07847ef2255ca77e2365d060a725913",
+      "size": 1381,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "tests/test_hf_wrapper_reentry.py",
+      "sha": "e9155ceeb02d169d38dc5bc936fc8b5876bb0530",
+      "size": 719,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "tests/test_historical_reconstruction.py",
+      "sha": "ce3313aeceaaa722d1ca77c4ea6e23eff5face3b",
+      "size": 967,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "tests/test_ic028_operator.py",
+      "sha": "6f5278deace4bbddd2a3db0122e1ef4d1224cc4e",
+      "size": 4331,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "tests/test_icc_bootstrap.py",
+      "sha": "c3a41837a2eff91264d7987ec5d74019d611c147",
+      "size": 2698,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "tests/test_improvement_core.py",
+      "sha": "fbe152cf0f076d725da12236d41e2353e6e2d0b2",
+      "size": 3228,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "tests/test_improvement_core_dispatch.py",
+      "sha": "4de86739acd7f660994d6f38f436b113cc06d401",
+      "size": 1788,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "tests/test_improvement_core_manager.py",
+      "sha": "9893fe8f0f02de92d36f6ea0071c73c75c3ee1be",
+      "size": 2219,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "tests/test_improvement_core_math_086.py",
+      "sha": "0e7158bbfae7ba6adbb7370c4524cee04812caa5",
+      "size": 1915,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "tests/test_improvement_core_math_first.py",
+      "sha": "32148dacc4e6e26ff6b0b4c41f5e5bac5608a6ff",
+      "size": 1607,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "tests/test_improvement_core_recovery.py",
+      "sha": "80e28ed5e66348754bac1e1691c95b3f6b637f6a",
+      "size": 447,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "tests/test_improvement_core_regime.py",
+      "sha": "2d2531a8f6608f8b5db6b746c63918b11a2f2626",
+      "size": 6267,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "tests/test_inquiry_session.py",
+      "sha": "e7cbc8f2eeb4663b2dac793e61d0fac066aacb8f",
+      "size": 4072,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "tests/test_jane_semantic_lifecycle.py",
+      "sha": "c18fb660c2002b5ec85f8b09fd4e308b56da2bd9",
+      "size": 2719,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "tests/test_kernel_f1.py",
+      "sha": "0c93d678408825323f8e0496f5370eb1fdf590fb",
+      "size": 1197,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "tests/test_lambda_math.py",
+      "sha": "8d8c8dced41c292e9828004d40783d37d94f2e63",
+      "size": 1616,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "tests/test_learning_tool_bridge.py",
+      "sha": "23f7494884f22af8cba74a9bd3d709be474f36c6",
+      "size": 4312,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "tests/test_learning_tool_configured_runs.py",
+      "sha": "cf01ece0ab668e387bb47a91889a9c22f4ee3a41",
+      "size": 580,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "tests/test_math_first_selector.py",
+      "sha": "99c8743a235d61dac23d140e2cd8f7440194c476",
+      "size": 1724,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "tests/test_math_first_wrapper.py",
+      "sha": "1ba338422e0f7d6c7b78b32a59480e9b469d1d23",
+      "size": 5582,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "tests/test_math_first_wrapper_holdout.py",
+      "sha": "7899aa7d0d2f2fbaf1f9bc1b1505bd5d8bcf18f6",
+      "size": 2561,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "tests/test_mathematical_color_gate.py",
+      "sha": "21baacd6f4bcac94de8ec7a5cd85fa1886c36661",
+      "size": 5555,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "tests/test_mathematical_color_recovery.py",
+      "sha": "3191bc77956886a67b829fadf02902b51beed3d9",
+      "size": 214,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "tests/test_mode_selector.py",
+      "sha": "ab4a9a307b3c700ef3420823ec992093f3663a39",
+      "size": 728,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "tests/test_mt_semantic_return_gate.py",
+      "sha": "ee722051498979ae05aef6596fc73bf44e452534",
+      "size": 2319,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "tests/test_object_recovery.py",
+      "sha": "a9d5e22924fdc78c56ee484ec11bda0f80f54625",
+      "size": 1478,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "tests/test_question_worth_asking.py",
+      "sha": "7445fddf495c69718e433ddd9bdf9a827272c948",
+      "size": 1390,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "tests/test_rcdl.py",
+      "sha": "a0e2e6ff6767a8628cab03f1cc89ca02875769c3",
+      "size": 618,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "tests/test_readiness_proof.py",
+      "sha": "0372cc16267f09e16fc7b78132a142941d4cf720",
+      "size": 422,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "tests/test_recursive_episode.py",
+      "sha": "8b041c2f4488cf5646c342665adc9a69839a5907",
+      "size": 2841,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "tests/test_remaining_capabilities.py",
+      "sha": "058262960848645a40b4b45c474bf7625fdcb54f",
+      "size": 1118,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "tests/test_repository_governance.py",
+      "sha": "bc2394b0d03f0488f6d39d3d9a2ae92728bf6a38",
+      "size": 2395,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "tests/test_representation_discovery.py",
+      "sha": "1a52d6ec41087c6626e96afa430ba26a4e5b056a",
+      "size": 1079,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "tests/test_result_path_registry.py",
+      "sha": "7a3fe9660cedfdc378ce8e7652bbec07dbf3b327",
+      "size": 1836,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "tests/test_run_geometry.py",
+      "sha": "7c0ee3fd9d103c0c7e45fde8b5d48e79b885ab35",
+      "size": 814,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "tests/test_run_request.py",
+      "sha": "a99d61de92671bc5f283ad1cd6c099d2dce33b11",
+      "size": 2036,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "tests/test_scope_mode_36.py",
+      "sha": "e33750ed3e5aea8856dedb616892eafc1603dc1f",
+      "size": 822,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "tests/test_scope_ontology.py",
+      "sha": "a7e03bb297a6ef673f5eb6d69c6e2893ab845c08",
+      "size": 844,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "tests/test_semantic_object_package.py",
+      "sha": "c885314a6ba2e6e4b4137f191ad4e3ec2d408a3b",
+      "size": 2069,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "tests/test_semantic_resolution_pipeline.py",
+      "sha": "65ad2d8777c4d19fa5bcc8627556ad21e06d242a",
+      "size": 1159,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "tests/test_solution_to_my_problem.py",
+      "sha": "efba46f4f85642e2ee5bc682249fbd6edb28cb3d",
+      "size": 3609,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "tests/test_state_commit.py",
+      "sha": "aea89a5aec6e349804e82e95ea691e7d8665d3ad",
+      "size": 1348,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "tests/test_system_architecture_currentness.py",
+      "sha": "b4a80a81e1d7e0f136ef3f45013fcb0cfaa5e02f",
+      "size": 2375,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "tests/test_system_audit.py",
+      "sha": "d7748670a912deba85065588b667be3d36202f03",
+      "size": 1116,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "tests/test_system_loop.py",
+      "sha": "448cecb2de09f8a2a81524af0c27ea746994e0dd",
+      "size": 1196,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "tests/test_takeover_independence.py",
+      "sha": "8cf6e62bed8d7dd40eae2d39759301eaca819423",
+      "size": 798,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "tests/test_tool_manifest.py",
+      "sha": "f5b03f2f6d90a0ac9c1f8c07bc8f2460647c35ec",
+      "size": 1580,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "tests/test_tool_manifest_audit.py",
+      "sha": "f1c003a9c06da945cffe72dd676cc99c2298d508",
+      "size": 697,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "tests/test_tool_maturity.py",
+      "sha": "20bc149027def53115178894262ddb9907abc9ca",
+      "size": 592,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "tests/test_tool_run_closure.py",
+      "sha": "1b51daeaee27fa3108ce60af576245af1b0500b1",
+      "size": 3583,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "tests/test_typed_work.py",
+      "sha": "a67ce9a125aa03e7f24cc3e9e027b9c4c40b9a98",
+      "size": 698,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "tests/test_unfamiliar_holdout.py",
+      "sha": "d1f62511263193582a788ca08aafa7c7bdadcb95",
+      "size": 880,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "tests/test_work_views.py",
+      "sha": "b6828085d8a1b8fa558d2494c94649dbcdebc51d",
+      "size": 713,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "tests/test_zero_request_episode.py",
+      "sha": "11b2e61e31f0fe51d6aa1f6ae7d3587d467e359d",
+      "size": 589,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "validation/FINAL_GO_NO_GO_ATTACK_026.md",
+      "sha": "7c7983670a6a9e829ad94b5fed2f341f04dda614",
+      "size": 2764,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "validation/FOUNDATION_TOOL_AUDIT_021.md",
+      "sha": "501713957fed4265ac35ca49008301b604362fe5",
+      "size": 8702,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "validation/HISTORICAL_RECONSTRUCTION_WITNESSES_015.md",
+      "sha": "aba8d03826fc61aa9716ef39ce3341a51be0a223",
+      "size": 2874,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "validation/MIGRATION_RECEIPT_035.md",
+      "sha": "ba56ae757ce1e635049491f7dfbf9982cd2be681",
+      "size": 2378,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "validation/NT_MIGRATION_DISPOSITION_028.md",
+      "sha": "ae31e635448c5448f941c7f0c85e291a13a7614d",
+      "size": 3458,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "validation/READINESS_EVIDENCE_016.md",
+      "sha": "63ef7a1eddefb1eb6ab5288630e846aa7b9d748c",
+      "size": 2019,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "validation/READINESS_EVIDENCE_024.md",
+      "sha": "945b303cf0c6cf31b95ee59ebb37b9a8885b71eb",
+      "size": 2779,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "validation/WHOLE_SYSTEM_SWEEP_023.md",
+      "sha": "5d102bd9e6692da6f6af9b7392f09588e08b5259",
+      "size": 3243,
+      "placement": "VERIFICATION"
+    },
+    {
+      "path": "validation/check_learning_operator_tools.py",
+      "sha": "4646483408b77962402a532e37bee38d1d31ea4d",
+      "size": 2249,
+      "placement": "VERIFICATION"
+    }
+  ]
+}
