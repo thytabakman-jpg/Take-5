@@ -27,6 +27,8 @@ REQUIRED_FILES=(
     "runtime/ic028_operator.py",
     "runtime/improvement_core_recursive_manager.py",
     "runtime/improvement_core_learning_memory.py",
+    "runtime/improvement_core_afterrun.py",
+    "architecture/IMPROVECORE_AFTER_RUN_FULL_TOOL_092.md",
     "architecture/IMPROVEMENT_CORE_MAXIMIZATION_081.md",
     "architecture/CROSS_REPOSITORY_IMPROVEMENTCORE_LINEAGE_CHOICE_080.md",
     "research/IMPROVEMENT_CORE_USAGE_AUDIT_078_2026-09-26.md",
@@ -55,6 +57,8 @@ def validate_recovery()->dict:
         failures.append("RECURSIVE_MANAGER_MISSING")
     if "learning_memory" not in CURRENT_REGIME.learning_memory:
         failures.append("LEARNING_MEMORY_MISSING")
+    if "improvement_core_afterrun" not in CURRENT_REGIME.afterrun_tool:
+        failures.append("AFTERRUN_SELF_IMPROVEMENT_MISSING")
 
     if not missing:
         manifest=json.loads(_read("architecture/IMPROVEMENT_CORE_RECOVERY_MANIFEST_082.json"))
@@ -80,14 +84,18 @@ def validate_recovery()->dict:
             failures.append("RECURSIVE_ACTIVATION_CONTRACT_MISSING")
         if regime.get("learning_activation")!="RECURSIVE_ROUTE_GATE_AND_STAGE_LEARNING_EVENTS":
             failures.append("LEARNING_ACTIVATION_CONTRACT_MISSING")
+        if regime.get("afterrun_activation")!="MANDATORY_AFTER_EVERY_GOVERNED_USE":
+            failures.append("AFTERRUN_ACTIVATION_CONTRACT_MISSING")
 
         max_doc=_read("architecture/IMPROVEMENT_CORE_MAXIMIZATION_081.md")
         if "Status: IMPLEMENTED / VALIDATED / MERGED" not in max_doc:
             failures.append("MAXIMIZATION_STATUS_STALE")
 
         anchor=_read("integration/CURRENT_IMPROVEMENT_CORE.md")
-        if "Current regime version:\n- 083" not in anchor:
+        if f"Current regime version:\n- {CURRENT_REGIME.version}" not in anchor:
             failures.append("RECOVERY_ANCHOR_REGIME_VERSION_DRIFT")
+        if "ImproveCoreAfterRun" not in anchor:
+            failures.append("AFTERRUN_RECOVERY_ANCHOR_MISSING")
 
         handoff=_read("integration/ICC_SHUTDOWN_HANDOFF_2026-09-25.md")
         if "1. `integration/CURRENT_IMPROVEMENT_CORE.md`" not in handoff:
