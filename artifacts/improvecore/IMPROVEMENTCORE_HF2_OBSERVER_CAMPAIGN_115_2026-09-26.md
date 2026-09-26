@@ -143,6 +143,22 @@ Expected verified properties:
 - PTI is preserved rather than duplicated;
 - universal host interception remains outside repository ownership.
 
-Status before CI:
+## External verification
 
-VERIFY_PENDING.
+Take-5 Validation:
+36266749501 SUCCESS.
+
+Capability Preservation:
+36266749515 SUCCESS.
+
+Observer ImprovementCore + HF2 disposition:
+
+RELATIVE_CLOSE.
+
+Mutation performed:
+
+false.
+
+Observer candidate passed forward:
+
+EXECUTION_CLAIM_INTEGRITY_GATE.
