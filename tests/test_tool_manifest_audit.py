@@ -8,7 +8,8 @@ def test_portfolio_identity_audit_keeps_remaining_generic_only_tools_open():
     assert "MT" in audit.explicit
     assert "ASSERT" in audit.explicit
     assert "HF001" in audit.explicit
-    assert "ImprovementCore" in audit.generic_only
+    assert "ImprovementCore" in audit.explicit
+    assert "ImprovementCore" not in audit.generic_only
     assert "GOAL" in audit.generic_only
 
 def test_explicit_subset_can_close_relative():
