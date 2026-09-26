@@ -63,6 +63,47 @@ class TransportCertificate:
 
 
 @dataclass(frozen=True)
+class ComparisonFrame:
+    """One declared comparison basis for a whole improvement episode.
+
+    A frame assigns every participating basis exactly one admitted transport into
+    the same common basis. This prevents pairwise comparisons from silently
+    changing comparison frames and makes chain transitivity testable.
+    """
+    frame_id: str
+    common_basis: str
+    transports: Mapping[str, Mapping[str, str]]
+    preserves_protected: bool = True
+    preserves_authority: bool = True
+    evidence: Tuple[str, ...] = ()
+
+    @property
+    def valid(self) -> bool:
+        return bool(
+            self.frame_id
+            and self.common_basis
+            and self.preserves_protected
+            and self.preserves_authority
+            and self.evidence
+        )
+
+    def transport(self, state: SystemState) -> SystemState | None:
+        if not self.valid:
+            return None
+        if state.basis_id == self.common_basis:
+            mapping: Mapping[str, str] = {}
+        else:
+            mapping = self.transports.get(state.basis_id)
+            if mapping is None:
+                return None
+        return transport_state(
+            state,
+            common_basis=self.common_basis,
+            mapping=mapping,
+        )
+
+
+@dataclass(frozen=True)
 class Comparison:
     left: SystemState
     right: SystemState
@@ -219,6 +260,54 @@ def equivalent_state(
         return False
     l, r = pair
     return _semantic_weak(l, r) and _semantic_weak(r, l) and l.burden == r.burden
+
+
+def compare_in_frame(
+    left: SystemState,
+    right: SystemState,
+    frame: ComparisonFrame,
+) -> Comparison:
+    """Compare two states after transport into one episode-wide basis."""
+    l = frame.transport(left)
+    r = frame.transport(right)
+    if l is None or r is None:
+        return Comparison(left, right, False, False, (), False, "COMPARISON_FRAME_INCOMPLETE")
+    return compare_states(l, r)
+
+
+def weak_improvement_in_frame(
+    left: SystemState,
+    right: SystemState,
+    frame: ComparisonFrame,
+) -> bool:
+    cmp = compare_in_frame(left, right, frame)
+    return cmp.comparable and cmp.non_regressive
+
+
+def strict_improvement_in_frame(
+    left: SystemState,
+    right: SystemState,
+    frame: ComparisonFrame,
+) -> bool:
+    cmp = compare_in_frame(left, right, frame)
+    return cmp.comparable and cmp.non_regressive and bool(cmp.strict_coordinates)
+
+
+def frame_chain_strict(
+    states: Iterable[SystemState],
+    frame: ComparisonFrame,
+) -> bool:
+    """Finite witness that every adjacent edge and the end-to-end edge are strict.
+
+    Because every state is transported by the same frame into one preorder fiber,
+    this checks the concrete condition needed for a multi-basis improvement chain.
+    """
+    xs = tuple(states)
+    if len(xs) < 2:
+        return False
+    if not all(strict_improvement_in_frame(a, b, frame) for a, b in zip(xs, xs[1:])):
+        return False
+    return strict_improvement_in_frame(xs[0], xs[-1], frame)
 
 
 @dataclass(frozen=True)
