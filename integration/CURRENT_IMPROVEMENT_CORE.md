@@ -224,22 +224,22 @@ Open-world global maximality/minimality is not a licensed completion claim. Curr
 12. runtime/improvement_core_route_calibration.py
 13. architecture/IMPROVEMENT_CORE_FRONTIER_CLOSURE_106.md
 14. architecture/HOST_INTERCEPTION_AUTHORITY_BOUNDARY_001_2026-09-26.md
-15. runtime/improvement_core_regime.py
-11. runtime/improvement_core_external_acquisition.py
-12. architecture/IMPROVEMENT_CORE_EXTERNAL_ACQUISITION_090.md
-13. runtime/improvement_core_manager.py
-14. runtime/ic028_operator.py
-15. runtime/improvement_core_recursive_manager.py
-16. runtime/improvement_core_learning_memory.py
-17. architecture/IMPROVEMENT_CORE_MAXIMIZATION_081.md
-18. architecture/CROSS_REPOSITORY_IMPROVEMENTCORE_LINEAGE_CHOICE_080.md
-19. research/IMPROVEMENT_CORE_USAGE_AUDIT_078_2026-09-26.md
-20. architecture/MATH_FIRST_WRAPPER_CLOSURE_039.md
-21. architecture/FULL_RUN_DEFAULT_DISPATCH_CONTRACT_066.md
-22. architecture/CANONICAL_TOOL_IDENTITY_REPAIR_076.md
-23. architecture/PROTECTED_TRANSITION_INTEGRITY_090.md
-24. integration/CURRENT_PROTECTED_TRANSITION_INTEGRITY.md
-25. MIGRATION_STATE.yaml
+15. runtime/current_portfolio_identity.py
+16. runtime/repertoire_reachability.py
+17. integration/IMPROVEMENTCORE_HISTORICAL_REPLAY_BASIS_001.json
+18. runtime/historical_replay_audit.py
+19. runtime/improvement_core_regime.py
+20. runtime/improvement_core_external_acquisition.py
+21. architecture/IMPROVEMENT_CORE_EXTERNAL_ACQUISITION_090.md
+22. runtime/improvement_core_manager.py
+23. runtime/ic028_operator.py
+24. runtime/improvement_core_recursive_manager.py
+25. runtime/improvement_core_learning_memory.py
+26. architecture/IMPROVEMENT_CORE_MAXIMIZATION_081.md
+27. architecture/CROSS_REPOSITORY_IMPROVEMENTCORE_LINEAGE_CHOICE_080.md
+28. architecture/PROTECTED_TRANSITION_INTEGRITY_090.md
+29. integration/CURRENT_PROTECTED_TRANSITION_INTEGRITY.md
+30. MIGRATION_STATE.yaml
 
 ## Related current recovery anchors
 
