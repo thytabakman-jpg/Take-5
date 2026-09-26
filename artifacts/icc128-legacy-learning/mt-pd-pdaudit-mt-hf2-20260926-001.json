@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "object_id": "TAKE5:ICC128-LEGACY-LEARNING-REPORT:001",
+  "tool": "ICC128 Legacy",
+  "run_id": "mt-pd-pdaudit-mt-hf2-20260926-001",
+  "source_repository": "thytabakman-jpg/Reaserch",
+  "source_commit": "e4c76c595b44a35fd9efc02cde8979e656ef54e8",
+  "learning_persistence": "REPORT_ONLY_EPHEMERAL_CONTROLLER_MEMORY",
+  "learning_status": "MATERIAL_LEARNING",
+  "run_status": "RETURN_REENTER",
+  "failure": null,
+  "initial_state": {
+    "task": "Run current full MT, then PD, then PDAudit, then MT again using current HF002 on the previously emitted ICC128 Legacy mathematics."
+  },
+  "initial_memory": {},
+  "iteration_learning": [
+    {
+      "iteration": 0,
+      "stage": "MT",
+      "geometry": "D36_C",
+      "cells": 36,
+      "execution_truth": "SEMANTICALLY_APPLIED",
+      "admitted_delta": {
+        "controller_equations_coherent": true,
+        "snapshot_self_containment_open": true,
+        "persistence_identity_conflict": true
+      }
+    },
+    {
+      "iteration": 1,
+      "stage": "PD",
+      "geometry": "D36_C",
+      "cells": 36,
+      "execution_truth": "SEMANTICALLY_APPLIED",
+      "admitted_delta": {
+        "distinctions": [
+          "math_truth_vs_snapshot_self_containment",
+          "source_recovery_vs_local_copy",
+          "interface_sufficiency_vs_child_internal_completeness",
+          "intra_run_learning_vs_cross_run_persistence",
+          "native_freeze_vs_full_configured_identity",
+          "hf2_semantic_applicability_vs_promoted_runtime_binding"
+        ]
+      }
+    },
+    {
+      "iteration": 2,
+      "stage": "PDAudit",
+      "geometry": "D36_C",
+      "cells": 36,
+      "execution_truth": "SEMANTICALLY_APPLIED",
+      "admitted_delta": {
+        "no_controller_equation_contradiction": true,
+        "snapshot_support_dependencies_missing_locally": true,
+        "historical_wrapper_requires_persistence": true,
+        "current_legacy_activation_discards_post_run_memory": true,
+        "identity_boundary_open": true
+      }
+    },
+    {
+      "iteration": 3,
+      "stage": "MT+HF002",
+      "geometry": "D36_C",
+      "cells": 36,
+      "execution_truth": "SEMANTICALLY_APPLIED",
+      "hf2_integration_status": "UNIVERSAL_MT_RUNTIME_PROMOTION_OPEN",
+      "admitted_delta": {
+        "snapshot_self_containment_classified": "PACKAGING_RECONSTRUCTION_DEFECT",
+        "persistence_identity_conflict": "OPEN",
+        "hf2_disposition": "RETURN_REENTER",
+        "reentry_target": "LEGACY_CONFIGURED_IDENTITY_AND_WRAPPER_PERSISTENCE"
+      }
+    }
+  ],
+  "admitted_deltas": [
+    "SNAPSHOT_SELF_CONTAINMENT_OPEN",
+    "PERSISTENCE_IDENTITY_CONFLICT",
+    "HF2_MT_PROMOTION_BOUNDARY"
+  ],
+  "final_state": {
+    "terminal": "RETURN_REENTER",
+    "controller_math": "SOURCE_RELATIVE_PASS",
+    "frozen_package_self_containment": "OPEN",
+    "configured_persistence_equivalence": "CONFLICT",
+    "hf2_mt_runtime_binding": "OPEN_PROMOTION"
+  },
+  "final_ephemeral_memory": {
+    "learned": [
+      "Frozen core equations are source-supported.",
+      "Frozen package is not fully self-contained.",
+      "Report-only discard-after-run persistence changes a load-bearing configured-tool persistence coordinate.",
+      "Current HF002 can be semantically applied to MT recurrence, but universal promoted runtime binding remains open."
+    ]
+  },
+  "memory_changed": true,
+  "state_changed": true,
+  "ephemeral_memory_disposition": "DISCARD_AFTER_REPORT_SUBMISSION",
+  "report_required_even_when_no_material_learning": true
+}
