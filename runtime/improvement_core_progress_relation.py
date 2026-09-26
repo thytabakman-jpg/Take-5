@@ -1,6 +1,7 @@
-"""Candidate executable witness for ImprovementCore canonical progress mathematics.
+"""Canonical ImprovementCore progress relation.
 
-Research branch only. This module does not promote a new controller.
+Promoted into regime 090 as the recurrence, no-gain, and anti-cycle
+mathematics. Progress claims are target-, basis-, and boundary-indexed.
 """
 from __future__ import annotations
 
