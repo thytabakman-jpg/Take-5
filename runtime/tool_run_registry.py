@@ -13,6 +13,10 @@ MATERIAL_TOOLS=tuple([f"C{i:02d}" for i in range(1,50)]+[
 
 ASSERT_LAYERS=("ASSERT_LAYER_1","ASSERT_LAYER_2")
 
+PROTECTED_BEHAVIORS={
+    "MT":("MT_BLACK_BOX_SEMANTIC_RETURN_GATE",),
+}
+
 def _spec(tool):
     strong=(
         tool in {
@@ -30,6 +34,8 @@ def _spec(tool):
         reentry_required=True,
         external_challenge="WHEN_STRONG_CLAIM" if strong else "NONE",
         required_layers=layers,
+        manifest_id=tool,
+        protected_behaviors=PROTECTED_BEHAVIORS.get(tool,()),
     )
 
 CONFIGURED_RUNS={t:_spec(t) for t in MATERIAL_TOOLS}
