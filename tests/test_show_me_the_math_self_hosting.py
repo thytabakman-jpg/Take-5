@@ -10,8 +10,12 @@ from show_me_the_math_portable import (
     REQUEST_CONTRACT,
     SELF_ENVIRONMENT,
     SELF_PACKAGE,
+    SURFACE_CONSTANTS,
+    SURFACE_EQUATION,
     assess,
     self_assess,
+    surface_components,
+    surface_value,
 )
 from mt_semantic_return_gate import run_mt_with_before_return_gate
 from portable_tool_conductor import run_tool_conductor
@@ -120,3 +124,22 @@ def test_tool_conductor_exhaustively_visits_current_repertoire_for_self_hosting_
     tool_conductor=[r for r in out["results"] if r["tool_id"]=="ToolConductor"]
     assert len(tool_conductor)==1
     assert tool_conductor[0]["status"]=="EXECUTED_SELF_WITNESS"
+
+
+def test_canonical_surface_equation_is_closed_english_free_and_nontrivial():
+    assert SURFACE_EQUATION=="Σ=𝟙_{Δ∩Ω∩Φ∩Ξ}"
+    assert not any("A"<=ch<="Z" or "a"<=ch<="z" for ch in SURFACE_EQUATION)
+    assert SURFACE_CONSTANTS==frozenset({"Σ","Δ","Ω","Φ","Ξ"})
+    assert SURFACE_EQUATION not in {"1","0","1=1","1=(1∧1∧1∧1)"}
+
+
+def test_surface_equation_is_semantically_faithful_to_full_completion():
+    full=self_assess()
+    components=surface_components(SELF_PACKAGE,SELF_ENVIRONMENT)
+    assert components=={"Δ":True,"Ω":True,"Φ":True,"Ξ":True}
+    assert surface_value(SELF_PACKAGE,SELF_ENVIRONMENT)==int(full.complete)==1
+
+    broken=copy.deepcopy(SELF_PACKAGE)
+    broken["definitions"]["SHOW_ME_THE_MATH"]["dependencies"].append("HIDDEN_SURFACE_TEST")
+    full_broken=assess(broken,SELF_ENVIRONMENT)
+    assert surface_value(broken,SELF_ENVIRONMENT)==int(full_broken.complete)==0

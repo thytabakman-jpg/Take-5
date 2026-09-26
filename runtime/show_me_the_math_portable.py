@@ -184,12 +184,51 @@ def assess(package:Mapping[str,Any], environment:Mapping[str,Any])->Assessment:
     )
 
 
+
+# Canonical closed display normal form.
+# These glyphs are constants/sets, not free variables:
+# Σ = SHOW_ME_THE_MATH characteristic map
+# Δ = definition-closed region
+# Ω = obligation-closed region
+# Φ = realizer-available region
+# Ξ = portable-equivalent region
+SURFACE_EQUATION="Σ=𝟙_{Δ∩Ω∩Φ∩Ξ}"
+SURFACE_CONSTANTS=frozenset({"Σ","Δ","Ω","Φ","Ξ"})
+SURFACE_OPERATORS=frozenset({"=","𝟙","_","{","}","∩"})
+
+
+def surface_components(
+    package:Mapping[str,Any],
+    environment:Mapping[str,Any],
+)->dict[str,bool]:
+    assessment=assess(package,environment)
+    definition_closed=not (
+        assessment.missing_fields
+        or assessment.unresolved_symbols
+        or assessment.unavailable_primitives
+    )
+    obligation_closed=not assessment.unsatisfied_obligations
+    realizer_available=not assessment.realizer_errors
+    portable_equivalent=not assessment.equivalence_errors
+    return {
+        "Δ":definition_closed,
+        "Ω":obligation_closed,
+        "Φ":realizer_available,
+        "Ξ":portable_equivalent,
+    }
+
+
+def surface_value(package:Mapping[str,Any], environment:Mapping[str,Any])->int:
+    return int(all(surface_components(package,environment).values()))
+
+
 def show_me_the_math(package:Mapping[str,Any], environment:Mapping[str,Any])->dict[str,Any]:
     result=assess(package,environment)
     return {
         "status":result.status,
         "complete":result.complete,
         "math":{
+            "surface":SURFACE_EQUATION,
             "load_bearing_closure":"LB(P,X)=mu S.(Roots(P,X) union Union_{s in S} Dependencies_P(s))",
             "completion":"Closed(P,X,E)=DefinitionClosed and ObligationClosed and RealizerAvailable and ProtectedEquivalent",
             "operator":"SMTM(P,X,E)=GREEN iff Closed(P,X,E), else RED(Residuals(P,X,E))",

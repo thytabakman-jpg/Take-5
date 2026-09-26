@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "run_id": "show-math-goal-problem-solution-20260926-001",
+  "order": [
+    "GOAL",
+    "WhatIsMyProblem",
+    "SolutionToMyProblem"
+  ],
+  "goal": {
+    "status": "CLOSED_RELATIVE",
+    "governing_goal": "Canonical equation-only SHOW_ME_THE_MATH surface that preserves complete portable semantics",
+    "constraints": [
+      "NO_ENGLISH_SURFACE",
+      "NO_FREE_VARIABLES",
+      "NONTRIVIAL_STRUCTURE",
+      "SEMANTIC_EQUIVALENCE_TO_FULL_COMPLETION",
+      "PRESERVE_PORTABILITY_AND_FAIL_CLOSED_BEHAVIOR"
+    ]
+  },
+  "problem": {
+    "status": "DIAGNOSED",
+    "recovered_equation": "PROBLEM(x,A)={Δ(x,y):y∈argmin_(z∈A)|Δ(x,z)|}",
+    "geometry": "Scope_6 x Face_6",
+    "generator": "MISSING_FAITHFUL_CLOSED_DISPLAY_NORMAL_FORM",
+    "observed": [
+      "ABSTRACT_METAVARIABLE_SURFACE",
+      "TRIVIAL_BOOLEAN_COLLAPSE",
+      "DISPLAY_SEMANTICS_CONFLATION"
+    ]
+  },
+  "solution": {
+    "status": "SOLVED",
+    "candidate_id": "SHOW_MATH_CLOSED_DISPLAY_NORMAL_FORM",
+    "surface_equation": "Σ=𝟙_{Δ∩Ω∩Φ∩Ξ}",
+    "required_effects": [
+      "CANONICAL_EQUATION_ONLY_SURFACE",
+      "NO_ENGLISH_SURFACE",
+      "NO_FREE_VARIABLES",
+      "NONTRIVIAL_STRUCTURE",
+      "SEMANTIC_EQUIVALENCE_TO_FULL_COMPLETION"
+    ],
+    "protected": [
+      "PORTABLE_SEMANTICS",
+      "FAIL_CLOSED_HIDDEN_DEPENDENCIES",
+      "SELF_HOSTING_GREEN",
+      "CAPABILITY_PRESERVATION"
+    ],
+    "receipt": {
+      "source": "GitHub Actions PR100",
+      "execution_stage": "CONSUMED",
+      "verification_status": "PASS",
+      "closure_status": "CLOSED",
+      "observed_violations": [],
+      "evidence": [
+        "Take-5 Validation run 36260313360 SUCCESS",
+        "Capability Preservation run 36260313396 SUCCESS",
+        "tests/test_show_me_the_math_self_hosting.py",
+        "runtime/show_me_the_math_portable.py"
+      ]
+    }
+  }
+}
