@@ -1,5 +1,7 @@
 import pytest
 
+from tool_run_registry import MATERIAL_TOOLS
+
 from mathematical_color_gate import (
     ColorInvariantViolation,
     MathFragment,
@@ -138,11 +140,11 @@ def test_formal_label_uses_latex_glyph_color_not_html():
 @pytest.mark.parametrize(
     ("label","canonical"),
     (
-        ("ImproveCore","IMPROVECORE"),
-        ("Improve Core","IMPROVECORE"),
-        ("Improvement Core","IMPROVECORE"),
-        ("HF1","HF1"),
-        ("HF-001","HF1"),
+        ("ImproveCore","ImprovementCore"),
+        ("Improve Core","ImprovementCore"),
+        ("Improvement Core","ImprovementCore"),
+        ("HF1","HF001"),
+        ("HF-001","HF001"),
     ),
 )
 def test_current_formal_aliases_are_registered(label,canonical):
@@ -151,10 +153,10 @@ def test_current_formal_aliases_are_registered(label,canonical):
 
 def test_improvecore_and_hf1_render_through_same_typed_path():
     assert render_formal_label("ImproveCore",MathStatus.UNRESOLVED) == (
-        r"\color{red}{\operatorname{IMPROVECORE}}"
+        r"\color{red}{\operatorname{ImprovementCore}}"
     )
     assert render_formal_label("HF-001",MathStatus.RECOVERED) == (
-        r"\color{green}{\operatorname{HF1}}"
+        r"\color{green}{\operatorname{HF001}}"
     )
 
 
@@ -175,3 +177,29 @@ def test_response_boundary_accepts_typed_colored_formal_label():
 def test_unregistered_formal_label_fails_closed():
     with pytest.raises(ColorInvariantViolation, match="FORMAL_LABEL_NOT_REGISTERED"):
         render_formal_label("MADE_UP_TOOL", MathStatus.RECOVERED)
+
+
+@pytest.mark.parametrize("tool_id", MATERIAL_TOOLS)
+def test_every_configured_system_identity_is_color_governed(tool_id):
+    assert canonical_formal_label(tool_id)==tool_id
+    rendered=render_formal_label(tool_id,MathStatus.UNRESOLVED)
+    verify_assistant_response("Current "+rendered+" remains unresolved.")
+    with pytest.raises(
+        ColorInvariantViolation,
+        match="UNTYPED_FORMAL_LABEL_AT_RESPONSE_BOUNDARY",
+    ):
+        verify_assistant_response("Current "+tool_id+" remains unresolved.")
+
+
+@pytest.mark.parametrize(
+    "label",
+    ("Tool Run Closure","K_PD","C_TR","Take-5","IC-028"),
+)
+def test_non_tool_system_primitives_are_color_governed(label):
+    rendered=render_formal_label(label,MathStatus.UNRESOLVED)
+    verify_assistant_response("Current "+rendered+" remains unresolved.")
+    with pytest.raises(
+        ColorInvariantViolation,
+        match="UNTYPED_FORMAL_LABEL_AT_RESPONSE_BOUNDARY",
+    ):
+        verify_assistant_response("Current "+label+" remains unresolved.")
