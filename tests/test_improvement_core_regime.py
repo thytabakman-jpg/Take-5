@@ -162,11 +162,13 @@ def test_regime_learning_memory_blocks_unchanged_no_gain_route():
 
 def test_current_regime_is_versioned_and_exposes_active_components():
     assert CURRENT_REGIME.controller=="IC-028"
-    assert CURRENT_REGIME.version=="089"
+    assert CURRENT_REGIME.version=="090"
     assert "improvement_core_manager" in CURRENT_REGIME.stage_manager
     assert "recursive_manager" in CURRENT_REGIME.recursive_manager
     assert "learning_memory" in CURRENT_REGIME.learning_memory
     assert "improvement_core_tool_bridge" in CURRENT_REGIME.configured_tool_bridge
+    assert "improvement_core_progress_relation" in CURRENT_REGIME.canonical_progress
+    assert "IMPROVEMENT_CORE_DURABLE_LEARNING_110.json" in CURRENT_REGIME.durable_learning
 
 
 def test_recursive_manager_preserves_plural_nondominated_frontier():
