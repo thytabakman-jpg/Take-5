@@ -18,7 +18,7 @@ jobs:
         run: python -m pip install pytest
       - name: Run focused baseline and math regressions
         env:
-          PYTHONPATH: runtime
+          PYTHONPATH: .:runtime
         run: |
           pytest -q \
             tests/test_improvement_core_order_math.py \
@@ -33,7 +33,7 @@ jobs:
             tests/test_improvement_core_tool_bridge.py
       - name: Run IC123 coordinated campaign
         env:
-          PYTHONPATH: runtime
+          PYTHONPATH: .:runtime
         run: python runtime/ic123_math_recovery_campaign.py
       - name: Upload campaign receipt
         uses: actions/upload-artifact@v4
