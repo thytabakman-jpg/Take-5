@@ -1,0 +1,215 @@
+{
+  "schema_version": 1,
+  "object_id": "TAKE5:ICC128-LEGACY-LEARNING-REPORT:001",
+  "tool": "ICC128 Legacy",
+  "run_id": "icc128-legacy-full-system-show-math-20260926-004",
+  "source_repository": "thytabakman-jpg/Reaserch",
+  "source_commit": "e4c76c595b44a35fd9efc02cde8979e656ef54e8",
+  "learning_persistence": "REPORT_ONLY_EPHEMERAL_CONTROLLER_MEMORY",
+  "learning_status": "MATERIAL_LEARNING",
+  "run_status": "COMPLETE",
+  "failure": null,
+  "initial_state": {
+    "target": "Current user request plus whole conversation: MT on request, MT on whole conversation, GOAL, ToolConductor, ICC130, ICC128 Legacy, giant GitHub report, math Markdown",
+    "unresolved": true,
+    "admitted_continuation": true,
+    "representation_result_sensitive": true,
+    "recurrence_or_prior_failure": true,
+    "capability_or_tool_selection_is_itself_the_job": true,
+    "terminal": "CONTINUE"
+  },
+  "initial_memory": {
+    "negative_routes": [
+      "do not confuse compact display equation with executable portable package",
+      "do not claim zero-semantics execution from fresh-environment portability",
+      "do not invent a named ICC object whose identity is unrecovered",
+      "do not treat exhaustive ToolConductor coverage as successful execution of every factor"
+    ]
+  },
+  "iteration_learning": [
+    {
+      "iteration": 0,
+      "questions_generated": [
+        {
+          "question_id": "Q1",
+          "question": "What exact campaign state counts as satisfying the user's multi-tool request?",
+          "live_candidate_answers": [
+            "a prose summary only",
+            "durable tool-by-tool dispositions plus a giant GitHub report, a separate math Markdown file, and the mandatory Legacy learning report"
+          ],
+          "enabling_discovery_or_distinction": "The user explicitly requires durable GitHub artifacts and a Markdown file with the math.",
+          "unresolved_structure": "Execution, durable reporting, and formal math display must all be distinguished.",
+          "downstream_dependency": "Determines campaign closure."
+        },
+        {
+          "question_id": "Q2",
+          "question": "Which requested formal objects are currently recoverable and executable without substitution?",
+          "live_candidate_answers": [
+            "MT, GOAL, ToolConductor, ICC130, ICC128 Legacy all have current identities",
+            "MT, GOAL, ToolConductor, and ICC128 Legacy are recoverable; ICC130 has no recovered identity"
+          ],
+          "enabling_discovery_or_distinction": "Canonical Take-5 and Reaserch searches contain no ICC130 object while current ToolConductor and ICC128 Legacy artifacts are present.",
+          "unresolved_structure": "A user-supplied formal name cannot be silently mapped to a neighboring ICC.",
+          "downstream_dependency": "Controls fail-closed disposition for ICC130."
+        },
+        {
+          "question_id": "Q3",
+          "question": "What whole-conversation distinction remains load-bearing after the prior Show Me the Math repairs?",
+          "live_candidate_answers": [
+            "the compact equation is the portable implementation",
+            "display surface, portable package, environment contract, host routing, and zero-semantics execution remain distinct"
+          ],
+          "enabling_discovery_or_distinction": "Prior MT audits separated display, package, and environment semantics.",
+          "unresolved_structure": "Portability claims can become over-broad when 'fresh' is read as 'semantics-free'.",
+          "downstream_dependency": "Controls the giant report and math file."
+        }
+      ],
+      "work_generated": [
+        {
+          "work_id": "W1",
+          "question_id": "Q1",
+          "probe_or_test": "Reconstruct the requested campaign as explicit completion predicates and persistence obligations.",
+          "candidate_answers_discriminated": [
+            "prose-only",
+            "durable governed campaign"
+          ],
+          "expected_search_space_effect": "Fix one exact closure target.",
+          "required_inputs_or_sources": [
+            "whole current conversation",
+            "Take-5 current main"
+          ],
+          "execution_or_semantic_route": "GOAL reconstruction plus MT representation audit"
+        },
+        {
+          "work_id": "W2",
+          "question_id": "Q2",
+          "probe_or_test": "Search canonical Take-5 and preserved Reaserch identities; compare against the current tool registry and portable runtimes.",
+          "candidate_answers_discriminated": [
+            "all requested identities recovered",
+            "ICC130 unrecovered"
+          ],
+          "expected_search_space_effect": "Prevent false execution claims and substitute-tool drift.",
+          "required_inputs_or_sources": [
+            "Take-5 main",
+            "Reaserch main",
+            "runtime/tool_run_registry.py"
+          ],
+          "execution_or_semantic_route": "currentness and identity audit"
+        },
+        {
+          "work_id": "W3",
+          "question_id": "Q3",
+          "probe_or_test": "Run the current MT distinction set over the entire conversation and preserve every remaining environment/portability boundary.",
+          "candidate_answers_discriminated": [
+            "surface equals implementation",
+            "surface/package/environment separation"
+          ],
+          "expected_search_space_effect": "Stabilize the formal report and math projection.",
+          "required_inputs_or_sources": [
+            "MT portability audits",
+            "CURRENT_SHOW_ME_THE_MATH",
+            "ICC128 Legacy portable math"
+          ],
+          "execution_or_semantic_route": "36-cell MT quotient plus black-box decomposition"
+        }
+      ],
+      "selected_work": [
+        {
+          "work_id": "W1",
+          "basis": "direct campaign closure dependency"
+        },
+        {
+          "work_id": "W2",
+          "basis": "identity truth prevents invalid execution"
+        },
+        {
+          "work_id": "W3",
+          "basis": "whole-conversation representation sensitivity"
+        }
+      ],
+      "results_observed": [
+        {
+          "work_id": "W1",
+          "result": "Campaign success requires tool-by-tool typed dispositions, durable GitHub artifacts, a separate math Markdown file, and an ICC128 Legacy report receipt."
+        },
+        {
+          "work_id": "W2",
+          "result": "ToolConductor is the current exhaustive multi-tool device. ICC128 Legacy has a current portable reconstruction and mandatory report boundary. ICC130 is absent from both canonical Take-5 and preserved Reaserch identities and therefore remains BLOCKED(IDENTITY_UNRECOVERED)."
+        },
+        {
+          "work_id": "W3",
+          "result": "The whole conversation stabilizes on five distinct layers: compact math surface, recursive mathematical specification, effective portable realization, explicit environment contract, and external host routing. Fresh-compatible does not mean zero-semantics."
+        }
+      ],
+      "admitted_delta": {
+        "material_result_delta": true,
+        "material_search_delta": true,
+        "candidate_discovery_deltas": [
+          "treat requested-but-unrecovered formal names as typed blockers rather than substitute neighboring tools",
+          "make durable report receipt part of Legacy closure",
+          "preserve surface/specification/realizer/environment/host-routing separation"
+        ],
+        "dcc_receipt": "semantic-normalization-relative"
+      },
+      "memory_after": {
+        "learned": [
+          "The user's 'everything tool' is ToolConductor, an exhaustive product over the registered repertoire.",
+          "ICC130 currently has no recoverable identity and must remain BLOCKED rather than invented.",
+          "The campaign itself is complete when every requested tool has a truthful disposition and the required artifacts are persisted, not when every factor returns success."
+        ],
+        "negative_routes": [
+          "substituting ICC128 or generic ICC for ICC130",
+          "calling ToolConductor COMPLETE merely because it traversed all factors",
+          "calling a literal zero-semantics target a supported portable environment"
+        ]
+      },
+      "state_after": {
+        "target": "full-system Show Me the Math campaign",
+        "unresolved": false,
+        "admitted_continuation": false,
+        "terminal": "COMPLETE",
+        "mt_request": "CLOSED_RELATIVE",
+        "mt_whole_conversation": "CLOSED_RELATIVE",
+        "goal": "CLOSED_RELATIVE",
+        "tool_conductor": "EXHAUSTIVE_DISPOSITION_WITH_OPEN_PORTABILITY",
+        "icc130": "BLOCKED_IDENTITY_UNRECOVERED",
+        "icc128_legacy": "COMPLETE_PENDING_REPORT_RECEIPT"
+      },
+      "terminal": "COMPLETE"
+    }
+  ],
+  "admitted_deltas": [
+    {
+      "material_result_delta": true,
+      "material_search_delta": true,
+      "candidate_discovery_deltas": [
+        "typed ICC130 blocker",
+        "campaign closure separates tool disposition from universal tool success",
+        "durable reporting and math file are explicit closure coordinates"
+      ],
+      "dcc_receipt": "semantic-normalization-relative"
+    }
+  ],
+  "final_state": {
+    "terminal": "COMPLETE",
+    "campaign": "COMPLETE_RELATIVE_TO_REQUESTED_EXECUTION_TRUTH",
+    "mt_request": "CLOSED_RELATIVE",
+    "mt_whole_conversation": "CLOSED_RELATIVE",
+    "goal": "CLOSED_RELATIVE",
+    "tool_conductor": "OPEN_PORTABILITY_WITH_EXHAUSTIVE_COVERAGE",
+    "icc130": "BLOCKED_IDENTITY_UNRECOVERED",
+    "icc128_legacy_controller": "COMPLETE",
+    "icc128_legacy_activation_closure": "AWAITING_GITHUB_REPORT_COMMIT_RECEIPT"
+  },
+  "final_ephemeral_memory": {
+    "learned": [
+      "A named formal tool with no recovered identity is a blocker, not an invitation to invent mathematics.",
+      "Exhaustive multi-tool coverage and universal portability are separate properties.",
+      "The durable report is part of ICC128 Legacy closure."
+    ]
+  },
+  "memory_changed": true,
+  "state_changed": true,
+  "ephemeral_memory_disposition": "DISCARD_AFTER_REPORT_SUBMISSION",
+  "report_required_even_when_no_material_learning": true
+}
