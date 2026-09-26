@@ -30,6 +30,7 @@ class ImprovementCoreRegime:
     recursive_manager:str
     learning_memory:str
     external_acquisition:str
+    configured_tool_bridge:str
     controller:str="IC-028"
     version:str=REGIME_VERSION
 
@@ -55,6 +56,7 @@ CURRENT_REGIME=ImprovementCoreRegime(
     recursive_manager="runtime.improvement_core_recursive_manager.RecursiveImprovementCoreManager",
     learning_memory="runtime.improvement_core_learning_memory.LearningMemory",
     external_acquisition="runtime.improvement_core_external_acquisition.acquire_external",
+    configured_tool_bridge="runtime.improvement_core_tool_bridge.execute_bound_tools",
 )
 
 def _record_stage_learning(state,learning_memory):
@@ -137,8 +139,9 @@ def run_improvement_core_regime(
                 "EXTERNAL_ACQUISITION_GAP",external_receipt
             )
         status="COMPLETE" if manager_result.result.terminal else "OPEN"
+        blocker=None if manager_result.result.terminal else manager_result.result.blocker
         return ImprovementCoreRegimeResult(
-            manager_result,None,tuple(lm.summary()),status,None,external_receipt
+            manager_result,None,tuple(lm.summary()),status,blocker,external_receipt
         )
 
     required=("select_child_job","run_child","admit_child","update_parent")
