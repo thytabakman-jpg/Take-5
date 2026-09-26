@@ -8,7 +8,7 @@ receipt before the run is considered closed.
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass, is_dataclass
-from pathlib import PurePosixPath
+from pathlib import Path, PurePosixPath
 from typing import Any
 import copy
 import hashlib
@@ -17,6 +17,19 @@ import json
 REPORT_REPOSITORY = "thytabakman-jpg/Take-5"
 REPORT_DIRECTORY = "artifacts/icc128-legacy-learning"
 SOURCE_COMMIT = "e4c76c595b44a35fd9efc02cde8979e656ef54e8"
+MANIFEST = Path(__file__).resolve().parents[1] / "legacy" / "icc128-legacy" / "MANIFEST.yaml"
+
+def _manifest_source_repository() -> str:
+    in_source = False
+    for raw in MANIFEST.read_text(encoding="utf-8").splitlines():
+        if raw and not raw.startswith(" "):
+            in_source = raw.strip() == "source:"
+            continue
+        if in_source:
+            stripped = raw.strip()
+            if stripped.startswith("repository:"):
+                return stripped.split(":", 1)[1].strip().strip('"')
+    raise RuntimeError("ICC128_LEGACY_MANIFEST_SOURCE_REPOSITORY_MISSING")
 
 
 class ICC128LegacyReportingError(RuntimeError):
@@ -105,7 +118,7 @@ def build_learning_report(
         "object_id": "TAKE5:ICC128-LEGACY-LEARNING-REPORT:001",
         "tool": "ICC128 Legacy",
         "run_id": str(run_id),
-        "source_repository": "thytabakman-jpg/Reaserch",
+        "source_repository": _manifest_source_repository(),
         "source_commit": SOURCE_COMMIT,
         "learning_persistence": "REPORT_ONLY_EPHEMERAL_CONTROLLER_MEMORY",
         "learning_status": learning_status,

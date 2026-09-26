@@ -11,9 +11,24 @@ except ImportError:
     import icc128_legacy_reporting as legacy_reporting
 
 DISPLAY_NAME = "ICC128 Legacy"
-SOURCE_REPOSITORY = "thytabakman-jpg/Reaserch"
 SOURCE_COMMIT = "e4c76c595b44a35fd9efc02cde8979e656ef54e8"
-SNAPSHOT_ROOT = Path(__file__).resolve().parents[1] / "legacy" / "icc128-legacy" / "snapshot"
+LEGACY_ROOT = Path(__file__).resolve().parents[1] / "legacy" / "icc128-legacy"
+MANIFEST = LEGACY_ROOT / "MANIFEST.yaml"
+SNAPSHOT_ROOT = LEGACY_ROOT / "snapshot"
+
+def _manifest_source_value(key: str) -> str:
+    in_source = False
+    for raw in MANIFEST.read_text(encoding="utf-8").splitlines():
+        if raw and not raw.startswith(" "):
+            in_source = raw.strip() == "source:"
+            continue
+        if in_source:
+            stripped = raw.strip()
+            if stripped.startswith(f"{key}:"):
+                return stripped.split(":", 1)[1].strip().strip('"')
+    raise RuntimeError(f"ICC128_LEGACY_MANIFEST_SOURCE_MISSING:{key}")
+
+SOURCE_REPOSITORY = _manifest_source_value("repository")
 RUNTIME_ROOT = SNAPSHOT_ROOT / "runtime"
 
 @dataclass(frozen=True)
