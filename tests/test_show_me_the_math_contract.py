@@ -58,3 +58,15 @@ def test_symbol_color_is_job_relative_and_fail_closed():
     package=complete_package()
     assert status_for_symbol(package,"T")=="GREEN"
     assert status_for_symbol(package,"unknown")=="RED"
+
+
+def test_present_but_unsatisfied_obligations_fail_closed():
+    package=complete_package()
+    package["initialization"]={"defined":False}
+    package["persistence"]={"specified":False}
+    package["equivalence_tests"]=[]
+    result=assess_show_math_package(package)
+    assert not result.complete
+    assert "INITIALIZATION_NOT_EXECUTABLE" in result.unsatisfied_obligations
+    assert "PERSISTENCE_NOT_SPECIFIED" in result.unsatisfied_obligations
+    assert "EQUIVALENCE_TESTS_MISSING" in result.unsatisfied_obligations
