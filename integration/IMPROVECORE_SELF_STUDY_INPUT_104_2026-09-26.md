@@ -66,3 +66,17 @@ Date: 2026-09-26
 User request: "Run improve core."
 
 Interpretation: run the current canonical ImproveCore from main after the regime-089 configured-tool execution repair. Reconstruct current state from recovery authority, execute the configured formal tools selected by the live self-study path, consume their outputs before generic EXECUTE, preserve OPEN for any missing adapter, and re-evaluate candidate improvements from current evidence rather than inheriting run 107 conclusions.
+
+
+## Re-run invocation 112
+
+Date: 2026-09-26
+User request: "Run goal on this whole conversation then run ic123 then run improvecore"
+
+Upstream ordered evidence:
+- GOAL completed first under its configured wrapper, including the conversation-required robust MT prerequisite.
+- ICC-123 then ran as residual separator under its required ASSERT_obs -> GOAL_obs bootstrap.
+- Persisted handoff: artifacts/improvecore/GOAL_IC123_PRE_IMPROVECORE_112_2026-09-26.md
+
+ImproveCore job:
+Consume that handoff as evidence, reconstruct the current regime from repository authority, do not reopen already-repaired regime-090 progress/tool-bridge mathematics without a defeating witness, and identify/execute only repository-owned strict gains that reduce the remaining tool-semantic-worker, host-currentness, conversation-persistence, or adapter-discovery residuals. Preserve external host limits OPEN rather than claiming universal enforcement.
