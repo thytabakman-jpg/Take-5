@@ -1,19 +1,30 @@
 {
   "schema_version": "0.1",
   "object_id": "TAKE6:BOOTSTRAP:001",
-  "status": "SUCCESSOR_CANDIDATE",
+  "status": "GREENFIELD_SUCCESSOR_CANDIDATE_CORE_VALIDATED",
   "date": "2026-09-26",
   "authority": "NONE_UNTIL_PROMOTION",
   "files": [
     "README.md",
     "KERNEL.yaml",
     "ARCHITECTURE.md",
+    "ARCHIVE_DURABILITY.md",
     "MIGRATION_FROM_TAKE5.md",
+    "IMPROVEMENTCORE_DECISION.md",
+    "BOOT_SEQUENCE.md",
+    "VALIDATION_001.md",
+    "schemas/artifact.schema.json",
     "schemas/event.schema.json",
+    "schemas/semantic-object.schema.json",
     "schemas/tool-capsule.schema.json",
     "runtime/archive.py",
+    "runtime/authority.py",
+    "runtime/checkpoint.py",
     "runtime/compiler.py",
+    "runtime/durability.py",
     "runtime/invocation.py",
+    "runtime/propagation.py",
+    "runtime/promotion.py",
     "tests/test_invariants.py"
   ],
   "source_refs": {
@@ -22,10 +33,17 @@
   },
   "design_decision": "Separate immutable evidence/event history from deterministically compiled semantic current state and disposable runtime execution.",
   "promotion_blockers": [
-    "new repository not yet instantiated",
-    "predecessor corpus not yet fully ingested",
-    "tool capsules not yet migrated",
-    "behavioral preservation suite not yet passed",
-    "fresh-checkout reconstruction not yet certified"
-  ]
+    "separate Take-6 GitHub repository not yet instantiated",
+    "independent cold-replica trust domain not yet provisioned",
+    "predecessor corpus not yet fully ingested and checkpointed",
+    "tool capsules not yet migrated from full predecessor repertoire",
+    "protected-behavior differential suite not yet passed on real corpus",
+    "Legacy ImprovementCore holdouts not yet passed in Take-6 runtime",
+    "fresh-checkout/disaster reconstruction not yet certified on real corpus"
+  ],
+  "validation": {
+    "status": "PASS_RELATIVE_TO_BOOTSTRAP_FIXTURES",
+    "isolated_tests_passed": 14,
+    "production_promotion": false
+  }
 }
