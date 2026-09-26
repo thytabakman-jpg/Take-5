@@ -118,7 +118,6 @@ def test_material_candidate_accepts_only_after_semantic_package_exists():
             "candidate_type": "SEMANTIC_PRIMITIVE",
             "source_span": "x",
             "load_bearing": True,
-            "semantic_package_current": True,
         }]
     r = intake([artifact], {"g": g})
     assert candidate_admission(r.candidates[0], package_verifier=lambda oid: oid=="captured") == Admission.ACCEPT
@@ -144,7 +143,6 @@ def test_candidate_cannot_self_assert_package_currentness():
             "candidate_type": "SEMANTIC_PRIMITIVE",
             "source_span": "x",
             "load_bearing": True,
-            "semantic_package_current": True,
         }]
     r = intake([artifact], {"g": g})
     assert candidate_admission(r.candidates[0]) == Admission.OPEN
