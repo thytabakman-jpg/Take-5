@@ -1,5 +1,9 @@
 """Configured-run registry for foundation and admitted learning capabilities."""
-from configured_run import ConfiguredRunSpec
+from configured_run import (
+    DEFAULT_RECURRENCE_ENGINE,
+    SELF_RECURRENCE_ENGINE,
+    ConfiguredRunSpec,
+)
 from learning_tool_bridge import SPECS as LEARNING_SPECS
 
 LEARNING_TOOLS=tuple(spec.program_id for spec in LEARNING_SPECS)
@@ -49,6 +53,11 @@ def _spec(tool):
         required_layers=layers,
         manifest_id=tool,
         protected_behaviors=PROTECTED_BEHAVIORS.get(tool,()),
+        recurrence_engine=(
+            SELF_RECURRENCE_ENGINE
+            if tool=="HF002"
+            else DEFAULT_RECURRENCE_ENGINE
+        ),
     )
 
 CONFIGURED_RUNS={t:_spec(t) for t in MATERIAL_TOOLS}
