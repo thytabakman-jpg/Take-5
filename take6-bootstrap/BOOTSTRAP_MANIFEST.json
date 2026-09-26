@@ -25,7 +25,15 @@
     "runtime/invocation.py",
     "runtime/propagation.py",
     "runtime/promotion.py",
-    "tests/test_invariants.py"
+    "tests/test_invariants.py",
+    "migration/SOURCE_MANIFEST_001.json",
+    "migration/SOURCE_FREEZE_001.md",
+    "migration/FROZEN_REPOSITORY_INVENTORY_VALIDATION_001.md",
+    "migration/inventories/REASERCH_TREE_INVENTORY_001.json",
+    "migration/inventories/TAKE2_TREE_INVENTORY_001.json",
+    "migration/inventories/TAKE3_TREE_INVENTORY_001.json",
+    "migration/inventories/TAKE4_TREE_INVENTORY_001.json",
+    "migration/inventories/TAKE5_TREE_INVENTORY_001.json"
   ],
   "source_refs": {
     "take5": "thytabakman-jpg/Take-5@df714811ab14e6d2d4dc0154f2a7136cb4794617",
@@ -45,5 +53,11 @@
     "status": "PASS_RELATIVE_TO_BOOTSTRAP_FIXTURES",
     "isolated_tests_passed": 14,
     "production_promotion": false
+  },
+  "migration_source_freeze": {
+    "status": "PARTIAL_PASS",
+    "repository_lineage": "PASS",
+    "repository_member_inventory": "PASS",
+    "external_intended_zip_pair": "OPEN"
   }
 }
