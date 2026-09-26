@@ -166,3 +166,6 @@ def test_current_regime_is_versioned_and_exposes_active_components():
     assert "improvement_core_manager" in CURRENT_REGIME.stage_manager
     assert "recursive_manager" in CURRENT_REGIME.recursive_manager
     assert "learning_memory" in CURRENT_REGIME.learning_memory
+    assert "improvement_core_afterrun" in CURRENT_REGIME.afterrun_tool
+    assert "response_bias" in CURRENT_REGIME.response_bias_control
+    assert "object_lifecycle" in CURRENT_REGIME.object_lifecycle
