@@ -490,7 +490,8 @@ def main():
     assert result["question_worth_asking"]["selected"]==("Q_TRANSITIVE_ORDER",)
     assert result["math_witnesses"]["same_basis_transitivity"]
     assert result["math_witnesses"]["cross_basis_strict_gain"]
-    assert result["improvecore_route"]["nondominated"]==("INDEXED_PREORDER_REPAIR",)
+    assert set(result["improvecore_route"]["nondominated"])=={"INDEXED_PREORDER_REPAIR","ADD_MORE_EFFECT_LABELS"}
+    assert any(x[0]=="GLOBAL_SCALAR_UTILITY" for x in result["improvecore_route"]["rejected"])
     assert result["solution"]["status"]=="SOLVED"
     assert result["tool_bridge"]["status"]=="EXECUTED"
     assert result["tool_bridge"]["count"]==len(BASELINE_TOOLS)
