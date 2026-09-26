@@ -127,9 +127,17 @@ architecture/CROSS_REPOSITORY_IMPROVEMENTCORE_LINEAGE_CHOICE_080.md
 
 ## Current mathematical organization
 
-Deep controller candidate:
+Current strict-gain math surface:
+architecture/IMPROVEMENT_CORE_MATHEMATICS_086.md
 
-C_(J,K) = <Z,D,A_(J,K),pi_(J,K),T_(J,K),Tau_(J,K)>
+
+Preferred augmented controller candidate:
+
+C^+_(J,K) = <Z x M,D,A^+_(J,K),pi^+_(J,K),T^+_(J,K),Tau^+_(J,K)>
+
+where M is basis-relative learning memory and recursive child runs are typed actions inside A^+.
+
+The older C_(J,K) is retained as the projection that forgets memory and recursive-action distinctions.
 
 Realization:
 
@@ -153,6 +161,7 @@ Global minimality remains OPEN.
 1. integration/CURRENT_IMPROVEMENT_CORE.md
 2. architecture/IMPROVEMENT_CORE_RECOVERY_MANIFEST_082.json
 3. architecture/IMPROVEMENT_CORE_ACTIVATION_083.md
+4. architecture/IMPROVEMENT_CORE_MATHEMATICS_086.md
 4. runtime/improvement_core_dispatch.py
 5. runtime/improvement_core_regime.py
 6. runtime/improvement_core_manager.py
