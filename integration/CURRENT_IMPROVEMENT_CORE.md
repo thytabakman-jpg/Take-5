@@ -36,12 +36,13 @@ Controller:
 - IC-028
 
 Current regime version:
-- 083
+- 084
 
 Current invocation path:
 
 user phrase
 -> runtime/improvement_core_dispatch.py
+-> [when target/job/basis are absent] runtime/improvement_core_upstream.py
 -> runtime/improvement_core_regime.py
 -> runtime/improvement_core_manager.py
 -> runtime/ic028_operator.py
@@ -103,6 +104,7 @@ architecture/IMPROVEMENT_CORE_ACTIVATION_083.md
 17. Take-4 cumulative-autonomy target;
 18. Take-5 authority, provenance, currentness, execution, closure and reentry safeguards.
 19. protected transition integrity across canonical identity, dispatch, execution, consumption, state update, reentry, and the user-visible boundary.
+20. bare ImproveCore invocation can seed governed upstream discovery from an addressable corpus without host-invented substantive job coordinates.
 
 ## Cross-repository lineage
 
@@ -165,20 +167,21 @@ Global minimality remains OPEN.
 4. architecture/IMPROVEMENT_CORE_MATHEMATICS_086.md
 5. runtime/improvement_core_math.py
 6. runtime/improvement_core_dispatch.py
-7. runtime/improvement_core_regime.py
-8. runtime/improvement_core_manager.py
-9. runtime/ic028_operator.py
-10. runtime/improvement_core_recursive_manager.py
-11. runtime/improvement_core_learning_memory.py
-12. architecture/IMPROVEMENT_CORE_MAXIMIZATION_081.md
-13. architecture/CROSS_REPOSITORY_IMPROVEMENTCORE_LINEAGE_CHOICE_080.md
-14. research/IMPROVEMENT_CORE_USAGE_AUDIT_078_2026-09-26.md
-15. architecture/MATH_FIRST_WRAPPER_CLOSURE_039.md
-16. architecture/FULL_RUN_DEFAULT_DISPATCH_CONTRACT_066.md
-17. architecture/CANONICAL_TOOL_IDENTITY_REPAIR_076.md
-18. architecture/PROTECTED_TRANSITION_INTEGRITY_090.md
-19. integration/CURRENT_PROTECTED_TRANSITION_INTEGRITY.md
-20. MIGRATION_STATE.yaml
+7. runtime/improvement_core_upstream.py
+8. runtime/improvement_core_regime.py
+9. runtime/improvement_core_manager.py
+10. runtime/ic028_operator.py
+11. runtime/improvement_core_recursive_manager.py
+12. runtime/improvement_core_learning_memory.py
+13. architecture/IMPROVEMENT_CORE_MAXIMIZATION_081.md
+14. architecture/CROSS_REPOSITORY_IMPROVEMENTCORE_LINEAGE_CHOICE_080.md
+15. research/IMPROVEMENT_CORE_USAGE_AUDIT_078_2026-09-26.md
+16. architecture/MATH_FIRST_WRAPPER_CLOSURE_039.md
+17. architecture/FULL_RUN_DEFAULT_DISPATCH_CONTRACT_066.md
+18. architecture/CANONICAL_TOOL_IDENTITY_REPAIR_076.md
+19. architecture/PROTECTED_TRANSITION_INTEGRITY_090.md
+20. integration/CURRENT_PROTECTED_TRANSITION_INTEGRITY.md
+21. MIGRATION_STATE.yaml
 
 ## Related current recovery anchors
 
@@ -224,9 +227,16 @@ PR #69
 - validation 36222874741
 - protected transition integrity promoted as a generic configured-system invariant
 
+## Zero-request entry
+
+When target/job/basis are not supplied, the dispatcher can accept an addressable corpus, run governed observation-only upstream discovery, and create a discovery seed. Substantive problem selection remains owned by ImproveCore.
+
+Partial target/job/basis coordinates fail closed. Missing corpus also fails closed.
+
+This closes the repository-side zero-request runtime gap. Universal external-host interception remains OPEN.
+
 ## OPEN coordinates
 
-- zero-request upstream discovery runtime promotion;
 - exact relation-generator basis;
 - relation-admission mathematics;
 - universal host interception;
