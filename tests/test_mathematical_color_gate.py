@@ -3,6 +3,7 @@ import pytest
 from mathematical_color_gate import (
     ColorInvariantViolation,
     MathFragment,
+    assess_recovery,
     MathStatus,
     PORTABLE_TEXT,
     RenderChannel,
@@ -101,3 +102,46 @@ def test_unknown_render_mode_is_rejected():
     bad_channel = RenderChannel("bad", FakeMode("BAD"))
     with pytest.raises(ColorInvariantViolation, match="UNSUPPORTED_RENDER_MODE"):
         render_math(MathFragment("X", MathStatus.RECOVERED), bad_channel)
+
+
+def test_complete_math_claim_is_unresolved_when_required_coordinates_are_open():
+    a = assess_recovery(
+        object_id="HF1",
+        job="complete mathematics",
+        claim="HF1 is mathematically complete",
+        required_coordinates=("state_vector","delta_D","delta_R","minimality","integration"),
+        coordinate_status={
+            "state_vector":"OPEN",
+            "delta_D":"PARTIAL",
+            "delta_R":"OPEN",
+            "minimality":"OPEN",
+            "integration":"PARTIAL",
+        },
+    )
+    assert a.status is MathStatus.UNRESOLVED
+    assert set(a.unresolved_coordinates) == {
+        "state_vector","delta_D","delta_R","minimality","integration"
+    }
+
+
+def test_verified_narrow_claim_can_be_recovered_while_parent_object_is_unresolved():
+    a = assess_recovery(
+        object_id="hf1_reentry_route",
+        job="runtime existence",
+        claim="runtime function exists",
+        required_coordinates=("runtime_presence",),
+        coordinate_status={"runtime_presence":"VERIFIED"},
+    )
+    assert a.status is MathStatus.RECOVERED
+
+
+def test_unspecified_required_coordinates_fail_closed():
+    a = assess_recovery(
+        object_id="HF1",
+        job="complete mathematics",
+        claim="HF1 is mathematically complete",
+        required_coordinates=(),
+        coordinate_status={},
+    )
+    assert a.status is MathStatus.UNRESOLVED
+    assert a.unresolved_coordinates == ("REQUIRED_COORDINATES_UNSPECIFIED",)
