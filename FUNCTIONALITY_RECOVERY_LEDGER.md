@@ -178,3 +178,22 @@ local checks unless it proves behavioral reconstruction of the entire chain.
 
 Post-repair RootCause recheck moves the remaining residual to HOST_INTEGRATION_BYPASS.
 Universal host interception remains OPEN.
+
+
+## 2026-09-26 strong tool-reality reconciliation
+
+ICC128 Legacy whole-system audit found that configured-identity closure and strong
+tool-reality closure had been allowed to look interchangeable.
+
+Canonical strong audit:
+- `runtime/tool_reality_audit.py`
+- `integration/CURRENT_TOOL_REALITY.md`
+
+Current disposition:
+- configured identity: CLOSED_RELATIVE;
+- explicit tool-specific manifest identity: OPEN;
+- native executable realization: OPEN;
+- strong whole-portfolio tool reality: OPEN.
+
+This supersedes any reading of older ledger text as a current whole-portfolio
+closure claim. Historical status entries remain evidence of their own basis.

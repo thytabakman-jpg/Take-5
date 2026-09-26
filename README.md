@@ -16,28 +16,30 @@ ICC means Jane + the validated math-first wrapper + Improvement Core / IC-028 + 
 
 ## Start here
 
-1. `integration/ICC_SHUTDOWN_HANDOFF_2026-09-25.md` — durable session handoff, current ICC identity, protected decisions, validated commits, and exact resume frontier.
-2. `architecture/KERNEL_MATH_CONTRACT_052.yaml` — review-only exact factorization of K, W_beta, IC, Jane, typed tools, Take Two recovered laws, and the candidate alignment operator.
-3. `architecture/KERNEL_MATH_CONTRACT_052.md` — readable companion to the kernel math contract.
-4. `architecture/LEARNING_TOOL_ADMISSION_DECISION_040.md` — implemented/validated typed admission of D6/D8 and learning lenses into IC only when their runtime inputs exist.
-5. `runtime/learning_tool_bridge.py` — executable IC admission bridge for the learning-tool family.
-6. `architecture/MATH_FIRST_WRAPPER_CLOSURE_039.md` — validated final IC/Jane/wrapper equation, implementation evidence, tool placement, and remaining nonblocking work.
-7. `architecture/OBSERVER_ALL_TOOLS_SWEEP_038.md` — observer-mode C01-C49 sweep and root quotient.
-8. `architecture/IC_JANE_WRAPPER_MATH_PLAN_037.md` — formal mathematics of IC, Jane, and the math-first wrapper.
-9. `architecture/ARCHITECTURE_DECISION_036_MATH_FIRST_TOOL_SELECTION.md` — control choice: math first, then goal, architecture, and minimal typed tool selection.
-10. `runtime/math_first_wrapper.py` — validated parallel math-first wrapper around protected Jane + IC.
-11. `runtime/math_first_selector.py` — exact least-cost sufficient-cover selector, opt-in from IC.
-12. `runtime/jane_relevance.py` — typed Jane supervisory-relevance predicate.
-13. `architecture/CANONICAL_FOUNDATION_034.md` — current foundation and the two distinct 36-cell structures.
-14. `MIGRATION_STATE.yaml` — authority, provenance, rollback, and open validation state.
-15. `runtime/system_loop.py` and `runtime/improvement_core.py` — lifecycle and adaptive controller.
-16. `architecture/LEARNING_OPERATOR_TOOLKIT_035.md` and `runtime/learning_operator_tools.py` — typed mathematical definitions for the selectable learning/processing lenses.
-17. `architecture/ASSERT_COMPOUND_CONTRACT_055.md` + `runtime/assert_compound.py` — current compound ASSERT fixed-point contract and executable orchestration shell.
-18. `architecture/QUESTION_WORTH_ASKING_CONTRACT_056.md` + `runtime/question_worth_asking.py` — question-frontier valuation and selection tool.
-19. `architecture/LAMBDA_MATH_QUESTION_TOOL_CONTRACT_063.md` + `runtime/lambda_math.py` — exact set-valued entry-state reconstruction question-tool.
-20. `architecture/LOAD_BEARING_SEMANTIC_OBJECT_PACKAGE_CONTRACT_064.md` + `runtime/semantic_object_package.py` — mandatory durable capture for load-bearing semantic objects, with 36 directed scope-transition pages and append-only evidence.
-21. `integration/SEMANTIC_PACKAGE_BACKFILL_001_2026-09-25.md` — explicit historical package backfill debt; new objects use the invariant immediately.
-22. `validation/` and `tests/` — readiness, regression, holdout, and execution evidence.
+1. `integration/CURRENT_TOOL_REALITY.md` — fail-closed strong whole-portfolio tool-reality gate; separates configured identity from explicit manifest identity and native realization.
+1. `integration/CURRENT_IMPROVEMENT_CORE.md` — current ImprovementCore recovery authority and regime-090 runtime path.
+1. `integration/ICC_SHUTDOWN_HANDOFF_2026-09-25.md` — historical shutdown handoff retained for provenance; it is not the current resume authority.
+1. `architecture/KERNEL_MATH_CONTRACT_052.yaml` — review-only exact factorization of K, W_beta, IC, Jane, typed tools, Take Two recovered laws, and the candidate alignment operator.
+1. `architecture/KERNEL_MATH_CONTRACT_052.md` — readable companion to the kernel math contract.
+1. `architecture/LEARNING_TOOL_ADMISSION_DECISION_040.md` — implemented/validated typed admission of D6/D8 and learning lenses into IC only when their runtime inputs exist.
+1. `runtime/learning_tool_bridge.py` — executable IC admission bridge for the learning-tool family.
+1. `architecture/MATH_FIRST_WRAPPER_CLOSURE_039.md` — validated final IC/Jane/wrapper equation, implementation evidence, tool placement, and remaining nonblocking work.
+1. `architecture/OBSERVER_ALL_TOOLS_SWEEP_038.md` — observer-mode C01-C49 sweep and root quotient.
+1. `architecture/IC_JANE_WRAPPER_MATH_PLAN_037.md` — formal mathematics of IC, Jane, and the math-first wrapper.
+1. `architecture/ARCHITECTURE_DECISION_036_MATH_FIRST_TOOL_SELECTION.md` — control choice: math first, then goal, architecture, and minimal typed tool selection.
+1. `runtime/math_first_wrapper.py` — validated parallel math-first wrapper around protected Jane + IC.
+1. `runtime/math_first_selector.py` — exact least-cost sufficient-cover selector, opt-in from IC.
+1. `runtime/jane_relevance.py` — typed Jane supervisory-relevance predicate.
+1. `architecture/CANONICAL_FOUNDATION_034.md` — current foundation and the two distinct 36-cell structures.
+1. `MIGRATION_STATE.yaml` — authority, provenance, rollback, and open validation state.
+1. `runtime/system_loop.py` and `runtime/improvement_core.py` — lifecycle and adaptive controller.
+1. `architecture/LEARNING_OPERATOR_TOOLKIT_035.md` and `runtime/learning_operator_tools.py` — typed mathematical definitions for the selectable learning/processing lenses.
+1. `architecture/ASSERT_COMPOUND_CONTRACT_055.md` + `runtime/assert_compound.py` — current compound ASSERT fixed-point contract and executable orchestration shell.
+1. `architecture/QUESTION_WORTH_ASKING_CONTRACT_056.md` + `runtime/question_worth_asking.py` — question-frontier valuation and selection tool.
+1. `architecture/LAMBDA_MATH_QUESTION_TOOL_CONTRACT_063.md` + `runtime/lambda_math.py` — exact set-valued entry-state reconstruction question-tool.
+1. `architecture/LOAD_BEARING_SEMANTIC_OBJECT_PACKAGE_CONTRACT_064.md` + `runtime/semantic_object_package.py` — mandatory durable capture for load-bearing semantic objects, with 36 directed scope-transition pages and append-only evidence.
+1. `integration/SEMANTIC_PACKAGE_BACKFILL_001_2026-09-25.md` — explicit historical package backfill debt; new objects use the invariant immediately.
+1. `validation/` and `tests/` — readiness, regression, holdout, and execution evidence.
 
 ## Authority rule
 
@@ -65,7 +67,7 @@ IC and Jane remain protected role-separated suboperators. The validated math-fir
 
 The learning lenses are now first-class IC candidates through a typed bridge. Missing runtime inputs leave the corresponding lens inapplicable and preserve OPEN; no lens is forced onto a problem merely because its mathematics exists.
 
-Current resume frontier: validate the frozen kernel/alignment mathematics against matched historical ICC runs, specify the alignment reconstruction operator, and only then implement it. The prior empirical execution-receipt/tool-cost frontier remains next after alignment validation.
+Current resume frontier: close strong tool-reality residuals identified by `integration/CURRENT_TOOL_REALITY.md`: explicit tool-specific manifest reconstruction and recovered native realization for registered tools that remain open. Narrower configured identity stays distinct from strong whole-portfolio closure. Universal external-host interception remains outside repository authority.
 
 ## GitHub operating boundary
 
