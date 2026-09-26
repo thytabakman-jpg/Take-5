@@ -27,7 +27,9 @@ HOST_BOUND_SEMANTIC recovered planner/reframer + residual-separator role.
 IC123 is not falsely reported as an ordinary CONFIGURED_RUNS material tool.
 
 ImprovementCore:
-current IC-028 / regime 090.
+IC-028.
+The campaign began before regime 091 became current.
+Authoritative final closure was transported to and revalidated on regime 091.
 
 HF2:
 actual HF002RecursiveContinuation execution in both ImprovementCore campaigns.
@@ -159,6 +161,54 @@ EXTERNAL_NOT_OWNED.
 
 The repository can enforce the full invocation profile whenever a route enters Take-5. It cannot force an unrelated host to call Take-5 before reasoning.
 
-## Merge status
+## Regime-091 transport
 
-VALIDATED / MERGE_PENDING.
+Currentness changed during the campaign when ImprovementCore regime 091 became canonical.
+
+Transport receipt:
+
+artifacts/improvecore/FULL_TOOL_HF2_REGIME_091_TRANSPORT_121_2026-09-26.md
+
+The final Think-big regression explicitly requires:
+
+CURRENT_REGIME.version = 091
+
+and
+
+CURRENT_REGIME.default_local_recurrence = HF002.
+
+## Post-merge reentry
+
+A post-merge Think-big recheck found and repaired two remaining repository-owned parallel paths:
+
+- PTI end-to-end configured execution;
+- ToolConductor factor execution.
+
+Final reentry receipt:
+
+artifacts/improvecore/IMPROVEMENTCORE_HF2_THINK_BIG_REENTRY_122_2026-09-26.md
+
+PR #119:
+merge f35577993d076e9113db0bc6e62b91d89b062565.
+
+Take-5 Validation:
+36271301228 SUCCESS.
+
+Capability Preservation:
+36271301286 SUCCESS.
+
+## Final merge status
+
+VALIDATED / MERGED.
+
+Primary profile merge:
+2b86fdc500f5ad1b35fa578b7c96bd92feb99f41.
+
+Post-merge bypass-closure merge:
+f35577993d076e9113db0bc6e62b91d89b062565.
+
+Final repository-owned disposition:
+
+FULL_CONFIGURED_INVOCATION = CLOSED_RELATIVE.
+
+Universal external host interception = EXTERNAL_NOT_OWNED.
