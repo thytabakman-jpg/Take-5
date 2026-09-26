@@ -56,6 +56,8 @@ def run_ic028(lease:ControllerLease,state:Any,handlers:dict[str,Callable], *,
 
     stage_plan=stages_for(entry_contract)
     current=state
+    if isinstance(current,dict):
+        current={**current,"controller_mode":entry_contract.mode_profile.mode_id,"mode_profile":entry_contract.mode_profile}
     receipts=[OperatorReceipt("ENTRY_CONTRACT","BOUND",entry_contract)]
     for _ in range(max_rounds):
         material=False
