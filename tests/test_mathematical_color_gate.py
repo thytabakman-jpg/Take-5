@@ -8,6 +8,7 @@ from mathematical_color_gate import (
     TextFragment,
     emit_user_visible,
     render_math,
+    render_formal_label,
     verify_rendered_output,
 )
 
@@ -120,3 +121,19 @@ def test_unspecified_required_coordinates_fail_closed():
     assert a.complete_for_use is False
     assert a.status is MathStatus.UNRESOLVED
     assert a.unresolved_coordinates == ("REQUIRED_COORDINATES_UNSPECIFIED",)
+
+
+def test_formal_label_uses_latex_glyph_color_not_html():
+    out = render_formal_label("ASSERT", MathStatus.RECOVERED)
+    assert out == r"\color{green}{\operatorname{ASSERT}}"
+    assert "<span" not in out.lower()
+
+
+def test_wrapper_label_is_registered_and_can_fail_closed_red():
+    out = render_formal_label("WRAPPER", MathStatus.UNRESOLVED)
+    assert out == r"\color{red}{\operatorname{WRAPPER}}"
+
+
+def test_unregistered_formal_label_fails_closed():
+    with pytest.raises(ColorInvariantViolation, match="FORMAL_LABEL_NOT_REGISTERED"):
+        render_formal_label("MADE_UP_TOOL", MathStatus.RECOVERED)
