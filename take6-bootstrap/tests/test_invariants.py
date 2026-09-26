@@ -7,6 +7,8 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from runtime.archive import Vault, append_event, cid_json
+from runtime.authority import make_authorizer, policy_cid
+from runtime.checkpoint import make_checkpoint, verify_checkpoint
 from runtime.compiler import compile_state, compile_to_file
 from runtime.invocation import make_invocation_capsule, verify_invocation_capsule
 from runtime.propagation import affected_cone, require_consequence_dispositions
@@ -15,18 +17,38 @@ from runtime.promotion import verify_promotion
 def fake_cid(ch: str) -> str:
     return "sha256:" + ch * 64
 
-def event(kind, subject, payload, *, parents=(), supersedes=()):
+POLICY = {
+    "rules": {
+        "TEST": {
+            "kinds": ["ADMIT", "PROMOTE", "SUPERSEDE", "REJECT", "OPEN", "BLOCK", "CONFLICT", "RELATE"],
+            "subject_prefixes": ["TOOL:", "PROJECT:"],
+        }
+    }
+}
+AUTHORIZE = make_authorizer(POLICY)
+POLICY_CID = policy_cid(POLICY)
+COMPILER_CID = fake_cid("c")
+
+def event(kind, subject, payload, *, parents=(), supersedes=(), authority="TEST"):
     body = {
         "kind": kind,
         "subject": subject,
         "payload_cid": payload,
         "parents": list(parents),
         "basis_cid": fake_cid("b"),
-        "authority": "TEST",
+        "authority": authority,
         "effects": [],
         "supersedes": list(supersedes),
     }
     return {"event_id": cid_json(body), **body}
+
+def compile(events):
+    return compile_state(
+        events,
+        compiler_cid=COMPILER_CID,
+        authority_policy_cid=POLICY_CID,
+        authorize=AUTHORIZE,
+    )
 
 def test_vault_content_addressing(tmp_path):
     v = Vault(tmp_path / "vault")
@@ -40,25 +62,36 @@ def test_current_is_compiled_not_recency():
     new = fake_cid("2")
     first = event("ADMIT", "TOOL:X", old)
     second = event("SUPERSEDE", "TOOL:X", new, parents=[first["event_id"]], supersedes=[old])
-    s = compile_state([second, first])
+    s = compile([second, first])
     assert s["subjects"]["TOOL:X"]["status"] == "CURRENT"
     assert s["subjects"]["TOOL:X"]["current_payload_cid"] == new
+    assert s["compiler_cid"] == COMPILER_CID
+    assert s["authority_policy_cid"] == POLICY_CID
 
 def test_incomparable_maxima_are_conflict():
     a = fake_cid("1")
     b = fake_cid("2")
-    s = compile_state([
+    s = compile([
         event("ADMIT", "TOOL:X", a),
         event("ADMIT", "TOOL:X", b),
     ])
     assert s["subjects"]["TOOL:X"]["status"] == "CONFLICT"
     assert s["subjects"]["TOOL:X"]["current_payload_cid"] is None
 
+def test_unauthorized_event_fails_closed():
+    e = event("ADMIT", "TOOL:X", fake_cid("1"), authority="ROGUE")
+    try:
+        compile([e])
+    except RuntimeError as exc:
+        assert "UNAUTHORIZED_EVENT" in str(exc)
+    else:
+        raise AssertionError("unauthorized semantic event compiled")
+
 def test_damaged_event_identity_fails_closed():
     e = event("ADMIT", "TOOL:X", fake_cid("1"))
     e["payload_cid"] = fake_cid("2")
     try:
-        compile_state([e])
+        compile([e])
     except RuntimeError as exc:
         assert "EVENT_IDENTITY_FAILURE" in str(exc)
     else:
@@ -67,7 +100,7 @@ def test_damaged_event_identity_fails_closed():
 def test_missing_parent_fails_closed():
     e = event("ADMIT", "TOOL:X", fake_cid("1"), parents=[fake_cid("f")])
     try:
-        compile_state([e])
+        compile([e])
     except RuntimeError as exc:
         assert "MISSING_PARENT_EVENT" in str(exc)
     else:
@@ -96,11 +129,29 @@ def test_fresh_reconstruction_same_state_cid(tmp_path):
         "supersedes": [fake_cid("1")],
     })
     generated = tmp_path / "compiled" / "current.json"
-    s1 = compile_to_file(ledger, generated)
+    kwargs = dict(
+        compiler_cid=COMPILER_CID,
+        authority_policy_cid=POLICY_CID,
+        authorize=AUTHORIZE,
+    )
+    s1 = compile_to_file(ledger, generated, **kwargs)
     shutil.rmtree(tmp_path / "compiled")
-    s2 = compile_to_file(ledger, generated)
+    s2 = compile_to_file(ledger, generated, **kwargs)
     assert s1["state_cid"] == s2["state_cid"]
     assert json.loads(generated.read_text())["state_cid"] == s1["state_cid"]
+
+def test_checkpoint_detects_historical_loss():
+    objects = {fake_cid("1"), fake_cid("2")}
+    events = {fake_cid("3"), fake_cid("4")}
+    cp = make_checkpoint(object_cids=objects, event_ids=events, prior_checkpoint_cid=None)
+    verify_checkpoint(cp, has_object=objects.__contains__, has_event=events.__contains__)
+    objects.remove(fake_cid("2"))
+    try:
+        verify_checkpoint(cp, has_object=objects.__contains__, has_event=events.__contains__)
+    except RuntimeError as exc:
+        assert "CHECKPOINT_OBJECT_LOSS" in str(exc)
+    else:
+        raise AssertionError("checkpoint failed to detect deleted object")
 
 def test_affected_cone_requires_every_disposition():
     reverse = {"A": ["B", "C"], "B": ["D"], "C": [], "D": []}
