@@ -16,7 +16,8 @@
       "python": 141,
       "json": 32,
       "yaml": 325,
-      "zip": 0
+      "zip": 0,
+      "tree_inventory": "take6-bootstrap/migration/inventories/REASERCH_TREE_INVENTORY_001.json"
     },
     {
       "role": "kernel_lineage_take2",
@@ -29,7 +30,8 @@
       "python": 1,
       "json": 0,
       "yaml": 5,
-      "zip": 0
+      "zip": 0,
+      "tree_inventory": "take6-bootstrap/migration/inventories/TAKE2_TREE_INVENTORY_001.json"
     },
     {
       "role": "architecture_lineage_take3",
@@ -42,7 +44,8 @@
       "python": 1,
       "json": 0,
       "yaml": 1,
-      "zip": 0
+      "zip": 0,
+      "tree_inventory": "take6-bootstrap/migration/inventories/TAKE3_TREE_INVENTORY_001.json"
     },
     {
       "role": "autonomy_lineage_take4",
@@ -55,7 +58,8 @@
       "python": 10,
       "json": 0,
       "yaml": 6,
-      "zip": 0
+      "zip": 0,
+      "tree_inventory": "take6-bootstrap/migration/inventories/TAKE4_TREE_INVENTORY_001.json"
     },
     {
       "role": "current_working_authority_take5",
@@ -68,7 +72,8 @@
       "python": 291,
       "json": 25,
       "yaml": 33,
-      "zip": 0
+      "zip": 0,
+      "tree_inventory": "take6-bootstrap/migration/inventories/TAKE5_TREE_INVENTORY_001.json"
     },
     {
       "role": "frozen_legacy_improvementcore_behavioral_reference",
@@ -105,6 +110,13 @@
     "repository_source_freeze": "PASS",
     "legacy_behavioral_reference_freeze": "PASS_RELATIVE_TO_DECLARED_COMMIT",
     "intended_zip_pair_freeze": "OPEN",
-    "overall": "OPEN"
+    "overall": "OPEN",
+    "repository_member_inventory": "PASS"
+  },
+  "inventory_summary": {
+    "frozen_tree_entries": 3352,
+    "frozen_blobs": 3175,
+    "recursive_tree_truncation": false,
+    "rule": "Inventories are derived evidence for member accounting. Frozen source authority remains repository+commit+tree SHA."
   }
 }
