@@ -17,8 +17,12 @@ def test_legacy_facades_are_comparators_not_default_result_authority():
 def test_default_result_emission_uses_color_gate():
     out = emit_default_result(
         (
-            TextFragment("ASSERT "),
+            MathFragment(r"\operatorname{ASSERT}", MathStatus.RECOVERED),
+            TextFragment(" "),
             MathFragment("A^{36}", MathStatus.RECOVERED),
         )
     )
-    assert out == r"ASSERT \\color{green}{A^{36}}"
+    assert out == (
+        r"\color{green}{\operatorname{ASSERT}} "
+        r"\color{green}{A^{36}}"
+    )
