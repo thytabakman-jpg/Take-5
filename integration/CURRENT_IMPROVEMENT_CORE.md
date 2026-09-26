@@ -379,7 +379,7 @@ Current-basis dispositions:
 - unlike autonomy holdouts: CLOSED_RELATIVE;
 - cheap-route versus broad-attack calibration: IMPLEMENTED_CURRENT_POLICY;
 - open-world global maximality/minimality: REJECTED_AS_COMPLETION_CRITERION;
-- current portfolio identity: CLOSED_RELATIVE.
+- declared configured-identity audit: CLOSED_RELATIVE;\n- strong whole-portfolio tool reality: OPEN under `runtime/tool_reality_audit.py` until explicit manifest identity and recovered native execution also close.
 
 This is not open-world completeness. A material new relation generator, historical witness, host integration, configured tool/protected behavior, holdout failure, or representation/candidate-universe change reopens only the affected dependency cone.
 
