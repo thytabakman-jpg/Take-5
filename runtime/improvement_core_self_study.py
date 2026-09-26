@@ -170,7 +170,7 @@ def improvement_candidates(snapshot):
             "current_state": caps["automatic_host_adapter_discovery"],
             "basis": [
                 "external acquisition already supports adapters but requires host injection",
-                "current recovery anchor leaves universal host interception OPEN",
+                "universal host interception is external-not-owned; native adapter discovery remains host-bound",
                 "agent runtimes/frameworks commonly expose explicit runtime/tool registries",
             ],
             "minimal_form": "typed adapter registry/discovery contract without self-authorizing use",
