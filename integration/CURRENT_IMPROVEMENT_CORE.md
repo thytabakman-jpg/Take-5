@@ -36,7 +36,7 @@ Controller:
 - IC-028
 
 Current regime version:
-- 088
+- 089
 
 Current invocation path:
 
@@ -47,6 +47,9 @@ user phrase
 -> [when outside evidence/tool need is live] runtime/improvement_core_external_acquisition.py
 -> runtime/improvement_core_manager.py
 -> runtime/ic028_operator.py
+-> [when SELECT names a registered formal tool] runtime/improvement_core_tool_bridge.py
+-> bound configured-tool adapter
+-> native tool result consumed into controller state
 
 When the stage result still has live continuation:
 
@@ -80,6 +83,11 @@ Learning memory is active in two places:
 - recursive route selection checks basis-relative prior NO_GAIN / REJECTED / FAILED evidence.
 
 An unchanged blocked route remains blocked until a changed coordinate intersects its recorded dependency footprint.
+
+A selected formal tool must cross the configured execution bridge before EXECUTE can count it as run. The bridge binds the current full configured plan and invokes a host-bound adapter. A missing adapter preserves OPEN with the selected tool identity; generic EXECUTE reasoning cannot substitute for the tool call.
+
+This configured-tool execution repair is recorded in:
+architecture/IMPROVEMENT_CORE_CONFIGURED_TOOL_EXECUTION_109.md
 
 This activation repair is recorded in:
 architecture/IMPROVEMENT_CORE_ACTIVATION_083.md
@@ -119,8 +127,11 @@ architecture/IMPROVEMENT_CORE_ACTIVATION_083.md
 31. focused resolution remains observer-first rather than silently becoming outcome-directed action.
 32. zero-request upstream discovery selects CHEAP versus BROAD observation under an explicit current policy rather than silently equating low cost with effectiveness.
 33. zero-request relation candidates are admitted under an explicit typed, evidence-bearing, basis-relative relation contract.
-34. the current configured repertoire has machine-audited identity and protected-transition reachability under the declared basis.
+34. the current configured repertoire has machine-audited identity, configured-plan reachability, and controller-to-adapter invocation reachability under the declared basis.
 35. historical strong/weak replay witnesses remain attached to the current recovery basis and reopen affected lineage when contradicted.
+36. a selected registered formal tool is not satisfied by naming, planning, or generic analysis; it requires configured adapter invocation and result consumption.
+37. a missing selected-tool adapter preserves OPEN rather than silently degrading to generic EXECUTE.
+38. plan reachability and execution reachability remain distinct claims.
 
 ## Cross-repository lineage
 
@@ -233,13 +244,15 @@ Open-world global maximality/minimality is not a licensed completion claim. Curr
 21. architecture/IMPROVEMENT_CORE_EXTERNAL_ACQUISITION_090.md
 22. runtime/improvement_core_manager.py
 23. runtime/ic028_operator.py
-24. runtime/improvement_core_recursive_manager.py
-25. runtime/improvement_core_learning_memory.py
-26. architecture/IMPROVEMENT_CORE_MAXIMIZATION_081.md
-27. architecture/CROSS_REPOSITORY_IMPROVEMENTCORE_LINEAGE_CHOICE_080.md
-28. architecture/PROTECTED_TRANSITION_INTEGRITY_090.md
-29. integration/CURRENT_PROTECTED_TRANSITION_INTEGRITY.md
-30. MIGRATION_STATE.yaml
+24. runtime/improvement_core_tool_bridge.py
+25. architecture/IMPROVEMENT_CORE_CONFIGURED_TOOL_EXECUTION_109.md
+26. runtime/improvement_core_recursive_manager.py
+27. runtime/improvement_core_learning_memory.py
+28. architecture/IMPROVEMENT_CORE_MAXIMIZATION_081.md
+29. architecture/CROSS_REPOSITORY_IMPROVEMENTCORE_LINEAGE_CHOICE_080.md
+30. architecture/PROTECTED_TRANSITION_INTEGRITY_090.md
+31. integration/CURRENT_PROTECTED_TRANSITION_INTEGRITY.md
+32. MIGRATION_STATE.yaml
 
 ## Related current recovery anchors
 
@@ -291,6 +304,12 @@ PR #84
 - Capability Preservation 36227477597
 - regime 088 frontier closure, relation admission, route calibration, replay/holdout, current repertoire and identity audits validated
 
+Regime 089 candidate
+- corrects the regime-088 category error between configured-plan reachability and actual selected-tool execution;
+- requires selected formal tools to cross runtime/improvement_core_tool_bridge.py;
+- preserves OPEN when the selected native adapter is absent;
+- validation evidence is attached only after the regime-089 PR passes.
+
 ## Zero-request entry
 
 When target/job/basis are not supplied, the dispatcher can accept an addressable corpus, run governed observation-only upstream discovery, and create a discovery seed. Substantive problem selection remains owned by ImproveCore.
@@ -318,7 +337,7 @@ Current-basis dispositions:
 - relation generator basis: SPECIFIED for the current admitted basis;
 - relation admission mathematics: SPECIFIED_AND_EXECUTABLE;
 - universal host interception: EXTERNAL_NOT_OWNED;
-- configured-repertoire reachability: CLOSED_RELATIVE;
+- configured-repertoire reachability: CLOSED_RELATIVE for identity, configured-plan construction, and controller-to-bound-adapter invocation; native adapter availability remains host-relative;
 - historical matched replay basis: CLOSED_RELATIVE;
 - unlike autonomy holdouts: CLOSED_RELATIVE;
 - cheap-route versus broad-attack calibration: IMPLEMENTED_CURRENT_POLICY;
