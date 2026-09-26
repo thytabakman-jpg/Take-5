@@ -130,7 +130,7 @@ Architecture:
 same residual class as PD.
 
 ImprovementCore:
-configured identity OPEN because its manifest remains generic-only;
+configured identity CLOSED_RELATIVE under the explicit regime-091 protected-behavior manifest;
 runtime ENVIRONMENT_BOUND.
 
 Tool Conductor:
@@ -181,7 +181,7 @@ The next high-leverage work is no longer to invent a richer function equation.
 
 It is to close the identity graph:
 
-1. explicit tool-specific protected-behavior manifests for ImprovementCore and Tool Conductor;
+1. explicit tool-specific protected-behavior manifest for Tool Conductor;
 2. explicit native runtime or typed external realization for PD/PDAudit/Architecture;
 3. canonical registered identity for ICC123 and current ICC128, or an explicit disposition that
    they are not members of the configured-tool registry;
@@ -213,3 +213,10 @@ Capability Preservation:
 
 Initial experiment merge:
 9bfc10803c048d53f5cb21c27c494a972d4431fa.
+
+
+## Regime-091 delta
+
+PR #116 closed the ImprovementCore generic-only manifest residual and promoted HF2 as its default
+local recurrence. ImprovementCore remains environment-bound at runtime, so configured identity and
+portable self-contained realization remain distinct.
