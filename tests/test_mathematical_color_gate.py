@@ -118,6 +118,7 @@ def test_complete_math_claim_is_unresolved_when_required_coordinates_are_open():
             "integration":"PARTIAL",
         },
     )
+    assert a.complete_for_use is False
     assert a.status is MathStatus.UNRESOLVED
     assert set(a.unresolved_coordinates) == {
         "state_vector","delta_D","delta_R","minimality","integration"
@@ -132,6 +133,7 @@ def test_verified_narrow_claim_can_be_recovered_while_parent_object_is_unresolve
         required_coordinates=("runtime_presence",),
         coordinate_status={"runtime_presence":"VERIFIED"},
     )
+    assert a.complete_for_use is True
     assert a.status is MathStatus.RECOVERED
 
 
@@ -143,5 +145,6 @@ def test_unspecified_required_coordinates_fail_closed():
         required_coordinates=(),
         coordinate_status={},
     )
+    assert a.complete_for_use is False
     assert a.status is MathStatus.UNRESOLVED
     assert a.unresolved_coordinates == ("REQUIRED_COORDINATES_UNSPECIFIED",)
