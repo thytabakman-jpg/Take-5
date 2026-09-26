@@ -247,7 +247,7 @@ def _handlers():
             and state.get("selected_from_evidence_not_input_plan") is True
             and state.get("prior_campaign_supported_status")=="VERIFY_REQUIRED"
             and state.get("mutation_performed") is False
-            and state.get("verified_positive_claims_preserved") is True
+            and state.get("reconciliation",{}).get("verified_positive_claims_preserved") is True
         )
         return {
             "state":{
