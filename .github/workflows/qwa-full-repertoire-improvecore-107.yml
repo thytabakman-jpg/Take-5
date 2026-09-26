@@ -1,0 +1,29 @@
+name: QWA Full Repertoire ImproveCore 107
+
+on:
+  push:
+    branches:
+      - run/qwa-full-repertoire-improvecore-107
+    paths:
+      - 'runtime/qwa_full_repertoire_improvecore_107.py'
+      - '.github/workflows/qwa-full-repertoire-improvecore-107.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run QuestionWorthAsking, full repertoire, then ImproveCore
+        run: PYTHONPATH=runtime:. python3 runtime/qwa_full_repertoire_improvecore_107.py
+      - name: Upload run receipt
+        uses: actions/upload-artifact@v4
+        with:
+          name: qwa-full-repertoire-improvecore-107
+          path: runtime/state/qwa-full-repertoire-improvecore-107/report.json
