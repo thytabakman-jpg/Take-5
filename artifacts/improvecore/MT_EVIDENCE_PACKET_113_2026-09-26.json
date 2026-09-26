@@ -1,0 +1,108 @@
+{
+  "schema_version": 1,
+  "object_id": "TAKE5:MT-EVIDENCE-PACKET:113",
+  "source_artifact": "artifacts/full-system-campaign/MT_AUDIT_PRIOR_CAMPAIGN_SUMMARY_003_2026-09-26.md",
+  "source_role": "EVIDENCE_NOT_DRAFT",
+  "target": "prior full-system Show-Me-the-Math campaign summary",
+  "basis": "Take-5 main 6a1594ae8c92e8bb6ef173f51e68f1e30dd48154",
+  "mt": {
+    "configured_tool": "MT",
+    "wrapper_required": true,
+    "mode": "OBSERVER",
+    "geometry": "D36_C",
+    "cell_count": 36,
+    "question_projections": 792,
+    "cognitive_projections": 144,
+    "black_box_spine": [
+      "PD",
+      "PDAudit",
+      "MTA",
+      "MT",
+      "PDAudit",
+      "C47"
+    ],
+    "disposition": "CLOSED_RELATIVE"
+  },
+  "verified_evidence": [
+    {
+      "id": "E1",
+      "class": "GITHUB_MERGE_RECEIPT",
+      "claim": "PR105 merged",
+      "evidence": "6a1594ae8c92e8bb6ef173f51e68f1e30dd48154"
+    },
+    {
+      "id": "E2",
+      "class": "CI_RECEIPT",
+      "claim": "Take-5 Validation passed on campaign head",
+      "evidence": "workflow 36261213546 SUCCESS"
+    },
+    {
+      "id": "E3",
+      "class": "CI_RECEIPT",
+      "claim": "Capability Preservation passed on campaign head",
+      "evidence": "workflow 36261213507 SUCCESS"
+    },
+    {
+      "id": "E4",
+      "class": "PLAN_EXECUTION_RECEIPT",
+      "claim": "campaign regression constructs full configured MT and GOAL plans",
+      "evidence": "tests/test_full_system_show_math_campaign_20260926.py"
+    },
+    {
+      "id": "E5",
+      "class": "NATIVE_EXECUTION_RECEIPT",
+      "claim": "ToolConductor traverses all 91 registered factors with one disposition each",
+      "evidence": "tests/test_full_system_show_math_campaign_20260926.py"
+    },
+    {
+      "id": "E6",
+      "class": "NATIVE_EXECUTION_RECEIPT",
+      "claim": "standalone ICC128 Legacy portable reference self-test executes",
+      "evidence": "runtime/icc128_legacy_portable.py via campaign regression"
+    },
+    {
+      "id": "E7",
+      "class": "ARTIFACT_PRESENCE_RECEIPT",
+      "claim": "campaign Legacy learning-report file exists",
+      "evidence": "artifacts/icc128-legacy-learning/icc128-legacy-full-system-show-math-20260926-004.json"
+    },
+    {
+      "id": "E8",
+      "class": "HOST_BOUND_SEMANTIC_RECEIPT",
+      "claim": "conversation-level MT and GOAL were classified as host-bound configured semantic execution",
+      "evidence": "artifacts/full-system-campaign/FULL_SYSTEM_SHOW_ME_THE_MATH_CAMPAIGN_REPORT_001_2026-09-26.md"
+    }
+  ],
+  "unresolved_evidence": [
+    {
+      "id": "U1",
+      "claim": "campaign-specific Legacy trace came from Controller.run over campaign state/memory",
+      "required_receipt": "campaign-specific Controller.run execution receipt"
+    },
+    {
+      "id": "U2",
+      "claim": "committed Legacy report was generated from that exact run_result",
+      "required_receipt": "build_learning_report provenance binding"
+    },
+    {
+      "id": "U3",
+      "claim": "report hash and GitHub commit were admitted through exact Legacy closure receipt validation",
+      "required_receipt": "require_github_receipt or take5_activation_closed causal receipt"
+    }
+  ],
+  "corrected_claim_boundary": {
+    "prior_campaign_status": "VERIFY_REQUIRED",
+    "residual": "CAMPAIGN_SPECIFIC_ICC128_LEGACY_CONTROLLER_EXECUTION_RECEIPT_REQUIRED"
+  },
+  "downstream_instruction": {
+    "consumer": "ImprovementCore",
+    "role": "EVIDENCE_ONLY",
+    "do_not_treat_as": [
+      "draft",
+      "patch",
+      "candidate architecture",
+      "preselected plan"
+    ],
+    "controller_owns_next_work": true
+  }
+}
