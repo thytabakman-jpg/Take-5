@@ -1,0 +1,82 @@
+{
+  "schema_version": "0.1",
+  "source_repository": "thytabakman-jpg/Take-3",
+  "source_commit": "174aa6e90667ed7030ee21ef9766b7f8cc302f2b",
+  "source_tree_sha": "5b4909c76d6a9db15ed9d43469467bcfa55b4464",
+  "recursive_tree_truncated": false,
+  "entry_count": 10,
+  "blob_count": 7,
+  "tree_count": 3,
+  "entries": [
+    {
+      "path": "BENCHMARKS.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "16347047521d76c5cf0ac126f160abe3171ca227",
+      "size": 1756
+    },
+    {
+      "path": "ICC_CONTROL_PROMPT.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fd7666a543db48a60165130beb15e2cbc9f05f25",
+      "size": 3725
+    },
+    {
+      "path": "KERNEL.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "855717eb16075361ca450426ec72eb0283fdd9a7",
+      "size": 842
+    },
+    {
+      "path": "README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ad9d0f7339b2ac14f45b15edf998c75d799fd00d",
+      "size": 1477
+    },
+    {
+      "path": "experiments",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "c4c29857ec89c4d3cc641bc5e1a175194d04430f",
+      "size": null
+    },
+    {
+      "path": "experiments/001-bootstrap",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "3c138f5224c127db35828762bfc08969c38774db",
+      "size": null
+    },
+    {
+      "path": "experiments/001-bootstrap/RESULT.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c82e9a3979aaa278d1767d6e6285f7c9b238e15a",
+      "size": 554
+    },
+    {
+      "path": "experiments/LAB_PACKET_001_PD_OWNERSHIP_ABLATION.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "194e4dc45cef9393c4b0642ecb3a0eda2a932211",
+      "size": 1186
+    },
+    {
+      "path": "tools",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "a734ba7eca126923ca8f945b72ec3eb6e791183b",
+      "size": null
+    },
+    {
+      "path": "tools/check_kernel.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "22dbdac6d377e30f0f1801bdb2cf6b2a8574da30",
+      "size": 509
+    }
+  ]
+}
