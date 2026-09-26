@@ -86,6 +86,33 @@ MT_BINDINGS=GENERIC_BINDINGS+(
     ),
 )
 
+ASSERT_BINDINGS=GENERIC_BINDINGS+(
+    ProtectedBinding(
+        "ASSERT_COMPOUND_STAGE_ORDER",
+        "INTRA",
+        "runtime/assert_compound.py",
+        "tests/test_assert_compound.py",
+    ),
+    ProtectedBinding(
+        "ASSERT_SECOND_COMPARE_REQUIRED",
+        "INTRA",
+        "runtime/assert_compound.py",
+        "tests/test_assert_compound.py",
+    ),
+    ProtectedBinding(
+        "ASSERT_DISCOVERY_WORLD_FIXED_POINT_REENTRY",
+        "INTRA",
+        "runtime/assert_compound.py",
+        "tests/test_assert_compound.py",
+    ),
+    ProtectedBinding(
+        "ASSERT_FULL36_THREE_SURFACE_COVERAGE",
+        "INTRA",
+        "runtime/assert_full36.py",
+        "tests/test_assert_full36.py",
+    ),
+)
+
 OVERRIDES={
     "MT":ToolManifest(
         tool_id="MT",
@@ -94,6 +121,14 @@ OVERRIDES={
         closure_contract="TRC",
         reentry_contract="HF001",
         bindings=MT_BINDINGS,
+    ),
+    "ASSERT":ToolManifest(
+        tool_id="ASSERT",
+        native_semantics="ASSERT",
+        geometry_policy="D36_C",
+        closure_contract="TRC",
+        reentry_contract="HF001",
+        bindings=ASSERT_BINDINGS,
     ),
 }
 
