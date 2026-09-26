@@ -1,0 +1,20 @@
+name: corpus-orphan-accounting
+on:
+  push:
+    branches:
+      - main
+      - improvecore/close-reds-20260926
+  workflow_dispatch:
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run basis-relative corpus orphan accounting
+        run: python tools/corpus_orphan_audit.py --root . --out audit/runtime/CORPUS_ORPHAN_ACCOUNTING.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: corpus-orphan-accounting
+          path: audit/runtime/CORPUS_ORPHAN_ACCOUNTING.json
