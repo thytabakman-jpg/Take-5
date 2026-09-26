@@ -39,6 +39,7 @@ REQUIRED_FILES=(
     "runtime/artifact_intake.py",
     "runtime/archive_artifact_intake.py",
     "tests/test_archive_artifact_intake.py",
+    "tests/test_improvement_core_external_acquisition.py",
     "runtime/improvement_core_tool_bridge.py",
     "architecture/IMPROVEMENT_CORE_CONFIGURED_TOOL_EXECUTION_109.md",
     "runtime/improvement_core_regime.py",
@@ -141,6 +142,8 @@ def validate_recovery()->dict:
             failures.append("ARTIFACT_INTAKE_RUNTIME_MISSING")
         if regime.get("archive_artifact_intake")!="runtime/archive_artifact_intake.py":
             failures.append("ARCHIVE_ARTIFACT_INTAKE_RUNTIME_MISSING")
+        if regime.get("external_bound_zip_runtime")!="runtime/improvement_core_external_acquisition.py":
+            failures.append("EXTERNAL_BOUND_ZIP_RUNTIME_MISSING")
         if regime.get("canonical_progress")!="runtime/improvement_core_progress_relation.py":
             failures.append("CANONICAL_PROGRESS_RUNTIME_DRIFT")
         if regime.get("durable_learning")!="integration/IMPROVEMENT_CORE_DURABLE_LEARNING_110.json":
@@ -173,6 +176,19 @@ def validate_recovery()->dict:
             failures.append("BOUND_ZIP_INTAKE_ANCHOR_MISSING")
         if "every declared ZIP member is accounted for" not in anchor:
             failures.append("ZIP_MEMBER_ACCOUNTING_ANCHOR_MISSING")
+        if "typed BOUND_ZIP external-acquisition outputs execute exact binding" not in anchor:
+            failures.append("EXTERNAL_BOUND_ZIP_EXECUTION_ANCHOR_MISSING")
+        if "bound-ZIP processing failures convert the external acquisition to OPEN_GAP" not in anchor:
+            failures.append("EXTERNAL_BOUND_ZIP_FAIL_CLOSED_ANCHOR_MISSING")
+
+        protected=set(manifest.get("protected_behaviors",[]))
+        for required_behavior in (
+            "BOUND_ZIP_EXTERNAL_OUTPUT_EXECUTES_INTAKE_BEFORE_MANAGER",
+            "BOUND_ZIP_PROCESSING_FAILURE_PRESERVES_EXTERNAL_OPEN_GAP",
+            "BOUND_ZIP_RAW_BYTES_AND_GENERATORS_NOT_PERSISTED",
+        ):
+            if required_behavior not in protected:
+                failures.append("BOUND_ZIP_RUNTIME_PROTECTED_BEHAVIOR_MISSING:"+required_behavior)
 
         if manifest.get("open") not in ([], ()):
             failures.append("RECOVERY_MANIFEST_OPEN_COORDINATES_STALE")
