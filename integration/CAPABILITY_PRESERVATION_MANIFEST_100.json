@@ -101,6 +101,36 @@
       "effect": "runtime/improvement_core_regime.py",
       "consumer": "runtime/improvement_core_manager.py",
       "recovery": "architecture/IMPROVEMENT_CORE_RECOVERY_MANIFEST_082.json"
+    },
+    "IMPROVECORE_AFTERRUN_SELF_IMPROVEMENT": {
+      "identity": "architecture/IMPROVECORE_AFTER_RUN_FULL_TOOL_092.md",
+      "semantics": "runtime/improvement_core_afterrun.py",
+      "reachability": "runtime/improvement_core_regime.py",
+      "selection": "runtime/improvement_core_afterrun.py",
+      "execution": "runtime/improvement_core_afterrun.py",
+      "effect": "runtime/improvement_core_learning_memory.py",
+      "consumer": "runtime/improvement_core_regime.py",
+      "recovery": "integration/CURRENT_IMPROVEMENT_CORE.md"
+    },
+    "IMPROVECORE_RESPONSE_BIAS_CONTROL": {
+      "identity": "architecture/IMPROVECORE_RESPONSE_BIAS_OBJECT_LIFECYCLE_093.md",
+      "semantics": "runtime/improvement_core_response_bias.py",
+      "reachability": "runtime/improvement_core_afterrun.py",
+      "selection": "runtime/improvement_core_response_bias.py",
+      "execution": "runtime/improvement_core_afterrun.py",
+      "effect": "AfterRunReceipt.response_profile+bias_audit",
+      "consumer": "user-visible response projection",
+      "recovery": "integration/CURRENT_IMPROVEMENT_CORE.md"
+    },
+    "NEW_OBJECT_LIFECYCLE": {
+      "identity": "architecture/IMPROVECORE_RESPONSE_BIAS_OBJECT_LIFECYCLE_093.md",
+      "semantics": "runtime/object_lifecycle.py",
+      "reachability": "runtime/improvement_core_afterrun.py",
+      "selection": "controller state new_objects",
+      "execution": "runtime/object_lifecycle.py",
+      "effect": "semantic_objects/<object package> plus typed obligations",
+      "consumer": "project/tool/idea lifecycle",
+      "recovery": "integration/PROJECT_READINESS_QUEUE_093.yaml"
     }
   }
 }
