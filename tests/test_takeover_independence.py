@@ -29,7 +29,8 @@ def test_icc128_legacy_predecessor_reference_is_provenance_not_runtime_dependenc
     manifest=(root/"legacy"/"icc128-legacy"/"MANIFEST.yaml").read_text()
 
     assert "SNAPSHOT_ROOT" in loader
-    assert '"legacy" / "icc128-legacy" / "snapshot"' in loader
+    assert 'LEGACY_ROOT / "snapshot"' in loader
+    assert 'RUNTIME_ROOT = SNAPSHOT_ROOT / "runtime"' in loader
     assert "api.github.com/repos/thytabakman-jpg/Reaserch" not in loader
     assert "api.github.com/repos/thytabakman-jpg/Reaserch" not in reporting
     assert "source_mutation_authorized: false" in manifest
