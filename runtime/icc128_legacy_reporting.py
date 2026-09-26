@@ -294,6 +294,10 @@ def require_attested_github_receipt(
     return AttestedLearningReportReceipt(learning,verified)
 
 
+def _learning_persistence_receipt_valid(receipt: LearningReportReceipt | None) -> bool:
+    return receipt is not None and bool(receipt.commit_sha and receipt.report_sha256)
+
+
 def attested_closure_allowed(receipt: AttestedLearningReportReceipt | None) -> bool:
     if receipt is None:
         return False
@@ -304,4 +308,16 @@ def attested_closure_allowed(receipt: AttestedLearningReportReceipt | None) -> b
         )
     except Exception:
         return False
-    return closure_allowed(receipt.learning_receipt)
+    return _learning_persistence_receipt_valid(receipt.learning_receipt)
+
+
+def closure_allowed(receipt) -> bool:
+    """Normal Legacy closure is now fail-closed on causal execution attestation.
+
+    A bare GitHub learning-report receipt proves persistence only.  It no longer
+    proves that the reported run actually crossed the controller runtime.
+    """
+    return (
+        isinstance(receipt,AttestedLearningReportReceipt)
+        and attested_closure_allowed(receipt)
+    )
