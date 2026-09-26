@@ -169,3 +169,40 @@ conclusion: SUCCESS
 These runs exercised the standalone fresh-environment self-test, current MT closure
 test, exhaustive ToolConductor traversal, hidden-dependency negative test, and the
 whole Take-5 regression suite.
+
+
+## Canonical equation-only display normal form
+
+The full portable semantics and the user-visible one-line equation are distinct projections
+of the same mathematical object.
+
+When the user explicitly asks for only the equation, especially with no English words
+and no variables, emit the closed surface normal form:
+
+Σ=𝟙_{Δ∩Ω∩Φ∩Ξ}
+
+These glyphs are constants, not free variables:
+
+Σ = the SHOW_ME_THE_MATH characteristic map.
+Δ = the definition-closed region.
+Ω = the obligation-closed region.
+Φ = the realizer-available region.
+Ξ = the portable-equivalent region.
+
+The characteristic equation is faithful because:
+
+Σ=1
+
+exactly when all four regions contain the current formal object/package/environment
+instance, which is exactly the full ShowMathComplete condition.
+
+This surface must never replace the full portable package when portability or recursive
+reconstruction is the requested output. It is the canonical compact display projection.
+
+Forbidden collapse examples include:
+
+1
+1=1
+1=(1∧1∧1∧1)
+
+because they erase the structure whose satisfaction makes the result true.
