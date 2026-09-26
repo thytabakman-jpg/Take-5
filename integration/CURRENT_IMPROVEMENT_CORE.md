@@ -321,11 +321,11 @@ PR #84
 - Capability Preservation 36227477597
 - regime 088 frontier closure, relation admission, route calibration, replay/holdout, current repertoire and identity audits validated
 
-Regime 089 candidate
-- corrects the regime-088 category error between configured-plan reachability and actual selected-tool execution;
+Regime 089
+- corrected the regime-088 category error between configured-plan reachability and actual selected-tool execution;
 - requires selected formal tools to cross runtime/improvement_core_tool_bridge.py;
 - preserves OPEN when the selected native adapter is absent;
-- validation evidence is attached only after the regime-089 PR passes.
+- promoted through PR #86 and is inherited by regime 090.
 
 ## Zero-request entry
 
