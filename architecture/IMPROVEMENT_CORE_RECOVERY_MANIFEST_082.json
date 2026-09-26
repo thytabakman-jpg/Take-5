@@ -36,7 +36,8 @@
     "knowledge_ledger": "integration/IMPROVEMENT_CORE_KNOWLEDGE_LEDGER_113.json",
     "knowledge_runtime": "runtime/improvement_core_knowledge_ledger.py",
     "artifact_intake": "runtime/artifact_intake.py",
-    "archive_artifact_intake": "runtime/archive_artifact_intake.py"
+    "archive_artifact_intake": "runtime/archive_artifact_intake.py",
+    "external_bound_zip_runtime": "runtime/improvement_core_external_acquisition.py"
   },
   "evidence": {
     "maximization": "architecture/IMPROVEMENT_CORE_MAXIMIZATION_081.md",
@@ -140,7 +141,8 @@
       "regime_version": "091"
     },
     "artifact_intake_contract": "architecture/ARTIFACT_TO_WORK_INTAKE_CONTRACT_001_2026-09-25.md",
-    "bound_zip_intake_recommendation": "artifacts/improvecore/IMPROVEMENTCORE_BOUND_ZIP_INTAKE_RECOMMENDATION_126_2026-09-26.md"
+    "bound_zip_intake_recommendation": "artifacts/improvecore/IMPROVEMENTCORE_BOUND_ZIP_INTAKE_RECOMMENDATION_126_2026-09-26.md",
+    "bound_zip_external_runtime": "artifacts/improvecore/IMPROVEMENTCORE_EXTERNAL_BOUND_ZIP_RUNTIME_129_2026-09-26.md"
   },
   "protected_behaviors": [
     "CONTROLLER_OWNERSHIP",
@@ -195,7 +197,10 @@
     "HF1_UPSTREAM_REENTRY_ESCAPES_LOCAL_HF2",
     "DURABLE_MATERIAL_KNOWLEDGE_CAPTURE",
     "BOUND_EXTERNAL_ZIP_VERIFIED_BEFORE_ARTIFACT_INTAKE",
-    "ZIP_MEMBER_ACCOUNTING_PRESERVES_UNRESOLVED"
+    "ZIP_MEMBER_ACCOUNTING_PRESERVES_UNRESOLVED",
+    "BOUND_ZIP_EXTERNAL_OUTPUT_EXECUTES_INTAKE_BEFORE_MANAGER",
+    "BOUND_ZIP_PROCESSING_FAILURE_PRESERVES_EXTERNAL_OPEN_GAP",
+    "BOUND_ZIP_RAW_BYTES_AND_GENERATORS_NOT_PERSISTED"
   ],
   "open": [],
   "math": {
