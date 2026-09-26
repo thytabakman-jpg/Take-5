@@ -44,11 +44,11 @@ def test_pd_and_architecture_fail_closed_instead_of_becoming_green_by_function_n
         assert "NATIVE_RUNTIME_UNRECOVERED" in row.residuals
 
 
-def test_improvementcore_outer_function_does_not_hide_environment_or_manifest_gaps():
+def test_improvementcore_outer_function_has_explicit_manifest_but_keeps_environment_boundary():
     row=encode("ImprovementCore")
-    assert row.configured_identity_status=="OPEN"
+    assert row.configured_identity_status=="CLOSED_RELATIVE"
     assert row.realization_status=="ENVIRONMENT_BOUND"
-    assert "GENERIC_ONLY_MANIFEST" in row.residuals
+    assert "GENERIC_ONLY_MANIFEST" not in row.residuals
     assert set(row.required_environment)=={"handlers","authority","controller_context"}
 
 
