@@ -101,6 +101,16 @@
       "effect": "runtime/improvement_core_regime.py",
       "consumer": "runtime/improvement_core_manager.py",
       "recovery": "architecture/IMPROVEMENT_CORE_RECOVERY_MANIFEST_082.json"
+    },
+    "IMPROVECORE_MATH_SPINE": {
+      "identity": "architecture/IMPROVEMENT_CORE_MATH_CORPUS_INTEGRATION_090.md",
+      "semantics": "runtime/improvement_core_math_spine.py",
+      "reachability": "runtime/improvement_core_recursive_manager.py",
+      "selection": "runtime/improvement_core_math_spine.py",
+      "execution": "runtime/improvement_core_recursive_manager.py",
+      "effect": "runtime/improvement_core_recursive_manager.py",
+      "consumer": "runtime/improvement_core_regime.py",
+      "recovery": "architecture/IMPROVEMENT_CORE_RECOVERY_MANIFEST_082.json"
     }
   }
 }
