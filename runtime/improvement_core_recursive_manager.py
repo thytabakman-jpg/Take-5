@@ -11,7 +11,7 @@ from dataclasses import dataclass, asdict, field
 from typing import Any, Callable
 
 from improvement_core_learning_memory import LearningMemory
-from improvement_core_math_spine import ControllerOption, nondominated_frontier
+from improvement_core_math_spine import ControllerOption, resolve_policy
 
 TERMINAL={"COMPLETE","OPEN","BLOCKED","CONFLICT"}
 ADMISSION={"ADMIT","REJECT","RECONCILE","OPEN","NO_GAIN"}
@@ -111,28 +111,31 @@ class RecursiveImprovementCoreManager:
                     )
                     for x in raw_candidates
                 )
-                frontier=nondominated_frontier(options)
-                if not frontier.nondominated:
+                policy=resolve_policy(
+                    options,
+                    frontier_choice_id=z.get("frontier_choice_id"),
+                    live_continuation=bool(z.get("live_continuation",True)),
+                )
+                frontier=policy.frontier
+                frontier_ids=tuple(x.option_id for x in frontier.nondominated)
+                if policy.selected is None:
+                    blocker=(
+                        "IC_MANAGER_NO_ADMISSIBLE_CHILD_JOB"
+                        if policy.disposition=="OPEN_NO_ADMISSIBLE_ACTION"
+                        else "IC_MANAGER_PLURAL_NONDOMINATED_CHILD_FRONTIER"
+                    )
                     return {
                         "status":"OPEN","state":z,"memory":m,
                         "traces":[asdict(t) for t in self.traces],
-                        "blocker":"IC_MANAGER_NO_ADMISSIBLE_CHILD_JOB",
-                        "frontier":{"rejected":frontier.rejected},
+                        "blocker":blocker,
+                        "frontier":{
+                            "nondominated":frontier_ids,
+                            "rejected":frontier.rejected,
+                            "policy_disposition":policy.disposition,
+                        },
                     }
                 by_id={str(x.get("id")):x for x in raw_candidates}
-                if len(frontier.nondominated)>1:
-                    requested=str(z.get("frontier_choice_id",""))
-                    frontier_ids=tuple(x.option_id for x in frontier.nondominated)
-                    if requested not in frontier_ids:
-                        return {
-                            "status":"OPEN","state":z,"memory":m,
-                            "traces":[asdict(t) for t in self.traces],
-                            "blocker":"IC_MANAGER_PLURAL_NONDOMINATED_CHILD_FRONTIER",
-                            "frontier":{"nondominated":frontier_ids,"rejected":frontier.rejected},
-                        }
-                    selected=by_id[requested]
-                else:
-                    selected=by_id[frontier.nondominated[0].option_id]
+                selected=by_id[policy.selected.option_id]
 
             basis=str(selected.get("basis_id") or z.get("basis_id") or f"basis:{i}")
             route_id=str(selected.get("route_id") or selected.get("id"))
