@@ -272,10 +272,10 @@ Open-world global maximality/minimality is not a licensed completion claim. Curr
 32. architecture/IMPROVEMENT_CORE_INDEXED_PROGRESS_MATHEMATICS_111.md
 33. runtime/improvement_core_order_math.py
 34. architecture/IMPROVEMENT_CORE_MAXIMIZATION_081.md
-33. architecture/CROSS_REPOSITORY_IMPROVEMENTCORE_LINEAGE_CHOICE_080.md
-34. architecture/PROTECTED_TRANSITION_INTEGRITY_090.md
-35. integration/CURRENT_PROTECTED_TRANSITION_INTEGRITY.md
-36. MIGRATION_STATE.yaml
+35. architecture/CROSS_REPOSITORY_IMPROVEMENTCORE_LINEAGE_CHOICE_080.md
+36. architecture/PROTECTED_TRANSITION_INTEGRITY_090.md
+37. integration/CURRENT_PROTECTED_TRANSITION_INTEGRITY.md
+38. MIGRATION_STATE.yaml
 
 ## Related current recovery anchors
 
@@ -332,6 +332,14 @@ PR #87
 - Take-5 Validation 36249459966
 - Capability Preservation 36249459971
 - regime 090 canonical progress, durable negative learning, pre-frontier no-gain filtering, semantic cycle blocking, and recovery/capability protection validated
+
+PR #90
+- merge 924f0123d0ec3490cccc8c01667654c8166436c6
+- Take-5 Validation 36249848074
+- Capability Preservation 36249848079
+- IC123 Math Recovery 36249781890
+- 73 focused longitudinal/local progress regressions passed
+- promoted the basis-indexed longitudinal preorder, explicit common comparison frame, and local-transition-versus-system-order separation while preserving regime 090 anti-repeat behavior
 
 Regime 089
 - corrected the regime-088 category error between configured-plan reachability and actual selected-tool execution;
