@@ -9,9 +9,13 @@ from dataclasses import dataclass
 from typing import Iterable
 
 from mathematical_color_gate import (
+    AssessedMathFragment,
     Fragment,
+    MathFragment,
     RenderChannel,
     TAKE5_LATEX,
+    TextFragment,
+    ColorInvariantViolation,
     emit_user_visible,
 )
 
@@ -69,6 +73,17 @@ def emit_default_result(
     *,
     channel: RenderChannel = TAKE5_LATEX,
 ) -> str:
-    """Canonical user-visible emission boundary for the default result path."""
+    """Canonical user-visible emission boundary for the default result path.
+
+    Formal math may reach this authoritative boundary only after a complete-for-use
+    assessment. Raw MathFragment values remain available for low-level renderer tests
+    but cannot self-certify recovery on the default result path.
+    """
     default_result_path()
-    return emit_user_visible(fragments, channel=channel)
+    parts = tuple(fragments)
+    for fragment in parts:
+        if isinstance(fragment, MathFragment) and not isinstance(fragment, AssessedMathFragment):
+            raise ColorInvariantViolation("UNASSESSED_MATH_AT_DEFAULT_RESULT_BOUNDARY")
+        if not isinstance(fragment, (TextFragment, AssessedMathFragment)):
+            raise ColorInvariantViolation("UNTYPED_DEFAULT_RESULT_FRAGMENT")
+    return emit_user_visible(parts, channel=channel)
