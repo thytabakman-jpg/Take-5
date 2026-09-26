@@ -8,29 +8,31 @@ Status: CURRENT CANDIDATE EMISSION CONTRACT
 Control user-visible coloring of mathematical and formal-system objects relative to the current job.
 
 Color is not a property of a name.
-Color is a verdict on whether the object's mathematical role is sufficiently recovered for the current job.
+Color is a verdict on whether the object's mathematical role is completely figured out for the current job.
 
 ## Core law
 
-For formal object x under current job J:
+For formal object x used in context J, ask exactly one binary question:
 
-GREEN_J(x)
+CompleteForUse_J(x) in {YES, NO}.
+
+CompleteForUse_J(x)=YES
 iff
-Required_J(x) is nonempty
-AND
-every coordinate required by J is recovered, nonconflicting, and admitted
-AND
-no unresolved coordinate can change the job-relevant result.
+the entire mathematics required for that exact use of x in J is figured out.
 
-Otherwise:
+That means:
+- every mathematical coordinate needed to interpret that use is explicit;
+- every required relation and transition is explicit;
+- every dependency needed by that use is explicit;
+- no required coordinate is missing, partial, ambiguous, conflicting, OPEN, BLOCKED, or merely proposed;
+- no unresolved mathematical fact can change what x means in that use.
 
-RED_J(x).
+Then:
 
-Equivalently:
+GREEN_J(x) iff CompleteForUse_J(x)=YES.
+RED_J(x) iff CompleteForUse_J(x)=NO.
 
-Color_J(x) =
-GREEN when SufficientlyRecovered_J(x)
-RED otherwise.
+There is no intermediate threshold and no appeal to sufficiency, confidence, usefulness, plausibility, or local implementation success.
 
 ## Conservative rule
 
@@ -56,7 +58,7 @@ UNVERIFIED_WHEN_VERIFICATION_IS_REQUIRED.
 
 ## Green conditions
 
-GREEN requires evidence sufficient for the current claim.
+GREEN requires the entire mathematics required by the current use to be figured out.
 
 A narrower claim can be green even when the larger object remains red.
 
@@ -76,7 +78,7 @@ Thus an unresolved HF1 can force REENTER_OBSERVE, REVERIFY, and NO_REENTRY red w
 
 The same glyph can legitimately have different colors in different claims.
 
-GREEN means sufficient for the claim currently being made, not globally complete.
+GREEN means the entire mathematics required by this exact use, in this exact context, is figured out. It does not mean the object is globally complete for every possible use.
 
 ## Emission gate
 
@@ -85,8 +87,8 @@ Before emitting a formal object:
 1. identify the current job J;
 2. identify the claim being made about x;
 3. enumerate claim-required coordinates;
-4. inspect their status;
-5. emit GREEN only if all are sufficient;
+4. ask whether the entire mathematics required by this exact use is figured out;
+5. emit GREEN only when the answer is YES;
 6. otherwise emit RED.
 
 No optimistic promotion from PARTIAL to GREEN.
