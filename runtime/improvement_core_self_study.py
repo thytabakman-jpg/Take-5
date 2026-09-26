@@ -10,6 +10,7 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+from dataclasses import asdict, replace
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -21,6 +22,10 @@ from improvement_core_learning_memory import VALID_DISPOSITIONS
 from improvement_core_external_acquisition import DEFAULT_PRIORITY
 from ic028_operator import OBSERVER_FIRST_STAGES
 from entry_contract import preflight_mode_profile
+from root_cause import RootCandidate, run_root_cause_hf2
+from question_worth_asking import QuestionCandidate, select_question
+from currentness_audit import assess
+from assert_compound import AssertState, AssertStages, run_to_fixed_point
 
 INPUT = ROOT / "integration/IMPROVECORE_SELF_STUDY_INPUT_104_2026-09-26.md"
 RESEARCH = ROOT / "research/IMPROVECORE_EXTERNAL_ARCHITECTURE_RESEARCH_104_2026-09-26.md"
@@ -38,6 +43,7 @@ CORE_FILES = {
     "capability_foundry": ROOT / "runtime/capability_foundry.py",
     "tool_manifest": ROOT / "runtime/tool_manifest.py",
     "controller_lease": ROOT / "runtime/controller_lease.py",
+    "tool_bridge": ROOT / "runtime/improvement_core_tool_bridge.py",
 }
 
 def read(path: Path) -> str:
@@ -64,6 +70,7 @@ def capability_snapshot():
     external = texts["external_acquisition"]
     recursive = texts["recursive_manager"]
     foundry = texts["capability_foundry"]
+    tool_bridge = texts["tool_bridge"]
 
     checkpoint_tokens = ("checkpoint", "event_history", "resume_from", "replay_from")
     persistent_checkpoint = any(tok in (regime + operator).lower() for tok in checkpoint_tokens)
@@ -119,6 +126,11 @@ def capability_snapshot():
             "recursive_retry_policy": "PRESENT" if explicit_retry else "ABSENT_IN_RECURSIVE_MANAGER",
             "recursive_cancellation_semantics": "PRESENT" if cancellation else "ABSENT_IN_RECURSIVE_MANAGER",
             "recursive_resume_semantics": "PRESENT" if resume else "ABSENT_IN_RECURSIVE_MANAGER",
+            "configured_tool_runtime_bridge": (
+                "PRESENT"
+                if "execute_bound_tools" in tool_bridge and "CONFIGURED_TOOL_ADAPTER_REQUIRED" in tool_bridge
+                else "ABSENT"
+            ),
         },
     }
 
@@ -158,7 +170,7 @@ def improvement_candidates(snapshot):
             "current_state": caps["automatic_host_adapter_discovery"],
             "basis": [
                 "external acquisition already supports adapters but requires host injection",
-                "current recovery anchor leaves universal host interception OPEN",
+                "universal host interception is external-not-owned; native adapter discovery remains host-bound",
                 "agent runtimes/frameworks commonly expose explicit runtime/tool registries",
             ],
             "minimal_form": "typed adapter registry/discovery contract without self-authorizing use",
@@ -219,6 +231,176 @@ def improvement_candidates(snapshot):
             "implementation_status": "EXPERIMENT_READY",
         },
     ]
+
+def configured_tool_adapters():
+    """Bind real native tool runtimes used by the self-study.
+
+    Every adapter receives the full configured D36_C execution plan. The native
+    tool result is returned into controller state and consumed by later stages.
+    """
+
+    def currentness_adapter(state,plan):
+        result=assess(
+            component="ImproveCore formal-tool execution path",
+            built_basis="regime-088:configured-plan-only",
+            latest_basis="regime-089:configured-tool-execution-bridge",
+            protected=("selected formal tool identity","full configured wrapper","OPEN preservation"),
+            delta=("selected tools were not forced through native runtime adapters",),
+            behavior_preserved=True,
+            local_patch_available=True,
+            evidence=("runtime/ic028_operator.py","runtime/improvement_core_tool_bridge.py"),
+            obligations=("verify real adapter invocation","verify missing adapter remains OPEN"),
+            dependents=("repertoire reachability","self-study execution"),
+            reverified=False,
+        )
+        return {
+            "status":"EXECUTED",
+            "execution_truth":"IMPLEMENTATION_EXECUTED",
+            "result":asdict(result),
+            "evidence":(
+                f"configured-plan:{plan.tool_id}:{len(plan.cells)}",
+                "native:currentness_audit.assess",
+            ),
+            "material_delta":True,
+        }
+
+    def root_cause_adapter(state,plan):
+        failure_class={
+            "formal_tool_selected_without_native_execution",
+            "generic_execute_callback_substitutes_for_tool_runtime",
+            "plan_reachability_mislabeled_as_execution_reachability",
+        }
+        candidates=(
+            RootCandidate(
+                "HARDCODED_SELF_STUDY_HANDLERS",
+                "LOCAL_MECHANISM",
+                frozenset({"generic_execute_callback_substitutes_for_tool_runtime"}),
+                survives_representation_change=False,
+                removal_breaks_recurrence=False,
+            ),
+            RootCandidate(
+                "PLAN_ONLY_REACHABILITY_AUDIT",
+                "ENABLING_CONDITION",
+                frozenset({"plan_reachability_mislabeled_as_execution_reachability"}),
+                survives_representation_change=True,
+                removal_breaks_recurrence=False,
+            ),
+            RootCandidate(
+                "TOOL_SELECTION_EXECUTION_SEAM_MISSING",
+                "ROOT_GENERATOR",
+                frozenset(failure_class),
+                upstream_of=frozenset({
+                    "HARDCODED_SELF_STUDY_HANDLERS",
+                    "PLAN_ONLY_REACHABILITY_AUDIT",
+                }),
+                survives_representation_change=True,
+                removal_breaks_recurrence=True,
+            ),
+        )
+        result=run_root_cause_hf2(
+            failure_class=failure_class,
+            candidates=candidates,
+            basis_id="improvecore-tool-use-109",
+        )
+        return {
+            "status":"EXECUTED",
+            "execution_truth":"IMPLEMENTATION_EXECUTED",
+            "result":asdict(result),
+            "evidence":(
+                f"configured-plan:{plan.tool_id}:{len(plan.cells)}",
+                "native:root_cause.run_root_cause_hf2",
+            ),
+            "material_delta":True,
+        }
+
+    def question_adapter(state,plan):
+        questions=(
+            QuestionCandidate(
+                "q-execution",
+                "Does a selected formal tool cross into its configured native runtime before EXECUTE can close?",
+                1.0,1.0,1.0,1.0,0.15,0.05,
+            ),
+            QuestionCandidate(
+                "q-registry",
+                "Are powerful tools registered?",
+                0.45,0.35,0.2,0.3,0.1,0.05,
+            ),
+            QuestionCandidate(
+                "q-more-tools",
+                "Can more tools be added?",
+                0.2,0.2,0.1,0.1,0.6,0.4,
+            ),
+        )
+        result=select_question(questions)
+        return {
+            "status":"EXECUTED",
+            "execution_truth":"IMPLEMENTATION_EXECUTED",
+            "result":asdict(result),
+            "evidence":(
+                f"configured-plan:{plan.tool_id}:{len(plan.cells)}",
+                "native:question_worth_asking.select_question",
+            ),
+            "material_delta":True,
+        }
+
+    def assert_adapter(state,plan):
+        def assert_stage(x):
+            return replace(x,assertions=(
+                "selected registered formal tool requires configured adapter execution",
+                "missing adapter preserves OPEN",
+            ))
+        def compare_stage(x):
+            return replace(x,comparisons=(
+                "selection identity matches configured registry",
+                "execution receipt names the native tool",
+                "configured plan has 36 cells",
+            ))
+        def resolve_stage(x):
+            return replace(x,resolutions=("semantic selection is not execution",))
+        def here_stage(x):
+            return replace(x,here=(
+                "runtime/improvement_core_tool_bridge.py",
+                "runtime/ic028_operator.py",
+            ))
+        def inquire_stage(x):
+            return replace(x,inquiries=(
+                "Was the adapter called?",
+                "Was its result consumed into controller state?",
+            ))
+        def reassert_stage(x):
+            return replace(x,metadata={"bridge_required":True,"fail_open":True})
+
+        result=run_to_fixed_point(
+            AssertState(),
+            AssertStages(
+                assert_stage,
+                compare_stage,
+                resolve_stage,
+                here_stage,
+                inquire_stage,
+                reassert_stage,
+            ),
+            max_rounds=3,
+            closure_gate=lambda x: bool(x.here and x.assertions),
+        )
+        return {
+            "status":"EXECUTED",
+            "execution_truth":"IMPLEMENTATION_EXECUTED",
+            "result":asdict(result),
+            "evidence":(
+                f"configured-plan:{plan.tool_id}:{len(plan.cells)}",
+                "native:assert_compound.run_to_fixed_point",
+            ),
+            "material_delta":True,
+        }
+
+    return {
+        "CurrentnessAudit":currentness_adapter,
+        "RootCause":root_cause_adapter,
+        "QuestionWorthAsking":question_adapter,
+        "ASSERT":assert_adapter,
+    }
+
 
 def handlers():
     snap = capability_snapshot()
@@ -300,6 +482,12 @@ def handlers():
                     "foundry/manifest skill-promotion subsumption test",
                 ]
             elif stage == "SELECT":
+                s["selected_tools"] = (
+                    "CurrentnessAudit",
+                    "RootCause",
+                    "QuestionWorthAsking",
+                    "ASSERT",
+                )
                 s["selected_next_candidate"] = {
                     "id": "IC-TRACE-EXPORT",
                     "reason": (
@@ -313,8 +501,19 @@ def handlers():
                     "canonical_mutation_authorized": False,
                 }
             elif stage == "EXECUTE":
+                tool_outputs=tuple(s.get("configured_tool_outputs",()))
+                by_tool={x["tool_id"]:x for x in tool_outputs}
+                root_result=by_tool.get("RootCause",{}).get("result",{})
+                question_result=by_tool.get("QuestionWorthAsking",{}).get("result",{})
+                assert_result=by_tool.get("ASSERT",{}).get("result",{})
                 s["self_study_result"] = {
                     "architecture_reconstructed": True,
+                    "configured_tools_used":tuple(by_tool),
+                    "tool_driven_findings":{
+                        "root_candidates":root_result.get("root_candidates",()),
+                        "question_status":question_result.get("status"),
+                        "assert_status":assert_result.get("status"),
+                    },
                     "candidate_count": len(candidates),
                     "candidates": candidates,
                     "admission_ready": ["IC-TRACE-EXPORT"],
@@ -362,6 +561,13 @@ def handlers():
                         snap["capabilities"]["execution_position_memory_distinct_from_learning_memory"]
                         == "ABSENT_IN_LEARNING_MEMORY"
                     ),
+                    "configured_tool_execution_evidence": (
+                        len(tuple(s.get("configured_tool_outputs",())))==4
+                    ),
+                    "all_configured_tools_full_36": all(
+                        x.get("binding",{}).get("cell_count")==36
+                        for x in tuple(s.get("configured_tool_outputs",()))
+                    ),
                 }
             elif stage == "COMPLETE":
                 s["terminal_disposition"] = "RELATIVE_CLOSE_WITH_STRICT_GAIN_CANDIDATES"
@@ -390,6 +596,7 @@ def run(output: Path):
         corpus=corpus,
         observer_risk=True,
         allow_external_gap=False,
+        configured_tool_adapters=configured_tool_adapters(),
     )
     state = result.result.state
     report = {
@@ -406,6 +613,7 @@ def run(output: Path):
         "architecture_decision": state.get("architecture_decision"),
         "verification": state.get("verification"),
         "terminal_disposition": state.get("terminal_disposition"),
+        "configured_tool_outputs": state.get("configured_tool_outputs"),
     }
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(report, indent=2, sort_keys=True, default=str), encoding="utf-8")
@@ -414,6 +622,10 @@ def run(output: Path):
         raise SystemExit("ImproveCore self-study did not reach relative close")
     if not report["verification"]["core_files_present"]:
         raise SystemExit("ImproveCore self-study core file verification failed")
+    if not report["verification"]["configured_tool_execution_evidence"]:
+        raise SystemExit("ImproveCore self-study did not execute configured formal tools")
+    if not report["verification"]["all_configured_tools_full_36"]:
+        raise SystemExit("ImproveCore self-study tool execution lost full D36_C binding")
     return report
 
 def main():

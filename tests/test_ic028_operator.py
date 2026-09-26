@@ -133,3 +133,74 @@ def test_operator_runs_and_reenters_with_bound_entry():
     assert seen==["d"]
     assert any(r.stage=="ENTRY_CONTRACT" and r.status=="BOUND" for r in out.receipts)
     assert any(r.stage=="JANE_SYNC" for r in out.receipts)
+
+
+def test_selected_formal_tool_crosses_configured_execution_bridge():
+    binding=begin_turn(
+        "Run ICC",
+        target="object",
+        job="j",
+        basis="b",
+        episode_id="tool-bridge",
+    )
+    calls=[]
+    handlers=_handlers_for(GOAL_DIRECTED_STAGES,calls)
+
+    original_select=handlers["SELECT"]
+    def select_with_tool(state):
+        out=original_select(state)
+        out["state"]={**out["state"],"selected_tool":"RootCause"}
+        return out
+    handlers["SELECT"]=select_with_tool
+
+    tool_calls=[]
+    def root_adapter(state,plan):
+        tool_calls.append((plan.tool_id,len(plan.cells),plan.wrapper_required))
+        return {
+            "status":"EXECUTED",
+            "execution_truth":"IMPLEMENTATION_EXECUTED",
+            "result":{"root":"SEAM"},
+            "material_delta":True,
+        }
+
+    out=run_ic028(
+        binding.lease,
+        {},
+        handlers,
+        entry_contract=binding.contract,
+        configured_tool_adapters={"RootCause":root_adapter},
+    )
+    assert out.terminal
+    assert tool_calls==[("RootCause",36,True)]
+    assert any(r.stage=="CONFIGURED_TOOL_BIND" and r.status=="BOUND" for r in out.receipts)
+    assert any(r.stage=="CONFIGURED_TOOL_EXECUTE" and r.status=="EXECUTED" for r in out.receipts)
+    assert out.state["configured_tool_outputs"][0]["tool_id"]=="RootCause"
+
+
+def test_selected_formal_tool_without_adapter_fails_open():
+    binding=begin_turn(
+        "Run ICC",
+        target="object",
+        job="j",
+        basis="b",
+        episode_id="tool-bridge-open",
+    )
+    calls=[]
+    handlers=_handlers_for(GOAL_DIRECTED_STAGES,calls)
+
+    original_select=handlers["SELECT"]
+    def select_with_tool(state):
+        out=original_select(state)
+        out["state"]={**out["state"],"selected_tool":"RootCause"}
+        return out
+    handlers["SELECT"]=select_with_tool
+
+    out=run_ic028(
+        binding.lease,
+        {},
+        handlers,
+        entry_contract=binding.contract,
+    )
+    assert not out.terminal
+    assert out.blocker=="CONFIGURED_TOOL_ADAPTER_REQUIRED:RootCause"
+    assert any(r.stage=="CONFIGURED_TOOL_EXECUTE" and r.status=="OPEN" for r in out.receipts)

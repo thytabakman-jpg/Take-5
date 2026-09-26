@@ -32,6 +32,8 @@ REQUIRED_FILES=(
     "tests/test_improvement_core_mode_profile.py",
     "runtime/improvement_core_upstream.py",
     "runtime/improvement_core_external_acquisition.py",
+    "runtime/improvement_core_tool_bridge.py",
+    "architecture/IMPROVEMENT_CORE_CONFIGURED_TOOL_EXECUTION_109.md",
     "runtime/improvement_core_regime.py",
     "runtime/improvement_core_manager.py",
     "runtime/ic028_operator.py",
@@ -76,6 +78,8 @@ def validate_recovery()->dict:
         failures.append("LEARNING_MEMORY_MISSING")
     if "external_acquisition" not in CURRENT_REGIME.external_acquisition:
         failures.append("EXTERNAL_ACQUISITION_MISSING")
+    if "improvement_core_tool_bridge" not in CURRENT_REGIME.configured_tool_bridge:
+        failures.append("CONFIGURED_TOOL_BRIDGE_MISSING")
 
     if not missing:
         manifest=json.loads(_read("architecture/IMPROVEMENT_CORE_RECOVERY_MANIFEST_082.json"))
@@ -103,6 +107,8 @@ def validate_recovery()->dict:
         regime=manifest.get("regime",{})
         if regime.get("external_acquisition")!="runtime/improvement_core_external_acquisition.py":
             failures.append("EXTERNAL_ACQUISITION_RUNTIME_MISSING")
+        if regime.get("configured_tool_bridge")!="runtime/improvement_core_tool_bridge.py":
+            failures.append("CONFIGURED_TOOL_BRIDGE_RUNTIME_MISSING")
         if regime.get("recursive_activation")!="LIVE_CONTINUATION":
             failures.append("RECURSIVE_ACTIVATION_CONTRACT_MISSING")
         if regime.get("learning_activation")!="RECURSIVE_ROUTE_GATE_AND_STAGE_LEARNING_EVENTS":
@@ -113,8 +119,10 @@ def validate_recovery()->dict:
             failures.append("MAXIMIZATION_STATUS_STALE")
 
         anchor=_read("integration/CURRENT_IMPROVEMENT_CORE.md")
-        if "Current regime version:\n- 088" not in anchor:
+        if f"Current regime version:\n- {CURRENT_REGIME.version}" not in anchor:
             failures.append("RECOVERY_ANCHOR_REGIME_VERSION_DRIFT")
+        if "selected formal tool must cross the configured execution bridge" not in anchor:
+            failures.append("CONFIGURED_TOOL_EXECUTION_ANCHOR_MISSING")
 
         if manifest.get("open") not in ([], ()):
             failures.append("RECOVERY_MANIFEST_OPEN_COORDINATES_STALE")

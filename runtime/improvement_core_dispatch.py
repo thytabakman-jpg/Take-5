@@ -53,6 +53,7 @@ def dispatch_improvement_core(
     external_adapters:dict[str,Callable]|None=None,
     force_external:bool=False,
     allow_external_gap:bool=True,
+    configured_tool_adapters:dict[str,Callable]|None=None,
 ):
     resolution=resolve_improvement_core_invocation(user_text)
 
@@ -90,5 +91,6 @@ def dispatch_improvement_core(
         external_adapters=external_adapters,
         force_external=force_external,
         allow_external_gap=allow_external_gap,
+        configured_tool_adapters=configured_tool_adapters,
     )
     return resolution,result

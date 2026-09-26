@@ -5,7 +5,7 @@
   "status": "CURRENT",
   "canonical_repository": "thytabakman-jpg/Take-5",
   "controller": "IC-028",
-  "regime_version": "088",
+  "regime_version": "089",
   "invocation": {
     "aliases": [
       "ImproveCore",
@@ -17,7 +17,7 @@
   },
   "regime": {
     "surface": "runtime/improvement_core_regime.py",
-    "version": "088",
+    "version": "089",
     "stage_manager": "runtime/improvement_core_manager.py",
     "operator": "runtime/ic028_operator.py",
     "recursive_manager": "runtime/improvement_core_recursive_manager.py",
@@ -26,7 +26,8 @@
     "learning_activation": "RECURSIVE_ROUTE_GATE_AND_STAGE_LEARNING_EVENTS",
     "narrow_subordinate": "runtime/improvement_core.py",
     "external_acquisition": "runtime/improvement_core_external_acquisition.py",
-    "mode_geometry": "runtime/entry_contract.py"
+    "mode_geometry": "runtime/entry_contract.py",
+    "configured_tool_bridge": "runtime/improvement_core_tool_bridge.py"
   },
   "evidence": {
     "maximization": "architecture/IMPROVEMENT_CORE_MAXIMIZATION_081.md",
@@ -78,7 +79,8 @@
       "take5_validation_run": "36227477555",
       "capability_preservation_run": "36227477597",
       "merge_commit": "04d6cc4d1935ee72e29909cb3bc7c4ee3616ade0"
-    }
+    },
+    "configured_tool_execution": "architecture/IMPROVEMENT_CORE_CONFIGURED_TOOL_EXECUTION_109.md"
   },
   "protected_behaviors": [
     "CONTROLLER_OWNERSHIP",
@@ -115,7 +117,11 @@
     "UPSTREAM_ROUTE_CALIBRATION",
     "BASIS_RELATIVE_RELATION_ADMISSION",
     "CURRENT_REPERTOIRE_REACHABILITY_AUDIT",
-    "HISTORICAL_REPLAY_WITNESS_BASIS"
+    "HISTORICAL_REPLAY_WITNESS_BASIS",
+    "SELECTED_FORMAL_TOOL_REQUIRES_CONFIGURED_NATIVE_EXECUTION",
+    "MISSING_SELECTED_TOOL_ADAPTER_PRESERVES_OPEN",
+    "CONFIGURED_TOOL_RESULT_CONSUMED_BEFORE_GENERIC_EXECUTE",
+    "PLAN_REACHABILITY_DISTINCT_FROM_EXECUTION_REACHABILITY"
   ],
   "open": [],
   "math": {
