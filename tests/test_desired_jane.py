@@ -36,3 +36,15 @@ def test_repetition_does_not_create_new_coordinate_or_authority():
 def test_invalid_polarity_fails_closed():
     with pytest.raises(ValueError):
         recover_desired_jane([ev("x","MAYBE")])
+
+
+def test_first_tzvi_jane_run_is_conflict_free_and_role_separated():
+    from desired_jane import what_tzvi_wants_jane_to_be
+    x=what_tzvi_wants_jane_to_be()
+    assert assertion_safe(x)
+    assert "continuity_supervision" in x.required
+    assert "entry_state_reconstruction" in x.required
+    assert "discovery_to_work_bridge" in x.required
+    assert "primary_problem_solver" in x.prohibited
+    assert "primary_action_selection" in x.prohibited
+    assert "self_authorization" in x.prohibited
