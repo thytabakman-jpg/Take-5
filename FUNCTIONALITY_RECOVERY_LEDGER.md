@@ -216,5 +216,5 @@ The regime now captures explicit knowledge events and admitted recursive materia
 provenance, basis, dependency footprint, evidence references, related objects and typed
 disposition.
 
-This closes the repository-governed capture seam only after validation. It does not claim that
+Validation passed in PR #111, so the repository-governed capture seam is CLOSED_RELATIVE. It does not claim that
 unseen chats or external information never supplied to the system can be captured.
