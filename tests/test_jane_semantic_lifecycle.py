@@ -69,7 +69,7 @@ def test_black_box_capture_triggers_full_resolution_spine():
         created_here=False,
         math_complete_for_use=False,
     )
-    assert a["followup_configured_runs"]==("PD","PDAudit","MTA","PDAudit","C47")
+    assert a["followup_configured_runs"]==("PD","PDAudit","MTA","MT","PDAudit","C47")
 
 
 def test_black_box_followups_become_material_work():
@@ -89,6 +89,7 @@ def test_black_box_followups_become_material_work():
         "RUN_CONFIGURED:PD:TERM:BB",
         "RUN_CONFIGURED:PDAudit:TERM:BB",
         "RUN_CONFIGURED:MTA:TERM:BB",
+        "RUN_CONFIGURED:MT:TERM:BB",
         "RUN_CONFIGURED:PDAudit:TERM:BB",
         "RUN_CONFIGURED:C47:TERM:BB",
     )
