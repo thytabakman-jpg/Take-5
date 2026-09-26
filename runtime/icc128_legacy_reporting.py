@@ -11,6 +11,7 @@ from dataclasses import asdict, dataclass, is_dataclass
 from pathlib import PurePosixPath
 from typing import Any
 import copy
+import hashlib
 import json
 
 REPORT_REPOSITORY = "thytabakman-jpg/Take-5"
@@ -125,6 +126,10 @@ def build_learning_report(
 
 def render_report_json(report: dict[str, Any]) -> str:
     return json.dumps(_jsonable(report), indent=2, sort_keys=True) + "\n"
+
+
+def report_sha256(report: dict[str, Any]) -> str:
+    return hashlib.sha256(render_report_json(report).encode("utf-8")).hexdigest()
 
 
 def report_path(run_id: str) -> str:
