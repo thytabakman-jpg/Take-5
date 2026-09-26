@@ -31,11 +31,16 @@ Default is RED.
 
 ## Current implementation
 
+Canonical identity registry:
+runtime/formal_object_registry.py
+
+Rendering and enforcement:
 runtime/mathematical_color_gate.py
 
-One central alias registry now owns formal-label identity:
+The formal-object registry derives the configured tool population directly from:
+runtime/tool_run_registry.py
 
-FORMAL_OBJECT_ALIASES
+FORMAL_OBJECT_ALIASES is therefore a projection of the live configured system plus the explicitly declared non-tool formal primitives, not a private hand-maintained vocabulary inside the renderer.
 
 It includes current critical objects and aliases including:
 
@@ -95,13 +100,19 @@ not in that registry even though they had become central formal objects.
 
 Therefore the repository had a strong invariant with an incomplete identity basis.
 
-The repair moves identity normalization into a single explicit alias registry and makes
-current critical aliases regression-tested.
+The root repair separates identity from rendering.
+
+Configured system identities are derived automatically from the live configured-run registry. Non-tool mathematical/system primitives are declared in the formal-object registry. The renderer consumes that registry and does not maintain an independent object list.
+
+Portfolio regression now iterates every configured system identity and proves both:
+- typed colored emission is accepted;
+- the same identity in plain text is rejected.
 
 ## Anti-loss rule
 
-When a new load-bearing formal/system object becomes current, it must be added to
-FORMAL_OBJECT_ALIASES in the same change that makes it user-visible.
+When a new configured tool becomes current, color governance is inherited automatically from the live configured-tool registry.
+
+A non-tool load-bearing mathematical/system primitive must be added to runtime/formal_object_registry.py in the same change that makes it user-visible.
 
 A new formal object is not emission-ready until:
 
@@ -126,10 +137,12 @@ inside the canonical system, with the external host boundary explicitly OPEN.
 1. integration/CURRENT_MATHEMATICAL_COLORING.md
 2. architecture/MATHEMATICAL_COLOR_INVARIANT_062.md
 3. architecture/ASSISTANT_RESPONSE_EMISSION_BOUNDARY_065.md
-4. runtime/mathematical_color_gate.py
-5. tests/test_mathematical_color_gate.py
-6. runtime/mathematical_color_recovery.py
-7. tests/test_mathematical_color_recovery.py
+4. runtime/formal_object_registry.py
+5. runtime/mathematical_color_gate.py
+6. runtime/tool_run_registry.py
+7. tests/test_mathematical_color_gate.py
+8. runtime/mathematical_color_recovery.py
+9. tests/test_mathematical_color_recovery.py
 
 
 ## Validated implementation evidence
@@ -137,6 +150,18 @@ inside the canonical system, with the external host boundary explicitly OPEN.
 PR #55
 - merge 39ca5616d3d8e23042f0ac887d0a447e24ec8ddf
 - validation 36221315384
+- full Take-5 test suite passed
+- canonical whole-system audit passed
+- closed-loop fixture passed
+- zero-request dump passed
+
+
+## Root-fix validation evidence
+
+PR #60
+- merge 2fa3b50102c0f7ce1017b763e4a85ce40e26a7ff
+- validation 36221898366
+- full configured system portfolio color-governed
 - full Take-5 test suite passed
 - canonical whole-system audit passed
 - closed-loop fixture passed

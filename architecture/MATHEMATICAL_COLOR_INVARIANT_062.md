@@ -98,8 +98,10 @@ No optimistic promotion from PARTIAL to GREEN.
 Canonical recovery anchor:
 integration/CURRENT_MATHEMATICAL_COLORING.md
 
-Formal-label identity is now centralized in:
-runtime/mathematical_color_gate.py :: FORMAL_OBJECT_ALIASES
+Formal-label identity is now owned by:
+runtime/formal_object_registry.py
+
+Configured tool identities are derived from runtime/tool_run_registry.py. The color renderer has no independent formal-object vocabulary.
 
 Current critical aliases include ImproveCore and HF1 families.
 
@@ -164,4 +166,23 @@ aliases, typed status path, and plain-text bypass regression are registered.
 PR #55
 Merge: 39ca5616d3d8e23042f0ac887d0a447e24ec8ddf
 Validation run: 36221315384
+Conclusion: SUCCESS
+
+
+## Root-cause correction — PR #60
+
+The earlier repair still duplicated formal identity inside the rendering layer. That was not permanent: any newly admitted configured system could outrun the finite color registry.
+
+Current law:
+
+ConfiguredSystemIdentity(T)
+=> ColorGoverned(T)
+
+by construction, because runtime/formal_object_registry.py derives configured identities from MATERIAL_TOOLS.
+
+Non-tool formal primitives remain explicit additions to that same canonical registry.
+
+PR #60
+Merge: 2fa3b50102c0f7ce1017b763e4a85ce40e26a7ff
+Validation: 36221898366
 Conclusion: SUCCESS

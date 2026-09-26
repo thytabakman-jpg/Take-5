@@ -83,8 +83,7 @@ response for registered formal labels.
 Any remaining registered label fails with:
 UNTYPED_FORMAL_LABEL_AT_RESPONSE_BOUNDARY.
 
-The registered identity basis is centralized in FORMAL_OBJECT_ALIASES so current
-objects such as ImproveCore and HF1 cannot depend on an unrelated older regex list.
+The registered identity basis is owned by runtime/formal_object_registry.py. Configured system identities are derived from the live configured-run registry, so the response boundary cannot silently lag behind newly admitted configured tools.
 
 Recovery anchor:
 integration/CURRENT_MATHEMATICAL_COLORING.md
