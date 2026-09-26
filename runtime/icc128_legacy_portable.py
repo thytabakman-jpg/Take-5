@@ -517,6 +517,7 @@ def portable_core_package(
     *,
     semantic_reasoner_available:bool,
     execution_interface_available:bool=True,
+    controller_bindings_available:bool=True,
 )->dict[str,Any]:
     """Package shape consumed by Take-5's SHOW_ME_THE_MATH checker."""
     return {
@@ -529,9 +530,13 @@ def portable_core_package(
         },
         "definitions":{
             "ICC128_LEGACY_CORE":{"dependencies":("CONTROLLER_LOOP","SEMANTIC_GENERATION","RHO_POLICY","CAPABILITY_GAP","RESELECTION")},
-            "CONTROLLER_LOOP":{"dependencies":("finite_maps","finite_sequences","boolean_logic","semantic_reasoner","execution_interface")},
+            "CONTROLLER_LOOP":{"dependencies":(
+                "finite_maps","finite_sequences","boolean_logic",
+                "semantic_reasoner","execution_interface",
+                "package_compiler","admission_binding","update_binding","discovery_closure_binding"
+            )},
             "SEMANTIC_GENERATION":{"dependencies":("finite_maps","finite_sequences","boolean_logic","semantic_reasoner")},
-            "RHO_POLICY":{"dependencies":("finite_sets","finite_sequences","integer_order","boolean_logic")},
+            "RHO_POLICY":{"dependencies":("finite_sets","finite_sequences","integer_order","boolean_logic","package_compiler")},
             "CAPABILITY_GAP":{"dependencies":("finite_sets","set_difference")},
             "RESELECTION":{"dependencies":("finite_maps","boolean_logic")},
         },
@@ -555,6 +560,22 @@ def portable_core_package(
             "execution_interface":{
                 "typed_contract":"selected work x state x memory -> result records; unavailable external actions return typed BLOCKED",
                 "available":bool(execution_interface_available),
+            },
+            "package_compiler":{
+                "typed_contract":"question/work frontier x state x memory x F_128 -> finite candidate package set preserving jobs, inputs, authority, burden and protected plurality",
+                "available":bool(controller_bindings_available),
+            },
+            "admission_binding":{
+                "typed_contract":"result records x state x memory -> admitted delta preserving OPEN, CONFLICT, provenance, rejection and negative evidence",
+                "available":bool(controller_bindings_available),
+            },
+            "update_binding":{
+                "typed_contract":"state x memory x admitted delta -> successor state x successor memory with stale-support invalidation and typed terminal/reentry state",
+                "available":bool(controller_bindings_available),
+            },
+            "discovery_closure_binding":{
+                "typed_contract":"discovery-sensitive admitted delta x state x memory -> normalized delta carrying dcc_receipt; required only when candidate_discovery_deltas is nonempty",
+                "available":bool(controller_bindings_available),
             },
         },
         "persistence":{
