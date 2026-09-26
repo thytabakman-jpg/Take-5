@@ -5,18 +5,19 @@
   "status": "CURRENT",
   "canonical_repository": "thytabakman-jpg/Take-5",
   "controller": "IC-028",
-  "regime_version": "083",
+  "regime_version": "084",
   "invocation": {
     "aliases": [
       "ImproveCore",
       "Improvement Core"
     ],
     "dispatcher": "runtime/improvement_core_dispatch.py",
-    "entrypoint": "runtime.improvement_core_regime.run_improvement_core_regime"
+    "entrypoint": "runtime.improvement_core_regime.run_improvement_core_regime",
+    "upstream_discovery": "runtime/improvement_core_upstream.py"
   },
   "regime": {
     "surface": "runtime/improvement_core_regime.py",
-    "version": "083",
+    "version": "084",
     "stage_manager": "runtime/improvement_core_manager.py",
     "operator": "runtime/ic028_operator.py",
     "recursive_manager": "runtime/improvement_core_recursive_manager.py",
@@ -71,10 +72,10 @@
     "UNCHANGED_NO_GAIN_ROUTE_BLOCKED",
     "DEPENDENCY_SENSITIVE_ROUTE_REOPENING",
     "STAGE_LEARNING_EVENTS_CAN_ENTER_MEMORY",
-    "OPEN_BLOCKED_CONFLICT_PRESERVATION"
+    "OPEN_BLOCKED_CONFLICT_PRESERVATION",
+    "ZERO_REQUEST_CORPUS_SEEDS_DISCOVERY_BEFORE_SUBSTANTIVE_CONTROLLER_WORK"
   ],
   "open": [
-    "ZERO_REQUEST_UPSTREAM_DISCOVERY_RUNTIME",
     "RELATION_GENERATOR_BASIS",
     "RELATION_ADMISSION_MATH",
     "UNIVERSAL_HOST_INTERCEPTION",
