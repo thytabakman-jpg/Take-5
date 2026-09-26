@@ -33,6 +33,12 @@ REQUIRED_FILES=(
     "runtime/ic028_operator.py",
     "runtime/improvement_core_recursive_manager.py",
     "runtime/improvement_core_learning_memory.py",
+    "runtime/improvement_core_afterrun.py",
+    "runtime/improvement_core_response_bias.py",
+    "runtime/object_lifecycle.py",
+    "architecture/IMPROVECORE_AFTER_RUN_FULL_TOOL_092.md",
+    "architecture/IMPROVECORE_RESPONSE_BIAS_OBJECT_LIFECYCLE_093.md",
+    "integration/PROJECT_READINESS_QUEUE_093.yaml",
     "architecture/IMPROVEMENT_CORE_MAXIMIZATION_081.md",
     "architecture/CROSS_REPOSITORY_IMPROVEMENTCORE_LINEAGE_CHOICE_080.md",
     "research/IMPROVEMENT_CORE_USAGE_AUDIT_078_2026-09-26.md",
@@ -63,6 +69,12 @@ def validate_recovery()->dict:
         failures.append("LEARNING_MEMORY_MISSING")
     if "external_acquisition" not in CURRENT_REGIME.external_acquisition:
         failures.append("EXTERNAL_ACQUISITION_MISSING")
+    if "improvement_core_afterrun" not in CURRENT_REGIME.afterrun_tool:
+        failures.append("AFTERRUN_SELF_IMPROVEMENT_MISSING")
+    if "response_bias" not in CURRENT_REGIME.response_bias_control:
+        failures.append("RESPONSE_BIAS_CONTROL_MISSING")
+    if "object_lifecycle" not in CURRENT_REGIME.object_lifecycle:
+        failures.append("OBJECT_LIFECYCLE_MISSING")
 
     if not missing:
         manifest=json.loads(_read("architecture/IMPROVEMENT_CORE_RECOVERY_MANIFEST_082.json"))
@@ -94,13 +106,19 @@ def validate_recovery()->dict:
             failures.append("RECURSIVE_ACTIVATION_CONTRACT_MISSING")
         if regime.get("learning_activation")!="RECURSIVE_ROUTE_GATE_AND_STAGE_LEARNING_EVENTS":
             failures.append("LEARNING_ACTIVATION_CONTRACT_MISSING")
+        if regime.get("afterrun_activation")!="MANDATORY_AFTER_EVERY_GOVERNED_USE":
+            failures.append("AFTERRUN_ACTIVATION_CONTRACT_MISSING")
+        if regime.get("response_bias_activation")!="MANDATORY_AFTERRUN":
+            failures.append("RESPONSE_BIAS_ACTIVATION_CONTRACT_MISSING")
+        if regime.get("object_lifecycle_activation")!="NEW_OBJECTS_STATE_CHANNEL":
+            failures.append("OBJECT_LIFECYCLE_ACTIVATION_CONTRACT_MISSING")
 
         max_doc=_read("architecture/IMPROVEMENT_CORE_MAXIMIZATION_081.md")
         if "Status: IMPLEMENTED / VALIDATED / MERGED" not in max_doc:
             failures.append("MAXIMIZATION_STATUS_STALE")
 
         anchor=_read("integration/CURRENT_IMPROVEMENT_CORE.md")
-        if "Current regime version:\n- 087" not in anchor:
+        if f"Current regime version:\\n- {CURRENT_REGIME.version}" not in anchor:
             failures.append("RECOVERY_ANCHOR_REGIME_VERSION_DRIFT")
 
         handoff=_read("integration/ICC_SHUTDOWN_HANDOFF_2026-09-25.md")
