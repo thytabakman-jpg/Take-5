@@ -20,6 +20,18 @@ def _spec(tool):
         }
         or tool in LEARNING_TOOLS
     )
+    if tool == "ASSERT":
+        return ConfiguredRunSpec(
+            tool,
+            True,
+            True,
+            True,
+            "WHEN_STRONG_CLAIM",
+            True,
+            "D36_C",
+            ("ASSERT_LAYER_1","ASSERT_LAYER_2"),
+            ("DIFFERENTIATE","RELATE","RECONSTRUCT","STRENGTHEN"),
+        )
     return ConfiguredRunSpec(
         tool,
         True,
