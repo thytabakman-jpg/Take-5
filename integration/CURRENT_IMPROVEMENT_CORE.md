@@ -36,13 +36,14 @@ Controller:
 - IC-028
 
 Current regime version:
-- 083
+- 090
 
 Current invocation path:
 
 user phrase
 -> runtime/improvement_core_dispatch.py
 -> runtime/improvement_core_regime.py
+-> external-acquisition preflight
 -> runtime/improvement_core_manager.py
 -> runtime/ic028_operator.py
 
@@ -57,6 +58,8 @@ runtime/improvement_core_regime.py
 
 Learning memory participates through:
 - runtime/improvement_core_learning_memory.py
+
+The external preflight is implemented in runtime/improvement_core_external_acquisition.py. It can use host-bound connected sources, repository research, web search, or outside tools before expensive internal reconstruction. When a materially required outside capability is unavailable, the regime returns OPEN with EXTERNAL_ACQUISITION_GAP rather than converting the gap into internal guesswork.
 
 The narrow runtime/improvement_core.py remains subordinate and is not the user-facing manager identity.
 
@@ -101,7 +104,9 @@ architecture/IMPROVEMENT_CORE_ACTIVATION_083.md
 15. Take-2 surface/transition discipline;
 16. Take-3 strict-gain architecture admission;
 17. Take-4 cumulative-autonomy target;
-18. Take-5 authority, provenance, currentness, execution, closure and reentry safeguards.
+18. Take-5 authority, provenance, currentness, execution, closure and reentry safeguards;
+19. external acquisition before expensive internal reconstruction when materially indicated;
+20. required-but-unavailable outside capability preserves OPEN rather than forcing internal fallback.
 
 ## Cross-repository lineage
 
@@ -165,7 +170,9 @@ Global minimality remains OPEN.
 5. runtime/improvement_core_math.py
 6. runtime/improvement_core_dispatch.py
 7. runtime/improvement_core_regime.py
-8. runtime/improvement_core_manager.py
+8. runtime/improvement_core_external_acquisition.py
+9. architecture/IMPROVEMENT_CORE_EXTERNAL_ACQUISITION_090.md
+10. runtime/improvement_core_manager.py
 9. runtime/ic028_operator.py
 10. runtime/improvement_core_recursive_manager.py
 11. runtime/improvement_core_learning_memory.py
@@ -258,3 +265,8 @@ Universal host interception remains OPEN.
 - recursive ImprovementCore
 - ImproveCore learning memory
 - Take Two ImproveCore vision
+
+
+## External acquisition repair 090
+
+ImproveCore now treats outside evidence and outside tools as first-class candidates rather than last-resort exceptions. The host may bind connected sources, repository research, live web search, or external tools. The controller uses them when they have material expected value and stops acquisition once the outside need is certified satisfied. When a required capability is unavailable, the result remains OPEN. This preserves the user's requested option to leave the gap instead of solving the wrong problem the hard way.
