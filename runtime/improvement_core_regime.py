@@ -1,10 +1,9 @@
 """Current cumulative-autonomous ImprovementCore regime surface.
 
-The regime preserves canonical 084 zero-request entry at the dispatch boundary and adds a first-class external-acquisition preflight.  When outside
-evidence or an outside capability has material expected value, ImprovementCore
-uses a bound host adapter before expensive internal reconstruction.  When the
-outside capability is unavailable, the regime preserves a typed OPEN gap
-instead of pretending internal work closed it.
+Regime 088 preserves zero-request entry at dispatch, external-acquisition preflight,
+mode geometry, the current mathematical routing spine, recursive parent/child
+management, and basis-relative learning memory. Every governed episode then
+executes the mandatory ImproveCoreAfterRun pass before returning.
 """
 from dataclasses import dataclass
 from typing import Any, Callable
@@ -21,8 +20,9 @@ from improvement_core_external_acquisition import (
     acquire_external,
     merge_external_outputs,
 )
+from improvement_core_afterrun import AfterRunReceipt, run_afterrun_improvement
 
-REGIME_VERSION="087"
+REGIME_VERSION="088"
 
 @dataclass(frozen=True)
 class ImprovementCoreRegime:
@@ -30,6 +30,9 @@ class ImprovementCoreRegime:
     recursive_manager:str
     learning_memory:str
     external_acquisition:str
+    afterrun_tool:str
+    response_bias_control:str
+    object_lifecycle:str
     controller:str="IC-028"
     version:str=REGIME_VERSION
 
@@ -41,6 +44,7 @@ class ImprovementCoreRegimeResult:
     status:str
     blocker:str|None=None
     external_receipt:ExternalAcquisitionReceipt|None=None
+    afterrun_receipt:AfterRunReceipt|None=None
 
     @property
     def receipt(self):
@@ -55,6 +59,9 @@ CURRENT_REGIME=ImprovementCoreRegime(
     recursive_manager="runtime.improvement_core_recursive_manager.RecursiveImprovementCoreManager",
     learning_memory="runtime.improvement_core_learning_memory.LearningMemory",
     external_acquisition="runtime.improvement_core_external_acquisition.acquire_external",
+    afterrun_tool="runtime.improvement_core_afterrun.run_afterrun_improvement",
+    response_bias_control="runtime.improvement_core_response_bias",
+    object_lifecycle="runtime.object_lifecycle",
 )
 
 def _record_stage_learning(state,learning_memory):
@@ -74,6 +81,48 @@ def _record_stage_learning(state,learning_memory):
             set(event.get("dependency_footprint",())),
             dict(event.get("evidence",{})),
         )
+
+def _finalize(
+    *,
+    manager_result,
+    recursive_result,
+    learning_memory,
+    basis,
+    status,
+    blocker,
+    external_receipt,
+    user_text,
+    object_package_base,
+    strict_gain_evaluator,
+    authorized_applier,
+):
+    state=(
+        recursive_result.get("state",manager_result.result.state)
+        if isinstance(recursive_result,dict)
+        else manager_result.result.state
+    )
+    after=run_afterrun_improvement(
+        episode_id="improvement-core-manager",
+        basis_id=str(basis),
+        status=str(status),
+        blocker=blocker,
+        state=state,
+        learning_memory=learning_memory,
+        recursive_result=recursive_result,
+        strict_gain_evaluator=strict_gain_evaluator,
+        authorized_applier=authorized_applier,
+        user_text=user_text,
+        object_package_base=object_package_base,
+    )
+    return ImprovementCoreRegimeResult(
+        manager_result=manager_result,
+        recursive_result=recursive_result,
+        learning_summary=tuple(learning_memory.summary()),
+        status=str(status),
+        blocker=blocker,
+        external_receipt=external_receipt,
+        afterrun_receipt=after,
+    )
 
 def run_improvement_core_regime(
     user_text:str,
@@ -95,6 +144,9 @@ def run_improvement_core_regime(
     external_adapters:dict[str,Callable]|None=None,
     force_external:bool=False,
     allow_external_gap:bool=True,
+    afterrun_strict_gain_evaluator:Callable|None=None,
+    afterrun_authorized_applier:Callable|None=None,
+    object_package_base:str|None="semantic_objects",
 )->ImprovementCoreRegimeResult:
     lm=learning_memory or LearningMemory()
 
@@ -130,24 +182,35 @@ def run_improvement_core_regime(
     live=isinstance(current,dict) and bool(current.get("live_continuation"))
     if not live:
         if external_gap:
-            return ImprovementCoreRegimeResult(
-                manager_result,None,tuple(lm.summary()),"OPEN",
-                "EXTERNAL_ACQUISITION_GAP",external_receipt
+            return _finalize(
+                manager_result=manager_result,recursive_result=None,
+                learning_memory=lm,basis=basis,status="OPEN",
+                blocker="EXTERNAL_ACQUISITION_GAP",
+                external_receipt=external_receipt,user_text=user_text,
+                object_package_base=object_package_base,
+                strict_gain_evaluator=afterrun_strict_gain_evaluator,
+                authorized_applier=afterrun_authorized_applier,
             )
         status="COMPLETE" if manager_result.result.terminal else "OPEN"
-        return ImprovementCoreRegimeResult(
-            manager_result,None,tuple(lm.summary()),status,None,external_receipt
+        return _finalize(
+            manager_result=manager_result,recursive_result=None,
+            learning_memory=lm,basis=basis,status=status,blocker=None,
+            external_receipt=external_receipt,user_text=user_text,
+            object_package_base=object_package_base,
+            strict_gain_evaluator=afterrun_strict_gain_evaluator,
+            authorized_applier=afterrun_authorized_applier,
         )
 
     required=("select_child_job","run_child","admit_child","update_parent")
     if recursive_handlers is None or any(k not in recursive_handlers for k in required):
-        return ImprovementCoreRegimeResult(
-            manager_result,
-            None,
-            tuple(lm.summary()),
-            "OPEN",
-            "RECURSIVE_MANAGER_HANDLERS_REQUIRED",
-            external_receipt,
+        return _finalize(
+            manager_result=manager_result,recursive_result=None,
+            learning_memory=lm,basis=basis,status="OPEN",
+            blocker="RECURSIVE_MANAGER_HANDLERS_REQUIRED",
+            external_receipt=external_receipt,user_text=user_text,
+            object_package_base=object_package_base,
+            strict_gain_evaluator=afterrun_strict_gain_evaluator,
+            authorized_applier=afterrun_authorized_applier,
         )
 
     recursive=RecursiveImprovementCoreManager(
@@ -164,13 +227,13 @@ def run_improvement_core_regime(
             dict(recursive_handlers.get("memory",{})),
         )
     except RuntimeError as exc:
-        return ImprovementCoreRegimeResult(
-            manager_result,
-            None,
-            tuple(lm.summary()),
-            "OPEN",
-            str(exc),
-            external_receipt,
+        return _finalize(
+            manager_result=manager_result,recursive_result=None,
+            learning_memory=lm,basis=basis,status="OPEN",blocker=str(exc),
+            external_receipt=external_receipt,user_text=user_text,
+            object_package_base=object_package_base,
+            strict_gain_evaluator=afterrun_strict_gain_evaluator,
+            authorized_applier=afterrun_authorized_applier,
         )
 
     status=str(recursive_result.get("status","OPEN"))
@@ -179,11 +242,11 @@ def run_improvement_core_regime(
         status="OPEN"
         blocker="EXTERNAL_ACQUISITION_GAP"
 
-    return ImprovementCoreRegimeResult(
-        manager_result,
-        recursive_result,
-        tuple(lm.summary()),
-        status,
-        blocker,
-        external_receipt,
+    return _finalize(
+        manager_result=manager_result,recursive_result=recursive_result,
+        learning_memory=lm,basis=basis,status=status,blocker=blocker,
+        external_receipt=external_receipt,user_text=user_text,
+        object_package_base=object_package_base,
+        strict_gain_evaluator=afterrun_strict_gain_evaluator,
+        authorized_applier=afterrun_authorized_applier,
     )
