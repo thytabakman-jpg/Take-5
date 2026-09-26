@@ -67,3 +67,9 @@ Produce one machine-readable report containing:
 - evidence that relevant capability already exists or is absent;
 - any minimal strict-gain candidate;
 - remaining OPEN external or architectural coordinates after pass 5.
+
+
+## Follow-up invocation
+
+User requested another current ImproveCore run after the completed five-cycle result.
+Re-run the existing five-cycle harness against the latest isolated branch state and report whether the recovered top-level blocker, repository-addressable cut, strict-gain candidate, or OPEN residuals change.
