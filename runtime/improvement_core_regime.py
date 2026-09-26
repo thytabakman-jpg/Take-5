@@ -22,7 +22,7 @@ from improvement_core_external_acquisition import (
     merge_external_outputs,
 )
 
-REGIME_VERSION="086"
+REGIME_VERSION="087"
 
 @dataclass(frozen=True)
 class ImprovementCoreRegime:

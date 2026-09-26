@@ -5,7 +5,7 @@
   "status": "CURRENT",
   "canonical_repository": "thytabakman-jpg/Take-5",
   "controller": "IC-028",
-  "regime_version": "086",
+  "regime_version": "087",
   "invocation": {
     "aliases": [
       "ImproveCore",
@@ -17,7 +17,7 @@
   },
   "regime": {
     "surface": "runtime/improvement_core_regime.py",
-    "version": "086",
+    "version": "087",
     "stage_manager": "runtime/improvement_core_manager.py",
     "operator": "runtime/ic028_operator.py",
     "recursive_manager": "runtime/improvement_core_recursive_manager.py",
@@ -25,7 +25,8 @@
     "learning_memory": "runtime/improvement_core_learning_memory.py",
     "learning_activation": "RECURSIVE_ROUTE_GATE_AND_STAGE_LEARNING_EVENTS",
     "narrow_subordinate": "runtime/improvement_core.py",
-    "external_acquisition": "runtime/improvement_core_external_acquisition.py"
+    "external_acquisition": "runtime/improvement_core_external_acquisition.py",
+    "mode_geometry": "runtime/entry_contract.py"
   },
   "evidence": {
     "maximization": "architecture/IMPROVEMENT_CORE_MAXIMIZATION_081.md",
@@ -89,7 +90,10 @@
     "NONDOMINATED_PLURAL_ROUTING_PRESERVES_INCOMPARABILITY",
     "CONTINUATION_RELATIVE_REPRESENTATION_SUFFICIENCY",
     "DISCOVERY_SENSITIVE_REENTRY",
-    "CUMULATIVE_VERIFIED_CONTRIBUTION_PRESERVATION"
+    "CUMULATIVE_VERIFIED_CONTRIBUTION_PRESERVATION",
+    "MODE_GEOMETRY_BREADTH_DIRECTION_COUPLING",
+    "BROAD_OBSERVER_AND_FOCUSED_RESOLUTION_REMAIN_DISTINCT",
+    "FOCUSED_RESOLUTION_PRESERVES_OBSERVER_FIRST_ORDER"
   ],
   "open": [
     "RELATION_GENERATOR_BASIS",
