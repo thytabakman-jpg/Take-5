@@ -49,8 +49,10 @@ user phrase
 -> runtime/improvement_core_manager.py
 -> runtime/ic028_operator.py
 -> [when SELECT names a registered formal tool] runtime/improvement_core_tool_bridge.py
+-> current FULL_CONFIGURED_HF2_V1 plan
+-> runtime/configured_hf2_execution.py
 -> bound configured-tool adapter
--> native tool result consumed into controller state
+-> recurrence receipt and native result consumed into controller state
 
 For ordinary user-facing invocation, HF2 is the default local same-capability recurrence layer.
 It reapplies the complete ImprovementCore pass only after a witnessed material effect and a changed
