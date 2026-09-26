@@ -4,6 +4,7 @@ sys.path.insert(0,"runtime")
 from dataclasses import dataclass
 from jane import begin_turn
 from math_first_wrapper import run_math_first_wrapper
+from icc_bootstrap import ICCBootstrapReceipt, ToolRunReceipt
 
 
 @dataclass(frozen=True)
@@ -15,6 +16,12 @@ class Cert:
 class Closure:
     state:dict
     certificate:Cert
+
+
+def _bootstrap(state,binding):
+    a=ToolRunReceipt("ASSERT",True,True,True,True,True,True,{"asserted":True})
+    g=ToolRunReceipt("GOAL",True,True,True,True,True,True,{"goal":"observed"})
+    return ICCBootstrapReceipt(a,g,True,("ASSERT_OBSERVER","GOAL_OBSERVER"))
 
 
 def test_unfamiliar_recursive_holdout_reobserves_until_answer_fixed_point():
@@ -59,6 +66,7 @@ def test_unfamiliar_recursive_holdout_reobserves_until_answer_fixed_point():
         binding,
         {"evidence":0,"answer":None},
         {},
+        bootstrap_fn=_bootstrap,
         observe_fn=observe,
         formalize_fn=formalize,
         goal_fn=lambda math,b:"produce-answer",
