@@ -37,6 +37,7 @@ class ShowMathAssessment:
     unresolved_symbols: tuple[str,...]
     unavailable_primitives: tuple[str,...]
     hidden_dependencies: tuple[str,...]
+    unsatisfied_obligations: tuple[str,...]
 
 def is_show_me_the_math_request(text: str) -> bool:
     normalized=" ".join(str(text).lower().split())
@@ -84,13 +85,30 @@ def assess_show_math_package(package: Mapping[str,Any]) -> ShowMathAssessment:
         unresolved.add(symbol)
         hidden.add(symbol)
 
-    complete=not (missing or unresolved or unavailable or hidden)
+    obligations=[]
+    if not package.get("full_math"):
+        obligations.append("FULL_MATH_MISSING_OR_EMPTY")
+    if not package.get("run_spec"):
+        obligations.append("RUN_SPEC_MISSING_OR_EMPTY")
+    init=package.get("initialization",{})
+    if not isinstance(init,Mapping) or not bool(init.get("defined")):
+        obligations.append("INITIALIZATION_NOT_EXECUTABLE")
+    persist=package.get("persistence",{})
+    if not isinstance(persist,Mapping) or not bool(persist.get("specified")):
+        obligations.append("PERSISTENCE_NOT_SPECIFIED")
+    if not package.get("protected_behavior"):
+        obligations.append("PROTECTED_BEHAVIOR_MISSING")
+    if not package.get("equivalence_tests"):
+        obligations.append("EQUIVALENCE_TESTS_MISSING")
+
+    complete=not (missing or unresolved or unavailable or hidden or obligations)
     return ShowMathAssessment(
         complete=complete,
         missing_fields=missing,
         unresolved_symbols=tuple(sorted(unresolved)),
         unavailable_primitives=tuple(sorted(unavailable)),
         hidden_dependencies=tuple(sorted(hidden)),
+        unsatisfied_obligations=tuple(obligations),
     )
 
 def status_for_symbol(package: Mapping[str,Any], symbol: str) -> str:
