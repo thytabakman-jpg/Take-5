@@ -514,3 +514,13 @@ The authoritative anti-repeat surfaces are:
 - runtime/improvement_core_recursive_manager.py
 - integration/IMPROVEMENT_CORE_DURABLE_LEARNING_110.json
 - architecture/IMPROVEMENT_CORE_ANTI_REPEAT_110.md
+
+
+## Regime 091 promotion evidence
+
+PR #116
+- merge: ef2ef2a6fa0c4093c28654f4fda04d68eb4d9869
+- Take-5 Validation: 36270165005 SUCCESS
+- Capability Preservation: 36270165051 SUCCESS
+- ordinary user-facing ImprovementCore now includes HF2 local recurrence by default;
+- ImprovementCore now has an explicit tool-specific protected-behavior manifest.
