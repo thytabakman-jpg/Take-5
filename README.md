@@ -48,4 +48,4 @@ Discovery can change the candidate object, relation, question, work, and capabil
 The transferable architecture uses Supervisor / Controller / Kernel rather than Jane /
 ImproveCore. Installations may assign their own names.
 
-See ARCHITECTURE.md, KERNEL.yaml, CAPABILITY_PRESERVATION.md, and RECOVERY.md.
+See ARCHITECTURE.md, KERNEL.yaml, CAPABILITY_PRESERVATION.md, PROTECTED_TRANSITIONS.md, and RECOVERY.md.
