@@ -34,6 +34,7 @@ def test_show_me_the_math_closes_for_portable_core_when_host_primitives_exist():
     package=portable_core_package(
         semantic_reasoner_available=True,
         execution_interface_available=True,
+        controller_bindings_available=True,
     )
     out=assess_show_math_package(package)
     assert out.complete
@@ -47,6 +48,7 @@ def test_show_me_the_math_fails_closed_without_semantic_reasoner():
     package=portable_core_package(
         semantic_reasoner_available=False,
         execution_interface_available=True,
+        controller_bindings_available=True,
     )
     out=assess_show_math_package(package)
     assert not out.complete
@@ -70,3 +72,15 @@ def test_exact_take5_activation_remains_distinct_from_portable_core():
         "commit_sha":"abc",
         "report_sha256":"def",
     })
+
+
+def test_show_me_the_math_fails_closed_without_higher_order_controller_bindings():
+    package=portable_core_package(
+        semantic_reasoner_available=True,
+        execution_interface_available=True,
+        controller_bindings_available=False,
+    )
+    out=assess_show_math_package(package)
+    assert not out.complete
+    for name in ("package_compiler","admission_binding","update_binding","discovery_closure_binding"):
+        assert name in out.unavailable_primitives
