@@ -19,7 +19,6 @@ def spec(cid="C_NEW", grants=False, transform="x->y"):
         mathematical_basis="typed transform/input/output/success/failure contract",
         math_required_coordinates=("input","transform","output","success","failure"),
         math_recovered_coordinates=("input","transform","output","success","failure"),
-        semantic_package_current=True,
     )
 
 def never_subsumed(a,b): return False
@@ -118,7 +117,6 @@ def test_created_tool_with_partial_required_math_remains_open():
         mathematical_basis="candidate equations",
         math_required_coordinates=("input","transform","output"),
         math_recovered_coordinates=("input","transform"),
-        semantic_package_current=True,
     )
     r=CapabilityFoundry().evaluate(
         c,
