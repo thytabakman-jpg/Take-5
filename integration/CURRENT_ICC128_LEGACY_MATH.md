@@ -1,7 +1,7 @@
 # CURRENT ICC128 LEGACY MATH — Portable Reconstruction 001
 
 Date: 2026-09-26
-Status: VALIDATED CANDIDATE / FAIL-CLOSED
+Status: CURRENT / VALIDATED / FAIL-CLOSED
 Frozen source: thytabakman-jpg/Reaserch@e4c76c595b44a35fd9efc02cde8979e656ef54e8
 
 ## Result
@@ -105,3 +105,13 @@ Capability Preservation:
 The validated branch tested the current SHOW_ME_THE_MATH evaluator, isolated
 single-file execution, missing-semantic-provider failure, missing-controller-binding
 failure, and the exact Take-5 GitHub report-sink boundary.
+
+
+## Promotion
+
+Portable reconstruction admitted through PR #102.
+Merge commit: 4fbb4f63a567e47a9a22161dec924f2e3a35fe53.
+
+Final PR-head gates before promotion:
+Take-5 Validation 36260708556 SUCCESS.
+Capability Preservation 36260708537 SUCCESS.
