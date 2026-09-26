@@ -1,7 +1,7 @@
 # CURRENT SHOW ME THE MATH — Recovery Anchor 002
 
 Date: 2026-09-26
-Status: TAKE-5 CURRENT / SELF-HOSTING CANDIDATE
+Status: TAKE-5 CURRENT / SELF-HOSTING VERIFIED
 Canonical repository: thytabakman-jpg/Take-5
 
 ## Meaning
@@ -151,3 +151,21 @@ The mathematical package is portable to a fresh Python environment.
 Automatic interpretation of the phrase in a chat host that never loads the Take-5
 contract remains an external host-routing boundary. That host boundary is not part of
 the portability proof of the mathematical object itself.
+
+
+## Validation evidence
+
+Self-hosting implementation head:
+ab4d53953add08e21797d4ca7f293ae0e49edc3f
+
+Take-5 Validation:
+workflow run 36256766753
+conclusion: SUCCESS
+
+Capability Preservation:
+workflow run 36256766706
+conclusion: SUCCESS
+
+These runs exercised the standalone fresh-environment self-test, current MT closure
+test, exhaustive ToolConductor traversal, hidden-dependency negative test, and the
+whole Take-5 regression suite.
