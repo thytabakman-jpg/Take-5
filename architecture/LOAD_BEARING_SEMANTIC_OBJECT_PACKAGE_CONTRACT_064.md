@@ -97,8 +97,9 @@ Whenever an object enters BLACK_BOX_OPEN, the semantic lifecycle creates the man
 1. PD / Difference Math
 2. PD Audit / Verify Math
 3. MTA / Basic Math
-4. PD Audit / Verify Math again on the proposed mathematics
-5. C47 / Completion Check
+4. MT / Change Math on the proposed mathematics
+5. PD Audit / Verify Math again on the proposed mathematics
+6. C47 / Completion Check
 
 Compactly:
 
@@ -107,6 +108,7 @@ BLACK_BOX_OPEN(o)
 PD(o)
 -> PDAudit(o)
 -> MTA(o)
+-> MT(Math(o))
 -> PDAudit(Math(o))
 -> CompletionCheck(o).
 
@@ -114,6 +116,7 @@ Every stage is a normal full configured run: canonical wrapper + applicable type
 
 The first PD/PDAudit pair exposes and attacks the unresolved distinctions.
 MTA asks for the smallest adequate mathematical reconstruction.
+MT varies that reconstruction across the applicable transformation surface to expose result-sensitive coordinates.
 The second PDAudit attacks that proposed mathematics.
 Completion Check decides whether any material unresolved coordinate remains.
 
