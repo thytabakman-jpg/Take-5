@@ -285,6 +285,12 @@ PR #69
 - validation 36222874741
 - protected transition integrity promoted as a generic configured-system invariant
 
+PR #84
+- merge 04d6cc4d1935ee72e29909cb3bc7c4ee3616ade0
+- Take-5 Validation 36227477555
+- Capability Preservation 36227477597
+- regime 088 frontier closure, relation admission, route calibration, replay/holdout, current repertoire and identity audits validated
+
 ## Zero-request entry
 
 When target/job/basis are not supplied, the dispatcher can accept an addressable corpus, run governed observation-only upstream discovery, and create a discovery seed. Substantive problem selection remains owned by ImproveCore.
