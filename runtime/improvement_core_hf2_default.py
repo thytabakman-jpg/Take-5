@@ -35,6 +35,19 @@ from improvement_core_regime import (
 
 _INTERNAL_PREFIX="_hf2_ic_"
 
+# These coordinates are execution bookkeeping, not substantive controller state.
+# They are deliberately excluded from HF2 semantic-change detection. Configured
+# tool outputs/bindings are also reset between local HF2 rounds so each complete
+# ImprovementCore pass owns one pass-scoped execution receipt.
+_OPERATIONAL_KEYS=frozenset({
+    "stage_trace",
+    "self_study_stage_trace",
+    "configured_tool_outputs",
+    "configured_tool_bindings",
+    "configured_tool_binding_status",
+    "last_stage",
+})
+
 
 def _clean_state(state:dict[str,Any])->dict[str,Any]:
     return {
@@ -43,9 +56,40 @@ def _clean_state(state:dict[str,Any])->dict[str,Any]:
     }
 
 
+def _pass_input_state(state:dict[str,Any])->dict[str,Any]:
+    return {
+        k:v for k,v in _clean_state(state).items()
+        if k not in {
+            "configured_tool_outputs",
+            "configured_tool_bindings",
+            "configured_tool_binding_status",
+            "stage_trace",
+            "self_study_stage_trace",
+            "last_stage",
+        }
+    }
+
+
+def _semantic_projection(state:dict[str,Any])->Any:
+    clean=_clean_state(state)
+    if "hf2_semantic_state" in clean:
+        return clean["hf2_semantic_state"]
+    if "semantic_class" in clean:
+        return {
+            "semantic_class":clean.get("semantic_class"),
+            "continuation_class":clean.get("continuation_class"),
+            "live_continuation":clean.get("live_continuation"),
+            "terminal":clean.get("terminal"),
+        }
+    return {
+        k:v for k,v in clean.items()
+        if k not in _OPERATIONAL_KEYS
+    }
+
+
 def _fingerprint(state:dict[str,Any])->str:
     raw=json.dumps(
-        _clean_state(state),
+        _semantic_projection(state),
         sort_keys=True,
         separators=(",",":"),
         default=repr,
@@ -164,7 +208,7 @@ def run_improvement_core_with_hf2(
 
     def run_capability(current,memory):
         nonlocal last_result
-        clean=_clean_state(dict(current))
+        clean=_pass_input_state(dict(current))
         last_result=run_once(clean)
         after=last_result.result.state
         if not isinstance(after,dict):
