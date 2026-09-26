@@ -1,0 +1,39 @@
+name: ImproveCore Legacy Restoration 130
+
+on:
+  pull_request:
+    paths:
+      - 'runtime/improvement_core_legacy_restoration_campaign.py'
+      - 'integration/IMPROVECORE_LEGACY_RESTORATION_CAMPAIGN_130.md'
+      - '.github/workflows/improvecore-legacy-restoration-130.yml'
+      - 'architecture/IMPROVEMENT_CORE_LEGACY_RESTORATION_TARGET_129.md'
+      - 'integration/IC128_LEGACY_BEHAVIOR_BENCHMARK_129.yaml'
+      - 'runtime/ic028_operator.py'
+  push:
+    branches: [main]
+    paths:
+      - 'runtime/improvement_core_legacy_restoration_campaign.py'
+      - 'integration/IMPROVECORE_LEGACY_RESTORATION_CAMPAIGN_130.md'
+      - '.github/workflows/improvecore-legacy-restoration-130.yml'
+      - 'runtime/improvement_core_legacy_candidate.py'
+      - 'runtime/ic028_operator.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run ImprovementCore with HF2 recurrence
+        run: PYTHONPATH=runtime:. python3 runtime/improvement_core_legacy_restoration_campaign.py
+      - name: Upload campaign receipt
+        uses: actions/upload-artifact@v4
+        with:
+          name: improvecore-legacy-restoration-130
+          path: runtime/state/improvecore-legacy-restoration-130/report.json
