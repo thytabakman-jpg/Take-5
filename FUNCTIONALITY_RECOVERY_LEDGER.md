@@ -147,3 +147,34 @@ New strict gain recovered from post-cutover Reaserch: pre-math object-hypothesis
 PR #24 adds common typed state commit enforcement across SYSTEM_CONTROL, RESULT, LINEAGE, RESEARCH_CONTROL and SUPERVISORY state plus unique default result-path authority.
 
 Open-world requirements such as unrestricted future candidate completeness are no longer finite readiness predicates; corpus coverage plus reentry replaces them.
+
+
+## 2026-09-26 protected transition integrity
+
+RootCause run 089 identified PROTECTED_TRANSITION_INTEGRITY_FAILURE as the smallest
+stable generator of the current recurring system-failure class.
+
+Repair admitted and validated in PR #69:
+
+- generic PROTECTED_TRANSITION_INTEGRITY binding for every configured tool;
+- ConfiguredRunSpec completeness requires PTI;
+- end-to-end execute_protected_transition gate;
+- whole configured-portfolio PTI audit;
+- recovery anchor and regression suite.
+
+The protected chain is:
+
+canonical identity
+-> configured dispatch
+-> execution
+-> result consumption
+-> state update
+-> reentry
+-> user-visible boundary.
+
+Anti-loss rule:
+a future architecture may not replace this cross-layer invariant with independent
+local checks unless it proves behavioral reconstruction of the entire chain.
+
+Post-repair RootCause recheck moves the remaining residual to HOST_INTEGRATION_BYPASS.
+Universal host interception remains OPEN.
