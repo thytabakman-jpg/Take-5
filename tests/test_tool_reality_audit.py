@@ -11,7 +11,7 @@ def test_strong_tool_reality_cannot_inherit_narrow_configured_identity_closure()
     assert audit.configured_identity_status == "CLOSED_RELATIVE"
     assert audit.status == "OPEN"
     assert audit.explicit_manifest_status == "OPEN"
-    assert "ImprovementCore" in audit.generic_only
+    assert "ImprovementCore" not in audit.generic_only
     assert "GOAL" in audit.generic_only
 
 
