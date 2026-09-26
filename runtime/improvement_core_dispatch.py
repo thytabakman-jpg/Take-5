@@ -12,8 +12,9 @@ from dataclasses import dataclass
 from typing import Any, Callable, Iterable
 
 from entry_contract import resolve_controller
-from improvement_core_regime import run_improvement_core_regime
+from improvement_core_hf2_default import run_improvement_core_with_hf2
 from improvement_core_learning_memory import LearningMemory
+from improvement_core_knowledge_ledger import KnowledgeLedger
 from improvement_core_upstream import discover_upstream_seed
 
 IMPROVEMENT_CORE_CONTROLLER="IC-028"
@@ -29,7 +30,7 @@ def resolve_improvement_core_invocation(user_text:str)->InvocationResolution:
         raise RuntimeError(f"IMPROVEMENT_CORE_CONTROLLER_UNRESOLVED:{controller}")
     return InvocationResolution(
         controller=controller,
-        entrypoint="runtime.improvement_core_regime.run_improvement_core_regime",
+        entrypoint="runtime.improvement_core_hf2_default.run_improvement_core_with_hf2",
     )
 
 def dispatch_improvement_core(
@@ -50,10 +51,13 @@ def dispatch_improvement_core(
     max_rounds:int=8,
     recursive_handlers:dict[str,Callable]|None=None,
     learning_memory:LearningMemory|None=None,
+    knowledge_ledger:KnowledgeLedger|None=None,
     external_adapters:dict[str,Callable]|None=None,
     force_external:bool=False,
     allow_external_gap:bool=True,
     configured_tool_adapters:dict[str,Callable]|None=None,
+    hf2_enabled:bool=True,
+    hf2_max_rounds:int=6,
 ):
     resolution=resolve_improvement_core_invocation(user_text)
 
@@ -72,7 +76,7 @@ def dispatch_improvement_core(
             raise RuntimeError("IMPROVEMENT_CORE_UPSTREAM_STATE_REQUIRES_MAPPING")
         state={**state,**seed.state_delta}
 
-    result=run_improvement_core_regime(
+    result=run_improvement_core_with_hf2(
         user_text,
         target=target,
         job=job,
@@ -88,9 +92,12 @@ def dispatch_improvement_core(
         max_rounds=max_rounds,
         recursive_handlers=recursive_handlers,
         learning_memory=learning_memory,
+        knowledge_ledger=knowledge_ledger,
         external_adapters=external_adapters,
         force_external=force_external,
         allow_external_gap=allow_external_gap,
         configured_tool_adapters=configured_tool_adapters,
+        hf2_enabled=hf2_enabled,
+        hf2_max_rounds=hf2_max_rounds,
     )
     return resolution,result
