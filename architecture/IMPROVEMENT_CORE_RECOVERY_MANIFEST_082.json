@@ -5,7 +5,7 @@
   "status": "CURRENT",
   "canonical_repository": "thytabakman-jpg/Take-5",
   "controller": "IC-028",
-  "regime_version": "085",
+  "regime_version": "093",
   "invocation": {
     "aliases": [
       "ImproveCore",
@@ -17,7 +17,7 @@
   },
   "regime": {
     "surface": "runtime/improvement_core_regime.py",
-    "version": "085",
+    "version": "093",
     "stage_manager": "runtime/improvement_core_manager.py",
     "operator": "runtime/ic028_operator.py",
     "recursive_manager": "runtime/improvement_core_recursive_manager.py",
@@ -25,7 +25,13 @@
     "learning_memory": "runtime/improvement_core_learning_memory.py",
     "learning_activation": "RECURSIVE_ROUTE_GATE_AND_STAGE_LEARNING_EVENTS",
     "narrow_subordinate": "runtime/improvement_core.py",
-    "external_acquisition": "runtime/improvement_core_external_acquisition.py"
+    "external_acquisition": "runtime/improvement_core_external_acquisition.py",
+    "afterrun_tool": "runtime/improvement_core_afterrun.py",
+    "afterrun_activation": "MANDATORY_AFTER_EVERY_GOVERNED_USE",
+    "response_bias_control": "runtime/improvement_core_response_bias.py",
+    "object_lifecycle": "runtime/object_lifecycle.py",
+    "response_bias_activation": "MANDATORY_AFTERRUN",
+    "object_lifecycle_activation": "NEW_OBJECTS_STATE_CHANNEL"
   },
   "evidence": {
     "maximization": "architecture/IMPROVEMENT_CORE_MAXIMIZATION_081.md",
@@ -59,7 +65,9 @@
         "validation_run": "36222874741"
       }
     ],
-    "protected_transition_integrity": "architecture/PROTECTED_TRANSITION_INTEGRITY_090.md"
+    "protected_transition_integrity": "architecture/PROTECTED_TRANSITION_INTEGRITY_090.md",
+    "afterrun_self_improvement": "architecture/IMPROVECORE_AFTER_RUN_FULL_TOOL_092.md",
+    "response_bias_object_lifecycle": "architecture/IMPROVECORE_RESPONSE_BIAS_OBJECT_LIFECYCLE_093.md"
   },
   "protected_behaviors": [
     "CONTROLLER_OWNERSHIP",
@@ -84,7 +92,13 @@
     "ZERO_REQUEST_CORPUS_SEEDS_DISCOVERY_BEFORE_SUBSTANTIVE_CONTROLLER_WORK",
     "EXTERNAL_REQUIRED_ACQUISITION_PRECEDES_INTERNAL_RECONSTRUCTION",
     "UNAVAILABLE_REQUIRED_EXTERNAL_CAPABILITY_PRESERVES_OPEN",
-    "EXTERNAL_OUTPUT_IS_EVIDENCE_NOT_AUTHORITY"
+    "EXTERNAL_OUTPUT_IS_EVIDENCE_NOT_AUTHORITY",
+    "MANDATORY_AFTER_RUN_SELF_IMPROVEMENT",
+    "SELF_IMPROVEMENT_LEARNING_ALWAYS_RECORDED",
+    "SELF_IMPROVEMENT_STRICT_GAIN_AND_AUTHORITY_GATED",
+    "RESPONSE_PREFERENCE_ALWAYS_PROJECTED",
+    "BIAS_CONTROL_ALWAYS_RUN",
+    "NEW_OBJECT_LIFECYCLE_ALWAYS_CHECKED"
   ],
   "open": [
     "RELATION_GENERATOR_BASIS",
