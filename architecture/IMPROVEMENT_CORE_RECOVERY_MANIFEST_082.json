@@ -5,7 +5,7 @@
   "status": "CURRENT",
   "canonical_repository": "thytabakman-jpg/Take-5",
   "controller": "IC-028",
-  "regime_version": "084",
+  "regime_version": "085",
   "invocation": {
     "aliases": [
       "ImproveCore",
@@ -17,14 +17,16 @@
   },
   "regime": {
     "surface": "runtime/improvement_core_regime.py",
-    "version": "084",
+    "version": "085",
     "stage_manager": "runtime/improvement_core_manager.py",
     "operator": "runtime/ic028_operator.py",
     "recursive_manager": "runtime/improvement_core_recursive_manager.py",
     "recursive_activation": "LIVE_CONTINUATION",
     "learning_memory": "runtime/improvement_core_learning_memory.py",
     "learning_activation": "RECURSIVE_ROUTE_GATE_AND_STAGE_LEARNING_EVENTS",
-    "narrow_subordinate": "runtime/improvement_core.py"
+    "narrow_subordinate": "runtime/improvement_core.py",
+    "mode_runtime": "runtime/entry_contract.py",
+    "mode_geometry": "BREADTH_X_DIRECTION_X_COUPLING"
   },
   "evidence": {
     "maximization": "architecture/IMPROVEMENT_CORE_MAXIMIZATION_081.md",
@@ -73,7 +75,9 @@
     "DEPENDENCY_SENSITIVE_ROUTE_REOPENING",
     "STAGE_LEARNING_EVENTS_CAN_ENTER_MEMORY",
     "OPEN_BLOCKED_CONFLICT_PRESERVATION",
-    "ZERO_REQUEST_CORPUS_SEEDS_DISCOVERY_BEFORE_SUBSTANTIVE_CONTROLLER_WORK"
+    "ZERO_REQUEST_CORPUS_SEEDS_DISCOVERY_BEFORE_SUBSTANTIVE_CONTROLLER_WORK",
+    "MODE_CUBE_PROFILE_PRESERVED_AT_ENTRY",
+    "OBSERVER_AND_FOCUSED_ARE_ORTHOGONAL_COORDINATES"
   ],
   "open": [
     "RELATION_GENERATOR_BASIS",
