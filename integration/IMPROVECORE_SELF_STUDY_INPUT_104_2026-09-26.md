@@ -80,3 +80,6 @@ Upstream ordered evidence:
 
 ImproveCore job:
 Consume that handoff as evidence, reconstruct the current regime from repository authority, do not reopen already-repaired regime-090 progress/tool-bridge mathematics without a defeating witness, and identify/execute only repository-owned strict gains that reduce the remaining tool-semantic-worker, host-currentness, conversation-persistence, or adapter-discovery residuals. Preserve external host limits OPEN rather than claiming universal enforcement.
+
+Persisted structured handoff:
+- artifacts/improvecore/GOAL_IC123_PRE_IMPROVECORE_112_2026-09-26.json
