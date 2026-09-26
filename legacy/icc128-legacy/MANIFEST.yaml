@@ -1,4 +1,4 @@
-schema_version: 1
+schema_version: 2
 object_id: TAKE5:ICC128-LEGACY:001
 display_name: "ICC128 Legacy"
 status: FROZEN_ACTIVATABLE_LEGACY_TOOL
@@ -31,6 +31,20 @@ activation:
   loader: runtime/icc128_legacy.py
   current_host_role: instantiate_frozen_semantic_and_execution_interfaces_only
   current_wrapper_substitution: forbidden
+
+learning_reporting:
+  required_every_run: true
+  include_zero_learning_runs: true
+  include_failed_runs: true
+  repository: thytabakman-jpg/Take-5
+  directory: artifacts/icc128-legacy-learning
+  contract: integration/ICC128_LEGACY_LEARNING_REPORT_CONTRACT.md
+  runtime: runtime/icc128_legacy_reporting.py
+  closure_requires_github_commit_receipt: true
+  persistent_controller_memory: false
+  within_run_adaptation: true
+  post_report_memory_disposition: DISCARD
+  report_is_evidence_not_authority: true
 
 snapshot_files:
   - source_path: "runtime/icc128_autonomous_controller.py"

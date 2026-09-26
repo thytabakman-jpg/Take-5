@@ -5,6 +5,10 @@ from dataclasses import dataclass
 from pathlib import Path
 import importlib.util
 import sys
+try:
+    from . import icc128_legacy_reporting as legacy_reporting
+except ImportError:
+    import icc128_legacy_reporting as legacy_reporting
 
 DISPLAY_NAME = "ICC128 Legacy"
 SOURCE_REPOSITORY = "thytabakman-jpg/Reaserch"
@@ -48,4 +52,7 @@ def activate() -> dict[str, object]:
         "controller": load_controller_module(),
         "semantic_generator": load_semantic_generator_module(),
         "rho_policy": load_rho_policy_module(),
+        "reporting": legacy_reporting,
+        "reporting_required": True,
+        "learning_persistence": "REPORT_ONLY_EPHEMERAL_CONTROLLER_MEMORY",
     }
