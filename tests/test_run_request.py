@@ -10,6 +10,7 @@ def test_run_mt_defaults_to_full_configured_wrapped_36c():
     assert r.recursive is True
     assert r.closure_required is True
     assert r.reentry_required is True
+    assert r.semantic_before_return is True
 
 
 def test_mt_this_has_same_default_contract():
@@ -26,6 +27,7 @@ def test_bare_mt_is_explicit_escape_hatch():
     assert r.wrapper_required is False
     assert r.geometry is None
     assert r.recursive is False
+    assert r.semantic_before_return is False
 
 
 def test_core_mt_is_explicit_escape_hatch():

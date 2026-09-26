@@ -156,3 +156,21 @@ Large backfill:
 - recover richer specs where legacy records are compressed.
 
 Backfill is explicit Work, not a precondition for using the short fix on new discoveries.
+
+## Before-return enrichment
+
+BLACK_BOX_OPEN does not require the object to be solved before the parent tool may return.
+
+For configured MT, newly discovered black boxes receive a synchronous bounded resolution pass before user-visible return.
+
+If the pass produces an admitted material semantic delta, MT re-enters on the enriched state.
+
+Return is licensed when:
+- no further material semantic delta is produced in the bounded pass; or
+- the next required semantic stage is OPEN/BLOCKED; or
+- the parent MT result is stable under the admitted semantic delta; or
+- the configured round bound is reached.
+
+Any unresolved coordinate remains BLACK_BOX_OPEN and keeps its evidence for later reentry.
+
+No asynchronous/background completion is implied by this rule.
