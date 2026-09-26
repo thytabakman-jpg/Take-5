@@ -60,3 +60,19 @@ def test_generic_tool_manifest_still_has_common_wrapper_contracts():
         "REENTRY_REQUIRED",
         "OPEN_PRESERVATION",
     } <= m.behavior_ids()
+
+
+def test_mt_manifest_reconstructs_full_historical_witness_basis_w1_w8():
+    required=(
+        "MT_W1_WHOLE_OBJECT_RECONNAISSANCE",
+        "MT_W2_SELF_GENERATED_LOCAL_QUESTIONS",
+        "MT_W3_RECONNAISSANCE_NONMUTATION",
+        "MT_W4_REOBSERVE_AFTER_MATERIAL_CHANGE",
+        "MT_W5_FULL_CONSEQUENCE_CLOSURE",
+        "MT_W6_ROOT_OBJECT_PRESERVATION",
+        "MT_W7_CROSS_OBJECT_CROSS_SCALE_DISCOVERY",
+        "MT_W8_BEHAVIORAL_EQUIVALENCE_NOT_FINAL_ANSWER_ONLY",
+    )
+    m=manifest_for("MT")
+    assert set(required)<=m.behavior_ids()
+    assert reconstructs("MT",required)
