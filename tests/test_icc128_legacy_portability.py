@@ -137,4 +137,4 @@ def test_current_show_me_the_math_proves_exact_take5_activation_needs_report_sin
     )
     closed=assess(package,with_sink_and_attestor)
     assert closed.complete
-    assert surface_value(package,with_sink)==1
+    assert surface_value(package,with_sink_and_attestor)==1
