@@ -3,7 +3,7 @@
   "object_id": "TAKE5_IMPROVEMENT_CORE_KNOWLEDGE_LEDGER_113",
   "date": "2026-09-26",
   "status": "CURRENT",
-  "regime_version": "090",
+  "regime_version": "091",
   "purpose": "Durable capture and integration of admitted material knowledge events. Capture is not authority.",
   "nodes": [
     {
@@ -105,6 +105,37 @@
       "metadata": {
         "choice": "CLOSE_IMPROVEMENTCORE_EXPLICIT_PROTECTED_BEHAVIOR_MANIFEST_FIRST"
       }
+    },
+    {
+      "knowledge_id": "K-improvecore-default-hf2-091-20260926",
+      "kind": "SOLUTION",
+      "statement": "User-facing ImprovementCore promotes HF2 as its default local same-capability recurrence operator while preserving ImprovementCore global control.",
+      "basis_id": "take5-regime-091-candidate",
+      "disposition": "CAPTURED",
+      "related_objects": [
+        "ImprovementCore",
+        "HF002",
+        "IC-028"
+      ],
+      "dependency_footprint": [
+        "runtime/improvement_core_hf2_default.py",
+        "runtime/improvement_core_dispatch.py",
+        "runtime/tool_manifest.py"
+      ],
+      "evidence_refs": [
+        "architecture/IMPROVEMENT_CORE_DEFAULT_HF2_118.md",
+        "artifacts/improvecore/IMPROVEMENTCORE_HF2_OBSERVER_CAMPAIGN_115_2026-09-26.md",
+        "artifacts/improvecore/IMPROVEMENTCORE_HF2_THINK_BIG_FIX_CLOSURE_117_2026-09-26.md"
+      ],
+      "provenance": [
+        {
+          "source_episode": "improvecore-default-hf2-promotion-20260926",
+          "source_route": "validated-campaign-generalization"
+        }
+      ],
+      "metadata": {
+        "validation_status": "PENDING"
+      }
     }
   ],
   "history": [
@@ -163,6 +194,20 @@
         "artifacts/improvecore/IMPROVEMENTCORE_HF2_CHOICE_001_2026-09-26.json"
       ],
       "metadata": {}
+    },
+    {
+      "sequence": 5,
+      "knowledge_id": "K-improvecore-default-hf2-091-20260926",
+      "action": "CAPTURE",
+      "disposition": "CAPTURED",
+      "source_episode": "improvecore-default-hf2-promotion-20260926",
+      "source_route": "validated-campaign-generalization",
+      "evidence_refs": [
+        "architecture/IMPROVEMENT_CORE_DEFAULT_HF2_118.md"
+      ],
+      "metadata": {
+        "validation_status": "PENDING"
+      }
     }
   ]
 }
