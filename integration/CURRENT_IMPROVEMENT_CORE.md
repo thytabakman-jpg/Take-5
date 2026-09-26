@@ -64,6 +64,11 @@ Learning memory participates through:
 - runtime/improvement_core_learning_memory.py
 - integration/IMPROVEMENT_CORE_DURABLE_LEARNING_110.json
 
+Material knowledge capture participates through:
+- runtime/improvement_core_knowledge_ledger.py
+- integration/IMPROVEMENT_CORE_KNOWLEDGE_LEDGER_113.json
+- architecture/IMPROVEMENT_CORE_MATERIAL_KNOWLEDGE_CAPTURE_113.md
+
 Canonical progress and anti-repeat admission participate through:
 - runtime/improvement_core_progress_relation.py
 - architecture/IMPROVEMENT_CORE_CANONICAL_PROGRESS_MATHEMATICS_001_2026-09-26.md
@@ -149,6 +154,9 @@ architecture/IMPROVEMENT_CORE_ACTIVATION_083.md
 45. longitudinal strict improvement is basis-indexed and transitive inside one admitted comparison frame.
 46. cross-basis longitudinal comparison requires explicit transport into a common episode-wide basis rather than a Boolean reconciliation flag.
 47. effect witnesses establish local causal transition evidence; they do not by themselves define the longitudinal preorder.
+48. explicit material knowledge events crossing the current regime are durably captured with basis, provenance, dependencies, evidence, related objects, and typed disposition.
+49. admitted recursive material transitions are durably captured even when no richer explicit knowledge event was authored.
+50. capture does not self-authorize: CAPTURED, ADMITTED, CURRENT, REJECTED, SUPERSEDED, OPEN, BLOCKED, and CONFLICT remain distinct.
 
 ## Cross-repository lineage
 
@@ -266,7 +274,10 @@ Open-world global maximality/minimality is not a licensed completion claim. Curr
 26. runtime/improvement_core_recursive_manager.py
 27. runtime/improvement_core_learning_memory.py
 28. integration/IMPROVEMENT_CORE_DURABLE_LEARNING_110.json
-29. runtime/improvement_core_progress_relation.py
+29. runtime/improvement_core_knowledge_ledger.py
+30. integration/IMPROVEMENT_CORE_KNOWLEDGE_LEDGER_113.json
+31. architecture/IMPROVEMENT_CORE_MATERIAL_KNOWLEDGE_CAPTURE_113.md
+32. runtime/improvement_core_progress_relation.py
 30. architecture/IMPROVEMENT_CORE_CANONICAL_PROGRESS_MATHEMATICS_001_2026-09-26.md
 31. architecture/IMPROVEMENT_CORE_ANTI_REPEAT_110.md
 32. architecture/IMPROVEMENT_CORE_INDEXED_PROGRESS_MATHEMATICS_111.md
@@ -294,6 +305,31 @@ function identity, explicit manifest identity, and effective runtime realization
 
 Current heterogeneous holdout result is OPEN for system-wide promotion. Missing layers remain
 typed rather than being hidden by function notation.
+
+
+## Durable material knowledge capture
+
+The current regime now separates two durable memory jobs.
+
+Negative-route learning:
+- records certified NO_GAIN / REJECTED / FAILED / CYCLE evidence;
+- prevents unchanged bad routes from re-entering the frontier.
+
+Material knowledge ledger:
+- records explicit `knowledge_events`;
+- auto-captures admitted recursive material transitions;
+- retains provenance, dependency footprint, related objects, evidence references and disposition;
+- integrates repeated captures without deleting earlier provenance;
+- preserves rejected and superseded ideas in history rather than erasing them.
+
+Canonical surfaces:
+- runtime/improvement_core_knowledge_ledger.py
+- integration/IMPROVEMENT_CORE_KNOWLEDGE_LEDGER_113.json
+- architecture/IMPROVEMENT_CORE_MATERIAL_KNOWLEDGE_CAPTURE_113.md
+
+Repository-governed material capture is now an executable invariant candidate. It does not claim
+access to chats, external sources, or thoughts that never enter a Take-5-aware governed path.
+Universal record-everything remains outside repository authority for unexposed sources.
 
 ## Related current recovery anchors
 
