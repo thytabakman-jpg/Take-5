@@ -1,0 +1,36 @@
+name: ImproveCore Legacy Semantic Holdouts 132
+
+on:
+  pull_request:
+    paths:
+      - 'integration/IMPROVECORE_LEGACY_SEMANTIC_HOLDOUT_PACKET_132.json'
+      - 'runtime/improvement_core_legacy_semantic_holdouts_132.py'
+      - 'runtime/improvement_core_legacy_restored.py'
+      - '.github/workflows/improvecore-legacy-semantic-holdouts-132.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'integration/IMPROVECORE_LEGACY_SEMANTIC_HOLDOUT_PACKET_132.json'
+      - 'runtime/improvement_core_legacy_semantic_holdouts_132.py'
+      - 'runtime/improvement_core_legacy_restored.py'
+      - '.github/workflows/improvecore-legacy-semantic-holdouts-132.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  semantic-holdouts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run semantic routing holdouts through restored ImprovementCore
+        run: PYTHONPATH=runtime:. python3 runtime/improvement_core_legacy_semantic_holdouts_132.py
+      - name: Upload semantic holdout receipt
+        uses: actions/upload-artifact@v4
+        with:
+          name: improvecore-legacy-semantic-holdouts-132
+          path: runtime/state/improvecore-legacy-semantic-holdouts-132/report.json

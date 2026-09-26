@@ -1,0 +1,310 @@
+{
+  "schema_version": 1,
+  "object_id": "TAKE5:LEGACY-RESTORED-SEMANTIC-HOLDOUTS:132",
+  "date": "2026-09-26",
+  "status": "HOST_MODEL_SUPPLIED_OPEN_ENDED_HOLDOUT_PACKET",
+  "origin": "active reasoning model generated question/work frontiers from project evidence; user supplied no tool sequence",
+  "cases": [
+    {
+      "id": "SEM-ED-001",
+      "domain": "formal_research_extension_determinacy",
+      "provenance": [
+        {
+          "surface": "ChatGPT Library",
+          "file_id": "file_0000000032c881f5b8254a19fa458c8a",
+          "name": "FORMAL_CORE.md"
+        }
+      ],
+      "evidence_state": [
+        "ED(F) iff EX(F) and UN(F) is already established under the current frame semantics",
+        "substantive necessity and sufficiency are characterization-regime relative",
+        "no unindexed substantive necessity or sufficiency theorem follows from the schemas alone"
+      ],
+      "initial_flags": {
+        "task_and_job_well_typed": true,
+        "one_validated_capability_clearly_fits": true,
+        "consequence_bounded": true,
+        "no_material_rival_exposed": true
+      },
+      "required_jobs": [
+        "characterize"
+      ],
+      "phases": [
+        {
+          "question": {
+            "question_id": "ed-next",
+            "issue": "What is the next nontrivial characterization question once ED iff EX and UN is fixed, rather than merely restating the target?",
+            "candidate_answers": [
+              "independently assessable regime-relative conditions exist",
+              "no informative condition survives on the tested basis",
+              "the question is under-specified until the characterization regime is fixed"
+            ]
+          },
+          "work_items": [
+            {
+              "id": "condition_counterexample_sweep",
+              "jobs": [
+                "characterize"
+              ],
+              "burden": 2,
+              "info_gain": 9,
+              "dependency_leverage": 9,
+              "continuation_value": 8,
+              "protected": true
+            },
+            {
+              "id": "reprove_ex_un",
+              "jobs": [
+                "characterize"
+              ],
+              "burden": 1,
+              "info_gain": 1,
+              "dependency_leverage": 1,
+              "continuation_value": 1,
+              "protected": false
+            }
+          ],
+          "expected_selected": [
+            "condition_counterexample_sweep"
+          ],
+          "result": {
+            "statement": "Route to regime-indexed candidate-condition testing and counterexamples; do not count EX/UN decomposition as a new substantive condition.",
+            "material_result_delta": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "SEM-AA-002",
+      "domain": "research_program_adjudicative_adequacy",
+      "provenance": [
+        {
+          "surface": "ChatGPT Library",
+          "file_id": "file_000000001f508210ba8fbf8e9f1194f2",
+          "name": "Adjudicative_Adequacy_Paper_1_Necessity_Control_Record_v1.1.md"
+        },
+        {
+          "surface": "ChatGPT Library",
+          "file_id": "file_00000000cbec821182bc1a183b64fd28",
+          "name": "Adjudicative_Adequacy_Necessity_Stage_Closure_Steps_1_to_3.pdf"
+        }
+      ],
+      "evidence_state": [
+        "the tested necessity stage is closed without proving that no informative global necessity can exist",
+        "the closure explicitly licenses movement to sufficiency architecture",
+        "literature motivation and novelty remain separate unresolved work"
+      ],
+      "initial_flags": {
+        "multiple_material_packages_fit": true
+      },
+      "required_jobs": [
+        "advance_research"
+      ],
+      "phases": [
+        {
+          "question": {
+            "question_id": "aa-next",
+            "issue": "After bounded necessity closure, what work can advance the project without reopening inherited necessity candidates by default?",
+            "candidate_answers": [
+              "build sufficiency architecture",
+              "close literature/novelty basis",
+              "preserve both as a nondominated two-branch frontier"
+            ]
+          },
+          "work_items": [
+            {
+              "id": "sufficiency_architecture",
+              "jobs": [
+                "advance_research"
+              ],
+              "burden": 4,
+              "info_gain": 9,
+              "dependency_leverage": 10,
+              "continuation_value": 9,
+              "protected": true
+            },
+            {
+              "id": "literature_novelty_closure",
+              "jobs": [
+                "advance_research"
+              ],
+              "burden": 2,
+              "info_gain": 7,
+              "dependency_leverage": 4,
+              "continuation_value": 8,
+              "protected": true
+            }
+          ],
+          "expected_selected": [
+            "sufficiency_architecture",
+            "literature_novelty_closure"
+          ],
+          "result": {
+            "statement": "Preserve a two-branch frontier: build sufficiency mechanisms while separately closing literature/novelty claims.",
+            "material_result_delta": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "SEM-SUKKOS-003",
+      "domain": "educational_artifact_currentness",
+      "provenance": [
+        {
+          "surface": "ChatGPT Library",
+          "file_id": "file_00000000fc3c81f5a29ea98e5de3de01",
+          "name": "Sukkos_Conservation_of_Light_Booklet.pdf"
+        },
+        {
+          "surface": "ChatGPT Library",
+          "file_id": "file_00000000ffc881f5960f13df9927ae0f",
+          "name": "Sukkos_Conservation_Boundaries_Final_PD_Handoff.docx"
+        }
+      ],
+      "evidence_state": [
+        "one rendered booklet maps reflect/absorb/transmit into human response choices",
+        "the later final PD handoff explicitly removes that mapping and replaces it with boundary/seyag architecture",
+        "the handoff states the old visual is regression evidence rather than a text-edit baseline"
+      ],
+      "initial_flags": {
+        "task_and_job_well_typed": true,
+        "one_validated_capability_clearly_fits": true,
+        "consequence_bounded": true,
+        "no_material_rival_exposed": true
+      },
+      "required_jobs": [
+        "currentness"
+      ],
+      "phases": [
+        {
+          "question": {
+            "question_id": "sukkos-current",
+            "issue": "Before editing the booklet, which artifact controls the current conceptual route?",
+            "candidate_answers": [
+              "rendered reflect/absorb/transmit booklet",
+              "later boundary/seyag PD handoff",
+              "unresolved conflict requiring currentness audit"
+            ]
+          },
+          "work_items": [
+            {
+              "id": "currentness_provenance_audit",
+              "jobs": [
+                "currentness"
+              ],
+              "burden": 1,
+              "info_gain": 10,
+              "dependency_leverage": 10,
+              "continuation_value": 10,
+              "protected": true
+            },
+            {
+              "id": "edit_old_render_directly",
+              "jobs": [
+                "currentness"
+              ],
+              "burden": 1,
+              "info_gain": 2,
+              "dependency_leverage": 1,
+              "continuation_value": 1,
+              "protected": false
+            }
+          ],
+          "expected_selected": [
+            "currentness_provenance_audit"
+          ],
+          "result": {
+            "statement": "Use the later PD handoff as the controlling route; retain the old rendered booklet only as regression/inspiration evidence.",
+            "material_result_delta": true,
+            "changed_representation": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "SEM-CORPUS-004",
+      "domain": "document_corpus_architecture",
+      "provenance": [
+        {
+          "surface": "ChatGPT Library",
+          "file_id": "file_0000000034b482109bc92d14625f4710",
+          "name": "Canonicalization_and_Compression_Audit_v2.0.md"
+        }
+      ],
+      "evidence_state": [
+        "a portable archive requires a compact core corpus plus a deeper evidence/originals archive",
+        "a ZIP preserves folder structure but is a container rather than the canonical content",
+        "machine-readable indexing and provenance prevent silent omission"
+      ],
+      "initial_flags": {
+        "task_and_job_well_typed": true,
+        "one_validated_capability_clearly_fits": true,
+        "consequence_bounded": true,
+        "no_material_rival_exposed": true
+      },
+      "required_jobs": [
+        "portable_corpus"
+      ],
+      "phases": [
+        {
+          "question": {
+            "question_id": "corpus-architecture",
+            "issue": "How can a large history archive be fully recoverable without making ordinary reasoning load the whole archive?",
+            "candidate_answers": [
+              "one giant active-context document",
+              "two-layer core plus evidence archive with indexed retrieval",
+              "leave originals only in ChatGPT Library"
+            ]
+          },
+          "work_items": [
+            {
+              "id": "two_layer_content_addressed_corpus",
+              "jobs": [
+                "portable_corpus"
+              ],
+              "burden": 2,
+              "info_gain": 10,
+              "dependency_leverage": 10,
+              "continuation_value": 10,
+              "protected": true
+            },
+            {
+              "id": "giant_monolith",
+              "jobs": [
+                "portable_corpus"
+              ],
+              "burden": 8,
+              "info_gain": 3,
+              "dependency_leverage": 2,
+              "continuation_value": 2,
+              "protected": false
+            },
+            {
+              "id": "library_pointer_only",
+              "jobs": [
+                "portable_corpus"
+              ],
+              "burden": 1,
+              "info_gain": 2,
+              "dependency_leverage": 1,
+              "continuation_value": 1,
+              "protected": false
+            }
+          ],
+          "expected_selected": [
+            "two_layer_content_addressed_corpus"
+          ],
+          "result": {
+            "statement": "Keep complete originals as indexed evidence while retrieving only continuation-relevant material into the active controller state.",
+            "material_result_delta": true
+          }
+        }
+      ]
+    }
+  ],
+  "additional_existing_evidence": {
+    "source_repository": "thytabakman-jpg/Reaserch",
+    "source_path": "projects/improvement-core/validation/ICC128_AUTONOMOUS_EFFECTIVENESS_HOLDOUT_002_FDR_2026-09-26.md",
+    "disposition": "PROSPECTIVE_BEHAVIORAL_RESTORATION_EVIDENCE_PASS_ON_THIS_HOLDOUT"
+  }
+}

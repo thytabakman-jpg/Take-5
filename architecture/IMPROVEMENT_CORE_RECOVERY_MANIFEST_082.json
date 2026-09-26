@@ -13,7 +13,10 @@
     ],
     "dispatcher": "runtime/improvement_core_dispatch.py",
     "entrypoint": "runtime.improvement_core_hf2_default.run_improvement_core_with_hf2",
-    "upstream_discovery": "runtime/improvement_core_upstream.py"
+    "upstream_discovery": "runtime/improvement_core_upstream.py",
+    "restored_dispatcher": "runtime/improvement_core_restored_dispatch.py",
+    "restored_entrypoint": "runtime.improvement_core_restored_dispatch.dispatch_improvement_core_restored",
+    "restored_semantic_provider": "EXPLICIT_REQUIRED_HOST_BINDING"
   },
   "regime": {
     "surface": "runtime/improvement_core_regime.py",
@@ -37,7 +40,9 @@
     "knowledge_runtime": "runtime/improvement_core_knowledge_ledger.py",
     "artifact_intake": "runtime/artifact_intake.py",
     "archive_artifact_intake": "runtime/archive_artifact_intake.py",
-    "external_bound_zip_runtime": "runtime/improvement_core_external_acquisition.py"
+    "external_bound_zip_runtime": "runtime/improvement_core_external_acquisition.py",
+    "legacy_restored_core": "runtime/improvement_core_legacy_candidate.py",
+    "legacy_restored_wrapper": "runtime/improvement_core_legacy_restored.py"
   },
   "evidence": {
     "maximization": "architecture/IMPROVEMENT_CORE_MAXIMIZATION_081.md",
@@ -145,7 +150,11 @@
     "bound_zip_external_runtime": "artifacts/improvecore/IMPROVEMENTCORE_EXTERNAL_BOUND_ZIP_RUNTIME_129_2026-09-26.md",
     "bound_zip_finish_all_improvementcore": "artifacts/improvecore/IMPROVEMENTCORE_EXTERNAL_BOUND_ZIP_RUNTIME_129_2026-09-26.md",
     "bound_zip_finish_all_hf2_first": "artifacts/improvecore/HF2_FINISH_ALL_ZIP_JOBS_130_2026-09-26.md",
-    "bound_zip_finish_all_hf2_second": "artifacts/improvecore/HF2_SECOND_FINISH_ALL_ZIP_JOBS_131_2026-09-26.md"
+    "bound_zip_finish_all_hf2_second": "artifacts/improvecore/HF2_SECOND_FINISH_ALL_ZIP_JOBS_131_2026-09-26.md",
+    "legacy_restoration_target": "architecture/IMPROVEMENT_CORE_LEGACY_RESTORATION_TARGET_129.md",
+    "legacy_control_holdout": "artifacts/improvecore/LEGACY_CANDIDATE_CONTROL_HOLDOUT_131_2026-09-26.md",
+    "legacy_semantic_holdout": "artifacts/improvecore/LEGACY_RESTORED_SEMANTIC_HOLDOUT_132_2026-09-26.md",
+    "legacy_restoration_closure": "artifacts/improvecore/IMPROVEMENTCORE_LEGACY_RESTORATION_CLOSURE_133_2026-09-26.md"
   },
   "protected_behaviors": [
     "CONTROLLER_OWNERSHIP",
@@ -203,7 +212,15 @@
     "ZIP_MEMBER_ACCOUNTING_PRESERVES_UNRESOLVED",
     "BOUND_ZIP_EXTERNAL_OUTPUT_EXECUTES_INTAKE_BEFORE_MANAGER",
     "BOUND_ZIP_PROCESSING_FAILURE_PRESERVES_EXTERNAL_OPEN_GAP",
-    "BOUND_ZIP_RAW_BYTES_AND_GENERATORS_NOT_PERSISTED"
+    "BOUND_ZIP_RAW_BYTES_AND_GENERATORS_NOT_PERSISTED",
+    "LEGACY_ENDOGENOUS_QUESTION_WORK_LOOP",
+    "LEGACY_CHEAP_DIRECT_ROUTING",
+    "LEGACY_RESULT_SENSITIVE_RESELECTION",
+    "LEGACY_NO_PREMATURE_TERMINALITY",
+    "RESTORED_SEMANTIC_PROVIDER_REQUIRED_FAILS_OPEN",
+    "RESTORED_NO_FIXED_STAGE_FALLBACK_UNDER_RESTORED_CLAIM",
+    "RESTORED_MODERN_GUARDS_PRESERVED",
+    "FULL_HISTORY_ARCHIVE_NOT_ACTIVE_CONTEXT"
   ],
   "open": [],
   "math": {
@@ -224,7 +241,9 @@
     "knowledge_ledger": "integration/IMPROVEMENT_CORE_KNOWLEDGE_LEDGER_113.json"
   },
   "external_limits": [
-    "UNIVERSAL_HOST_INTERCEPTION_EXTERNAL_NOT_OWNED"
+    "UNIVERSAL_HOST_INTERCEPTION_EXTERNAL_NOT_OWNED",
+    "AUTOMATIC_UNIVERSAL_CHAT_HOST_SEMANTIC_BINDING_EXTERNAL_NOT_OWNED",
+    "MASTER_THREE_MONTH_ARCHIVE_NOT_YET_ADDRESSABLE"
   ],
   "reopen_conditions": [
     "NEW_MATERIAL_RELATION_GENERATOR_OR_VOCABULARY",
@@ -235,6 +254,9 @@
     "MATERIAL_REPRESENTATION_OR_CANDIDATE_UNIVERSE_CHANGE",
     "DURABLE_LEARNING_LEDGER_CONTRADICTION",
     "HF002_DEFAULT_RECURRENCE_REGRESSION",
-    "NEW_EXTERNAL_ARCHIVE_FORMAT_OR_BINDING"
+    "NEW_EXTERNAL_ARCHIVE_FORMAT_OR_BINDING",
+    "LEGACY_BEHAVIORAL_HOLDOUT_FAILURE",
+    "NEW_MASTER_CHAT_ARCHIVE_EVIDENCE",
+    "RESTORED_SEMANTIC_PROVIDER_BINDING_REGRESSION"
   ]
 }

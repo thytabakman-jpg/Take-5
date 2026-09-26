@@ -11,6 +11,7 @@ from pathlib import Path
 
 from improvement_core_dispatch import resolve_improvement_core_invocation
 from improvement_core_regime import CURRENT_REGIME
+from improvement_core_restored_dispatch import resolve_restored_improvement_core_invocation
 from current_portfolio_identity import audit_current_portfolio_identity
 from historical_replay_audit import audit_historical_replays
 from relation_kernel import current_relation_basis
@@ -56,6 +57,16 @@ REQUIRED_FILES=(
     "runtime/recovery_corpus_manifest.py",
     "tests/test_recovery_corpus_manifest.py",
     "tests/test_ic128_legacy_behavior_benchmark_129.py",
+    "runtime/improvement_core_legacy_candidate.py",
+    "tests/test_improvement_core_legacy_candidate.py",
+    "runtime/improvement_core_legacy_restored.py",
+    "tests/test_improvement_core_legacy_restored.py",
+    "runtime/improvement_core_restored_dispatch.py",
+    "tests/test_improvement_core_restored_dispatch.py",
+    "integration/IMPROVECORE_LEGACY_SEMANTIC_HOLDOUT_PACKET_132.json",
+    "artifacts/improvecore/LEGACY_CANDIDATE_CONTROL_HOLDOUT_131_2026-09-26.md",
+    "artifacts/improvecore/LEGACY_RESTORED_SEMANTIC_HOLDOUT_132_2026-09-26.md",
+    "artifacts/improvecore/IMPROVEMENTCORE_LEGACY_RESTORATION_CLOSURE_133_2026-09-26.md",
     "runtime/improvement_core_progress_relation.py",
     "architecture/IMPROVEMENT_CORE_CANONICAL_PROGRESS_MATHEMATICS_001_2026-09-26.md",
     "architecture/IMPROVEMENT_CORE_ANTI_REPEAT_110.md",
@@ -83,6 +94,9 @@ def validate_recovery()->dict:
     missing=tuple(p for p in REQUIRED_FILES if not (ROOT/p).exists())
     failures=[]
     resolution=resolve_improvement_core_invocation("ImproveCore, recover current state")
+    restored_resolution=resolve_restored_improvement_core_invocation(
+        "ImproveCore, recover restored state",None
+    )
 
     if missing:
         failures.append("MISSING_RECOVERY_SURFACES")
@@ -90,6 +104,10 @@ def validate_recovery()->dict:
         failures.append("CONTROLLER_IDENTITY_DRIFT")
     if not resolution.entrypoint.endswith("run_improvement_core_with_hf2"):
         failures.append("DISPATCH_REGIME_DRIFT")
+    if restored_resolution.controller!="IC-028":
+        failures.append("RESTORED_CONTROLLER_IDENTITY_DRIFT")
+    if not restored_resolution.entrypoint.endswith("dispatch_improvement_core_restored"):
+        failures.append("RESTORED_DISPATCH_ENTRYPOINT_DRIFT")
     if CURRENT_REGIME.controller!="IC-028":
         failures.append("REGIME_CONTROLLER_DRIFT")
     if "improvement_core_manager" not in CURRENT_REGIME.stage_manager:
@@ -134,11 +152,23 @@ def validate_recovery()->dict:
         if math_state.get("durable_learning")!="integration/IMPROVEMENT_CORE_DURABLE_LEARNING_110.json":
             failures.append("IMPROVEMENT_CORE_DURABLE_LEARNING_DRIFT")
 
+        invocation=manifest.get("invocation",{})
+        if invocation.get("restored_dispatcher")!="runtime/improvement_core_restored_dispatch.py":
+            failures.append("RESTORED_DISPATCHER_MANIFEST_MISSING")
+        if invocation.get("restored_entrypoint")!="runtime.improvement_core_restored_dispatch.dispatch_improvement_core_restored":
+            failures.append("RESTORED_ENTRYPOINT_MANIFEST_MISSING")
+        if invocation.get("restored_semantic_provider")!="EXPLICIT_REQUIRED_HOST_BINDING":
+            failures.append("RESTORED_SEMANTIC_PROVIDER_CONTRACT_MISSING")
+
         upstream=manifest.get("invocation",{}).get("upstream_discovery")
         if upstream!="runtime/improvement_core_upstream.py":
             failures.append("UPSTREAM_DISCOVERY_RUNTIME_MISSING")
 
         regime=manifest.get("regime",{})
+        if regime.get("legacy_restored_core")!="runtime/improvement_core_legacy_candidate.py":
+            failures.append("LEGACY_RESTORED_CORE_RUNTIME_MISSING")
+        if regime.get("legacy_restored_wrapper")!="runtime/improvement_core_legacy_restored.py":
+            failures.append("LEGACY_RESTORED_WRAPPER_RUNTIME_MISSING")
         if regime.get("external_acquisition")!="runtime/improvement_core_external_acquisition.py":
             failures.append("EXTERNAL_ACQUISITION_RUNTIME_MISSING")
         if regime.get("configured_tool_bridge")!="runtime/improvement_core_tool_bridge.py":
@@ -189,6 +219,14 @@ def validate_recovery()->dict:
             failures.append("EXTERNAL_BOUND_ZIP_EXECUTION_ANCHOR_MISSING")
         if "bound-ZIP processing failures convert the external acquisition to OPEN_GAP" not in anchor:
             failures.append("EXTERNAL_BOUND_ZIP_FAIL_CLOSED_ANCHOR_MISSING")
+        if "## Legacy-restored repository entrypoint" not in anchor:
+            failures.append("LEGACY_RESTORED_ENTRYPOINT_ANCHOR_MISSING")
+        if "RESTORED_SEMANTIC_PROVIDER_REQUIRED" not in anchor:
+            failures.append("RESTORED_SEMANTIC_PROVIDER_FAIL_OPEN_ANCHOR_MISSING")
+        if "Repository restoration status:\nCLOSED_RELATIVE." not in anchor:
+            failures.append("LEGACY_RESTORATION_CLOSURE_ANCHOR_MISSING")
+        if "Unchanged repair routes are NO_GAIN." not in anchor:
+            failures.append("LEGACY_RESTORATION_ANTI_CHURN_ANCHOR_MISSING")
 
         protected=set(manifest.get("protected_behaviors",[]))
         for required_behavior in (
@@ -198,11 +236,28 @@ def validate_recovery()->dict:
         ):
             if required_behavior not in protected:
                 failures.append("BOUND_ZIP_RUNTIME_PROTECTED_BEHAVIOR_MISSING:"+required_behavior)
+        for required_behavior in (
+            "LEGACY_ENDOGENOUS_QUESTION_WORK_LOOP",
+            "LEGACY_CHEAP_DIRECT_ROUTING",
+            "LEGACY_RESULT_SENSITIVE_RESELECTION",
+            "LEGACY_NO_PREMATURE_TERMINALITY",
+            "RESTORED_SEMANTIC_PROVIDER_REQUIRED_FAILS_OPEN",
+            "RESTORED_NO_FIXED_STAGE_FALLBACK_UNDER_RESTORED_CLAIM",
+            "RESTORED_MODERN_GUARDS_PRESERVED",
+            "FULL_HISTORY_ARCHIVE_NOT_ACTIVE_CONTEXT",
+        ):
+            if required_behavior not in protected:
+                failures.append("LEGACY_RESTORED_PROTECTED_BEHAVIOR_MISSING:"+required_behavior)
 
         if manifest.get("open") not in ([], ()):
             failures.append("RECOVERY_MANIFEST_OPEN_COORDINATES_STALE")
-        if "UNIVERSAL_HOST_INTERCEPTION_EXTERNAL_NOT_OWNED" not in manifest.get("external_limits",[]):
+        external_limits=set(manifest.get("external_limits",[]))
+        if "UNIVERSAL_HOST_INTERCEPTION_EXTERNAL_NOT_OWNED" not in external_limits:
             failures.append("HOST_AUTHORITY_BOUNDARY_MISSING")
+        if "AUTOMATIC_UNIVERSAL_CHAT_HOST_SEMANTIC_BINDING_EXTERNAL_NOT_OWNED" not in external_limits:
+            failures.append("RESTORED_HOST_SEMANTIC_BINDING_BOUNDARY_MISSING")
+        if "MASTER_THREE_MONTH_ARCHIVE_NOT_YET_ADDRESSABLE" not in external_limits:
+            failures.append("MASTER_ARCHIVE_BOUNDARY_MISSING")
         if not current_relation_basis().complete():
             failures.append("RELATION_BASIS_INCOMPLETE")
         identity=audit_current_portfolio_identity()
@@ -225,6 +280,7 @@ def validate_recovery()->dict:
         "failures":tuple(failures),
         "controller":resolution.controller,
         "entrypoint":resolution.entrypoint,
+        "restored_entrypoint":restored_resolution.entrypoint,
         "regime_version":CURRENT_REGIME.version,
     }
 
