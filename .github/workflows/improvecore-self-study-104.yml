@@ -1,0 +1,33 @@
+name: ImproveCore Self Study 104
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'runtime/improvement_core_self_study.py'
+      - 'integration/IMPROVECORE_SELF_STUDY_INPUT_104_2026-09-26.md'
+      - 'research/IMPROVECORE_EXTERNAL_ARCHITECTURE_RESEARCH_104_2026-09-26.md'
+      - 'runtime/improvement_core_*.py'
+      - 'runtime/ic028_operator.py'
+      - 'integration/CURRENT_IMPROVEMENT_CORE.md'
+      - '.github/workflows/improvecore-self-study-104.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  self-study:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run current ImproveCore self-study
+        run: PYTHONPATH=runtime:. python3 runtime/improvement_core_self_study.py
+      - name: Upload self-study receipt
+        uses: actions/upload-artifact@v4
+        with:
+          name: improvecore-self-study-104
+          path: runtime/state/improvecore-self-study-104/report.json
