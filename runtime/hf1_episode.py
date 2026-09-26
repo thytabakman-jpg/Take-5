@@ -117,39 +117,39 @@ def run_hf1_episode(
         p=project(packet)
         obligations=tuple(p.obligations)
         if not obligations:
-            receipts.append(HF1RoundReceipt(i,(),(),"OPEN","NOT_REQUIRED",HF1Terminal.RELATIVE_CLOSE.value))
+            receipts.append(HF1RoundReceipt(round=i,obligations=(),package=(),mode="NOT_SELECTED",closure_status="NOT_REQUIRED",reentry_action="NOT_REQUIRED",terminal=HF1Terminal.RELATIVE_CLOSE.value))
             return HF1EpisodeResult(packet,HF1Terminal.RELATIVE_CLOSE,tuple(receipts))
 
         package=select_sufficient_package(obligations,package_index,package_costs)
         if not package:
-            receipts.append(HF1RoundReceipt(i,obligations,(),"OPEN","NOT_RUN",HF1Terminal.BLOCKED.value))
+            receipts.append(HF1RoundReceipt(round=i,obligations=obligations,package=(),mode="NOT_SELECTED",closure_status="NOT_RUN",reentry_action="NOT_RUN",terminal=HF1Terminal.BLOCKED.value))
             return HF1EpisodeResult(packet,HF1Terminal.BLOCKED,tuple(receipts),"NO_SUFFICIENT_PACKAGE")
 
         flags=mode_flags(packet) if callable(mode_flags) else dict(mode_flags)
         mode=select_mode(**flags)
         if mode=="OPEN":
-            receipts.append(HF1RoundReceipt(i,obligations,package,mode,"NOT_RUN","OPEN"))
+            receipts.append(HF1RoundReceipt(round=i,obligations=obligations,package=package,mode=mode,closure_status="NOT_RUN",reentry_action="NOT_RUN",terminal=HF1Terminal.OPEN.value))
             return HF1EpisodeResult(packet,HF1Terminal.OPEN,tuple(receipts),"MODE_UNRESOLVED")
 
         execution=execute_fn(package,mode,packet)
         if not isinstance(execution,HF1Execution) or not execution.executed or not execution.consumed:
-            receipts.append(HF1RoundReceipt(i,obligations,package,mode,"NOT_RUN","OPEN"))
+            receipts.append(HF1RoundReceipt(round=i,obligations=obligations,package=package,mode=mode,closure_status="NOT_RUN",reentry_action="NOT_RUN",terminal=HF1Terminal.OPEN.value))
             return HF1EpisodeResult(packet,HF1Terminal.OPEN,tuple(receipts),"EXECUTION_NOT_CONSUMED")
 
         closure=closure_fn(execution,packet)
         if not isinstance(closure,HF1Closure):
             return HF1EpisodeResult(packet,HF1Terminal.OPEN,tuple(receipts),"CLOSURE_RESULT_INVALID")
         if closure.status=="BLOCKED":
-            receipts.append(HF1RoundReceipt(i,obligations,package,mode,"BLOCKED","BLOCKED"))
+            receipts.append(HF1RoundReceipt(round=i,obligations=obligations,package=package,mode=mode,closure_status="BLOCKED",reentry_action="NOT_RUN",terminal=HF1Terminal.BLOCKED.value))
             return HF1EpisodeResult(closure.packet,HF1Terminal.BLOCKED,tuple(receipts),"TOOL_RUN_CLOSURE_BLOCKED")
         if closure.status!="CLOSED":
-            receipts.append(HF1RoundReceipt(i,obligations,package,mode,closure.status,"OPEN"))
+            receipts.append(HF1RoundReceipt(round=i,obligations=obligations,package=package,mode=mode,closure_status=closure.status,reentry_action="NOT_RUN",terminal=HF1Terminal.OPEN.value))
             return HF1EpisodeResult(closure.packet,HF1Terminal.OPEN,tuple(receipts),"TOOL_RUN_CLOSURE_OPEN")
 
         try:
             delta=classify_delta(packet,closure.packet)
         except ValueError as exc:
-            receipts.append(HF1RoundReceipt(i,obligations,package,mode,"CLOSED","OPEN"))
+            receipts.append(HF1RoundReceipt(round=i,obligations=obligations,package=package,mode=mode,closure_status="CLOSED",reentry_action="UNRESOLVED",terminal=HF1Terminal.OPEN.value))
             return HF1EpisodeResult(closure.packet,HF1Terminal.OPEN,tuple(receipts),str(exc))
 
         route=hf1_reentry_route(
@@ -161,22 +161,22 @@ def run_hf1_episode(
 
         if route.action=="REVERIFY":
             if verify_fn is None:
-                receipts.append(HF1RoundReceipt(i,obligations,package,mode,"CLOSED",route.action,"OPEN"))
+                receipts.append(HF1RoundReceipt(round=i,obligations=obligations,package=package,mode=mode,closure_status="CLOSED",reentry_action=route.action,terminal=HF1Terminal.OPEN.value))
                 return HF1EpisodeResult(next_packet,HF1Terminal.OPEN,tuple(receipts),"REVERIFY_HANDLER_REQUIRED")
             if not verify_fn(next_packet):
-                receipts.append(HF1RoundReceipt(i,obligations,package,mode,"CLOSED",route.action,"OPEN"))
+                receipts.append(HF1RoundReceipt(round=i,obligations=obligations,package=package,mode=mode,closure_status="CLOSED",reentry_action=route.action,terminal=HF1Terminal.OPEN.value))
                 return HF1EpisodeResult(next_packet,HF1Terminal.OPEN,tuple(receipts),"REVERIFICATION_FAILED")
 
         next_obligations=tuple(project(next_packet).obligations)
         if not next_obligations:
-            receipts.append(HF1RoundReceipt(i,obligations,package,mode,"CLOSED",route.action,HF1Terminal.RELATIVE_CLOSE.value))
+            receipts.append(HF1RoundReceipt(round=i,obligations=obligations,package=package,mode=mode,closure_status="CLOSED",reentry_action=route.action,terminal=HF1Terminal.RELATIVE_CLOSE.value))
             return HF1EpisodeResult(next_packet,HF1Terminal.RELATIVE_CLOSE,tuple(receipts))
 
         if route.action=="NO_REENTRY":
-            receipts.append(HF1RoundReceipt(i,obligations,package,mode,"CLOSED",route.action,HF1Terminal.OPEN.value))
+            receipts.append(HF1RoundReceipt(round=i,obligations=obligations,package=package,mode=mode,closure_status="CLOSED",reentry_action=route.action,terminal=HF1Terminal.OPEN.value))
             return HF1EpisodeResult(next_packet,HF1Terminal.OPEN,tuple(receipts),"NO_PROGRESS_WITH_LIVE_OBLIGATIONS")
 
-        receipts.append(HF1RoundReceipt(i,obligations,package,mode,"CLOSED",route.action,HF1Terminal.CONTINUE.value))
+        receipts.append(HF1RoundReceipt(round=i,obligations=obligations,package=package,mode=mode,closure_status="CLOSED",reentry_action=route.action,terminal=HF1Terminal.CONTINUE.value))
         packet=next_packet
 
     return HF1EpisodeResult(packet,HF1Terminal.OPEN,tuple(receipts),"HF1_MAX_ROUNDS")
