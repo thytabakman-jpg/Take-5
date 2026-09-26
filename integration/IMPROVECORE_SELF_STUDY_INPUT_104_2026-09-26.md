@@ -58,3 +58,11 @@ Date: 2026-09-26
 User request: "Improve core run it."
 
 Interpretation: run the current canonical ImproveCore, using the current recovery anchor and runtime as authority. Treat prior self-study findings as evidence only. Re-evaluate against the current regime and do not preserve a candidate merely because it appeared in run 104.
+
+
+## Re-run invocation 110
+
+Date: 2026-09-26
+User request: "Run improve core."
+
+Interpretation: run the current canonical ImproveCore from main after the regime-089 configured-tool execution repair. Reconstruct current state from recovery authority, execute the configured formal tools selected by the live self-study path, consume their outputs before generic EXECUTE, preserve OPEN for any missing adapter, and re-evaluate candidate improvements from current evidence rather than inheriting run 107 conclusions.
