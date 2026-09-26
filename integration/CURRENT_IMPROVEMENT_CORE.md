@@ -36,7 +36,7 @@ Controller:
 - IC-028
 
 Current regime version:
-- 086
+- 087
 
 Current invocation path:
 
@@ -114,6 +114,9 @@ architecture/IMPROVEMENT_CORE_ACTIVATION_083.md
 26. representation sufficiency is continuation-relative.
 27. discovery/representation/candidate-universe changes can force reentry.
 28. previously verified active contributions cannot silently disappear without explicit revision.
+29. entry mode preserves orthogonal breadth, direction, and coupling coordinates.
+30. broad observer and focused resolution remain distinct observer configurations.
+31. focused resolution remains observer-first rather than silently becoming outcome-directed action.
 
 ## Cross-repository lineage
 
@@ -136,6 +139,27 @@ Take-5
 
 Decision:
 architecture/CROSS_REPOSITORY_IMPROVEMENTCORE_LINEAGE_CHOICE_080.md
+
+## Mode-aware execution
+
+ImproveCore entry now preserves a three-axis mode profile.
+
+Breadth
+EXPAND / CONTRACT
+
+Direction
+OBSERVE / ACT
+
+Coupling
+DECOUPLED / COUPLED
+
+Broad observer is EXPAND + OBSERVE + DECOUPLED.
+
+Focused resolution is CONTRACT + OBSERVE + DECOUPLED.
+
+Default whole-system improvement is EXPAND + ACT + COUPLED.
+
+Observer and focused are not opposites. Focus narrows breadth while retaining observation direction. Both observation profiles project to the existing observer-first stage order, while the complete mode profile is carried into controller state for downstream routing.
 
 ## Recovered mathematical spine
 
