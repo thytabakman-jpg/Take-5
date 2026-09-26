@@ -277,6 +277,24 @@ Open-world global maximality/minimality is not a licensed completion claim. Curr
 37. integration/CURRENT_PROTECTED_TRANSITION_INTEGRITY.md
 38. MIGRATION_STATE.yaml
 
+
+## Function-first configured identity experiment
+
+Current non-authoritative architecture experiment:
+
+architecture/IMPROVEMENT_CORE_FUNCTION_FIRST_HOLDOUT_112.md
+
+Executable audit:
+
+runtime/configured_function_ir.py
+
+This experiment carries the September 25-26 PD/function discovery into Take-5 without
+changing PD:G0. It separates underlying relational semantics, branch-coupled configured
+function identity, explicit manifest identity, and effective runtime realization.
+
+Current heterogeneous holdout result is OPEN for system-wide promotion. Missing layers remain
+typed rather than being hidden by function notation.
+
 ## Related current recovery anchors
 
 - integration/CURRENT_MATHEMATICAL_COLORING.md
