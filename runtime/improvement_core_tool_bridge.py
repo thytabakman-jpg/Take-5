@@ -10,6 +10,7 @@ from __future__ import annotations
 from dataclasses import asdict, dataclass, is_dataclass
 from typing import Any, Callable, Mapping
 
+from configured_hf2_execution import execute_configured_with_hf2
 from formal_object_registry import canonical_formal_label
 from global_tool_execution import ToolExecutionPlan, build_tool_execution_plan
 from tool_run_registry import CONFIGURED_RUNS
@@ -39,6 +40,10 @@ class ConfiguredToolBinding:
             "native_layers":tuple(dict.fromkeys(layer for layer,_ in self.plan.native)),
             "question_count":len(self.plan.questions),
             "cognitive_count":len(self.plan.cognitive),
+            "recurrence_required":self.plan.recurrence_required,
+            "recurrence_engine":self.plan.recurrence_engine,
+            "invocation_profile":self.plan.invocation_profile,
+            "configured_hf2_execution":"SHARED_GATE",
         }
 
 
@@ -51,6 +56,9 @@ class ConfiguredToolExecution:
     evidence:tuple[str,...]
     material_delta:bool
     binding:dict[str,Any]
+    recurrence_engine:str=""
+    recurrence_status:str=""
+    recurrence_rounds:int=0
 
 
 @dataclass(frozen=True)
@@ -150,7 +158,14 @@ def _plain(value:Any)->Any:
     return value
 
 
-def _normalize_adapter_result(raw:Any,current:Any,tool_id:str,binding:ConfiguredToolBinding):
+def _normalize_adapter_result(
+    raw:Any,
+    current:Any,
+    tool_id:str,
+    binding:ConfiguredToolBinding,
+    *,
+    recurrence=None,
+):
     if isinstance(raw,dict):
         status=str(raw.get("status","EXECUTED"))
         truth=str(raw.get("execution_truth","IMPLEMENTATION_EXECUTED"))
@@ -180,6 +195,13 @@ def _normalize_adapter_result(raw:Any,current:Any,tool_id:str,binding:Configured
             "result":_plain(result),
             "evidence":evidence,
             "binding":binding.summary,
+            "recurrence":None if recurrence is None else {
+                "engine":recurrence.recurrence_engine,
+                "status":recurrence.status,
+                "rounds":recurrence.rounds,
+                "call_count":recurrence.call_count,
+                "trace":recurrence.trace,
+            },
         }
         next_state={**next_state,"configured_tool_outputs":prior+(output,)}
 
@@ -191,6 +213,9 @@ def _normalize_adapter_result(raw:Any,current:Any,tool_id:str,binding:Configured
         evidence=evidence,
         material_delta=material,
         binding=binding.summary,
+        recurrence_engine="" if recurrence is None else recurrence.recurrence_engine,
+        recurrence_status="" if recurrence is None else recurrence.status,
+        recurrence_rounds=0 if recurrence is None else recurrence.rounds,
     )
 
 
@@ -216,11 +241,30 @@ def execute_bound_tools(
                 f"CONFIGURED_TOOL_ADAPTER_REQUIRED:{binding.tool_id}",
             )
 
-        raw=adapter(current,binding.plan)
+        recurrence=execute_configured_with_hf2(
+            tool_id=binding.tool_id,
+            plan=binding.plan,
+            state=current,
+            adapter=adapter,
+        )
+        raw=recurrence.last_raw
         current,execution=_normalize_adapter_result(
-            raw,current,binding.tool_id,binding
+            raw,
+            recurrence.state,
+            binding.tool_id,
+            binding,
+            recurrence=recurrence,
         )
         executions.append(execution)
+
+        if recurrence.status not in {"RELATIVE_CLOSE","SELF_CLOSE"}:
+            mapped=recurrence.status if recurrence.status in NON_SUCCESS_STATUSES else "OPEN"
+            return ConfiguredToolBatchResult(
+                current,
+                tuple(executions),
+                mapped,
+                f"CONFIGURED_TOOL_HF2_{recurrence.status}:{binding.tool_id}",
+            )
 
         if execution.status in NON_SUCCESS_STATUSES:
             return ConfiguredToolBatchResult(

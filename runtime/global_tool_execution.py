@@ -20,6 +20,7 @@ from configured_run import (
     DEFAULT_GEOMETRY,
     DEFAULT_MODE,
     QUESTION_FAMILIES,
+    FULL_INVOCATION_PROFILE,
     ConfiguredRunSpec,
 )
 from run_geometry import ModeFace
@@ -54,6 +55,9 @@ class ToolExecutionPlan:
     mode: str
     wrapper_required: bool
     geometry: str
+    recurrence_required: bool
+    recurrence_engine: str
+    invocation_profile: str
     cells: tuple[D36CCell, ...]
     native: tuple[tuple[str, D36CCell], ...]
     questions: tuple[tuple[str, D36CCell], ...]
@@ -65,6 +69,9 @@ class ToolExecutionPlan:
             self.mode == DEFAULT_MODE
             and self.wrapper_required
             and self.geometry == DEFAULT_GEOMETRY
+            and self.recurrence_required
+            and self.recurrence_engine in {"HF002","SELF"}
+            and self.invocation_profile == FULL_INVOCATION_PROFILE
             and len(self.cells) == 36
             and bool(self.native)
             and len(self.questions) == len(QUESTION_FAMILIES) * 36
@@ -93,6 +100,9 @@ def build_tool_execution_plan(spec: ConfiguredRunSpec, *, requested_mode: str | 
         mode=mode,
         wrapper_required=spec.wrapper_required,
         geometry=spec.geometry,
+        recurrence_required=spec.recurrence_required,
+        recurrence_engine=spec.recurrence_engine,
+        invocation_profile=spec.invocation_profile,
         cells=cells,
         native=tuple((layer,cell) for layer in spec.required_layers for cell in cells),
         questions=tuple((question,cell) for question in spec.question_families for cell in cells),

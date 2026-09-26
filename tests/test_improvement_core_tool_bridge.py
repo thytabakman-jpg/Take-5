@@ -42,7 +42,11 @@ def test_bound_tools_are_actually_invoked_and_outputs_are_consumed():
     assert out.blocker is None
     assert calls==[("RootCause",36,True)]
     assert out.executions[0].execution_truth=="IMPLEMENTATION_EXECUTED"
+    assert out.executions[0].recurrence_engine=="HF002"
+    assert out.executions[0].recurrence_status=="RELATIVE_CLOSE"
+    assert out.executions[0].recurrence_rounds==1
     assert out.state["configured_tool_outputs"][0]["result"]["root"]=="TOOL_SELECTION_EXECUTION_SEAM"
+    assert out.state["configured_tool_outputs"][0]["recurrence"]["engine"]=="HF002"
 
 
 def test_missing_adapter_preserves_open_instead_of_faking_execution():
@@ -56,3 +60,31 @@ def test_missing_adapter_preserves_open_instead_of_faking_execution():
 def test_unregistered_explicit_tool_fails_closed():
     with pytest.raises(ToolBridgeBlocked,match="CONFIGURED_TOOL_NOT_REGISTERED"):
         bind_selected_tools({"selected_tool":"ImaginaryTool"})
+
+
+
+def test_hf2_reapplies_same_bound_tool_when_adapter_exposes_live_local_frontier():
+    state,bindings=bind_selected_tools({"selected_tool":"RootCause","round":0})
+    calls=[]
+
+    def root_adapter(current,plan):
+        n=int(current.get("round",0))+1
+        calls.append(n)
+        return {
+            "status":"EXECUTED",
+            "execution_truth":"IMPLEMENTATION_EXECUTED",
+            "state":{**current,"round":n},
+            "result":{"round":n},
+            "evidence":[f"native:round:{n}"],
+            "material_delta":True,
+            "hf2_live_local":n<2,
+        }
+
+    out=execute_bound_tools(state,bindings,{"RootCause":root_adapter})
+    assert out.status=="EXECUTED"
+    assert calls==[1,2]
+    assert out.executions[0].recurrence_engine=="HF002"
+    assert out.executions[0].recurrence_status=="RELATIVE_CLOSE"
+    assert out.executions[0].recurrence_rounds==2
+    trace=out.state["configured_tool_outputs"][0]["recurrence"]["trace"]
+    assert [row["disposition"] for row in trace]==["REAPPLY_C","RELATIVE_CLOSE"]

@@ -81,6 +81,81 @@ GENERIC_BINDINGS=(
         "runtime/protected_transition_integrity.py",
         "tests/test_protected_transition_integrity.py",
     ),
+    ProtectedBinding(
+        "CONFIGURED_HF2_RECURRENCE",
+        "CROSS",
+        "runtime/configured_hf2_execution.py",
+        "tests/test_full_invocation_portfolio.py",
+    ),
+    ProtectedBinding(
+        "FULL_CONFIGURED_INVOCATION_PROFILE",
+        "CROSS",
+        "runtime/global_tool_execution.py",
+        "tests/test_full_invocation_portfolio.py",
+    ),
+)
+
+IMPROVEMENT_CORE_BINDINGS=GENERIC_BINDINGS+(
+    ProtectedBinding(
+        "IMPROVEMENTCORE_CONTROLLER_OWNERSHIP",
+        "PRE",
+        "runtime/improvement_core_manager.py",
+        "tests/test_improvement_core_manager.py",
+    ),
+    ProtectedBinding(
+        "IMPROVEMENTCORE_OBSERVER_FIRST_MODE",
+        "PRE",
+        "runtime/ic028_operator.py",
+        "tests/test_improvement_core_manager.py",
+    ),
+    ProtectedBinding(
+        "IMPROVEMENTCORE_CONFIGURED_TOOL_EXECUTION",
+        "INTRA",
+        "runtime/improvement_core_tool_bridge.py",
+        "tests/test_improvement_core_regime.py",
+    ),
+    ProtectedBinding(
+        "IMPROVEMENTCORE_RECURSIVE_PARENT_CONTROL",
+        "INTRA",
+        "runtime/improvement_core_recursive_manager.py",
+        "tests/test_improvement_core_regime.py",
+    ),
+    ProtectedBinding(
+        "IMPROVEMENTCORE_HF002_DEFAULT_LOCAL_RECURRENCE",
+        "INTRA",
+        "runtime/improvement_core_hf2_default.py",
+        "tests/test_improvement_core_hf2_default.py",
+    ),
+    ProtectedBinding(
+        "IMPROVEMENTCORE_DURABLE_NEGATIVE_LEARNING",
+        "CROSS",
+        "runtime/improvement_core_learning_memory.py",
+        "tests/test_improvement_core_regime.py",
+    ),
+    ProtectedBinding(
+        "IMPROVEMENTCORE_DURABLE_KNOWLEDGE_CAPTURE",
+        "CROSS",
+        "runtime/improvement_core_knowledge_ledger.py",
+        "tests/test_improvement_core_knowledge_ledger.py",
+    ),
+    ProtectedBinding(
+        "IMPROVEMENTCORE_STRICT_PROGRESS",
+        "POST",
+        "runtime/improvement_core_progress_relation.py",
+        "tests/test_improvement_core_progress_relation.py",
+    ),
+    ProtectedBinding(
+        "IMPROVEMENTCORE_EXTERNAL_ACQUISITION",
+        "PRE",
+        "runtime/improvement_core_external_acquisition.py",
+        "tests/test_improvement_core_external_acquisition.py",
+    ),
+    ProtectedBinding(
+        "IMPROVEMENTCORE_PLURAL_FRONTIER_PRESERVATION",
+        "INTRA",
+        "runtime/improvement_core_math_spine.py",
+        "tests/test_improvement_core_regime.py",
+    ),
 )
 
 IMPROVEMENT_CORE_BINDINGS=GENERIC_BINDINGS+(
