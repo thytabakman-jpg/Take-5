@@ -10,6 +10,7 @@ from runtime.archive import Vault, append_event, cid_json
 from runtime.authority import make_authorizer, policy_cid
 from runtime.checkpoint import make_checkpoint, verify_checkpoint
 from runtime.compiler import compile_state, compile_to_file
+from runtime.durability import ReplicaWitness, verify_durable
 from runtime.invocation import make_invocation_capsule, verify_invocation_capsule
 from runtime.propagation import affected_cone, require_consequence_dispositions
 from runtime.promotion import verify_promotion
@@ -209,3 +210,27 @@ def test_invocation_is_exact_and_fail_closed():
         pass
     else:
         raise AssertionError("tampered invocation did not fail closed")
+
+
+def test_durability_requires_independent_failure_domains():
+    target = fake_cid("9")
+    same_account = [
+        ReplicaWitness("repo-a", "github-account-A", frozenset({target})),
+        ReplicaWitness("repo-b", "github-account-A", frozenset({target})),
+    ]
+    try:
+        verify_durable(target, same_account)
+    except RuntimeError as exc:
+        assert "DURABILITY_REPLICATION_OPEN" in str(exc)
+    else:
+        raise AssertionError("same failure domain counted as independent durability")
+
+def test_durability_passes_two_independent_domains():
+    target = fake_cid("9")
+    replicas = [
+        ReplicaWitness("primary", "github-account-A", frozenset({target})),
+        ReplicaWitness("cold", "independent-cold-store-B", frozenset({target})),
+    ]
+    receipt = verify_durable(target, replicas)
+    assert receipt.status == "PASS"
+    assert len(receipt.independent_trust_domains) == 2
