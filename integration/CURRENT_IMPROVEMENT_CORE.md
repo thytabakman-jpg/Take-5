@@ -132,6 +132,10 @@ architecture/IMPROVEMENT_CORE_ACTIVATION_083.md
 36. a selected registered formal tool is not satisfied by naming, planning, or generic analysis; it requires configured adapter invocation and result consumption.
 37. a missing selected-tool adapter preserves OPEN rather than silently degrading to generic EXECUTE.
 38. plan reachability and execution reachability remain distinct claims.
+39. strict improvement is basis-indexed and partially ordered rather than inferred from one-step effect labels.
+40. cross-basis strict-gain claims require an admitted transport into a declared common comparison frame.
+41. an unchanged certified NO_GAIN route remains blocked until a relevant dependency, basis, semantic class, failure signature, or interaction changes.
+42. local transition evidence and the global strict-improvement relation remain distinct mathematical objects.
 
 ## Cross-repository lineage
 
@@ -225,9 +229,11 @@ Open-world global maximality/minimality is not a licensed completion claim. Curr
 2. architecture/IMPROVEMENT_CORE_RECOVERY_MANIFEST_082.json
 3. architecture/IMPROVEMENT_CORE_ACTIVATION_083.md
 4. architecture/IMPROVEMENT_CORE_MATHEMATICS_086.md
-5. runtime/improvement_core_math.py
-6. runtime/improvement_core_math_spine.py
-7. architecture/IMPROVEMENT_CORE_MATH_CORPUS_INTEGRATION_090.md
+5. architecture/IMPROVEMENT_CORE_INDEXED_PROGRESS_MATHEMATICS_110.md
+6. runtime/improvement_core_order_math.py
+7. runtime/improvement_core_math.py
+8. runtime/improvement_core_math_spine.py
+9. architecture/IMPROVEMENT_CORE_MATH_CORPUS_INTEGRATION_090.md
 8. runtime/improvement_core_dispatch.py
 9. runtime/improvement_core_upstream.py
 10. architecture/RELATION_BASIS_AND_ADMISSION_001_2026-09-26.md
@@ -303,6 +309,13 @@ PR #84
 - Take-5 Validation 36227477555
 - Capability Preservation 36227477597
 - regime 088 frontier closure, relation admission, route calibration, replay/holdout, current repertoire and identity audits validated
+
+IC123 math recovery validation
+- branch run 36249306975: SUCCESS
+- 61 focused regressions: PASS
+- IC123 coordinated campaign: PASS
+- campaign artifact 10907903760
+- indexed strict-improvement preorder, explicit basis transport, episode-wide comparison frame, NO_GAIN blocking, and finite fixed-basis execution bound validated
 
 Regime 089 candidate
 - corrects the regime-088 category error between configured-plan reachability and actual selected-tool execution;
