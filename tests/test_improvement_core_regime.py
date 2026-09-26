@@ -326,3 +326,67 @@ def test_regime_auto_captures_recursive_material_transition(tmp_path):
     assert any(row["kind"]=="MATERIAL_TRANSITION" for row in out.knowledge_summary)
     reloaded=KnowledgeLedger.from_durable(path,autosave=False)
     assert any(node.kind=="MATERIAL_TRANSITION" for node in reloaded.nodes.values())
+
+
+def test_regime_auto_captures_every_material_configured_tool_hf2_round(tmp_path):
+    path=tmp_path/"knowledge.json"
+    ledger=KnowledgeLedger.from_durable(path,autosave=True)
+    handlers=_stage_handlers(live=False)
+    original_select=handlers["SELECT"]
+
+    def select_tool(state):
+        out=original_select(state)
+        out["state"]={**out["state"],"selected_tool":"RootCause","configured_round":0}
+        return out
+
+    handlers["SELECT"]=select_tool
+
+    def root_adapter(state,plan):
+        n=int(state.get("configured_round",0))+1
+        return {
+            "status":"EXECUTED",
+            "execution_truth":"IMPLEMENTATION_EXECUTED",
+            "state":{**state,"configured_round":n},
+            "result":{"round":n,"finding":f"finding-{n}"},
+            "evidence":[f"configured-root-round-{n}"],
+            "material_delta":True,
+            "related_objects":["MT","GOAL"],
+            "dependency_footprint":["representation"],
+            "affected_objects":[f"future-state-{n}"],
+            "hf2_live_local":n<2,
+        }
+
+    out=run_improvement_core_regime(
+        "ImproveCore, solve and preserve configured tool discoveries",
+        target="anti-loss",
+        job="capture configured tool material",
+        basis="configured-tool-capture-test",
+        state={},
+        handlers=handlers,
+        configured_tool_adapters={"RootCause":root_adapter},
+        knowledge_ledger=ledger,
+    )
+
+    assert out.status=="COMPLETE"
+    captured=[
+        row for row in out.knowledge_summary
+        if row["kind"]=="MATERIAL_TRANSITION"
+        and "RootCause" in row["related_objects"]
+    ]
+    assert len(captured)==2
+    assert all("configured_tool:RootCause" in row["dependency_footprint"] for row in captured)
+    assert all("MT" in row["related_objects"] and "GOAL" in row["related_objects"] for row in captured)
+    assert {
+        tuple(row["evidence_refs"]) for row in captured
+    }=={
+        ("configured-root-round-1",),
+        ("configured-root-round-2",),
+    }
+
+    reloaded=KnowledgeLedger.from_durable(path,autosave=False)
+    configured=[
+        node for node in reloaded.nodes.values()
+        if node.kind=="MATERIAL_TRANSITION" and "RootCause" in node.related_objects
+    ]
+    assert len(configured)==2
+    assert all("representation" in node.dependency_footprint for node in configured)
