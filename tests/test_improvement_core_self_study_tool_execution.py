@@ -29,3 +29,20 @@ def test_self_study_executes_and_consumes_powerful_configured_tools(tmp_path:Pat
 
     assertion=next(x for x in outputs if x["tool_id"]=="ASSERT")
     assert assertion["result"]["status"]=="CLOSED"
+
+
+
+def test_self_study_consumes_ordered_structured_handoff_causally(tmp_path:Path):
+    report=run(tmp_path/"self-study-handoff.json")
+
+    assert report["verification"]["structured_handoff_loaded"] is True
+    assert report["verification"]["selected_candidate_reflects_handoff"] is True
+    assert report["verification"]["structured_handoff_signal"]=="IC-HOST-CAPABILITY-DISCOVERY"
+    assert report["selected_next_candidate"]["id"]=="IC-HOST-CAPABILITY-DISCOVERY"
+    assert report["selected_next_candidate"]["upstream_signal_counts"]["IC-HOST-CAPABILITY-DISCOVERY"]==3
+    assert report["selected_next_candidate"]["upstream_signal_counts"]["IC-DURABLE-RUN-JOURNAL"]==1
+
+    # Upstream evidence changes selection but cannot self-authorize runtime admission.
+    assert report["admission"]["admitted_for_next_implementation_experiment"]==[]
+    assert report["admission"]["selected_candidate_status"]=="OPEN_HOST_BOUNDARY"
+    assert "universal host boundary remains OPEN" in report["architecture_decision"]

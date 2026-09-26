@@ -49,6 +49,55 @@ CORE_FILES = {
 def read(path: Path) -> str:
     return path.read_text(encoding="utf-8")
 
+def structured_handoffs():
+    """Load explicitly linked structured upstream handoffs from the self-study input.
+
+    The input names evidence; it does not self-authorize a candidate.  Only JSON
+    files listed under a "Persisted structured handoff:" block are loaded.
+    """
+    refs=[]
+    armed=False
+    for raw in read(INPUT).splitlines():
+        line=raw.strip()
+        if line.lower()=="persisted structured handoff:":
+            armed=True
+            continue
+        if armed and line.startswith("## "):
+            armed=False
+            continue
+        if armed and line.startswith("- "):
+            rel=line[2:].strip()
+            if rel.endswith(".json"):
+                refs.append(rel)
+
+    out=[]
+    for rel in dict.fromkeys(refs):
+        p=(ROOT / rel).resolve()
+        try:
+            p.relative_to(ROOT.resolve())
+        except ValueError:
+            continue
+        if not p.is_file():
+            continue
+        payload=json.loads(read(p))
+        out.append({"path":rel,"payload":payload})
+    return tuple(out)
+
+def handoff_candidate_signal(handoffs):
+    """Return one uniquely strongest candidate signal from upstream residual evidence."""
+    counts={}
+    for item in handoffs:
+        for residual in item.get("payload",{}).get("residuals",()):
+            candidate=str(residual.get("candidate","")).strip()
+            if not candidate or candidate=="OPEN":
+                continue
+            counts[candidate]=counts.get(candidate,0)+1
+    if not counts:
+        return None,{}
+    top=max(counts.values())
+    winners=tuple(sorted(k for k,v in counts.items() if v==top))
+    return (winners[0] if len(winners)==1 else None),counts
+
 def file_inventory():
     runtime = sorted((ROOT / "runtime").glob("*.py"))
     tests = sorted((ROOT / "tests").glob("test_*.py"))
@@ -406,6 +455,9 @@ def handlers():
     snap = capability_snapshot()
     inventory = file_inventory()
     candidates = improvement_candidates(snap)
+    handoffs = structured_handoffs()
+    handoff_signal, handoff_counts = handoff_candidate_signal(handoffs)
+    candidate_by_id = {c["id"]: c for c in candidates}
 
     def make(stage):
         def handle(state):
@@ -421,7 +473,14 @@ def handlers():
                     "input": str(INPUT.relative_to(ROOT)),
                     "external_research": str(RESEARCH.relative_to(ROOT)),
                     "current_anchor": str(CURRENT.relative_to(ROOT)),
+                    "structured_handoffs": tuple(x["path"] for x in handoffs),
                 }
+                s["structured_handoff_residuals"] = tuple(
+                    residual
+                    for item in handoffs
+                    for residual in item.get("payload",{}).get("residuals",())
+                )
+                s["structured_handoff_candidate_counts"] = dict(handoff_counts)
             elif stage == "OBSERVE_RECONCILE":
                 s["reconciliation"] = {
                     "documented_current_regime_matches_runtime_version": (
@@ -488,12 +547,25 @@ def handlers():
                     "QuestionWorthAsking",
                     "ASSERT",
                 )
-                s["selected_next_candidate"] = {
-                    "id": "IC-TRACE-EXPORT",
-                    "reason": (
+                selected_id = (
+                    handoff_signal
+                    if handoff_signal in candidate_by_id
+                    else "IC-TRACE-EXPORT"
+                )
+                if selected_id == handoff_signal:
+                    reason = (
+                        "ordered upstream residual evidence gives this candidate the unique strongest "
+                        "typed signal; the handoff is evidence, not admission authority"
+                    )
+                else:
+                    reason = (
                         "uses already-existing receipts, adds observability without changing controller semantics, "
                         "and has the lowest coupling among identified strict-gain candidates"
-                    ),
+                    )
+                s["selected_next_candidate"] = {
+                    "id": selected_id,
+                    "reason": reason,
+                    "upstream_signal_counts": dict(handoff_counts),
                 }
             elif stage == "BIND":
                 s["selection_binding"] = {
@@ -506,6 +578,8 @@ def handlers():
                 root_result=by_tool.get("RootCause",{}).get("result",{})
                 question_result=by_tool.get("QuestionWorthAsking",{}).get("result",{})
                 assert_result=by_tool.get("ASSERT",{}).get("result",{})
+                selected_id=s.get("selected_next_candidate",{}).get("id")
+                selected_candidate=candidate_by_id.get(selected_id,{})
                 s["self_study_result"] = {
                     "architecture_reconstructed": True,
                     "configured_tools_used":tuple(by_tool),
@@ -516,31 +590,49 @@ def handlers():
                     },
                     "candidate_count": len(candidates),
                     "candidates": candidates,
-                    "admission_ready": ["IC-TRACE-EXPORT"],
+                    "selected_candidate": selected_candidate,
+                    "upstream_handoff_paths": tuple(x["path"] for x in handoffs),
+                    "admission_ready": [
+                        c["id"] for c in candidates
+                        if c["implementation_status"]=="ADMISSION_READY_CANDIDATE"
+                    ],
                     "open_design": [
-                        "IC-DURABLE-RUN-JOURNAL",
-                        "IC-HOST-CAPABILITY-DISCOVERY",
-                        "IC-RUNTIME-LIFECYCLE-FAILURE-SEMANTICS",
+                        c["id"] for c in candidates
+                        if c["implementation_status"] in {"OPEN_DESIGN_REQUIRED","OPEN_HOST_BOUNDARY"}
                     ],
                     "experiment_ready": [
-                        "IC-INTERFACE-QUALITY-BENCHMARK",
-                        "IC-CAPABILITY-SKILL-PROMOTION",
+                        c["id"] for c in candidates
+                        if c["implementation_status"] in {"EXPERIMENT_READY","EXPERIMENT_BEFORE_ARCHITECTURE"}
                     ],
-                    "compose_existing": ["IC-REFLECTION-EVIDENCE-SCHEMA"],
+                    "compose_existing": [
+                        c["id"] for c in candidates
+                        if c["implementation_status"]=="SUBSUME_OR_SMALL_EXTENSION"
+                    ],
                 }
                 return {"state": s, "material_delta": True}
             elif stage == "ADMIT":
+                selected_id=s.get("selected_next_candidate",{}).get("id")
+                selected_candidate=candidate_by_id.get(selected_id,{})
+                ready=selected_candidate.get("implementation_status")=="ADMISSION_READY_CANDIDATE"
                 s["admission"] = {
-                    "admitted_for_next_implementation_experiment": ["IC-TRACE-EXPORT"],
+                    "admitted_for_next_implementation_experiment": [selected_id] if ready else [],
                     "not_yet_admitted": [
-                        c["id"] for c in candidates if c["id"] != "IC-TRACE-EXPORT"
+                        c["id"] for c in candidates if not (ready and c["id"]==selected_id)
                     ],
+                    "selected_candidate_status": selected_candidate.get("implementation_status","UNKNOWN"),
                 }
             elif stage == "RECONCILE":
-                s["architecture_decision"] = (
-                    "No new master controller or memory layer. Keep checkpointing distinct from learning memory. "
-                    "Test trace export first; keep larger runtime changes OPEN."
-                )
+                selected_id=s.get("selected_next_candidate",{}).get("id")
+                if selected_id=="IC-HOST-CAPABILITY-DISCOVERY":
+                    s["architecture_decision"] = (
+                        "Ordered upstream evidence changes priority to typed host-capability/adapter discovery. "
+                        "The universal host boundary remains OPEN and the candidate is not self-admitted."
+                    )
+                else:
+                    s["architecture_decision"] = (
+                        "No new master controller or memory layer. Keep checkpointing distinct from learning memory. "
+                        "Test trace export first; keep larger runtime changes OPEN."
+                    )
             elif stage == "PROPAGATE_AFFECTED_CONE":
                 s["affected_cone"] = [
                     "ImproveCore observability",
@@ -556,6 +648,12 @@ def handlers():
                     "core_files_present": all(p.is_file() for p in CORE_FILES.values()),
                     "research_packet_present": RESEARCH.is_file(),
                     "input_present": INPUT.is_file(),
+                    "structured_handoff_loaded": bool(handoffs),
+                    "structured_handoff_signal": handoff_signal,
+                    "selected_candidate_reflects_handoff": (
+                        handoff_signal is None
+                        or s.get("selected_next_candidate",{}).get("id")==handoff_signal
+                    ),
                     "trace_candidate_uses_existing_receipts": snap["capabilities"]["structured_in_memory_receipts"] == "PRESENT",
                     "checkpoint_candidate_not_confused_with_learning_memory": (
                         snap["capabilities"]["execution_position_memory_distinct_from_learning_memory"]
@@ -609,6 +707,8 @@ def run(output: Path):
         "stage_trace": state.get("self_study_stage_trace"),
         "capability_snapshot": state.get("capability_snapshot"),
         "self_study_result": state.get("self_study_result"),
+        "selected_next_candidate": state.get("selected_next_candidate"),
+        "structured_handoff_residuals": state.get("structured_handoff_residuals"),
         "admission": state.get("admission"),
         "architecture_decision": state.get("architecture_decision"),
         "verification": state.get("verification"),
@@ -626,6 +726,8 @@ def run(output: Path):
         raise SystemExit("ImproveCore self-study did not execute configured formal tools")
     if not report["verification"]["all_configured_tools_full_36"]:
         raise SystemExit("ImproveCore self-study tool execution lost full D36_C binding")
+    if not report["verification"]["selected_candidate_reflects_handoff"]:
+        raise SystemExit("ImproveCore self-study ignored ordered upstream handoff evidence")
     return report
 
 def main():
