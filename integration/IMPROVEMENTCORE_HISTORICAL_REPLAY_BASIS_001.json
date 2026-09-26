@@ -65,6 +65,62 @@
       "id": "IMPROVECORE_MOST_EFFECTIVE_FAIL_CLOSED",
       "witness": "tests/test_effectiveness_objective_compilation.py",
       "token": "test_most_effective_without_compiled_coordinates_stays_open"
+    },
+    {
+      "id": "MT_W1",
+      "tool_id": "MT",
+      "behavior": "MT_W1_WHOLE_OBJECT_RECONNAISSANCE",
+      "witness": "tests/test_global_tool_execution.py",
+      "token": "test_every_registered_tool_builds_full_36_plan"
+    },
+    {
+      "id": "MT_W2",
+      "tool_id": "MT",
+      "behavior": "MT_W2_SELF_GENERATED_LOCAL_QUESTIONS",
+      "witness": "tests/test_inquiry_session.py",
+      "token": "test_original_prompt_runs_observer_preparation_before_hf_session"
+    },
+    {
+      "id": "MT_W3",
+      "tool_id": "MT",
+      "behavior": "MT_W3_RECONNAISSANCE_NONMUTATION",
+      "witness": "tests/test_global_tool_execution.py",
+      "token": "NON_OBSERVER_TOOL_RUN_FORBIDDEN"
+    },
+    {
+      "id": "MT_W4",
+      "tool_id": "MT",
+      "behavior": "MT_W4_REOBSERVE_AFTER_MATERIAL_CHANGE",
+      "witness": "tests/test_math_first_wrapper_holdout.py",
+      "token": "test_unfamiliar_recursive_holdout_reobserves_until_answer_fixed_point"
+    },
+    {
+      "id": "MT_W5",
+      "tool_id": "MT",
+      "behavior": "MT_W5_FULL_CONSEQUENCE_CLOSURE",
+      "witness": "tests/test_tool_run_closure.py",
+      "token": "test_trc_recursively_closes_induced_consequences"
+    },
+    {
+      "id": "MT_W6",
+      "tool_id": "MT",
+      "behavior": "MT_W6_ROOT_OBJECT_PRESERVATION",
+      "witness": "tests/test_math_first_wrapper.py",
+      "token": "test_frozen_math_mutation_is_blocked_before_admission"
+    },
+    {
+      "id": "MT_W7",
+      "tool_id": "MT",
+      "behavior": "MT_W7_CROSS_OBJECT_CROSS_SCALE_DISCOVERY",
+      "witness": "tests/test_relation_kernel.py",
+      "token": "test_direction_is_not_silently_symmetrized"
+    },
+    {
+      "id": "MT_W8",
+      "tool_id": "MT",
+      "behavior": "MT_W8_BEHAVIORAL_EQUIVALENCE_NOT_FINAL_ANSWER_ONLY",
+      "witness": "tests/test_historical_replay_audit.py",
+      "token": "test_declared_historical_replay_basis_is_machine_audited"
     }
   ]
 }
