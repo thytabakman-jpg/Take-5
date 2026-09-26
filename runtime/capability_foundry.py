@@ -33,7 +33,6 @@ class CapabilitySpec:
     mathematical_basis: str=""
     math_required_coordinates: tuple[str,...]=()
     math_recovered_coordinates: tuple[str,...]=()
-    semantic_package_current: bool=False
 
     def math_complete_for_use(self)->bool:
         required=set(self.math_required_coordinates)
@@ -69,6 +68,7 @@ class CapabilityFoundry:
         functionally_subsumed: Callable[[CapabilitySpec,CapabilitySpec],bool],
         material_goal_gain: Callable[[CapabilitySpec],bool],
         architecture_compatible: Callable[[CapabilitySpec],bool],
+        package_verifier: Callable[[str],bool] | None = None,
     )->FoundryResult:
         reasons=[]
         if candidate.grants_authority:
@@ -85,7 +85,8 @@ class CapabilityFoundry:
                 missing.append("required_math_coordinates_unspecified")
             elif not candidate.math_complete_for_use():
                 missing.append("required_mathematics_unrecovered")
-            if not candidate.semantic_package_current:
+            package_ok = bool(package_verifier(candidate.semantic_object_id)) if package_verifier is not None else False
+            if not package_ok:
                 missing.append("semantic_package_missing_or_stale")
             if missing:
                 return FoundryResult(candidate,FoundryDisposition.OPEN,tuple(missing))

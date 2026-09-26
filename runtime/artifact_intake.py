@@ -38,11 +38,10 @@ class ExtractedCandidate:
     candidate_type: str
     source_artifact: str
     source_span: str
-    load_bearing: bool
+    load_bearing: bool|None
     known_equivalent: str | None = None
     executable_claim: bool = False
     bound: bool = False
-    semantic_package_current: bool = False
     provenance: tuple[str, ...] = ()
     affected: tuple[str, ...] = ()
 
@@ -86,11 +85,10 @@ def _normalize_candidate(value: Any, artifact: ArtifactRecord) -> ExtractedCandi
         candidate_type=str(value.get("candidate_type", "")),
         source_artifact=str(value.get("source_artifact", artifact.artifact_id)),
         source_span=str(value.get("source_span", "")),
-        load_bearing=bool(value.get("load_bearing", False)),
+        load_bearing=(None if "load_bearing" not in value else bool(value.get("load_bearing"))),
         known_equivalent=value.get("known_equivalent"),
         executable_claim=bool(value.get("executable_claim", False)),
         bound=bool(value.get("bound", False)),
-        semantic_package_current=bool(value.get("semantic_package_current", False)),
         provenance=tuple(value.get("provenance", artifact.provenance)),
         affected=tuple(value.get("affected", ())),
     )
@@ -156,7 +154,7 @@ def intake(
     )
 
 
-def candidate_admission(candidate: ExtractedCandidate) -> Admission:
+def candidate_admission(candidate: ExtractedCandidate, package_verifier=None) -> Admission:
     return admit(
         ObjectCandidate(
             object_id=candidate.candidate_id,
@@ -165,12 +163,12 @@ def candidate_admission(candidate: ExtractedCandidate) -> Admission:
             known_equivalent=candidate.known_equivalent,
             executable_claim=candidate.executable_claim,
             bound=candidate.bound,
-            semantic_package_current=candidate.semantic_package_current,
-        )
+         ),
+        package_verifier=package_verifier,
     )
 
 
-def to_work_items(result: IntakeResult) -> tuple[WorkItem, ...]:
+def to_work_items(result: IntakeResult, package_verifier=None) -> tuple[WorkItem, ...]:
     """Route unresolved/admissible material candidates into existing Work state.
 
     MERGE candidates already resolve to an existing object.
@@ -180,7 +178,7 @@ def to_work_items(result: IntakeResult) -> tuple[WorkItem, ...]:
     """
     out = []
     for c in result.candidates:
-        disposition = candidate_admission(c)
+        disposition = candidate_admission(c, package_verifier=package_verifier)
         if disposition in {Admission.MERGE, Admission.REJECT}:
             continue
         out.append(

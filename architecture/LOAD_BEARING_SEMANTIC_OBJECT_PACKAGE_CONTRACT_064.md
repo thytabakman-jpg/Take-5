@@ -90,6 +90,30 @@ AND at least one semantic coordinate required by a current use remains unresolve
 BLACK_BOX_OPEN is not failure.
 It is durable unresolved semantics.
 
+## Mandatory black-box decomposition
+
+Whenever an object enters BLACK_BOX_OPEN, the semantic lifecycle must immediately create configured-run obligations for:
+
+1. PD
+2. PD Audit
+
+The purpose is to distinguish the unresolved coordinates before the black box is allowed to persist.
+
+BLACK_BOX_OPEN(o)
+=>
+RunConfigured(PD,o)
+AND RunConfigured(PDAudit,o)
+AND Preserve(OpenCoordinates(o)).
+
+RunConfigured(PD,o) and RunConfigured(PDAudit,o) mean the normal full configured runs:
+canonical wrapper + applicable 36-surface + closure + reentry.
+Bare/core PD is not sufficient for this lifecycle obligation.
+
+PD/PDAudit do not have to solve the object.
+They must at minimum expose the distinctions, collisions, hidden assumptions, and remaining OPEN coordinates that make the black box intelligible.
+
+The resulting evidence is appended to the object's semantic package rather than replacing prior evidence.
+
 ## Tool
 
 Bare "tool" is an umbrella label, not one semantic type.

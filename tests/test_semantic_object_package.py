@@ -1,7 +1,7 @@
 from pathlib import Path
 from semantic_object_package import (
     SemanticObjectSpec,expected_transition_names,package_files,
-    materialize_package,append_evidence
+    materialize_package,append_evidence,verify_materialized_package
 )
 
 def spec():
@@ -45,3 +45,12 @@ def test_evidence_is_append_only(tmp_path:Path):
         pass
     else:
         raise AssertionError("evidence overwrite was permitted")
+
+
+def test_verify_materialized_package_checks_real_files(tmp_path:Path):
+    s=spec()
+    materialize_package(tmp_path,s)
+    assert verify_materialized_package(tmp_path,s.object_id)
+    victim=next((tmp_path/"term-black-box"/"transitions").iterdir())
+    victim.unlink()
+    assert not verify_materialized_package(tmp_path,s.object_id)

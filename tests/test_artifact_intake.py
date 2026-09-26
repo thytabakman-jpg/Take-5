@@ -118,7 +118,32 @@ def test_material_candidate_accepts_only_after_semantic_package_exists():
             "candidate_type": "SEMANTIC_PRIMITIVE",
             "source_span": "x",
             "load_bearing": True,
-            "semantic_package_current": True,
         }]
     r = intake([artifact], {"g": g})
-    assert candidate_admission(r.candidates[0]) == Admission.ACCEPT
+    assert candidate_admission(r.candidates[0], package_verifier=lambda oid: oid=="captured") == Admission.ACCEPT
+
+
+def test_missing_load_bearing_is_open_not_rejected():
+    artifact = ArtifactRecord("a", "x")
+    def g(a):
+        return [{
+            "candidate_id": "unknown-lb",
+            "candidate_type": "SEMANTIC_PRIMITIVE",
+            "source_span": "x",
+        }]
+    r = intake([artifact], {"g": g})
+    assert r.candidates[0].load_bearing is None
+    assert candidate_admission(r.candidates[0]) == Admission.OPEN
+
+def test_candidate_cannot_self_assert_package_currentness():
+    artifact = ArtifactRecord("a", "x")
+    def g(a):
+        return [{
+            "candidate_id": "self-claimed",
+            "candidate_type": "SEMANTIC_PRIMITIVE",
+            "source_span": "x",
+            "load_bearing": True,
+        }]
+    r = intake([artifact], {"g": g})
+    assert candidate_admission(r.candidates[0]) == Admission.OPEN
+    assert candidate_admission(r.candidates[0], package_verifier=lambda oid: True) == Admission.ACCEPT
