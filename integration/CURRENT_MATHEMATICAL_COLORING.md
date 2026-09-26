@@ -166,3 +166,39 @@ PR #60
 - canonical whole-system audit passed
 - closed-loop fixture passed
 - zero-request dump passed
+
+
+## SHOW_ME_THE_MATH job specialization
+
+The request contract in:
+
+integration/CURRENT_SHOW_ME_THE_MATH.md
+
+is a stricter exact-use specialization of CompleteForUse_J.
+
+When J = SHOW_ME_THE_MATH, GREEN requires recursive portability closure, not merely
+sufficient local semantics for the current conversation.
+
+For a formal symbol s:
+
+GREEN_(J,showmath)(s)
+
+iff s and every load-bearing dependency reachable from s are defined in the supplied
+mathematical package or terminate in an explicitly typed and available external
+primitive, and the claim-relevant initialization/runtime/persistence/equivalence
+obligations are satisfied.
+
+Otherwise RED_(J,showmath)(s).
+
+Therefore:
+- a repository pointer does not make a symbol green;
+- prior conversation memory does not make a symbol green;
+- a named operator with an unrecovered definition stays red;
+- a source-recoverable but unbundled dependency stays red for standalone portability;
+- executable availability and formal reconstruction must be distinguished.
+
+Canonical formal definition:
+architecture/FULL_TOOL_MATHEMATICAL_IDENTITY_CONTRACT_002_2026-09-26.md
+
+Operational checker:
+runtime/show_me_the_math_contract.py
