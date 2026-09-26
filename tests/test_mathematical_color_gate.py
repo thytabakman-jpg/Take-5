@@ -6,9 +6,11 @@ from mathematical_color_gate import (
     assess_recovery,
     MathStatus,
     TextFragment,
+    canonical_formal_label,
     emit_user_visible,
     render_math,
     render_formal_label,
+    verify_assistant_response,
     verify_rendered_output,
 )
 
@@ -52,6 +54,10 @@ def test_status_prefix_fallback_is_rejected(raw):
     (
         "ASSERT",
         "ICC 128",
+        "ImproveCore",
+        "Improvement Core",
+        "HF1",
+        "HF-001",
         r"\Gamma\nvdash_K\varphi",
         "U ≠ F",
         "x = y",
@@ -129,9 +135,41 @@ def test_formal_label_uses_latex_glyph_color_not_html():
     assert "<span" not in out.lower()
 
 
-def test_wrapper_label_is_registered_and_can_fail_closed_red():
-    out = render_formal_label("WRAPPER", MathStatus.UNRESOLVED)
-    assert out == r"\color{red}{\operatorname{WRAPPER}}"
+@pytest.mark.parametrize(
+    ("label","canonical"),
+    (
+        ("ImproveCore","IMPROVECORE"),
+        ("Improve Core","IMPROVECORE"),
+        ("Improvement Core","IMPROVECORE"),
+        ("HF1","HF1"),
+        ("HF-001","HF1"),
+    ),
+)
+def test_current_formal_aliases_are_registered(label,canonical):
+    assert canonical_formal_label(label)==canonical
+
+
+def test_improvecore_and_hf1_render_through_same_typed_path():
+    assert render_formal_label("ImproveCore",MathStatus.UNRESOLVED) == (
+        r"\color{red}{\operatorname{IMPROVECORE}}"
+    )
+    assert render_formal_label("HF-001",MathStatus.RECOVERED) == (
+        r"\color{green}{\operatorname{HF1}}"
+    )
+
+
+def test_response_boundary_rejects_plain_registered_formal_label():
+    with pytest.raises(
+        ColorInvariantViolation,
+        match="UNTYPED_FORMAL_LABEL_AT_RESPONSE_BOUNDARY",
+    ):
+        verify_assistant_response("The current ImproveCore is active.")
+
+
+def test_response_boundary_accepts_typed_colored_formal_label():
+    verify_assistant_response(
+        r"The current \color{red}{\operatorname{IMPROVECORE}} is unresolved."
+    )
 
 
 def test_unregistered_formal_label_fails_closed():
