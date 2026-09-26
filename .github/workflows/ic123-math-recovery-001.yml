@@ -1,0 +1,32 @@
+name: IC123 Math Recovery 001
+
+on:
+  push:
+    branches:
+      - improvecore/ic123-math-recovery-20260926
+  workflow_dispatch:
+
+jobs:
+  recover-math:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install test dependency
+        run: python -m pip install pytest
+      - name: Run focused baseline and math regressions
+        env:
+          PYTHONPATH: runtime
+        run: |
+          pytest -q             tests/test_improvement_core_order_math.py             tests/test_improvement_core_progress_relation.py             tests/test_assert_compound.py             tests/test_assert_full36.py             tests/test_mt_semantic_return_gate.py             tests/test_root_cause_hf2.py             tests/test_question_worth_asking.py             tests/test_solution_to_my_problem.py             tests/test_improvement_core_math_spine.py             tests/test_improvement_core_tool_bridge.py
+      - name: Run IC123 coordinated campaign
+        env:
+          PYTHONPATH: runtime
+        run: python runtime/ic123_math_recovery_campaign.py
+      - name: Upload campaign receipt
+        uses: actions/upload-artifact@v4
+        with:
+          name: ic123-math-recovery-001
+          path: artifacts/improvecore/IC123_MATH_RECOVERY_RUN_001_2026-09-26.json
