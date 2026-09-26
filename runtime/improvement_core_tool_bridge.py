@@ -40,6 +40,9 @@ class ConfiguredToolBinding:
             "native_layers":tuple(dict.fromkeys(layer for layer,_ in self.plan.native)),
             "question_count":len(self.plan.questions),
             "cognitive_count":len(self.plan.cognitive),
+            "recurrence_required":self.plan.recurrence_required,
+            "recurrence_engine":self.plan.recurrence_engine,
+            "invocation_profile":self.plan.invocation_profile,
             "configured_hf2_execution":"SHARED_GATE",
         }
 
