@@ -13,8 +13,6 @@ from dataclasses import dataclass
 from hashlib import sha256
 from io import BytesIO
 from zipfile import BadZipFile, ZipFile
-from typing import Iterable
-
 from artifact_intake import ArtifactRecord
 
 
@@ -118,6 +116,7 @@ def expand_bound_zip(
                 raise ArchiveBindingError(
                     f"ARCHIVE_MEMBER_LIMIT:{len(infos)}>{max_members}"
                 )
+            declared_members = len(infos)
             total_uncompressed = sum(int(info.file_size) for info in infos)
             if total_uncompressed > int(max_total_uncompressed_bytes):
                 raise ArchiveBindingError(
@@ -232,7 +231,7 @@ def expand_bound_zip(
         source=source,
         archive_byte_count=archive_count,
         archive_sha256=archive_sha,
-        declared_members=len(receipts),
+        declared_members=declared_members,
         member_receipts=tuple(receipts),
         text_artifacts=tuple(text_artifacts),
         unresolved=tuple(unresolved),
