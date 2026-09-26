@@ -1,0 +1,86 @@
+{
+  "schema_version": 1,
+  "basis": "Take-5 current plus Recovery Blueprint 100",
+  "capabilities": {
+    "IMPROVECORE_CONTROLLER_OWNERSHIP": {
+      "identity": "integration/CURRENT_IMPROVEMENT_CORE.md",
+      "semantics": "architecture/IMPROVEMENT_CORE_MAXIMIZATION_081.md",
+      "reachability": "runtime/improvement_core_dispatch.py",
+      "selection": "runtime/improvement_core_regime.py",
+      "execution": "runtime/improvement_core_manager.py",
+      "effect": "runtime/ic028_operator.py",
+      "consumer": "runtime/improvement_core_recursive_manager.py",
+      "recovery": "architecture/IMPROVEMENT_CORE_RECOVERY_MANIFEST_082.json"
+    },
+    "IMPROVECORE_LEARNING_MEMORY": {
+      "identity": "architecture/IMPROVEMENT_CORE_MATHEMATICS_086.md",
+      "semantics": "runtime/improvement_core_learning_memory.py",
+      "reachability": "runtime/improvement_core_regime.py",
+      "selection": "runtime/improvement_core_math.py",
+      "execution": "runtime/improvement_core_recursive_manager.py",
+      "effect": "runtime/improvement_core_learning_memory.py",
+      "consumer": "runtime/improvement_core_regime.py",
+      "recovery": "integration/CURRENT_IMPROVEMENT_CORE.md"
+    },
+    "IMPROVECORE_OBSERVER_FIRST": {
+      "identity": "integration/CURRENT_IMPROVEMENT_CORE.md",
+      "semantics": "research/IMPROVEMENT_CORE_USAGE_AUDIT_078_2026-09-26.md",
+      "reachability": "runtime/improvement_core_manager.py",
+      "selection": "runtime/entry_contract.py",
+      "execution": "runtime/ic028_operator.py",
+      "effect": "runtime/ic028_operator.py",
+      "consumer": "runtime/improvement_core_regime.py",
+      "recovery": "architecture/IMPROVEMENT_CORE_RECOVERY_MANIFEST_082.json"
+    },
+    "REALIZATION_TRUTH": {
+      "identity": "KERNEL.yaml",
+      "semantics": "architecture/MATH_FIRST_WRAPPER_CLOSURE_039.md",
+      "reachability": "runtime/controller_episode.py",
+      "selection": "runtime/math_first_wrapper.py",
+      "execution": "runtime/global_tool_execution.py",
+      "effect": "runtime/state_commit.py",
+      "consumer": "runtime/tool_run_closure.py",
+      "recovery": "FUNCTIONALITY_RECOVERY_LEDGER.md"
+    },
+    "JANE_CONTINUITY": {
+      "identity": "architecture/JANE_CONTINUITY_RECOVERY_098.md",
+      "semantics": "architecture/DESIRED_JANE_TOOL_061.md",
+      "reachability": "runtime/jane.py",
+      "selection": "runtime/jane_relevance.py",
+      "execution": "runtime/jane_continuity.py",
+      "effect": "runtime/jane_supervisor.py",
+      "consumer": "runtime/jane_sync.py",
+      "recovery": "integration/IMPROVECORE_RECOVERY_BLUEPRINT_100.md"
+    },
+    "TAKE_TWO_TYPED_TRANSITION_LAW": {
+      "identity": "architecture/TAKE_TWO_OPERATING_LAW_099.md",
+      "semantics": "architecture/KERNEL_MATH_CONTRACT_052.md",
+      "reachability": "runtime/kernel_f1.py",
+      "selection": "runtime/kernel_preservation.py",
+      "execution": "runtime/kernel_preservation.py",
+      "effect": "runtime/state_commit.py",
+      "consumer": "runtime/reflexive_currentness.py",
+      "recovery": "integration/IMPROVECORE_RECOVERY_BLUEPRINT_100.md"
+    },
+    "OPEN_PRESERVATION": {
+      "operational": false,
+      "identity": "KERNEL.yaml",
+      "semantics": "architecture/TAKE_TWO_OPERATING_LAW_099.md",
+      "reachability": "runtime/kernel_f1.py",
+      "selection": "runtime/kernel_preservation.py",
+      "effect": "runtime/kernel_preservation.py",
+      "consumer": "runtime/improvement_core_regime.py",
+      "recovery": "architecture/CAPABILITY_PRESERVATION_INVARIANT_097.md"
+    },
+    "CAPABILITY_PRESERVATION_GATE": {
+      "identity": "architecture/CAPABILITY_PRESERVATION_INVARIANT_097.md",
+      "semantics": "runtime/capability_preservation.py",
+      "reachability": "integration/CAPABILITY_PRESERVATION_MANIFEST_100.json",
+      "selection": "runtime/capability_preservation.py",
+      "execution": "runtime/capability_preservation.py",
+      "effect": "integration/IMPROVECORE_RECOVERY_BLUEPRINT_100.md",
+      "consumer": "integration/IMPROVECORE_CAPABILITY_RECOVERY_WORKSTREAM_100.yaml",
+      "recovery": "integration/CAPABILITY_PRESERVATION_MANIFEST_100.json"
+    }
+  }
+}
