@@ -5,6 +5,95 @@
   "status": "CURRENT",
   "regime_version": "090",
   "purpose": "Durable capture and integration of admitted material knowledge events. Capture is not authority.",
-  "nodes": [],
-  "history": []
+  "nodes": [
+    {
+      "knowledge_id": "K-knowledge-capture-gap-20260926",
+      "kind": "PROBLEM",
+      "statement": "Material ImprovementCore discoveries were not forced through one mandatory durable capture and integration transition.",
+      "basis_id": "take5-regime-090",
+      "disposition": "CURRENT",
+      "related_objects": [
+        "ImprovementCore",
+        "MAP_CAPTURE_POLICY",
+        "FUNCTIONALITY_RECOVERY_LEDGER"
+      ],
+      "dependency_footprint": [
+        "improvement_core_regime",
+        "knowledge_capture",
+        "cross_chat_persistence"
+      ],
+      "evidence_refs": [
+        "MAP_CAPTURE_POLICY.md",
+        "FUNCTIONALITY_RECOVERY_LEDGER.md",
+        "integration/CROSS_CHAT_INTEGRATION_INBOX_2026-09-25.md"
+      ],
+      "provenance": [
+        {
+          "source_episode": "improvecore-record-integrate-dont-lose-ideas-20260926",
+          "source_route": "root-diagnosis"
+        }
+      ],
+      "metadata": {
+        "root_generator": "MATERIAL_DISCOVERY_NOT_MANDATORILY_PERSISTED"
+      }
+    },
+    {
+      "knowledge_id": "K-knowledge-capture-repair-20260926",
+      "kind": "SOLUTION",
+      "statement": "ImprovementCore regime persists explicit knowledge_events and admitted recursive material transitions into a durable provenance/dependency knowledge ledger.",
+      "basis_id": "take5-regime-090",
+      "disposition": "ADMITTED",
+      "related_objects": [
+        "ImprovementCore",
+        "IMPROVEMENT_CORE_KNOWLEDGE_LEDGER_113"
+      ],
+      "dependency_footprint": [
+        "runtime/improvement_core_regime.py",
+        "runtime/improvement_core_knowledge_ledger.py"
+      ],
+      "evidence_refs": [
+        "architecture/IMPROVEMENT_CORE_MATERIAL_KNOWLEDGE_CAPTURE_113.md",
+        "tests/test_improvement_core_knowledge_ledger.py",
+        "tests/test_improvement_core_regime.py"
+      ],
+      "provenance": [
+        {
+          "source_episode": "improvecore-record-integrate-dont-lose-ideas-20260926",
+          "source_route": "repair"
+        }
+      ],
+      "metadata": {
+        "validation_status": "PENDING"
+      }
+    }
+  ],
+  "history": [
+    {
+      "sequence": 1,
+      "knowledge_id": "K-knowledge-capture-gap-20260926",
+      "action": "CAPTURE",
+      "disposition": "CURRENT",
+      "source_episode": "improvecore-record-integrate-dont-lose-ideas-20260926",
+      "source_route": "root-diagnosis",
+      "evidence_refs": [
+        "MAP_CAPTURE_POLICY.md",
+        "FUNCTIONALITY_RECOVERY_LEDGER.md"
+      ],
+      "metadata": {}
+    },
+    {
+      "sequence": 2,
+      "knowledge_id": "K-knowledge-capture-repair-20260926",
+      "action": "CAPTURE",
+      "disposition": "ADMITTED",
+      "source_episode": "improvecore-record-integrate-dont-lose-ideas-20260926",
+      "source_route": "repair",
+      "evidence_refs": [
+        "architecture/IMPROVEMENT_CORE_MATERIAL_KNOWLEDGE_CAPTURE_113.md"
+      ],
+      "metadata": {
+        "validation_status": "PENDING"
+      }
+    }
+  ]
 }
