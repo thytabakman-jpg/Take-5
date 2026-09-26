@@ -121,6 +121,46 @@
       "effect": "runtime/ic028_operator.py",
       "consumer": "runtime/improvement_core_regime.py",
       "recovery": "architecture/IMPROVEMENT_CORE_RECOVERY_MANIFEST_082.json"
+    },
+    "IMPROVECORE_ROUTE_CALIBRATION": {
+      "identity": "architecture/IMPROVEMENT_CORE_FRONTIER_CLOSURE_106.md",
+      "semantics": "runtime/improvement_core_route_calibration.py",
+      "reachability": "runtime/improvement_core_upstream.py",
+      "selection": "runtime/improvement_core_route_calibration.py",
+      "execution": "runtime/improvement_core_upstream.py",
+      "effect": "runtime/improvement_core_upstream.py",
+      "consumer": "runtime/improvement_core_manager.py",
+      "recovery": "integration/CURRENT_IMPROVEMENT_CORE.md"
+    },
+    "IMPROVECORE_RELATION_ADMISSION": {
+      "identity": "architecture/RELATION_BASIS_AND_ADMISSION_001_2026-09-26.md",
+      "semantics": "runtime/relation_kernel.py",
+      "reachability": "runtime/improvement_core_upstream.py",
+      "selection": "runtime/relation_kernel.py",
+      "execution": "runtime/relation_kernel.py",
+      "effect": "runtime/improvement_core_upstream.py",
+      "consumer": "runtime/improvement_core_manager.py",
+      "recovery": "architecture/IMPROVEMENT_CORE_RECOVERY_MANIFEST_082.json"
+    },
+    "IMPROVECORE_CURRENT_REPERTOIRE_AUDIT": {
+      "identity": "architecture/IMPROVEMENT_CORE_FRONTIER_CLOSURE_106.md",
+      "semantics": "runtime/repertoire_reachability.py",
+      "reachability": "runtime/improvement_core_recovery.py",
+      "selection": "runtime/improvement_core_recovery.py",
+      "execution": "runtime/repertoire_reachability.py",
+      "effect": "runtime/improvement_core_recovery.py",
+      "consumer": "integration/CURRENT_IMPROVEMENT_CORE.md",
+      "recovery": "architecture/IMPROVEMENT_CORE_RECOVERY_MANIFEST_082.json"
+    },
+    "IMPROVECORE_HISTORICAL_REPLAY_BASIS": {
+      "identity": "integration/IMPROVEMENTCORE_HISTORICAL_REPLAY_BASIS_001.json",
+      "semantics": "runtime/historical_replay_audit.py",
+      "reachability": "runtime/improvement_core_recovery.py",
+      "selection": "runtime/improvement_core_recovery.py",
+      "execution": "runtime/historical_replay_audit.py",
+      "effect": "runtime/improvement_core_recovery.py",
+      "consumer": "integration/CURRENT_IMPROVEMENT_CORE.md",
+      "recovery": "architecture/IMPROVEMENT_CORE_RECOVERY_MANIFEST_082.json"
     }
   }
 }

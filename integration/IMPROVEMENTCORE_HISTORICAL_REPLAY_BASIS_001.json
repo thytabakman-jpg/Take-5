@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "object_id": "IMPROVEMENTCORE_HISTORICAL_REPLAY_BASIS_001",
+  "basis": "recovered protected behavior and regression witness basis",
+  "cases": [
+    {
+      "id": "MT_BLACK_BOX_RETURN",
+      "tool_id": "MT",
+      "behavior": "MT_BLACK_BOX_SEMANTIC_RETURN_GATE",
+      "witness": "tests/test_mt_semantic_return_gate.py",
+      "token": "test_"
+    },
+    {
+      "id": "ASSERT_FULL36",
+      "tool_id": "ASSERT",
+      "behavior": "ASSERT_FULL36_THREE_SURFACE_COVERAGE",
+      "witness": "tests/test_assert_full36.py",
+      "token": "36"
+    },
+    {
+      "id": "HF1_GOVERNED_EPISODE",
+      "tool_id": "HF001",
+      "behavior": "HF001_GOVERNED_EPISODE",
+      "witness": "tests/test_hf1_episode.py",
+      "token": "hf1"
+    },
+    {
+      "id": "ROOTCAUSE_PARENT_HANDOFF",
+      "tool_id": "RootCause",
+      "behavior": "ROOT_CAUSE_IMPROVEMENTCORE_PARENT_HANDOFF",
+      "witness": "tests/test_root_cause_hf2.py",
+      "token": "root"
+    },
+    {
+      "id": "IMPROVECORE_LIVE_CONTINUATION_STRONG",
+      "witness": "tests/test_improvement_core_regime.py",
+      "token": "test_regime_activates_recursive_manager_when_stage_result_has_live_continuation"
+    },
+    {
+      "id": "IMPROVECORE_LIVE_CONTINUATION_WEAK_FAILS_OPEN",
+      "witness": "tests/test_improvement_core_regime.py",
+      "token": "test_regime_fails_open_when_live_continuation_has_no_recursive_bindings"
+    },
+    {
+      "id": "IMPROVECORE_NO_GAIN_MEMORY",
+      "witness": "tests/test_improvement_core_regime.py",
+      "token": "test_learning_memory_blocks_unchanged_no_gain_and_reopens_on_dependency_delta"
+    },
+    {
+      "id": "IMPROVECORE_OBSERVER_FIRST",
+      "witness": "tests/test_improvement_core_manager.py",
+      "token": "test_manager_auto_observer_runs_observation_before_goal"
+    },
+    {
+      "id": "IMPROVECORE_ZERO_REQUEST",
+      "witness": "tests/test_improvement_core_dispatch.py",
+      "token": "test_dispatch_can_seed_from_corpus_without_host_supplied_job_coordinates"
+    },
+    {
+      "id": "IMPROVECORE_EXTERNAL_GAP",
+      "witness": "tests/test_improvement_core_external_acquisition.py",
+      "token": "test_regime_cannot_close_over_unavailable_required_outside_evidence"
+    },
+    {
+      "id": "IMPROVECORE_MOST_EFFECTIVE_FAIL_CLOSED",
+      "witness": "tests/test_effectiveness_objective_compilation.py",
+      "token": "test_most_effective_without_compiled_coordinates_stays_open"
+    }
+  ]
+}

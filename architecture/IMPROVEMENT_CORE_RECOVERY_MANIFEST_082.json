@@ -5,7 +5,7 @@
   "status": "CURRENT",
   "canonical_repository": "thytabakman-jpg/Take-5",
   "controller": "IC-028",
-  "regime_version": "087",
+  "regime_version": "088",
   "invocation": {
     "aliases": [
       "ImproveCore",
@@ -17,7 +17,7 @@
   },
   "regime": {
     "surface": "runtime/improvement_core_regime.py",
-    "version": "087",
+    "version": "088",
     "stage_manager": "runtime/improvement_core_manager.py",
     "operator": "runtime/ic028_operator.py",
     "recursive_manager": "runtime/improvement_core_recursive_manager.py",
@@ -60,7 +60,13 @@
         "validation_run": "36222874741"
       }
     ],
-    "protected_transition_integrity": "architecture/PROTECTED_TRANSITION_INTEGRITY_090.md"
+    "protected_transition_integrity": "architecture/PROTECTED_TRANSITION_INTEGRITY_090.md",
+    "frontier_closure": "architecture/IMPROVEMENT_CORE_FRONTIER_CLOSURE_106.md",
+    "relation_basis": "architecture/RELATION_BASIS_AND_ADMISSION_001_2026-09-26.md",
+    "host_boundary": "architecture/HOST_INTERCEPTION_AUTHORITY_BOUNDARY_001_2026-09-26.md",
+    "historical_replay_basis": "integration/IMPROVEMENTCORE_HISTORICAL_REPLAY_BASIS_001.json",
+    "repertoire_reachability": "runtime/repertoire_reachability.py",
+    "current_portfolio_identity": "runtime/current_portfolio_identity.py"
   },
   "protected_behaviors": [
     "CONTROLLER_OWNERSHIP",
@@ -93,19 +99,13 @@
     "CUMULATIVE_VERIFIED_CONTRIBUTION_PRESERVATION",
     "MODE_GEOMETRY_BREADTH_DIRECTION_COUPLING",
     "BROAD_OBSERVER_AND_FOCUSED_RESOLUTION_REMAIN_DISTINCT",
-    "FOCUSED_RESOLUTION_PRESERVES_OBSERVER_FIRST_ORDER"
+    "FOCUSED_RESOLUTION_PRESERVES_OBSERVER_FIRST_ORDER",
+    "UPSTREAM_ROUTE_CALIBRATION",
+    "BASIS_RELATIVE_RELATION_ADMISSION",
+    "CURRENT_REPERTOIRE_REACHABILITY_AUDIT",
+    "HISTORICAL_REPLAY_WITNESS_BASIS"
   ],
-  "open": [
-    "RELATION_GENERATOR_BASIS",
-    "RELATION_ADMISSION_MATH",
-    "UNIVERSAL_HOST_INTERCEPTION",
-    "FULL_REPERTOIRE_REACHABILITY_EVIDENCE",
-    "HISTORICAL_MATCHED_REPLAYS",
-    "UNLIKE_AUTONOMY_HOLDOUTS",
-    "CHEAP_ROUTE_VS_BROAD_ATTACK_CALIBRATION",
-    "GLOBAL_MAXIMALITY_MINIMALITY",
-    "PORTFOLIO_TOOL_IDENTITY_BACKFILL"
-  ],
+  "open": [],
   "math": {
     "current_surface": "architecture/IMPROVEMENT_CORE_MATHEMATICS_086.md",
     "preferred_controller": "C_PLUS_JK",
@@ -115,5 +115,16 @@
     "regression": "tests/test_improvement_core_math_086.py",
     "math_spine": "runtime/improvement_core_math_spine.py",
     "corpus_integration": "architecture/IMPROVEMENT_CORE_MATH_CORPUS_INTEGRATION_090.md"
-  }
+  },
+  "external_limits": [
+    "UNIVERSAL_HOST_INTERCEPTION_EXTERNAL_NOT_OWNED"
+  ],
+  "reopen_conditions": [
+    "NEW_MATERIAL_RELATION_GENERATOR_OR_VOCABULARY",
+    "NEW_MATERIAL_HISTORICAL_TOOL_WITNESS",
+    "NEW_HOST_INTEGRATION_CAPABILITY",
+    "NEW_CONFIGURED_TOOL_OR_PROTECTED_BEHAVIOR",
+    "HOLDOUT_OR_REPLAY_FAILURE",
+    "MATERIAL_REPRESENTATION_OR_CANDIDATE_UNIVERSE_CHANGE"
+  ]
 }
