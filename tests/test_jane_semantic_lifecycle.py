@@ -57,7 +57,7 @@ def test_unknown_load_bearingness_is_captured_not_pruned():
     assert a["load_bearing_status"]=="OPEN"
 
 
-def test_black_box_capture_triggers_pd_and_pd_audit():
+def test_black_box_capture_triggers_full_resolution_spine():
     s=JaneSupervisoryState()
     a=semantic_capture_obligation(
         s,
@@ -69,7 +69,7 @@ def test_black_box_capture_triggers_pd_and_pd_audit():
         created_here=False,
         math_complete_for_use=False,
     )
-    assert a["followup_configured_runs"]==("PD","PDAudit")
+    assert a["followup_configured_runs"]==("PD","PDAudit","MTA","PDAudit","C47")
 
 
 def test_black_box_followups_become_material_work():
@@ -88,5 +88,8 @@ def test_black_box_followups_become_material_work():
     assert tuple(w.obligation for w in work)==(
         "RUN_CONFIGURED:PD:TERM:BB",
         "RUN_CONFIGURED:PDAudit:TERM:BB",
+        "RUN_CONFIGURED:MTA:TERM:BB",
+        "RUN_CONFIGURED:PDAudit:TERM:BB",
+        "RUN_CONFIGURED:C47:TERM:BB",
     )
     assert all(w.material for w in work)
