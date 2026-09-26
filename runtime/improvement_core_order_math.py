@@ -127,6 +127,31 @@ def information_refines(left: SystemState, right: SystemState) -> bool:
     return right.admissible_models <= left.admissible_models
 
 
+def _semantic_weak(left: SystemState, right: SystemState) -> bool:
+    return bool(
+        left.protected_capabilities <= right.protected_capabilities
+        and information_refines(left, right)
+        and left.satisfied_goals <= right.satisfied_goals
+        and left.verified_contributions <= right.verified_contributions
+        and left.execution_level <= right.execution_level
+    )
+
+
+def _semantic_strict_coordinates(left: SystemState, right: SystemState) -> tuple[str, ...]:
+    strict = []
+    if left.protected_capabilities < right.protected_capabilities:
+        strict.append("protected_capabilities")
+    if information_refines(left, right) and left.admissible_models != right.admissible_models:
+        strict.append("information")
+    if left.satisfied_goals < right.satisfied_goals:
+        strict.append("satisfied_goals")
+    if left.verified_contributions < right.verified_contributions:
+        strict.append("verified_contributions")
+    if left.execution_level < right.execution_level:
+        strict.append("execution_truth")
+    return tuple(strict)
+
+
 def compare_states(
     left: SystemState,
     right: SystemState,
@@ -138,57 +163,28 @@ def compare_states(
         return Comparison(left, right, False, False, (), False, "BASIS_TRANSPORT_REQUIRED")
 
     l, r = pair
+    semantic_weak = _semantic_weak(l, r)
+    semantic_strict = _semantic_strict_coordinates(l, r)
+    semantic_equivalent = semantic_weak and _semantic_weak(r, l)
 
-    coordinates = {
-        "protected_capabilities": l.protected_capabilities <= r.protected_capabilities,
-        "information": information_refines(l, r),
-        "satisfied_goals": l.satisfied_goals <= r.satisfied_goals,
-        "verified_contributions": l.verified_contributions <= r.verified_contributions,
-        "execution_truth": l.execution_level <= r.execution_level,
-        "burden": r.burden <= l.burden,
-    }
-    non_regressive = all(coordinates.values())
+    # Burden is a strict-gain coordinate only inside semantic equivalence.
+    # It does not veto a genuine semantic gain merely because that gain costs more.
+    burden_strict = semantic_equivalent and r.burden < l.burden
+    strict = semantic_strict + (("burden",) if burden_strict else ())
 
-    strict = []
-    if l.protected_capabilities < r.protected_capabilities:
-        strict.append("protected_capabilities")
-    if information_refines(l, r) and l.admissible_models != r.admissible_models:
-        strict.append("information")
-    if l.satisfied_goals < r.satisfied_goals:
-        strict.append("satisfied_goals")
-    if l.verified_contributions < r.verified_contributions:
-        strict.append("verified_contributions")
-    if l.execution_level < r.execution_level:
-        strict.append("execution_truth")
-    if r.burden < l.burden:
-        strict.append("burden")
-
-    equivalent = bool(
-        non_regressive
-        and not strict
-        and compare_states_reverse_weak(r, l)
+    non_regressive = semantic_weak or (
+        semantic_equivalent and r.burden <= l.burden
     )
+    equivalent = semantic_equivalent and r.burden == l.burden
+
     return Comparison(
         left,
         right,
         True,
         non_regressive,
-        tuple(strict),
+        strict,
         equivalent,
-        "OK" if non_regressive else "REGRESSION_OR_INCOMPARABLE_COORDINATE",
-    )
-
-
-def compare_states_reverse_weak(left: SystemState, right: SystemState) -> bool:
-    if left.basis_id != right.basis_id:
-        return False
-    return bool(
-        left.protected_capabilities <= right.protected_capabilities
-        and information_refines(left, right)
-        and left.satisfied_goals <= right.satisfied_goals
-        and left.verified_contributions <= right.verified_contributions
-        and left.execution_level <= right.execution_level
-        and right.burden <= left.burden
+        "OK" if non_regressive else "REGRESSION_OR_INCOMPARABLE_SEMANTIC_COORDINATE",
     )
 
 
@@ -222,7 +218,7 @@ def equivalent_state(
     if pair is None:
         return False
     l, r = pair
-    return compare_states_reverse_weak(l, r) and compare_states_reverse_weak(r, l)
+    return _semantic_weak(l, r) and _semantic_weak(r, l) and l.burden == r.burden
 
 
 @dataclass(frozen=True)
