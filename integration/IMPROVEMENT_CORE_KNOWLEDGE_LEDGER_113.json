@@ -42,7 +42,7 @@
       "kind": "SOLUTION",
       "statement": "ImprovementCore regime persists explicit knowledge_events and admitted recursive material transitions into a durable provenance/dependency knowledge ledger.",
       "basis_id": "take5-regime-090",
-      "disposition": "ADMITTED",
+      "disposition": "CURRENT",
       "related_objects": [
         "ImprovementCore",
         "IMPROVEMENT_CORE_KNOWLEDGE_LEDGER_113"
@@ -54,7 +54,11 @@
       "evidence_refs": [
         "architecture/IMPROVEMENT_CORE_MATERIAL_KNOWLEDGE_CAPTURE_113.md",
         "tests/test_improvement_core_knowledge_ledger.py",
-        "tests/test_improvement_core_regime.py"
+        "tests/test_improvement_core_regime.py",
+        "PR #111",
+        "Take-5 Validation 36265770070",
+        "Capability Preservation 36265770012",
+        "merge 4fcbb2ef98e830d648ff09c4630d3440b0c2a1fb"
       ],
       "provenance": [
         {
@@ -63,7 +67,10 @@
         }
       ],
       "metadata": {
-        "validation_status": "PENDING"
+        "validation_status": "SUCCESS",
+        "take5_validation": 36265770070,
+        "capability_preservation": 36265770012,
+        "merge_commit": "4fcbb2ef98e830d648ff09c4630d3440b0c2a1fb"
       }
     }
   ],
@@ -93,6 +100,23 @@
       ],
       "metadata": {
         "validation_status": "PENDING"
+      }
+    },
+    {
+      "sequence": 3,
+      "knowledge_id": "K-knowledge-capture-repair-20260926",
+      "action": "INTEGRATE",
+      "disposition": "CURRENT",
+      "source_episode": "improvecore-record-integrate-dont-lose-ideas-20260926",
+      "source_route": "post-validation-promotion",
+      "evidence_refs": [
+        "PR #111",
+        "Take-5 Validation 36265770070",
+        "Capability Preservation 36265770012",
+        "merge 4fcbb2ef98e830d648ff09c4630d3440b0c2a1fb"
+      ],
+      "metadata": {
+        "validation_status": "SUCCESS"
       }
     }
   ]
