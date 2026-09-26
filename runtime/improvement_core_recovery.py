@@ -39,6 +39,12 @@ REQUIRED_FILES=(
     "runtime/ic028_operator.py",
     "runtime/improvement_core_recursive_manager.py",
     "runtime/improvement_core_learning_memory.py",
+    "integration/IMPROVEMENT_CORE_DURABLE_LEARNING_110.json",
+    "runtime/improvement_core_progress_relation.py",
+    "architecture/IMPROVEMENT_CORE_CANONICAL_PROGRESS_MATHEMATICS_001_2026-09-26.md",
+    "architecture/IMPROVEMENT_CORE_ANTI_REPEAT_110.md",
+    "tests/test_improvement_core_progress_relation.py",
+    "tests/test_improvement_core_anti_repeat_110.py",
     "architecture/IMPROVEMENT_CORE_MAXIMIZATION_081.md",
     "architecture/CROSS_REPOSITORY_IMPROVEMENTCORE_LINEAGE_CHOICE_080.md",
     "research/IMPROVEMENT_CORE_USAGE_AUDIT_078_2026-09-26.md",
@@ -80,6 +86,10 @@ def validate_recovery()->dict:
         failures.append("EXTERNAL_ACQUISITION_MISSING")
     if "improvement_core_tool_bridge" not in CURRENT_REGIME.configured_tool_bridge:
         failures.append("CONFIGURED_TOOL_BRIDGE_MISSING")
+    if "improvement_core_progress_relation" not in CURRENT_REGIME.canonical_progress:
+        failures.append("CANONICAL_PROGRESS_RUNTIME_MISSING")
+    if "IMPROVEMENT_CORE_DURABLE_LEARNING_110.json" not in CURRENT_REGIME.durable_learning:
+        failures.append("DURABLE_LEARNING_SURFACE_MISSING")
 
     if not missing:
         manifest=json.loads(_read("architecture/IMPROVEMENT_CORE_RECOVERY_MANIFEST_082.json"))
@@ -99,6 +109,10 @@ def validate_recovery()->dict:
             failures.append("IMPROVEMENT_CORE_MATH_IDENTITY_DRIFT")
         if math_state.get("runtime")!="runtime/improvement_core_math.py":
             failures.append("IMPROVEMENT_CORE_MATH_RUNTIME_DRIFT")
+        if math_state.get("progress_relation")!="runtime/improvement_core_progress_relation.py":
+            failures.append("IMPROVEMENT_CORE_PROGRESS_RELATION_DRIFT")
+        if math_state.get("durable_learning")!="integration/IMPROVEMENT_CORE_DURABLE_LEARNING_110.json":
+            failures.append("IMPROVEMENT_CORE_DURABLE_LEARNING_DRIFT")
 
         upstream=manifest.get("invocation",{}).get("upstream_discovery")
         if upstream!="runtime/improvement_core_upstream.py":
@@ -109,6 +123,10 @@ def validate_recovery()->dict:
             failures.append("EXTERNAL_ACQUISITION_RUNTIME_MISSING")
         if regime.get("configured_tool_bridge")!="runtime/improvement_core_tool_bridge.py":
             failures.append("CONFIGURED_TOOL_BRIDGE_RUNTIME_MISSING")
+        if regime.get("canonical_progress")!="runtime/improvement_core_progress_relation.py":
+            failures.append("CANONICAL_PROGRESS_RUNTIME_DRIFT")
+        if regime.get("durable_learning")!="integration/IMPROVEMENT_CORE_DURABLE_LEARNING_110.json":
+            failures.append("DURABLE_LEARNING_RUNTIME_DRIFT")
         if regime.get("recursive_activation")!="LIVE_CONTINUATION":
             failures.append("RECURSIVE_ACTIVATION_CONTRACT_MISSING")
         if regime.get("learning_activation")!="RECURSIVE_ROUTE_GATE_AND_STAGE_LEARNING_EVENTS":
@@ -123,6 +141,10 @@ def validate_recovery()->dict:
             failures.append("RECOVERY_ANCHOR_REGIME_VERSION_DRIFT")
         if "selected formal tool must cross the configured execution bridge" not in anchor:
             failures.append("CONFIGURED_TOOL_EXECUTION_ANCHOR_MISSING")
+        if "canonical strict progress, not raw artifact novelty, governs recursive gain" not in anchor:
+            failures.append("CANONICAL_PROGRESS_ANCHOR_MISSING")
+        if "certified negative route learning is durable" not in anchor:
+            failures.append("DURABLE_LEARNING_ANCHOR_MISSING")
 
         if manifest.get("open") not in ([], ()):
             failures.append("RECOVERY_MANIFEST_OPEN_COORDINATES_STALE")
