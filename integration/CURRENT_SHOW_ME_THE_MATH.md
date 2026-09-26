@@ -14,7 +14,7 @@ object, relative to the declared job and typed external environment.
 
 Canonical condition:
 
-ShowMathComplete_(J,K)(T;E0)
+ShowMathComplete_(J,K)(Package,T;E0)
 
 iff the load-bearing symbol graph is recursively closed, initialization is executable,
 runtime primitives are explicitly typed and available, persistence is specified, and
