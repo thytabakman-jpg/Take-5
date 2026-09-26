@@ -170,6 +170,8 @@ architecture/IMPROVEMENT_CORE_ACTIVATION_083.md
 54. direct run_improvement_core_regime remains the one-pass controlled/debug surface.
 55. selected registered formal tools inherit FULL_CONFIGURED_HF2_V1 rather than a one-shot bridge convention.
 56. selected-tool recurrence identity is carried by ConfiguredRunSpec and ToolExecutionPlan and checked by the whole-repertoire audit.
+57. exact external ZIP evidence is fail-closed against immutable source byte-count/hash before entering artifact intake.
+58. every declared ZIP member is accounted for, while binary/encrypted/unreadable members remain explicit unresolved evidence rather than disappearing.
 
 ## Cross-repository lineage
 
@@ -281,6 +283,9 @@ Open-world global maximality/minimality is not a licensed completion claim. Curr
 20. runtime/improvement_core_regime.py
 20. runtime/improvement_core_external_acquisition.py
 21. architecture/IMPROVEMENT_CORE_EXTERNAL_ACQUISITION_090.md
+22. architecture/ARTIFACT_TO_WORK_INTAKE_CONTRACT_001_2026-09-25.md
+23. runtime/artifact_intake.py
+24. runtime/archive_artifact_intake.py
 22. runtime/improvement_core_manager.py
 23. runtime/ic028_operator.py
 24. runtime/improvement_core_tool_bridge.py
@@ -456,6 +461,8 @@ When state signals a material need for fresh/outside evidence or an external cap
 When the need is material and no adequate adapter is available, the regime returns a typed OPEN gap rather than treating internal guessing as completion.
 
 External outputs remain evidence. They still pass through normal admission, verification, authority, currentness, and reentry controls.
+
+When the external evidence is a bound ZIP archive, runtime/archive_artifact_intake.py verifies the immutable source byte-count/hash, accounts for every declared member, routes UTF-8 text members into the existing ArtifactRecord path with source/member provenance, and preserves non-text or unreadable members as unresolved evidence. This adapter remains subordinate to external acquisition and artifact_intake; it is not a peer controller.
 
 Automatic discovery of every external-host capability remains outside the repository unless the host exposes an adapter. Universal host interception is classified EXTERNAL_NOT_OWNED.
 
