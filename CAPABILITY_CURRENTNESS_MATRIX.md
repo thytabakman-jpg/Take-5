@@ -55,7 +55,7 @@ Matrix 001 is superseded because it predated C20-C48 bindings, prospective holdo
 
 ## 2026-09-25 ICC-128 closure delta
 
-Pending PR #24 validation:
+Validated and merged through PR #24. Validation run 36203721183 concluded SUCCESS:
 - common typed protected state commit contract: implemented;
 - SYSTEM_CONTROL mutation/discharge gate: implemented;
 - persistent LINEAGE commit gate: implemented;
@@ -65,4 +65,4 @@ Pending PR #24 validation:
 - unique default RESULT path registry: implemented;
 - pre-math object hypothesis recovery: implemented.
 
-These rows become implemented + tested only after the PR validation gate passes.
+These rows are implemented + tested on the validated PR head and merged to main.
