@@ -15,6 +15,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
+from configured_hf2_execution import execute_configured_with_hf2
 from configured_run import (
     COGNITIVE_OPERATORS,
     DEFAULT_GEOMETRY,
@@ -144,9 +145,76 @@ def execute_protected_transition(
     if not evidence["configured_dispatch"]:
         raise ToolExecutionBlocked("PTI_DISPATCH_WITNESS_MISSING")
 
-    executed,execution_ev=execute_fn(dispatched,plan)
-    evidence["execution"]=str(execution_ev or "")
-    if not evidence["execution"]:
+    execution_refs=[]
+
+    def protected_adapter(current, current_plan):
+        payload=current.get("payload") if isinstance(current,dict) else current
+        ret=execute_fn(payload,current_plan)
+
+        if not isinstance(ret,tuple) or len(ret) not in {2,3}:
+            raise ToolExecutionBlocked(
+                "PTI_EXECUTE_FN_MUST_RETURN_VALUE_EVIDENCE_OR_VALUE_EVIDENCE_HINTS"
+            )
+
+        executed_value,execution_ev=ret[0],ret[1]
+        hints=ret[2] if len(ret)==3 else {}
+        if not str(execution_ev or ""):
+            raise ToolExecutionBlocked("PTI_EXECUTION_WITNESS_MISSING")
+        if hints is None:
+            hints={}
+        if not isinstance(hints,dict):
+            raise ToolExecutionBlocked("PTI_HF2_HINTS_REQUIRE_MAPPING")
+
+        execution_refs.append(str(execution_ev))
+        next_payload=hints.get("next_payload",payload)
+
+        raw={
+            "status":str(hints.get("status","EXECUTED")),
+            "execution_truth":str(
+                hints.get("execution_truth","IMPLEMENTATION_EXECUTED")
+            ),
+            "state":{"payload":next_payload},
+            "result":executed_value,
+            "material_delta":bool(hints.get("material_delta",False)),
+            "hf2_live_local":bool(hints.get("hf2_live_local",False)),
+            "hf2_local_close":bool(
+                hints.get(
+                    "hf2_local_close",
+                    not bool(hints.get("hf2_live_local",False)),
+                )
+            ),
+            "trc_terminal":bool(hints.get("trc_terminal",True)),
+            "hf1_disposition":str(hints.get("hf1_disposition","STABLE")),
+            "evidence":(str(execution_ev),),
+        }
+        if hints.get("hf2_delta") is not None:
+            raw["hf2_delta"]=hints["hf2_delta"]
+        if hints.get("hf1_targets") is not None:
+            raw["hf1_targets"]=hints["hf1_targets"]
+        if hints.get("invalidating_evidence"):
+            raw["invalidating_evidence"]=True
+        if hints.get("certified_no_gain"):
+            raw["certified_no_gain"]=True
+        return raw
+
+    recurrence=execute_configured_with_hf2(
+        tool_id=spec.tool_id,
+        plan=plan,
+        state={"payload":dispatched},
+        adapter=protected_adapter,
+    )
+    if recurrence.status not in {"RELATIVE_CLOSE","SELF_CLOSE"}:
+        raise ToolExecutionBlocked(
+            f"PTI_HF2_RECURRENCE_NOT_CLOSED:{spec.tool_id}:{recurrence.status}"
+        )
+
+    executed=recurrence.last_raw.get("result")
+    evidence["execution"]=(
+        f"configured-recurrence:{recurrence.recurrence_engine}:"
+        f"{recurrence.status}:rounds={recurrence.rounds};"
+        +"|".join(execution_refs)
+    )
+    if not execution_refs:
         raise ToolExecutionBlocked("PTI_EXECUTION_WITNESS_MISSING")
 
     consumed,consume_ev=consume_fn(executed,plan)

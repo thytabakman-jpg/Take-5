@@ -92,3 +92,33 @@ Portable closure requires portability_open_set() = empty.
 
 Until then, Tool Conductor itself is executable, but exhaustive cross-machine
 execution of the entire repertoire remains OPEN.
+
+
+## Configured-factor invocation update
+
+For every non-self factor that actually executes in the current Take-5 runtime, the lifted
+factor is now evaluated through the current configured invocation profile:
+
+T~_i(x,c)
+=
+ConfiguredInvoke_i(a_i(x,c)).
+
+ConfiguredInvoke_i includes the current D36_C plan and the configured recurrence engine.
+
+For ordinary registered factors:
+
+RecurrenceEngine(i)=HF002.
+
+For HF002:
+
+RecurrenceEngine(HF002)=SELF.
+
+The conductor-level coverage law is unchanged:
+
+forall i in I, exactly one conductor-level disposition is emitted.
+
+HF2 recurrence is internal to one factor invocation, so one factor may execute its native
+adapter more than once without violating exhaustive product cardinality.
+
+The active ToolConductor factor remains SELF_WITNESS and does not recursively spawn a second
+ToolConductor.

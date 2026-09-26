@@ -47,3 +47,46 @@ def test_conductor_emits_exactly_one_disposition_per_registered_tool():
     assert tuple(r["tool_id"] for r in out["results"]) == tuple(MATERIAL_TOOLS)
     assert len({r["tool_id"] for r in out["results"]}) == len(MATERIAL_TOOLS)
     assert out["status"] == "OPEN"
+
+
+
+def test_every_conductor_factor_exposes_current_full_invocation_plan():
+    out=run_tool_conductor({})
+    assert out["tool_count"]==len(MATERIAL_TOOLS)
+    for row in out["results"]:
+        plan=row["configured_plan"]
+        assert plan["wrapper_required"] is True
+        assert plan["geometry"]=="D36_C"
+        assert plan["cell_count"]==36
+        assert plan["question_count"]==22*36
+        assert plan["cognitive_count"]==4*36
+        assert plan["recurrence_required"] is True
+        assert plan["recurrence_engine"]==(
+            "SELF" if row["tool_id"]=="HF002" else "HF002"
+        )
+        assert plan["invocation_profile"]=="FULL_CONFIGURED_HF2_V1"
+
+
+def test_conductor_factor_can_recur_under_hf2_without_duplicate_factor_dispositions():
+    calls=[]
+
+    def mt_adapter(packet):
+        n=len(calls)+1
+        calls.append(n)
+        return {
+            "status":"EXECUTED",
+            "execution_truth":"SEMANTICALLY_APPLIED",
+            "result":{"round":n},
+            "material_delta":True,
+            "hf2_live_local":n<2,
+        }
+
+    out=run_tool_conductor({},adapters={"MT":mt_adapter})
+    mt=[row for row in out["results"] if row["tool_id"]=="MT"]
+    assert len(mt)==1
+    assert calls==[1,2]
+    assert mt[0]["status"]=="EXECUTED"
+    assert mt[0]["recurrence"]["engine"]=="HF002"
+    assert mt[0]["recurrence"]["status"]=="RELATIVE_CLOSE"
+    assert mt[0]["recurrence"]["rounds"]==2
+    assert mt[0]["recurrence"]["call_count"]==2
