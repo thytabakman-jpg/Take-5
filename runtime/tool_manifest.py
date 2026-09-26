@@ -139,6 +139,12 @@ IMPROVEMENT_CORE_BINDINGS=GENERIC_BINDINGS+(
         "tests/test_improvement_core_knowledge_ledger.py",
     ),
     ProtectedBinding(
+        "IMPROVEMENTCORE_CONFIGURED_TOOL_DURABLE_KNOWLEDGE_CAPTURE",
+        "CROSS",
+        "runtime/improvement_core_regime.py",
+        "tests/test_improvement_core_regime.py",
+    ),
+    ProtectedBinding(
         "IMPROVEMENTCORE_STRICT_PROGRESS",
         "POST",
         "runtime/improvement_core_progress_relation.py",
@@ -200,6 +206,12 @@ IMPROVEMENT_CORE_BINDINGS=GENERIC_BINDINGS+(
         "CROSS",
         "runtime/improvement_core_knowledge_ledger.py",
         "tests/test_improvement_core_knowledge_ledger.py",
+    ),
+    ProtectedBinding(
+        "IMPROVEMENTCORE_CONFIGURED_TOOL_DURABLE_KNOWLEDGE_CAPTURE",
+        "CROSS",
+        "runtime/improvement_core_regime.py",
+        "tests/test_improvement_core_regime.py",
     ),
     ProtectedBinding(
         "IMPROVEMENTCORE_STRICT_PROGRESS",
