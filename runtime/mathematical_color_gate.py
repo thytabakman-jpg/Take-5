@@ -127,7 +127,7 @@ FORMAL_OBJECT_PATTERN = re.compile(
 FORBIDDEN_RAW_MARKUP = ("<span", "</span>", "style=", "color:")
 FORBIDDEN_FALLBACK_MARKERS = ("🟢", "🔴")
 MATH_SIGNAL_PATTERN = re.compile(
-    r"(\(?:color|boxed|Gamma|varphi|vdash|nvdash|neq|Rightarrow|implies|iff|land|lor|mu|operatorname)"
+    r"(\\(?:color|boxed|Gamma|varphi|vdash|nvdash|neq|Rightarrow|implies|iff|land|lor|mu|operatorname)"
     r"|\$|[=≠→⇒⇔∧∨⊢⊬∈∉∀∃μΓφ])"
 )
 COLORED_FORMAL_LABEL_PATTERN = re.compile(
