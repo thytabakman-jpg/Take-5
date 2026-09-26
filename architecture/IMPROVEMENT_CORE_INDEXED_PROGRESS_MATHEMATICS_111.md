@@ -1,7 +1,7 @@
 # ImprovementCore Indexed Progress Mathematics 111
 
 Date: 2026-09-26
-Status: REGIME-090 STRICT-GAIN SUCCESSOR CANDIDATE
+Status: VALIDATED REGIME-090 STRICT-GAIN SUCCESSOR / PR ADMISSION PENDING
 Base: Take-5 regime 090
 Controller target: ImprovementCore
 Primary defect attacked: transition-local progress evidence was being asked to serve as the global strict-improvement relation
@@ -703,3 +703,21 @@ The recovered/current finite mathematics does not license:
 - cross-basis comparison without an admitted common comparison frame.
 
 Those remain explicitly OPEN or rejected as global completion criteria.
+
+
+## 22. Regime-090 validation evidence
+
+IC123 Math Recovery 001:
+- run 36249781890: SUCCESS
+- focused regressions: 73 PASS
+- ASSERT compound fixed point: CLOSED
+- ASSERT full D36_C: COMPLETE
+- MT before-return black-box lifecycle: CLOSED_RELATIVE
+- RootCause HF2 selected UNTYPED_COMPARISON_RELATION as the upstream generator in the frozen campaign
+- QuestionWorthAsking selected the transitive-order question
+- SolutionToMyProblem admitted INDEXED_PREORDER_REPAIR
+- configured baseline tool bridge executed the complete campaign tool set
+- ImproveCore preserved the plural nondominated frontier rather than forcing a scalar winner
+- campaign receipt artifact uploaded
+
+This is branch-level validation. Current-system promotion still requires Take-5 Validation and Capability Preservation on the pull request.
