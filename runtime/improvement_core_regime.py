@@ -4,6 +4,9 @@ This composition makes the rich IC-028 stage manager the first governed pass,
 then activates recursive parent/child management when the resulting state still
 has live continuation. Basis-relative learning memory participates in recursive
 route selection and can also receive typed learning events from the stage state.
+
+Regime 084 is entered by a dispatcher that can now generate a governed
+zero-request observation seed before this stage manager runs.
 """
 from dataclasses import dataclass
 from typing import Any, Callable
@@ -15,7 +18,7 @@ from improvement_core_manager import (
 from improvement_core_recursive_manager import RecursiveImprovementCoreManager
 from improvement_core_learning_memory import LearningMemory
 
-REGIME_VERSION="083"
+REGIME_VERSION="084"
 
 @dataclass(frozen=True)
 class ImprovementCoreRegime:
