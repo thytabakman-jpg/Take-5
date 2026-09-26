@@ -1,7 +1,7 @@
 # ImprovementCore Material Knowledge Capture 113
 
 Date: 2026-09-26
-Status: CANDIDATE IMPLEMENTATION / VALIDATION PENDING
+Status: CURRENT / VALIDATED / REPOSITORY-GOVERNED CLOSED_RELATIVE
 Controller: ImprovementCore
 Canonical repository: thytabakman-jpg/Take-5
 
@@ -166,7 +166,7 @@ It does not imply that Take-5 can enumerate or capture:
 
 Therefore:
 
-RepositoryGovernedMaterialCapture = candidate CLOSED_RELATIVE pending validation.
+RepositoryGovernedMaterialCapture = CLOSED_RELATIVE.
 
 UniversalRecordEverything = OPEN / EXTERNAL_NOT_OWNED where source events never enter the system.
 
@@ -186,3 +186,16 @@ The prior problem "we record many things but a material idea can still fall betw
 the durable system" has a direct runtime repair.
 
 The stronger open-world claim "nothing anywhere can ever be lost" remains unlicensed.
+
+
+## Validation evidence
+
+PR #111
+- merge: 4fcbb2ef98e830d648ff09c4630d3440b0c2a1fb
+- Take-5 Validation: 36265770070 SUCCESS
+- Capability Preservation: 36265770012 SUCCESS
+
+The validation suite exercised explicit knowledge-event persistence, fresh-process reload,
+duplicate integration, supersession preservation, unresolved querying, recursive material
+transition capture, the full Take-5 suite, whole-system audit, closed-loop fixture, and
+zero-request dump.
