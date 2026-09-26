@@ -451,11 +451,11 @@ def configured_tool_adapters():
     }
 
 
-def handlers():
+def handlers(*, handoffs_override=None):
     snap = capability_snapshot()
     inventory = file_inventory()
     candidates = improvement_candidates(snap)
-    handoffs = structured_handoffs()
+    handoffs = structured_handoffs() if handoffs_override is None else tuple(handoffs_override)
     handoff_signal, handoff_counts = handoff_candidate_signal(handoffs)
     candidate_by_id = {c["id"]: c for c in candidates}
 
