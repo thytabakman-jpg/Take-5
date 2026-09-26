@@ -18,7 +18,7 @@ from improvement_core_manager import (
 from improvement_core_recursive_manager import RecursiveImprovementCoreManager
 from improvement_core_learning_memory import LearningMemory
 
-REGIME_VERSION="085"
+REGIME_VERSION="086"
 
 @dataclass(frozen=True)
 class ImprovementCoreRegime:
