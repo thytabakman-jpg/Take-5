@@ -95,6 +95,36 @@ HF001_BINDINGS=GENERIC_BINDINGS+(
     ),
 )
 
+HF002_BINDINGS=GENERIC_BINDINGS+(
+    ProtectedBinding(
+        "HF002_LOCAL_RECURSIVE_CONTINUATION",
+        "INTRA",
+        "runtime/hf002_recursive_continuation.py",
+        "tests/test_root_cause_hf2.py",
+    ),
+)
+
+ROOT_CAUSE_BINDINGS=GENERIC_BINDINGS+(
+    ProtectedBinding(
+        "ROOT_CAUSE_ROOTNESS_SELECTOR",
+        "INTRA",
+        "runtime/root_cause.py",
+        "tests/test_root_cause_hf2.py",
+    ),
+    ProtectedBinding(
+        "ROOT_CAUSE_HF002_LOCAL_RECURRENCE",
+        "INTRA",
+        "runtime/root_cause.py",
+        "tests/test_root_cause_hf2.py",
+    ),
+    ProtectedBinding(
+        "ROOT_CAUSE_IMPROVEMENTCORE_PARENT_HANDOFF",
+        "POST",
+        "runtime/root_cause_managed.py",
+        "tests/test_root_cause_hf2.py",
+    ),
+)
+
 ASSERT_BINDINGS=GENERIC_BINDINGS+(
     ProtectedBinding(
         "ASSERT_COMPOUND_STAGE_ORDER",
@@ -138,6 +168,22 @@ OVERRIDES={
         closure_contract="TRC",
         reentry_contract="HF001",
         bindings=HF001_BINDINGS,
+    ),
+    "HF002":ToolManifest(
+        tool_id="HF002",
+        native_semantics="HF002",
+        geometry_policy="INHERIT_WRAPPED_CAPABILITY",
+        closure_contract="LOCAL_RELATIVE_CLOSE",
+        reentry_contract="HF001",
+        bindings=HF002_BINDINGS,
+    ),
+    "RootCause":ToolManifest(
+        tool_id="RootCause",
+        native_semantics="RootCause",
+        geometry_policy="D36_C",
+        closure_contract="TRC_LOCAL_ROOT_CLOSE",
+        reentry_contract="HF002_THEN_IMPROVEMENTCORE",
+        bindings=ROOT_CAUSE_BINDINGS,
     ),
     "ASSERT":ToolManifest(
         tool_id="ASSERT",
