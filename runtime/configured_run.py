@@ -23,6 +23,7 @@ class ConfiguredRunSpec:
     required_cognitive_ops:tuple[str,...]=COGNITIVE_OPERATORS
     manifest_id:str=""
     protected_behaviors:tuple[str,...]=()
+    protected_transition_required:bool=True
 
     def complete(self):
         manifest_id=self.manifest_id or self.tool_id
@@ -39,7 +40,11 @@ class ConfiguredRunSpec:
             and bool(self.required_layers)
             and self.question_families == QUESTION_FAMILIES
             and self.required_cognitive_ops == COGNITIVE_OPERATORS
-            and reconstructs(manifest_id,self.protected_behaviors)
+            and self.protected_transition_required
+            and reconstructs(
+                manifest_id,
+                tuple(self.protected_behaviors)+("PROTECTED_TRANSITION_INTEGRITY",),
+            )
         )
 
 def validate_specs(specs):

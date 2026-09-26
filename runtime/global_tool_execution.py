@@ -24,10 +24,22 @@ from configured_run import (
 )
 from run_geometry import ModeFace
 from scope_ontology import Scope
+from protected_transition_integrity import (
+    COORDINATES,
+    PTIState,
+    ProtectedTransitionReceipt,
+    require_protected_transition,
+)
 
 
 class ToolExecutionBlocked(RuntimeError):
     pass
+
+
+@dataclass(frozen=True)
+class ProtectedExecutionResult:
+    value: object
+    transition_receipt: ProtectedTransitionReceipt
 
 
 @dataclass(frozen=True)
@@ -89,3 +101,69 @@ def build_tool_execution_plan(spec: ConfiguredRunSpec, *, requested_mode: str | 
     if not plan.complete:
         raise ToolExecutionBlocked(f"GLOBAL_TOOL_EXECUTION_INCOMPLETE:{spec.tool_id}")
     return plan
+
+
+
+def execute_protected_transition(
+    spec: ConfiguredRunSpec,
+    *,
+    behavior_id: str,
+    dispatch_fn,
+    execute_fn,
+    consume_fn,
+    update_fn,
+    reentry_fn,
+    emission_audit_fn,
+    requested_mode: str | None=None,
+) -> ProtectedExecutionResult:
+    """Execute one repository-governed configured transition end to end.
+
+    Each callback returns (value, evidence_ref) except emission_audit_fn, which
+    returns an evidence_ref after auditing the final user-visible projection.
+
+    The chain is fail-closed: no successful configured execution result is
+    returned until every PTI coordinate has a non-empty witness.
+    """
+    plan=build_tool_execution_plan(spec,requested_mode=requested_mode)
+    evidence={
+        "canonical_identity":f"configured_run:{spec.tool_id}",
+    }
+
+    dispatched,dispatch_ev=dispatch_fn(plan)
+    evidence["configured_dispatch"]=str(dispatch_ev or "")
+    if not evidence["configured_dispatch"]:
+        raise ToolExecutionBlocked("PTI_DISPATCH_WITNESS_MISSING")
+
+    executed,execution_ev=execute_fn(dispatched,plan)
+    evidence["execution"]=str(execution_ev or "")
+    if not evidence["execution"]:
+        raise ToolExecutionBlocked("PTI_EXECUTION_WITNESS_MISSING")
+
+    consumed,consume_ev=consume_fn(executed,plan)
+    evidence["result_consumption"]=str(consume_ev or "")
+    if not evidence["result_consumption"]:
+        raise ToolExecutionBlocked("PTI_CONSUMPTION_WITNESS_MISSING")
+
+    updated,update_ev=update_fn(consumed,plan)
+    evidence["state_update"]=str(update_ev or "")
+    if not evidence["state_update"]:
+        raise ToolExecutionBlocked("PTI_STATE_UPDATE_WITNESS_MISSING")
+
+    reentered,reentry_ev=reentry_fn(updated,plan)
+    evidence["reentry"]=str(reentry_ev or "")
+    if not evidence["reentry"]:
+        raise ToolExecutionBlocked("PTI_REENTRY_WITNESS_MISSING")
+
+    emission_ev=emission_audit_fn(reentered,plan)
+    evidence["user_visible_boundary"]=str(emission_ev or "")
+    if not evidence["user_visible_boundary"]:
+        raise ToolExecutionBlocked("PTI_EMISSION_WITNESS_MISSING")
+
+    receipt=ProtectedTransitionReceipt(
+        object_id=spec.tool_id,
+        behavior_id=behavior_id,
+        coordinates={x:PTIState.VERIFIED for x in COORDINATES},
+        evidence=evidence,
+    )
+    require_protected_transition(receipt)
+    return ProtectedExecutionResult(reentered,receipt)
