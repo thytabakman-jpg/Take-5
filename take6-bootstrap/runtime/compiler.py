@@ -5,7 +5,12 @@ from collections import defaultdict, deque
 import hashlib
 import json
 from pathlib import Path
-from typing import Any, Iterable
+from typing import Any, Callable, Iterable
+
+STATE_CHANGING_KINDS = {
+    "ADMIT", "PROMOTE", "SUPERSEDE", "REJECT",
+    "OPEN", "BLOCK", "CONFLICT", "RELATE",
+}
 
 def _canon(v: Any) -> bytes:
     return json.dumps(v, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
@@ -49,7 +54,13 @@ def _topological(events: list[dict[str, Any]]) -> list[dict[str, Any]]:
         raise RuntimeError("TAKE6_EVENT_GRAPH_CYCLE")
     return out
 
-def compile_state(events: Iterable[dict[str, Any]]) -> dict[str, Any]:
+def compile_state(
+    events: Iterable[dict[str, Any]],
+    *,
+    compiler_cid: str,
+    authority_policy_cid: str,
+    authorize: Callable[[dict[str, Any]], bool],
+) -> dict[str, Any]:
     ordered = _topological(list(events))
     admitted: dict[str, set[str]] = defaultdict(set)
     rejected: dict[str, set[str]] = defaultdict(set)
@@ -60,6 +71,9 @@ def compile_state(events: Iterable[dict[str, Any]]) -> dict[str, Any]:
         subject = e["subject"]
         payload = e["payload_cid"]
         kind = e["kind"]
+        if kind in STATE_CHANGING_KINDS and not authorize(e):
+            raise RuntimeError("TAKE6_UNAUTHORIZED_EVENT:" + e["event_id"])
+
         if kind in {"ADMIT", "PROMOTE"}:
             admitted[subject].add(payload)
         elif kind == "REJECT":
@@ -105,7 +119,9 @@ def compile_state(events: Iterable[dict[str, Any]]) -> dict[str, Any]:
         }
 
     result = {
-        "schema_version": "0.1",
+        "schema_version": "0.2",
+        "compiler_cid": compiler_cid,
+        "authority_policy_cid": authority_policy_cid,
         "subjects": compiled,
     }
     result["state_cid"] = state_cid(result)
@@ -115,8 +131,20 @@ def load_events(root: Path | str) -> list[dict[str, Any]]:
     paths = sorted((Path(root) / "events").glob("*.json"))
     return [json.loads(p.read_text(encoding="utf-8")) for p in paths]
 
-def compile_to_file(ledger_root: Path | str, output: Path | str) -> dict[str, Any]:
-    result = compile_state(load_events(ledger_root))
+def compile_to_file(
+    ledger_root: Path | str,
+    output: Path | str,
+    *,
+    compiler_cid: str,
+    authority_policy_cid: str,
+    authorize: Callable[[dict[str, Any]], bool],
+) -> dict[str, Any]:
+    result = compile_state(
+        load_events(ledger_root),
+        compiler_cid=compiler_cid,
+        authority_policy_cid=authority_policy_cid,
+        authorize=authorize,
+    )
     path = Path(output)
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8")
