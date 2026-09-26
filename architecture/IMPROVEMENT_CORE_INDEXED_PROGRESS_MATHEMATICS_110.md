@@ -1,7 +1,7 @@
 # ImprovementCore Indexed Progress Mathematics 110
 
 Date: 2026-09-26
-Status: IC123-COORDINATED STRICT-GAIN CANDIDATE
+Status: VALIDATED STRICT-GAIN COMPARISON MATHEMATICS / PROPOSED CURRENT
 Base: current Take-5 main
 Controller target: ImprovementCore
 Primary defect attacked: transition-local progress evidence was being asked to serve as the global strict-improvement relation
@@ -292,7 +292,48 @@ Where this cannot be established, cross-basis transitivity remains OPEN.
 
 This is the missing path-coherence condition from the earlier mathematics.
 
-## 9. Transitivity result
+## 9. Episode-wide comparison frame
+
+Pairwise certificates are not enough for a long chain when each pair is free to choose a different comparison basis.
+
+For one improvement episode define:
+
+Omega
+=
+<
+omega,
+{T_beta->omega}_{beta in B_episode},
+Protect,
+Authority,
+Evidence
+>.
+
+Every participating state is transported into the same comparison basis omega.
+
+Then:
+
+x <_Omega y
+
+iff
+
+T_beta->omega(x)
+<_omega
+T_gamma->omega(y).
+
+This makes the comparison frame itself part of the claim.
+
+A basis missing an admitted transport into Omega is not comparable in that episode.
+
+The finite executable witness is:
+
+ComparisonFrame(
+  common_basis=omega,
+  transports={beta:T_beta->omega}
+).
+
+Because one transport is fixed per participating basis, pairwise frame drift is eliminated inside the episode.
+
+## 10. Transitivity result
 
 Within a fixed basis, <=_beta is a preorder because every coordinate relation is reflexive and transitive.
 
@@ -314,7 +355,7 @@ only when the comparison transports compose coherently.
 
 The implementation includes a same-basis transitivity regression and cross-basis transport witness.
 
-## 10. One-step transition certification
+## 11. One-step transition certification
 
 A transition receipt is:
 
@@ -371,7 +412,7 @@ EXECUTED != CONSUMED
 
 REPOSITORY_FIXED != HOST_VISIBLE_FIXED.
 
-## 11. NoGain memory
+## 12. NoGain memory
 
 For a certified no-gain route record:
 
@@ -393,7 +434,7 @@ Retry is blocked while:
 
 Thus negative evidence is causally active.
 
-## 12. Semantic cycles
+## 13. Semantic cycles
 
 Let q_t be the continuation-equivalence / semantic class of x_t.
 
@@ -407,7 +448,7 @@ Raw artifact IDs, timestamps and file churn do not defeat the cycle test.
 
 The cycle is blocked until a relevant basis/dependency change reopens it.
 
-## 13. Closure
+## 14. Closure
 
 Let L_beta(x) be the live admissible frontier after NoGain blocking and current routing.
 
@@ -436,7 +477,7 @@ REGRESSION.
 
 Resource exhaustion never implies semantic closure.
 
-## 14. Fixed-basis anti-repeat / finite termination bound
+## 15. Fixed-basis anti-repeat / finite termination bound
 
 Assume:
 - fixed basis beta;
@@ -456,7 +497,7 @@ It is not an open-world termination theorem.
 
 A material basis expansion starts a new comparison episode.
 
-## 15. ImproveCore self-improvement
+## 16. ImproveCore self-improvement
 
 Let C and C' be current and successor controllers.
 
@@ -473,7 +514,7 @@ A controller does not self-certify because it generated its own successor.
 Self-application produces evidence.
 Admission remains a separate operation.
 
-## 16. Tool algebra
+## 17. Tool algebra
 
 Frontier sum:
 
@@ -512,7 +553,7 @@ is licensed only while each factor produces:
 
 An unchanged NO_GAIN factor blocks blind repetition.
 
-## 17. ImproveCore controller consequence
+## 18. ImproveCore controller consequence
 
 The controller remains set-valued.
 
@@ -563,7 +604,7 @@ basis-relative closure.
 
 No new scalar objective is introduced.
 
-## 18. Current candidate implementation
+## 19. Validated implementation
 
 Runtime:
 runtime/improvement_core_order_math.py
@@ -577,4 +618,20 @@ runtime/ic123_math_recovery_campaign.py
 CI:
 .github/workflows/ic123-math-recovery-001.yml
 
-Promotion remains blocked until CI and current-main regression evidence pass.
+Validation evidence:
+
+- IC123 Math Recovery 001 run 36249306975: SUCCESS
+- 61 focused baseline/math regressions: PASS
+- ASSERT compound + full36: PASS
+- MT synchronous black-box lifecycle: PASS
+- RootCause HF2: PASS
+- QuestionWorthAsking: PASS
+- SolutionToMyProblem: PASS
+- ImproveCore math spine: PASS
+- configured-tool execution bridge: PASS
+- coordinated IC123 campaign: PASS
+- campaign artifact 10907903760 uploaded
+
+The campaign also falsified one attempted shortcut: the ImproveCore router correctly preserved a plural nondominated frontier between the indexed-preorder repair and a cheaper effect-label patch. The problem-completion layer, not scalar routing, eliminates the insufficient patch because it does not satisfy the required mathematical effects.
+
+This mathematics is proposed as the current comparison/progress layer while C+ remains the current controller-dynamics abstraction.
