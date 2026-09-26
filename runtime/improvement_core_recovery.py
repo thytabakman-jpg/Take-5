@@ -25,6 +25,7 @@ REQUIRED_FILES=(
     "architecture/IMPROVEMENT_CORE_MATH_CORPUS_INTEGRATION_090.md",
     "tests/test_improvement_core_math_086.py",
     "runtime/improvement_core_dispatch.py",
+    "tests/test_improvement_core_mode_profile.py",
     "runtime/improvement_core_upstream.py",
     "runtime/improvement_core_external_acquisition.py",
     "runtime/improvement_core_regime.py",
@@ -99,7 +100,7 @@ def validate_recovery()->dict:
             failures.append("MAXIMIZATION_STATUS_STALE")
 
         anchor=_read("integration/CURRENT_IMPROVEMENT_CORE.md")
-        if "Current regime version:\n- 086" not in anchor:
+        if "Current regime version:\n- 087" not in anchor:
             failures.append("RECOVERY_ANCHOR_REGIME_VERSION_DRIFT")
 
         handoff=_read("integration/ICC_SHUTDOWN_HANDOFF_2026-09-25.md")
