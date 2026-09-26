@@ -24,6 +24,8 @@ RHO=ROOT/"legacy/icc128-legacy/snapshot/runtime/rho128_policy.py"
 RHO_CONTRACT=ROOT/"legacy/icc128-legacy/snapshot/contracts/ICC128_RHO_POLICY_CURRENT.yaml"
 CANDIDATE=ROOT/"runtime/improvement_core_legacy_candidate.py"
 CANDIDATE_TESTS=ROOT/"tests/test_improvement_core_legacy_candidate.py"
+RESTORED=ROOT/"runtime/improvement_core_legacy_restored.py"
+RESTORED_TESTS=ROOT/"tests/test_improvement_core_legacy_restored.py"
 
 def read(p): return p.read_text(encoding="utf-8")
 
@@ -36,6 +38,10 @@ def evidence_snapshot():
     candidate_text=read(CANDIDATE) if candidate else ""
     tests=CANDIDATE_TESTS.exists()
     tests_text=read(CANDIDATE_TESTS) if tests else ""
+    restored=RESTORED.exists()
+    restored_text=read(RESTORED) if restored else ""
+    restored_tests=RESTORED_TESTS.exists()
+    restored_tests_text=read(RESTORED_TESTS) if restored_tests else ""
     return {
         "fixed_goal_directed_stage_train":"GOAL_DIRECTED_STAGES=(" in operator,
         "goal_stage_count":len(GOAL_DIRECTED_STAGES),
@@ -54,10 +60,15 @@ def evidence_snapshot():
         "candidate_tests_present":tests,
         "candidate_reuses_legacy":"icc128_legacy.activate()" in candidate_text,
         "candidate_uses_current_tool_bridge":"execute_bound_tools" in candidate_text,
-        "candidate_entry_contract":"bind_entry_contract" in candidate_text,
-        "candidate_external_acquisition":"acquire_external" in candidate_text,
-        "candidate_knowledge_ledger":"KnowledgeLedger" in candidate_text,
-        "candidate_outer_hf2":"HF002RecursiveContinuation" in candidate_text or "run_improvement_core_with_hf2" in candidate_text,
+        "candidate_entry_contract":"bind_entry_contract" in restored_text,
+        "candidate_external_acquisition":"acquire_external" in restored_text,
+        "candidate_knowledge_ledger":"KnowledgeLedger" in restored_text,
+        "candidate_outer_hf2":"HF002RecursiveContinuation" in restored_text,
+        "restored_wrapper_present":restored,
+        "restored_tests_present":restored_tests,
+        "restored_observer_guard":"OBSERVER_PREPARE_REQUIRED" in restored_text,
+        "restored_external_gap_test":"test_external_gap_survives_candidate_completion" in restored_tests_text,
+        "restored_hf2_test":"test_outer_hf2_reapplies_same_capability_when_local_frontier_live" in restored_tests_text,
         "candidate_cheap_direct_test":"test_cheap_direct_executes_one_minimal_package" in tests_text,
         "candidate_plurality_test":"test_deep_route_preserves_nondominated_plurality" in tests_text,
         "candidate_reselection_test":"test_material_delta_records_reselection_requirement" in tests_text,
@@ -175,6 +186,11 @@ def handlers():
                         "external_acquisition":snap["candidate_external_acquisition"],
                         "knowledge_ledger":snap["candidate_knowledge_ledger"],
                         "outer_hf2":snap["candidate_outer_hf2"],
+                        "restored_wrapper_present":snap["restored_wrapper_present"],
+                        "restored_tests_present":snap["restored_tests_present"],
+                        "observer_guard":snap["restored_observer_guard"],
+                        "external_gap_test":snap["restored_external_gap_test"],
+                        "outer_hf2_test":snap["restored_hf2_test"],
                         "cheap_direct_test":snap["candidate_cheap_direct_test"],
                         "plurality_test":snap["candidate_plurality_test"],
                         "reselection_test":snap["candidate_reselection_test"],
