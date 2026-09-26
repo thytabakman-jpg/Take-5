@@ -5,7 +5,10 @@ from dataclasses import dataclass
 from pathlib import Path
 import importlib.util
 import sys
-import icc128_legacy_reporting as legacy_reporting
+try:
+    from . import icc128_legacy_reporting as legacy_reporting
+except ImportError:
+    import icc128_legacy_reporting as legacy_reporting
 
 DISPLAY_NAME = "ICC128 Legacy"
 SOURCE_REPOSITORY = "thytabakman-jpg/Reaserch"
