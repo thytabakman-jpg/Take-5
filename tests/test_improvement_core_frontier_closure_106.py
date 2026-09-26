@@ -8,9 +8,9 @@ from repertoire_reachability import audit_current_repertoire_reachability
 
 ROOT=Path(__file__).resolve().parents[1]
 
-def test_regime_089_frontier_is_closed_relative_not_open_world():
+def test_current_regime_frontier_is_closed_relative_not_open_world():
     manifest=json.loads((ROOT/"architecture"/"IMPROVEMENT_CORE_RECOVERY_MANIFEST_082.json").read_text())
-    assert manifest["regime_version"]=="089"
+    assert manifest["regime_version"]=="090"
     assert manifest["open"]==[]
     assert "UNIVERSAL_HOST_INTERCEPTION_EXTERNAL_NOT_OWNED" in manifest["external_limits"]
     assert manifest["reopen_conditions"]

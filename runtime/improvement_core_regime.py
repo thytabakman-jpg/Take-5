@@ -14,7 +14,10 @@ from improvement_core_manager import (
     ImprovementCoreManagerResult,
 )
 from improvement_core_recursive_manager import RecursiveImprovementCoreManager
-from improvement_core_learning_memory import LearningMemory
+from improvement_core_learning_memory import (
+    DEFAULT_DURABLE_LEARNING_PATH,
+    LearningMemory,
+)
 from improvement_core_external_acquisition import (
     ExternalAcquisitionReceipt,
     ExternalDisposition,
@@ -22,7 +25,7 @@ from improvement_core_external_acquisition import (
     merge_external_outputs,
 )
 
-REGIME_VERSION="089"
+REGIME_VERSION="090"
 
 @dataclass(frozen=True)
 class ImprovementCoreRegime:
@@ -31,6 +34,8 @@ class ImprovementCoreRegime:
     learning_memory:str
     external_acquisition:str
     configured_tool_bridge:str
+    canonical_progress:str
+    durable_learning:str
     controller:str="IC-028"
     version:str=REGIME_VERSION
 
@@ -57,6 +62,8 @@ CURRENT_REGIME=ImprovementCoreRegime(
     learning_memory="runtime.improvement_core_learning_memory.LearningMemory",
     external_acquisition="runtime.improvement_core_external_acquisition.acquire_external",
     configured_tool_bridge="runtime.improvement_core_tool_bridge.execute_bound_tools",
+    canonical_progress="runtime.improvement_core_progress_relation.strict_progress",
+    durable_learning="integration/IMPROVEMENT_CORE_DURABLE_LEARNING_110.json",
 )
 
 def _record_stage_learning(state,learning_memory):
@@ -99,7 +106,10 @@ def run_improvement_core_regime(
     allow_external_gap:bool=True,
     configured_tool_adapters:dict[str,Callable]|None=None,
 )->ImprovementCoreRegimeResult:
-    lm=learning_memory or LearningMemory()
+    lm=learning_memory or LearningMemory.from_durable(
+        DEFAULT_DURABLE_LEARNING_PATH,
+        autosave=True,
+    )
 
     external_receipt=acquire_external(
         state,

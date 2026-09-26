@@ -36,7 +36,7 @@ Controller:
 - IC-028
 
 Current regime version:
-- 089
+- 090
 
 Current invocation path:
 
@@ -62,6 +62,14 @@ runtime/improvement_core_regime.py
 
 Learning memory participates through:
 - runtime/improvement_core_learning_memory.py
+- integration/IMPROVEMENT_CORE_DURABLE_LEARNING_110.json
+
+Canonical progress and anti-repeat admission participate through:
+- runtime/improvement_core_progress_relation.py
+- architecture/IMPROVEMENT_CORE_CANONICAL_PROGRESS_MATHEMATICS_001_2026-09-26.md
+- architecture/IMPROVEMENT_CORE_ANTI_REPEAT_110.md
+
+Negative no-gain/rejected/failed/cycle records survive fresh processes on a persistent checkout. Learned blocked routes are removed before nondominated frontier construction. Retry requires a relevant dependency/basis change or another explicit defeat condition. Recursive child gain is admitted through the canonical strict-progress relation rather than raw artifact novelty.
 
 The narrow runtime/improvement_core.py remains subordinate and is not the user-facing manager identity.
 
@@ -132,6 +140,11 @@ architecture/IMPROVEMENT_CORE_ACTIVATION_083.md
 36. a selected registered formal tool is not satisfied by naming, planning, or generic analysis; it requires configured adapter invocation and result consumption.
 37. a missing selected-tool adapter preserves OPEN rather than silently degrading to generic EXECUTE.
 38. plan reachability and execution reachability remain distinct claims.
+39. canonical strict progress, not raw artifact novelty, governs recursive gain.
+40. certified negative route learning is durable across fresh processes on a persistent checkout.
+41. learned no-gain routes are filtered before nondominated frontier construction.
+42. explicit same-basis semantic no-effect cycles are recorded as CYCLE_NO_GAIN.
+43. retry of a blocked route requires a relevant dependency/basis change or another explicit defeat condition.
 
 ## Cross-repository lineage
 
@@ -248,11 +261,15 @@ Open-world global maximality/minimality is not a licensed completion claim. Curr
 25. architecture/IMPROVEMENT_CORE_CONFIGURED_TOOL_EXECUTION_109.md
 26. runtime/improvement_core_recursive_manager.py
 27. runtime/improvement_core_learning_memory.py
-28. architecture/IMPROVEMENT_CORE_MAXIMIZATION_081.md
-29. architecture/CROSS_REPOSITORY_IMPROVEMENTCORE_LINEAGE_CHOICE_080.md
-30. architecture/PROTECTED_TRANSITION_INTEGRITY_090.md
-31. integration/CURRENT_PROTECTED_TRANSITION_INTEGRITY.md
-32. MIGRATION_STATE.yaml
+28. integration/IMPROVEMENT_CORE_DURABLE_LEARNING_110.json
+29. runtime/improvement_core_progress_relation.py
+30. architecture/IMPROVEMENT_CORE_CANONICAL_PROGRESS_MATHEMATICS_001_2026-09-26.md
+31. architecture/IMPROVEMENT_CORE_ANTI_REPEAT_110.md
+32. architecture/IMPROVEMENT_CORE_MAXIMIZATION_081.md
+33. architecture/CROSS_REPOSITORY_IMPROVEMENTCORE_LINEAGE_CHOICE_080.md
+34. architecture/PROTECTED_TRANSITION_INTEGRITY_090.md
+35. integration/CURRENT_PROTECTED_TRANSITION_INTEGRITY.md
+36. MIGRATION_STATE.yaml
 
 ## Related current recovery anchors
 
@@ -304,11 +321,11 @@ PR #84
 - Capability Preservation 36227477597
 - regime 088 frontier closure, relation admission, route calibration, replay/holdout, current repertoire and identity audits validated
 
-Regime 089 candidate
-- corrects the regime-088 category error between configured-plan reachability and actual selected-tool execution;
+Regime 089
+- corrected the regime-088 category error between configured-plan reachability and actual selected-tool execution;
 - requires selected formal tools to cross runtime/improvement_core_tool_bridge.py;
 - preserves OPEN when the selected native adapter is absent;
-- validation evidence is attached only after the regime-089 PR passes.
+- promoted through PR #86 and is inherited by regime 090.
 
 ## Zero-request entry
 
@@ -376,3 +393,15 @@ Universal host interception is EXTERNAL_NOT_OWNED. A future host-side integratio
 - recursive ImprovementCore
 - ImproveCore learning memory
 - Take Two ImproveCore vision
+
+
+## Regime 090 anti-repeat repair
+
+Regime 090 promotes the previously isolated canonical progress relation and durable negative learning into the normal recurrence path. The repair closes the specific tail-chasing failure in which fresh invocations could forget prior no-gain evidence, re-admit the same route, and mistake a new artifact for a new semantic state.
+
+The authoritative anti-repeat surfaces are:
+- runtime/improvement_core_progress_relation.py
+- runtime/improvement_core_learning_memory.py
+- runtime/improvement_core_recursive_manager.py
+- integration/IMPROVEMENT_CORE_DURABLE_LEARNING_110.json
+- architecture/IMPROVEMENT_CORE_ANTI_REPEAT_110.md
