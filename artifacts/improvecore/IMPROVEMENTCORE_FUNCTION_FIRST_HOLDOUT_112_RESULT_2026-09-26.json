@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "run_id": "improvecore-function-first-holdout-112-20260926",
+  "controller": "ImprovementCore",
+  "target": "whole current conversation plus prior PD/function/function-first tool-identity lineage",
+  "source_lineage": {
+    "prior_chat_recovery": [
+      "2026-09-21 PD bare core graph-of-total-function discovery",
+      "2026-09-25 function-first PD synthesis",
+      "2026-09-26 outer-function and branch-coupled configured-function refinement"
+    ],
+    "reaserch": [
+      "projects/pd/working/FUNCTION_FIRST_PD_SYNTHESIS_2026-09-25.md",
+      "projects/core-system-mathematics/math/CANONICAL_OUTER_FUNCTION_TOOL_ENCODING_MAP_001_2026-09-26.md",
+      "projects/core-system-mathematics/math/CONFIGURED_TOOL_FUNCTION_BRANCH_COUPLED_RESULT_CARRIER_MAP_001_2026-09-26.md",
+      "projects/core-system-mathematics/math/CANONICAL_CONFIGURED_TOOL_FUNCTION_ARCHITECTURE_001_2026-09-26.md",
+      "projects/core-system-mathematics/math/TYPED_FUNCTIONAL_SYSTEM_IR_CANDIDATE_001_2026-09-26.md"
+    ]
+  },
+  "recovered_math": {
+    "pd_determinacy": "Function(R) iff Total(R) and SingleValued(R); ED(F) iff EX(F) and UN(F)",
+    "semantic_relation": "R_{T,K}: X_T ↠ Y_T",
+    "configured_function": "T^cfg_{J,K}: I_T -> R_T",
+    "input_carrier": "I_T=X_T x Sigma_T x Context_T",
+    "branch_carrier": "B_T=Y_T x Sigma_T x D^b_T x W^b_T",
+    "output_carrier": "R_T=P(B_T) x D^i_T x W^i_T x Receipt_T"
+  },
+  "holdout": [
+    "PD",
+    "PDAudit",
+    "MT",
+    "Architecture",
+    "ICC123",
+    "ICC128",
+    "ImprovementCore",
+    "ToolConductor"
+  ],
+  "material_discovery": "The main current defect is not function notation. It is fragmentation between named formal-object identity, configured registry identity, explicit protected-behavior manifest identity, and native realization identity.",
+  "implemented": [
+    "runtime/configured_function_ir.py",
+    "tests/test_configured_function_ir.py",
+    "architecture/IMPROVEMENT_CORE_FUNCTION_FIRST_HOLDOUT_112.md"
+  ],
+  "authority": {
+    "system_wide_function_ir_promoted": false,
+    "pd_goal_changed": false,
+    "pd_goal_change_requires_explicit_approval": true
+  },
+  "status": "CANDIDATE_AWAITING_REPOSITORY_VALIDATION"
+}
