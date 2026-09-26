@@ -17,8 +17,10 @@ from dataclasses import asdict, dataclass
 from typing import Any, Callable, Mapping
 
 from capability_runtime import execute_capability
+from configured_hf2_execution import execute_configured_with_hf2
+from global_tool_execution import build_tool_execution_plan
 from learning_tool_bridge import SPECS, make_learning_worker
-from tool_run_registry import MATERIAL_TOOLS
+from tool_run_registry import CONFIGURED_RUNS, MATERIAL_TOOLS
 
 
 @dataclass(frozen=True)
@@ -145,6 +147,74 @@ def portability_closed() -> bool:
     return not portability_open_set()
 
 
+
+
+def _plan_payload(tool_id: str) -> dict[str, Any]:
+    plan=build_tool_execution_plan(CONFIGURED_RUNS[tool_id])
+    return {
+        "tool_id":plan.tool_id,
+        "mode":plan.mode,
+        "wrapper_required":plan.wrapper_required,
+        "geometry":plan.geometry,
+        "cell_count":len(plan.cells),
+        "question_count":len(plan.questions),
+        "cognitive_count":len(plan.cognitive),
+        "recurrence_required":plan.recurrence_required,
+        "recurrence_engine":plan.recurrence_engine,
+        "invocation_profile":plan.invocation_profile,
+    }
+
+
+def _run_configured_factor(
+    tool_id: str,
+    packet: Mapping[str, Any],
+    adapter: Callable[[Mapping[str, Any], Any], Any],
+) -> dict[str, Any]:
+    plan=build_tool_execution_plan(CONFIGURED_RUNS[tool_id])
+    try:
+        recurrence=execute_configured_with_hf2(
+            tool_id=tool_id,
+            plan=plan,
+            state={"packet":dict(packet)},
+            adapter=adapter,
+        )
+    except Exception as exc:
+        return {
+            "tool_id":tool_id,
+            "status":"BLOCKED",
+            "result":{"error":type(exc).__name__,"message":str(exc)},
+            "configured_plan":_plan_payload(tool_id),
+            "recurrence":None,
+        }
+
+    raw=dict(recurrence.last_raw or {})
+    raw_status=str(raw.get("status","EXECUTED"))
+    if recurrence.status not in {"RELATIVE_CLOSE","SELF_CLOSE"}:
+        status=(
+            recurrence.status
+            if recurrence.status in {"OPEN","BLOCKED","CONFLICT"}
+            else "OPEN"
+        )
+    elif raw_status in {"OPEN","BLOCKED","CONFLICT"}:
+        status=raw_status
+    else:
+        status="EXECUTED"
+
+    return {
+        "tool_id":tool_id,
+        "status":status,
+        "result":raw.get("result",raw),
+        "configured_plan":_plan_payload(tool_id),
+        "recurrence":{
+            "engine":recurrence.recurrence_engine,
+            "status":recurrence.status,
+            "rounds":recurrence.rounds,
+            "call_count":recurrence.call_count,
+            "trace":recurrence.trace,
+        },
+    }
+
+
 def _run_learning(tool_id: str, packet: Mapping[str, Any]) -> dict[str, Any]:
     worker = make_learning_worker(tool_id)
     raw = worker(packet)
@@ -162,10 +232,12 @@ def run_tool_conductor(
     *,
     adapters: Mapping[str, Callable[[Mapping[str, Any]], Any]] | None = None,
 ) -> dict[str, Any]:
-    """Attempt every registered tool exactly once at the conductor layer.
+    """Attempt every registered tool once at the conductor-factor layer.
 
-    Tool-specific recurrence remains owned by each configured tool. The
-    conductor itself does not recursively call itself.
+    Every non-self factor that actually executes crosses the current full
+    configured invocation profile. Internal HF2 recurrence may call the
+    factor's native adapter more than once while the conductor still emits
+    exactly one factor disposition.
     """
     adapters = dict(adapters or {})
     capability_inputs = packet.get("capability_inputs", {}) or {}
@@ -180,43 +252,85 @@ def run_tool_conductor(
                 "status": "EXECUTED_SELF_WITNESS",
                 "result": {"self_application": "represented_without_recursive_spawn"},
                 "witness": witness.payload(),
+                "configured_plan":_plan_payload(tool_id),
+                "recurrence":{
+                    "engine":"HF002",
+                    "status":"SELF_WITNESS",
+                    "rounds":0,
+                    "call_count":0,
+                    "trace":(),
+                },
             })
             continue
 
         if tool_id.startswith("C") and tool_id[1:].isdigit() and 1 <= int(tool_id[1:]) <= 49:
             payload = capability_inputs.get(tool_id, {})
-            try:
-                out = execute_capability(tool_id, payload)
-                status = "EXECUTED"
-            except Exception as exc:
-                out = {"error": type(exc).__name__, "message": str(exc)}
-                status = "BLOCKED"
-            results.append({
-                "tool_id": tool_id,
-                "status": status,
-                "result": out,
-                "witness": witness.payload(),
-            })
+
+            def capability_adapter(current,plan,_tool_id=tool_id,_payload=payload):
+                try:
+                    out=execute_capability(_tool_id,_payload)
+                    return {
+                        "status":"EXECUTED",
+                        "execution_truth":"IMPLEMENTATION_EXECUTED",
+                        "result":out,
+                        "material_delta":False,
+                        "evidence":(f"capability-runtime:{_tool_id}",),
+                    }
+                except Exception as exc:
+                    return {
+                        "status":"BLOCKED",
+                        "execution_truth":"BLOCKED",
+                        "result":{"error":type(exc).__name__,"message":str(exc)},
+                        "material_delta":False,
+                    }
+
+            row=_run_configured_factor(tool_id,packet,capability_adapter)
+            row["witness"]=witness.payload()
+            results.append(row)
             continue
 
         if _learning_spec(tool_id) is not None:
-            results.append(_run_learning(tool_id, packet))
+            def learning_adapter(current,plan,_tool_id=tool_id):
+                return _run_learning(_tool_id,packet)
+
+            row=_run_configured_factor(tool_id,packet,learning_adapter)
+            row["witness"]=witness.payload()
+            results.append(row)
             continue
 
         adapter = adapters.get(tool_id)
         if adapter is not None:
-            try:
-                out = adapter(packet)
-                status = "EXECUTED"
-            except Exception as exc:
-                out = {"error": type(exc).__name__, "message": str(exc)}
-                status = "BLOCKED"
-            results.append({
-                "tool_id": tool_id,
-                "status": status,
-                "result": out,
-                "witness": witness.payload(),
-            })
+            def portable_adapter(current,plan,_adapter=adapter):
+                try:
+                    out=_adapter(packet)
+                    if (
+                        isinstance(out,dict)
+                        and str(out.get("status","")) in {
+                            "EXECUTED","COMPLETE","CLOSED","CLOSED_RELATIVE",
+                            "RELATIVE_CLOSE","FULL_MATCH","OPEN","BLOCKED","CONFLICT"
+                        }
+                    ):
+                        raw=dict(out)
+                        raw.setdefault("result",out)
+                        raw.setdefault("material_delta",False)
+                        return raw
+                    return {
+                        "status":"EXECUTED",
+                        "execution_truth":"IMPLEMENTATION_EXECUTED",
+                        "result":out,
+                        "material_delta":False,
+                    }
+                except Exception as exc:
+                    return {
+                        "status":"BLOCKED",
+                        "execution_truth":"BLOCKED",
+                        "result":{"error":type(exc).__name__,"message":str(exc)},
+                        "material_delta":False,
+                    }
+
+            row=_run_configured_factor(tool_id,packet,portable_adapter)
+            row["witness"]=witness.payload()
+            results.append(row)
             continue
 
         results.append({
@@ -227,6 +341,8 @@ def run_tool_conductor(
                 "required_environment": witness.required_environment,
             },
             "witness": witness.payload(),
+            "configured_plan":_plan_payload(tool_id),
+            "recurrence":None,
         })
 
     seen = tuple(r["tool_id"] for r in results)
