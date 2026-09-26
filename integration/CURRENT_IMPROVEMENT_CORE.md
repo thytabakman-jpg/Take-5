@@ -36,7 +36,7 @@ Controller:
 - IC-028
 
 Current regime version:
-- 084
+- 085
 
 Current invocation path:
 
@@ -105,6 +105,8 @@ architecture/IMPROVEMENT_CORE_ACTIVATION_083.md
 17. Take-4 cumulative-autonomy target;
 18. Take-5 authority, provenance, currentness, execution, closure and reentry safeguards.
 19. corpus-seeded zero-request entry without host-authored substantive job coordinates.
+20. mode-cube entry identity across breadth, direction, and coupling.
+21. broad observer and focused resolution remain distinct rather than collapsing into one observer label.
 
 ## Cross-repository lineage
 
@@ -127,6 +129,26 @@ Take-5
 
 Decision:
 architecture/CROSS_REPOSITORY_IMPROVEMENTCORE_LINEAGE_CHOICE_080.md
+
+## Mode-aware execution
+
+ImproveCore now preserves the recovered three-axis mode geometry at entry:
+
+- breadth: EXPAND / CONTRACT;
+- direction: OBSERVE / ACT;
+- coupling: DECOUPLED / COUPLED.
+
+Broad observer mode is EXPAND + OBSERVE + DECOUPLED.
+Focused resolution is CONTRACT + OBSERVE + DECOUPLED.
+Default whole-system improvement is EXPAND + ACT + COUPLED.
+
+Observer and focused are therefore not opposites. Focus changes breadth while preserving observation direction. Both observation modes receive observer-first stage ordering, while the full mode profile remains available to every downstream stage through controller state.
+
+Recovered high-value sequence:
+
+EXPAND+OBSERVE+DECOUPLED -> RECONCILE -> CONTRACT+OBSERVE -> ACT when licensed.
+
+This preserves independent discovery before narrowing and prevents focused resolution from silently becoming outcome-directed optimization.
 
 ## Current mathematical organization
 
