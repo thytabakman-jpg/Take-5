@@ -9,6 +9,8 @@ import re
 from tool_run_registry import MATERIAL_TOOLS
 
 NON_TOOL_ALIASES={
+    "SHOW ME THE MATH":"SHOW_ME_THE_MATH",
+    "SHOW_ME_THE_MATH":"SHOW_ME_THE_MATH",
     "TOOL RUN CLOSURE":"TRC",
     "C_TR":"C_TR",
     "K_PD":"K_PD",
