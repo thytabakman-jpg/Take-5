@@ -158,7 +158,78 @@ ASSERT_BINDINGS=GENERIC_BINDINGS+(
     ),
 )
 
+
+IMPROVECORE_AFTERRUN_BINDINGS=GENERIC_BINDINGS+(
+    ProtectedBinding(
+        "IMPROVECORE_AFTER_EVERY_RUN",
+        "POST",
+        "runtime/improvement_core_regime.py",
+        "tests/test_improvement_core_afterrun.py",
+    ),
+    ProtectedBinding(
+        "SELF_IMPROVEMENT_STRICT_GAIN_GATED",
+        "INTRA",
+        "runtime/improvement_core_afterrun.py",
+        "tests/test_improvement_core_afterrun.py",
+    ),
+    ProtectedBinding(
+        "SELF_IMPROVEMENT_LEARNING_ALWAYS_RECORDED",
+        "POST",
+        "runtime/improvement_core_afterrun.py",
+        "tests/test_improvement_core_afterrun.py",
+    ),
+)
+
+TRANSFERCORE_BINDINGS=GENERIC_BINDINGS+(
+    ProtectedBinding(
+        "TRANSFER_SOURCE_TARGET_TYPING",
+        "INTRA",
+        "runtime/transfer_core.py",
+        "tests/test_transfer_core.py",
+    ),
+    ProtectedBinding(
+        "TRANSFER_BRIDGE_LICENSE",
+        "INTRA",
+        "runtime/transfer_core.py",
+        "tests/test_transfer_core.py",
+    ),
+    ProtectedBinding(
+        "TRANSFER_TARGET_EFFECT",
+        "INTRA",
+        "runtime/transfer_core.py",
+        "tests/test_transfer_core.py",
+    ),
+    ProtectedBinding(
+        "TRANSFER_NO_AUTHORITY_LAUNDERING",
+        "CROSS",
+        "runtime/transfer_core.py",
+        "tests/test_transfer_core.py",
+    ),
+    ProtectedBinding(
+        "TRANSFER_FEEDBACK_REENTRY",
+        "POST",
+        "runtime/transfer_core.py",
+        "tests/test_transfer_core.py",
+    ),
+)
+
 OVERRIDES={
+    "ImproveCoreAfterRun":ToolManifest(
+        tool_id="ImproveCoreAfterRun",
+        native_semantics="ImproveCoreAfterRun",
+        geometry_policy="D36_C",
+        closure_contract="TRC_SELF_IMPROVEMENT_DISPOSITION",
+        reentry_contract="IMPROVEMENTCORE_ON_MATERIAL_STRICT_GAIN",
+        bindings=IMPROVECORE_AFTERRUN_BINDINGS,
+    ),
+    "TransferCore":ToolManifest(
+        tool_id="TransferCore",
+        native_semantics="TransferCore",
+        geometry_policy="D36_C",
+        closure_contract="TRC_TRANSFER_DISPOSITION",
+        reentry_contract="TARGET_VERIFICATION_FEEDBACK",
+        bindings=TRANSFERCORE_BINDINGS,
+    ),
     "MT":ToolManifest(
         tool_id="MT",
         native_semantics="MT",
