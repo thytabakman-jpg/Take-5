@@ -60,3 +60,13 @@ drift_control:
   authority_rule: post_cutover_legacy_writes_do_not_regain_canonical_authority
   reconciliation_record: integration/REASERCH_POST_CUTOVER_RECONCILIATION_FINAL_002_2026-09-25.md
   transfer_rule: exact_source_plus_target_effect_plus_validation_before_admission\n  future_reopen_rule: only_new_material_post_cutover_evidence_reopens_its_affected_cone
+
+target_system:
+  north_star: architecture/TAKE5_TARGET_SYSTEM_091.md
+  gap_ledger: architecture/TAKE5_TARGET_GAP_LEDGER_091.yaml
+  status: RECOVERED_TARGET_OPEN
+  governing_goal: cumulative_autonomous_research_improvement_system
+  first_dependency_pair:
+    - entry_state_reconstruction
+    - discovery_to_work_to_reentry
+  anti_drift_rule: local_architecture_change_cannot_redefine_target_without_explicit_target_reentry
