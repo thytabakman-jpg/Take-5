@@ -6,6 +6,7 @@ from dataclasses import dataclass
 from jane import begin_turn
 from jane_supervisor import JaneSupervisoryState
 from math_first_wrapper import run_math_first_wrapper
+from icc_bootstrap import ICCBootstrapReceipt, ToolRunReceipt
 
 
 @dataclass(frozen=True)
@@ -28,6 +29,12 @@ def _binding():
         authority=frozenset(),
         episode_id="math-wrapper-test",
     )
+
+
+def _bootstrap(state,binding):
+    a=ToolRunReceipt("ASSERT",True,True,True,True,True,True,{"asserted":True})
+    g=ToolRunReceipt("GOAL",True,True,True,True,True,True,{"goal":"observed"})
+    return ICCBootstrapReceipt(a,g,True,("ASSERT_OBSERVER","GOAL_OBSERVER"))
 
 
 def test_math_first_order_and_external_job_protection():
@@ -77,6 +84,7 @@ def test_math_first_order_and_external_job_protection():
         binding,
         {"x":1},
         JaneSupervisoryState(),
+        bootstrap_fn=_bootstrap,
         observe_fn=observe,
         formalize_fn=formalize,
         goal_fn=goal,
@@ -108,6 +116,7 @@ def test_frozen_math_mutation_is_blocked_before_admission():
         binding,
         {"answer":0},
         {},
+        bootstrap_fn=_bootstrap,
         observe_fn=lambda s,b:s,
         formalize_fn=lambda o,b:{"equation":"fixed"},
         goal_fn=lambda m,b:"g",
@@ -131,6 +140,7 @@ def test_open_closure_is_preserved_as_nonclosure():
         binding,
         {"answer":0},
         {},
+        bootstrap_fn=_bootstrap,
         observe_fn=lambda s,b:s,
         formalize_fn=lambda o,b:{"m":1},
         goal_fn=lambda m,b:"g",
@@ -164,6 +174,7 @@ def test_jane_sync_runs_only_for_supervisory_relevant_admitted_delta():
         binding,
         {"answer":1,"provenance":"v1"},
         {"syncs":0},
+        bootstrap_fn=_bootstrap,
         observe_fn=lambda s,b:s,
         formalize_fn=lambda o,b:{"m":1},
         goal_fn=lambda m,b:"g",
