@@ -6,24 +6,24 @@ Canonical repository: thytabakman-jpg/Take-5
 
 ## Purpose
 
-This file is the first recovery surface for ImprovementCore.
+This is the first recovery surface for ImprovementCore when the controller appears
+lost, downgraded, compressed, ambiguously invoked, or partially reconstructed.
 
-When ImprovementCore appears lost, downgraded, compressed, ambiguously invoked, or
-partially reconstructed, start here before reconstructing from chat history.
+Use repository evidence before chat memory when the repository contains the current object.
 
-This anchor does not replace the runtime or the mathematical artifacts. It identifies
-the current authoritative recovery path and the witnesses required to reconstruct it.
-
-## Current user-facing identity
+## Current identity
 
 User names:
 - ImproveCore
 - Improvement Core
 
-Current controller identity:
+Controller:
 - IC-028
 
-Current user invocation path:
+Current regime version:
+- 083
+
+Current invocation path:
 
 user phrase
 -> runtime/improvement_core_dispatch.py
@@ -31,104 +31,92 @@ user phrase
 -> runtime/improvement_core_manager.py
 -> runtime/ic028_operator.py
 
-The current regime also exposes:
-- runtime/improvement_core_recursive_manager.py
+When the stage result still has live continuation:
+
+runtime/improvement_core_regime.py
+-> runtime/improvement_core_recursive_manager.py
+-> selected child work
+-> admission
+-> parent update
+-> reselection / recurrence
+
+Learning memory participates through:
 - runtime/improvement_core_learning_memory.py
 
-The narrow runtime/improvement_core.py remains a subordinate capability and is not the
-current user-facing manager identity.
+The narrow runtime/improvement_core.py remains subordinate and is not the user-facing manager identity.
 
-## Current regime
+## What is actually active now
 
-The current configured regime is cumulative-autonomous ImprovementCore.
+The current regime does more than expose components.
 
-Its protected recovered behavior includes:
+It executes the rich IC-028 stage manager first.
+
+When the resulting state carries live_continuation:
+- recursive handlers are required;
+- the recursive parent manager runs;
+- missing recursive bindings return OPEN instead of silently ending the episode;
+- child results are admitted/reconciled before parent state changes;
+- behaviorally empty child returns cannot count as progress.
+
+Learning memory is active in two places:
+- typed stage learning events can be recorded;
+- recursive route selection checks basis-relative prior NO_GAIN / REJECTED / FAILED evidence.
+
+An unchanged blocked route remains blocked until a changed coordinate intersects its recorded dependency footprint.
+
+This activation repair is recorded in:
+architecture/IMPROVEMENT_CORE_ACTIVATION_083.md
+
+## Protected current behavior
 
 1. explicit controller ownership;
 2. observer-first mode when contamination risk exists;
 3. goal recovery and curiosity-first discovery;
-4. formalization and work generation before execution;
-5. real bind/execute/admit/reconcile/persist/verify stages;
-6. endogenous reentry after material delta;
+4. formalization and work generation;
+5. bind / execute / admit / reconcile / persist / verify;
+6. result-sensitive reentry;
 7. parent-owned recursive ImprovementCore delegation;
-8. child-result admission before parent-state mutation;
-9. liveness failure when continuation exists but the parent selects no next action;
-10. anti-loop rejection of child returns with no continuation-relevant delta;
-11. basis-relative learning memory for NO_GAIN / REJECTED / FAILED routes;
-12. dependency-sensitive reopening after relevant basis change;
-13. typed OPEN/BLOCKED/CONFLICT preservation;
-14. Take-2 surface-minimality and transition discipline;
-15. Take-3 strict-gain architecture admission;
-16. Take-4 cumulative autonomy/reselection as a behavioral target;
-17. Take-5 execution, provenance, authority, currentness, closure and reentry safeguards.
-
-## Current validated strict-gain import
-
-PR #51
-Merge:
-4408dc5918f1593ecdada8cd7905a4c0346867e1
-
-Validation run:
-36220020527
-
-Validation passed:
-- Take-5 test suite
-- canonical whole-system audit
-- closed-loop fixture
-- zero-request dump
-
-The imported strict gains were:
-- recursive parent/child ImprovementCore manager
-- basis-relative learning/no-gain memory
-- cumulative-autonomous regime composition
-- canonical dispatch through that regime
+8. live continuation activates recursive management;
+9. missing recursive bindings preserve OPEN;
+10. child-result admission before parent mutation;
+11. no-progress child returns are rejected;
+12. basis-relative learning/no-gain memory;
+13. dependency-sensitive route reopening;
+14. OPEN/BLOCKED/CONFLICT preservation;
+15. Take-2 surface/transition discipline;
+16. Take-3 strict-gain architecture admission;
+17. Take-4 cumulative-autonomy target;
+18. Take-5 authority, provenance, currentness, execution, closure and reentry safeguards.
 
 ## Cross-repository lineage
 
-Do not infer current behavior from repository age or name.
-
-Use these roles:
-
 Reaserch
-- historical/provenance source
-- richest later ImprovementCore semantic lineage
+- provenance and richest later ImprovementCore semantic lineage
 - source for IC-029/IC-030, learning memory, full-autonomy profile, upstream discovery
 
 Take-2
-- kernel discipline source
-- Object / Relation / Event / Transition / Observation
-- distinctions do not imply separate operating surfaces
-- consequential changes use typed transitions
-- observation before causal claims
-- evidence does not self-authorize
-- migrate capabilities, not files
+- compact kernel discipline
+- typed transitions, observation, OPEN preservation, surface minimality
 
 Take-3
-- architectural admission discipline
-- add architecture only after result-sensitive failure or demonstrated strict gain
+- architecture enters only after result-sensitive failure or demonstrated strict gain
 
 Take-4
-- cumulative autonomous research/controller target
-- autonomous problem selection
-- exact identity/currentness
-- execution/verification/update/reselection
-- preserve verified reusable contributions across episodes
+- autonomous problem selection, cumulative research goal, execution/verification/update/reselection
 
 Take-5
-- canonical working repository
-- validated runtime/governance substrate
-- configured-run identity, wrappers, authority, provenance, currentness, closure, reentry
+- canonical working repository and validated runtime/governance substrate
 
-Current cross-repository choice:
+Decision:
 architecture/CROSS_REPOSITORY_IMPROVEMENTCORE_LINEAGE_CHOICE_080.md
 
 ## Current mathematical organization
 
-Deep controller candidate inherited from recovered ImprovementCore mathematics:
+Deep controller candidate:
 
 C_(J,K) = <Z,D,A_(J,K),pi_(J,K),T_(J,K),Tau_(J,K)>
 
-Current realization layers:
+Realization:
 
 L0
 goal-conditioned endogenous continuation control
@@ -138,36 +126,33 @@ observer / inquiry / selection / execution / admission / integration /
 persistence / verification / reentry
 
 L2
-invocation and self-management envelope protecting against host downgrade
+invocation and self-management envelope
 
 L3
-recursive parent/child management plus basis-relative learning memory
+active recursive parent/child management and basis-relative learning memory
 
-Do not treat this factorization as globally minimal.
+Global minimality remains OPEN.
 
 ## Recovery load order
 
-When recovering current ImprovementCore, load in this order:
-
 1. integration/CURRENT_IMPROVEMENT_CORE.md
 2. architecture/IMPROVEMENT_CORE_RECOVERY_MANIFEST_082.json
-3. runtime/improvement_core_dispatch.py
-4. runtime/improvement_core_regime.py
-5. runtime/improvement_core_manager.py
-6. runtime/ic028_operator.py
-7. runtime/improvement_core_recursive_manager.py
-8. runtime/improvement_core_learning_memory.py
-9. architecture/IMPROVEMENT_CORE_MAXIMIZATION_081.md
-10. architecture/CROSS_REPOSITORY_IMPROVEMENTCORE_LINEAGE_CHOICE_080.md
-11. research/IMPROVEMENT_CORE_USAGE_AUDIT_078_2026-09-26.md
-12. architecture/MATH_FIRST_WRAPPER_CLOSURE_039.md
-13. architecture/FULL_RUN_DEFAULT_DISPATCH_CONTRACT_066.md
-14. architecture/CANONICAL_TOOL_IDENTITY_REPAIR_076.md
-15. MIGRATION_STATE.yaml
+3. architecture/IMPROVEMENT_CORE_ACTIVATION_083.md
+4. runtime/improvement_core_dispatch.py
+5. runtime/improvement_core_regime.py
+6. runtime/improvement_core_manager.py
+7. runtime/ic028_operator.py
+8. runtime/improvement_core_recursive_manager.py
+9. runtime/improvement_core_learning_memory.py
+10. architecture/IMPROVEMENT_CORE_MAXIMIZATION_081.md
+11. architecture/CROSS_REPOSITORY_IMPROVEMENTCORE_LINEAGE_CHOICE_080.md
+12. research/IMPROVEMENT_CORE_USAGE_AUDIT_078_2026-09-26.md
+13. architecture/MATH_FIRST_WRAPPER_CLOSURE_039.md
+14. architecture/FULL_RUN_DEFAULT_DISPATCH_CONTRACT_066.md
+15. architecture/CANONICAL_TOOL_IDENTITY_REPAIR_076.md
+16. MIGRATION_STATE.yaml
 
-Use repository evidence before chat memory when the repository contains the current object.
-
-## Recovery verification
+## Machine verification
 
 Run:
 runtime/improvement_core_recovery.py
@@ -175,59 +160,54 @@ runtime/improvement_core_recovery.py
 Regression:
 tests/test_improvement_core_recovery.py
 
-Recovery is not complete merely because files exist.
+Currentness is keyed to the live regime version, not one immutable merge hash.
 
-The validator checks that:
-- required recovery surfaces exist;
-- user dispatch resolves to the cumulative-autonomous regime;
-- the current regime exposes the rich stage manager;
-- recursive parent/child management is present;
-- learning memory is present;
-- IC-028 remains the controller identity.
+Historical merge and validation receipts remain provenance but do not freeze future improvement.
+
+## Historical validated recovery evidence
+
+PR #51
+- merge 4408dc5918f1593ecdada8cd7905a4c0346867e1
+- validation 36220020527
+
+PR #52
+- merge e2341b350e68bddc798ad1437e445b866698f31d
+- validation 36220247129
 
 ## OPEN coordinates
-
-The following remain intentionally OPEN:
 
 - zero-request upstream discovery runtime promotion;
 - exact relation-generator basis;
 - relation-admission mathematics;
-- universal host interception across arbitrary chats;
-- full-material-capability repertoire reachability evidence;
-- matched historical high/low alignment replay set;
+- universal host interception;
+- full repertoire reachability evidence;
+- matched historical high/low alignment replays;
 - unlike prospective autonomous holdouts;
-- empirical cheap-route versus broad-attack calibration;
+- cheap-route versus broad-attack calibration;
 - global ImprovementCore maximality/minimality;
 - portfolio-wide tool-specific identity reconstruction.
 
-These OPEN items must not disappear during compression.
+OPEN coordinates must remain visible through compression and future refactors.
 
 ## Anti-loss rule
 
-A future successor does not supersede current ImprovementCore merely because it has a
-newer name, smaller representation, or cleaner architecture.
+A successor is not current merely because it is newer, smaller, or cleaner.
 
-For every protected current behavior, the successor must provide one of:
-
+Every protected behavior must be:
 - PRESERVED with witness;
-- STRICT_GAIN replacement with witness;
+- replaced by a witnessed STRICT_GAIN;
 - explicitly authorized SUPERSEDED;
-- explicitly OPEN.
+- or explicitly OPEN.
 
-Silent omission is a regression.
+Silent omission is regression.
 
 ## Host boundary
 
-Repository recovery does not imply universal host enforcement.
+Repository correctness does not compel an external host session that never loads this path.
 
-A ChatGPT session that never loads this repository path can still fail to invoke the
-current regime.
-
-That remains an external boundary and may not be represented as solved.
+Universal host interception remains OPEN.
 
 ## Search aliases
-
-The following searches must lead here:
 
 - current ImprovementCore
 - recover ImproveCore
