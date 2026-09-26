@@ -2,6 +2,7 @@ import sys
 sys.path.insert(0,"runtime")
 
 from improvement_core_learning_memory import LearningMemory
+from improvement_core_knowledge_ledger import KnowledgeLedger
 from improvement_core_recursive_manager import RecursiveImprovementCoreManager,ChildReturn
 from improvement_core_regime import CURRENT_REGIME,run_improvement_core_regime
 from ic028_operator import GOAL_DIRECTED_STAGES
@@ -169,6 +170,7 @@ def test_current_regime_is_versioned_and_exposes_active_components():
     assert "improvement_core_tool_bridge" in CURRENT_REGIME.configured_tool_bridge
     assert "improvement_core_progress_relation" in CURRENT_REGIME.canonical_progress
     assert "IMPROVEMENT_CORE_DURABLE_LEARNING_110.json" in CURRENT_REGIME.durable_learning
+    assert "IMPROVEMENT_CORE_KNOWLEDGE_LEDGER_113.json" in CURRENT_REGIME.knowledge_ledger
 
 
 def test_recursive_manager_preserves_plural_nondominated_frontier():
@@ -261,3 +263,65 @@ def test_regime_preserves_missing_tool_adapter_blocker():
     )
     assert out.status=="OPEN"
     assert out.blocker=="CONFIGURED_TOOL_ADAPTER_REQUIRED:RootCause"
+
+
+
+def test_regime_persists_explicit_material_knowledge_event(tmp_path):
+    path=tmp_path/"knowledge.json"
+    ledger=KnowledgeLedger.from_durable(path,autosave=True)
+    handlers=_stage_handlers(live=False)
+    original_complete=handlers["COMPLETE"]
+
+    def complete_with_knowledge(state):
+        out=original_complete(state)
+        out["state"]={
+            **out["state"],
+            "knowledge_events":[{
+                "kind":"IDEA",
+                "statement":"A material idea crossed the governed ImprovementCore path.",
+                "basis_id":"current",
+                "related_objects":["ImprovementCore"],
+                "dependency_footprint":["capture"],
+                "evidence_refs":["episode-receipt"],
+                "disposition":"CAPTURED",
+            }],
+        }
+        return out
+
+    handlers["COMPLETE"]=complete_with_knowledge
+    out=run_improvement_core_regime(
+        "ImproveCore, preserve this idea",
+        target="knowledge",
+        job="capture",
+        basis="current",
+        state={},
+        handlers=handlers,
+        knowledge_ledger=ledger,
+    )
+    assert out.status=="COMPLETE"
+    assert path.exists()
+    assert any(
+        row["statement"]=="A material idea crossed the governed ImprovementCore path."
+        for row in out.knowledge_summary
+    )
+    reloaded=KnowledgeLedger.from_durable(path,autosave=False)
+    assert len(reloaded.nodes)==1
+
+
+def test_regime_auto_captures_recursive_material_transition(tmp_path):
+    path=tmp_path/"knowledge.json"
+    ledger=KnowledgeLedger.from_durable(path,autosave=True)
+    out=run_improvement_core_regime(
+        "ImproveCore, solve and preserve what is learned",
+        target="problem",
+        job="solve",
+        basis="current",
+        state={},
+        handlers=_stage_handlers(live=True),
+        recursive_handlers=_recursive_handlers(),
+        knowledge_ledger=ledger,
+    )
+    assert out.status=="COMPLETE"
+    assert any(row["kind"]=="MATERIAL_TRANSITION" for row in out.knowledge_summary)
+    reloaded=KnowledgeLedger.from_durable(path,autosave=False)
+    assert any(node.kind=="MATERIAL_TRANSITION" for node in reloaded.nodes.values())

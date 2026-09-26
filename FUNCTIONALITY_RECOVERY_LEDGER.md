@@ -197,3 +197,24 @@ Current disposition:
 
 This supersedes any reading of older ledger text as a current whole-portfolio
 closure claim. Historical status entries remain evidence of their own basis.
+
+
+## 2026-09-26 material knowledge capture
+
+ImprovementCore identified a remaining anti-loss gap:
+
+material discovery was governed by capture policies and manual integration artifacts, but there
+was no mandatory runtime transition from an admitted material ImprovementCore event to durable
+integrated knowledge.
+
+Candidate repair:
+- `runtime/improvement_core_knowledge_ledger.py`
+- `integration/IMPROVEMENT_CORE_KNOWLEDGE_LEDGER_113.json`
+- `architecture/IMPROVEMENT_CORE_MATERIAL_KNOWLEDGE_CAPTURE_113.md`
+
+The regime now captures explicit knowledge events and admitted recursive material transitions with
+provenance, basis, dependency footprint, evidence references, related objects and typed
+disposition.
+
+This closes the repository-governed capture seam only after validation. It does not claim that
+unseen chats or external information never supplied to the system can be captured.
