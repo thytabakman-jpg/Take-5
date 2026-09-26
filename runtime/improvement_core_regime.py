@@ -18,6 +18,10 @@ from improvement_core_learning_memory import (
     DEFAULT_DURABLE_LEARNING_PATH,
     LearningMemory,
 )
+from improvement_core_knowledge_ledger import (
+    DEFAULT_KNOWLEDGE_LEDGER_PATH,
+    KnowledgeLedger,
+)
 from improvement_core_external_acquisition import (
     ExternalAcquisitionReceipt,
     ExternalDisposition,
@@ -36,6 +40,7 @@ class ImprovementCoreRegime:
     configured_tool_bridge:str
     canonical_progress:str
     durable_learning:str
+    knowledge_ledger:str
     controller:str="IC-028"
     version:str=REGIME_VERSION
 
@@ -47,6 +52,7 @@ class ImprovementCoreRegimeResult:
     status:str
     blocker:str|None=None
     external_receipt:ExternalAcquisitionReceipt|None=None
+    knowledge_summary:tuple=()
 
     @property
     def receipt(self):
@@ -64,6 +70,7 @@ CURRENT_REGIME=ImprovementCoreRegime(
     configured_tool_bridge="runtime.improvement_core_tool_bridge.execute_bound_tools",
     canonical_progress="runtime.improvement_core_progress_relation.strict_progress",
     durable_learning="integration/IMPROVEMENT_CORE_DURABLE_LEARNING_110.json",
+    knowledge_ledger="integration/IMPROVEMENT_CORE_KNOWLEDGE_LEDGER_113.json",
 )
 
 def _record_stage_learning(state,learning_memory):
@@ -84,6 +91,32 @@ def _record_stage_learning(state,learning_memory):
             dict(event.get("evidence",{})),
         )
 
+def _record_stage_knowledge(state,knowledge_ledger,basis):
+    if not isinstance(state,dict):
+        return
+    for event in state.get("knowledge_events",()):
+        if not isinstance(event,dict):
+            continue
+        knowledge_ledger.record_explicit_event(
+            event,
+            fallback_basis=str(basis),
+            source_episode="improvement-core-stage",
+        )
+
+
+def _record_recursive_knowledge(recursive_result,knowledge_ledger,basis):
+    if not isinstance(recursive_result,dict):
+        return
+    for trace in recursive_result.get("traces",()):
+        if not isinstance(trace,dict):
+            continue
+        knowledge_ledger.capture_material_trace(
+            trace,
+            fallback_basis=str(basis),
+            source_episode="improvement-core-recursive",
+        )
+
+
 def run_improvement_core_regime(
     user_text:str,
     *,
@@ -101,6 +134,7 @@ def run_improvement_core_regime(
     max_rounds:int=8,
     recursive_handlers:dict[str,Callable]|None=None,
     learning_memory:LearningMemory|None=None,
+    knowledge_ledger:KnowledgeLedger|None=None,
     external_adapters:dict[str,Callable]|None=None,
     force_external:bool=False,
     allow_external_gap:bool=True,
@@ -108,6 +142,10 @@ def run_improvement_core_regime(
 )->ImprovementCoreRegimeResult:
     lm=learning_memory or LearningMemory.from_durable(
         DEFAULT_DURABLE_LEARNING_PATH,
+        autosave=True,
+    )
+    kl=knowledge_ledger or KnowledgeLedger.from_durable(
+        DEFAULT_KNOWLEDGE_LEDGER_PATH,
         autosave=True,
     )
 
@@ -140,18 +178,21 @@ def run_improvement_core_regime(
     )
     current=manager_result.result.state
     _record_stage_learning(current,lm)
+    _record_stage_knowledge(current,kl,basis)
 
     live=isinstance(current,dict) and bool(current.get("live_continuation"))
     if not live:
         if external_gap:
             return ImprovementCoreRegimeResult(
                 manager_result,None,tuple(lm.summary()),"OPEN",
-                "EXTERNAL_ACQUISITION_GAP",external_receipt
+                "EXTERNAL_ACQUISITION_GAP",external_receipt,
+                tuple(kl.summary())
             )
         status="COMPLETE" if manager_result.result.terminal else "OPEN"
         blocker=None if manager_result.result.terminal else manager_result.result.blocker
         return ImprovementCoreRegimeResult(
-            manager_result,None,tuple(lm.summary()),status,blocker,external_receipt
+            manager_result,None,tuple(lm.summary()),status,blocker,external_receipt,
+            tuple(kl.summary())
         )
 
     required=("select_child_job","run_child","admit_child","update_parent")
@@ -163,6 +204,7 @@ def run_improvement_core_regime(
             "OPEN",
             "RECURSIVE_MANAGER_HANDLERS_REQUIRED",
             external_receipt,
+            tuple(kl.summary()),
         )
 
     recursive=RecursiveImprovementCoreManager(
@@ -186,7 +228,10 @@ def run_improvement_core_regime(
             "OPEN",
             str(exc),
             external_receipt,
+            tuple(kl.summary()),
         )
+
+    _record_recursive_knowledge(recursive_result,kl,basis)
 
     status=str(recursive_result.get("status","OPEN"))
     blocker=recursive_result.get("blocker")
@@ -201,4 +246,5 @@ def run_improvement_core_regime(
         status,
         blocker,
         external_receipt,
+        tuple(kl.summary()),
     )
