@@ -50,3 +50,28 @@ def delta_reentry_route(material_delta,previous_packet,next_packet):
 def trc(material_delta,previous_packet,next_packet):
     """Compatibility alias for the historical delta-router name."""
     return delta_reentry_route(material_delta,previous_packet,next_packet)
+
+
+@dataclass(frozen=True)
+class HF1ReentryDecision:
+    world_changed: bool
+    discovery_changed: bool
+    result_sensitive_delta: bool
+    action: str
+
+
+def hf1_reentry_route(*, world_changed: bool, discovery_changed: bool,
+                      result_sensitive_delta: bool = False) -> HF1ReentryDecision:
+    """Wrapper-level HF1 reentry law."""
+    if world_changed or discovery_changed:
+        action = "REENTER_OBSERVE"
+    elif result_sensitive_delta:
+        action = "REVERIFY"
+    else:
+        action = "NO_REENTRY"
+    return HF1ReentryDecision(
+        bool(world_changed),
+        bool(discovery_changed),
+        bool(result_sensitive_delta),
+        action,
+    )
