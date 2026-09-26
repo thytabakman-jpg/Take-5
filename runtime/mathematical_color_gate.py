@@ -1,8 +1,7 @@
 """Fail-closed user-visible mathematical status emission.
 
-Formal-system objects are registered centrally and rendered as typed LaTeX
-fragments carrying a binary recovery state. A response-boundary audit can then
-reject registered formal labels that escape as plain text.
+Formal-object identity is owned by runtime/formal_object_registry.py. This module
+owns only status assessment, typed rendering, and response-boundary enforcement.
 """
 from __future__ import annotations
 
@@ -10,6 +9,12 @@ from dataclasses import dataclass
 from enum import Enum
 import re
 from typing import Iterable, Mapping, Sequence
+
+from formal_object_registry import (
+    FORMAL_OBJECT_ALIASES,
+    aliases_by_length,
+    canonical_formal_label as _canonical_formal_label,
+)
 
 
 class MathStatus(str, Enum):
@@ -41,14 +46,11 @@ def assess_recovery(
 ) -> RecoveryAssessment:
     required = tuple(required_coordinates)
     unresolved: list[str] = []
-
     if not required:
         unresolved.append("REQUIRED_COORDINATES_UNSPECIFIED")
-
     for coordinate in required:
         if coordinate_status.get(coordinate, "MISSING") not in RECOVERED_COORDINATE_STATUSES:
             unresolved.append(coordinate)
-
     complete_for_use = bool(required) and not unresolved
     status = MathStatus.RECOVERED if complete_for_use else MathStatus.UNRESOLVED
     return RecoveryAssessment(
@@ -90,40 +92,16 @@ class ColorInvariantViolation(RuntimeError):
     pass
 
 
-# One canonical registry for user-visible formal labels.
-# Aliases normalize to one mathematical object identity.
-FORMAL_OBJECT_ALIASES = {
-    "ASSERT":"ASSERT",
-    "COMPARE":"COMPARE",
-    "RESOLVE":"RESOLVE",
-    "HERE":"HERE",
-    "INQUIRE":"INQUIRE",
-    "REASSERT":"REASSERT",
-    "ROOT CAUSE":"ROOT_CAUSE",
-    "ROOT-CAUSE":"ROOT_CAUSE",
-    "ROOT_CAUSE":"ROOT_CAUSE",
-    "GOAL":"GOAL",
-    "ARCHITECT":"ARCHITECT",
-    "WRAPPER":"WRAPPER",
-    "JANE":"JANE",
-    "MT":"MT",
-    "PD":"PD",
-    "IMPROVECORE":"IMPROVECORE",
-    "IMPROVE CORE":"IMPROVECORE",
-    "IMPROVEMENTCORE":"IMPROVECORE",
-    "IMPROVEMENT CORE":"IMPROVECORE",
-    "HF1":"HF1",
-    "HF-1":"HF1",
-    "HF001":"HF1",
-    "HF-001":"HF1",
-}
+def _formal_pattern() -> re.Pattern:
+    aliases=aliases_by_length()
+    encoded="|".join(re.escape(x) for x in aliases)
+    return re.compile(
+        rf"(?<![A-Za-z0-9_])(?:{encoded}|ICC(?:[- _]?\d+)?)(?![A-Za-z0-9_])",
+        re.IGNORECASE,
+    )
 
-_STATIC_ALIASES = sorted(FORMAL_OBJECT_ALIASES, key=len, reverse=True)
-_STATIC_PATTERN = "|".join(re.escape(x) for x in _STATIC_ALIASES)
-FORMAL_OBJECT_PATTERN = re.compile(
-    rf"(?i)(?<![A-Za-z0-9_])(?:{_STATIC_PATTERN}|ICC(?:[- _]?\d+)?)(?![A-Za-z0-9_])"
-)
 
+FORMAL_OBJECT_PATTERN = _formal_pattern()
 FORBIDDEN_RAW_MARKUP = ("<span", "</span>", "style=", "color:")
 FORBIDDEN_FALLBACK_MARKERS = ("🟢", "🔴")
 MATH_SIGNAL_PATTERN = re.compile(
@@ -131,19 +109,16 @@ MATH_SIGNAL_PATTERN = re.compile(
     r"|\$|[=≠→⇒⇔∧∨⊢⊬∈∉∀∃μΓφ])"
 )
 COLORED_FORMAL_LABEL_PATTERN = re.compile(
-    r"\\color\{(?:green|red)\}\{\\operatorname\{[^{}]+\}\}",
+    r"\\color\{(?:green|red)\}\{\\operatorname\{[^{}]*(?:\{[-]\}[^{}]*)*\}\}",
     re.IGNORECASE,
 )
 
 
 def canonical_formal_label(label: str) -> str:
-    normalized = " ".join(label.strip().upper().split())
-    if re.fullmatch(r"ICC(?:[- _]?\d+)?", normalized, flags=re.IGNORECASE):
-        return normalized.replace(" ", "-").replace("_", "-")
-    canonical = FORMAL_OBJECT_ALIASES.get(normalized)
-    if canonical is None:
-        raise ColorInvariantViolation("FORMAL_LABEL_NOT_REGISTERED")
-    return canonical
+    try:
+        return _canonical_formal_label(label)
+    except KeyError as exc:
+        raise ColorInvariantViolation("FORMAL_LABEL_NOT_REGISTERED") from exc
 
 
 def render_math(fragment: MathFragment | AssessedMathFragment) -> str:
@@ -196,11 +171,7 @@ def verify_rendered_output(rendered: str) -> None:
 
 
 def verify_assistant_response(rendered: str) -> None:
-    """Fail closed when a registered formal label escapes outside typed color.
-
-    This is intentionally narrower than a full LaTeX parser. It closes the
-    recurring label-bypass failure while preserving ordinary prose.
-    """
+    """Reject any live formal-system identity that escapes typed color."""
     verify_rendered_output(rendered)
     masked = COLORED_FORMAL_LABEL_PATTERN.sub("", rendered)
     if FORMAL_OBJECT_PATTERN.search(masked):
@@ -217,5 +188,5 @@ def emit_user_visible(fragments: Iterable[Fragment]) -> str:
         else:
             rendered.append(fragment.text)
     out = "".join(rendered)
-    verify_rendered_output(out)
+    verify_assistant_response(out)
     return out
