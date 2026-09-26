@@ -1,0 +1,155 @@
+{
+  "schema_version": 1,
+  "object_id": "TAKE5:ICC128-LEGACY-LEARNING-REPORT:001",
+  "tool": "ICC128 Legacy",
+  "run_id": "icc128-legacy-show-math-four-targets-20260926-003",
+  "source_commit": "e4c76c595b44a35fd9efc02cde8979e656ef54e8",
+  "learning_persistence": "REPORT_ONLY_EPHEMERAL_CONTROLLER_MEMORY",
+  "learning_status": "MATERIAL_LEARNING",
+  "run_status": "COMPLETE",
+  "failure": null,
+  "initial_state": {
+    "target": "Show Me the Math on Tool Conductor, Show Me the Math, ImprovementCore, and ICC123",
+    "unresolved": true,
+    "admitted_continuation": true,
+    "representation_result_sensitive": true,
+    "recurrence_or_prior_failure": true,
+    "capability_or_tool_selection_is_itself_the_job": true,
+    "terminal": "CONTINUE"
+  },
+  "initial_memory": {
+    "negative_routes": [
+      "green formal-object names substituted for their mathematics",
+      "undefined update/generator symbols treated as recovered leaves",
+      "semantic completeness collapsed into runtime portability"
+    ]
+  },
+  "iteration_learning": [
+    {
+      "iteration": 0,
+      "questions_generated": [
+        {
+          "question_id": "Q1",
+          "question": "What common projection rule makes all four requested outputs actual mathematics rather than colored labels?",
+          "live_candidate_answers": [
+            "print each formal object's FullMath tuple",
+            "recursively expand every load-bearing node until each terminal is a recovered mathematical expression or an irreducible named unknown"
+          ],
+          "enabling_discovery_or_distinction": "The current Show Me the Math MT run explicitly rejects green composite labels as terminal output.",
+          "unresolved_structure": "The behavior was recovered but not yet written as one recursive mathematical projection.",
+          "downstream_dependency": "All four requested outputs depend on the same projection law."
+        },
+        {
+          "question_id": "Q2",
+          "question": "Which symbols in current Tool Conductor, ImprovementCore, and ICC123 mathematics remain opaque under that projection?",
+          "live_candidate_answers": [
+            "none because FullMath is current",
+            "portability/environment factors for Tool Conductor, update/co-discovery maps for ImprovementCore, and generator completeness for ICC123"
+          ],
+          "enabling_discovery_or_distinction": "FullMath recovery and explicit runtime/generator OPEN coordinates coexist in the current artifacts.",
+          "unresolved_structure": "Recovered semantic identity is not identical to complete primitive expansion.",
+          "downstream_dependency": "Determines red leaves."
+        }
+      ],
+      "work_generated": [
+        {
+          "work_id": "W1",
+          "question_id": "Q1",
+          "probe_or_test": "Construct the minimal recursive tree-valued display function and attack it with the current MT Show Me the Math invariants.",
+          "candidate_answers_discriminated": [
+            "tuple-only display",
+            "recursive actual-math projection"
+          ],
+          "expected_search_space_effect": "Fix one display law for all targets.",
+          "required_inputs_or_sources": [
+            "MT_CURRENT_FULL_SHOW_ME_THE_MATH_001_2026-09-26.md"
+          ],
+          "execution_or_semantic_route": "semantic reconstruction"
+        },
+        {
+          "work_id": "W2",
+          "question_id": "Q2",
+          "probe_or_test": "Expand the current equations and classify every nonprimitive named map as recovered or OPEN using current source artifacts.",
+          "candidate_answers_discriminated": [
+            "all green",
+            "mixed green/red recursive expansion"
+          ],
+          "expected_search_space_effect": "Produce exact red frontier rather than whole-object red/green shortcuts.",
+          "required_inputs_or_sources": [
+            "TOOL_CONDUCTOR_FULL_MATH_001_2026-09-26.md",
+            "IMPROVEMENT_CORE_FULL_MATH_CURRENT_001_2026-09-26.md",
+            "ICC123_FULL_TOOL_MATH_001_2026-09-26.md"
+          ],
+          "execution_or_semantic_route": "ICC123 residual scan plus mathematical projection"
+        }
+      ],
+      "selected_work": [
+        {
+          "work_id": "W1"
+        },
+        {
+          "work_id": "W2"
+        }
+      ],
+      "results_observed": [
+        {
+          "work_id": "W1",
+          "result": "The valid projection is recursive and tree-valued: a recovered terminal emits its mathematical expression; a decomposable node emits its mathematical expression plus recursively projected load-bearing children; an unrecovered irreducible node emits its canonical name in red."
+        },
+        {
+          "work_id": "W2",
+          "result": "Tool Conductor core product semantics are recovered but portability has 31 non-self-contained factors. ImprovementCore has typed controller state and transition structure but UpdateUniverse, UpdateRelations, RegenerateQuestions, UpdateCapabilitySemantics, UpdateLearning, IntegrateState, and CoDiscover are not closed-form recovered maps. ICC123 has recovered materiality/separator/omission predicates while Gen^123 remains state-relative and globally incomplete."
+        }
+      ],
+      "admitted_delta": {
+        "material_result_delta": true,
+        "material_search_delta": true,
+        "candidate_discovery_deltas": [
+          "formalize Show Me the Math as one recursive mathematical projection",
+          "separate current semantic FullMath from primitive/portable closure"
+        ],
+        "dcc_receipt": "semantic-normalization-relative"
+      },
+      "memory_after": {
+        "learned": [
+          "actual-math display requires recursive leaf expansion",
+          "semantic FullMath currentness does not make every internal map green",
+          "Tool Conductor portability red set and ICC123 generator OPEN must remain visible"
+        ]
+      },
+      "state_after": {
+        "unresolved": false,
+        "admitted_continuation": false,
+        "terminal": "COMPLETE",
+        "display_job": "COMPLETE",
+        "global_portability": "OPEN"
+      },
+      "terminal": "COMPLETE"
+    }
+  ],
+  "admitted_deltas": [
+    {
+      "material_result_delta": true,
+      "material_search_delta": true,
+      "candidate_discovery_deltas": [
+        "recursive actual-math projection",
+        "per-leaf semantic versus executable status"
+      ]
+    }
+  ],
+  "final_state": {
+    "terminal": "COMPLETE",
+    "display_job": "COMPLETE",
+    "global_portability": "OPEN"
+  },
+  "final_ephemeral_memory": {
+    "learned": [
+      "The requested four-object Show Me the Math projection is complete relative to current artifacts.",
+      "Portability remains a separate open system frontier."
+    ]
+  },
+  "memory_changed": true,
+  "state_changed": true,
+  "ephemeral_memory_disposition": "DISCARD_AFTER_REPORT_SUBMISSION",
+  "report_required_even_when_no_material_learning": true
+}
