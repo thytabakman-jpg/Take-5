@@ -1,0 +1,86 @@
+{
+  "schema_version": 1,
+  "object_id": "TAKE5:ICC128-LEGACY-LEARNING-REPORT:001",
+  "tool": "ICC128 Legacy",
+  "run_id": "icc128-legacy-self-portability-20260926-004",
+  "source_repository": "thytabakman-jpg/Reaserch",
+  "source_commit": "e4c76c595b44a35fd9efc02cde8979e656ef54e8",
+  "target": "ICC128 Legacy itself under SHOW_ME_THE_MATH portability semantics",
+  "learning_persistence": "REPORT_ONLY_EPHEMERAL_CONTROLLER_MEMORY",
+  "learning_status": "MATERIAL_LEARNING",
+  "run_status": "OPEN",
+  "failure": null,
+  "initial_state": {
+    "terminal": "CONTINUE",
+    "unresolved": true,
+    "admitted_continuation": true,
+    "representation_result_sensitive": true,
+    "recurrence_or_prior_failure": true,
+    "live_problem": "Recover exact portable mathematics of ICC128 Legacy that can be reconstructed in a fresh unrelated reasoning environment."
+  },
+  "initial_memory": {
+    "negative_routes": [
+      "treating named operators as recovered mathematics",
+      "silently inventing implementations for higher-order controller bindings",
+      "equating frozen controller core with the Take-5 GitHub-report activation wrapper"
+    ]
+  },
+  "iteration_learning": [
+    {
+      "iteration": 0,
+      "questions_generated": [
+        "Which load-bearing ICC128 Legacy operators are internal code and which are host-supplied higher-order bindings?",
+        "Can exact Take-5 Legacy activation be host-independent while GitHubReportCommitReceipt remains a closure invariant?"
+      ],
+      "work_generated": [
+        "Audit frozen runtime protocols and pinned support mathematics.",
+        "Apply SHOW_ME_THE_MATH recursive definition-closure test.",
+        "Build a standalone single-file reference realization and isolated fresh-environment regression."
+      ],
+      "results_observed": [
+        "The frozen controller is higher-order over G_Q,G_W,S,E,A,U and optional DCC.",
+        "The frozen semantic adapter and rho policy recover G_Q/G_W validation and state-relative selection semantics.",
+        "Admission, update, discovery closure, package compilation, semantic reasoning and execution remain explicit bindings rather than hidden controller code.",
+        "Exact Take-5 activation adds a GitHub learning-report receipt and is therefore a distinct configured wrapper from the host-independent controller core."
+      ],
+      "admitted_delta": {
+        "material_result_delta": true,
+        "material_search_delta": true,
+        "candidate_discovery_deltas": [
+          "portable core identity is distinct from exact Take-5 activation identity",
+          "all higher-order bindings must be explicit typed primitives in the portability package"
+        ],
+        "dcc_receipt": "self-application semantic normalization"
+      },
+      "state_after": {
+        "terminal": "CONTINUE",
+        "unresolved": true,
+        "admitted_continuation": true,
+        "portable_core_candidate": "implemented on branch",
+        "exact_take5_activation_without_github": "BLOCKED"
+      }
+    }
+  ],
+  "admitted_deltas": [
+    "expose every higher-order binding",
+    "add single-file portable reference realization",
+    "add fresh-environment SHOW_ME_THE_MATH regression",
+    "preserve GitHub report closure as an explicit nonportable wrapper coordinate"
+  ],
+  "final_state": {
+    "terminal": "OPEN",
+    "unresolved": true,
+    "admitted_continuation": true,
+    "resume_condition": "repository validation and capability-preservation gates must pass before candidate promotion"
+  },
+  "final_ephemeral_memory": {
+    "learned": [
+      "ICC128 Legacy core can be reconstructed portably only as a higher-order controller with explicit host bindings.",
+      "Exact Take-5 Legacy activation cannot be universally host-independent without changing its report-receipt wrapper."
+    ]
+  },
+  "memory_changed": true,
+  "state_changed": true,
+  "ephemeral_memory_disposition": "DISCARD_AFTER_REPORT_SUBMISSION",
+  "report_required_even_when_no_material_learning": true
+}
