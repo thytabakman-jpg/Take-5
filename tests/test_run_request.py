@@ -64,3 +64,32 @@ def test_goal_defaults_to_full_configured_wrapped_36c():
     assert r.recursive is True
     assert r.closure_required is True
     assert r.reentry_required is True
+
+
+def test_architect_alias_resolves_to_full_configured_architecture():
+    r = resolve_run_request("run Architect")
+    assert r.tool_id == "Architecture"
+    assert r.configured is True
+    assert r.wrapper_required is True
+    assert r.geometry == Geometry.D36_C
+    assert r.recursive is True
+    assert r.closure_required is True
+    assert r.reentry_required is True
+
+
+def test_architecture_name_resolves_to_same_configured_tool():
+    r = resolve_run_request("run Architecture")
+    assert r.tool_id == "Architecture"
+    assert r.configured is True
+    assert r.geometry == Geometry.D36_C
+
+
+def test_root_cause_alias_resolves_to_rootcause_not_diagnosis():
+    r = resolve_run_request("run Root Cause")
+    assert r.tool_id == "RootCause"
+    assert r.configured is True
+    assert r.wrapper_required is True
+    assert r.geometry == Geometry.D36_C
+    assert r.recursive is True
+    assert r.closure_required is True
+    assert r.reentry_required is True
