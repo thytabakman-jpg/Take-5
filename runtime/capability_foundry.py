@@ -33,7 +33,6 @@ class CapabilitySpec:
     mathematical_basis: str=""
     math_required_coordinates: tuple[str,...]=()
     math_recovered_coordinates: tuple[str,...]=()
-    semantic_package_current: bool=False
 
     def math_complete_for_use(self)->bool:
         required=set(self.math_required_coordinates)
