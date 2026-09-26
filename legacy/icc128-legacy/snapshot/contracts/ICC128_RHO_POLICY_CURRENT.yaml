@@ -1,0 +1,119 @@
+schema_version: 0.1
+object_id: REASERCH:ICC128-RHO-POLICY:001
+date: 2026-09-26
+status: current_semantic_policy
+purpose: >
+  Supply the recovered state-relative intelligence behind rho_128. This policy binds the
+  historical ICC-128 endogenous chooser to the strongest recovered IC-012 capability-selection
+  behavior without replacing current ICC inquiry, execution-truth, memory, or reentry controls.
+
+sources:
+  - projects/improvement-core/versions/IC-2026-09-23-012.yaml
+  - projects/project-anatomy/CAPABILITY_SELECTION_PROTOCOL_CANDIDATE.md
+  - projects/project-anatomy/CAPABILITY_SELECTION_REPLAY_AUDIT_2026-09-23.md
+  - projects/core-system-mathematics/runtime/MATHEMATICAL_CAPABILITY_SELECTION_PROTOCOL_001_2026-09-24.md
+  - projects/improvement-core/ICC128_AUTONOMOUS_CONTROLLER_CURRENT.yaml
+
+rho_128:
+  input:
+    - Z_t
+    - MI_t
+    - InquiryState_t
+    - CapabilityBasis_t
+    - WorkObligations_t
+  output:
+    - SelectedInquiry_t
+    - SelectedWork_t
+    - SelectedCapabilityPackage_t
+  semantics: >
+    Discover the live job from current state before tool choice, search shared and project-local
+    repertoire by behavior rather than name, generate ordered capability packages, preserve
+    incomparable non-dominated alternatives, choose the cheapest package only when it preserves
+    all live protected jobs, execute a bounded step, observe actual delta, and reselect after
+    material invalidation.
+
+activation_preflight:
+  FIRE_when:
+    - target_or_job_identity_open
+    - hidden_dependency_plausible
+    - representation_result_sensitive
+    - recurrence_or_prior_failure
+    - multiple_material_packages_fit
+    - project_local_capability_may_matter
+    - transfer_or_external_route_may_matter
+    - state_delta_invalidates_prior_selection
+    - capability_or_tool_selection_is_itself_the_job
+  CHEAP_DIRECT_when:
+    - task_and_job_well_typed
+    - one_validated_capability_clearly_fits
+    - consequence_bounded
+    - no_material_rival_exposed
+    - no_recurrence_or_major_state_change
+
+job_discovery:
+  cheap_path: direct_typed_job
+  deep_path:
+    preferred_discovery_capability: A18
+    companion_capabilities: [A01, A02, A04, A06, A09, A10, A12, A13]
+  rule: >
+    Escalate discovery before package choice when supplied labels may omit a material job.
+    Never treat caller-supplied signal labels as a complete job model.
+
+package_generation:
+  repertoire_sources:
+    - projects/pd/practical/PRACTICAL_CORE_CAPABILITY_REGISTRY.yaml
+    - project_local_reusable_capabilities
+    - admitted_transfer_candidates
+    - external_capabilities_when_material
+  order:
+    - singles
+    - ordered_pairs_when_interaction_or_order_sensitive
+    - higher_order_packages_only_when_unique_residual_or_noncommutation_is_exposed
+
+package_admission:
+  require:
+    - inputs_available_or_produced_upstream
+    - authority_compatible
+    - output_types_compatible
+    - protected_results_preserved
+    - OPEN_BLOCKED_CONFLICT_preserved
+    - no_redundant_member_under_current_basis
+  preserve_incomparability: true
+  scalar_total_score_required: false
+
+selection_preferences:
+  - dependency_leverage
+  - expected_information_gain
+  - continuation_value
+  - exact_job_fit
+  - historical_failure_avoidance
+  - project_local_reuse_when_strictly_useful
+  - lower_burden_when_behaviorally_equivalent
+
+reselection:
+  trigger_on:
+    - material_result_delta
+    - material_search_delta
+    - new_OPEN
+    - changed_job_identity
+    - changed_representation
+    - failed_route
+    - new_project_local_capability
+    - changed_authority
+  no_inertia_rule: >
+    A previously successful package never becomes a permanent default merely because it worked once.
+
+anti_regression:
+  - do_not_run_everything_by_default
+  - do_not_select_by_tool_name_or_recency
+  - do_not_collapse_question_selection_into_capability_selection
+  - do_not_replace_job_discovery_with_signal_routing
+  - do_not_drop_incomparable_packages_without_result_sensitive_basis
+  - do_not_stop_after_package_completion_if_controller_state_requires_reentry
+
+validation_basis:
+  replay_result: >
+    Historical capability-selection replay changed the selected package in 5/6 heterogeneous cases
+    and chose less machinery in the Jewish Holiday Booklets case.
+  evidence_class: retrospective_internal
+  prospective_validation: OPEN
