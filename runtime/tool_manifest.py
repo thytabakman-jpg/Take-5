@@ -90,6 +90,54 @@ MT_BINDINGS=GENERIC_BINDINGS+(
         "runtime/mt_semantic_return_gate.py",
         "tests/test_mt_semantic_return_gate.py",
     ),
+    ProtectedBinding(
+        "MT_W1_WHOLE_OBJECT_RECONNAISSANCE",
+        "PRE",
+        "runtime/global_tool_execution.py",
+        "tests/test_global_tool_execution.py",
+    ),
+    ProtectedBinding(
+        "MT_W2_SELF_GENERATED_LOCAL_QUESTIONS",
+        "INTRA",
+        "runtime/inquiry_session.py",
+        "tests/test_inquiry_session.py",
+    ),
+    ProtectedBinding(
+        "MT_W3_RECONNAISSANCE_NONMUTATION",
+        "PRE",
+        "runtime/global_tool_execution.py",
+        "tests/test_global_tool_execution.py",
+    ),
+    ProtectedBinding(
+        "MT_W4_REOBSERVE_AFTER_MATERIAL_CHANGE",
+        "POST",
+        "runtime/math_first_wrapper.py",
+        "tests/test_math_first_wrapper.py",
+    ),
+    ProtectedBinding(
+        "MT_W5_FULL_CONSEQUENCE_CLOSURE",
+        "POST",
+        "runtime/tool_run_closure.py",
+        "tests/test_tool_run_closure.py",
+    ),
+    ProtectedBinding(
+        "MT_W6_ROOT_OBJECT_PRESERVATION",
+        "CROSS",
+        "runtime/math_first_wrapper.py",
+        "tests/test_math_first_wrapper.py",
+    ),
+    ProtectedBinding(
+        "MT_W7_CROSS_OBJECT_CROSS_SCALE_DISCOVERY",
+        "INTRA",
+        "runtime/relation_kernel.py",
+        "tests/test_relation_kernel.py",
+    ),
+    ProtectedBinding(
+        "MT_W8_BEHAVIORAL_EQUIVALENCE_NOT_FINAL_ANSWER_ONLY",
+        "CROSS",
+        "runtime/historical_replay_audit.py",
+        "tests/test_historical_replay_audit.py",
+    ),
 )
 
 HF001_BINDINGS=GENERIC_BINDINGS+(
