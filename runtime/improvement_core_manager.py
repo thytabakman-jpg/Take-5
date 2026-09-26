@@ -42,6 +42,7 @@ def run_improvement_core_manager(
     jane_update:Callable|None=None,
     controller_decide:Callable|None=None,
     max_rounds:int=8,
+    configured_tool_adapters:dict[str,Callable]|None=None,
 )->ImprovementCoreManagerResult:
     binding=bind_entry_contract(
         user_text,
@@ -62,6 +63,7 @@ def run_improvement_core_manager(
         jane_update=jane_update,
         controller_decide=controller_decide,
         max_rounds=max_rounds,
+        configured_tool_adapters=configured_tool_adapters,
     )
     receipt=ImprovementCoreManagerReceipt(
         controller=binding.contract.controller,
