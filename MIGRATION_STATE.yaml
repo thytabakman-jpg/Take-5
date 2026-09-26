@@ -53,7 +53,7 @@ drift_control:
   detected: true
   detected_date: 2026-09-25
   source_repository: thytabakman-jpg/Reaserch
-  status: OPEN_RECONCILIATION
+  status: RECONCILED_DECLARED_DRIFT_SET
   authority_rule: post_cutover_legacy_writes_do_not_regain_canonical_authority
-  reconciliation_record: integration/REASERCH_POST_MIGRATION_DRIFT_2026-09-25.md
-  transfer_rule: exact_source_plus_target_effect_plus_validation_before_admission
+  reconciliation_record: integration/REASERCH_POST_CUTOVER_RECONCILIATION_FINAL_002_2026-09-25.md
+  transfer_rule: exact_source_plus_target_effect_plus_validation_before_admission\n  future_reopen_rule: only_new_material_post_cutover_evidence_reopens_its_affected_cone
