@@ -22,7 +22,7 @@ from improvement_core_external_acquisition import (
     merge_external_outputs,
 )
 
-REGIME_VERSION="088"
+REGIME_VERSION="089"
 
 @dataclass(frozen=True)
 class ImprovementCoreRegime:
@@ -95,6 +95,7 @@ def run_improvement_core_regime(
     external_adapters:dict[str,Callable]|None=None,
     force_external:bool=False,
     allow_external_gap:bool=True,
+    configured_tool_adapters:dict[str,Callable]|None=None,
 )->ImprovementCoreRegimeResult:
     lm=learning_memory or LearningMemory()
 
@@ -123,6 +124,7 @@ def run_improvement_core_regime(
         jane_update=jane_update,
         controller_decide=controller_decide,
         max_rounds=max_rounds,
+        configured_tool_adapters=configured_tool_adapters,
     )
     current=manager_result.result.state
     _record_stage_learning(current,lm)
