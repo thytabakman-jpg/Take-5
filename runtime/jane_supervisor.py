@@ -7,6 +7,7 @@ from dataclasses import dataclass,field
 from typing import Any
 from state_commit import CommitReceipt,StateRole,require_role
 from endogenous_work import WorkItem,WorkKind,WorkStatus
+from semantic_resolution_pipeline import plan_black_box_resolution
 
 @dataclass
 class JaneSupervisoryState:
@@ -77,7 +78,7 @@ def semantic_capture_obligation(
             "mathematical_basis" if created_here else "typed_open_semantics",
         ),
         "followup_configured_runs":(
-            ("PD","PDAudit")
+            tuple(s.tool_id for s in plan_black_box_resolution(object_id).stages)
             if (load_bearing is None or not math_complete_for_use)
             else ()
         ),
