@@ -90,7 +90,7 @@ GENERIC_BINDINGS=(
     ProtectedBinding(
         "FULL_CONFIGURED_INVOCATION_PROFILE",
         "CROSS",
-        "runtime/direct_tool_command_gateway.py",
+        "runtime/global_tool_execution.py",
         "tests/test_full_invocation_portfolio.py",
     ),
 )
