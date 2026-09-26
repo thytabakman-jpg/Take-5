@@ -42,3 +42,25 @@ def test_pd_also_defaults_to_configured_wrapped_geometry():
     assert r.configured is True
     assert r.wrapper_required is True
     assert r.geometry == Geometry.D36_C
+
+
+def test_assert_defaults_to_full_configured_wrapped_36c():
+    r = resolve_run_request("run ASSERT")
+    assert r.tool_id == "ASSERT"
+    assert r.configured is True
+    assert r.wrapper_required is True
+    assert r.geometry == Geometry.D36_C
+    assert r.recursive is True
+    assert r.closure_required is True
+    assert r.reentry_required is True
+
+
+def test_goal_defaults_to_full_configured_wrapped_36c():
+    r = resolve_run_request("run GOAL")
+    assert r.tool_id == "GOAL"
+    assert r.configured is True
+    assert r.wrapper_required is True
+    assert r.geometry == Geometry.D36_C
+    assert r.recursive is True
+    assert r.closure_required is True
+    assert r.reentry_required is True
