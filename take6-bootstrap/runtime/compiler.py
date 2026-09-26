@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 from collections import defaultdict, deque
-from dataclasses import dataclass
 import hashlib
 import json
 from pathlib import Path
@@ -14,22 +13,29 @@ def _canon(v: Any) -> bytes:
 def state_cid(v: Any) -> str:
     return "sha256:" + hashlib.sha256(_canon(v)).hexdigest()
 
-@dataclass(frozen=True)
-class CompiledSubject:
-    subject: str
-    status: str
-    current_payload_cid: str | None
-    maximal_payload_cids: tuple[str, ...]
+def event_cid(event_without_id: dict[str, Any]) -> str:
+    return state_cid(event_without_id)
+
+def _verify_event_identity(event: dict[str, Any]) -> None:
+    body = {k: v for k, v in event.items() if k != "event_id"}
+    expected = event_cid(body)
+    if event.get("event_id") != expected:
+        raise RuntimeError("TAKE6_EVENT_IDENTITY_FAILURE:" + str(event.get("event_id")))
 
 def _topological(events: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    for event in events:
+        _verify_event_identity(event)
     by_id = {e["event_id"]: e for e in events}
+    if len(by_id) != len(events):
+        raise RuntimeError("TAKE6_DUPLICATE_EVENT_ID")
     indeg = {eid: 0 for eid in by_id}
     kids: dict[str, list[str]] = defaultdict(list)
     for eid, event in by_id.items():
         for parent in event.get("parents", []):
-            if parent in by_id:
-                indeg[eid] += 1
-                kids[parent].append(eid)
+            if parent not in by_id:
+                raise RuntimeError("TAKE6_MISSING_PARENT_EVENT:" + parent)
+            indeg[eid] += 1
+            kids[parent].append(eid)
     q = deque(sorted(eid for eid, d in indeg.items() if d == 0))
     out: list[dict[str, Any]] = []
     while q:
@@ -48,7 +54,7 @@ def compile_state(events: Iterable[dict[str, Any]]) -> dict[str, Any]:
     admitted: dict[str, set[str]] = defaultdict(set)
     rejected: dict[str, set[str]] = defaultdict(set)
     supersedes: dict[str, set[tuple[str, str]]] = defaultdict(set)
-    opens: dict[str, list[str]] = defaultdict(list)
+    boundaries: dict[str, list[str]] = defaultdict(list)
 
     for e in ordered:
         subject = e["subject"]
@@ -64,29 +70,38 @@ def compile_state(events: Iterable[dict[str, Any]]) -> dict[str, Any]:
             for old in e.get("supersedes", []):
                 supersedes[subject].add((old, payload))
         elif kind in {"OPEN", "BLOCK", "CONFLICT"}:
-            opens[subject].append(kind)
+            boundaries[subject].append(kind)
 
-    subjects = sorted(set(admitted) | set(rejected) | set(supersedes) | set(opens))
+    subjects = sorted(set(admitted) | set(rejected) | set(supersedes) | set(boundaries))
     compiled: dict[str, Any] = {}
 
     for subject in subjects:
         candidates = set(admitted[subject]) - set(rejected[subject])
         outgoing = {old for old, new in supersedes[subject] if new in candidates}
         maxima = sorted(candidates - outgoing)
-        if len(maxima) == 1:
+        explicit = sorted(set(boundaries[subject]))
+
+        if "CONFLICT" in explicit:
+            status = "CONFLICT"
+            current = None
+        elif "BLOCK" in explicit:
+            status = "BLOCKED"
+            current = None
+        elif len(maxima) == 1:
             status = "CURRENT"
             current = maxima[0]
         elif len(maxima) > 1:
             status = "CONFLICT"
             current = None
         else:
-            status = "OPEN" if opens[subject] or not candidates else "BLOCKED"
+            status = "OPEN"
             current = None
+
         compiled[subject] = {
             "status": status,
             "current_payload_cid": current,
             "maximal_payload_cids": maxima,
-            "typed_boundaries": sorted(opens[subject]),
+            "typed_boundaries": explicit,
         }
 
     result = {
