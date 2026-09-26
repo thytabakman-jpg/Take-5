@@ -113,6 +113,66 @@ ASSERT_BINDINGS=GENERIC_BINDINGS+(
     ),
 )
 
+IMPROVEMENT_CORE_BINDINGS=GENERIC_BINDINGS+(
+    ProtectedBinding(
+        "IC_INQUIRY_BEFORE_PACKAGE_SELECTION",
+        "INTRA",
+        "runtime/improvement_core.py",
+        "tests/test_improvement_core.py",
+    ),
+    ProtectedBinding(
+        "IC_UNMAPPED_QUESTION_FAILS_OPEN",
+        "INTRA",
+        "runtime/improvement_core.py",
+        "tests/test_improvement_core.py",
+    ),
+    ProtectedBinding(
+        "IC_GOVERNED_DELEGATED_EXECUTION",
+        "INTRA",
+        "runtime/controller_episode.py",
+        "tests/test_controller_episode.py",
+    ),
+    ProtectedBinding(
+        "IC_MATERIAL_DELTA_REENTRY_ROUTING",
+        "POST",
+        "runtime/improvement_core.py",
+        "tests/test_improvement_core.py",
+    ),
+)
+
+HF001_BINDINGS=GENERIC_BINDINGS+(
+    ProtectedBinding(
+        "HF001_OBLIGATION_TO_PACKAGE_ROUTING",
+        "INTRA",
+        "runtime/hf_controller.py",
+        "tests/test_hf_current_controller.py",
+    ),
+    ProtectedBinding(
+        "HF001_BLOCKED_OPEN_WITHOUT_REACHABLE_PACKAGE",
+        "INTRA",
+        "runtime/hf_controller.py",
+        "tests/test_hf_current_controller.py",
+    ),
+    ProtectedBinding(
+        "HF001_MATERIAL_DELTA_REENTER_OR_REVERIFY",
+        "POST",
+        "runtime/hf_controller.py",
+        "tests/test_hf_current_controller.py",
+    ),
+    ProtectedBinding(
+        "HF001_WORLD_OR_DISCOVERY_DELTA_REENTERS_OBSERVE",
+        "POST",
+        "runtime/hf_controller.py",
+        "tests/test_hf_current_controller.py",
+    ),
+    ProtectedBinding(
+        "HF001_RESULT_SENSITIVE_DELTA_REVERIFIES",
+        "POST",
+        "runtime/hf_controller.py",
+        "tests/test_hf_current_controller.py",
+    ),
+)
+
 OVERRIDES={
     "MT":ToolManifest(
         tool_id="MT",
@@ -130,7 +190,26 @@ OVERRIDES={
         reentry_contract="HF001",
         bindings=ASSERT_BINDINGS,
     ),
+    "ImprovementCore":ToolManifest(
+        tool_id="ImprovementCore",
+        native_semantics="ImprovementCore",
+        geometry_policy="D36_C",
+        closure_contract="TRC",
+        reentry_contract="HF001",
+        bindings=IMPROVEMENT_CORE_BINDINGS,
+    ),
+    "HF001":ToolManifest(
+        tool_id="HF001",
+        native_semantics="HF001",
+        geometry_policy="D36_C",
+        closure_contract="TRC",
+        reentry_contract="HF001",
+        bindings=HF001_BINDINGS,
+    ),
 }
+
+def has_specific_manifest(tool_id:str)->bool:
+    return str(tool_id) in OVERRIDES
 
 def manifest_for(tool_id:str)->ToolManifest:
     tool_id=str(tool_id)
