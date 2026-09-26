@@ -91,7 +91,7 @@ def validate_recovery()->dict:
             failures.append("MAXIMIZATION_STATUS_STALE")
 
         anchor=_read("integration/CURRENT_IMPROVEMENT_CORE.md")
-        if "Current regime version:\n- 083" not in anchor:
+        if "Current regime version:\n- 084" not in anchor:
             failures.append("RECOVERY_ANCHOR_REGIME_VERSION_DRIFT")
 
         handoff=_read("integration/ICC_SHUTDOWN_HANDOFF_2026-09-25.md")
