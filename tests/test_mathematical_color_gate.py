@@ -193,7 +193,7 @@ def test_every_configured_system_identity_is_color_governed(tool_id):
 
 @pytest.mark.parametrize(
     "label",
-    ("Tool Run Closure","K_PD","C_TR","Take-5","IC-028"),
+    ("Tool Run Closure","K_PD","C_TR","Take-5","IC-028","Show Me the Math"),
 )
 def test_non_tool_system_primitives_are_color_governed(label):
     rendered=render_formal_label(label,MathStatus.UNRESOLVED)

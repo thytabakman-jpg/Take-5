@@ -197,8 +197,14 @@ Therefore:
 - a source-recoverable but unbundled dependency stays red for standalone portability;
 - executable availability and formal reconstruction must be distinguished.
 
-Canonical formal definition:
+Canonical generic formal definition:
+architecture/PORTABLE_MATHEMATICAL_OBJECT_CONTRACT_001_2026-09-26.md
+
+Tool-specific specialization:
 architecture/FULL_TOOL_MATHEMATICAL_IDENTITY_CONTRACT_002_2026-09-26.md
 
-Operational checker:
+Standalone operational realization:
+runtime/show_me_the_math_portable.py
+
+Compatibility checker:
 runtime/show_me_the_math_contract.py
