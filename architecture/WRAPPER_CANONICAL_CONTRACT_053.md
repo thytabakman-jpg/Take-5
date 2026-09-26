@@ -4,7 +4,7 @@ Date: 2026-09-25
 
 Status: CURRENT WORKING DESIGN AUTHORITY
 
-Runtime effect: NONE until separately implemented and validated
+Runtime effect: ACTIVE for fail-closed ICC bootstrap gating; full cross-chat invocation and concrete ASSERT/GOAL worker binding remain outside repository enforcement
 
 Purpose: preserve the current wrapper mathematics so future wrapper changes are compared against an explicit artifact rather than reconstructed from chat memory.
 
@@ -474,6 +474,7 @@ I24 load-bearing visible formal objects preserve status through mandatory glyph-
 I25 every ICC run begins with full wrapped ASSERT in observer mode
 I26 full wrapped GOAL in observer mode runs immediately after ASSERT and before any other ICC work
 I27 ASSERT_obs -> GOAL_obs bootstrap cannot be bypassed by direct routing, execution, or bare/core substitution
+I28 configured ASSERT and GOAL resolve with typed D36_C geometry unless an explicitly different typed geometry is authorized
 ```
 
 ## 13. Current OPEN coordinates
@@ -487,7 +488,7 @@ O3 full-spectrum trigger equations: CANDIDATE_DEFINED in FOCUS_ROUTE_CONTRACT_05
 O4 exact geometry-selection law
 O5 exact Eval mathematics
 O7 cost/gain law for cheap probe versus heavy execution where deterministic triggers do not fully settle mode
-O8 implementation parity between this design artifact and runtime/math_first_wrapper.py
+O8 concrete binding from ICC bootstrap to the current full ASSERT and GOAL semantic workers across every host/chat entry surface
 ```
 
 ## 14. Relationship to existing artifacts
@@ -498,6 +499,8 @@ This artifact complements rather than silently supersedes:
 - architecture/ARCHITECTURE_DECISION_036_MATH_FIRST_TOOL_SELECTION.md
 - architecture/OBSERVER_ALL_TOOLS_SWEEP_038.md
 - runtime/math_first_wrapper.py
+- runtime/icc_bootstrap.py
+- runtime/icc_entry.py
 - runtime/tool_run_closure.py
 - runtime/hf_controller.py
 - architecture/FOCUS_ROUTE_CONTRACT_054.md
