@@ -1,7 +1,7 @@
 # CURRENT ICC128 LEGACY MATH — Portable Reconstruction 001
 
 Date: 2026-09-26
-Status: CANDIDATE / FAIL-CLOSED
+Status: VALIDATED CANDIDATE / FAIL-CLOSED
 Frozen source: thytabakman-jpg/Reaserch@e4c76c595b44a35fd9efc02cde8979e656ef54e8
 
 ## Result
@@ -92,3 +92,16 @@ environment.
 Literal pure mathematics does not execute on a machine that lacks an
 interpreter/reasoner. Exact Take-5 Legacy closure additionally requires the
 Take-5 report receipt and therefore is not universally host-independent.
+
+
+## Validation evidence
+
+Take-5 Validation:
+36260658857 SUCCESS
+
+Capability Preservation:
+36260658917 SUCCESS
+
+The validated branch tested the current SHOW_ME_THE_MATH evaluator, isolated
+single-file execution, missing-semantic-provider failure, missing-controller-binding
+failure, and the exact Take-5 GitHub report-sink boundary.
