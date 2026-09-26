@@ -28,6 +28,8 @@ RESTORED=ROOT/"runtime/improvement_core_legacy_restored.py"
 RESTORED_TESTS=ROOT/"tests/test_improvement_core_legacy_restored.py"
 CONTROL_RECEIPT=ROOT/"artifacts/improvecore/LEGACY_CANDIDATE_CONTROL_HOLDOUT_131_2026-09-26.md"
 SEMANTIC_RECEIPT=ROOT/"artifacts/improvecore/LEGACY_RESTORED_SEMANTIC_HOLDOUT_132_2026-09-26.md"
+RESTORED_DISPATCH=ROOT/"runtime/improvement_core_restored_dispatch.py"
+RESTORED_DISPATCH_TESTS=ROOT/"tests/test_improvement_core_restored_dispatch.py"
 
 def read(p): return p.read_text(encoding="utf-8")
 
@@ -46,6 +48,8 @@ def evidence_snapshot():
     restored_tests_text=read(RESTORED_TESTS) if restored_tests else ""
     control_receipt=read(CONTROL_RECEIPT) if CONTROL_RECEIPT.exists() else ""
     semantic_receipt=read(SEMANTIC_RECEIPT) if SEMANTIC_RECEIPT.exists() else ""
+    restored_dispatch=read(RESTORED_DISPATCH) if RESTORED_DISPATCH.exists() else ""
+    restored_dispatch_tests=read(RESTORED_DISPATCH_TESTS) if RESTORED_DISPATCH_TESTS.exists() else ""
     return {
         "fixed_goal_directed_stage_train":"GOAL_DIRECTED_STAGES=(" in operator,
         "goal_stage_count":len(GOAL_DIRECTED_STAGES),
@@ -81,6 +85,11 @@ def evidence_snapshot():
         "control_holdout_pass":"4/4 PASS" in control_receipt and "2/2 PASS" in control_receipt,
         "semantic_holdout_pass":"4/4 PASS" in semantic_receipt and "HOST_MODEL_SUPPLIED_SEMANTIC_FRONTIER + REPOSITORY_CONTROL_EXECUTION" in semantic_receipt,
         "semantic_evidence_nonindependent":"not independent-agent replication" in semantic_receipt.lower(),
+        "restored_dispatch_present":RESTORED_DISPATCH.exists(),
+        "restored_dispatch_tests_present":RESTORED_DISPATCH_TESTS.exists(),
+        "restored_dispatch_requires_provider":"RESTORED_SEMANTIC_PROVIDER_REQUIRED" in restored_dispatch,
+        "restored_dispatch_no_fallback_test":"test_missing_semantic_provider_fails_open_without_fixed_stage_fallback" in restored_dispatch_tests,
+        "restored_dispatch_executes_provider_test":"test_bound_semantic_provider_executes_restored_controller" in restored_dispatch_tests,
     }
 
 def handlers():
@@ -210,6 +219,11 @@ def handlers():
                         "observer_guard":snap["restored_observer_guard"],
                         "external_gap_test":snap["restored_external_gap_test"],
                         "outer_hf2_test":snap["restored_hf2_test"],
+                        "restored_dispatch_present":snap["restored_dispatch_present"],
+                        "restored_dispatch_tests_present":snap["restored_dispatch_tests_present"],
+                        "restored_dispatch_requires_provider":snap["restored_dispatch_requires_provider"],
+                        "restored_dispatch_no_fallback_test":snap["restored_dispatch_no_fallback_test"],
+                        "restored_dispatch_executes_provider_test":snap["restored_dispatch_executes_provider_test"],
                         "cheap_direct_test":snap["candidate_cheap_direct_test"],
                         "plurality_test":snap["candidate_plurality_test"],
                         "reselection_test":snap["candidate_reselection_test"],
@@ -261,23 +275,38 @@ def handlers():
                     elif selected_next=="RUN_SEMANTIC_HOLDOUTS":
                         s["implementation_target"]="runtime/improvement_core_legacy_semantic_holdouts_132.py"
                     elif selected_next=="ASSESS_REPOSITORY_PROMOTION_BOUNDARY":
+                        dispatch_ready=all([
+                            snap["restored_dispatch_present"],
+                            snap["restored_dispatch_tests_present"],
+                            snap["restored_dispatch_requires_provider"],
+                            snap["restored_dispatch_no_fallback_test"],
+                            snap["restored_dispatch_executes_provider_test"],
+                        ])
                         s["promotion_boundary"]={
-                            "repository_restored_controller":"ADMISSION_READY",
+                            "repository_restored_controller":"ENTRYPOINT_IMPLEMENTED" if dispatch_ready else "ADMISSION_READY",
                             "semantic_provider_contract":"REQUIRED",
                             "automatic_universal_chat_host_binding":"EXTERNAL_NOT_OWNED",
-                            "selected_next":"ADD_GOVERNED_RESTORED_DISPATCH",
+                            "selected_next":"CLASSIFY_FINAL_REENTRY" if dispatch_ready else "ADD_GOVERNED_RESTORED_DISPATCH",
                             "rule":"route to restored controller when an explicit semantic provider is bound; never silently substitute the fixed-stage controller under a restored-execution claim",
                         }
                     s["campaign_phase"]=13
                     return {"state":s,"material_delta":True}
                 if phase==13:
-                    if s.get("promotion_boundary",{}).get("selected_next")=="ADD_GOVERNED_RESTORED_DISPATCH":
+                    next_step=s.get("promotion_boundary",{}).get("selected_next")
+                    if next_step=="ADD_GOVERNED_RESTORED_DISPATCH":
                         s["implementation_target"]={
                             "new_runtime":"runtime/improvement_core_restored_dispatch.py",
                             "semantic_provider":"explicit required host binding",
                             "fallback":"typed OPEN when restored semantics are requested but provider is unavailable",
                             "compatibility":"existing fixed-stage dispatch remains available as legacy compatibility/debug surface until host binding is universal",
                         }
+                    elif next_step=="CLASSIFY_FINAL_REENTRY":
+                        s["repository_restoration_status"]="CLOSED_RELATIVE"
+                        s["remaining_external_boundaries"]=(
+                            "MASTER_THREE_MONTH_ARCHIVE_NOT_YET_ADDRESSABLE",
+                            "AUTOMATIC_UNIVERSAL_CHAT_HOST_SEMANTIC_BINDING_EXTERNAL_NOT_OWNED",
+                        )
+                        s["anti_churn"]="NO_FURTHER_CONTROLLER_REPAIR_WITHOUT_FAILING_BEHAVIORAL_WITNESS_OR_NEW_HISTORICAL_EVIDENCE"
                     s["campaign_phase"]=14
                     return {"state":s,"material_delta":True}
                 s["hf2_disable_local_recurrence"]=True
@@ -286,7 +315,11 @@ def handlers():
                 s["admission"]="ADMIT_STRICT_GAIN_ONLY"
             elif stage=="RECONCILE":
                 if int(s.get("campaign_phase",0))>=14:
-                    s["remaining_residual"]="implement governed restored dispatch; universal automatic host semantic binding remains external"
+                    s["remaining_residual"]=(
+                        "repository restoration closed relative; only typed external boundaries remain"
+                        if s.get("repository_restoration_status")=="CLOSED_RELATIVE"
+                        else "implement governed restored dispatch; universal automatic host semantic binding remains external"
+                    )
                 elif int(s.get("campaign_phase",0))>=13:
                     s["remaining_residual"]="repository promotion boundary / semantic host binding"
                 elif int(s.get("campaign_phase",0))>=3 and not snap["candidate_present"]:
