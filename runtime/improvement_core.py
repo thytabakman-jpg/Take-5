@@ -1,12 +1,15 @@
 """Improvement Core governing episode.
 
-IC remains the protected adaptive controller. Callers may optionally provide a
-package selector; omitting it preserves the historical max-hit behavior.
+IC remains the protected adaptive controller. Question generation and
+question-to-tool mapping are mandatory before package selection so the
+historical IC-028 inquiry behavior cannot silently collapse into obligation-only
+routing.
 """
 from dataclasses import dataclass
 from hf_controller import decide,delta_reentry_route
 from controller_episode import run_episode
 from delegation import delegate
+from inquiry_bridge import prepare_inquiry
 
 @dataclass
 class ICResult:
@@ -22,9 +25,29 @@ def improve(packet,package_index,workers,mode_policy,max_rounds=8,package_select
     results=[]
     seen=set()
     for n in range(1,max_rounds+1):
+        inquiry=prepare_inquiry(current,package_index)
+        current["question_frontier"]=tuple(
+            {
+                "question_id":q.question_id,
+                "issue":q.issue,
+                "obligations":q.obligations,
+                "source":q.source,
+            }
+            for q in inquiry.frontier
+        )
+        current["question_tool_map"]=inquiry.question_tool_map
+        current["inquiry_prepared"]=True
+
+        # An explicit question frontier is a live inquiry obligation.  It cannot
+        # be silently ignored merely because current package triggers do not
+        # already know how to route it.
+        if packet.get("question_frontier") and inquiry.unmapped:
+            current["unmapped_questions"]=inquiry.unmapped
+            return ICResult("OPEN",n-1,"OPEN",(),tuple(results),current)
+
         flags=mode_policy(current)
         d=decide(current,package_index,flags,package_selector=package_selector)
-        sig=(d.projection.obligations,d.package,d.mode)
+        sig=(d.projection.obligations,d.package,d.mode,current.get("question_tool_map"))
         if d.action=="CLOSE_RELATIVE":
             return ICResult("CLOSED_RELATIVE",n-1,d.mode,d.package,tuple(results),current)
         if d.action!="EXECUTE" or sig in seen:
