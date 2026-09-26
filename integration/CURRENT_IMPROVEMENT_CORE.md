@@ -36,7 +36,7 @@ Controller:
 - IC-028
 
 Current regime version:
-- 089
+- 090
 
 Current invocation path:
 
@@ -132,6 +132,9 @@ architecture/IMPROVEMENT_CORE_ACTIVATION_083.md
 36. a selected registered formal tool is not satisfied by naming, planning, or generic analysis; it requires configured adapter invocation and result consumption.
 37. a missing selected-tool adapter preserves OPEN rather than silently degrading to generic EXECUTE.
 38. plan reachability and execution reachability remain distinct claims.
+39. the controller policy is a set-valued nondominated correspondence; execution resolution never silently scalarizes incomparable alternatives.
+40. MT current identity reconstructs the recovered W1-W8 historical witness basis.
+41. corpus orphan completeness claims are frozen-basis accounting claims, not unqualified open-world claims.
 
 ## Cross-repository lineage
 
@@ -194,9 +197,17 @@ Current strict-gain math surface:
 architecture/IMPROVEMENT_CORE_MATHEMATICS_086.md
 
 
-Preferred augmented controller candidate:
+Preferred augmented controller:
 
 C^+_(J,K) = <Z x M,D,A^+_(J,K),pi^+_(J,K),T^+_(J,K),Tau^+_(J,K)>
+
+The policy coordinate is now exact:
+
+pi^+_(J,K): Z^+ rightrightarrows A
+
+pi^+_(J,K)(z,m) = ND(H_(J,K)(z,m)),
+
+with execution resolution kept separate so plural incomparable frontiers remain OPEN without an explicit licensed choice.
 
 where M is basis-relative learning memory and recursive child runs are typed actions inside A^+.
 
@@ -257,6 +268,7 @@ Open-world global maximality/minimality is not a licensed completion claim. Curr
 ## Related current recovery anchors
 
 - integration/CURRENT_MATHEMATICAL_COLORING.md
+- integration/CURRENT_MT.md
 - integration/CURRENT_HF1.md
 - integration/CURRENT_HF2.md
 - integration/CURRENT_ROOT_CAUSE.md
