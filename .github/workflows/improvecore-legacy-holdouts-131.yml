@@ -1,0 +1,35 @@
+name: ImproveCore Legacy Holdouts 131
+
+on:
+  pull_request:
+    paths:
+      - 'runtime/improvement_core_legacy_candidate.py'
+      - 'runtime/improvement_core_legacy_holdout_campaign.py'
+      - 'tests/test_improvement_core_legacy_candidate.py'
+      - '.github/workflows/improvecore-legacy-holdouts-131.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'runtime/improvement_core_legacy_candidate.py'
+      - 'runtime/improvement_core_legacy_holdout_campaign.py'
+      - '.github/workflows/improvecore-legacy-holdouts-131.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  holdouts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run Legacy candidate holdouts and ablations
+        run: PYTHONPATH=runtime:. python3 runtime/improvement_core_legacy_holdout_campaign.py
+      - name: Upload holdout receipt
+        uses: actions/upload-artifact@v4
+        with:
+          name: improvecore-legacy-holdouts-131
+          path: runtime/state/improvecore-legacy-holdouts-131/report.json
