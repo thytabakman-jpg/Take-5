@@ -11,6 +11,10 @@ from pathlib import Path
 
 from improvement_core_dispatch import resolve_improvement_core_invocation
 from improvement_core_regime import CURRENT_REGIME
+from current_portfolio_identity import audit_current_portfolio_identity
+from historical_replay_audit import audit_historical_replays
+from relation_kernel import current_relation_basis
+from repertoire_reachability import audit_current_repertoire_reachability
 
 ROOT=Path(__file__).resolve().parents[1]
 
@@ -37,6 +41,15 @@ REQUIRED_FILES=(
     "architecture/CROSS_REPOSITORY_IMPROVEMENTCORE_LINEAGE_CHOICE_080.md",
     "research/IMPROVEMENT_CORE_USAGE_AUDIT_078_2026-09-26.md",
     "integration/ICC_SHUTDOWN_HANDOFF_2026-09-25.md",
+    "architecture/IMPROVEMENT_CORE_FRONTIER_CLOSURE_106.md",
+    "architecture/RELATION_BASIS_AND_ADMISSION_001_2026-09-26.md",
+    "architecture/HOST_INTERCEPTION_AUTHORITY_BOUNDARY_001_2026-09-26.md",
+    "integration/IMPROVEMENTCORE_HISTORICAL_REPLAY_BASIS_001.json",
+    "runtime/relation_kernel.py",
+    "runtime/improvement_core_route_calibration.py",
+    "runtime/current_portfolio_identity.py",
+    "runtime/repertoire_reachability.py",
+    "runtime/historical_replay_audit.py",
 )
 
 def _read(rel:str)->str:
@@ -100,8 +113,24 @@ def validate_recovery()->dict:
             failures.append("MAXIMIZATION_STATUS_STALE")
 
         anchor=_read("integration/CURRENT_IMPROVEMENT_CORE.md")
-        if "Current regime version:\n- 087" not in anchor:
+        if "Current regime version:\n- 088" not in anchor:
             failures.append("RECOVERY_ANCHOR_REGIME_VERSION_DRIFT")
+
+        if manifest.get("open") not in ([], ()):
+            failures.append("RECOVERY_MANIFEST_OPEN_COORDINATES_STALE")
+        if "UNIVERSAL_HOST_INTERCEPTION_EXTERNAL_NOT_OWNED" not in manifest.get("external_limits",[]):
+            failures.append("HOST_AUTHORITY_BOUNDARY_MISSING")
+        if not current_relation_basis().complete():
+            failures.append("RELATION_BASIS_INCOMPLETE")
+        identity=audit_current_portfolio_identity()
+        if identity.status!="CLOSED_RELATIVE":
+            failures.append("CURRENT_PORTFOLIO_IDENTITY_OPEN")
+        reach=audit_current_repertoire_reachability()
+        if reach.status!="CLOSED_RELATIVE":
+            failures.append("CURRENT_REPERTOIRE_REACHABILITY_OPEN")
+        replay=audit_historical_replays()
+        if replay.status!="PASS":
+            failures.append("HISTORICAL_REPLAY_BASIS_OPEN")
 
         handoff=_read("integration/ICC_SHUTDOWN_HANDOFF_2026-09-25.md")
         if "1. `integration/CURRENT_IMPROVEMENT_CORE.md`" not in handoff:
