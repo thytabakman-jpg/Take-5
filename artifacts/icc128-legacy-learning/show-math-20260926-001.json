@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "object_id": "TAKE5:ICC128-LEGACY-LEARNING-REPORT:001",
+  "tool": "ICC128 Legacy",
+  "run_id": "show-math-20260926-001",
+  "source_repository": "thytabakman-jpg/Reaserch",
+  "source_commit": "e4c76c595b44a35fd9efc02cde8979e656ef54e8",
+  "learning_persistence": "REPORT_ONLY_EPHEMERAL_CONTROLLER_MEMORY",
+  "learning_status": "NO_MATERIAL_LEARNING",
+  "run_status": "COMPLETE",
+  "failure": null,
+  "initial_state": {"task": "show frozen mathematical identity"},
+  "initial_memory": {},
+  "iteration_learning": [],
+  "admitted_deltas": [],
+  "final_state": {"task": "show frozen mathematical identity", "terminal": "COMPLETE"},
+  "final_ephemeral_memory": {},
+  "memory_changed": false,
+  "state_changed": true,
+  "ephemeral_memory_disposition": "DISCARD_AFTER_REPORT_SUBMISSION",
+  "report_required_even_when_no_material_learning": true
+}
