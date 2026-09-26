@@ -1,7 +1,7 @@
 # ImprovementCore Mathematics 086
 
 Date: 2026-09-26
-Status: CURRENT STRICT-GAIN MATHEMATICAL CANDIDATE
+Status: CURRENT STRICT-GAIN MATHEMATICS / VALIDATED
 
 ## Problem
 
@@ -205,3 +205,14 @@ The preferred current abstract controller is C^+, not the older C alone.
 
 The older C remains the projection obtained by forgetting learning memory and
 recursive-action distinctions.
+
+
+## Validation evidence
+
+PR #55
+Merge: 39ca5616d3d8e23042f0ac887d0a447e24ec8ddf
+Validation run: 36221315384
+Conclusion: SUCCESS
+
+The strict-gain witness is executable in runtime/improvement_core_math.py and
+tests/test_improvement_core_math_086.py.
