@@ -8,14 +8,14 @@ MATERIAL_TOOLS=tuple([f"C{i:02d}" for i in range(1,50)]+[
 "ImprovementCore","MTA","Architecture","PD","PDAudit","GDOS","Discriminator","Reconciler",
 "DelegatedExecutor","HF001","TRC","RTC","BiasPerturbation","CurrentnessAudit",
 "CapabilityFoundry","EmergentAdmission","HistoricalReconstruction","ZeroRequest","MultiObject","Diagnosis",
-"ASSERT","SolutionToMyProblem"
+"ASSERT","SolutionToMyProblem","DesiredJane"
 ]+list(LEARNING_TOOLS))
 
 def _spec(tool):
     strong=(
         tool in {
             "ImprovementCore","MTA","Architecture","PD","PDAudit","GDOS","RTC",
-            "CurrentnessAudit","MultiObject","Diagnosis","ASSERT","SolutionToMyProblem"
+            "CurrentnessAudit","MultiObject","Diagnosis","ASSERT","SolutionToMyProblem","DesiredJane"
         }
         or tool in LEARNING_TOOLS
     )
