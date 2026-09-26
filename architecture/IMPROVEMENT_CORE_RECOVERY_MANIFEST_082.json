@@ -5,7 +5,7 @@
   "status": "CURRENT",
   "canonical_repository": "thytabakman-jpg/Take-5",
   "controller": "IC-028",
-  "regime_version": "084",
+  "regime_version": "085",
   "invocation": {
     "aliases": [
       "ImproveCore",
@@ -17,14 +17,15 @@
   },
   "regime": {
     "surface": "runtime/improvement_core_regime.py",
-    "version": "084",
+    "version": "085",
     "stage_manager": "runtime/improvement_core_manager.py",
     "operator": "runtime/ic028_operator.py",
     "recursive_manager": "runtime/improvement_core_recursive_manager.py",
     "recursive_activation": "LIVE_CONTINUATION",
     "learning_memory": "runtime/improvement_core_learning_memory.py",
     "learning_activation": "RECURSIVE_ROUTE_GATE_AND_STAGE_LEARNING_EVENTS",
-    "narrow_subordinate": "runtime/improvement_core.py"
+    "narrow_subordinate": "runtime/improvement_core.py",
+    "external_acquisition": "runtime/improvement_core_external_acquisition.py"
   },
   "evidence": {
     "maximization": "architecture/IMPROVEMENT_CORE_MAXIMIZATION_081.md",
@@ -80,7 +81,10 @@
     "STAGE_LEARNING_EVENTS_CAN_ENTER_MEMORY",
     "OPEN_BLOCKED_CONFLICT_PRESERVATION",
     "PROTECTED_TRANSITION_INTEGRITY",
-    "ZERO_REQUEST_CORPUS_SEEDS_DISCOVERY_BEFORE_SUBSTANTIVE_CONTROLLER_WORK"
+    "ZERO_REQUEST_CORPUS_SEEDS_DISCOVERY_BEFORE_SUBSTANTIVE_CONTROLLER_WORK",
+    "EXTERNAL_REQUIRED_ACQUISITION_PRECEDES_INTERNAL_RECONSTRUCTION",
+    "UNAVAILABLE_REQUIRED_EXTERNAL_CAPABILITY_PRESERVES_OPEN",
+    "EXTERNAL_OUTPUT_IS_EVIDENCE_NOT_AUTHORITY"
   ],
   "open": [
     "RELATION_GENERATOR_BASIS",
