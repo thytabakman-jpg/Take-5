@@ -9,9 +9,10 @@ from icc128_legacy_portable import (
     PORTABLE_MATH,
     F128,
     portable_core_package,
+    portable_core_environment,
     take5_activation_closed,
 )
-from show_me_the_math_contract import assess_show_math_package
+from show_me_the_math_portable import assess, surface_value, SURFACE_EQUATION
 
 
 def test_single_file_executes_in_isolated_fresh_directory(tmp_path):
@@ -31,28 +32,34 @@ def test_single_file_executes_in_isolated_fresh_directory(tmp_path):
 
 
 def test_show_me_the_math_closes_for_portable_core_when_host_primitives_exist():
-    package=portable_core_package(
+    package=portable_core_package()
+    environment=portable_core_environment(
         semantic_reasoner_available=True,
         execution_interface_available=True,
         controller_bindings_available=True,
     )
-    out=assess_show_math_package(package)
+    out=assess(package,environment)
     assert out.complete
     assert out.unresolved_symbols==()
-    assert out.hidden_dependencies==()
     assert out.unavailable_primitives==()
     assert out.unsatisfied_obligations==()
+    assert out.realizer_errors==()
+    assert out.equivalence_errors==()
+    assert surface_value(package,environment)==1
+    assert SURFACE_EQUATION=="Σ=𝟙_{Δ∩Ω∩Φ∩Ξ}"
 
 
 def test_show_me_the_math_fails_closed_without_semantic_reasoner():
-    package=portable_core_package(
+    package=portable_core_package()
+    environment=portable_core_environment(
         semantic_reasoner_available=False,
         execution_interface_available=True,
         controller_bindings_available=True,
     )
-    out=assess_show_math_package(package)
+    out=assess(package,environment)
     assert not out.complete
     assert "semantic_reasoner" in out.unavailable_primitives
+    assert surface_value(package,environment)==0
 
 
 def test_math_preserves_frozen_controller_signature_and_capability_family():
@@ -75,12 +82,14 @@ def test_exact_take5_activation_remains_distinct_from_portable_core():
 
 
 def test_show_me_the_math_fails_closed_without_higher_order_controller_bindings():
-    package=portable_core_package(
+    package=portable_core_package()
+    environment=portable_core_environment(
         semantic_reasoner_available=True,
         execution_interface_available=True,
         controller_bindings_available=False,
     )
-    out=assess_show_math_package(package)
+    out=assess(package,environment)
     assert not out.complete
     for name in ("package_compiler","admission_binding","update_binding","discovery_closure_binding"):
         assert name in out.unavailable_primitives
+    assert surface_value(package,environment)==0
