@@ -36,7 +36,7 @@ Controller:
 - IC-028
 
 Current regime version:
-- 085
+- 086
 
 Current invocation path:
 
@@ -109,6 +109,11 @@ architecture/IMPROVEMENT_CORE_ACTIVATION_083.md
 21. materially required external evidence/tools are acquired before brute-force internal reconstruction when a bound adapter exists.
 22. unavailable materially required external capability preserves OPEN rather than manufacturing internal closure.
 23. external outputs enter as evidence and do not self-authorize.
+24. hard admissibility precedes routing preference.
+25. plural nondominated child frontiers remain plural unless an explicit admissible frontier choice exists.
+26. representation sufficiency is continuation-relative.
+27. discovery/representation/candidate-universe changes can force reentry.
+28. previously verified active contributions cannot silently disappear without explicit revision.
 
 ## Cross-repository lineage
 
@@ -131,6 +136,18 @@ Take-5
 
 Decision:
 architecture/CROSS_REPOSITORY_IMPROVEMENTCORE_LINEAGE_CHOICE_080.md
+
+## Recovered mathematical spine
+
+Cross-lineage integration:
+architecture/IMPROVEMENT_CORE_MATH_CORPUS_INTEGRATION_090.md
+
+Executable controller constraints:
+runtime/improvement_core_math_spine.py
+
+The spine enforces hard admissibility before preference, set-valued nondominated routing, continuation-relative representation sufficiency, basis-relative closure, discovery-sensitive reentry, and cumulative verified-contribution preservation.
+
+In the recursive manager, a plural nondominated child frontier is OPEN until an explicit admissible frontier choice is supplied. A protected-behavior-regressing candidate is rejected before gain preference.
 
 ## Current mathematical organization
 
@@ -170,24 +187,26 @@ Global minimality remains OPEN.
 3. architecture/IMPROVEMENT_CORE_ACTIVATION_083.md
 4. architecture/IMPROVEMENT_CORE_MATHEMATICS_086.md
 5. runtime/improvement_core_math.py
-6. runtime/improvement_core_dispatch.py
-7. runtime/improvement_core_upstream.py
-8. runtime/improvement_core_regime.py
-9. runtime/improvement_core_external_acquisition.py
-10. architecture/IMPROVEMENT_CORE_EXTERNAL_ACQUISITION_090.md
-11. runtime/improvement_core_manager.py
-12. runtime/ic028_operator.py
-13. runtime/improvement_core_recursive_manager.py
-14. runtime/improvement_core_learning_memory.py
-15. architecture/IMPROVEMENT_CORE_MAXIMIZATION_081.md
-16. architecture/CROSS_REPOSITORY_IMPROVEMENTCORE_LINEAGE_CHOICE_080.md
-17. research/IMPROVEMENT_CORE_USAGE_AUDIT_078_2026-09-26.md
-18. architecture/MATH_FIRST_WRAPPER_CLOSURE_039.md
-19. architecture/FULL_RUN_DEFAULT_DISPATCH_CONTRACT_066.md
-20. architecture/CANONICAL_TOOL_IDENTITY_REPAIR_076.md
-21. architecture/PROTECTED_TRANSITION_INTEGRITY_090.md
-22. integration/CURRENT_PROTECTED_TRANSITION_INTEGRITY.md
-23. MIGRATION_STATE.yaml
+6. runtime/improvement_core_math_spine.py
+7. architecture/IMPROVEMENT_CORE_MATH_CORPUS_INTEGRATION_090.md
+8. runtime/improvement_core_dispatch.py
+9. runtime/improvement_core_upstream.py
+10. runtime/improvement_core_regime.py
+11. runtime/improvement_core_external_acquisition.py
+12. architecture/IMPROVEMENT_CORE_EXTERNAL_ACQUISITION_090.md
+13. runtime/improvement_core_manager.py
+14. runtime/ic028_operator.py
+15. runtime/improvement_core_recursive_manager.py
+16. runtime/improvement_core_learning_memory.py
+17. architecture/IMPROVEMENT_CORE_MAXIMIZATION_081.md
+18. architecture/CROSS_REPOSITORY_IMPROVEMENTCORE_LINEAGE_CHOICE_080.md
+19. research/IMPROVEMENT_CORE_USAGE_AUDIT_078_2026-09-26.md
+20. architecture/MATH_FIRST_WRAPPER_CLOSURE_039.md
+21. architecture/FULL_RUN_DEFAULT_DISPATCH_CONTRACT_066.md
+22. architecture/CANONICAL_TOOL_IDENTITY_REPAIR_076.md
+23. architecture/PROTECTED_TRANSITION_INTEGRITY_090.md
+24. integration/CURRENT_PROTECTED_TRANSITION_INTEGRITY.md
+25. MIGRATION_STATE.yaml
 
 ## Related current recovery anchors
 
