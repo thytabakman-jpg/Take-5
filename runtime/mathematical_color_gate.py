@@ -10,12 +10,59 @@ from __future__ import annotations
 from dataclasses import dataclass
 from enum import Enum
 import re
-from typing import Iterable, Sequence
+from typing import Iterable, Mapping, Sequence
 
 
 class MathStatus(str, Enum):
     RECOVERED = "RECOVERED"
     UNRESOLVED = "UNRESOLVED"
+
+
+RECOVERED_COORDINATE_STATUSES = frozenset({"RECOVERED", "ADMITTED", "VERIFIED"})
+
+
+@dataclass(frozen=True)
+class RecoveryAssessment:
+    object_id: str
+    job: str
+    claim: str
+    required_coordinates: tuple[str, ...]
+    unresolved_coordinates: tuple[str, ...]
+    status: MathStatus
+
+
+def assess_recovery(
+    *,
+    object_id: str,
+    job: str,
+    claim: str,
+    required_coordinates: Sequence[str],
+    coordinate_status: Mapping[str, str],
+) -> RecoveryAssessment:
+    """Derive emission status relative to the current job and claim.
+
+    Fail closed. A name, partial implementation, or locally verified subclaim
+    does not make the larger object RECOVERED.
+    """
+    required = tuple(required_coordinates)
+    unresolved: list[str] = []
+
+    if not required:
+        unresolved.append("REQUIRED_COORDINATES_UNSPECIFIED")
+
+    for coordinate in required:
+        if coordinate_status.get(coordinate, "MISSING") not in RECOVERED_COORDINATE_STATUSES:
+            unresolved.append(coordinate)
+
+    status = MathStatus.RECOVERED if required and not unresolved else MathStatus.UNRESOLVED
+    return RecoveryAssessment(
+        object_id=object_id,
+        job=job,
+        claim=claim,
+        required_coordinates=required,
+        unresolved_coordinates=tuple(unresolved),
+        status=status,
+    )
 
 
 class RenderMode(str, Enum):
