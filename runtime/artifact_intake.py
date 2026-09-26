@@ -42,7 +42,6 @@ class ExtractedCandidate:
     known_equivalent: str | None = None
     executable_claim: bool = False
     bound: bool = False
-    semantic_package_current: bool = False
     provenance: tuple[str, ...] = ()
     affected: tuple[str, ...] = ()
 
@@ -90,7 +89,6 @@ def _normalize_candidate(value: Any, artifact: ArtifactRecord) -> ExtractedCandi
         known_equivalent=value.get("known_equivalent"),
         executable_claim=bool(value.get("executable_claim", False)),
         bound=bool(value.get("bound", False)),
-        semantic_package_current=bool(value.get("semantic_package_current", False)),
         provenance=tuple(value.get("provenance", artifact.provenance)),
         affected=tuple(value.get("affected", ())),
     )
@@ -157,7 +155,6 @@ def intake(
 
 
 def candidate_admission(candidate: ExtractedCandidate, package_verifier=None) -> Admission:
-    verified = bool(package_verifier(candidate.candidate_id)) if package_verifier is not None else False
     return admit(
         ObjectCandidate(
             object_id=candidate.candidate_id,
