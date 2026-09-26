@@ -8,7 +8,7 @@ from hf002_recursive_continuation import HF002RecursiveContinuation
 from ic028_operator import GOAL_DIRECTED_STAGES
 from improvement_core_learning_memory import LearningMemory
 from improvement_core_knowledge_ledger import KnowledgeLedger
-from improvement_core_regime import run_improvement_core_regime
+from improvement_core_regime import CURRENT_REGIME, run_improvement_core_regime
 from tool_manifest import reconstructs
 from tool_run_registry import CONFIGURED_RUNS
 
@@ -243,6 +243,9 @@ def _admit(raw,state,memory):
 
 
 def test_final_think_big_improvementcore_reapplies_under_hf2_until_system_closes():
+    assert CURRENT_REGIME.version=="091"
+    assert CURRENT_REGIME.default_local_recurrence=="HF002"
+
     hf2=HF002RecursiveContinuation(
         run_capability=_run_ic,
         admit_normalize=_admit,
