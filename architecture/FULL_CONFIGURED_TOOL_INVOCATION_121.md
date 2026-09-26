@@ -220,3 +220,76 @@ HOST_INTEGRATION_BYPASS = EXTERNAL_NOT_OWNED.
 
 Inside a Take-5-governed formal-tool route, the weaker one-shot configured path is no longer
 admissible.
+
+
+## Post-merge Think-big reentry
+
+A post-merge recheck found two additional repository-owned execution surfaces that could
+otherwise have remained weaker parallel paths.
+
+### Protected Transition Integrity executor
+
+runtime/global_tool_execution.execute_protected_transition
+
+now executes its execution edge through:
+
+runtime/configured_hf2_execution.execute_configured_with_hf2.
+
+Backward-compatible execute callbacks may return:
+
+(value, evidence)
+
+for a one-round local close, or:
+
+(value, evidence, recurrence_hints)
+
+when the same configured execution has a material/live local successor.
+
+A successful PTI receipt now carries recurrence evidence such as:
+
+configured-recurrence:HF002:RELATIVE_CLOSE:rounds=n
+
+or, for HF002 itself:
+
+configured-recurrence:SELF:SELF_CLOSE:rounds=1.
+
+PTI cannot return a successful configured transition while its recurrence disposition remains
+OPEN, BLOCKED, CONFLICT, RETURN_REENTER, or RESOURCE_STOP.
+
+### Tool Conductor factors
+
+runtime/portable_tool_conductor.py
+
+still emits exactly one conductor-level disposition per registered factor.
+
+However, every non-self factor that actually executes now crosses the current full configured
+plan and configured recurrence executor.
+
+Therefore:
+
+one conductor factor disposition
+
+does not mean:
+
+one native adapter call.
+
+A factor may internally take multiple HF2 rounds while remaining one factor in the exhaustive
+product.
+
+Missing environment-bound adapters remain OPEN/BLOCKED rather than being substituted.
+
+The ToolConductor self factor remains a non-recursive self witness so the exhaustive product
+does not spawn an infinite conductor-on-conductor chain.
+
+## Strengthened route set
+
+The current repository-owned full-invocation invariant is enforced across:
+
+1. direct imperative formal-tool commands;
+2. ImprovementCore selected-tool execution;
+3. PTI end-to-end configured transitions;
+4. ToolConductor factor execution.
+
+Inner native semantic functions such as capability_runtime.execute_capability and individual
+learning operators are implementations inside a configured invocation, not independent claims
+of a full configured tool run.
