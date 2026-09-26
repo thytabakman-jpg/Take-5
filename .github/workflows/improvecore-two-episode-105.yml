@@ -1,0 +1,29 @@
+name: ImproveCore Two Episode Tool Run 105
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'runtime/improvecore_two_episode_105.py'
+      - 'integration/IMPROVECORE_TWO_EPISODE_TOOL_RUN_INPUT_105_2026-09-26.md'
+      - '.github/workflows/improvecore-two-episode-105.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run two independent ImproveCore episodes
+        run: PYTHONPATH=runtime:. python3 runtime/improvecore_two_episode_105.py
+      - name: Upload run receipt
+        uses: actions/upload-artifact@v4
+        with:
+          name: improvecore-two-episode-105
+          path: runtime/state/improvecore-two-episode-105/report.json
