@@ -16,7 +16,7 @@ from improvement_core_recursive_manager import RecursiveImprovementCoreManager
 from improvement_core_learning_memory import LearningMemory
 from improvement_core_afterrun import AfterRunReceipt, run_afterrun_improvement
 
-REGIME_VERSION="092"
+REGIME_VERSION="093"
 
 @dataclass(frozen=True)
 class ImprovementCoreRegime:
@@ -24,6 +24,8 @@ class ImprovementCoreRegime:
     recursive_manager:str
     learning_memory:str
     afterrun_tool:str
+    response_bias_control:str
+    object_lifecycle:str
     controller:str="IC-028"
     version:str=REGIME_VERSION
 
@@ -49,6 +51,8 @@ CURRENT_REGIME=ImprovementCoreRegime(
     recursive_manager="runtime.improvement_core_recursive_manager.RecursiveImprovementCoreManager",
     learning_memory="runtime.improvement_core_learning_memory.LearningMemory",
     afterrun_tool="runtime.improvement_core_afterrun.run_afterrun_improvement",
+    response_bias_control="runtime.improvement_core_response_bias",
+    object_lifecycle="runtime.object_lifecycle",
 )
 
 def _record_stage_learning(state,learning_memory):
@@ -70,6 +74,7 @@ def _record_stage_learning(state,learning_memory):
         )
 
 def _finalize(*, manager_result, recursive_result, lm, basis, status, blocker,
+              user_text, object_package_base,
               strict_gain_evaluator=None, authorized_applier=None):
     state=(
         recursive_result.get("state",manager_result.result.state)
@@ -86,6 +91,8 @@ def _finalize(*, manager_result, recursive_result, lm, basis, status, blocker,
         recursive_result=recursive_result,
         strict_gain_evaluator=strict_gain_evaluator,
         authorized_applier=authorized_applier,
+        user_text=user_text,
+        object_package_base=object_package_base,
     )
     return ImprovementCoreRegimeResult(
         manager_result,
@@ -115,6 +122,7 @@ def run_improvement_core_regime(
     learning_memory:LearningMemory|None=None,
     afterrun_strict_gain_evaluator:Callable|None=None,
     afterrun_authorized_applier:Callable|None=None,
+    object_package_base:str|None="semantic_objects",
 )->ImprovementCoreRegimeResult:
     lm=learning_memory or LearningMemory()
     manager_result=run_improvement_core_manager(
@@ -141,6 +149,7 @@ def run_improvement_core_regime(
         return _finalize(
             manager_result=manager_result,recursive_result=None,lm=lm,basis=basis,
             status=status,blocker=manager_result.result.blocker,
+            user_text=user_text,object_package_base=object_package_base,
             strict_gain_evaluator=afterrun_strict_gain_evaluator,
             authorized_applier=afterrun_authorized_applier,
         )
@@ -150,6 +159,7 @@ def run_improvement_core_regime(
         return _finalize(
             manager_result=manager_result,recursive_result=None,lm=lm,basis=basis,
             status="OPEN",blocker="RECURSIVE_MANAGER_HANDLERS_REQUIRED",
+            user_text=user_text,object_package_base=object_package_base,
             strict_gain_evaluator=afterrun_strict_gain_evaluator,
             authorized_applier=afterrun_authorized_applier,
         )
@@ -171,6 +181,7 @@ def run_improvement_core_regime(
         return _finalize(
             manager_result=manager_result,recursive_result=None,lm=lm,basis=basis,
             status="OPEN",blocker=str(exc),
+            user_text=user_text,object_package_base=object_package_base,
             strict_gain_evaluator=afterrun_strict_gain_evaluator,
             authorized_applier=afterrun_authorized_applier,
         )
@@ -179,6 +190,7 @@ def run_improvement_core_regime(
         manager_result=manager_result,recursive_result=recursive_result,lm=lm,basis=basis,
         status=str(recursive_result.get("status","OPEN")),
         blocker=recursive_result.get("blocker"),
+        user_text=user_text,object_package_base=object_package_base,
         strict_gain_evaluator=afterrun_strict_gain_evaluator,
         authorized_applier=afterrun_authorized_applier,
     )
