@@ -142,7 +142,10 @@
     },
     "artifact_intake_contract": "architecture/ARTIFACT_TO_WORK_INTAKE_CONTRACT_001_2026-09-25.md",
     "bound_zip_intake_recommendation": "artifacts/improvecore/IMPROVEMENTCORE_BOUND_ZIP_INTAKE_RECOMMENDATION_126_2026-09-26.md",
-    "bound_zip_external_runtime": "artifacts/improvecore/IMPROVEMENTCORE_EXTERNAL_BOUND_ZIP_RUNTIME_129_2026-09-26.md"
+    "bound_zip_external_runtime": "artifacts/improvecore/IMPROVEMENTCORE_EXTERNAL_BOUND_ZIP_RUNTIME_129_2026-09-26.md",
+    "bound_zip_finish_all_improvementcore": "artifacts/improvecore/IMPROVEMENTCORE_EXTERNAL_BOUND_ZIP_RUNTIME_129_2026-09-26.md",
+    "bound_zip_finish_all_hf2_first": "artifacts/improvecore/HF2_FINISH_ALL_ZIP_JOBS_130_2026-09-26.md",
+    "bound_zip_finish_all_hf2_second": "artifacts/improvecore/HF2_SECOND_FINISH_ALL_ZIP_JOBS_131_2026-09-26.md"
   },
   "protected_behaviors": [
     "CONTROLLER_OWNERSHIP",
