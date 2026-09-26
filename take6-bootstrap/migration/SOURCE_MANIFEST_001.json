@@ -1,0 +1,110 @@
+{
+  "schema_version": "0.1",
+  "object_id": "TAKE6:MIGRATION-SOURCE-MANIFEST:001",
+  "date": "2026-09-26",
+  "status": "PARTIAL_SOURCE_FREEZE",
+  "rule": "Repository sources are frozen by repository + commit + tree SHA. Binary/archive sources require stable external object identity + byte count + SHA-256. Unresolved identities remain OPEN.",
+  "repositories": [
+    {
+      "role": "current_lineage_evidence",
+      "repository": "thytabakman-jpg/Reaserch",
+      "ref": "main",
+      "commit": "7e3d12772b98de69114641aeabe408400271fbc9",
+      "tree_sha": "822d6d04b8c76b99cda9d555ed4591ce7ecb0d7f",
+      "observed_paths": 2383,
+      "markdown": 1759,
+      "python": 141,
+      "json": 32,
+      "yaml": 325,
+      "zip": 0
+    },
+    {
+      "role": "kernel_lineage_take2",
+      "repository": "thytabakman-jpg/Take-2",
+      "ref": "main",
+      "commit": "a0e94004e80b34837b2577ac8f2e96f1ff886e98",
+      "tree_sha": "aef214dcce4a5aab599e301afd5a0295acb77168",
+      "observed_paths": 37,
+      "markdown": 17,
+      "python": 1,
+      "json": 0,
+      "yaml": 5,
+      "zip": 0
+    },
+    {
+      "role": "architecture_lineage_take3",
+      "repository": "thytabakman-jpg/Take-3",
+      "ref": "main",
+      "commit": "174aa6e90667ed7030ee21ef9766b7f8cc302f2b",
+      "tree_sha": "5b4909c76d6a9db15ed9d43469467bcfa55b4464",
+      "observed_paths": 10,
+      "markdown": 5,
+      "python": 1,
+      "json": 0,
+      "yaml": 1,
+      "zip": 0
+    },
+    {
+      "role": "autonomy_lineage_take4",
+      "repository": "thytabakman-jpg/Take-4",
+      "ref": "main",
+      "commit": "1a8008aa97f0a153e6c0b922e596aa978cc671c3",
+      "tree_sha": "f991edf4d0a3e122daebabe54b46f269ab1ccaec",
+      "observed_paths": 64,
+      "markdown": 34,
+      "python": 10,
+      "json": 0,
+      "yaml": 6,
+      "zip": 0
+    },
+    {
+      "role": "current_working_authority_take5",
+      "repository": "thytabakman-jpg/Take-5",
+      "ref": "main",
+      "commit": "360b93b66f307ff800299d3a2122a00d336c66a3",
+      "tree_sha": "bece091a96bb953ddd5cd628752745b7beacd022",
+      "observed_paths": 858,
+      "markdown": 461,
+      "python": 291,
+      "json": 25,
+      "yaml": 33,
+      "zip": 0
+    },
+    {
+      "role": "frozen_legacy_improvementcore_behavioral_reference",
+      "repository": "thytabakman-jpg/Reaserch",
+      "ref_type": "commit",
+      "commit": "e4c76c595b44a35fd9efc02cde8979e656ef54e8",
+      "source_contract": "Take-5 architecture/IMPROVEMENT_CORE_LEGACY_RESTORATION_TARGET_129.md"
+    }
+  ],
+  "external_archives": [
+    {
+      "object_id": "TAKE6:MIGRATION-ARCHIVE-PAIR:INTENDED-GITHUB-ZIPS",
+      "status": "OPEN_UNBOUND_IDENTITY",
+      "count_expected": 2,
+      "required_binding_fields": [
+        "repository",
+        "object_class",
+        "stable_id",
+        "source_ref",
+        "observed_name",
+        "byte_count",
+        "sha256",
+        "observed_at"
+      ],
+      "evidence": [
+        "artifacts/improvecore/IMPROVEMENTCORE_TWO_GITHUB_ZIPS_OBSERVER_HF2_124_2026-09-26.md",
+        "artifacts/improvecore/IMPROVEMENTCORE_TWO_GITHUB_ZIPS_AUTONOMOUS_HF2_125_2026-09-26.md",
+        "artifacts/improvecore/IMPROVEMENTCORE_BOUND_ZIP_INTAKE_RECOMMENDATION_126_2026-09-26.md"
+      ],
+      "note": "No speculative archive pair is selected. Take-5 implements exact bound-ZIP intake, but the user's intended two substantive GitHub ZIP object identities remain unresolved in the preserved evidence."
+    }
+  ],
+  "closure": {
+    "repository_source_freeze": "PASS",
+    "legacy_behavioral_reference_freeze": "PASS_RELATIVE_TO_DECLARED_COMMIT",
+    "intended_zip_pair_freeze": "OPEN",
+    "overall": "OPEN"
+  }
+}
