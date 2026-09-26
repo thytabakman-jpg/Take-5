@@ -1,7 +1,7 @@
 # ImprovementCore Default HF2 Recurrence 118
 
 Date: 2026-09-26
-Status: CANDIDATE / VALIDATION PENDING
+Status: CURRENT / VALIDATED / MERGED
 Controller: ImprovementCore / IC-028
 Candidate regime: 091
 
@@ -147,3 +147,13 @@ The promotion is admitted only if:
 7. ImprovementCore becomes explicit rather than generic-only in manifest audit;
 8. the full Take-5 suite passes;
 9. Capability Preservation passes.
+
+
+## Promotion evidence
+
+PR #116
+- merge: ef2ef2a6fa0c4093c28654f4fda04d68eb4d9869
+- Take-5 Validation: 36270165005 SUCCESS
+- Capability Preservation: 36270165051 SUCCESS
+
+Regime 091 is now the current user-facing ImprovementCore regime.

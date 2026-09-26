@@ -119,9 +119,9 @@ Observed behavior:
 
 This validates the explicit campaign composition.
 
-Regime-091 candidate promotion:
+Regime-091 promoted use:
 
-HF2[ImprovementCore] is now proposed as the default local recurrence layer for ordinary
+HF2[ImprovementCore] is now the default local recurrence layer for ordinary
 user-facing ImprovementCore invocation. Reapplication requires both a material-effect witness
 and changed semantic state. HF1 upstream reentry escapes the local loop.
 
@@ -130,3 +130,16 @@ architecture/IMPROVEMENT_CORE_DEFAULT_HF2_118.md
 
 This promotion is ImprovementCore-specific. Universal HF2 wrapper promotion across every
 configured Take-5 tool remains OPEN.
+
+
+## ImprovementCore default-promotion evidence
+
+PR #116
+- merge: ef2ef2a6fa0c4093c28654f4fda04d68eb4d9869
+- Take-5 Validation: 36270165005 SUCCESS
+- Capability Preservation: 36270165051 SUCCESS
+
+Promoted validated use:
+HF2[ImprovementCore] as default local same-capability recurrence.
+
+Universal HF2 promotion across every configured tool remains OPEN.

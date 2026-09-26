@@ -88,6 +88,14 @@
         "ic123_math_recovery_run": "36249781890",
         "regime_version": "090",
         "role": "LONGITUDINAL_INDEXED_PROGRESS"
+      },
+      {
+        "pr": 116,
+        "merge_commit": "ef2ef2a6fa0c4093c28654f4fda04d68eb4d9869",
+        "validation_run": "36270165005",
+        "capability_preservation_run": "36270165051",
+        "regime_version": "091",
+        "role": "DEFAULT_HF002_LOCAL_RECURRENCE_AND_EXPLICIT_IMPROVEMENTCORE_MANIFEST"
       }
     ],
     "protected_transition_integrity": "architecture/PROTECTED_TRANSITION_INTEGRITY_090.md",
@@ -121,7 +129,14 @@
       "ic123_math_recovery_run": "36249781890",
       "focused_regressions": 73
     },
-    "default_hf2": "architecture/IMPROVEMENT_CORE_DEFAULT_HF2_118.md"
+    "default_hf2": "architecture/IMPROVEMENT_CORE_DEFAULT_HF2_118.md",
+    "default_hf2_validation": {
+      "pr": 116,
+      "merge_commit": "ef2ef2a6fa0c4093c28654f4fda04d68eb4d9869",
+      "validation_run": "36270165005",
+      "capability_preservation_run": "36270165051",
+      "regime_version": "091"
+    }
   },
   "protected_behaviors": [
     "CONTROLLER_OWNERSHIP",
