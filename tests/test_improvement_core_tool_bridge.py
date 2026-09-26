@@ -46,6 +46,7 @@ def test_bound_tools_are_actually_invoked_and_outputs_are_consumed():
     assert out.executions[0].recurrence_status=="RELATIVE_CLOSE"
     assert out.executions[0].recurrence_rounds==1
     assert out.state["configured_tool_outputs"][0]["result"]["root"]=="TOOL_SELECTION_EXECUTION_SEAM"
+    assert out.state["configured_tool_outputs"][0]["material_delta"] is True
     assert out.state["configured_tool_outputs"][0]["recurrence"]["engine"]=="HF002"
 
 

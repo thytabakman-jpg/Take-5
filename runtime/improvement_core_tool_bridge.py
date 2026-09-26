@@ -173,6 +173,9 @@ def _normalize_adapter_result(
         next_state=raw.get("state",current)
         evidence=tuple(str(x) for x in raw.get("evidence",()) if str(x))
         material=bool(raw.get("material_delta",True))
+        related_objects=tuple(str(x) for x in raw.get("related_objects",()) if str(x))
+        dependency_footprint=tuple(str(x) for x in raw.get("dependency_footprint",()) if str(x))
+        affected_objects=tuple(str(x) for x in raw.get("affected_objects",()) if str(x))
     else:
         status="EXECUTED"
         truth="IMPLEMENTATION_EXECUTED"
@@ -180,6 +183,9 @@ def _normalize_adapter_result(
         next_state=current
         evidence=()
         material=True
+        related_objects=()
+        dependency_footprint=()
+        affected_objects=()
 
     if status not in SUCCESS_STATUSES|NON_SUCCESS_STATUSES:
         raise ToolBridgeBlocked(f"CONFIGURED_TOOL_STATUS_INVALID:{tool_id}:{status}")
@@ -194,6 +200,10 @@ def _normalize_adapter_result(
             "execution_truth":truth,
             "result":_plain(result),
             "evidence":evidence,
+            "material_delta":material,
+            "related_objects":related_objects,
+            "dependency_footprint":dependency_footprint,
+            "affected_objects":affected_objects,
             "binding":binding.summary,
             "recurrence":None if recurrence is None else {
                 "engine":recurrence.recurrence_engine,
