@@ -119,3 +119,30 @@ Any branch labels whose exact semantics depend on the unresolved HF1 specificati
 This contract supplies a candidate resolution for Wrapper Canonical Contract 053 open coordinate O6, human-visible-math formalization.
 
 O6 remains not fully promoted until integration with the emission path and regression evidence are established.
+
+
+## Assistant response boundary
+
+The invariant applies before final assistant-message emission, not only inside repository runtime calls.
+
+A response is inadmissible when a load-bearing formal object bypasses typed status emission. In particular:
+
+- raw HTML span coloring is forbidden;
+- plain-text formal labels are forbidden when status color is required;
+- emoji or prefix fallbacks are forbidden;
+- a formal label such as ASSERT, GOAL, WRAPPER, PD, MT, or ICC-N is rendered as a LaTeX mathematical glyph carrying its status;
+- the final response receives a raw-markup audit before emission.
+
+The response-boundary law is:
+
+AssistantDraft
+-> IdentifyFormalObjects
+-> AssessStatus
+-> TypedMathFragments
+-> GlyphColorRender
+-> FinalRawMarkupAudit
+-> Emit
+
+Any failure in this chain blocks the colored formal object from emission rather than substituting unsupported markup.
+
+This closes the specific bypass that allowed a hand-authored HTML span to evade the repository color gate.
