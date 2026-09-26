@@ -49,3 +49,4 @@ def test_dispatch_executes_rich_controller_path_through_current_regime():
     assert "VERIFY" in out.receipt.stages
     assert "REENTER" in out.receipt.stages
     assert out.result.terminal
+    assert out.status=="COMPLETE"
