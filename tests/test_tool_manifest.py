@@ -13,6 +13,24 @@ def test_hf1_manifest_reconstructs_unified_governed_episode():
     assert set(required)<=m.behavior_ids()
     assert reconstructs("HF001",required)
 
+def test_hf2_manifest_reconstructs_local_recursive_continuation():
+    required=("HF002_LOCAL_RECURSIVE_CONTINUATION",)
+    m=manifest_for("HF002")
+    assert m.complete()
+    assert set(required)<=m.behavior_ids()
+    assert reconstructs("HF002",required)
+
+def test_root_cause_manifest_reconstructs_hf2_and_parent_handoff():
+    required=(
+        "ROOT_CAUSE_ROOTNESS_SELECTOR",
+        "ROOT_CAUSE_HF002_LOCAL_RECURRENCE",
+        "ROOT_CAUSE_IMPROVEMENTCORE_PARENT_HANDOFF",
+    )
+    m=manifest_for("RootCause")
+    assert m.complete()
+    assert set(required)<=m.behavior_ids()
+    assert reconstructs("RootCause",required)
+
 def test_assert_manifest_reconstructs_canonical_compound_and_full36_behavior():
     required=(
         "ASSERT_COMPOUND_STAGE_ORDER",
