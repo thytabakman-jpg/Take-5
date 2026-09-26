@@ -31,6 +31,7 @@ intended_write_set:
   - tests/test_kernel_preservation.py
   - integration/CAPABILITY_PRESERVATION_MANIFEST_100.json
   - tests/test_capability_preservation_manifest.py
+  - .github/workflows/capability-preservation.yml
 protected_behavior:
   - no_last_writer_wins
   - no_currentness_promotion
