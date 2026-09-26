@@ -8,8 +8,7 @@ MATERIAL_TOOLS=tuple([f"C{i:02d}" for i in range(1,50)]+[
 "ImprovementCore","MT","MTA","Architecture","PD","PDAudit","GDOS","Discriminator","Reconciler",
 "DelegatedExecutor","HF001","HF002","RootCause","TRC","RTC","BiasPerturbation","CurrentnessAudit",
 "CapabilityFoundry","EmergentAdmission","HistoricalReconstruction","ZeroRequest","MultiObject","Diagnosis",
-"ASSERT","GOAL","SolutionToMyProblem","DesiredJane","QuestionWorthAsking","LambdaMath","SemanticResolutionPipeline","ImproveCoreAfterRun","TransferCore",
-"ImproveCoreAfterRun","TransferCore"
+"ASSERT","GOAL","SolutionToMyProblem","DesiredJane","QuestionWorthAsking","LambdaMath","SemanticResolutionPipeline","ImproveCoreAfterRun","TransferCore"
 ]+list(LEARNING_TOOLS))
 
 ASSERT_LAYERS=("ASSERT_LAYER_1","ASSERT_LAYER_2")
@@ -48,7 +47,7 @@ def _spec(tool):
         tool in {
             "ImprovementCore","MT","MTA","Architecture","PD","PDAudit","GDOS","RootCause","RTC",
             "CurrentnessAudit","MultiObject","Diagnosis","ASSERT","GOAL","SolutionToMyProblem","DesiredJane",
-            "QuestionWorthAsking","LambdaMath","SemanticResolutionPipeline"
+            "QuestionWorthAsking","LambdaMath","SemanticResolutionPipeline","ImproveCoreAfterRun","TransferCore"
         }
         or tool in LEARNING_TOOLS
     )
