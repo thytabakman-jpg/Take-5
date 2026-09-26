@@ -181,6 +181,8 @@ Global minimality remains OPEN.
 
 - integration/CURRENT_MATHEMATICAL_COLORING.md
 - integration/CURRENT_HF1.md
+- integration/CURRENT_HF2.md
+- integration/CURRENT_ROOT_CAUSE.md
 
 ## Machine verification
 
