@@ -92,25 +92,34 @@ It is durable unresolved semantics.
 
 ## Mandatory black-box decomposition
 
-Whenever an object enters BLACK_BOX_OPEN, the semantic lifecycle must immediately create configured-run obligations for:
+Whenever an object enters BLACK_BOX_OPEN, the semantic lifecycle creates the mandatory configured resolution spine:
 
-1. PD
-2. PD Audit
+1. PD / Difference Math
+2. PD Audit / Verify Math
+3. MTA / Basic Math
+4. PD Audit / Verify Math again on the proposed mathematics
+5. C47 / Completion Check
 
-The purpose is to distinguish the unresolved coordinates before the black box is allowed to persist.
+Compactly:
 
 BLACK_BOX_OPEN(o)
 =>
-RunConfigured(PD,o)
-AND RunConfigured(PDAudit,o)
-AND Preserve(OpenCoordinates(o)).
+PD(o)
+-> PDAudit(o)
+-> MTA(o)
+-> PDAudit(Math(o))
+-> CompletionCheck(o).
 
-RunConfigured(PD,o) and RunConfigured(PDAudit,o) mean the normal full configured runs:
-canonical wrapper + applicable 36-surface + closure + reentry.
-Bare/core PD is not sufficient for this lifecycle obligation.
+Every stage is a normal full configured run: canonical wrapper + applicable typed geometry + closure + reentry.
 
-PD/PDAudit do not have to solve the object.
-They must at minimum expose the distinctions, collisions, hidden assumptions, and remaining OPEN coordinates that make the black box intelligible.
+The first PD/PDAudit pair exposes and attacks the unresolved distinctions.
+MTA asks for the smallest adequate mathematical reconstruction.
+The second PDAudit attacks that proposed mathematics.
+Completion Check decides whether any material unresolved coordinate remains.
+
+The pipeline may branch conditionally when typed residuals remain. Current branch families include type, identity, currentness, dependency, relation, cause, discovery, novelty, and verification/reality residuals. These branches are not mandatory when their triggering residual is absent.
+
+None of these stages has to invent a false solution. OPEN is preserved.
 
 The resulting evidence is appended to the object's semantic package rather than replacing prior evidence.
 
