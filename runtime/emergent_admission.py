@@ -13,6 +13,7 @@ class ObjectCandidate:
     known_equivalent:str|None=None
     executable_claim:bool=False
     bound:bool=False
+    semantic_package_current:bool=False
 
 def admit(o:ObjectCandidate):
     if not o.load_bearing:
@@ -22,5 +23,7 @@ def admit(o:ObjectCandidate):
     if not o.object_id or not o.object_type:
         return Admission.OPEN
     if o.executable_claim and not o.bound:
+        return Admission.OPEN
+    if not o.semantic_package_current:
         return Admission.OPEN
     return Admission.ACCEPT
