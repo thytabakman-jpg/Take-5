@@ -29,7 +29,7 @@ from improvement_core_external_acquisition import (
     merge_external_outputs,
 )
 
-REGIME_VERSION="090"
+REGIME_VERSION="091"
 
 @dataclass(frozen=True)
 class ImprovementCoreRegime:
@@ -41,6 +41,7 @@ class ImprovementCoreRegime:
     canonical_progress:str
     durable_learning:str
     knowledge_ledger:str
+    default_local_recurrence:str
     controller:str="IC-028"
     version:str=REGIME_VERSION
 
@@ -53,6 +54,8 @@ class ImprovementCoreRegimeResult:
     blocker:str|None=None
     external_receipt:ExternalAcquisitionReceipt|None=None
     knowledge_summary:tuple=()
+    hf2_status:str|None=None
+    hf2_trace:tuple=()
 
     @property
     def receipt(self):
@@ -71,6 +74,7 @@ CURRENT_REGIME=ImprovementCoreRegime(
     canonical_progress="runtime.improvement_core_progress_relation.strict_progress",
     durable_learning="integration/IMPROVEMENT_CORE_DURABLE_LEARNING_110.json",
     knowledge_ledger="integration/IMPROVEMENT_CORE_KNOWLEDGE_LEDGER_113.json",
+    default_local_recurrence="HF002",
 )
 
 def _record_stage_learning(state,learning_memory):
