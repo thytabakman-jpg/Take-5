@@ -1,7 +1,7 @@
 # RootCause Mathematics 087
 
 Date: 2026-09-26
-Status: IMPLEMENTED CANDIDATE / VALIDATION REQUIRED
+Status: IMPLEMENTED / VALIDATED / MERGED
 
 ## Native target
 
@@ -243,3 +243,14 @@ tests/test_root_cause_hf2.py
 RootCause is locally executable and HF2-wrapped.
 
 Global promotion requires full Take-5 validation and canonical identity binding.
+
+
+## Validation evidence
+
+PR #65
+Merge: 691462f614dc026ad199f1b343496d06bca4da1e
+Validation run: 36222526907
+Conclusion: SUCCESS
+
+The chat-derived recurrence fixture executed this mathematics under HF2 and selected
+PROTECTED_TRANSITION_INTEGRITY_FAILURE after two local RootCause rounds.
