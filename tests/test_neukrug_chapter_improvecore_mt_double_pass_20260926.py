@@ -176,8 +176,10 @@ def chapter_handlers(unit, pass_no, mt_synthesis=None):
                         ),
                         "status":"MT_CONDITIONED_STRICT_GAIN_CANDIDATE",
                     }
+                already_same=(s.get("chapter_result")==result)
                 s["chapter_result"]=result
-                return {"state":s,"material_delta":True}
+                s["hf2_semantic_state"]={"chapter_id":unit["id"],"pass":pass_no,"result":result}
+                return {"state":s,"material_delta":not already_same}
             elif stage=="ADMIT":
                 s["admission"]="ADMIT_AS_ANALYTIC_CANDIDATE"
             elif stage=="RECONCILE":
@@ -220,6 +222,8 @@ def run_chapter(unit, pass_no, mt_synthesis=None):
     )
     state=result.result.state
     assert result.result.terminal
+    assert result.status=="COMPLETE"
+    assert result.hf2_status=="RELATIVE_CLOSE"
     assert state["verify"]["chapter_identity_preserved"]
     assert state["verify"]["gain_nonempty"]
     assert state["verify"]["mt_used_when_required"]
