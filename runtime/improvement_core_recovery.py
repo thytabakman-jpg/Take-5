@@ -29,6 +29,9 @@ REQUIRED_FILES=(
     "architecture/IMPROVEMENT_CORE_MATH_CORPUS_INTEGRATION_090.md",
     "tests/test_improvement_core_math_086.py",
     "runtime/improvement_core_dispatch.py",
+    "runtime/improvement_core_hf2_default.py",
+    "tests/test_improvement_core_hf2_default.py",
+    "architecture/IMPROVEMENT_CORE_DEFAULT_HF2_118.md",
     "tests/test_improvement_core_mode_profile.py",
     "runtime/improvement_core_upstream.py",
     "runtime/improvement_core_external_acquisition.py",
@@ -40,6 +43,9 @@ REQUIRED_FILES=(
     "runtime/improvement_core_recursive_manager.py",
     "runtime/improvement_core_learning_memory.py",
     "integration/IMPROVEMENT_CORE_DURABLE_LEARNING_110.json",
+    "runtime/improvement_core_knowledge_ledger.py",
+    "integration/IMPROVEMENT_CORE_KNOWLEDGE_LEDGER_113.json",
+    "architecture/IMPROVEMENT_CORE_MATERIAL_KNOWLEDGE_CAPTURE_113.md",
     "runtime/improvement_core_progress_relation.py",
     "architecture/IMPROVEMENT_CORE_CANONICAL_PROGRESS_MATHEMATICS_001_2026-09-26.md",
     "architecture/IMPROVEMENT_CORE_ANTI_REPEAT_110.md",
@@ -72,7 +78,7 @@ def validate_recovery()->dict:
         failures.append("MISSING_RECOVERY_SURFACES")
     if resolution.controller!="IC-028":
         failures.append("CONTROLLER_IDENTITY_DRIFT")
-    if not resolution.entrypoint.endswith("run_improvement_core_regime"):
+    if not resolution.entrypoint.endswith("run_improvement_core_with_hf2"):
         failures.append("DISPATCH_REGIME_DRIFT")
     if CURRENT_REGIME.controller!="IC-028":
         failures.append("REGIME_CONTROLLER_DRIFT")
@@ -90,6 +96,10 @@ def validate_recovery()->dict:
         failures.append("CANONICAL_PROGRESS_RUNTIME_MISSING")
     if "IMPROVEMENT_CORE_DURABLE_LEARNING_110.json" not in CURRENT_REGIME.durable_learning:
         failures.append("DURABLE_LEARNING_SURFACE_MISSING")
+    if "IMPROVEMENT_CORE_KNOWLEDGE_LEDGER_113.json" not in CURRENT_REGIME.knowledge_ledger:
+        failures.append("KNOWLEDGE_LEDGER_SURFACE_MISSING")
+    if CURRENT_REGIME.default_local_recurrence!="HF002":
+        failures.append("DEFAULT_HF002_LOCAL_RECURRENCE_MISSING")
 
     if not missing:
         manifest=json.loads(_read("architecture/IMPROVEMENT_CORE_RECOVERY_MANIFEST_082.json"))
@@ -97,7 +107,7 @@ def validate_recovery()->dict:
             failures.append("RECOVERY_MANIFEST_NOT_CURRENT")
         if manifest.get("controller")!="IC-028":
             failures.append("RECOVERY_MANIFEST_CONTROLLER_DRIFT")
-        if manifest.get("invocation",{}).get("entrypoint")!="runtime.improvement_core_regime.run_improvement_core_regime":
+        if manifest.get("invocation",{}).get("entrypoint")!="runtime.improvement_core_hf2_default.run_improvement_core_with_hf2":
             failures.append("RECOVERY_MANIFEST_ENTRYPOINT_DRIFT")
         if str(manifest.get("regime_version"))!=str(CURRENT_REGIME.version):
             failures.append("RECOVERY_MANIFEST_REGIME_VERSION_DRIFT")
@@ -127,6 +137,10 @@ def validate_recovery()->dict:
             failures.append("CANONICAL_PROGRESS_RUNTIME_DRIFT")
         if regime.get("durable_learning")!="integration/IMPROVEMENT_CORE_DURABLE_LEARNING_110.json":
             failures.append("DURABLE_LEARNING_RUNTIME_DRIFT")
+        if regime.get("knowledge_ledger")!="integration/IMPROVEMENT_CORE_KNOWLEDGE_LEDGER_113.json":
+            failures.append("KNOWLEDGE_LEDGER_RUNTIME_DRIFT")
+        if regime.get("default_local_recurrence")!="HF002":
+            failures.append("DEFAULT_HF002_RUNTIME_DRIFT")
         if regime.get("recursive_activation")!="LIVE_CONTINUATION":
             failures.append("RECURSIVE_ACTIVATION_CONTRACT_MISSING")
         if regime.get("learning_activation")!="RECURSIVE_ROUTE_GATE_AND_STAGE_LEARNING_EVENTS":
@@ -145,6 +159,8 @@ def validate_recovery()->dict:
             failures.append("CANONICAL_PROGRESS_ANCHOR_MISSING")
         if "certified negative route learning is durable" not in anchor:
             failures.append("DURABLE_LEARNING_ANCHOR_MISSING")
+        if "default local same-capability recurrence" not in anchor:
+            failures.append("DEFAULT_HF002_ANCHOR_MISSING")
 
         if manifest.get("open") not in ([], ()):
             failures.append("RECOVERY_MANIFEST_OPEN_COORDINATES_STALE")
