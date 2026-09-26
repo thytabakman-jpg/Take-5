@@ -161,6 +161,26 @@
       "effect": "runtime/improvement_core_recovery.py",
       "consumer": "integration/CURRENT_IMPROVEMENT_CORE.md",
       "recovery": "architecture/IMPROVEMENT_CORE_RECOVERY_MANIFEST_082.json"
+    },
+    "IMPROVECORE_CANONICAL_PROGRESS_ANTI_REPEAT": {
+      "identity": "architecture/IMPROVEMENT_CORE_CANONICAL_PROGRESS_MATHEMATICS_001_2026-09-26.md",
+      "semantics": "runtime/improvement_core_progress_relation.py",
+      "reachability": "runtime/improvement_core_regime.py",
+      "selection": "runtime/improvement_core_recursive_manager.py",
+      "execution": "runtime/improvement_core_recursive_manager.py",
+      "effect": "runtime/improvement_core_learning_memory.py",
+      "consumer": "integration/IMPROVEMENT_CORE_DURABLE_LEARNING_110.json",
+      "recovery": "architecture/IMPROVEMENT_CORE_RECOVERY_MANIFEST_082.json"
+    },
+    "IMPROVECORE_DURABLE_NEGATIVE_LEARNING": {
+      "identity": "architecture/IMPROVEMENT_CORE_ANTI_REPEAT_110.md",
+      "semantics": "runtime/improvement_core_learning_memory.py",
+      "reachability": "runtime/improvement_core_regime.py",
+      "selection": "runtime/improvement_core_recursive_manager.py",
+      "execution": "runtime/improvement_core_learning_memory.py",
+      "effect": "integration/IMPROVEMENT_CORE_DURABLE_LEARNING_110.json",
+      "consumer": "runtime/improvement_core_recursive_manager.py",
+      "recovery": "integration/CURRENT_IMPROVEMENT_CORE.md"
     }
   }
 }
