@@ -19,6 +19,8 @@ REQUIRED_FILES=(
     "architecture/IMPROVEMENT_CORE_RECOVERY_MANIFEST_082.json",
     "architecture/IMPROVEMENT_CORE_ACTIVATION_083.md",
     "architecture/IMPROVEMENT_CORE_MATHEMATICS_086.md",
+    "runtime/improvement_core_math.py",
+    "tests/test_improvement_core_math_086.py",
     "runtime/improvement_core_dispatch.py",
     "runtime/improvement_core_regime.py",
     "runtime/improvement_core_manager.py",
@@ -70,6 +72,8 @@ def validate_recovery()->dict:
             failures.append("IMPROVEMENT_CORE_MATH_SURFACE_DRIFT")
         if math_state.get("preferred_controller")!="C_PLUS_JK":
             failures.append("IMPROVEMENT_CORE_MATH_IDENTITY_DRIFT")
+        if math_state.get("runtime")!="runtime/improvement_core_math.py":
+            failures.append("IMPROVEMENT_CORE_MATH_RUNTIME_DRIFT")
 
         regime=manifest.get("regime",{})
         if regime.get("recursive_activation")!="LIVE_CONTINUATION":
