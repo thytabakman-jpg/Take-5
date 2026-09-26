@@ -11,14 +11,18 @@ Do not reconstruct ICC from chat history.
 
 For the next chat, read in this order:
 
-1. `integration/ICC_SHUTDOWN_HANDOFF_2026-09-25.md`
-2. `architecture/KERNEL_MATH_CONTRACT_052.yaml`
-3. `architecture/KERNEL_MATH_CONTRACT_052.md`
-4. `architecture/MATH_FIRST_WRAPPER_CLOSURE_039.md`
-5. `architecture/IC_JANE_WRAPPER_MATH_PLAN_037.md`
-6. `architecture/ARCHITECTURE_DECISION_036_MATH_FIRST_TOOL_SELECTION.md`
-7. `architecture/LEARNING_TOOL_ADMISSION_DECISION_040.md`
-8. `MIGRATION_STATE.yaml`
+1. `integration/CURRENT_IMPROVEMENT_CORE.md`
+2. `architecture/IMPROVEMENT_CORE_RECOVERY_MANIFEST_082.json`
+3. `integration/ICC_SHUTDOWN_HANDOFF_2026-09-25.md`
+4. `architecture/KERNEL_MATH_CONTRACT_052.yaml`
+5. `architecture/KERNEL_MATH_CONTRACT_052.md`
+6. `architecture/MATH_FIRST_WRAPPER_CLOSURE_039.md`
+7. `architecture/IC_JANE_WRAPPER_MATH_PLAN_037.md`
+8. `architecture/ARCHITECTURE_DECISION_036_MATH_FIRST_TOOL_SELECTION.md`
+9. `architecture/LEARNING_TOOL_ADMISSION_DECISION_040.md`
+10. `MIGRATION_STATE.yaml`
+
+The 2026-09-25 handoff is historical context for the integrated ICC stack. The current ImprovementCore recovery anchor supersedes it for ImprovementCore identity, dispatch, recursive management, learning memory, and post-September-25 strict gains.
 
 ## ICC identity
 
