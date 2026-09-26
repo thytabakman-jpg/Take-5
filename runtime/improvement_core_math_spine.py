@@ -46,6 +46,15 @@ class FrontierResult:
 
 
 @dataclass(frozen=True)
+class PolicyResolution:
+    """Exact resolution of the set-valued controller policy correspondence."""
+    frontier:FrontierResult
+    selected:ControllerOption|None
+    disposition:str
+    requested_choice_id:str|None=None
+
+
+@dataclass(frozen=True)
 class ClosureInput:
     trc_status:str
     basis_current:bool
@@ -92,6 +101,46 @@ def nondominated_frontier(options:Iterable[ControllerOption])->FrontierResult:
         if not any(_dominates(other,o) for other in admissible if other.option_id!=o.option_id):
             nd.append(o)
     return FrontierResult(tuple(admissible),tuple(nd),tuple(rejected))
+
+
+def policy_correspondence(options:Iterable[ControllerOption])->tuple[ControllerOption,...]:
+    """Set-valued policy pi^+.
+
+    Search, experiments, direct work, and recursive child jobs are all ordinary
+    ControllerOption values. The policy does not secretly perform search; it
+    returns the hard-admissible Pareto frontier.
+    """
+    return nondominated_frontier(options).nondominated
+
+
+def resolve_policy(
+    options:Iterable[ControllerOption],
+    *,
+    frontier_choice_id:str|None=None,
+    live_continuation:bool=True,
+)->PolicyResolution:
+    """Resolve execution without collapsing incomparable policy alternatives.
+
+    A singleton frontier executes directly. A plural frontier requires an
+    explicit admissible choice. No admissible action under a live continuation
+    is OPEN rather than completion.
+    """
+    frontier=nondominated_frontier(options)
+    nd=frontier.nondominated
+    requested=str(frontier_choice_id) if frontier_choice_id not in (None,"") else None
+    if not nd:
+        return PolicyResolution(
+            frontier,None,
+            "OPEN_NO_ADMISSIBLE_ACTION" if live_continuation else "TERMINAL_EMPTY",
+            requested,
+        )
+    if len(nd)==1:
+        return PolicyResolution(frontier,nd[0],"SELECTED_SINGLETON",requested)
+    if requested is not None:
+        by_id={x.option_id:x for x in nd}
+        if requested in by_id:
+            return PolicyResolution(frontier,by_id[requested],"SELECTED_EXPLICIT_FRONTIER_CHOICE",requested)
+    return PolicyResolution(frontier,None,"OPEN_INCOMPARABLE_FRONTIER",requested)
 
 
 def representation_sufficient(
