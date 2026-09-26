@@ -6,8 +6,7 @@ substantive target/job/basis, the dispatcher can first run governed zero-request
 observation over an addressable corpus and create only a discovery seed. The
 normal controller then owns substantive work generation.
 
-Recursive-management and learning-memory inputs remain preserved across the
-dispatch boundary.
+Recursive-management, learning-memory, and host-bound external-acquisition inputs remain preserved across the dispatch boundary.
 """
 from dataclasses import dataclass
 from typing import Any, Callable, Iterable
@@ -51,6 +50,9 @@ def dispatch_improvement_core(
     max_rounds:int=8,
     recursive_handlers:dict[str,Callable]|None=None,
     learning_memory:LearningMemory|None=None,
+    external_adapters:dict[str,Callable]|None=None,
+    force_external:bool=False,
+    allow_external_gap:bool=True,
 ):
     resolution=resolve_improvement_core_invocation(user_text)
 
@@ -85,5 +87,8 @@ def dispatch_improvement_core(
         max_rounds=max_rounds,
         recursive_handlers=recursive_handlers,
         learning_memory=learning_memory,
+        external_adapters=external_adapters,
+        force_external=force_external,
+        allow_external_gap=allow_external_gap,
     )
     return resolution,result
