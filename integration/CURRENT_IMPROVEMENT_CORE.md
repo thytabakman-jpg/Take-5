@@ -49,8 +49,10 @@ user phrase
 -> runtime/improvement_core_manager.py
 -> runtime/ic028_operator.py
 -> [when SELECT names a registered formal tool] runtime/improvement_core_tool_bridge.py
+-> current FULL_CONFIGURED_HF2_V1 plan
+-> runtime/configured_hf2_execution.py
 -> bound configured-tool adapter
--> native tool result consumed into controller state
+-> recurrence receipt and native result consumed into controller state
 
 For ordinary user-facing invocation, HF2 is the default local same-capability recurrence layer.
 It reapplies the complete ImprovementCore pass only after a witnessed material effect and a changed
@@ -102,7 +104,7 @@ Learning memory is active in two places:
 
 An unchanged blocked route remains blocked until a changed coordinate intersects its recorded dependency footprint.
 
-A selected formal tool must cross the configured execution bridge before EXECUTE can count it as run. The bridge binds the current full configured plan and invokes a host-bound adapter. A missing adapter preserves OPEN with the selected tool identity; generic EXECUTE reasoning cannot substitute for the tool call.
+A selected formal tool must cross the configured execution bridge before EXECUTE can count it as run. The bridge binds the current FULL_CONFIGURED_HF2_V1 plan and executes the bound adapter through the configured recurrence engine. Ordinary registered tools use HF002; HF002 itself uses SELF recurrence. A missing adapter preserves OPEN with the selected tool identity; generic EXECUTE reasoning cannot substitute for the tool call.
 
 This configured-tool execution repair is recorded in:
 architecture/IMPROVEMENT_CORE_CONFIGURED_TOOL_EXECUTION_109.md
@@ -166,6 +168,8 @@ architecture/IMPROVEMENT_CORE_ACTIVATION_083.md
 52. HF2 recurrence requires both a material-effect witness and changed semantic state; execution bookkeeping alone cannot trigger recurrence.
 53. HF1 upstream reentry escapes local HF2 rather than being swallowed by same-capability recurrence.
 54. direct run_improvement_core_regime remains the one-pass controlled/debug surface.
+55. selected registered formal tools inherit FULL_CONFIGURED_HF2_V1 rather than a one-shot bridge convention.
+56. selected-tool recurrence identity is carried by ConfiguredRunSpec and ToolExecutionPlan and checked by the whole-repertoire audit.
 
 ## Cross-repository lineage
 
@@ -373,6 +377,7 @@ Universal record-everything remains outside repository authority for unexposed s
 - integration/CURRENT_HF2.md
 - integration/CURRENT_ROOT_CAUSE.md
 - integration/CURRENT_PROTECTED_TRANSITION_INTEGRITY.md
+- integration/CURRENT_FULL_TOOL_INVOCATION.md
 
 ## Machine verification
 

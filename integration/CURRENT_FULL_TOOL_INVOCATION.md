@@ -1,12 +1,14 @@
 # CURRENT FULL TOOL INVOCATION — Recovery Anchor 121
 
 Date: 2026-09-26
-Status: CURRENT CANDIDATE / VALIDATION PENDING
+Status: CURRENT / VALIDATED / MERGED
 Canonical repository: thytabakman-jpg/Take-5
 
 ## Purpose
 
-A direct or controller-selected registered formal-tool invocation uses one current full configured profile plus the configured recurrence policy.
+This is the current recovery surface for repository-owned invocation of registered formal tools.
+
+A direct command, ImprovementCore-selected tool, PTI-configured transition, or ToolConductor factor that actually executes a registered formal tool must preserve the current full configured invocation profile.
 
 ## Core identity
 
@@ -14,7 +16,7 @@ Invocation profile:
 
 FULL_CONFIGURED_HF2_V1.
 
-For registered tool T:
+For every current registered tool T:
 
 Rec(T)=HF002
 
@@ -29,7 +31,7 @@ Every ConfiguredRunSpec validates:
 - full wrapper;
 - OBSERVER ordinary mode;
 - D36_C;
-- current native layers;
+- current native layer(s);
 - Q01-Q22;
 - DIFFERENTIATE / RELATE / RECONSTRUCT / STRENGTHEN;
 - closure;
@@ -40,19 +42,35 @@ Every ConfiguredRunSpec validates:
 - recurrence_engine;
 - invocation_profile.
 
+Every complete plan therefore contains:
+
+36 cells.
+
+792 question projections.
+
+144 cognitive projections.
+
 ## Canonical execution surfaces
 
 Shared recurrence runtime:
 
 runtime/configured_hf2_execution.py
 
-Controller-selected route:
+Direct imperative route:
+
+runtime/direct_tool_command_gateway.py
+
+ImprovementCore selected-tool route:
 
 runtime/improvement_core_tool_bridge.py
 
-Direct-command route:
+PTI end-to-end configured route:
 
-runtime/direct_tool_command_gateway.py
+runtime/global_tool_execution.execute_protected_transition
+
+ToolConductor factor route:
+
+runtime/portable_tool_conductor.py
 
 Whole-repertoire audit:
 
@@ -67,10 +85,12 @@ architecture/FULL_CONFIGURED_TOOL_INVOCATION_121.md
 Imperative requests such as:
 
 run MT
+
 use GOAL
+
 execute RootCause
 
-resolve registered formal identities and bind the current full configured plan.
+resolve only registered formal identities and bind the current full configured plan.
 
 Unregistered formal commands fail closed.
 
@@ -78,11 +98,13 @@ Missing adapters preserve OPEN.
 
 ## Recurrence contract
 
-Ordinary tools execute under HF002.
+Ordinary registered tools execute under HF002.
 
 HF002 itself uses SELF recurrence.
 
-The recurrence engine is read from the configured plan rather than inferred ad hoc from a tool name.
+The recurrence engine is read from the configured identity and plan rather than inferred ad hoc from a tool name.
+
+HF2 re-applies the same native capability only while its material/local/live conditions hold.
 
 ## Protected reconstruction
 
@@ -96,35 +118,129 @@ FULL_CONFIGURED_INVOCATION_PROFILE.
 
 ConfiguredRunSpec.complete() requires both.
 
+## Repository-owned route closure
+
+The current invariant is enforced across:
+
+1. direct imperative formal-tool commands;
+2. ImprovementCore selected-tool execution;
+3. PTI end-to-end configured transitions;
+4. ToolConductor factor execution.
+
+Inner implementation functions are not independently promoted to full configured tool runs merely because they execute native semantics.
+
+## ImprovementCore basis
+
+The campaign began before ImprovementCore regime 091 became current.
+
+Before final closure, the repair was transported to regime 091 and revalidated.
+
+Current ImprovementCore basis:
+
+IC-028 / regime 091.
+
+Default user-facing ImprovementCore local recurrence:
+
+HF002.
+
+This broader profile does not duplicate that wrapper. It generalizes the configured invocation contract across the current registered repertoire.
+
 ## Campaign evidence
 
 MT:
+
 artifacts/improvecore/MT_DIRECT_TOOL_HF2_PROMPT_118_2026-09-26.md
 
 GOAL:
+
 artifacts/improvecore/GOAL_DIRECT_TOOL_HF2_PROMPT_118_2026-09-26.md
 
 IC123 rewrite:
+
 artifacts/improvecore/IC123_REWRITE_DIRECT_TOOL_HF2_118_2026-09-26.md
 
 First ImprovementCore + HF2 campaign:
+
 artifacts/improvecore/IMPROVEMENTCORE_HF2_DIRECT_TOOL_CAMPAIGN_119_2026-09-26.md
 
-Final Think-big ImprovementCore + HF2:
+Think-big pass:
+
 artifacts/improvecore/IMPROVEMENTCORE_HF2_THINK_BIG_DIRECT_TOOL_120_2026-09-26.md
+
+Regime-091 transport:
+
+artifacts/improvecore/FULL_TOOL_HF2_REGIME_091_TRANSPORT_121_2026-09-26.md
+
+Post-merge Think-big regression:
+
+tests/test_improvecore_hf2_think_big_reentry_20260926.py
+
+Closure receipt:
+
+artifacts/improvecore/FULL_TOOL_HF2_INVOCATION_REPAIR_CLOSURE_121_2026-09-26.md
+
+## Validation evidence
+
+Primary full-profile merge:
+
+PR #117
+
+merge:
+2b86fdc500f5ad1b35fa578b7c96bd92feb99f41
+
+Regime-091 transported validation:
+
+Take-5 Validation:
+36270850293 SUCCESS.
+
+Capability Preservation:
+36270850299 SUCCESS.
+
+Post-merge bypass closure:
+
+PR #119
+
+merge:
+f35577993d076e9113db0bc6e62b91d89b062565
+
+Take-5 Validation:
+36271301228 SUCCESS.
+
+Capability Preservation:
+36271301286 SUCCESS.
+
+The post-merge reentry verified both remaining parallel paths:
+- PTI execution;
+- ToolConductor factor execution.
+
+## Current disposition
+
+CURRENT_REGISTERED_REPERTOIRE_FULL_INVOCATION:
+
+CLOSED_RELATIVE.
+
+DIRECT_TOOL_COMMAND_GATEWAY:
+
+CLOSED_RELATIVE.
+
+CONFIGURED_HF2_RECURRENCE:
+
+CLOSED_RELATIVE.
+
+PTI_CONFIGURED_EXECUTION_RECURRENCE:
+
+CLOSED_RELATIVE.
+
+TOOL_CONDUCTOR_FACTOR_RECURRENCE:
+
+CLOSED_RELATIVE.
 
 ## Boundary
 
 This recovery anchor governs Take-5-owned routes.
 
-Universal ChatGPT-host interception remains EXTERNAL_NOT_OWNED.
+Universal interception by an unrelated ChatGPT host remains:
 
-## Promotion condition
+EXTERNAL_NOT_OWNED.
 
-Promote this anchor to CURRENT / VALIDATED / MERGED only after:
-
-1. Take-5 Validation succeeds on the final implementation head.
-2. Capability Preservation succeeds.
-3. full_invocation_portfolio closes relative across the current registered repertoire.
-4. the final Think-big ImprovementCore + HF2 regression reaches RELATIVE_CLOSE.
-5. the repair is merged.
+Open-world future or unregistered formal objects are not silently included in the current finite repertoire claim.
