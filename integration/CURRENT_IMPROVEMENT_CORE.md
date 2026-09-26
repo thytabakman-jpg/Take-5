@@ -321,6 +321,12 @@ PR #84
 - Capability Preservation 36227477597
 - regime 088 frontier closure, relation admission, route calibration, replay/holdout, current repertoire and identity audits validated
 
+PR #87
+- merge 44cea13bdcd1e2c06fe44699d4152d653180daa9
+- Take-5 Validation 36249459966
+- Capability Preservation 36249459971
+- regime 090 canonical progress, durable negative learning, pre-frontier no-gain filtering, semantic cycle blocking, and recovery/capability protection validated
+
 Regime 089
 - corrected the regime-088 category error between configured-plan reachability and actual selected-tool execution;
 - requires selected formal tools to cross runtime/improvement_core_tool_bridge.py;
