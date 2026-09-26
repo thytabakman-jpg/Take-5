@@ -213,8 +213,15 @@ def compare_states(
     burden_strict = semantic_equivalent and r.burden < l.burden
     strict = semantic_strict + (("burden",) if burden_strict else ())
 
-    non_regressive = semantic_weak or (
-        semantic_equivalent and r.burden <= l.burden
+    # The full weak-progress relation is lexicographic by semantic class.
+    # A genuine semantic gain is not vetoed by higher burden. Inside one
+    # semantic equivalence class, however, burden must not increase.
+    non_regressive = bool(
+        semantic_weak
+        and (
+            not semantic_equivalent
+            or r.burden <= l.burden
+        )
     )
     equivalent = semantic_equivalent and r.burden == l.burden
 
@@ -225,7 +232,11 @@ def compare_states(
         non_regressive,
         strict,
         equivalent,
-        "OK" if non_regressive else "REGRESSION_OR_INCOMPARABLE_SEMANTIC_COORDINATE",
+        "OK" if non_regressive else (
+            "BURDEN_REGRESSION_WITHOUT_SEMANTIC_GAIN"
+            if semantic_equivalent and r.burden > l.burden
+            else "REGRESSION_OR_INCOMPARABLE_SEMANTIC_COORDINATE"
+        ),
     )
 
 
