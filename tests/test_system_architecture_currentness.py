@@ -1,6 +1,25 @@
 from endogenous_work import WorkItem,generate_obligations,select_work,closure_status,WorkStatus
 from research_system import ResearchState,closure_certificate
 from reflexive_currentness import current_basis,ArchitectureBasis,basis_delta
+from state_commit import CommitRequest,StateRole,authorize_commit
+
+def _research_receipt(effect="ADMIT_CLAIM"):
+    return authorize_commit(
+        CommitRequest(
+            role=StateRole.RESEARCH_CONTROL,
+            effect=effect,
+            target="research",
+            job="research-control",
+            baseline="test",
+            authority_before=frozenset({"admit"}),
+            authority_after=frozenset({"admit"}),
+            evidence=("evidence",),
+            provenance=("test",),
+            verification_receipt="verified",
+        ),
+        require_verification=True,
+        require_evidence=True,
+    )
 
 def test_job_conditioned_and_zero_request_are_distinct_entry_modes():
     state={"obligations":[WorkItem("w1","repair")]}
@@ -21,10 +40,13 @@ def test_open_after_work_exhaustion_is_paused_open_not_closed():
     assert closure_status(xs,{"a"},open_coordinates=("q",))==WorkStatus.PAUSED_OPEN
 
 def test_history_based_closure_requires_admitted_claim_evidence():
-    s=ResearchState(); s.record_claim("c","ADMITTED",evidence=())
-    cert=closure_certificate(s,[])
-    assert not cert["closed"]
-    s=ResearchState(); s.record_claim("c","ADMITTED",evidence=("receipt",))
+    s=ResearchState()
+    try:
+        s.record_claim("c","ADMITTED",evidence=())
+        assert False
+    except PermissionError:
+        pass
+    s=ResearchState(); s.record_claim("c","ADMITTED",evidence=("receipt",),commit_receipt=_research_receipt())
     cert=closure_certificate(s,[])
     assert cert["closed"]
 
