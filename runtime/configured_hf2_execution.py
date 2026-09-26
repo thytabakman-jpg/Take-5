@@ -122,16 +122,36 @@ def execute_configured_with_hf2(
             f"CONFIGURED_HF2_ADAPTER_REQUIRED:{tool_id}"
         )
 
-    if str(tool_id)=="HF002":
+    if not bool(getattr(plan,"complete",False)):
+        raise ConfiguredHF2ExecutionError(
+            f"CONFIGURED_HF2_PLAN_INCOMPLETE:{tool_id}"
+        )
+
+    if not bool(getattr(plan,"recurrence_required",False)):
+        raise ConfiguredHF2ExecutionError(
+            f"CONFIGURED_HF2_RECURRENCE_NOT_REQUIRED:{tool_id}"
+        )
+
+    recurrence_engine=str(getattr(plan,"recurrence_engine",""))
+    if recurrence_engine=="SELF":
+        if str(tool_id)!="HF002":
+            raise ConfiguredHF2ExecutionError(
+                f"CONFIGURED_HF2_SELF_RECURRENCE_INVALID:{tool_id}"
+            )
         raw=_raw_mapping(adapter(state,plan))
         next_state=raw.get("state",state)
         status=str(raw.get("status","EXECUTED"))
         if status in NON_SUCCESS_STATUSES:
             return ConfiguredHF2ExecutionResult(
-                str(tool_id),"SELF",status,next_state,raw,1,(),1
+                str(tool_id),recurrence_engine,status,next_state,raw,1,(),1
             )
         return ConfiguredHF2ExecutionResult(
-            str(tool_id),"SELF","SELF_CLOSE",next_state,raw,1,(),1
+            str(tool_id),recurrence_engine,"SELF_CLOSE",next_state,raw,1,(),1
+        )
+
+    if recurrence_engine!="HF002":
+        raise ConfiguredHF2ExecutionError(
+            f"CONFIGURED_HF2_ENGINE_INVALID:{tool_id}:{recurrence_engine}"
         )
 
     holder={"raw":None,"calls":0}
@@ -189,7 +209,7 @@ def execute_configured_with_hf2(
 
     return ConfiguredHF2ExecutionResult(
         tool_id=str(tool_id),
-        recurrence_engine="HF002",
+        recurrence_engine=recurrence_engine,
         status=status,
         state=out.get("state",state),
         last_raw=raw,
