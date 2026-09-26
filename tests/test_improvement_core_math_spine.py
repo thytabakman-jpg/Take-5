@@ -3,8 +3,9 @@ sys.path.insert(0,"runtime")
 
 from improvement_core_math_spine import (
     ControllerOption, ClosureInput, Contribution,
-    nondominated_frontier, representation_sufficient,
-    closure_disposition, reopen_required, cumulative_preservation,
+    nondominated_frontier, policy_correspondence, resolve_policy,
+    representation_sufficient, closure_disposition, reopen_required,
+    cumulative_preservation,
 )
 
 
@@ -67,3 +68,31 @@ def test_cumulative_contributions_cannot_silently_disappear():
     ok,lost=cumulative_preservation(before,after,explicit_revision={"observer-mode"})
     assert ok
     assert lost==()
+
+
+def test_policy_correspondence_is_exactly_set_valued_nondominated_frontier():
+    direct=ControllerOption("direct",goal_gain=3,information_gain=1,cost=2)
+    probe=ControllerOption(
+        "probe",goal_gain=1,information_gain=5,cost=1,
+        metadata={"action_kind":"PROBE"},
+    )
+    out=policy_correspondence([direct,probe])
+    assert {x.option_id for x in out}=={"direct","probe"}
+
+
+def test_policy_resolver_requires_explicit_choice_for_incomparable_frontier():
+    a=ControllerOption("a",goal_gain=3,information_gain=1,cost=2)
+    b=ControllerOption("b",goal_gain=1,information_gain=4,cost=1)
+    out=resolve_policy([a,b],live_continuation=True)
+    assert out.selected is None
+    assert out.disposition=="OPEN_INCOMPARABLE_FRONTIER"
+    chosen=resolve_policy([a,b],frontier_choice_id="b",live_continuation=True)
+    assert chosen.selected.option_id=="b"
+    assert chosen.disposition=="SELECTED_EXPLICIT_FRONTIER_CHOICE"
+
+
+def test_policy_resolver_distinguishes_live_no_action_from_terminal_empty():
+    live=resolve_policy([],live_continuation=True)
+    terminal=resolve_policy([],live_continuation=False)
+    assert live.disposition=="OPEN_NO_ADMISSIBLE_ACTION"
+    assert terminal.disposition=="TERMINAL_EMPTY"
