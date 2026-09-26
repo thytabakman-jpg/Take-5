@@ -75,6 +75,15 @@
         "validation_run": "36249459966",
         "capability_preservation_run": "36249459971",
         "regime_version": "090"
+      },
+      {
+        "pr": 90,
+        "merge_commit": "924f0123d0ec3490cccc8c01667654c8166436c6",
+        "validation_run": "36249848074",
+        "capability_preservation_run": "36249848079",
+        "ic123_math_recovery_run": "36249781890",
+        "regime_version": "090",
+        "role": "LONGITUDINAL_INDEXED_PROGRESS"
       }
     ],
     "protected_transition_integrity": "architecture/PROTECTED_TRANSITION_INTEGRITY_090.md",
@@ -99,7 +108,15 @@
       "capability_preservation_run": "36249459971",
       "merge_commit": "44cea13bdcd1e2c06fe44699d4152d653180daa9"
     },
-    "longitudinal_progress": "architecture/IMPROVEMENT_CORE_INDEXED_PROGRESS_MATHEMATICS_111.md"
+    "longitudinal_progress": "architecture/IMPROVEMENT_CORE_INDEXED_PROGRESS_MATHEMATICS_111.md",
+    "longitudinal_progress_validation": {
+      "pr": 90,
+      "merge_commit": "924f0123d0ec3490cccc8c01667654c8166436c6",
+      "validation_run": "36249848074",
+      "capability_preservation_run": "36249848079",
+      "ic123_math_recovery_run": "36249781890",
+      "focused_regressions": 73
+    }
   },
   "protected_behaviors": [
     "CONTROLLER_OWNERSHIP",
