@@ -22,6 +22,7 @@ REQUIRED_FILES=(
     "runtime/improvement_core_math.py",
     "tests/test_improvement_core_math_086.py",
     "runtime/improvement_core_dispatch.py",
+    "runtime/improvement_core_upstream.py",
     "runtime/improvement_core_regime.py",
     "runtime/improvement_core_manager.py",
     "runtime/ic028_operator.py",
@@ -74,6 +75,10 @@ def validate_recovery()->dict:
             failures.append("IMPROVEMENT_CORE_MATH_IDENTITY_DRIFT")
         if math_state.get("runtime")!="runtime/improvement_core_math.py":
             failures.append("IMPROVEMENT_CORE_MATH_RUNTIME_DRIFT")
+
+        upstream=manifest.get("invocation",{}).get("upstream_discovery")
+        if upstream!="runtime/improvement_core_upstream.py":
+            failures.append("UPSTREAM_DISCOVERY_RUNTIME_MISSING")
 
         regime=manifest.get("regime",{})
         if regime.get("recursive_activation")!="LIVE_CONTINUATION":
