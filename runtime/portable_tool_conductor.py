@@ -17,7 +17,7 @@ from dataclasses import asdict, dataclass
 from typing import Any, Callable, Mapping
 
 from capability_runtime import execute_capability
-from learning_tool_bridge import LEARNING_TOOLS if False else SPECS, make_learning_worker
+from learning_tool_bridge import SPECS, make_learning_worker
 from tool_run_registry import MATERIAL_TOOLS
 
 
