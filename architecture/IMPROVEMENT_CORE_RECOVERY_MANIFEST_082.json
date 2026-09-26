@@ -5,7 +5,7 @@
   "status": "CURRENT",
   "canonical_repository": "thytabakman-jpg/Take-5",
   "controller": "IC-028",
-  "regime_version": "085",
+  "regime_version": "086",
   "invocation": {
     "aliases": [
       "ImproveCore",
@@ -17,7 +17,7 @@
   },
   "regime": {
     "surface": "runtime/improvement_core_regime.py",
-    "version": "085",
+    "version": "086",
     "stage_manager": "runtime/improvement_core_manager.py",
     "operator": "runtime/ic028_operator.py",
     "recursive_manager": "runtime/improvement_core_recursive_manager.py",
@@ -84,7 +84,12 @@
     "ZERO_REQUEST_CORPUS_SEEDS_DISCOVERY_BEFORE_SUBSTANTIVE_CONTROLLER_WORK",
     "EXTERNAL_REQUIRED_ACQUISITION_PRECEDES_INTERNAL_RECONSTRUCTION",
     "UNAVAILABLE_REQUIRED_EXTERNAL_CAPABILITY_PRESERVES_OPEN",
-    "EXTERNAL_OUTPUT_IS_EVIDENCE_NOT_AUTHORITY"
+    "EXTERNAL_OUTPUT_IS_EVIDENCE_NOT_AUTHORITY",
+    "HARD_ADMISSIBILITY_PRECEDES_ROUTING_PREFERENCE",
+    "NONDOMINATED_PLURAL_ROUTING_PRESERVES_INCOMPARABILITY",
+    "CONTINUATION_RELATIVE_REPRESENTATION_SUFFICIENCY",
+    "DISCOVERY_SENSITIVE_REENTRY",
+    "CUMULATIVE_VERIFIED_CONTRIBUTION_PRESERVATION"
   ],
   "open": [
     "RELATION_GENERATOR_BASIS",
@@ -103,6 +108,8 @@
     "state": "Z_X_LEARNING_MEMORY",
     "recursive_child_actions": "IN_ADMISSIBLE_ACTION_SPACE",
     "runtime": "runtime/improvement_core_math.py",
-    "regression": "tests/test_improvement_core_math_086.py"
+    "regression": "tests/test_improvement_core_math_086.py",
+    "math_spine": "runtime/improvement_core_math_spine.py",
+    "corpus_integration": "architecture/IMPROVEMENT_CORE_MATH_CORPUS_INTEGRATION_090.md"
   }
 }
