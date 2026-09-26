@@ -4,11 +4,12 @@ from semantic_resolution_pipeline import (
 
 def test_mandatory_black_box_spine():
     p=plan_black_box_resolution("TERM:X")
-    assert tuple(s.tool_id for s in p.stages)==("PD","PDAudit","MTA","PDAudit","C47")
+    assert tuple(s.tool_id for s in p.stages)==("PD","PDAudit","MTA","MT","PDAudit","C47")
     assert configured_work_obligations(p)==(
         "RUN_CONFIGURED:PD:TERM:X",
         "RUN_CONFIGURED:PDAudit:TERM:X",
         "RUN_CONFIGURED:MTA:TERM:X",
+        "RUN_CONFIGURED:MT:TERM:X",
         "RUN_CONFIGURED:PDAudit:TERM:X",
         "RUN_CONFIGURED:C47:TERM:X",
     )
