@@ -5,7 +5,7 @@
   "status": "CURRENT",
   "canonical_repository": "thytabakman-jpg/Take-5",
   "controller": "IC-028",
-  "regime_version": "083",
+  "regime_version": "092",
   "invocation": {
     "aliases": [
       "ImproveCore",
@@ -16,14 +16,16 @@
   },
   "regime": {
     "surface": "runtime/improvement_core_regime.py",
-    "version": "083",
+    "version": "092",
     "stage_manager": "runtime/improvement_core_manager.py",
     "operator": "runtime/ic028_operator.py",
     "recursive_manager": "runtime/improvement_core_recursive_manager.py",
     "recursive_activation": "LIVE_CONTINUATION",
     "learning_memory": "runtime/improvement_core_learning_memory.py",
     "learning_activation": "RECURSIVE_ROUTE_GATE_AND_STAGE_LEARNING_EVENTS",
-    "narrow_subordinate": "runtime/improvement_core.py"
+    "narrow_subordinate": "runtime/improvement_core.py",
+    "afterrun_tool": "runtime/improvement_core_afterrun.py",
+    "afterrun_activation": "MANDATORY_AFTER_EVERY_GOVERNED_USE"
   },
   "evidence": {
     "maximization": "architecture/IMPROVEMENT_CORE_MAXIMIZATION_081.md",
@@ -57,7 +59,8 @@
         "validation_run": "36222874741"
       }
     ],
-    "protected_transition_integrity": "architecture/PROTECTED_TRANSITION_INTEGRITY_090.md"
+    "protected_transition_integrity": "architecture/PROTECTED_TRANSITION_INTEGRITY_090.md",
+    "afterrun_self_improvement": "architecture/IMPROVECORE_AFTER_RUN_FULL_TOOL_092.md"
   },
   "protected_behaviors": [
     "CONTROLLER_OWNERSHIP",
@@ -78,7 +81,10 @@
     "DEPENDENCY_SENSITIVE_ROUTE_REOPENING",
     "STAGE_LEARNING_EVENTS_CAN_ENTER_MEMORY",
     "OPEN_BLOCKED_CONFLICT_PRESERVATION",
-    "PROTECTED_TRANSITION_INTEGRITY"
+    "PROTECTED_TRANSITION_INTEGRITY",
+    "MANDATORY_AFTER_RUN_SELF_IMPROVEMENT",
+    "SELF_IMPROVEMENT_LEARNING_ALWAYS_RECORDED",
+    "SELF_IMPROVEMENT_STRICT_GAIN_AND_AUTHORITY_GATED"
   ],
   "open": [
     "ZERO_REQUEST_UPSTREAM_DISCOVERY_RUNTIME",
@@ -99,5 +105,8 @@
     "recursive_child_actions": "IN_ADMISSIBLE_ACTION_SPACE",
     "runtime": "runtime/improvement_core_math.py",
     "regression": "tests/test_improvement_core_math_086.py"
+  },
+  "related_tools": {
+    "TransferCore": "integration/CURRENT_TRANSFERCORE.md"
   }
 }
