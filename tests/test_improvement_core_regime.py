@@ -166,3 +166,42 @@ def test_current_regime_is_versioned_and_exposes_active_components():
     assert "improvement_core_manager" in CURRENT_REGIME.stage_manager
     assert "recursive_manager" in CURRENT_REGIME.recursive_manager
     assert "learning_memory" in CURRENT_REGIME.learning_memory
+
+
+def test_recursive_manager_preserves_plural_nondominated_frontier():
+    def select(z,m):
+        return [
+            {"id":"a","basis_id":"b0","goal_gain":3,"information_gain":1,"cost":2},
+            {"id":"b","basis_id":"b0","goal_gain":1,"information_gain":4,"cost":1},
+        ]
+    def child(job):
+        raise AssertionError("plural frontier must not be arbitrarily collapsed")
+    mgr=RecursiveImprovementCoreManager(
+        select,child,lambda *args:("OPEN",{}),lambda z,m,a,d:(z,m)
+    )
+    out=mgr.run({"terminal":"CONTINUE","live_continuation":True,"basis_id":"b0"},{})
+    assert out["status"]=="OPEN"
+    assert out["blocker"]=="IC_MANAGER_PLURAL_NONDOMINATED_CHILD_FRONTIER"
+    assert set(out["frontier"]["nondominated"])=={"a","b"}
+
+
+def test_recursive_manager_filters_protected_regression_before_choice():
+    def select(z,m):
+        return [
+            {"id":"unsafe","basis_id":"b0","goal_gain":999,"preserves_protected":False},
+            {"id":"safe","basis_id":"b0","goal_gain":1},
+        ]
+    def child(job):
+        return ChildReturn(
+            child_id=job.id,job_id=job.job["id"],
+            execution_truth="FULL_MATCH",result={"ok":True},basis_id=job.basis_id,
+        )
+    def admit(ret,z,m):
+        return "ADMIT",{"material_result_delta":True}
+    def update(z,m,a,d):
+        z=dict(z);z["terminal"]="COMPLETE";z["live_continuation"]=False
+        return z,m
+    mgr=RecursiveImprovementCoreManager(select,child,admit,update)
+    out=mgr.run({"terminal":"CONTINUE","live_continuation":True,"basis_id":"b0"},{})
+    assert out["status"]=="COMPLETE"
+    assert out["traces"][0]["selected_job"]["id"]=="safe"
