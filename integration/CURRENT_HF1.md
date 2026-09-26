@@ -112,3 +112,12 @@ Construction of world_state, discovery_state, and result_sensitive_state is upst
 HF1 requires them for delta classification and fails OPEN when they are missing.
 
 Global minimality of the entire Take-5 controller is not part of the HF1 job.
+
+
+## Validated implementation evidence
+
+PR #55
+- merge 39ca5616d3d8e23042f0ac887d0a447e24ec8ddf
+- validation 36221315384
+
+HF1 is now an explicit canonical tool manifest, not generic-only.
