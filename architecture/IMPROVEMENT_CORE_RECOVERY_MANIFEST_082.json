@@ -5,7 +5,7 @@
   "status": "CURRENT",
   "canonical_repository": "thytabakman-jpg/Take-5",
   "controller": "IC-028",
-  "regime_version": "083",
+  "regime_version": "090",
   "invocation": {
     "aliases": [
       "ImproveCore",
@@ -16,14 +16,16 @@
   },
   "regime": {
     "surface": "runtime/improvement_core_regime.py",
-    "version": "083",
+    "version": "090",
     "stage_manager": "runtime/improvement_core_manager.py",
     "operator": "runtime/ic028_operator.py",
     "recursive_manager": "runtime/improvement_core_recursive_manager.py",
     "recursive_activation": "LIVE_CONTINUATION",
     "learning_memory": "runtime/improvement_core_learning_memory.py",
     "learning_activation": "RECURSIVE_ROUTE_GATE_AND_STAGE_LEARNING_EVENTS",
-    "narrow_subordinate": "runtime/improvement_core.py"
+    "narrow_subordinate": "runtime/improvement_core.py",
+    "external_acquisition": "runtime/improvement_core_external_acquisition.py",
+    "external_activation": "PRE_MANAGER_WHEN_MATERIAL_EXTERNAL_SIGNAL"
   },
   "evidence": {
     "maximization": "architecture/IMPROVEMENT_CORE_MAXIMIZATION_081.md",
@@ -51,7 +53,8 @@
         "merge_commit": "39ca5616d3d8e23042f0ac887d0a447e24ec8ddf",
         "validation_run": "36221315384"
       }
-    ]
+    ],
+    "external_acquisition": "architecture/IMPROVEMENT_CORE_EXTERNAL_ACQUISITION_090.md"
   },
   "protected_behaviors": [
     "CONTROLLER_OWNERSHIP",
@@ -71,7 +74,12 @@
     "UNCHANGED_NO_GAIN_ROUTE_BLOCKED",
     "DEPENDENCY_SENSITIVE_ROUTE_REOPENING",
     "STAGE_LEARNING_EVENTS_CAN_ENTER_MEMORY",
-    "OPEN_BLOCKED_CONFLICT_PRESERVATION"
+    "OPEN_BLOCKED_CONFLICT_PRESERVATION",
+    "EXTERNAL_NEED_PREFLIGHT",
+    "OUTSIDE_CAPABILITY_BEFORE_EXPENSIVE_INTERNAL_RECONSTRUCTION",
+    "HOST_BOUND_EXTERNAL_ADAPTER_USE",
+    "EXTERNAL_ACQUISITION_GAP_RETURNS_OPEN",
+    "EXTERNAL_OUTPUT_REENTERS_NORMAL_ADMISSION_VERIFICATION"
   ],
   "open": [
     "ZERO_REQUEST_UPSTREAM_DISCOVERY_RUNTIME",
@@ -83,7 +91,11 @@
     "UNLIKE_AUTONOMY_HOLDOUTS",
     "CHEAP_ROUTE_VS_BROAD_ATTACK_CALIBRATION",
     "GLOBAL_MAXIMALITY_MINIMALITY",
-    "PORTFOLIO_TOOL_IDENTITY_BACKFILL"
+    "PORTFOLIO_TOOL_IDENTITY_BACKFILL",
+    "AUTOMATIC_HOST_TOOL_INVENTORY_DISCOVERY",
+    "EXTERNAL_SOURCE_TRUST_CALIBRATION",
+    "EXTERNAL_ACQUISITION_COST_MODEL",
+    "DYNAMIC_PLUGIN_MCP_INSTALL_AUTHORITY"
   ],
   "math": {
     "current_surface": "architecture/IMPROVEMENT_CORE_MATHEMATICS_086.md",
