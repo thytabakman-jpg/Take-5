@@ -40,7 +40,7 @@ AssistantDraft
 -> StatusAssessment
 -> TypedMathEmission
 -> GlyphColorProjection
--> RawMarkupAudit
+-> ResponseBoundaryAudit
 -> UserVisibleMessage
 
 ## Hard prohibitions
@@ -71,3 +71,20 @@ This defect is relatively closed only when:
 - regression tests cover both;
 - the canonical invariant explicitly includes the assistant response boundary;
 - future assistant responses use that path rather than hand-authored HTML.
+
+
+## Current implementation update — 2026-09-26
+
+The final audit is now explicitly implemented as verify_assistant_response.
+
+It masks supported typed colored formal-label glyphs and then scans the remaining
+response for registered formal labels.
+
+Any remaining registered label fails with:
+UNTYPED_FORMAL_LABEL_AT_RESPONSE_BOUNDARY.
+
+The registered identity basis is centralized in FORMAL_OBJECT_ALIASES so current
+objects such as ImproveCore and HF1 cannot depend on an unrelated older regex list.
+
+Recovery anchor:
+integration/CURRENT_MATHEMATICAL_COLORING.md

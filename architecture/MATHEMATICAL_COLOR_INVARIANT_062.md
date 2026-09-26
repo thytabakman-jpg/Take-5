@@ -1,7 +1,7 @@
 # Mathematical Color Invariant 062
 
 Date: 2026-09-25
-Status: CURRENT CANDIDATE EMISSION CONTRACT
+Status: IMPLEMENTED CANDIDATE / VALIDATION REQUIRED
 
 ## Job
 
@@ -93,26 +93,23 @@ Before emitting a formal object:
 
 No optimistic promotion from PARTIAL to GREEN.
 
-## HF1 witness
+## Current recovery / identity basis
 
-Current job: determine the complete mathematics of HF1.
+Canonical recovery anchor:
+integration/CURRENT_MATHEMATICAL_COLORING.md
 
-Known:
-- a runtime function named hf1_reentry_route exists;
-- a candidate three-input routing rule exists;
-- existing CI passes for the commit containing that function.
+Formal-label identity is now centralized in:
+runtime/mathematical_color_gate.py :: FORMAL_OBJECT_ALIASES
 
-Open:
-- exact complete HF1 state vector;
-- exact semantics and construction of discovery delta;
-- exact result-sensitivity predicate;
-- proof that the current coordinates are necessary and sufficient;
-- full wrapper integration.
+Current critical aliases include ImproveCore and HF1 families.
 
-Therefore:
-HF1 = RED for the complete-mathematics job.
+The response-boundary audit:
+verify_assistant_response
 
-Any branch labels whose exact semantics depend on the unresolved HF1 specification are also RED for that job.
+rejects a registered formal label that remains outside a typed colored operator glyph.
+
+This closes the recurring failure in which a new current formal object was never added
+to the older finite formal-label pattern.
 
 ## Relationship to wrapper
 
@@ -146,3 +143,17 @@ AssistantDraft
 Any failure in this chain blocks the colored formal object from emission rather than substituting unsupported markup.
 
 This closes the specific bypass that allowed a hand-authored HTML span to evade the repository color gate.
+
+
+## Recovery rule — 2026-09-26
+
+When coloring breaks, do not reconstruct from chat memory first.
+
+Load:
+1. integration/CURRENT_MATHEMATICAL_COLORING.md
+2. runtime/mathematical_color_gate.py
+3. tests/test_mathematical_color_gate.py
+4. runtime/mathematical_color_recovery.py
+
+A new load-bearing formal object is not emission-ready until its canonical identity,
+aliases, typed status path, and plain-text bypass regression are registered.

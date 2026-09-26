@@ -6,6 +6,13 @@ def test_mt_manifest_reconstructs_black_box_gate():
     assert "MT_BLACK_BOX_SEMANTIC_RETURN_GATE" in m.behavior_ids()
     assert reconstructs("MT",("MT_BLACK_BOX_SEMANTIC_RETURN_GATE",))
 
+def test_hf1_manifest_reconstructs_unified_governed_episode():
+    required=("HF001_GOVERNED_EPISODE",)
+    m=manifest_for("HF001")
+    assert m.complete()
+    assert set(required)<=m.behavior_ids()
+    assert reconstructs("HF001",required)
+
 def test_assert_manifest_reconstructs_canonical_compound_and_full36_behavior():
     required=(
         "ASSERT_COMPOUND_STAGE_ORDER",
