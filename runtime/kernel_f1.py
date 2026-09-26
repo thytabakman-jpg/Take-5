@@ -1,6 +1,7 @@
 """K-F1 candidate legality membrane for the factored research foundation."""
 from dataclasses import dataclass
 from typing import Optional
+from kernel_preservation import KernelChange, admit_change
 
 @dataclass(frozen=True)
 class Attribution:
@@ -51,3 +52,18 @@ def admit_run(p:RunPacket, reduction_or_transfer:bool=False)->KernelVerdict:
 
 def reentry_required(*,protected_delta=False,view_delta=False,candidate_delta=False,scope_delta=False,mode_delta=False,basis_delta=False,authority_delta=False,evidence_delta=False):
     return any((protected_delta,view_delta,candidate_delta,scope_delta,mode_delta,basis_delta,authority_delta,evidence_delta))
+
+
+def admit_consequential_change(*, consequential=True, observed_before=False, typed=False,
+                              authority=False, transition_declared=False,
+                              verified_after=False, open_state_preserved=False):
+    """Expose the Take-Two preservation membrane through the live kernel surface."""
+    return admit_change(KernelChange(
+        consequential=consequential,
+        observed_before=observed_before,
+        typed=typed,
+        authority=authority,
+        transition_declared=transition_declared,
+        verified_after=verified_after,
+        open_state_preserved=open_state_preserved,
+    ))
