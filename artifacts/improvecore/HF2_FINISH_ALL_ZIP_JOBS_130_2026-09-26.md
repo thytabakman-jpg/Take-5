@@ -58,3 +58,29 @@ External:
 positive identity of any still-unbound substantive archive remains outside what repository code can manufacture.
 
 HF2 has not declared terminal closure before validation.
+
+
+## Final validation and merge
+
+Branch validation:
+- Take-5 Validation 36277491072: SUCCESS
+- Capability Preservation 36277491021: SUCCESS
+
+Merged through PR #127.
+
+Merge:
+12339480846336ceabc16e6f33716d5395e20ba8
+
+Post-merge validation:
+- Take-5 Validation 36277515519: SUCCESS
+- ImproveCore Self Study 104 36277515523: SUCCESS
+
+## HF2 #1 terminal disposition
+
+All repository-owned work discovered by this recurrence was implemented, recovery-protected, validated, and merged.
+
+HF2[ImprovementCore]:
+RELATIVE_CLOSE.
+
+Remaining external archive-identity coordinate:
+OPEN_WITH_REENTRY.
