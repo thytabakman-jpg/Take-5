@@ -1,9 +1,8 @@
 """Fail-closed user-visible mathematical status emission.
 
-Mathematical and formal-system objects are emitted as typed fragments carrying
-their recovery state. Recovery state is semantic. Rendering is channel-specific.
-
-No caller may hand-author color markup or drop status before emission.
+Formal-system objects are registered centrally and rendered as typed LaTeX
+fragments carrying a binary recovery state. A response-boundary audit can then
+reject registered formal labels that escape as plain text.
 """
 from __future__ import annotations
 
@@ -40,12 +39,6 @@ def assess_recovery(
     required_coordinates: Sequence[str],
     coordinate_status: Mapping[str, str],
 ) -> RecoveryAssessment:
-    """Return a binary complete-for-use verdict for this exact job and claim.
-
-    GREEN/RECOVERED is permitted only when the entire mathematics required by
-    this exact use is figured out. Any missing, partial, ambiguous, conflicting,
-    open, blocked, or merely proposed required coordinate returns NO/UNRESOLVED.
-    """
     required = tuple(required_coordinates)
     unresolved: list[str] = []
 
@@ -97,18 +90,60 @@ class ColorInvariantViolation(RuntimeError):
     pass
 
 
+# One canonical registry for user-visible formal labels.
+# Aliases normalize to one mathematical object identity.
+FORMAL_OBJECT_ALIASES = {
+    "ASSERT":"ASSERT",
+    "COMPARE":"COMPARE",
+    "RESOLVE":"RESOLVE",
+    "HERE":"HERE",
+    "INQUIRE":"INQUIRE",
+    "REASSERT":"REASSERT",
+    "ROOT CAUSE":"ROOT_CAUSE",
+    "ROOT-CAUSE":"ROOT_CAUSE",
+    "ROOT_CAUSE":"ROOT_CAUSE",
+    "GOAL":"GOAL",
+    "ARCHITECT":"ARCHITECT",
+    "WRAPPER":"WRAPPER",
+    "JANE":"JANE",
+    "MT":"MT",
+    "PD":"PD",
+    "IMPROVECORE":"IMPROVECORE",
+    "IMPROVE CORE":"IMPROVECORE",
+    "IMPROVEMENTCORE":"IMPROVECORE",
+    "IMPROVEMENT CORE":"IMPROVECORE",
+    "HF1":"HF1",
+    "HF-1":"HF1",
+    "HF001":"HF1",
+    "HF-001":"HF1",
+}
+
+_STATIC_ALIASES = sorted(FORMAL_OBJECT_ALIASES, key=len, reverse=True)
+_STATIC_PATTERN = "|".join(re.escape(x) for x in _STATIC_ALIASES)
+FORMAL_OBJECT_PATTERN = re.compile(
+    rf"(?i)(?<![A-Za-z0-9_])(?:{_STATIC_PATTERN}|ICC(?:[- _]?\d+)?)(?![A-Za-z0-9_])"
+)
+
 FORBIDDEN_RAW_MARKUP = ("<span", "</span>", "style=", "color:")
 FORBIDDEN_FALLBACK_MARKERS = ("🟢", "🔴")
-FORMAL_OBJECT_PATTERN = re.compile(
-    r"(?i)(?<![A-Za-z0-9_])("
-    r"ASSERT|COMPARE|RESOLVE|HERE|INQUIRE|REASSERT|ROOT[ _-]?CAUSE|GOAL|"
-    r"ARCHITECT|WRAPPER|JANE|MT|PD|ICC(?:[- _]?\d+)?"
-    r")(?![A-Za-z0-9_])"
-)
 MATH_SIGNAL_PATTERN = re.compile(
-    r"(\\(?:color|boxed|Gamma|varphi|vdash|nvdash|neq|Rightarrow|implies|iff|land|lor|mu|operatorname)"
+    r"(\(?:color|boxed|Gamma|varphi|vdash|nvdash|neq|Rightarrow|implies|iff|land|lor|mu|operatorname)"
     r"|\$|[=≠→⇒⇔∧∨⊢⊬∈∉∀∃μΓφ])"
 )
+COLORED_FORMAL_LABEL_PATTERN = re.compile(
+    r"\\color\{(?:green|red)\}\{\\operatorname\{[^{}]+\}\}",
+    re.IGNORECASE,
+)
+
+
+def canonical_formal_label(label: str) -> str:
+    normalized = " ".join(label.strip().upper().split())
+    if re.fullmatch(r"ICC(?:[- _]?\d+)?", normalized, flags=re.IGNORECASE):
+        return normalized.replace(" ", "-").replace("_", "-")
+    canonical = FORMAL_OBJECT_ALIASES.get(normalized)
+    if canonical is None:
+        raise ColorInvariantViolation("FORMAL_LABEL_NOT_REGISTERED")
+    return canonical
 
 
 def render_math(fragment: MathFragment | AssessedMathFragment) -> str:
@@ -117,25 +152,15 @@ def render_math(fragment: MathFragment | AssessedMathFragment) -> str:
         raise ColorInvariantViolation("EMPTY_MATH_FRAGMENT")
     if not isinstance(fragment.status, MathStatus):
         raise ColorInvariantViolation("MATH_STATUS_REQUIRED")
-
     color = "green" if fragment.status is MathStatus.RECOVERED else "red"
     return rf"\color{{{color}}}{{{latex}}}"
 
 
 def render_formal_label(label: str, status: MathStatus) -> str:
-    """Render a formal-system name as a colored mathematical glyph.
-
-    This is the supported chat-safe path for labels such as ASSERT, GOAL,
-    WRAPPER, PD, MT, and ICC-128. Raw HTML is never an admissible substitute.
-    """
-    normalized = label.strip()
-    if not normalized:
-        raise ColorInvariantViolation("EMPTY_FORMAL_LABEL")
+    canonical = canonical_formal_label(label)
     if not isinstance(status, MathStatus):
         raise ColorInvariantViolation("MATH_STATUS_REQUIRED")
-    if not FORMAL_OBJECT_PATTERN.fullmatch(normalized):
-        raise ColorInvariantViolation("FORMAL_LABEL_NOT_REGISTERED")
-    latex_label = normalized.replace(" ", r"\,").replace("-", r"{-}")
+    latex_label = canonical.replace("_", r"\_").replace("-", r"{-}")
     return render_math(MathFragment(rf"\operatorname{{{latex_label}}}", status))
 
 
@@ -170,8 +195,19 @@ def verify_rendered_output(rendered: str) -> None:
         raise ColorInvariantViolation("STATUS_FALLBACK_FORBIDDEN")
 
 
+def verify_assistant_response(rendered: str) -> None:
+    """Fail closed when a registered formal label escapes outside typed color.
+
+    This is intentionally narrower than a full LaTeX parser. It closes the
+    recurring label-bypass failure while preserving ordinary prose.
+    """
+    verify_rendered_output(rendered)
+    masked = COLORED_FORMAL_LABEL_PATTERN.sub("", rendered)
+    if FORMAL_OBJECT_PATTERN.search(masked):
+        raise ColorInvariantViolation("UNTYPED_FORMAL_LABEL_AT_RESPONSE_BOUNDARY")
+
+
 def emit_user_visible(fragments: Iterable[Fragment]) -> str:
-    """Render verified typed fragments using mandatory glyph-level LaTeX color."""
     parts = tuple(fragments)
     verify_fragments(parts)
     rendered: list[str] = []
