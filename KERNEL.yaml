@@ -142,11 +142,16 @@ capability_coverage_obligation:
 mathematical_color_emission:
   invariant: >-
     Every load-bearing mathematical object reaching a user-visible emission boundary carries an
-    explicit recovery status through rendering. RECOVERED renders green; UNRESOLVED renders red.
-    Missing status, untyped mathematical emission, and hand-authored HTML color markup are blocked.
+    explicit recovery status through rendering. Recovery status is semantic and must survive
+    independently of renderer capability. Color is the preferred projection when supported;
+    unsupported channels use a lossless status fallback. Missing status, untyped mathematical
+    emission, and hand-authored HTML color markup are blocked.
   runtime: runtime/mathematical_color_gate.py
   default_result_boundary: runtime/result_path_registry.py:emit_default_result
   statuses:
-    RECOVERED: green
-    UNRESOLVED: red
+    RECOVERED: green_or_green_status_marker
+    UNRESOLVED: red_or_red_status_marker
+  render_modes:
+    LATEX_COLOR: preferred_when_supported
+    STATUS_PREFIX: portable_lossless_fallback
   fail_closed: true
