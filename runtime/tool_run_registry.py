@@ -11,6 +11,8 @@ MATERIAL_TOOLS=tuple([f"C{i:02d}" for i in range(1,50)]+[
 "ASSERT","GOAL","SolutionToMyProblem","DesiredJane","QuestionWorthAsking","LambdaMath","SemanticResolutionPipeline"
 ]+list(LEARNING_TOOLS))
 
+ASSERT_LAYERS=("ASSERT_LAYER_1","ASSERT_LAYER_2")
+
 def _spec(tool):
     strong=(
         tool in {
@@ -20,24 +22,14 @@ def _spec(tool):
         }
         or tool in LEARNING_TOOLS
     )
-    if tool == "ASSERT":
-        return ConfiguredRunSpec(
-            tool,
-            True,
-            True,
-            True,
-            "WHEN_STRONG_CLAIM",
-            True,
-            "D36_C",
-            ("ASSERT_LAYER_1","ASSERT_LAYER_2"),
-            ("DIFFERENTIATE","RELATE","RECONSTRUCT","STRENGTHEN"),
-        )
+    layers=ASSERT_LAYERS if tool=="ASSERT" else (tool,)
     return ConfiguredRunSpec(
-        tool,
-        True,
-        True,
-        True,
-        "WHEN_STRONG_CLAIM" if strong else "NONE",
+        tool_id=tool,
+        recursive=True,
+        closure_required=True,
+        reentry_required=True,
+        external_challenge="WHEN_STRONG_CLAIM" if strong else "NONE",
+        required_layers=layers,
     )
 
 CONFIGURED_RUNS={t:_spec(t) for t in MATERIAL_TOOLS}

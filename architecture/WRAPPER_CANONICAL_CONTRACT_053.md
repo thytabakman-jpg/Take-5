@@ -479,6 +479,9 @@ I29 normal full ASSERT requires ASSERT Layer 1, ASSERT Layer 2, and Cognitive 36
 I30 ASSERT Layer 1 covers all seven protected stages across all 36 D36_C cells
 I31 ASSERT Layer 2 covers Q01-Q22 across all 36 D36_C cells
 I32 Cognitive 36 covers DIFFERENTIATE, RELATE, RECONSTRUCT, and STRENGTHEN across all 36 D36_C cells
+I33 every registered configured tool inherits wrapper_required, OBSERVER default, typed D36_C, Q01-Q22 coverage, and Cognitive 36
+I34 ordinary registered tool execution cannot enter a non-observer mode; mutation is a separate admitted transition
+I35 configured-run completeness is global and fail-closed rather than tool-specific opt-in
 ```
 
 ## 13. Current OPEN coordinates
@@ -494,7 +497,8 @@ O5 exact Eval mathematics
 O7 cost/gain law for cheap probe versus heavy execution where deterministic triggers do not fully settle mode
 O8 concrete binding from ICC bootstrap to the current full ASSERT and GOAL semantic workers across every host/chat entry surface
 O9 historical recovery of the exact ASSERT Layer 1 / Layer 2 semantics and cognitive-operator provenance
-O10 global geometry-selection law reconciling D36_C, D36_H, D216, and D288 beyond the current ASSERT compatibility default
+O10 global geometry-selection law reconciling D36_C, D36_H, D216, and D288 beyond the current compatibility default
+O11 host/chat entry surfaces that do not bind through the global configured-run contract
 ```
 
 ## 14. Relationship to existing artifacts
