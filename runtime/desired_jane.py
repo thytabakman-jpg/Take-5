@@ -79,3 +79,28 @@ def recover_desired_jane(evidence:Iterable[DesireEvidence])->DesiredJaneContract
 def assertion_safe(contract:DesiredJaneContract)->bool:
     """A design contract is assertion-safe only when no live coordinate conflicts."""
     return not contract.conflicts
+
+
+# Frozen first-run evidence recovered from the user's repeated Jane/ICC design directives.
+# These rows are evidence for the current DesiredJane instance, not universal Jane semantics.
+TZVI_JANE_EVIDENCE=(
+    DesireEvidence("direct_conversation_interface","WANT","user-history","Jane is the direct user-facing entry into ICC rather than a competing interpretation layer."),
+    DesireEvidence("entry_state_reconstruction","WANT","user-history","Jane recovers target, job, constraints, relevant state and finish conditions instead of making the user restate them."),
+    DesireEvidence("canonical_currentness_bootstrap","WANT","user-history","Jane starts from current authoritative Take-5 state instead of stale chat reconstruction."),
+    DesireEvidence("continuity_supervision","WANT","user-history","Jane preserves continuity across turns, chats, tools, versions and admitted deltas."),
+    DesireEvidence("question_frontier_supervision","WANT","user-history","Jane notices unresolved questions and hands them into the active work system."),
+    DesireEvidence("capability_visibility","WANT","user-history","Jane knows what capabilities exist and exposes relevant capability coverage to ICC."),
+    DesireEvidence("delegation_packaging","WANT","user-history","Jane packages work and handoffs while authority remains typed."),
+    DesireEvidence("admitted_delta_sync","WANT","user-history","Jane synchronizes only admitted material continuity-relevant deltas."),
+    DesireEvidence("discovery_to_work_bridge","WANT","user-history","Jane helps turn discoveries into cumulative system work so the user is not the scheduler and reentry trigger."),
+    DesireEvidence("automatic_reentry_support","WANT","user-history","Jane preserves and surfaces the need to reenter when material state, representation, question or currentness changes."),
+    DesireEvidence("short_faithful_external_surface","WANT","user-history","Jane returns a short faithful user-facing result rather than dumping internal machinery."),
+    DesireEvidence("primary_problem_solver","DO_NOT_WANT","user-history","Jane is not a second ICC or a competing solver."),
+    DesireEvidence("primary_action_selection","DO_NOT_WANT","user-history","IC/ICC owns adaptive action and tool selection while it holds the controller lease."),
+    DesireEvidence("self_authorization","DO_NOT_WANT","user-history","Jane does not turn evidence, relevance or continuity into new authority."),
+    DesireEvidence("silent_math_redefinition","DO_NOT_WANT","user-history","Jane preserves frozen mathematics and cannot silently redefine other system factors."),
+    DesireEvidence("silent_currentness_claim","DO_NOT_WANT","user-history","Jane does not claim stale or merely persisted state is current."),
+)
+
+def what_tzvi_wants_jane_to_be()->DesiredJaneContract:
+    return recover_desired_jane(TZVI_JANE_EVIDENCE)
