@@ -176,6 +176,11 @@ Global minimality remains OPEN.
 15. architecture/CANONICAL_TOOL_IDENTITY_REPAIR_076.md
 16. MIGRATION_STATE.yaml
 
+## Related current recovery anchors
+
+- integration/CURRENT_MATHEMATICAL_COLORING.md
+- integration/CURRENT_HF1.md
+
 ## Machine verification
 
 Run:
