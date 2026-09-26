@@ -1,7 +1,7 @@
 # ImprovementCore Activation Repair 083
 
 Date: 2026-09-26
-Status: IMPLEMENTED CANDIDATE / VALIDATION REQUIRED
+Status: IMPLEMENTED / VALIDATED / MERGED
 Regime version: 083
 
 ## Defect
@@ -84,4 +84,4 @@ Tests now require:
 
 ## Closure rule
 
-This repair is current only after full Take-5 validation and merge.
+Validation passed in PR #53, run 36220513144.\n\nMerged to main as 2dfe684886898f5a39ccd6c06f9a0b9e27695ff7.\n\nThis repair is current.
