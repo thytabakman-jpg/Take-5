@@ -1,0 +1,44 @@
+schema_version: 0.1
+workstream_id: ICWS-2026-09-26-CAPABILITY-RECOVERY-100
+status: ISOLATED_CANDIDATE
+base_commit: 73639b7292e0e0d2b876b1751109255038e7f69b
+frozen_job: >
+  Solve the repeated lost-capability defect, make ImproveCore's cumulative improvements
+  recoverable, strengthen Jane continuity, preserve Take Two's operating law, and prepare
+  a clean friend-facing transferable system without colliding with active ImproveCore work.
+authority: strict_gain_candidate_no_currentness_promotion
+read_set:
+  - integration/CURRENT_IMPROVEMENT_CORE.md
+  - architecture/IMPROVEMENT_CORE_RECOVERY_MANIFEST_082.json
+  - FUNCTIONALITY_RECOVERY_LEDGER.md
+  - KERNEL.yaml
+  - architecture/DESIRED_JANE_TOOL_061.md
+  - thytabakman-jpg/Take-2:README.md
+  - thytabakman-jpg/Take-2:KERNEL.yaml
+  - thytabakman-jpg/Take-2:ARCHITECTURE.md
+  - thytabakman-jpg/Take-2:pd/CORE.yaml
+intended_write_set:
+  - runtime/capability_preservation.py
+  - tests/test_capability_preservation.py
+  - runtime/jane_continuity.py
+  - tests/test_jane_continuity.py
+  - architecture/CAPABILITY_PRESERVATION_INVARIANT_097.md
+  - architecture/JANE_CONTINUITY_RECOVERY_098.md
+  - architecture/TAKE_TWO_OPERATING_LAW_099.md
+  - integration/IMPROVECORE_RECOVERY_BLUEPRINT_100.md
+  - integration/IMPROVECORE_CAPABILITY_RECOVERY_WORKSTREAM_100.yaml
+  - runtime/kernel_preservation.py
+  - tests/test_kernel_preservation.py
+  - integration/CAPABILITY_PRESERVATION_MANIFEST_100.json
+  - tests/test_capability_preservation_manifest.py
+  - .github/workflows/capability-preservation.yml
+protected_behavior:
+  - no_last_writer_wins
+  - no_currentness_promotion
+  - jane_not_primary_controller
+  - capability_presence_not_equal_preservation
+  - preserve_open_and_incomparability
+  - migrate_capabilities_not_files
+  - views_before_surfaces
+  - typed_transition_for_consequential_change
+terminal_disposition: VALIDATE_THEN_RECONCILE
