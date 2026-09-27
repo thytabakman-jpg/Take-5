@@ -545,6 +545,10 @@ def run_multiobject(
             "RESID:"+x.finding_id+":"+x.status for x in residuals
         ]
         +[
+            "VIEW:"+r.route_id+":"+r.status+":"+",".join(f.finding_id for f in r.findings)
+            for r in view_results
+        ]
+        +[
             "RECON:"+x.finding_id+":"+x.status for x in reconciliation
         ]
     ))
