@@ -1,60 +1,53 @@
-# Exact Four-Family 36-Union Recovery Report
+# Four-Family 36-Union Recovery Report — RETRACTED
 
 Date: 2026-09-27
-Status: RECOVERED FROM PRIOR CONVERSATION
+Status: RETRACTED / FALSE PROMOTION
 
-## Failure
+## Correction
 
-The recovery repeatedly substituted nearby mathematics for the requested historical object.
-
-Wrong substitutions included:
-- the configured-run (G_T,E_T,C_T,U_T) chain;
-- the four cognitive operators DIFFERENTIATE, RELATE, RECONSTRUCT, STRENGTHEN;
-- the Sigma completeness gate;
-- expanded wrapper equations containing prose-heavy labels.
-
-The key missed discriminator was the user's memory of a "big U", which in the historical equation is the big-union operator \\(igcup\\), not an update operator \\(U_T\\).
-
-## Exact recovered equation
+This file previously claimed that the user's remembered equation was
 
 \[
 \operatorname{Run}(\operatorname{ASSERT}^{*},X)
 =
 \bigcup_{F\in\{\operatorname{ASSERT},\operatorname{COMPARE},\operatorname{RESOLVE},\operatorname{HERE}\}}
-\;
 \bigcup_{q\in Q_F}
-\;
 \bigcup_{d\in\mathcal C_{36}}
 q_d(X).
 \]
 
-with
+That equation was synthesized during recovery. It was not recovered verbatim from a historical source and must not be treated as the requested historical object.
+
+The inference that the user's "big U" meant \(\bigcup\) was also unsupported. Chronological conversation evidence instead shows that immediately before the "big U" remark the assistant had displayed
 
 \[
-\mathcal C_{36}
+T_{36}(X)
 =
-\operatorname{Scope}_6
-\times
-\operatorname{ModeFace}_6,
-\qquad
-|\mathcal C_{36}|=36.
+TRC_T\!\left[
+HF1_T\!\left[
+\{K_T(X;d)\mid d\in\mathcal D_{36}\}
+\right]
+\right],
 \]
 
-The four families are exactly:
+and immediately after the remark displayed
 
 \[
-\{\operatorname{ASSERT},\operatorname{COMPARE},\operatorname{RESOLVE},\operatorname{HERE}\}.
+\operatorname{Run}_{Q}(u,Z_0)
+=
+HF001^{TRC}_{session}
+\left[
+U_Q\circ C_Q\circ E_Q\circ G_Q
+\right]
+\left(
+P_{PEC(u,Z_0)}(Z_0)
+\right).
 \]
 
-## Interpretation
+Therefore the "big U" clue does not license a big-union reconstruction.
 
-This equation collapses the full question surface into one union expression over:
-1. four question families;
-2. each family's questions;
-3. all 36 cells.
+## Durable disposition
 
-It is therefore the compact mathematical object the user was trying to recover.
+The four-family union equation is REJECTED AS EXACT HISTORICAL RECOVERY.
 
-## Supersession
-
-This report supersedes prior recovery claims that identified the target as the (G_T,E_T,C_T,U_T) configured-run equation or the four cognitive-operator equation.
+It may be studied as a derived construction only when explicitly labeled DERIVED. It must not supersede source-backed candidates.
