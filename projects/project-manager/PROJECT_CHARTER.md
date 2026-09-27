@@ -27,7 +27,7 @@ OPEN and CONFLICT remain explicit.
 WBS and schedule remain separate.
 The tool can manage this project with no special bypass.
 ImprovementCore can consume the evidence-only work frontier.
-TransferCore cannot mutate anything while its current full identity is unresolved.
+TransferCore admission cannot mutate a target; a unique target authority binding and separate explicit mutation authorization are required.
 Repository validation passes before canonical promotion.
 
 ## Non-goals
