@@ -259,3 +259,20 @@ def test_promotion_blocks_unrecovered_object_specification():
         assert "PROMOTION_SPECIFICATION_OPEN" in str(exc)
     else:
         raise AssertionError("unrecovered predecessor specification promoted")
+
+
+def test_promotion_blocks_unverified_source_frontier():
+    try:
+        verify_promotion(
+            predecessor_protected=["A"],
+            successor_preserved=["A"],
+            consequence_closed=True,
+            predecessor_specification_status="PASS",
+            successor_specification_status="PASS",
+            source_frontier_verified=False,
+            source_frontier_cid=fake_cid("f"),
+        )
+    except RuntimeError as exc:
+        assert "PROMOTION_SOURCE_FRONTIER_UNVERIFIED" in str(exc)
+    else:
+        raise AssertionError("promotion accepted an unverified source frontier")
