@@ -289,39 +289,162 @@ def identity_for(tool_id:str)->ToolOperationalIdentity:
     raise KeyError("TOOL_OPERATIONAL_IDENTITY_UNRECOVERED:"+tool_id)
 
 
-FULL_DIMENSION_NAMES=(
-    "question","job","responsibility","mathematical_object",
-    "native_semantics","wrapper","geometry","protected_behavior",
-    "closure","reentry","recurrence","lineage_currentness_runtime",
+MASTER_DIMENSION_NAMES=(
+    # operational nucleus recovered from prior tool-anatomy work
+    "identity","question","job","responsibility","goal","mathematical_object",
+    # native/configured semantics
+    "native_semantics","inputs","outputs","state",
+    "configured_identity","envelope","mode","orchestration","wrapper","geometry",
+    # authority/currentness/lifecycle
+    "authority","currentness_provenance","lineage","lifecycle",
+    "persistence_propagation",
+    # realization and reachability
+    "runtime_realization","runtime_behavior","executability",
+    "controller_reachability","invocation","run_instance","host_capability",
+    # placement/relations/stewardship
+    "dependencies_transfers","semantic_roles","project_memberships",
+    "physical_location","backlog_open_obligations",
+    # protection and stopping
+    "protected_behavior","closure","reentry","recurrence","verification",
+    "evidence_receipts","failure_open_policy","admission_promotion",
+    # configured discovery surfaces; these are NOT identity-equivalent to the
+    # separate SourceScope x TargetScope 36-cell handoff surface.
+    "coverage_surface","question_projection","cognitive_projection",
 )
+
+# Backward-compatible name used by the first repair tests.
+FULL_DIMENSION_NAMES=MASTER_DIMENSION_NAMES
+
+
+def _slug(value:str)->str:
+    out=[]
+    for ch in str(value).lower():
+        out.append(ch if ch.isalnum() else "-")
+    return "-".join(filter(None,"".join(out).split("-")))
+
+
+def _typed_io(tool_id:str,op:ToolOperationalIdentity):
+    if tool_id.startswith("C") and tool_id[1:].isdigit():
+        spec=A5_REGISTRY.get(tool_id)
+        return (
+            "REGISTERED_CAPABILITY_PAYLOAD:"+",".join(spec.roles),
+            "PROTECTED_OUTPUT:"+",".join(spec.protected_outputs),
+            "PACKET_STATE_DEFINED_BY_CAPABILITY_RUNTIME",
+        )
+    if tool_id in LEARNING_BY_ID:
+        spec=LEARNING_BY_ID[tool_id]
+        return (
+            spec.input_type,
+            spec.output_type,
+            "TYPED_LEARNING_STEP_STATE",
+        )
+    return (
+        "ROUTED_TO_NATIVE_RUNTIME_INPUT_CONTRACT",
+        "ROUTED_TO_NATIVE_RUNTIME_OUTPUT_CONTRACT",
+        "ROUTED_TO_NATIVE_RUNTIME_STATE_CONTRACT",
+    )
 
 
 def full_dimension_projection(tool_id:str)->dict[str,Any]:
-    """Project every enforced identity dimension without duplicating FullMath."""
+    """Project the complete recovered tool-anatomy union without duplicating owners.
+
+    A value may be explicit or an authority route.  ROUTED values are intentional:
+    the anti-loss architecture keeps one mutable owner for native runtime details.
+    Strong tool-reality separately verifies that the routed runtime is recovered.
+    """
     op=identity_for(tool_id)
     manifest=manifest_for(tool_id)
     spec=CONFIGURED_RUNS[tool_id]
     runtime_refs=tuple(dict.fromkeys(
         b.implementation for b in manifest.bindings if b.implementation
     ))
+    witness_refs=tuple(dict.fromkeys(
+        b.witness for b in manifest.bindings if b.witness
+    ))
+    inputs,outputs,state=_typed_io(tool_id,op)
+    package_root=f"projects/tool-system/current-tools/{_slug(tool_id)}"
+    goal=(
+        f"Close the live {op.job} obligation for the protected job while "
+        f"remaining inside this responsibility boundary: {op.responsibility}"
+    )
+
     return {
+        "identity":tool_id,
         "question":op.question,
         "job":op.job,
         "responsibility":op.responsibility,
+        "goal":goal,
         "mathematical_object":op.mathematical_object,
         "native_semantics":manifest.native_semantics,
+        "inputs":inputs,
+        "outputs":outputs,
+        "state":state,
+        "configured_identity":{
+            "registry":"runtime/tool_run_registry.py",
+            "complete":spec.complete(),
+            "manifest":"runtime/tool_manifest.py",
+        },
+        "envelope":"FULL_CONFIGURED_HF2_V1 PRE/INTRA/POST/CROSS envelope",
+        "mode":"OBSERVER ordinary configured mode",
+        "orchestration":"configured plan -> native execution -> TRC -> reentry",
         "wrapper":"FULL_CONFIGURED_HF2_V1",
         "geometry":manifest.geometry_policy,
+        "authority":(
+            "bounded by operational responsibility; mutation/admission authority "
+            f"routes through {package_root}/AUTHORITY_REGISTRY.md"
+        ),
+        "currentness_provenance":(
+            f"{manifest.lineage_contract} + integration/CURRENT_TOOL_REALITY.md"
+        ),
+        "lineage":manifest.lineage_contract,
+        "lifecycle":f"{package_root}/CURRENT_STATE.md",
+        "persistence_propagation":(
+            f"{package_root}/evidence + runs + history; POST/CROSS bindings"
+        ),
+        "runtime_realization":runtime_refs,
+        "runtime_behavior":{
+            "native_semantics":manifest.native_semantics,
+            "implementation_refs":runtime_refs,
+        },
+        "executability":{
+            "configured_complete":spec.complete(),
+            "runtime_refs_present":bool(runtime_refs),
+        },
+        "controller_reachability":(
+            "runtime/global_tool_execution.py + runtime/direct_tool_command_gateway.py"
+        ),
+        "invocation":"FULL_CONFIGURED_HF2_V1 configured invocation",
+        "run_instance":"per-run execution/receipt state; never identical to tool identity",
+        "host_capability":(
+            "Take-5 repository-owned routes only; unrelated external host interception "
+            "remains an explicit boundary"
+        ),
+        "dependencies_transfers":tuple(
+            dict.fromkeys(b.implementation for b in manifest.bindings)
+        ),
+        "semantic_roles":(
+            f"question={op.question}",
+            f"job={op.job}",
+            f"responsibility={op.responsibility}",
+        ),
+        "project_memberships":("projects/tool-system",package_root),
+        "physical_location":package_root,
+        "backlog_open_obligations":f"{package_root}/OPEN_QUESTIONS.md",
         "protected_behavior":tuple(sorted(manifest.behavior_ids())),
         "closure":manifest.closure_contract,
         "reentry":manifest.reentry_contract,
         "recurrence":spec.recurrence_engine,
-        "lineage_currentness_runtime":{
-            "lineage":manifest.lineage_contract,
-            "runtime_refs":runtime_refs,
-            "configured_complete":spec.complete(),
-            "manifest_complete":manifest.complete(),
-        },
+        "verification":witness_refs,
+        "evidence_receipts":(
+            f"{package_root}/runs + evidence; configured execution/PTI receipts"
+        ),
+        "failure_open_policy":"OPEN/BLOCKED/CONFLICT preserved; resource stop is not completion",
+        "admission_promotion":(
+            "registry/currentness/change-control governed; no tool self-promotes"
+        ),
+        "coverage_surface":"Scope x ModeFace = 6 x 6 = 36",
+        "question_projection":"Q01-Q22 x 36 = 792",
+        "cognitive_projection":"DIFFERENTIATE/RELATE/RECONSTRUCT/STRENGTHEN x 36 = 144",
     }
 
 
