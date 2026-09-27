@@ -126,6 +126,8 @@ def test_missing_verifier_fails_open_not_complete():
     )
     assert out.terminal=="OPEN"
     assert out.blocker=="PARENT_RETURN_GATE_REQUIRED"
+    assert out.next_state["terminal"]=="OPEN"
+    assert out.next_state["admitted_continuation"] is False
 
 
 
