@@ -1,12 +1,12 @@
 """Executable recovery check for current HF1 mathematics."""
 from pathlib import Path
-from hf1_episode import classify_delta, select_sufficient_package
+from hf1_episode import classify_delta, run_hf1_episode, select_sufficient_package
 from tool_manifest import reconstructs
 
 ROOT=Path(__file__).resolve().parents[1]
 REQUIRED=(
     "integration/CURRENT_HF1.md",
-    "architecture/HF1_MATHEMATICS_084.md",
+    "architecture/HF1_MATHEMATICS_173.md",
     "runtime/hf1_episode.py",
     "tests/test_hf1_episode.py",
 )
@@ -25,6 +25,15 @@ def validate_hf1_recovery():
     delta=classify_delta(base,{**base,"world_state":"w2"})
     if not delta.world_changed or delta.discovery_changed or delta.result_sensitive_delta:
         failures.append("HF1_DELTA_SEMANTICS_DRIFT")
+    out=run_hf1_episode(
+        base,
+        package_index={},
+        mode_flags={"exact_discriminant":True,"independent_local":True},
+        execute_fn=lambda *args: None,
+        closure_fn=lambda *args: None,
+    )
+    if out.terminal.value!="OPEN" or out.blocker!="FRESH_REOBSERVATION_REQUIRED":
+        failures.append("HF1_FRESH_CLOSURE_GATE_DRIFT")
     return {"status":"PASS" if not failures else "FAIL","missing":missing,"failures":tuple(failures)}
 
 if __name__=="__main__":
