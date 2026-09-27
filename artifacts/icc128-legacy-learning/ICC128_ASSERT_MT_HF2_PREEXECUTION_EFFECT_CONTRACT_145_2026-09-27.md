@@ -1,9 +1,9 @@
 # ICC128 ASSERT-HF2 / MT-HF2 Loop — Pre-Execution Effect Contract 145
 
 Date: 2026-09-27
-Status: IMPLEMENTED ON BRANCH / VALIDATION PENDING
+Status: MERGED / VALIDATED / CLOSED_RELATIVE
 Controller: ICC128 Legacy semantics used as the orchestration model
-Branch: fix/preexecution-effect-contract-145
+Promotion: PR #146
 
 ## Reorganized governing prompt
 
@@ -178,16 +178,29 @@ G_Q -> G_W -> S -> E -> A -> U -> G_Q.
 
 The new rule is a modern wrapper legality condition on what may be supplied to E.
 
-## Current disposition
+## Validation and closure
 
-Implementation delta:
-MATERIAL.
+Final validated PR head:
+d3d0a19293b1f9e21aee2cb2147d9476c256587b
 
-Semantic closure:
-PENDING CI.
+Validation:
+- Take-5 Validation 36293609614: SUCCESS
+- Capability Preservation 36293609616: SUCCESS
+- ImproveCore Legacy Holdouts 131 run 36293609695: SUCCESS
+
+Merge:
+42d933cfbbfb9ffff942f220246df900824d3d01
+
+The first validation attempt exposed one restored semantic-provider fixture whose
+generic callback effect was untyped. The invariant was not weakened. That provider
+was explicitly classified as VERIFY + EVIDENCE_ONLY, and the complete validation
+basis then passed.
+
+Repository-governed disposition:
+CLOSED_RELATIVE.
 
 Repository-wide external-host universality:
 not claimed.
 
-The next loop pass must run against the validated branch/head. A failed regression
-reopens the earliest failed coordinate instead of weakening the invariant.
+A future newly reachable higher-order executor, changed effect taxonomy, changed
+specification basis, or failing holdout reopens the affected coordinate.
