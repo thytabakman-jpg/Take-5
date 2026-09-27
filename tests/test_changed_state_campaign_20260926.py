@@ -90,6 +90,7 @@ def test_campaign():
  g2=execute_direct_tool_commands("Run GOAL",state=g1.state,adapters={"GOAL":goal_adapter("local",LOCAL)}); assert g2.status=="EXECUTED"
  rewritten=icc()
  ic=execute_direct_tool_commands("Run ImprovementCore",state=g2.state,adapters={"ImprovementCore":ic_adapter}); assert ic.status=="EXECUTED"
+ assert ic.executions[0].result["selected_next_work"]=="TAKE6_TOOL_CAPSULE_MIGRATION"
  h1=execute_direct_tool_commands("Run HF1",state=ic.state,adapters={"HF001":h1_adapter}); assert h1.status=="EXECUTED"
  h2=execute_direct_tool_commands("Run HF2",state=h1.state,adapters={"HF002":h2_adapter}); assert h2.status=="EXECUTED"
  for e in (g1.executions[0],g2.executions[0],ic.executions[0],h1.executions[0]):
