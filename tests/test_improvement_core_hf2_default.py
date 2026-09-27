@@ -19,6 +19,15 @@ def _return_done(state,memory,context):
     }
 
 
+def _fresh_stable(state,memory,context):
+    return {
+        "status":"NO_GAIN",
+        "owned_work_remaining":False,
+        "evidence":[f"test:fresh:{context['challenge_index']}"],
+        "challenge_id":f"test-fresh-{context['challenge_index']}",
+    }
+
+
 
 def _handlers(counter, *, reenter_upstream=False, material=True):
     handlers={}
@@ -78,6 +87,7 @@ def test_bare_improvementcore_reapplies_under_hf2_until_second_pass_has_no_new_s
         state={},
         handlers=_handlers(calls),
         return_verifier=_return_done,
+        fresh_reobserve=_fresh_stable,
     )
     assert resolution.entrypoint.endswith("run_improvement_core_with_hf2")
     assert out.status=="COMPLETE"
@@ -99,6 +109,7 @@ def test_hf2_requires_material_witness_not_state_change_alone():
         state={},
         handlers=_handlers(calls,material=False),
         return_verifier=_return_done,
+        fresh_reobserve=_fresh_stable,
     )
     assert out.status=="COMPLETE"
     assert out.hf2_status=="RELATIVE_CLOSE"
@@ -116,6 +127,7 @@ def test_hf1_upstream_reentry_escapes_local_hf2_and_returns_parent_open():
         state={},
         handlers=_handlers(calls,reenter_upstream=True),
         return_verifier=_return_done,
+        fresh_reobserve=_fresh_stable,
     )
     assert out.status=="OPEN"
     assert out.blocker=="HF002_RETURN_REENTER"
@@ -189,6 +201,7 @@ def test_parent_return_gate_reenters_full_improvementcore_after_meaningful_step(
         state={},
         handlers=_handlers(calls),
         return_verifier=verify_return,
+        fresh_reobserve=_fresh_stable,
         parent_max_rounds=4,
     )
 
@@ -211,7 +224,23 @@ def test_user_facing_improvementcore_without_parent_return_verifier_fails_open()
         basis="current",
         state={},
         handlers=_handlers(calls),
+        fresh_reobserve=_fresh_stable,
     )
     assert out.status=="OPEN"
     assert out.blocker=="PARENT_RETURN_GATE_REQUIRED"
     assert len(out.parent_return_trace)==1
+
+
+def test_user_facing_improvementcore_without_fresh_reobserver_fails_open_before_complete():
+    calls={"execute":0}
+    _,out=dispatch_improvement_core(
+        "ImproveCore, solve this fully",
+        target="problem",
+        job="solve",
+        basis="current",
+        state={},
+        handlers=_handlers(calls),
+        return_verifier=_return_done,
+    )
+    assert out.status=="OPEN"
+    assert out.blocker=="FRESH_WHOLE_JOB_REOBSERVATION_REQUIRED"
