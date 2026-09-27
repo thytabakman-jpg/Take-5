@@ -28,6 +28,12 @@ def icc():
 
 def frontier():
  b=json.loads((R/"take6-bootstrap/BOOTSTRAP_MANIFEST.json").read_text())["promotion_blockers"]
+ from tool_reality_audit import audit_tool_reality
+ reality=audit_tool_reality()
+ if "GOAL" in reality.native_unrecovered:
+  return "RECOVER_GOAL_NATIVE_RUNTIME","current strong tool-reality authority says GOAL has configured identity but no recovered native executable realization; exact GOAL is upstream of Take-6 capsule migration",b
+ if reality.status=="OPEN":
+  return "RECOVER_REMAINING_STRONG_TOOL_REALITY","Take-6 exact capsules depend on native realizations and explicit tool-specific identities that remain OPEN in the current Take-5 repertoire",b
  c=(R/"take6-bootstrap/migration/tool-capsules/CAPSULE_INDEX_001.json").exists()
  d=(R/"take6-bootstrap/migration/PROTECTED_BEHAVIOR_DIFFERENTIAL_001.json").exists()
  f=(R/"take6-bootstrap/migration/FRESH_RECONSTRUCTION_001.json").exists()
