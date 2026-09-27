@@ -14,11 +14,12 @@ tool name alone.
 from __future__ import annotations
 
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Any
 
 from a5_programs import REGISTRY as A5_REGISTRY
 from learning_tool_bridge import SPEC_BY_ID as LEARNING_BY_ID
-from tool_manifest import manifest_for
+from tool_manifest import GENERIC_BINDINGS, manifest_for
 from tool_run_registry import CONFIGURED_RUNS, MATERIAL_TOOLS
 
 
@@ -323,7 +324,11 @@ def _slug(value:str)->str:
     return "-".join(filter(None,"".join(out).split("-")))
 
 
-def _typed_io(tool_id:str,op:ToolOperationalIdentity):
+ROOT=Path(__file__).resolve().parents[1]
+_GENERIC_BEHAVIOR_IDS=frozenset(x.behavior_id for x in GENERIC_BINDINGS)
+
+
+def _typed_io(tool_id:str,op:ToolOperationalIdentity,native_owner:str):
     if tool_id.startswith("C") and tool_id[1:].isdigit():
         spec=A5_REGISTRY.get(tool_id)
         return (
@@ -338,10 +343,11 @@ def _typed_io(tool_id:str,op:ToolOperationalIdentity):
             spec.output_type,
             "TYPED_LEARNING_STEP_STATE",
         )
+    route=f"CANONICAL_NATIVE_CONTRACT@{native_owner}"
     return (
-        "ROUTED_TO_NATIVE_RUNTIME_INPUT_CONTRACT",
-        "ROUTED_TO_NATIVE_RUNTIME_OUTPUT_CONTRACT",
-        "ROUTED_TO_NATIVE_RUNTIME_STATE_CONTRACT",
+        "INPUT_"+route,
+        "OUTPUT_"+route,
+        "STATE_"+route,
     )
 
 
@@ -358,10 +364,19 @@ def full_dimension_projection(tool_id:str)->dict[str,Any]:
     runtime_refs=tuple(dict.fromkeys(
         b.implementation for b in manifest.bindings if b.implementation
     ))
+    native_runtime_refs=tuple(dict.fromkeys(
+        b.implementation for b in manifest.bindings
+        if b.implementation and b.behavior_id not in _GENERIC_BEHAVIOR_IDS
+    ))
     witness_refs=tuple(dict.fromkeys(
         b.witness for b in manifest.bindings if b.witness
     ))
-    inputs,outputs,state=_typed_io(tool_id,op)
+    native_owner=(
+        native_runtime_refs[0]
+        if native_runtime_refs
+        else manifest.lineage_contract
+    )
+    inputs,outputs,state=_typed_io(tool_id,op,native_owner)
     package_root=f"projects/tool-system/current-tools/{_slug(tool_id)}"
     goal=(
         f"Close the live {op.job} obligation for the protected job while "
@@ -401,7 +416,10 @@ def full_dimension_projection(tool_id:str)->dict[str,Any]:
         "persistence_propagation":(
             f"{package_root}/evidence + runs + history; POST/CROSS bindings"
         ),
-        "runtime_realization":runtime_refs,
+        "runtime_realization":{
+            "all_implementation_refs":runtime_refs,
+            "native_owner_refs":native_runtime_refs or (manifest.lineage_contract,),
+        },
         "runtime_behavior":{
             "native_semantics":manifest.native_semantics,
             "implementation_refs":runtime_refs,
@@ -409,6 +427,7 @@ def full_dimension_projection(tool_id:str)->dict[str,Any]:
         "executability":{
             "configured_complete":spec.complete(),
             "runtime_refs_present":bool(runtime_refs),
+            "native_owner_present":bool(native_runtime_refs or manifest.lineage_contract),
         },
         "controller_reachability":(
             "runtime/global_tool_execution.py + runtime/direct_tool_command_gateway.py"
@@ -467,6 +486,21 @@ def audit_current_repertoire()->dict[str,Any]:
         )
         if empty:
             incomplete.append((tool_id,"EMPTY:"+",".join(empty)))
+
+        package_root=ROOT/"projects"/"tool-system"/"current-tools"/_slug(tool_id)
+        required_paths=(
+            ROOT/"runtime"/"tool_run_registry.py",
+            ROOT/"runtime"/"tool_manifest.py",
+            ROOT/manifest.lineage_contract,
+            package_root/"AUTHORITY_REGISTRY.md",
+            package_root/"CURRENT_STATE.md",
+            package_root/"OPEN_QUESTIONS.md",
+        )
+        required_paths += tuple(ROOT/x for x in projection["runtime_realization"]["all_implementation_refs"])
+        required_paths += tuple(ROOT/x for x in projection["verification"])
+        absent=tuple(str(x.relative_to(ROOT)) for x in required_paths if not x.exists())
+        if absent:
+            incomplete.append((tool_id,"UNRESOLVED_ROUTE:"+",".join(absent)))
         projections[tool_id]=projection
 
     parity=set(projections)==set(MATERIAL_TOOLS)
