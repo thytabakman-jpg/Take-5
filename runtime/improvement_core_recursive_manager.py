@@ -154,6 +154,10 @@ def _transition_comparison(
         specification_status=str(
             selected.get("specification_status")
             or delta.get("specification_status")
+            or assess_executable_work_item(
+                selected,
+                configured_observer=False,
+            ).specification_status
             or "OPEN"
         ),
     )
