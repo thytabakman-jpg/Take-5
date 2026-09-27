@@ -59,6 +59,8 @@ GOAL delta (2026-09-27):
 
 - native semantic core: `runtime/goal.py::recover_goal`;
 - explicit protected-behavior manifest: admitted in `runtime/tool_manifest.py`;
+- dedicated full mathematical identity: `architecture/GOAL_FULL_TOOL_MATH_001_2026-09-27.md`;
+- PR #148 ordering defect preserved as historical process evidence; this package is current-state reconciliation;
 - candidate goal extraction/evidence remains an explicit environment input;
 - plural or ungrounded governing goals preserve OPEN/CONFLICT rather than arbitrary selection.
 
