@@ -39,6 +39,22 @@ class CompilationWitness:
 # Native repository entrypoints that were recovered without claiming signature
 # uniformity. A portable host may bind these through adapters.
 NATIVE_ENTRYPOINTS: dict[str, tuple[str, tuple[str, ...]]] = {
+    "MTA": (
+        "mta.run_mta",
+        ("generate_structural_hypotheses","select_analysis_package","reconstruct_protected_model"),
+    ),
+    "Architecture": (
+        "architecture_analysis.run_architecture_analysis",
+        ("analyze_architecture",),
+    ),
+    "PD": (
+        "pd.run_pd",
+        ("rho","approx","representations"),
+    ),
+    "PDAudit": (
+        "pd_audit.run_pd_audit",
+        ("rho","approx","representations"),
+    ),
     "ICC128": (
         "icc128_autonomous_controller.ICC128Controller",
         ("semantic_generator","work_generator","executor","admitter","updater"),

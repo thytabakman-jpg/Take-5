@@ -13,7 +13,7 @@ DEDICATED=(
     "LambdaMath","SemanticResolutionPipeline","ToolConductor",
 )
 
-UNRESOLVED={"MTA","Architecture","PD","PDAudit"}
+UNRESOLVED=set()
 
 
 def test_dedicated_native_manifests_are_explicit_and_complete():
@@ -32,17 +32,17 @@ def test_registry_defined_and_learning_tools_are_explicit():
         assert manifest_for(pid).complete()
 
 
-def test_explicit_manifest_residual_is_exactly_unresolved_four():
+def test_explicit_manifest_residual_is_closed():
     audit=audit_tool_identities(CONFIGURED_RUNS,OVERRIDES)
     assert set(audit.generic_only)==UNRESOLVED
-    assert audit.status=="OPEN"
+    assert audit.status=="CLOSED_RELATIVE"
 
 
-def test_strong_tool_reality_has_one_shared_exact_four_frontier():
+def test_strong_tool_reality_closes_current_finite_repertoire():
     audit=audit_tool_reality()
     assert audit.configured_identity_status=="CLOSED_RELATIVE"
     assert set(audit.generic_only)==UNRESOLVED
     assert set(audit.native_unrecovered)==UNRESOLVED
-    assert audit.explicit_manifest_status=="OPEN"
-    assert audit.native_execution_status=="OPEN"
-    assert audit.status=="OPEN"
+    assert audit.explicit_manifest_status=="CLOSED_RELATIVE"
+    assert audit.native_execution_status=="CLOSED_RELATIVE"
+    assert audit.status=="CLOSED_RELATIVE"
