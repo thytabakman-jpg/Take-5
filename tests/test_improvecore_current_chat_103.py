@@ -146,6 +146,27 @@ def _handlers():
     handlers["REENTER"] = lambda state: {"state": state, "terminal": True}
     return handlers
 
+def _return_verifier(state,memory,context):
+    if (state.get("truth_constraints") or {}).get("source_location_status")=="OPEN":
+        return {
+            "disposition":"RETURN",
+            "terminal":"OPEN",
+            "goal_closed":False,
+            "owned_work_remaining":False,
+            "consequence_closed":True,
+            "blocker":"KUREPA_SOURCE_LOCATION_OPEN",
+            "evidence":["current-chat:source-location-open-dispositioned"],
+        }
+    return {
+        "disposition":"RETURN",
+        "terminal":"COMPLETE",
+        "goal_closed":True,
+        "owned_work_remaining":False,
+        "consequence_closed":True,
+        "evidence":["current-chat:whole-job-closed"],
+    }
+
+
 def test_current_chat_runs_through_actual_improvecore_dispatch():
     transcript = CHAT.read_text(encoding="utf-8")
     resolution, out = dispatch_improvement_core(
@@ -154,6 +175,7 @@ def test_current_chat_runs_through_actual_improvecore_dispatch():
         handlers=_handlers(),
         corpus=[{"id": "current-chat-103", "text": transcript}],
         observer_risk=True,
+        return_verifier=_return_verifier,
     )
 
     state = out.result.state
@@ -161,6 +183,7 @@ def test_current_chat_runs_through_actual_improvecore_dispatch():
         "controller": resolution.controller,
         "entrypoint": resolution.entrypoint,
         "regime_status": out.status,
+        "regime_blocker": out.blocker,
         "terminal": out.result.terminal,
         "manager_stages": list(out.receipt.stages),
         "mode": state.get("controller_mode"),
@@ -173,6 +196,8 @@ def test_current_chat_runs_through_actual_improvecore_dispatch():
 
     assert resolution.controller == "IC-028"
     assert resolution.entrypoint.endswith("run_improvement_core_with_hf2")
+    assert out.status=="OPEN"
+    assert out.blocker=="KUREPA_SOURCE_LOCATION_OPEN"
     assert out.result.terminal is True
     assert state["chat_observation"]["exact_snapshot_present"] is True
     assert state["execution_result"]["dispatcher_crossed"] is True
