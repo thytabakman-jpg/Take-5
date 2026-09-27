@@ -62,9 +62,15 @@ def run_case(case):
         q.setdefault("obligations",list(case.get("required_jobs",())))
         return [q]
 
+    def _evidence_work(item):
+        row=dict(item)
+        row.setdefault("operation_class","VERIFY")
+        row.setdefault("execution_effect_class","EVIDENCE_ONLY")
+        return row
+
     def generate_work(questions,state,memory):
         phase=phase_for(state)
-        return [] if phase is None else [dict(x) for x in phase["work_items"]]
+        return [] if phase is None else [_evidence_work(x) for x in phase["work_items"]]
 
     def execute_work(selected,state,memory):
         phase=phase_for(state)
@@ -107,6 +113,24 @@ def run_case(case):
             nxt["admitted_continuation"]=True
         return nxt,dict(memory)
 
+    def fresh_reobserve(state,memory,context):
+        phase=phase_for(state)
+        if phase is not None:
+            return {
+                "status":"STABLE",
+                "material_search_delta":True,
+                "owned_work_remaining":True,
+                "state_patch":{"work_items":[_evidence_work(x) for x in phase["work_items"]]},
+                "evidence":[f"semantic-holdout:{case['id']}:fresh-live-phase"],
+                "challenge_id":f"semantic-holdout:{case['id']}:fresh:{context['challenge_index']}",
+            }
+        return {
+            "status":"NO_GAIN",
+            "owned_work_remaining":False,
+            "evidence":[f"semantic-holdout:{case['id']}:fresh-no-new-work:{context['challenge_index']}"],
+            "challenge_id":f"semantic-holdout:{case['id']}:fresh:{context['challenge_index']}",
+        }
+
     def verify_return(state,memory,context):
         idx=int(state.get("semantic_phase",0))
         if idx<len(phases):
@@ -145,6 +169,7 @@ def run_case(case):
         hf2_max_rounds=4,
         max_iterations=8,
         return_verifier=verify_return,
+        fresh_reobserve=fresh_reobserve,
         parent_max_rounds=8,
     )
 
