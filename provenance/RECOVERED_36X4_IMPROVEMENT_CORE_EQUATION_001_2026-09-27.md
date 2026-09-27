@@ -1,19 +1,9 @@
-# Recovered Cheap 36-Dimensional Run Equation — Corrected
+# Cheap 36-Dimensional Run Equation — Recovery Candidate
 
 Date: 2026-09-27
-Status: CORRECTED HISTORICAL RECOVERY
+Status: SOURCE-BACKED PRIOR-ASSISTANT CANDIDATE / USER ACCEPTANCE NOT ESTABLISHED
 
-## Correction
-
-This file previously misidentified the user's remembered equation by conflating:
-1. the four primitive cognitive operators; and
-2. the four configured-run transformations.
-
-That was a category error.
-
-The remembered equation is the configured-run equation recovered from prior conversation context.
-
-## Exact recovered equation
+## Candidate recovered from prior conversation output
 
 \[
 \operatorname{Run}_{T}^{36}(X)
@@ -27,53 +17,53 @@ U_T\circ C_T\circ E_T\circ G_T
 \right)
 \]
 
-with the 36 projection expanded as
+with
 
 \[
 \Pi_{36}[K_T](X)
 =
-\left\{
-K_T(X;d)
-\mid
-d\in\mathcal D_{36}
-\right\},
+\{K_T(X;d)\mid d\in\mathcal D_{36}\},
 \qquad
 |\mathcal D_{36}|=36.
 \]
 
-The four configured transformations are therefore
+This exact expression is recoverable from a prior assistant output.
+
+## Recovery boundary
+
+The conversation record does not establish that the user accepted this expression as the remembered historical target. The user later said the equation looked different and later rejected the paired output.
+
+Therefore:
 
 \[
-G_T,\qquad E_T,\qquad C_T,\qquad U_T.
+PriorAssistantOutput
+\not\Rightarrow
+UserAcceptedHistoricalIdentity.
 \]
 
-The remembered large-U component is
+This expression must remain a recovery candidate until stronger source or user-confirmation evidence identifies it as the intended object.
+
+## Nearby big-U evidence
+
+Immediately after the user recalled a "big U" component, the assistant displayed
 
 \[
-U_T.
+\operatorname{Run}_{Q}(u,Z_0)
+=
+HF001^{TRC}_{session}
+\left[
+U_Q\circ C_Q\circ E_Q\circ G_Q
+\right]
+\left(
+P_{PEC(u,Z_0)}(Z_0)
+\right).
 \]
 
-Equivalent wrapper order:
+Thus the clue supports an update operator of the \(U\)-family more strongly than a big-union operator.
 
-\[
-K_T
-\rightarrow
-\Pi_{36}
-\rightarrow
-G_T
-\rightarrow
-E_T
-\rightarrow
-C_T
-\rightarrow
-U_T
-\rightarrow
-HF1^{TRC}_{session}.
-\]
+## Separate equation
 
-## Distinct equation recovered later
-
-The Show-Me-the-Math completeness gate is a separate mathematical object:
+The Show-Me-the-Math gate remains a separate repository-backed object:
 
 \[
 \Sigma
@@ -81,29 +71,4 @@ The Show-Me-the-Math completeness gate is a separate mathematical object:
 \mathbf 1_{\Delta\cap\Omega\cap\Phi\cap\Xi}.
 \]
 
-Do not collapse these two equations.
-
-## Recovery distinction
-
-The following four-operator basis is real but is NOT the four-part structure in the remembered cheap equation:
-
-\[
-O_{core}
-=
-\{
-DIFFERENTIATE,
-RELATE,
-RECONSTRUCT,
-STRENGTHEN
-\}.
-\]
-
-## Current recovery status
-
-Historical identity of the cheap 36-dimensional equation: recovered from prior conversation context.
-
-Repository source for the exact historical equation: not independently located in current code search.
-
-The Sigma completeness gate: independently repository-backed and executable-tested.
-
-This correction supersedes the earlier content of this file.
+Do not infer from that fact that it is necessarily the second equation the user currently intends.
