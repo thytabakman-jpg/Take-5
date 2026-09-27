@@ -214,15 +214,31 @@ Current protected behavior:
 - strict-progress claims consume the specification gate only when they claim an object transformation;
 - intrinsically epistemic configured tools may infer only a recovery-class operation where that inference cannot license mutation;
 - emergent transformation claims cannot be admitted from package reality alone;
-- Take-6 promotion requires predecessor and successor specification PASS.
+- Take-6 promotion requires predecessor and successor specification PASS;
+- executable work now has a separate effect class from its semantic operation class;
+- generic/higher-order callbacks must declare EVIDENCE_ONLY or TARGET_TRANSFORM before invocation;
+- an unknown callback effect class fails OPEN before the callback runs;
+- TARGET_TRANSFORM requires a transformation-class operation and passing transformation-relative specification;
+- configured repository tool execution may infer EVIDENCE_ONLY only because the current global configured-tool contract is observer-only;
+- recursive child execution crosses this gate before run_child;
+- the modern ICC128 Legacy wrapper crosses this gate before host generic execute_work while the frozen Legacy snapshot remains unchanged.
 
-Validation:
+Validation lineage:
 PR #140
 - final head cdba95c2605612821ade87492960d72c80d1a24a
 - merge 14026b20c06fedee2fc9b3caa3e8826a08e93e01
 - Take-5 Validation 36291341026 SUCCESS
 - Capability Preservation 36291341035 SUCCESS
 - ImproveCore Legacy Restoration 130 run 36291341021 SUCCESS
+
+Pre-execution effect extension:
+PR #146
+- final head d3d0a19293b1f9e21aee2cb2147d9476c256587b
+- merge 42d933cfbbfb9ffff942f220246df900824d3d01
+- Take-5 Validation 36293609614 SUCCESS
+- Capability Preservation 36293609616 SUCCESS
+- ImproveCore Legacy Holdouts 131 run 36293609695 SUCCESS
+- durable controller-loop evidence: artifacts/icc128-legacy-learning/ICC128_ASSERT_MT_HF2_PREEXECUTION_EFFECT_CONTRACT_145_2026-09-27.md
 
 ## Mode-aware execution
 
