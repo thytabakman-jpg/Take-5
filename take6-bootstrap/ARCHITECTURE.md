@@ -322,3 +322,47 @@ take6-bootstrap/tests/test_views.py
 
 Validation:
 take6-bootstrap/VALIDATION_002.md
+
+
+## 12c. Compiled migration source frontier
+
+Predecessor source currentness is no longer owned by one mutable migration manifest.
+
+Every source observation is an immutable snapshot:
+
+[
+S_i=
+\langle
+Repository,
+Commit,
+Tree,
+Inventory,
+Scope,
+Supersedes
+\rangle.
+]
+
+The migration frontier is compiled from the explicit supersession graph.
+
+For repository r, let Max_r be the non-superseded snapshot set.
+
+[
+MigrationCurrent(r)=s
+\iff
+Max_r=\{s\}.
+]
+
+Two incomparable maximal snapshots compile to CONFLICT. Missing adequate evidence remains OPEN.
+
+While Take-6 is hosted inside Take-5, predecessor freshness uses a declared scoped inventory digest. The successor-bootstrap subtree and its dedicated validation workflow are outside the predecessor scope. Therefore a successor-only host commit does not reopen predecessor migration, while any changed in-scope Take-5 runtime/architecture object does.
+
+Production promotion additionally requires a verified source_frontier_cid. The promotion gate fails closed without it.
+
+Runtime:
+take6-bootstrap/runtime/source_frontier.py
+
+Snapshot evidence:
+take6-bootstrap/migration/source_snapshots/
+
+Regression:
+take6-bootstrap/tests/test_source_frontier.py

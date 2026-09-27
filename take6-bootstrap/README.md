@@ -93,3 +93,22 @@ take6-bootstrap/VALIDATION_002.md
 
 This does not promote Take-6. Take-5 remains current authority until the full
 migration/promotion boundary closes.
+
+
+## Compiled migration frontier
+
+The migration source basis no longer depends on a hand-maintained CURRENT cutoff.
+
+Immutable source snapshots are stored under:
+
+take6-bootstrap/migration/source_snapshots/
+
+and compiled by:
+
+take6-bootstrap/runtime/source_frontier.py
+
+The compiler resolves a unique maximal snapshot per predecessor repository and preserves OPEN/CONFLICT when no unique frontier exists.
+
+Take-5 predecessor freshness is scope-aware while the successor bootstrap is hosted inside Take-5. Changes under the successor-bootstrap subtree do not create self-referential lag; changes to the actual Take-5 predecessor runtime/architecture do.
+
+Take-6 promotion now requires a verified source_frontier_cid.

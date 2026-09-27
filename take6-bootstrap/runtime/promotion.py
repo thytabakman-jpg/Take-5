@@ -13,6 +13,7 @@ class PromotionReceipt:
     consequence_closed: bool
     predecessor_specification_status: str
     successor_specification_status: str
+    source_frontier_cid: str
 
 def verify_promotion(
     *,
@@ -25,6 +26,8 @@ def verify_promotion(
     consequence_closed: bool,
     predecessor_specification_status: str = "OPEN",
     successor_specification_status: str = "OPEN",
+    source_frontier_verified: bool = False,
+    source_frontier_cid: str = "",
 ) -> PromotionReceipt:
     pred=set(map(str, predecessor_protected))
     kept=set(map(str, successor_preserved))
@@ -37,6 +40,8 @@ def verify_promotion(
     predecessor_specification_status=str(predecessor_specification_status).upper()
     successor_specification_status=str(successor_specification_status).upper()
 
+    if not source_frontier_verified or not str(source_frontier_cid).startswith("sha256:"):
+        raise RuntimeError("TAKE6_PROMOTION_SOURCE_FRONTIER_UNVERIFIED")
     if predecessor_specification_status!="PASS" or successor_specification_status!="PASS":
         raise RuntimeError(
             "TAKE6_PROMOTION_SPECIFICATION_OPEN:"
@@ -61,4 +66,5 @@ def verify_promotion(
         consequence_closed=True,
         predecessor_specification_status=predecessor_specification_status,
         successor_specification_status=successor_specification_status,
+        source_frontier_cid=str(source_frontier_cid),
     )

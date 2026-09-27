@@ -1,0 +1,65 @@
+{
+  "schema_version": "0.1",
+  "snapshots": [
+    {
+      "repository": "thytabakman-jpg/Reaserch",
+      "role": "current_lineage_evidence",
+      "commit": "7e3d12772b98de69114641aeabe408400271fbc9",
+      "tree_sha": "822d6d04b8c76b99cda9d555ed4591ce7ecb0d7f",
+      "recursive_tree_truncated": false,
+      "entry_count": 2383,
+      "blob_count": 2281,
+      "inventory": "migration/inventories/REASERCH_TREE_INVENTORY_001.json",
+      "supersedes": [],
+      "note": "Frozen repository snapshot imported from SOURCE_MANIFEST_001."
+    },
+    {
+      "repository": "thytabakman-jpg/Take-2",
+      "role": "kernel_lineage_take2",
+      "commit": "a0e94004e80b34837b2577ac8f2e96f1ff886e98",
+      "tree_sha": "aef214dcce4a5aab599e301afd5a0295acb77168",
+      "recursive_tree_truncated": false,
+      "entry_count": 37,
+      "blob_count": 23,
+      "inventory": "migration/inventories/TAKE2_TREE_INVENTORY_001.json",
+      "supersedes": [],
+      "note": "Frozen repository snapshot imported from SOURCE_MANIFEST_001."
+    },
+    {
+      "repository": "thytabakman-jpg/Take-3",
+      "role": "architecture_lineage_take3",
+      "commit": "174aa6e90667ed7030ee21ef9766b7f8cc302f2b",
+      "tree_sha": "5b4909c76d6a9db15ed9d43469467bcfa55b4464",
+      "recursive_tree_truncated": false,
+      "entry_count": 10,
+      "blob_count": 7,
+      "inventory": "migration/inventories/TAKE3_TREE_INVENTORY_001.json",
+      "supersedes": [],
+      "note": "Frozen repository snapshot imported from SOURCE_MANIFEST_001."
+    },
+    {
+      "repository": "thytabakman-jpg/Take-4",
+      "role": "autonomy_lineage_take4",
+      "commit": "1a8008aa97f0a153e6c0b922e596aa978cc671c3",
+      "tree_sha": "f991edf4d0a3e122daebabe54b46f269ab1ccaec",
+      "recursive_tree_truncated": false,
+      "entry_count": 64,
+      "blob_count": 50,
+      "inventory": "migration/inventories/TAKE4_TREE_INVENTORY_001.json",
+      "supersedes": [],
+      "note": "Frozen repository snapshot imported from SOURCE_MANIFEST_001."
+    },
+    {
+      "repository": "thytabakman-jpg/Take-5",
+      "role": "migration_cutoff_take5",
+      "commit": "853c7f92dae62747d3f8f42a38b6d4b77e194ad2",
+      "tree_sha": "6bb206f9c22776b595e62bb3c1ab19197df0f395",
+      "recursive_tree_truncated": false,
+      "entry_count": 875,
+      "blob_count": 831,
+      "inventory": "migration/inventories/TAKE5_TREE_INVENTORY_001.json",
+      "supersedes": [],
+      "note": "Historical migration cutoff from SOURCE_MANIFEST_001."
+    }
+  ]
+}

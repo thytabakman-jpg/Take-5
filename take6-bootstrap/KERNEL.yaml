@@ -52,6 +52,7 @@ kernel_primitives:
   - VERIFY_CONTENT_IDENTITY
   - APPEND_EVENT
   - COMPILE_STATE
+  - COMPILE_SOURCE_FRONTIER
   - RESOLVE_EXACT_OBJECT
   - VERIFY_PROMOTION
   - EXECUTE_CAPSULE
@@ -79,6 +80,10 @@ invariants:
     Every material supplied artifact is byte-accounted, content-addressed, provenance-linked, and dispositioned.
   source_projection_separation: >
     Generated views may be deleted and rebuilt without information loss.
+  compiled_migration_frontier: >
+    Predecessor source currentness is compiled from immutable source snapshots and explicit supersession.
+    A successor-host-only commit cannot make the predecessor frontier stale, while any in-scope predecessor
+    semantic/runtime delta must invalidate promotion readiness until admitted.
   host_boundary_truth: >
     Repository-local code never claims universal interception of unrelated hosts.
 
@@ -89,4 +94,5 @@ promotion_rule: >
 
 migration_rule: >
   Migrate evidence, semantic identity, authority, capability, state, provenance, and protected behavior.
+  Compile the migration source frontier from immutable snapshot history; do not author a mutable CURRENT cutoff.
   Do not mass-copy predecessor files as current architecture.
