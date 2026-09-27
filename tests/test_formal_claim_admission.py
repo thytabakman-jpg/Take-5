@@ -210,3 +210,12 @@ def test_new_math_for_named_system_requires_claim_receipt():
         target="ImprovementCore",
         job="reconstruct controller",
     )
+
+
+def test_math_named_evidence_context_does_not_require_output_receipt():
+    from formal_claim_admission import request_requires_formal_claim_receipt
+    assert not request_requires_formal_claim_receipt(
+        "ImproveCore observer mode. Use the MT results as evidence, not as a draft.",
+        target="prior full-system Show-Me-the-Math campaign closure",
+        job="evaluate MT evidence and determine licensed next work",
+    )
