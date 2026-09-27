@@ -20,6 +20,17 @@ RETURNABLE={"COMPLETE","OPEN","BLOCKED","CONFLICT"}
 DISPOSITIONS={"RETURN","CONTINUE"}
 
 
+def _authoritative_formal_claims_present(state:Mapping[str,Any])->bool:
+    raw=state.get("authoritative_formal_claims",None)
+    if raw is None:
+        return False
+    if isinstance(raw,Mapping):
+        return True
+    if isinstance(raw,(list,tuple)):
+        return bool(raw)
+    return True
+
+
 def _unclosed_authoritative_formal_claims(state:Mapping[str,Any])->tuple[str,...]:
     """Return authoritative formal claims that are not admission-closed.
 
@@ -129,7 +140,9 @@ def evaluate_parent_return(
     memory_patch=_mapping(decision.get("memory_patch"),"memory_patch")
 
     proposed_state={**z,**state_patch}
+    formal_claims_present=_authoritative_formal_claims_present(proposed_state)
     formal_claim_residuals=_unclosed_authoritative_formal_claims(proposed_state)
+    formal_claim_receipt_required=bool(ctx.get("formal_claim_receipt_required",False))
 
     receipt={
         "gate":"PARENT_RETURN_GATE",
@@ -143,6 +156,8 @@ def evaluate_parent_return(
         "evidence":evidence,
         "reason":str(decision.get("reason","")),
         "context":ctx,
+        "formal_claim_receipt_required":formal_claim_receipt_required,
+        "authoritative_formal_claims_present":formal_claims_present,
         "authoritative_formal_claim_residuals":formal_claim_residuals,
     }
 
@@ -182,6 +197,10 @@ def evaluate_parent_return(
         raise RuntimeError("IC_PARENT_RETURN_GATE_RETURN_WITHOUT_EVIDENCE")
     if terminal=="COMPLETE" and not goal_closed:
         raise RuntimeError("IC_PARENT_RETURN_GATE_COMPLETE_WITHOUT_GOAL_CLOSURE")
+    if terminal=="COMPLETE" and formal_claim_receipt_required and not formal_claims_present:
+        raise RuntimeError(
+            "IC_PARENT_RETURN_GATE_COMPLETE_WITHOUT_FORMAL_CLAIM_RECEIPT"
+        )
     if terminal=="COMPLETE" and formal_claim_residuals:
         raise RuntimeError(
             "IC_PARENT_RETURN_GATE_COMPLETE_WITH_UNCLOSED_AUTHORITATIVE_FORMAL_CLAIM"
