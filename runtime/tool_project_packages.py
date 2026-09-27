@@ -24,9 +24,7 @@ from typing import Any, Iterable
 
 from run_geometry import ModeFace
 from scope_ontology import Scope
-from tool_manifest import manifest_for
 from tool_run_registry import MATERIAL_TOOLS
-from portable_tool_conductor import compilation_witness
 
 
 class ToolProjectPackageCollision(RuntimeError):
@@ -204,27 +202,6 @@ def _bullets(values:Iterable[str])->str:
     return "\n".join(f"- {x}" for x in rows) if rows else "- none"
 
 
-def _tool_manifest_projection(spec:ProjectObjectSpec)->dict[str,Any]:
-    if not spec.current_tool:
-        return {}
-    manifest=manifest_for(spec.object_id)
-    witness=compilation_witness(spec.object_id)
-    return {
-        "native_semantics":manifest.native_semantics,
-        "geometry_policy":manifest.geometry_policy,
-        "closure_contract":manifest.closure_contract,
-        "reentry_contract":manifest.reentry_contract,
-        "lineage_contract":manifest.lineage_contract,
-        "behaviors":tuple(
-            (b.behavior_id,b.phase,b.implementation,b.witness)
-            for b in manifest.bindings
-        ),
-        "entrypoint":witness.entrypoint,
-        "required_environment":tuple(witness.required_environment),
-        "realization_status":witness.status,
-    }
-
-
 def render_readme(spec:ProjectObjectSpec)->str:
     return f"""# {spec.display_name} project package
 
@@ -314,25 +291,18 @@ truth, fix the routing before editing either one.
 
 
 def render_current(spec:ProjectObjectSpec)->str:
-    p=_tool_manifest_projection(spec)
-    extra=""
-    if p:
-        extra=f"""
-Configured identity: REGISTERED
-Manifest identity: EXPLICIT
-Native realization: {p['realization_status']}
-Runtime entrypoint: {p['entrypoint'] or 'OPEN'}
-Required environment: {', '.join(p['required_environment']) if p['required_environment'] else 'none'}
-"""
     return f"""# Current state: {spec.display_name}
 
 Projection status: CURRENT
 Object status: {spec.status}
 Species: {spec.species}
-{extra}
+
 ## Projection rule
 
 This file is a disposable current projection over retained authority and evidence.
+For live configured tools, current identity/runtime reality stays owned by the
+shared registry/manifest/runtime authorities listed in SOURCE_MAP.md.
+
 It does not erase history and it does not supersede external semantic authority
 without an explicit admitted change.
 """
@@ -354,53 +324,29 @@ shared numbering, or equal cardinality of structures.
 
 
 def render_math(spec:ProjectObjectSpec)->str:
-    p=_tool_manifest_projection(spec)
-    if p:
-        body=f"""Current native-semantics projection:
-
-{p['native_semantics']}
-
-Geometry policy:
-
-{p['geometry_policy']}
-
-Lineage authority:
-
-{p['lineage_contract']}
-"""
-    else:
-        body=f"""No mathematics is copied into this organizational package.
-
-Current disposition:
-
-{spec.status}
-
-Resolve mathematics only from the sources in SOURCE_MAP.md. Missing mathematics
-remains explicit OPEN rather than being reconstructed from the label alone.
-"""
     return f"""# Mathematics pointer: {spec.display_name}
 
 ## Non-duplication rule
 
 This page is a routing projection, not the canonical mathematical definition.
 
-{body}
+Resolve current mathematics from SOURCE_MAP.md and the current manifest/lineage
+authorities. Historical or unresolved variants remain OPEN when their defining
+mathematics is not recovered.
+
+Do not copy the full mathematics here merely to make the package look complete.
 """
 
 
 def render_runtime(spec:ProjectObjectSpec)->str:
-    p=_tool_manifest_projection(spec)
-    if not p:
-        body="This historical/ICC variant is not admitted into the current configured runtime by this package."
-    else:
-        body=f"""Entrypoint: {p['entrypoint'] or 'OPEN'}
-Realization status: {p['realization_status']}
-Required environment:
-{_bullets(p['required_environment'])}
+    if spec.current_tool:
+        body="""Current runtime realization is owned by:
+- runtime/portable_tool_conductor.py
+- current dedicated runtime modules referenced by runtime/tool_manifest.py
 
-Closure contract: {p['closure_contract']}
-Reentry contract: {p['reentry_contract']}
-"""
+This package records organization and source routing only."""
+    else:
+        body="This historical/ICC variant is not admitted into the current configured runtime by this package."
     return f"""# Runtime pointer: {spec.display_name}
 
 {body}
@@ -413,37 +359,32 @@ receipt, and parent closure remain distinct objects.
 
 
 def render_behaviors(spec:ProjectObjectSpec)->str:
-    p=_tool_manifest_projection(spec)
-    if not p:
-        rows="- unresolved / source-relative"
-    else:
-        rows="\n".join(
-            f"- {bid} | phase={phase} | implementation={impl} | witness={wit}"
-            for bid,phase,impl,wit in p["behaviors"]
-        ) or "- no tool-specific behavior beyond admitted generic configured behavior"
     return f"""# Protected behaviors: {spec.display_name}
 
-{rows}
+Current protected behavior is owned by runtime/tool_manifest.py and its cited
+implementation/witness surfaces for current configured tools.
+
+Historical variants retain their protected-behavior evidence through SOURCE_MAP.md
+without promotion into the live manifest.
 
 ## Rule
 
-This is a projection of current manifest bindings. Edit protected behavior at its
-canonical authority, then regenerate/reconcile this projection with retained lineage.
+This page routes authority. It does not duplicate editable protected behavior.
 """
 
 
 def render_dependencies(spec:ProjectObjectSpec)->str:
-    p=_tool_manifest_projection(spec)
-    env=p.get("required_environment",()) if p else ()
     return f"""# Dependencies: {spec.display_name}
 
 ## Canonical dependencies
 
 {_bullets(spec.source_refs)}
 
-## Runtime environment dependencies
+## Shared runtime/identity dependencies
 
-{_bullets(env)}
+- runtime/tool_run_registry.py
+- runtime/tool_manifest.py
+- runtime/portable_tool_conductor.py
 
 ## Rule
 
