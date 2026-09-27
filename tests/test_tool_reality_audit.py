@@ -17,19 +17,8 @@ def test_strong_tool_reality_cannot_inherit_narrow_configured_identity_closure()
 
 def test_missing_native_realizations_are_explicit_not_silently_substituted():
     audit = audit_tool_reality()
-    assert audit.native_execution_status == "OPEN"
-    expected = {
-        "MTA",
-        "Architecture",
-        "PD",
-        "PDAudit",
-        "GDOS",
-        "Discriminator",
-        "RTC",
-        "BiasPerturbation",
-        "MultiObject",
-        "Diagnosis",
-    }
+    assert audit.native_execution_status == "CLOSED_RELATIVE"
+    expected = set()
     assert set(audit.native_unrecovered) == expected
     assert "MT" not in audit.native_unrecovered
     assert "ASSERT" not in audit.native_unrecovered
