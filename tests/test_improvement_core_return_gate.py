@@ -225,3 +225,74 @@ def test_formal_math_job_cannot_complete_without_any_formal_claim_receipt():
             context=_context(formal_claim_receipt_required=True),
             verifier=verifier,
         )
+
+
+def test_reachable_result_sensitive_open_forces_parent_reentry_instead_of_user_return():
+    def verifier(state,memory,context):
+        return {
+            "disposition":"RETURN",
+            "terminal":"OPEN",
+            "goal_closed":False,
+            "owned_work_remaining":False,
+            "consequence_closed":True,
+            "blocker":"TRANSFERCORE_IDENTITY_OPEN",
+            "evidence":["unit:recoverable-open"],
+        }
+
+    state={
+        "terminal":"OPEN",
+        "open_residuals":[{
+            "residual_id":"transfercore",
+            "result_sensitive":True,
+            "reachable":True,
+            "recovery_route":"HistoricalReconstruction->TransferCore",
+            "owner":"ImprovementCore",
+        }],
+    }
+    out=evaluate_parent_return(
+        candidate_status="OPEN",
+        candidate_blocker="TRANSFERCORE_IDENTITY_OPEN",
+        state=state,
+        memory={},
+        context=_context(hf2_status="OPEN"),
+        verifier=verifier,
+    )
+    assert out.disposition=="CONTINUE"
+    assert out.terminal=="CONTINUE"
+    assert out.next_state["admitted_continuation"] is True
+    assert out.next_state["owned_recovery_work"][0]["residual_id"]=="transfercore"
+    assert out.receipt["forced_recovery_reentry"] is True
+
+
+def test_unreachable_external_open_can_still_return_typed_open():
+    def verifier(state,memory,context):
+        return {
+            "disposition":"RETURN",
+            "terminal":"OPEN",
+            "goal_closed":False,
+            "owned_work_remaining":False,
+            "consequence_closed":True,
+            "blocker":"EXTERNAL_HOST_NOT_OWNED",
+            "evidence":["unit:external-open"],
+        }
+
+    state={
+        "terminal":"OPEN",
+        "open_residuals":[{
+            "residual_id":"external-host",
+            "result_sensitive":True,
+            "reachable":False,
+            "recovery_route":"",
+            "owner":"external",
+        }],
+    }
+    out=evaluate_parent_return(
+        candidate_status="OPEN",
+        candidate_blocker="EXTERNAL_HOST_NOT_OWNED",
+        state=state,
+        memory={},
+        context=_context(hf2_status="OPEN"),
+        verifier=verifier,
+    )
+    assert out.disposition=="RETURN"
+    assert out.terminal=="OPEN"
