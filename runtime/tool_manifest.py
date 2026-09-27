@@ -203,75 +203,6 @@ IMPROVEMENT_CORE_BINDINGS=GENERIC_BINDINGS+(
     ),
 )
 
-IMPROVEMENT_CORE_BINDINGS=GENERIC_BINDINGS+(
-    ProtectedBinding(
-        "IMPROVEMENTCORE_CONTROLLER_OWNERSHIP",
-        "PRE",
-        "runtime/improvement_core_manager.py",
-        "tests/test_improvement_core_manager.py",
-    ),
-    ProtectedBinding(
-        "IMPROVEMENTCORE_OBSERVER_FIRST_MODE",
-        "PRE",
-        "runtime/ic028_operator.py",
-        "tests/test_improvement_core_manager.py",
-    ),
-    ProtectedBinding(
-        "IMPROVEMENTCORE_CONFIGURED_TOOL_EXECUTION",
-        "INTRA",
-        "runtime/improvement_core_tool_bridge.py",
-        "tests/test_improvement_core_regime.py",
-    ),
-    ProtectedBinding(
-        "IMPROVEMENTCORE_RECURSIVE_PARENT_CONTROL",
-        "INTRA",
-        "runtime/improvement_core_recursive_manager.py",
-        "tests/test_improvement_core_regime.py",
-    ),
-    ProtectedBinding(
-        "IMPROVEMENTCORE_HF002_DEFAULT_LOCAL_RECURRENCE",
-        "INTRA",
-        "runtime/improvement_core_hf2_default.py",
-        "tests/test_improvement_core_hf2_default.py",
-    ),
-    ProtectedBinding(
-        "IMPROVEMENTCORE_DURABLE_NEGATIVE_LEARNING",
-        "CROSS",
-        "runtime/improvement_core_learning_memory.py",
-        "tests/test_improvement_core_regime.py",
-    ),
-    ProtectedBinding(
-        "IMPROVEMENTCORE_DURABLE_KNOWLEDGE_CAPTURE",
-        "CROSS",
-        "runtime/improvement_core_knowledge_ledger.py",
-        "tests/test_improvement_core_knowledge_ledger.py",
-    ),
-    ProtectedBinding(
-        "IMPROVEMENTCORE_CONFIGURED_TOOL_DURABLE_KNOWLEDGE_CAPTURE",
-        "CROSS",
-        "runtime/improvement_core_regime.py",
-        "tests/test_improvement_core_regime.py",
-    ),
-    ProtectedBinding(
-        "IMPROVEMENTCORE_STRICT_PROGRESS",
-        "POST",
-        "runtime/improvement_core_progress_relation.py",
-        "tests/test_improvement_core_progress_relation.py",
-    ),
-    ProtectedBinding(
-        "IMPROVEMENTCORE_EXTERNAL_ACQUISITION",
-        "PRE",
-        "runtime/improvement_core_external_acquisition.py",
-        "tests/test_improvement_core_external_acquisition.py",
-    ),
-    ProtectedBinding(
-        "IMPROVEMENTCORE_PLURAL_FRONTIER_PRESERVATION",
-        "INTRA",
-        "runtime/improvement_core_math_spine.py",
-        "tests/test_improvement_core_regime.py",
-    ),
-)
-
 MT_BINDINGS=GENERIC_BINDINGS+(
     ProtectedBinding(
         "MT_BLACK_BOX_SEMANTIC_RETURN_GATE",
@@ -449,6 +380,52 @@ MULTIOBJECT_BINDINGS=GENERIC_BINDINGS+(
     ),
 )
 
+GDOS_BINDINGS=GENERIC_BINDINGS+(
+    ProtectedBinding(
+        "GDOS_FROZEN_INDEPENDENT_OBSERVATION",
+        "INTRA",
+        "runtime/gdos.py",
+        "tests/test_recovered_native_tools_20260927.py",
+    ),
+)
+
+DISCRIMINATOR_BINDINGS=GENERIC_BINDINGS+(
+    ProtectedBinding(
+        "DISCRIMINATOR_PRESERVE_PLURAL_OPEN",
+        "INTRA",
+        "runtime/discriminator.py",
+        "tests/test_recovered_native_tools_20260927.py",
+    ),
+)
+
+RTC_BINDINGS=GENERIC_BINDINGS+(
+    ProtectedBinding(
+        "RTC_STRICT_GAIN_PRESERVATION_GATE",
+        "INTRA",
+        "runtime/raise_the_ceiling.py",
+        "tests/test_recovered_native_tools_20260927.py",
+    ),
+)
+
+BIAS_PERTURBATION_BINDINGS=GENERIC_BINDINGS+(
+    ProtectedBinding(
+        "BIAS_PERTURBATION_INVARIANCE_GUARD",
+        "INTRA",
+        "runtime/bias_perturbation.py",
+        "tests/test_recovered_native_tools_20260927.py",
+    ),
+)
+
+DIAGNOSIS_BINDINGS=GENERIC_BINDINGS+(
+    ProtectedBinding(
+        "DIAGNOSIS_MECHANISM_BEFORE_REPAIR",
+        "INTRA",
+        "runtime/diagnosis.py",
+        "tests/test_recovered_native_tools_20260927.py",
+    ),
+)
+
+
 OVERRIDES={
     "ICC128":ToolManifest(
         tool_id="ICC128",
@@ -524,7 +501,52 @@ OVERRIDES={
         reentry_contract="HF002_THEN_HF001",
         bindings=MULTIOBJECT_BINDINGS,
         lineage_contract="architecture/MULTIOBJECT_FULL_TOOL_MATH_001_2026-09-27.md",
+    ),    "GDOS":ToolManifest(
+        tool_id="GDOS",
+        native_semantics="GOAL_DECOUPLED_OBSERVATION_SWEEP",
+        geometry_policy="D36_C",
+        closure_contract="OBSERVE_CAPTURE_RECONCILE_PLUS_TRC",
+        reentry_contract="HF001",
+        bindings=GDOS_BINDINGS,
+        lineage_contract="architecture/NATIVE_TOOL_RECOVERY_PACK_160_2026-09-27.md",
     ),
+    "Discriminator":ToolManifest(
+        tool_id="Discriminator",
+        native_semantics="PREDICATE_DISCRIMINATION",
+        geometry_policy="D36_C",
+        closure_contract="UNIQUE_PLURAL_OPEN_PLUS_TRC",
+        reentry_contract="HF001",
+        bindings=DISCRIMINATOR_BINDINGS,
+        lineage_contract="architecture/NATIVE_TOOL_RECOVERY_PACK_160_2026-09-27.md",
+    ),
+    "RTC":ToolManifest(
+        tool_id="RTC",
+        native_semantics="RAISE_THE_CEILING_C48_SPECIALIZATION",
+        geometry_policy="D36_C",
+        closure_contract="STRICT_GAIN_OR_TYPED_NO_GAIN_PLUS_TRC",
+        reentry_contract="HF001",
+        bindings=RTC_BINDINGS,
+        lineage_contract="architecture/NATIVE_TOOL_RECOVERY_PACK_160_2026-09-27.md",
+    ),
+    "BiasPerturbation":ToolManifest(
+        tool_id="BiasPerturbation",
+        native_semantics="NUISANCE_PERTURBATION_INVARIANCE_AUDIT",
+        geometry_policy="D36_C",
+        closure_contract="PERTURBATION_COVERAGE_PLUS_TRC",
+        reentry_contract="HF001",
+        bindings=BIAS_PERTURBATION_BINDINGS,
+        lineage_contract="architecture/NATIVE_TOOL_RECOVERY_PACK_160_2026-09-27.md",
+    ),
+    "Diagnosis":ToolManifest(
+        tool_id="Diagnosis",
+        native_semantics="FAILURE_DIAGNOSIS_C17_SPECIALIZATION",
+        geometry_policy="D36_C",
+        closure_contract="MECHANISM_DISPOSITION_PLUS_TRC",
+        reentry_contract="HF001",
+        bindings=DIAGNOSIS_BINDINGS,
+        lineage_contract="architecture/NATIVE_TOOL_RECOVERY_PACK_160_2026-09-27.md",
+    ),
+
 }
 
 def manifest_for(tool_id:str)->ToolManifest:
