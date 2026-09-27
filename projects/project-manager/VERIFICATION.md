@@ -131,4 +131,10 @@ V25 the requested MT -> PD -> GOAL -> GOAL sequence crosses full configured HF2 
 V26 the existing 93-tool ProjectManager HF2 campaign still closes relatively.
 
 Status:
-PENDING current branch validation.
+V19 through V26 PASS on implementation head a02e613b3c432f93ebe86067cf763fea4d2f34e4.
+
+Take-5 Validation 36349707998 SUCCESS.
+Capability Preservation 36349708034 SUCCESS.
+Tool System Every-Tool Sweep 36349708182 SUCCESS.
+
+Canonical merge remains pending.

@@ -1,6 +1,6 @@
 # Pre-Project Definition Gate
 
-Status: IMPLEMENTED CANDIDATE / VALIDATION PENDING
+Status: VALIDATED CANDIDATE / PR MERGE PENDING
 Date: 2026-09-27
 
 ## Job
@@ -74,3 +74,10 @@ ProjectManager reassesses the candidate after material evidence changes.
 Exploring a new candidate does not modify an accepted project.
 
 A new candidate and an existing project are separate managed states.
+
+
+## Validation receipt
+
+Take-5 Validation 36349707998 SUCCESS.
+Capability Preservation 36349708034 SUCCESS.
+Tool System Every-Tool Sweep 36349708182 SUCCESS.

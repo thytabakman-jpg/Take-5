@@ -27,8 +27,8 @@ new result-sensitive project holdout, or admitted change to the transfer boundar
 
 ## Pre-project admission extension
 
-PREPROJECT_DEFINITION_GATE: IMPLEMENTED_CANDIDATE / VALIDATION_PENDING
+PREPROJECT_DEFINITION_GATE: VALIDATED_CANDIDATE / PR_MERGE_PENDING
 FULL_PROJECT_21_COORDINATE_STATE: PRESERVED_UNCHANGED
 CANDIDATE_STATE: FIRST_CLASS / EVIDENCE_ONLY BEFORE PROMOTION
 HUMAN_PROMOTION_AUTHORITY: REQUIRED
-CURRENT_VALIDATION_FRONTIER: run full repository validation and the 93-tool ProjectManager HF2 campaign on the candidate branch.
+CURRENT_VALIDATION_FRONTIER: merge validated PR 170, then confirm canonical main state.
