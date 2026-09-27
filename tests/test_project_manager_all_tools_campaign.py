@@ -32,13 +32,13 @@ def _run():
 
 def test_best_order_is_exact_current_repertoire_permutation():
     assert order_is_exact()
-    assert len(BEST_ORDER)==len(MATERIAL_TOOLS)==93
+    assert len(BEST_ORDER)==len(MATERIAL_TOOLS)==94
     assert set(BEST_ORDER)==set(MATERIAL_TOOLS)
 
 
 def test_every_registered_tool_runs_under_its_registered_recurrence():
     out=_run()
-    assert out.tool_count==93
+    assert out.tool_count==94
     assert tuple(r.tool_id for r in out.receipts)==BEST_ORDER
     assert all(r.cell_count==36 for r in out.receipts)
     assert all(r.question_count==792 for r in out.receipts)
@@ -67,10 +67,9 @@ def test_first_pass_reaches_end_and_exposes_only_bounded_project_consequences():
     assert out.status in {"ACTION_REQUIRED","CLOSED_RELATIVE"}
     assert out.improvementcore_consumed is True
     assert out.toolconductor_complete is True
-    assert "handoffs" in out.external_open
-    assert any(
-        f.finding_id=="PM-ALL-003" and f.disposition=="EXTERNAL_OPEN"
-        for f in out.findings
+    assert out.external_open==()
+    assert not any(
+        f.finding_id=="PM-ALL-003" for f in out.findings
     )
 
     # Pass 2 begins only after the pass-1 owner-local lifecycle delta has
