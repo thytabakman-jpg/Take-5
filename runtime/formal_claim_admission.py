@@ -319,10 +319,13 @@ def claim_green_licensed(
     return assess_formal_claim(packet).green_licensed
 
 
-FORMAL_OUTPUT_MARKERS=(
-    "math",
-    "mathematics",
+FORMAL_OUTPUT_PHRASES=(
     "show me the math",
+    "show the math",
+    "give me the math",
+    "give me the new math",
+    "give me new math",
+    "new math",
     "actual math",
     "full math",
     "current math",
@@ -331,8 +334,6 @@ FORMAL_OUTPUT_MARKERS=(
     "canonical mathematics",
     "exact math",
     "exact mathematics",
-    "equation",
-    "equations",
 )
 
 FORMAL_SYSTEM_MARKERS=(
@@ -354,26 +355,36 @@ FORMAL_SYSTEM_MARKERS=(
 )
 
 
+def _explicit_equation_output_request(user_text: str) -> bool:
+    text=" ".join(str(user_text or "").lower().split())
+    if not ("equation" in text or "equations" in text):
+        return False
+    output_verbs=("show","give","write","display","render","generate","produce")
+    return any(verb in text for verb in output_verbs)
+
+
 def request_requires_formal_claim_receipt(
     user_text: str,
     *,
     target: str | None = None,
     job: str | None = None,
 ) -> bool:
-    """Detect repository-governed requests that emit formal-system mathematics.
+    """Detect a request to emit authoritative formal-system mathematics.
 
-    This is intentionally narrower than every mathematical question.  It looks
-    for an explicit math/equation request plus a formal-system/device target.
-    Callers may also force the requirement by placing
-    formal_claim_receipt_required=True in the parent-return context.
+    A referenced math artifact, campaign name, or evidence packet does not by
+    itself trigger the gate.  The user's requested output must itself ask for
+    mathematical/equational output.  Target/job context is used only to decide
+    whether that requested output concerns a formal system/device.
     """
-    combined=" ".join(
-        str(x or "") for x in (user_text,target,job)
-    ).lower()
-    wants_formal_output=any(marker in combined for marker in FORMAL_OUTPUT_MARKERS)
-    names_system=any(marker in combined for marker in FORMAL_SYSTEM_MARKERS)
-    return wants_formal_output and names_system
+    request=" ".join(str(user_text or "").lower().split())
+    context=" ".join(str(x or "") for x in (user_text,target,job)).lower()
 
+    wants_formal_output=(
+        any(phrase in request for phrase in FORMAL_OUTPUT_PHRASES)
+        or _explicit_equation_output_request(request)
+    )
+    names_system=any(marker in context for marker in FORMAL_SYSTEM_MARKERS)
+    return wants_formal_output and names_system
 
 def admit_formal_claim_to_state(
     state: Mapping[str, Any],
