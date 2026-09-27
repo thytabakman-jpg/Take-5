@@ -36,9 +36,19 @@ to make the folder look complete.
 - package status sync: PR 171 / main basis b5bf2e8c36a07fd698f4a2af8b82bc762c153968
 
 
-## Mandatory spine candidate extension
+## Mandatory spine current extension
 
 - architecture/PROJECT_MANAGER_FULL_TOOL_MATH_003_2026-09-27.md
 - runtime/project_manager_management_spine.py
 - tests/test_project_manager_management_spine.py
 - projects/project-manager/tool-runs/IMPROVEMENTCORE_MANDATORY_SPINE_001.md
+
+
+## Mandatory spine validation
+
+- PR 173 merge: 225d4edb956bb29de3e3eb0433f0c9ada84feb11
+- PR capability preservation: 36350713599 SUCCESS
+- PR every-tool sweep: 36350713637 SUCCESS
+- PR Take-5 validation: 36350713639 SUCCESS
+- post-merge every-tool sweep: 36350803983 SUCCESS
+- post-merge Take-5 validation: 36350803988 SUCCESS

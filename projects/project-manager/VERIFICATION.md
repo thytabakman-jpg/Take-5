@@ -161,4 +161,16 @@ V32 the existing ProjectManager exhaustive every-tool campaign still passes.
 V33 capability preservation and full Take-5 validation pass.
 
 Status:
-PENDING branch validation.
+V27 through V33 PASS.
+
+PR 173 merge commit:
+225d4edb956bb29de3e3eb0433f0c9ada84feb11
+
+PR validation:
+Capability Preservation 36350713599 SUCCESS.
+Tool System Every-Tool Sweep 36350713637 SUCCESS.
+Take-5 Validation 36350713639 SUCCESS.
+
+Post-merge:
+Tool System Every-Tool Sweep 36350803983 SUCCESS.
+Take-5 Validation 36350803988 SUCCESS.
