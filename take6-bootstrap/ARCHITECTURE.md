@@ -277,3 +277,48 @@ but may not present the resulting mathematics as current authority.
 
 This imports the Take-5 Authority-Before-Formal-Emission invariant without
 making the view itself authoritative.
+
+
+## 12b. Executable generated-view layer
+
+The generated-view rule is now executable in:
+
+take6-bootstrap/runtime/views.py
+
+For compiled state S and subject o, a generated view V binds:
+
+[
+V =
+\langle
+StateCID,
+CompilerCID,
+AuthorityPolicyCID,
+Subject,
+SubjectStatus,
+CurrentPayloadCID,
+ClaimScope,
+Dependencies,
+DependencyClosure,
+CompositionTypecheck
+\rangle.
+]
+
+The view also carries ViewCID = H(V).
+
+A view is never an independent authority source. Verification fails when:
+- its source state CID no longer matches the current compiled state;
+- the view body is edited;
+- the subject status/payload changed;
+- an authoritative CURRENT dependency no longer resolves to the compiled current payload;
+- a frozen dependency lacks authority-policy admission;
+- dependency closure is not PASS;
+- composition type checking is not PASS.
+
+Human rendering is explicitly labeled GENERATED_PROJECTION_ONLY and includes the
+state CID and view CID.
+
+Regression:
+take6-bootstrap/tests/test_views.py
+
+Validation:
+take6-bootstrap/VALIDATION_002.md

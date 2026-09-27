@@ -69,3 +69,27 @@ A lower layer cannot silently overwrite a higher layer.
 Take-6 cannot force an unrelated ChatGPT host to load Take-6. Universal host interception remains externally owned.
 
 Take-6 can make every repository-aware entry fail closed when the bootstrap, current compiled state, or exact invocation capsule is absent.
+
+
+## Generated current views
+
+The architecture rule that human CURRENT pages are non-authoritative projections
+now has an executable realization:
+
+take6-bootstrap/runtime/views.py
+
+Generated views bind the exact compiled state, compiler, authority policy,
+subject, payload and claim scope. Stale or tampered views fail verification.
+Authoritative formal current claims additionally require dependency and type
+closure.
+
+Take-6 changes are now protected by the dedicated workflow:
+
+.github/workflows/take6-bootstrap-validation.yml
+
+Validation receipt:
+
+take6-bootstrap/VALIDATION_002.md
+
+This does not promote Take-6. Take-5 remains current authority until the full
+migration/promotion boundary closes.
