@@ -37,7 +37,27 @@ Bind exact refs for:
 - every available bound ZIP/archive
 - current conversation/export evidence when available
 
-Produce one source manifest with repository/ref/hash/size/member accounting.
+Record immutable source snapshots with repository, exact commit, exact tree, inventory, scope, and explicit supersession.
+
+Compile the active migration frontier from all admitted snapshots. No single manifest path or branch label is a CURRENT pointer.
+
+While the Take-6 bootstrap is temporarily hosted inside Take-5, the declared predecessor scope excludes the successor-bootstrap subtree and its dedicated validation workflow. This prevents successor-only commits from creating self-referential migration lag while preserving sensitivity to real Take-5 runtime, architecture, and protected-behavior changes.
+
+### Phase 1 closure law
+
+For predecessor repository r with compiled frontier F_r and observed authority surface O_r:
+
+[
+SourceFrontierClosed(r)
+\iff
+Status(F_r)=CURRENT
+\land
+ScopedDigest(F_r)=ScopedDigest(O_r).
+]
+
+Raw HEAD equality is not required when the difference is entirely outside the declared predecessor migration scope.
+
+A real in-scope predecessor delta reopens migration and blocks promotion until a new immutable snapshot explicitly supersedes the prior frontier.
 
 ## Phase 2: ingest
 
