@@ -1,7 +1,7 @@
 # Current Tool Project Organization
 
 Date: 2026-09-27
-Status: CURRENT / VALIDATED THROUGH PR #166
+Status: CURRENT / VALIDATED THROUGH PR #166 + PR #167
 Authority: projects/tool-system/
 
 ## Current organization
@@ -61,6 +61,14 @@ Every-tool workflow run 36348207101: SUCCESS.
 The synthetic full-invocation portfolio remains a route/profile witness only.
 Native development execution is recorded separately so reachability is never
 misreported as semantic execution.
+
+PR #167 independently ran the complete same 93-tool repertoire against the
+current ProjectManager in dependency-aware phases. Every ordinary tool crossed
+its full configured plan with HF002 recurrence; HF002 used its registered SELF
+recurrence. ImprovementCore consumed the accumulated campaign evidence and
+ToolConductor performed the final exhaustive second sweep. Local ProjectManager
+work closed relative; the unrecovered TransferCore identity remained explicit
+external OPEN and non-authorizing.
 
 ## Regression enforcement
 
