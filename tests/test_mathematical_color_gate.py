@@ -203,3 +203,65 @@ def test_non_tool_system_primitives_are_color_governed(label):
         match="UNTYPED_FORMAL_LABEL_AT_RESPONSE_BOUNDARY",
     ):
         verify_assistant_response("Current "+label+" remains unresolved.")
+
+
+def test_authoritative_current_claim_requires_formal_claim_receipt():
+    from mathematical_color_gate import assess_authoritative_recovery
+    a=assess_authoritative_recovery(
+        object_id="ImprovementCore",
+        job="current mathematics",
+        claim="this is the current ImprovementCore mathematics",
+        required_coordinates=("math","wrapper"),
+        coordinate_status={"math":"VERIFIED","wrapper":"VERIFIED"},
+        formal_claim_receipt=None,
+    )
+    assert a.status is MathStatus.UNRESOLVED
+    assert "AUTHORITY:FORMAL_CLAIM_RECEIPT_REQUIRED" in a.unresolved_coordinates
+
+
+def test_authoritative_current_claim_stays_red_when_formal_claim_receipt_is_open():
+    from formal_claim_admission import FormalClaimReceipt
+    from mathematical_color_gate import assess_authoritative_recovery
+    receipt=FormalClaimReceipt(
+        status="OPEN",
+        claim_scope="CURRENT",
+        root_object_id="ImprovementCore",
+        root_version_id="regime-086",
+        root_authority_id="CURRENT_IMPROVEMENT_CORE",
+        residuals=("ROOT_CURRENTNESS_MISMATCH:ImprovementCore:SUPERSEDED",),
+        evidence_refs=("architecture/IMPROVEMENT_CORE_MATHEMATICS_086.md",),
+    )
+    a=assess_authoritative_recovery(
+        object_id="ImprovementCore",
+        job="current mathematics",
+        claim="this is the current ImprovementCore mathematics",
+        required_coordinates=("math","wrapper"),
+        coordinate_status={"math":"VERIFIED","wrapper":"VERIFIED"},
+        formal_claim_receipt=receipt,
+    )
+    assert a.status is MathStatus.UNRESOLVED
+    assert any("ROOT_CURRENTNESS_MISMATCH" in x for x in a.unresolved_coordinates)
+
+
+def test_authoritative_current_claim_can_turn_green_after_formal_claim_admission():
+    from formal_claim_admission import FormalClaimReceipt
+    from mathematical_color_gate import assess_authoritative_recovery
+    receipt=FormalClaimReceipt(
+        status="PASS",
+        claim_scope="CURRENT",
+        root_object_id="ImprovementCore",
+        root_version_id="regime-091",
+        root_authority_id="CURRENT_IMPROVEMENT_CORE",
+        residuals=(),
+        evidence_refs=("integration/CURRENT_IMPROVEMENT_CORE.md",),
+    )
+    a=assess_authoritative_recovery(
+        object_id="ImprovementCore",
+        job="current mathematics",
+        claim="this is the current ImprovementCore mathematics",
+        required_coordinates=("math","wrapper"),
+        coordinate_status={"math":"VERIFIED","wrapper":"VERIFIED"},
+        formal_claim_receipt=receipt,
+    )
+    assert a.status is MathStatus.RECOVERED
+    assert a.complete_for_use
