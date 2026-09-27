@@ -164,3 +164,15 @@ def test_checked_in_self_project_package_is_managed_by_same_runtime():
     assert out.missing_coordinates==()
     assert out.authority_gaps==()
     assert out.package_conflicts==()
+
+
+def test_current_transfercore_identity_still_does_not_grant_project_authority():
+    out=assess_project(package())
+    transfer=transfer_evidence_candidate(
+        out,
+        {"lesson":"transfer admission is not target authority"},
+        transfercore_identity_status="FULL_MATH_RECOVERED_CURRENT",
+    )
+    assert transfer.status=="CANDIDATE_FOR_ADMISSION"
+    assert transfer.effect_class=="EVIDENCE_ONLY"
+    assert transfer.grants_authority is False
