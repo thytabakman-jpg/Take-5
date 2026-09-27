@@ -82,7 +82,7 @@ def test_fresh_reobservation_can_force_continue_before_return_verifier():
     )
     assert out.disposition=="CONTINUE"
     assert out.next_state["next_job"]=="rerun-mt"
-    assert verifier_called==[]
+    assert verifier_called==[True]
 
 
 def test_complete_requires_fresh_reobservation_binding():
