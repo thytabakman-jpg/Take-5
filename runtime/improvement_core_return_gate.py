@@ -65,6 +65,11 @@ def evaluate_parent_return(
     ctx=dict(context)
 
     if verifier is None:
+        z["terminal"]="OPEN"
+        z["admitted_continuation"]=False
+        z["parent_return_continuation"]=False
+        if "live_continuation" in z:
+            z["live_continuation"]=False
         return ParentReturnOutcome(
             disposition="RETURN",
             terminal="OPEN",
