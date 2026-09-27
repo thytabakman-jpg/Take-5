@@ -201,3 +201,12 @@ def test_canonical_state_admission_stores_normalized_receipt():
     assert row["status"]=="PASS"
     assert row["root_object_id"]=="ImprovementCore"
     assert row["root_version_id"]=="regime-091"
+
+
+def test_new_math_for_named_system_requires_claim_receipt():
+    from formal_claim_admission import request_requires_formal_claim_receipt
+    assert request_requires_formal_claim_receipt(
+        "Give me the new math",
+        target="ImprovementCore",
+        job="reconstruct controller",
+    )
