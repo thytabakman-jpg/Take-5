@@ -39,6 +39,10 @@ class CompilationWitness:
 # Native repository entrypoints that were recovered without claiming signature
 # uniformity. A portable host may bind these through adapters.
 NATIVE_ENTRYPOINTS: dict[str, tuple[str, tuple[str, ...]]] = {
+    "ICC128": (
+        "icc128_autonomous_controller.ICC128Controller",
+        ("semantic_generator","work_generator","executor","admitter","updater"),
+    ),
     "ImprovementCore": (
         "improvement_core_dispatch.dispatch_improvement_core",
         ("handlers", "authority", "controller_context"),
