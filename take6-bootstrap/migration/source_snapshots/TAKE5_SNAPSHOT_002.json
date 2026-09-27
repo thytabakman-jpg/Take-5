@@ -13,7 +13,16 @@
       "supersedes": [
         "853c7f92dae62747d3f8f42a38b6d4b77e194ad2"
       ],
-      "note": "Advances migration frontier through PR #145 without rewriting the historical snapshot."
+      "note": "Advances the predecessor migration frontier through PR #145. Successor-bootstrap paths are excluded from predecessor freshness matching to avoid self-reference while Take-6 is temporarily hosted inside Take-5.",
+      "scope": {
+        "exclude_prefixes": [
+          "take6-bootstrap/"
+        ],
+        "exclude_paths": [
+          "take6-bootstrap",
+          ".github/workflows/take6-bootstrap-validation.yml"
+        ]
+      }
     }
   ]
 }
