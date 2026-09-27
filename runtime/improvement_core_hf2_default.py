@@ -300,3 +300,205 @@ def run_improvement_core_with_hf2(
         hf2_status=hf2_status,
         hf2_trace=tuple(hf2_out.get("trace",())),
     )
+
+
+# Preserve the validated local-HF2 implementation as one parent round.
+# The public entry below adds the missing whole-job user-return gate.
+_run_improvement_core_with_hf2_once=run_improvement_core_with_hf2
+
+
+def run_improvement_core_with_hf2(
+    user_text:str,
+    *,
+    target:str,
+    job:str,
+    basis:str,
+    state:Any,
+    handlers:dict[str,Callable],
+    authority=frozenset(),
+    boundary=None,
+    explicit_mode=None,
+    observer_risk=None,
+    jane_update:Callable|None=None,
+    controller_decide:Callable|None=None,
+    max_rounds:int=8,
+    recursive_handlers:dict[str,Callable]|None=None,
+    learning_memory:LearningMemory|None=None,
+    knowledge_ledger:KnowledgeLedger|None=None,
+    external_adapters:dict[str,Callable]|None=None,
+    force_external:bool=False,
+    allow_external_gap:bool=True,
+    configured_tool_adapters:dict[str,Callable]|None=None,
+    hf2_enabled:bool=True,
+    hf2_max_rounds:int=6,
+    return_verifier:Callable|None=None,
+    parent_max_rounds:int=16,
+    allow_ungated_debug:bool=False,
+)->ImprovementCoreRegimeResult:
+    """Run ImprovementCore until the governing parent job may legally return.
+
+    Each parent round runs the complete existing ImprovementCore+HF2 capability.
+    A local HF2 fixed point is necessary but not sufficient for user-visible
+    completion.  The post-HF2 return verifier either licenses a typed return or
+    re-enters the full capability on the updated state.
+
+    Ordinary user-facing execution fails closed when the return verifier is
+    absent.  Ungated/HF2-disabled execution is available only through the
+    explicit debug escape hatch.
+    """
+    from improvement_core_return_gate import evaluate_parent_return
+
+    if not hf2_enabled and not allow_ungated_debug:
+        out=_run_improvement_core_with_hf2_once(
+            user_text,target=target,job=job,basis=basis,state=state,
+            handlers=handlers,authority=authority,boundary=boundary,
+            explicit_mode=explicit_mode,observer_risk=observer_risk,
+            jane_update=jane_update,controller_decide=controller_decide,
+            max_rounds=max_rounds,recursive_handlers=recursive_handlers,
+            learning_memory=learning_memory,knowledge_ledger=knowledge_ledger,
+            external_adapters=external_adapters,force_external=force_external,
+            allow_external_gap=allow_external_gap,
+            configured_tool_adapters=configured_tool_adapters,
+            hf2_enabled=False,hf2_max_rounds=hf2_max_rounds,
+        )
+        return replace(
+            out,status="OPEN",
+            blocker="HF2_DISABLE_REQUIRES_EXPLICIT_DEBUG_AUTHORITY",
+            parent_return_trace=({
+                "gate":"PARENT_RETURN_GATE",
+                "status":"OPEN",
+                "reason":"HF2_DISABLED_WITHOUT_DEBUG_AUTHORITY",
+            },),
+        )
+
+    lm=learning_memory or LearningMemory.from_durable(
+        DEFAULT_DURABLE_LEARNING_PATH,
+        autosave=True,
+    )
+    kl=knowledge_ledger or KnowledgeLedger.from_durable(
+        DEFAULT_KNOWLEDGE_LEDGER_PATH,
+        autosave=True,
+    )
+
+    current_state=state
+    parent_trace=[]
+    last=None
+
+    for parent_round in range(int(parent_max_rounds)):
+        last=_run_improvement_core_with_hf2_once(
+            user_text,
+            target=target,
+            job=job,
+            basis=basis,
+            state=current_state,
+            handlers=handlers,
+            authority=authority,
+            boundary=boundary,
+            explicit_mode=explicit_mode,
+            observer_risk=observer_risk,
+            jane_update=jane_update,
+            controller_decide=controller_decide,
+            max_rounds=max_rounds,
+            recursive_handlers=recursive_handlers,
+            learning_memory=lm,
+            knowledge_ledger=kl,
+            external_adapters=external_adapters,
+            force_external=force_external,
+            allow_external_gap=allow_external_gap,
+            configured_tool_adapters=configured_tool_adapters,
+            hf2_enabled=hf2_enabled,
+            hf2_max_rounds=hf2_max_rounds,
+        )
+
+        if allow_ungated_debug and return_verifier is None:
+            return replace(
+                last,
+                parent_return_trace=tuple(parent_trace)+({
+                    "gate":"PARENT_RETURN_GATE",
+                    "disposition":"BYPASS_DEBUG",
+                    "parent_round":parent_round,
+                    "candidate_status":last.status,
+                    "hf2_status":last.hf2_status,
+                },),
+            )
+
+        final_state=last.result.state
+        if not isinstance(final_state,dict):
+            return replace(
+                last,status="OPEN",
+                blocker="PARENT_RETURN_GATE_REQUIRES_MAPPING_STATE",
+                parent_return_trace=tuple(parent_trace)+({
+                    "gate":"PARENT_RETURN_GATE",
+                    "status":"OPEN",
+                    "reason":"NON_MAPPING_STATE",
+                    "parent_round":parent_round,
+                },),
+            )
+
+        # COMPLETE is only return-eligible after local HF2 saturation.
+        if (
+            last.status=="COMPLETE"
+            and hf2_enabled
+            and last.hf2_status!="RELATIVE_CLOSE"
+        ):
+            return replace(
+                last,status="OPEN",
+                blocker="PARENT_RETURN_GATE_HF2_NOT_SATURATED",
+                parent_return_trace=tuple(parent_trace)+({
+                    "gate":"PARENT_RETURN_GATE",
+                    "status":"OPEN",
+                    "reason":"HF2_NOT_RELATIVE_CLOSE",
+                    "parent_round":parent_round,
+                    "hf2_status":last.hf2_status,
+                },),
+            )
+
+        outcome=evaluate_parent_return(
+            candidate_status=last.status,
+            candidate_blocker=last.blocker,
+            state=final_state,
+            memory={},
+            context={
+                "controller":"ImprovementCore",
+                "target":target,
+                "job":job,
+                "basis":basis,
+                "parent_round":parent_round,
+                "hf2_status":last.hf2_status,
+                "hf2_rounds":len(last.hf2_trace),
+                "candidate_status":last.status,
+                "candidate_blocker":last.blocker,
+            },
+            verifier=return_verifier,
+        )
+        receipt=dict(outcome.receipt)
+        receipt["parent_round"]=parent_round
+        receipt["hf2_status"]=last.hf2_status
+        receipt["hf2_rounds"]=len(last.hf2_trace)
+        parent_trace.append(receipt)
+
+        if outcome.disposition=="RETURN":
+            last.result.state=outcome.next_state
+            return replace(
+                last,
+                status=outcome.terminal,
+                blocker=outcome.blocker,
+                parent_return_trace=tuple(parent_trace),
+            )
+
+        current_state=outcome.next_state
+
+    if last is None:
+        raise RuntimeError("IMPROVEMENTCORE_PARENT_RETURN_NO_ROUND")
+
+    return replace(
+        last,
+        status="OPEN",
+        blocker="PARENT_RETURN_GATE_RESOURCE_STOP",
+        parent_return_trace=tuple(parent_trace)+({
+            "gate":"PARENT_RETURN_GATE",
+            "status":"OPEN",
+            "reason":"PARENT_MAX_ROUNDS",
+            "parent_max_rounds":int(parent_max_rounds),
+        },),
+    )
