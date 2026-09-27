@@ -1,0 +1,244 @@
+{
+  "schema_version": 1,
+  "object_id": "TAKE5:ICC128-LEGACY-LEARNING-REPORT:001",
+  "tool": "ICC128 Legacy",
+  "run_id": "hf2-documentation-projectmanager-mt-goal-assert-legacy-20260927-001",
+  "source_repository": "thytabakman-jpg/Reaserch",
+  "source_commit": "e4c76c595b44a35fd9efc02cde8979e656ef54e8",
+  "learning_persistence": "REPORT_ONLY_EPHEMERAL_CONTROLLER_MEMORY",
+  "learning_status": "MATERIAL_LEARNING",
+  "run_status": "COMPLETE",
+  "failure": null,
+  "initial_state": {
+    "target": "HF002",
+    "job": "Assess HF2 documentation and project-control completeness after ProjectManager, MT, GOAL, and ASSERT passes.",
+    "basis": "Take-5 main repository evidence retrieved 2026-09-27",
+    "terminal": "CONTINUE",
+    "admitted_continuation": true,
+    "unresolved": true,
+    "phase": 0,
+    "representation_result_sensitive": true,
+    "project_local_capability_may_matter": true,
+    "capability_or_tool_selection_is_itself_the_job": true
+  },
+  "initial_memory": {},
+  "iteration_learning": [
+    {
+      "iteration": 0,
+      "questions_generated": [
+        {
+          "question_id": "Q-HF2-ROUTING",
+          "question": "Does the HF002 package directly route to the current HF2 semantic anchor and native recurrence/runtime surfaces?",
+          "live_candidate_answers": [
+            "yes",
+            "indirect-only",
+            "no"
+          ],
+          "unresolved_structure": "package-local source routing",
+          "downstream_dependency": "recovery reliability and anti-loss"
+        },
+        {
+          "question_id": "Q-HF2-EVIDENCE",
+          "question": "Do the HF002 package-local runs, evidence, and history streams contain durable material records beyond their README placeholders?",
+          "live_candidate_answers": [
+            "populated",
+            "partially populated",
+            "README-only"
+          ],
+          "unresolved_structure": "local evidence/backfill state",
+          "downstream_dependency": "project traceability"
+        },
+        {
+          "question_id": "Q-HF2-OPEN",
+          "question": "Does package-local OPEN_QUESTIONS preserve the live HF2 OPEN coordinates stated in the current HF2 anchor?",
+          "live_candidate_answers": [
+            "yes",
+            "pointer only",
+            "no"
+          ],
+          "unresolved_structure": "OPEN-state synchronization",
+          "downstream_dependency": "reentry and future recovery"
+        }
+      ],
+      "work_generated": [
+        {
+          "work_id": "W-HF2-ROUTING",
+          "question_id": "Q-HF2-ROUTING",
+          "probe_or_test": "Compare HF002 SOURCE_MAP/MATHEMATICS/RUNTIME with CURRENT_HF2, tool_manifest, hf002 runtime, and configured HF2 executor.",
+          "execution_or_semantic_route": "repository-grounded host semantic application"
+        },
+        {
+          "work_id": "W-HF2-EVIDENCE",
+          "question_id": "Q-HF2-EVIDENCE",
+          "probe_or_test": "Inspect HF002 runs/evidence/history directories for material records.",
+          "execution_or_semantic_route": "repository-grounded host semantic application"
+        },
+        {
+          "work_id": "W-HF2-OPEN",
+          "question_id": "Q-HF2-OPEN",
+          "probe_or_test": "Compare HF002 OPEN_QUESTIONS with OPEN coordinates in integration/CURRENT_HF2.md.",
+          "execution_or_semantic_route": "repository-grounded host semantic application"
+        }
+      ],
+      "selected_work": [
+        "W-HF2-ROUTING",
+        "W-HF2-EVIDENCE",
+        "W-HF2-OPEN"
+      ],
+      "results_observed": [
+        {
+          "work_id": "W-HF2-ROUTING",
+          "finding": "HF002 package is structurally complete, but package-local SOURCE_MAP is generic and does not directly name integration/CURRENT_HF2.md, runtime/hf002_recursive_continuation.py, or runtime/configured_hf2_execution.py; native runtime is reachable indirectly through runtime/tool_manifest.py."
+        },
+        {
+          "work_id": "W-HF2-EVIDENCE",
+          "finding": "projects/tool-system/current-tools/hf002/{runs,evidence,history}/ contain only README.md while substantial HF2 evidence exists elsewhere in Take-5."
+        },
+        {
+          "work_id": "W-HF2-OPEN",
+          "finding": "HF002 package-local OPEN_QUESTIONS is boilerplate and does not enumerate the current anchor OPEN coordinates: open-world future/unregistered tools, minimal generic local state, infinite-frontier fairness, unbounded termination, universal external-host binding."
+        }
+      ],
+      "admitted_delta": {
+        "material_result_delta": true,
+        "changed_representation": true,
+        "new_OPEN": true,
+        "candidate_discovery_deltas": [
+          "documentation_recoverability_distinct_from_package_structural_completeness"
+        ],
+        "dcc_receipt": "DCC:HF002_DOCUMENTATION_DISTINCTION_ADMITTED"
+      },
+      "state_after": {
+        "terminal": "CONTINUE",
+        "admitted_continuation": true,
+        "unresolved": true,
+        "phase": 1
+      },
+      "memory_after": {
+        "phase_0_delta_admitted": true
+      },
+      "terminal": "CONTINUE"
+    },
+    {
+      "iteration": 1,
+      "questions_generated": [
+        {
+          "question_id": "Q-HF2-HANDOFF",
+          "question": "What bounded authority-safe work packages follow from the admitted documentation findings?",
+          "live_candidate_answers": [
+            "source-route patch",
+            "evidence backfill/index",
+            "open-state route",
+            "no action"
+          ],
+          "unresolved_structure": "next legal project transition",
+          "downstream_dependency": "ProjectManager change-control handoff"
+        }
+      ],
+      "work_generated": [
+        {
+          "work_id": "W-HF2-HANDOFF",
+          "question_id": "Q-HF2-HANDOFF",
+          "probe_or_test": "Construct smallest owner-local work packages that preserve non-duplication and append-only invariants.",
+          "execution_or_semantic_route": "ProjectManager evidence-only handoff"
+        }
+      ],
+      "selected_work": [
+        "W-HF2-HANDOFF"
+      ],
+      "results_observed": [
+        {
+          "work_id": "W-HF2-HANDOFF",
+          "finding": {
+            "frontier": [
+              {
+                "id": "PM-HF2-DOC-ROUTE",
+                "owner": "HF002 package routing authority",
+                "effect": "Add direct canonical pointers from SOURCE_MAP/MATHEMATICS/RUNTIME to current HF2 anchor and native/configured runtime without copying editable semantics."
+              },
+              {
+                "id": "PM-HF2-EVIDENCE-BACKFILL",
+                "owner": "HF002 append-only evidence/run/history streams",
+                "effect": "Add append-only index/backfill records pointing to existing HF2 campaign, promotion, validation, and lineage evidence."
+              },
+              {
+                "id": "PM-HF2-OPEN-ROUTE",
+                "owner": "HF002 OPEN_QUESTIONS",
+                "effect": "Route or enumerate the current HF2 OPEN coordinates with resume conditions, preserving the anchor as semantic authority."
+              }
+            ],
+            "authority": "NONE",
+            "effect_class": "EVIDENCE_ONLY"
+          }
+        }
+      ],
+      "admitted_delta": {
+        "material_result_delta": true,
+        "candidate_discovery_deltas": [],
+        "handoff_ready": true
+      },
+      "state_after": {
+        "terminal": "COMPLETE",
+        "admitted_continuation": false,
+        "unresolved": false,
+        "phase": 2
+      },
+      "memory_after": {
+        "phase_0_delta_admitted": true,
+        "phase_1_delta_admitted": true
+      },
+      "terminal": "COMPLETE"
+    }
+  ],
+  "admitted_deltas": [
+    {
+      "iteration": 0,
+      "material_result_delta": true,
+      "changed_representation": true,
+      "new_OPEN": true,
+      "dcc_receipt": "DCC:HF002_DOCUMENTATION_DISTINCTION_ADMITTED"
+    },
+    {
+      "iteration": 1,
+      "material_result_delta": true,
+      "handoff_ready": true
+    }
+  ],
+  "final_state": {
+    "target": "HF002",
+    "terminal": "COMPLETE",
+    "admitted_continuation": false,
+    "unresolved": false,
+    "phase": 2,
+    "handoff": {
+      "authority": "NONE",
+      "effect_class": "EVIDENCE_ONLY",
+      "frontier": [
+        "PM-HF2-DOC-ROUTE",
+        "PM-HF2-EVIDENCE-BACKFILL",
+        "PM-HF2-OPEN-ROUTE"
+      ]
+    }
+  },
+  "final_ephemeral_memory": {
+    "phase_0_delta_admitted": true,
+    "phase_1_delta_admitted": true
+  },
+  "memory_changed": true,
+  "state_changed": true,
+  "ephemeral_memory_disposition": "DISCARD_AFTER_REPORT_SUBMISSION",
+  "report_required_even_when_no_material_learning": true,
+  "execution_claim": {
+    "object_id": "ICC128 Legacy",
+    "claim_id": "hf2-documentation-projectmanager-mt-goal-assert-legacy-20260927-001",
+    "claimed_level": "CONSUMED",
+    "evidence": {
+      "identity": "icc128-legacy-source:e4c76c595b44a35fd9efc02cde8979e656ef54e8",
+      "plan": "HF2 documentation assessment after ProjectManager -> MT -> GOAL -> ASSERT",
+      "dispatch": "host-semantic-instantiation of frozen ICC128Controller.run",
+      "execution": "two controller iterations; terminal COMPLETE; DCC receipt present",
+      "consumption": "controller result consumed into this learning report"
+    }
+  },
+  "execution_claim_status": "VERIFIED"
+}
