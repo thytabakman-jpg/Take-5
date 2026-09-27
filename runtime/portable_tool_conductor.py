@@ -39,6 +39,10 @@ class CompilationWitness:
 # Native repository entrypoints that were recovered without claiming signature
 # uniformity. A portable host may bind these through adapters.
 NATIVE_ENTRYPOINTS: dict[str, tuple[str, tuple[str, ...]]] = {
+    "ProjectManager": (
+        "project_manager.project_manager_adapter",
+        (),
+    ),
     "MTA": (
         "mta.run_mta",
         ("generate_structural_hypotheses","select_analysis_package","reconstruct_protected_model"),
