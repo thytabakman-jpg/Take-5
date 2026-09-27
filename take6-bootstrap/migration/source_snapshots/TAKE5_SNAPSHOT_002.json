@@ -1,0 +1,19 @@
+{
+  "schema_version": "0.1",
+  "snapshots": [
+    {
+      "repository": "thytabakman-jpg/Take-5",
+      "role": "migration_frontier_take5",
+      "commit": "a773ac5ac00fe4d04bd8e22a3d0ae949a6f35af2",
+      "tree_sha": "104d50432a0aead4508890ef1a410fa7356e41c4",
+      "recursive_tree_truncated": false,
+      "entry_count": 905,
+      "blob_count": 859,
+      "inventory": "take6-bootstrap/migration/inventories/TAKE5_TREE_INVENTORY_002.json",
+      "supersedes": [
+        "853c7f92dae62747d3f8f42a38b6d4b77e194ad2"
+      ],
+      "note": "Advances migration frontier through PR #145 without rewriting the historical snapshot."
+    }
+  ]
+}
