@@ -114,7 +114,7 @@ def test_bound_semantic_provider_executes_restored_controller():
     assert out.result is not None
     assert out.result.hf2_status=="RELATIVE_CLOSE"
     assert out.resolution.provider_id=="test-provider"
-    assert calls==["G_Q","G_W","E","A","U","F","F","R"]
+    assert calls==["G_Q","G_W","E","A","U","R","F","F"]
 
 
 def test_partial_entry_coordinates_fail_open():
