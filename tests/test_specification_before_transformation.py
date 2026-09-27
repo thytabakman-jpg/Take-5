@@ -64,8 +64,8 @@ def test_plural_identity_requires_candidate_invariance():
     assert assess_transformation(p2,"BUILD").status=="PASS"
 
 
-def test_selected_work_requires_explicit_operation_class():
-    state={"selected_tool":"RootCause"}
+def test_unclassified_selected_work_requires_explicit_operation_class():
+    state={"selected_action":{"id":"candidate-work"}}
     r=assess_selected_state(state)
     assert r.status=="OPEN"
     assert r.reason=="SELECTED_OPERATION_CLASS_REQUIRED"
