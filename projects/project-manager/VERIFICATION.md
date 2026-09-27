@@ -117,3 +117,22 @@ CLOSED_RELATIVE.
 
 No local ProjectManager action remains.
 TransferCore remains the sole explicit external OPEN boundary.
+
+
+## TransferCore recovery reentry
+
+Prior V16 and prior campaign receipts correctly recorded the historical state in which
+TransferCore current identity was OPEN.
+
+That historical state is superseded for current work by the recovery candidate:
+
+- architecture/TRANSFERCORE_FULL_TOOL_001_2026-09-27.md
+- integration/CURRENT_TRANSFERCORE.md
+- runtime/transfer_core.py
+- tests/test_transfer_core.py
+
+Current V16 replacement:
+TransferCore admission remains non-authoritative; target mutation requires a unique target
+authority binding plus separate explicit authorization and independent verification.
+
+Canonical promotion remains contingent on the current branch validation.
