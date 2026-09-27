@@ -14,6 +14,15 @@ def return_done(state,memory,context):
     }
 
 
+def fresh_stable(state,memory,context):
+    return {
+        "status":"NO_GAIN",
+        "owned_work_remaining":False,
+        "evidence":[f"test:fresh-stable:{context['challenge_index']}"],
+        "challenge_id":f"test-fresh-{context['challenge_index']}",
+    }
+
+
 def handlers():
     out={}
     for stage in GOAL_DIRECTED_STAGES:
@@ -59,6 +68,7 @@ def run(name,corpus):
         state={"holdout":name},
         handlers=handlers(),
         return_verifier=return_done,
+        fresh_reobserve=fresh_stable,
     )
     return resolution,out
 
