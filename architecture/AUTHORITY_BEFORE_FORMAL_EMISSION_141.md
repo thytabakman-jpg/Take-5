@@ -1,7 +1,7 @@
 # Authority Before Formal Emission Invariant 141
 
 Date: 2026-09-26
-Status: CANDIDATE IMPLEMENTED / VALIDATION PENDING
+Status: IMPLEMENTED / VALIDATED CANDIDATE / PROMOTION PENDING
 Canonical repository: thytabakman-jpg/Take-5
 
 ## Problem
@@ -311,4 +311,12 @@ Regression:
 - tests/test_mathematical_color_gate.py
 - tests/test_improvement_core_return_gate.py
 
-Validation/promotion remains pending until repository CI passes.
+Implementation validation on PR #143 head c45817e28ab3130402d430acfc3878e13d26d94f:
+
+- Take-5 Validation 36292992625: SUCCESS
+- Capability Preservation 36292992598: SUCCESS
+- ImproveCore Legacy Restoration 130 run 36292992599: SUCCESS
+- ImproveCore Legacy Semantic Holdouts 132 run 36292992595: SUCCESS
+
+Promotion remains pending until the final documentation/receipt commit also passes
+the repository gates and PR #143 is merged.
