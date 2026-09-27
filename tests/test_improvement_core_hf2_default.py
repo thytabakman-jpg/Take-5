@@ -244,3 +244,51 @@ def test_user_facing_improvementcore_without_fresh_reobserver_fails_open_before_
     )
     assert out.status=="OPEN"
     assert out.blocker=="FRESH_WHOLE_JOB_REOBSERVATION_REQUIRED"
+
+
+def test_fresh_whole_job_discovery_reenters_parent_then_requires_two_stable_reruns():
+    calls={"execute":0,"fresh":0}
+
+    def fresh(state,memory,context):
+        calls["fresh"]+=1
+        if calls["fresh"]==1:
+            return {
+                "status":"STABLE",
+                "material_search_delta":True,
+                "owned_work_remaining":True,
+                "state_patch":{
+                    "fresh_discovery_consumed":True,
+                    "question_frontier":["new-question-from-fresh-overview"],
+                },
+                "evidence":["test:fresh-overview-found-new-work"],
+                "challenge_id":"fresh-overview-material",
+            }
+        return {
+            "status":"NO_GAIN",
+            "owned_work_remaining":False,
+            "evidence":[f"test:fresh-rerun-no-gain:{calls['fresh']}"],
+            "challenge_id":f"fresh-stable-{calls['fresh']}",
+        }
+
+    _,out=dispatch_improvement_core(
+        "ImproveCore, finish this so a fresh rerun finds nothing new",
+        target="problem",
+        job="reach fresh-rerun fixed point",
+        basis="current",
+        state={},
+        handlers=_handlers(calls),
+        return_verifier=_return_done,
+        fresh_reobserve=fresh,
+        parent_max_rounds=4,
+    )
+
+    assert out.status=="COMPLETE"
+    assert out.result.state["fresh_discovery_consumed"] is True
+    assert calls["fresh"]==3
+    assert len(out.parent_return_trace)==2
+    assert out.parent_return_trace[0]["disposition"]=="CONTINUE"
+    assert out.parent_return_trace[0]["reason"]=="FRESH_WHOLE_JOB_DELTA"
+    stability=out.parent_return_trace[1]["whole_job_stability"]
+    assert stability["terminal"]=="COMPLETE"
+    assert len(stability["receipts"])==2
+    assert all(not row["material"] for row in stability["receipts"])
