@@ -1,0 +1,89 @@
+{
+  "project_id": "ICC118-FAVORED-VARIANT-RECOVERY-001",
+  "coordinates": {
+    "identity": "Recover favored ICC118 behavioral bundle and validate a successor profile",
+    "charter": "projects/icc118-favored-variant-recovery/PROJECT_CHARTER.md",
+    "goal": "projects/icc118-favored-variant-recovery/GOAL.md",
+    "scope": "Accessible conversations + Reaserch + Take-5 + historical/current ICC118-related evidence",
+    "authority": "ProjectManager project truth; source authorities remain external; USER promotion authority",
+    "stakeholders": [
+      "USER",
+      "ProjectManager",
+      "ImprovementCore",
+      "IC118",
+      "ICC128"
+    ],
+    "deliverables": [
+      "Evidence register",
+      "favored behavior model",
+      "successor candidate",
+      "matched tests",
+      "verification receipt"
+    ],
+    "schedule": [
+      "E0 evidence universe",
+      "E1 behavior recovery",
+      "E2 candidate",
+      "E3 matched validation",
+      "E4 decision"
+    ],
+    "resources": [
+      "connected conversation retrieval",
+      "Reaserch",
+      "Take-5",
+      "ProjectManager",
+      "ImprovementCore"
+    ],
+    "dependencies": [
+      "ProjectManager current full math 003",
+      "source repository availability",
+      "current IC118 successor"
+    ],
+    "interfaces": [
+      "Take-5 historical ICC118 package",
+      "Reaserch IC118 successor",
+      "ImprovementCore",
+      "ProjectManager"
+    ],
+    "raid": "projects/icc118-favored-variant-recovery/RAID.md",
+    "questions": [
+      "Can exact historical identity be recovered?",
+      "Which behavior is causally linked to effectiveness?"
+    ],
+    "evidence": "projects/icc118-favored-variant-recovery/EVIDENCE.md",
+    "decisions": "projects/icc118-favored-variant-recovery/DECISION_LOG.md",
+    "lessons": "projects/icc118-favored-variant-recovery/LESSONS_LEDGER.md",
+    "changes": "append-only decisions + owner-local deltas",
+    "lifecycle": "ACTIVE_RECOVERY_AND_VALIDATION",
+    "verification": "projects/icc118-favored-variant-recovery/VERIFICATION.md",
+    "communications": "Report causal behavior bundle, source coverage, candidate status, and boundaries",
+    "handoffs": "Candidate may hand to ImprovementCore for refinement; promotion requires USER authority and validation"
+  },
+  "authority_registry": {
+    "identity": "projects/icc118-favored-variant-recovery/IDENTITY",
+    "charter": "projects/icc118-favored-variant-recovery/CHARTER",
+    "goal": "projects/icc118-favored-variant-recovery/GOAL",
+    "scope": "projects/icc118-favored-variant-recovery/SCOPE",
+    "authority": "projects/icc118-favored-variant-recovery/AUTHORITY",
+    "stakeholders": "projects/icc118-favored-variant-recovery/STAKEHOLDERS",
+    "deliverables": "projects/icc118-favored-variant-recovery/DELIVERABLES",
+    "schedule": "projects/icc118-favored-variant-recovery/SCHEDULE",
+    "resources": "projects/icc118-favored-variant-recovery/RESOURCES",
+    "dependencies": "projects/icc118-favored-variant-recovery/DEPENDENCIES",
+    "interfaces": "projects/icc118-favored-variant-recovery/INTERFACES",
+    "raid": "projects/icc118-favored-variant-recovery/RAID",
+    "questions": "projects/icc118-favored-variant-recovery/QUESTIONS",
+    "evidence": "projects/icc118-favored-variant-recovery/EVIDENCE",
+    "decisions": "projects/icc118-favored-variant-recovery/DECISIONS",
+    "lessons": "projects/icc118-favored-variant-recovery/LESSONS",
+    "changes": "projects/icc118-favored-variant-recovery/CHANGES",
+    "lifecycle": "projects/icc118-favored-variant-recovery/LIFECYCLE",
+    "verification": "projects/icc118-favored-variant-recovery/VERIFICATION",
+    "communications": "projects/icc118-favored-variant-recovery/COMMUNICATIONS",
+    "handoffs": "projects/icc118-favored-variant-recovery/HANDOFFS"
+  },
+  "evidence_refs": [
+    "architecture/PROJECT_MANAGER_FULL_TOOL_MATH_003_2026-09-27.md",
+    "projects/icc118-favored-variant-recovery/EVIDENCE.md"
+  ]
+}
