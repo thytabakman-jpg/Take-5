@@ -31,3 +31,21 @@ both contain 36 cells but perform different jobs.
 
 Organization is an anti-loss measure only when generation and updates fail closed
 on overwrite and when CI checks inventory parity.
+
+## 2026-09-27 L007
+
+Dynamic package parity successfully absorbed ProjectManager after its later
+admission, but static human-readable counts and index content drifted. Anti-loss
+therefore requires regression checks on projections as well as canonical state.
+
+## 2026-09-27 L008
+
+Configured reachability, native execution, semantic result, and project mutation
+are separate claim levels. An exhaustive tool sweep must preserve those
+distinctions or it can falsely report that every tool ran.
+
+## 2026-09-27 L009
+
+Running the entire repertoire against the organization itself exposed missing
+project-control coordinates that ordinary repository validation did not treat as
+failures. Project-level control completeness is an independent regression surface.
