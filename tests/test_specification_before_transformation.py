@@ -7,6 +7,9 @@ from specification_before_transformation import (
     assess_selected_state,
     progress_specification_licensed,
 )
+from emergent_admission import Admission,ObjectCandidate,admit
+from improvement_core_manager import run_improvement_core_manager
+from ic028_operator import GOAL_DIRECTED_STAGES
 
 
 def packet(**overrides):
@@ -91,3 +94,79 @@ def test_transform_sensitive_progress_claim_requires_pass():
     assert not progress_specification_licensed("CONTROLLER","OPEN")
     assert progress_specification_licensed("CONTROLLER","PASS")
     assert progress_specification_licensed("ARTIFACT","OPEN")
+
+
+def test_emergent_transform_claim_cannot_be_admitted_from_package_reality_alone():
+    candidate=ObjectCandidate(
+        object_id="TOOL:NEW",
+        object_type="configured_program",
+        load_bearing=True,
+        transform_claim=True,
+        specification_status="OPEN",
+    )
+    assert admit(candidate,package_verifier=lambda _:True)==Admission.OPEN
+
+    recovered=ObjectCandidate(
+        object_id="TOOL:NEW",
+        object_type="configured_program",
+        load_bearing=True,
+        transform_claim=True,
+        specification_status="PASS",
+    )
+    assert admit(recovered,package_verifier=lambda _:True)==Admission.ACCEPT
+
+
+def _manager_handlers(selected_action):
+    handlers={}
+    for stage in GOAL_DIRECTED_STAGES:
+        def fn(state,stage=stage):
+            next_state=dict(state)
+            if stage=="SELECT":
+                next_state["selected_action"]=dict(selected_action)
+            return {
+                "state":next_state,
+                "material_delta":False,
+            }
+        handlers[stage]=fn
+    handlers["COMPLETE"]=lambda state:{
+        "state":state,
+        "terminal":True,
+        "material_delta":False,
+    }
+    handlers["REENTER"]=lambda state:{"state":state,"terminal":True}
+    return handlers
+
+
+def test_improvementcore_blocks_selected_transform_before_bind_execute():
+    out=run_improvement_core_manager(
+        "ImproveCore, improve this device",
+        target="TOOL:X",
+        job="improve",
+        basis="b0",
+        state={},
+        handlers=_manager_handlers({
+            "id":"rewrite-x",
+            "operation_class":"IMPROVE",
+        }),
+    )
+    assert not out.result.terminal
+    assert out.result.blocker.startswith("SPECIFICATION_OPEN")
+    stages=tuple(r.stage for r in out.result.receipts)
+    assert "SPECIFICATION_GATE" in stages
+    assert "BIND" not in stages
+    assert "EXECUTE" not in stages
+
+
+def test_improvementcore_allows_recovery_work_on_unrecovered_object():
+    out=run_improvement_core_manager(
+        "ImproveCore, recover this device",
+        target="TOOL:X",
+        job="recover",
+        basis="b0",
+        state={},
+        handlers=_manager_handlers({
+            "id":"recover-x",
+            "operation_class":"RECOVER",
+        }),
+    )
+    assert out.result.terminal
