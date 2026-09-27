@@ -17,14 +17,26 @@ from runtime.source_frontier import (
 SNAPSHOT_ROOT = ROOT / "migration" / "source_snapshots"
 
 
+def _load_inventory(path):
+    return json.loads((ROOT / path).read_text(encoding="utf-8"))
+
+
+def _compiled_with_inventories():
+    return compile_source_frontier(
+        load_source_snapshots(SNAPSHOT_ROOT),
+        inventory_loader=_load_inventory,
+    )
+
+
 def test_repository_snapshot_history_compiles_unique_frontier():
     snapshots = load_source_snapshots(SNAPSHOT_ROOT)
-    compiled = compile_source_frontier(snapshots)
+    compiled = compile_source_frontier(snapshots, inventory_loader=_load_inventory)
 
     take5 = compiled["repositories"]["thytabakman-jpg/Take-5"]
     assert take5["status"] == "CURRENT"
     assert take5["current_commit"] == "a773ac5ac00fe4d04bd8e22a3d0ae949a6f35af2"
     assert take5["current_tree_sha"] == "104d50432a0aead4508890ef1a410fa7356e41c4"
+    assert take5["current_scope_digest"].startswith("sha256:")
     assert take5["known_commits"] == [
         "853c7f92dae62747d3f8f42a38b6d4b77e194ad2",
         "a773ac5ac00fe4d04bd8e22a3d0ae949a6f35af2",
@@ -156,3 +168,64 @@ def test_truncated_snapshot_cannot_enter_frontier():
         assert "SOURCE_SNAPSHOT_TRUNCATED" in str(exc)
     else:
         raise AssertionError("truncated source inventory entered migration frontier")
+
+
+def test_successor_only_host_changes_do_not_stale_predecessor_frontier():
+    compiled = _compiled_with_inventories()
+    inventory = _load_inventory(
+        "migration/inventories/TAKE5_TREE_INVENTORY_002.json"
+    )
+    observed = json.loads(json.dumps(inventory))
+
+    workflow = next(
+        x for x in observed["entries"]
+        if x["path"] == ".github/workflows/take6-bootstrap-validation.yml"
+    )
+    workflow["sha"] = "successor-only-workflow-change"
+    observed["entries"].append({
+        "path": "take6-bootstrap/future-successor-only.txt",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "successor-only-blob",
+        "size": 1,
+    })
+
+    require_promotion_frontier_match(
+        compiled,
+        observed={
+            "thytabakman-jpg/Take-5": {
+                "commit": "later-host-commit",
+                "tree_sha": "later-host-tree",
+                "inventory": observed,
+            }
+        },
+    )
+
+
+def test_real_predecessor_surface_change_stales_frontier():
+    compiled = _compiled_with_inventories()
+    inventory = _load_inventory(
+        "migration/inventories/TAKE5_TREE_INVENTORY_002.json"
+    )
+    observed = json.loads(json.dumps(inventory))
+    runtime_entry = next(
+        x for x in observed["entries"]
+        if x["path"] == "runtime/formal_claim_admission.py"
+    )
+    runtime_entry["sha"] = "changed-predecessor-runtime"
+
+    try:
+        require_promotion_frontier_match(
+            compiled,
+            observed={
+                "thytabakman-jpg/Take-5": {
+                    "commit": "later-real-predecessor-commit",
+                    "tree_sha": "later-real-predecessor-tree",
+                    "inventory": observed,
+                }
+            },
+        )
+    except RuntimeError as exc:
+        assert "PROMOTION_SOURCE_FRONTIER_LAG" in str(exc)
+    else:
+        raise AssertionError("real predecessor semantic delta was excluded as host noise")
