@@ -501,7 +501,7 @@ OVERRIDES={
         reentry_contract="HF002_THEN_HF001",
         bindings=MULTIOBJECT_BINDINGS,
         lineage_contract="architecture/MULTIOBJECT_FULL_TOOL_MATH_001_2026-09-27.md",
-    ),    "GDOS":ToolManifest(
+    ),\n    "GDOS":ToolManifest(
         tool_id="GDOS",
         native_semantics="GOAL_DECOUPLED_OBSERVATION_SWEEP",
         geometry_policy="D36_C",
