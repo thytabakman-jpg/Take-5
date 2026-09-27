@@ -94,6 +94,7 @@ class TransitionComparison:
     obligation_states: Tuple[str, ...] = ()
     boundary_verified: bool = False
     basis_reconciled: bool = False
+    transformation_claim: bool = False
     specification_status: str = "OPEN"
 
 
@@ -142,6 +143,7 @@ def strict_progress(cmp: TransitionComparison) -> bool:
         and progress_specification_licensed(
             cmp.scope.target.value,
             cmp.specification_status,
+            transformation_claim=cmp.transformation_claim,
         )
     )
 
