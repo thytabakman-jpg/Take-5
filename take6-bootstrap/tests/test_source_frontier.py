@@ -51,8 +51,8 @@ def test_repository_snapshot_history_compiles_unique_frontier():
     assert take5["current_tree_sha"] == "d194d90e89debaea08569ef9b5b8bbe9483a601b"
     assert take5["current_scope_digest"].startswith("sha256:")
     assert take5["known_commits"] == [
-        "4085f5d3479e6c02929026011bb377179d7f2303",
         "2c2ad4de79a6a5484bc1c7631a83e342fe0b53ac",
+        "4085f5d3479e6c02929026011bb377179d7f2303",
         "45ba1b8ffae50d20a96b9c3cd5904d7b120b66aa",
         "53b28a36d9998e4fe76f49b231695216fe419bdd",
         "853c7f92dae62747d3f8f42a38b6d4b77e194ad2",
