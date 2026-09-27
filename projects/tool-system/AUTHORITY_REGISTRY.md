@@ -5,6 +5,11 @@ Status: CURRENT
 | Object | Canonical owner |
 |---|---|
 | project purpose/scope | PROJECT_CHARTER.md |
+| governing goal | GOAL.md |
+| stakeholders | STAKEHOLDERS.md |
+| schedule/milestones | SCHEDULE.md |
+| resources | RESOURCES.md |
+| communications | COMMUNICATIONS.md |
 | package schema | PACKAGE_CONTRACT.md |
 | project current state | CURRENT_STATE.md |
 | current tool inventory | runtime/tool_run_registry.py |
