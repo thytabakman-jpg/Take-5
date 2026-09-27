@@ -39,11 +39,11 @@ def _semantic_findings(packet):
         },
         {
             "id":"F2",
-            "name":"FUNCTION_SURFACE_NOT_NATIVE_REALIZATION",
+            "name":"FUNCTION_SURFACE_VS_BOUND_NATIVE_REALIZATION",
             "disposition":"OPEN",
             "claim":(
-                "The function-first representation is useful, but it does not recover missing "
-                "PD semantics or executable runtime merely by writing PD as a function."
+                "PD now has recovered configured identity and a typed native runtime, but this "
+                "black-box episode still cannot execute PD without its required semantic environment bindings."
             ),
             "basis":("C2","C7"),
             "pd_configured_identity":pd.configured_identity_status,
@@ -75,8 +75,8 @@ def _semantic_findings(packet):
             "name":"STRONG_TOOL_REALITY",
             "disposition":reality.status,
             "claim":(
-                "Configured routing can be closed relative while whole-portfolio native tool "
-                "reality remains OPEN; these are distinct coordinates."
+                "Configured identity and current finite-repertoire strong tool reality are now "
+                "both closed relative, while environment-bound execution and host interception remain separate coordinates."
             ),
             "configured_identity_status":reality.configured_identity_status,
             "explicit_manifest_status":reality.explicit_manifest_status,
@@ -133,7 +133,7 @@ def _mt_adapter(initial,plan):
 
     def execute_stage(tool_id,object_id,state):
         witness=compilation_witness(tool_id)
-        if witness.entrypoint is None:
+        if witness.entrypoint is None or witness.required_environment:
             return state,"OPEN",False
         return state,"CLOSED_RELATIVE",False
 
@@ -243,9 +243,9 @@ def test_current_chat_mt_runs_through_full_configured_gateway_and_fails_closed_o
 
     findings={x["id"]:x for x in result["mt_result"]["findings"]}
     assert findings["F1"]["disposition"]=="CLOSED_RELATIVE"
-    assert findings["F2"]["pd_realization"]=="UNRECOVERED"
+    assert findings["F2"]["pd_realization"]=="ENVIRONMENT_BOUND"
     assert findings["F4"]["disposition"]=="OPEN"
-    assert findings["F5"]["disposition"]=="OPEN"
+    assert findings["F5"]["disposition"]=="CLOSED_RELATIVE"
     assert findings["F6"]["disposition"]=="OPEN"
     assert findings["F7"]["disposition"]=="EXTERNAL_NOT_OWNED"
 
