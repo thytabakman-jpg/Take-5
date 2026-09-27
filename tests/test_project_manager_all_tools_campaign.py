@@ -73,19 +73,14 @@ def test_first_pass_reaches_end_and_exposes_only_bounded_project_consequences():
         for f in out.findings
     )
 
-    # During the first campaign pass the checked-in self-state may still contain
-    # the old post-build next-frontier sentence.  The campaign must detect it
-    # rather than treating a stale projection as closure.
+    # Pass 2 begins only after the pass-1 owner-local lifecycle delta has
+    # been applied.  No local project-control action may remain.
     current=(
         ROOT/"projects"/"project-manager"/"CURRENT_STATE.md"
     ).read_text(encoding="utf-8")
-    stale="Run repository validation, repair any regression" in current
-    if stale:
-        assert out.status=="ACTION_REQUIRED"
-        assert "PM-ALL-001" in out.local_actions
-    else:
-        assert out.status=="CLOSED_RELATIVE"
-        assert out.local_actions==()
+    assert "Run repository validation, repair any regression" not in current
+    assert out.status=="CLOSED_RELATIVE"
+    assert out.local_actions==()
 
     print(
         "PROJECT_MANAGER_ALL_TOOLS_RECEIPT="
