@@ -29,6 +29,26 @@ TRANSFORM_SENSITIVE_TARGETS=frozenset({
     "HOST_BOUNDARY","CONTROLLER",
 })
 
+# These configured tools are intrinsically epistemic/recovery operations in their
+# admitted current identity.  Inferring a recovery class for them is safe because
+# the inference cannot license an object mutation.  Every other configured tool
+# remains fail-closed unless the selected work declares its operation class.
+SAFE_RECOVERY_TOOL_OPERATION_CLASS={
+    "CurrentnessAudit":"AUDIT",
+    "RootCause":"DIAGNOSE",
+    "QuestionWorthAsking":"DISCOVER",
+    "ASSERT":"VERIFY",
+    "PD":"COMPARE",
+    "PDAudit":"VERIFY",
+    "MTA":"RECONSTRUCT",
+    "Diagnosis":"DIAGNOSE",
+    "HistoricalReconstruction":"RECONSTRUCT",
+    "ZeroRequest":"OBSERVE",
+    "GOAL":"FORMALIZE",
+    "TRC":"VERIFY",
+    "MultiObject":"COMPARE",
+}
+
 
 @dataclass(frozen=True)
 class SpecificationPacket:
@@ -165,6 +185,21 @@ def has_explicit_selection(state:Any)->bool:
     return False
 
 
+def _selected_tool_names(state:Mapping[str,Any])->tuple[str,...]:
+    out=[]
+    for key in ("selected_tools","selected_tool_ids"):
+        value=state.get(key)
+        if isinstance(value,(list,tuple)):
+            out.extend(str(x) for x in value if str(x))
+        elif value:
+            out.append(str(value))
+    for key in ("selected_tool","selected_tool_id"):
+        value=state.get(key)
+        if value:
+            out.append(str(value))
+    return tuple(dict.fromkeys(out))
+
+
 def selected_operation_class(state:Mapping[str,Any])->str:
     explicit=state.get("selected_operation_class")
     if explicit:
@@ -175,6 +210,17 @@ def selected_operation_class(state:Mapping[str,Any])->str:
             value=selected.get(key)
             if value:
                 return _norm(value)
+
+    tool_names=_selected_tool_names(state)
+    if tool_names:
+        inferred=tuple(
+            SAFE_RECOVERY_TOOL_OPERATION_CLASS.get(name)
+            for name in tool_names
+        )
+        if all(inferred):
+            # Multiple selected epistemic tools can differ internally while the
+            # batch as a whole remains a recovery-class operation.
+            return "RECOVER"
     return ""
 
 
@@ -196,8 +242,20 @@ def assess_selected_state(state:Any)->SpecificationReceipt:
     return assess_transformation(selected_specification(state),op)
 
 
-def progress_specification_licensed(target:str, status:str)->bool:
-    """Strict-gain claims at transform-sensitive targets need a PASS receipt."""
+def progress_specification_licensed(
+    target:str,
+    status:str,
+    *,
+    transformation_claim:bool=False,
+)->bool:
+    """Only object-transforming strict-gain claims consume this gate.
+
+    Ordinary controller progress can be causal and material without being a claim
+    that a formal device itself was transformed.  The gate becomes mandatory when
+    that stronger transformation claim is present.
+    """
+    if not transformation_claim:
+        return True
     if _norm(target) not in TRANSFORM_SENSITIVE_TARGETS:
         return True
     return _norm(status)=="PASS"
