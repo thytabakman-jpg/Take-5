@@ -176,6 +176,8 @@ def test_promotion_blocks_silent_behavior_loss():
             consequence_closed=True,
             predecessor_specification_status="PASS",
             successor_specification_status="PASS",
+            source_frontier_verified=True,
+            source_frontier_cid=fake_cid("f"),
         )
     except RuntimeError as exc:
         assert "SILENT_BEHAVIOR_LOSS" in str(exc)
@@ -192,6 +194,8 @@ def test_promotion_can_preserve_typed_open_without_false_pass():
         consequence_closed=True,
         predecessor_specification_status="PASS",
         successor_specification_status="PASS",
+        source_frontier_verified=True,
+        source_frontier_cid=fake_cid("f"),
     )
     assert receipt.status == "OPEN"
     assert receipt.typed_open_behaviors == ("B",)
@@ -248,6 +252,8 @@ def test_promotion_blocks_unrecovered_object_specification():
             consequence_closed=True,
             predecessor_specification_status="OPEN",
             successor_specification_status="PASS",
+            source_frontier_verified=True,
+            source_frontier_cid=fake_cid("f"),
         )
     except RuntimeError as exc:
         assert "PROMOTION_SPECIFICATION_OPEN" in str(exc)
