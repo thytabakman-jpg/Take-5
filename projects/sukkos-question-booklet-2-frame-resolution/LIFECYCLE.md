@@ -1,0 +1,18 @@
+# Lifecycle
+
+Status: CURRENT
+
+PROMOTED
+-> MODEL_LOCK
+-> SOURCE_LOCK
+-> ROUTE_LOCK
+-> COPY_LOCK
+-> VISUAL_LOCK
+-> RENDER
+-> RENDER_QA
+-> RELEASE_CANDIDATE
+-> CLASSROOM_VALIDATION.
+
+Current state:
+COPY_LOCK and VISUAL_LOCK complete.
+Render in progress.
