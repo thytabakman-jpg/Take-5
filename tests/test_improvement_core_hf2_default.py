@@ -215,3 +215,67 @@ def test_user_facing_improvementcore_without_parent_return_verifier_fails_open()
     assert out.status=="OPEN"
     assert out.blocker=="PARENT_RETURN_GATE_REQUIRED"
     assert len(out.parent_return_trace)==1
+
+
+def test_parent_chases_successive_recoverable_opens_until_real_closure():
+    calls={"execute":0,"gate":0}
+    residuals=(
+        ("transfercore","HistoricalReconstruction->TransferCore"),
+        ("transfer-package","TransferCore->ToolProjectPackage"),
+        ("project-handoff","TransferCore->ProjectManagerHandoff"),
+    )
+
+    def verify_return(state,memory,context):
+        calls["gate"]+=1
+        if calls["gate"]<=len(residuals):
+            rid,route=residuals[calls["gate"]-1]
+            return {
+                "disposition":"RETURN",
+                "terminal":"OPEN",
+                "goal_closed":False,
+                "owned_work_remaining":False,
+                "consequence_closed":True,
+                "blocker":rid.upper()+"_OPEN",
+                "state_patch":{
+                    "open_residuals":[{
+                        "residual_id":rid,
+                        "result_sensitive":True,
+                        "reachable":True,
+                        "recovery_route":route,
+                        "owner":"ImprovementCore",
+                    }]
+                },
+                "evidence":[f"test:recoverable:{rid}"],
+            }
+        return {
+            "disposition":"RETURN",
+            "terminal":"COMPLETE",
+            "goal_closed":True,
+            "owned_work_remaining":False,
+            "consequence_closed":True,
+            "state_patch":{"open_residuals":[]},
+            "evidence":["test:all-recoverable-open-consumed"],
+        }
+
+    _,out=dispatch_improvement_core(
+        "ImproveCore, solve this and every reachable new open it exposes",
+        target="problem",
+        job="consume recoverable residual chain",
+        basis="current",
+        state={},
+        handlers=_handlers(calls),
+        return_verifier=verify_return,
+        parent_max_rounds=8,
+    )
+
+    assert out.status=="COMPLETE"
+    assert calls["gate"]==4
+    assert len(out.parent_return_trace)==4
+    assert [x["disposition"] for x in out.parent_return_trace]==[
+        "CONTINUE","CONTINUE","CONTINUE","RETURN"
+    ]
+    assert all(
+        x.get("forced_recovery_reentry") is True
+        for x in out.parent_return_trace[:3]
+    )
+    assert out.parent_return_trace[-1]["recoverable_open"]==()
