@@ -28,6 +28,7 @@ REQUIRED_PROVIDER_FIELDS=(
     "admit_results",
     "update_state",
     "verify_return",
+    "fresh_reobserve",
 )
 
 
@@ -38,6 +39,7 @@ class RestoredSemanticProvider:
     admit_results:Callable
     update_state:Callable
     verify_return:Callable
+    fresh_reobserve:Callable
     execute_work:Callable|None=None
     observer_prepare:Callable|None=None
     discovery_closure:Callable|None=None
@@ -180,6 +182,7 @@ def dispatch_improvement_core_restored(
         hf2_max_rounds=hf2_max_rounds,
         max_iterations=max_iterations,
         return_verifier=provider.verify_return,
+        fresh_reobserve=provider.fresh_reobserve,
         parent_max_rounds=parent_max_rounds,
     )
     return RestoredDispatchResult(
