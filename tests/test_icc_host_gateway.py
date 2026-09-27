@@ -13,13 +13,13 @@ def _receipt():
     evidence=HostIngressEvidence(
         repository="thytabakman-jpg/Take-5",
         ref="main",
-        commit_sha="1967e45dc62bbd99795d291be1d430b2f58f329f",
+        commit_sha="519428bc2bf0b4560b2f859f0413b5147917b56a",
         canonical_repository_verified=True,
         currentness_verified=True,
         entry_contract_bound=True,
         bootstrap_complete=True,
         controller_id="ICC128",
-        controller_registered=True,
+        controller_registration_receipt="registry:ICC128:current",
     )
     return admit_icc_host_ingress("ICC, fix it.",evidence)
 
@@ -45,7 +45,7 @@ def test_hosted_emission_requires_receipt_and_exposes_source_identity():
     out=emit_hosted_icc_result(_receipt(),(TextFragment("answer"),))
     assert r"\color{green}{\operatorname{ICC128}}" in out
     assert r"\color{green}{\operatorname{TAKE5}}" in out
-    assert "/main @1967e45d ingress:" in out
+    assert "/main @519428bc ingress:" in out
     assert out.endswith("answer")
 
 
