@@ -208,3 +208,38 @@ runtime/show_me_the_math_portable.py
 
 Compatibility checker:
 runtime/show_me_the_math_contract.py
+
+
+## Authority-before-formal-emission extension — 2026-09-26
+
+A second fail-closed boundary now sits above ordinary coordinate recovery for
+CURRENT/CANONICAL/EXACT_CURRENT formal claims.
+
+Canonical architecture:
+architecture/AUTHORITY_BEFORE_FORMAL_EMISSION_141.md
+
+Runtime:
+runtime/formal_claim_admission.py
+
+Current law:
+
+GREEN_authoritative(x)
+iff
+CompleteForUse(x)
+and FormalClaimAdmission(x)=PASS.
+
+The admission receipt binds exact object/version/basis/authority identity,
+currentness, required-coordinate recovery, frozen-dependency admission,
+dependency closure, composition type checking, authority consistency, and source
+consistency.
+
+Therefore a stale but locally coherent reconstruction cannot become green merely
+because all of its local symbols were recovered.
+
+Historical mathematics can still be green when explicitly claimed as historical.
+A current object may include a frozen historical dependency only through an
+explicit ADMITTED_FROZEN disposition from the current root authority.
+
+Regression:
+tests/test_formal_claim_admission.py
+tests/test_mathematical_color_gate.py
