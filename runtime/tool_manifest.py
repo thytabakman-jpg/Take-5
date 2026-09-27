@@ -216,6 +216,7 @@ PROJECT_MANAGER_BINDINGS=GENERIC_BINDINGS+(
     ProtectedBinding("PROJECTMANAGER_SELF_MANAGEMENT","CROSS","projects/project-manager/SELF_MANAGEMENT.md","tests/test_project_manager.py"),
     ProtectedBinding("PROJECTMANAGER_IMPROVEMENTCORE_HANDOFF","CROSS","runtime/project_manager.py","tests/test_project_manager.py"),
     ProtectedBinding("PROJECTMANAGER_TRANSFERCORE_EVIDENCE_ONLY","CROSS","runtime/project_manager.py","tests/test_project_manager.py"),
+    ProtectedBinding("PROJECTMANAGER_PREPROJECT_ADMISSION_GATE","PRE","runtime/project_manager.py","tests/test_project_manager.py"),
 )
 
 MT_BINDINGS=GENERIC_BINDINGS+(
@@ -491,7 +492,7 @@ OVERRIDES={
         closure_contract="PROJECT_CONTROL_RELATIVE_CLOSE_PLUS_TRC",
         reentry_contract="HF002_THEN_HF001_OR_IMPROVEMENTCORE",
         bindings=PROJECT_MANAGER_BINDINGS,
-        lineage_contract="architecture/PROJECT_MANAGER_FULL_TOOL_MATH_001_2026-09-27.md",
+        lineage_contract="architecture/PROJECT_MANAGER_FULL_TOOL_MATH_002_2026-09-27.md",
     ),
     "MTA":ToolManifest(
         tool_id="MTA",

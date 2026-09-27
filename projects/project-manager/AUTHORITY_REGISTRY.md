@@ -5,6 +5,7 @@ Status: CURRENT
 | Project object | Canonical owner |
 |---|---|
 | identity and project purpose | PROJECT_CHARTER.md |
+| pre-project definition and promotion barrier | DEFINITION_GATE.md |
 | governing goal and success | GOAL.md |
 | scope and boundaries | PROJECT_CHARTER.md |
 | authority and ownership | AUTHORITY_REGISTRY.md |

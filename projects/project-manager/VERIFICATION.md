@@ -117,3 +117,18 @@ CLOSED_RELATIVE.
 
 No local ProjectManager action remains.
 TransferCore remains the sole explicit external OPEN boundary.
+
+
+## Pre-project gate verification
+
+V19 ProjectManager accepts a ProjectDefinitionCandidate without requiring the 21-coordinate full project package.
+V20 the candidate object has exactly nine declared definition coordinates.
+V21 a complete candidate without user approval reaches DEFINITION_READY but not PROMOTION_READY.
+V22 blocking OPEN prevents definition closure.
+V23 non-USER approval cannot cross the promotion barrier.
+V24 explicit USER approval permits PROMOTION_READY but still does not create a full project automatically.
+V25 the requested MT -> PD -> GOAL -> GOAL sequence crosses full configured HF2 execution and stabilizes under outer supervisory recurrence.
+V26 the existing 93-tool ProjectManager HF2 campaign still closes relatively.
+
+Status:
+PENDING current branch validation.

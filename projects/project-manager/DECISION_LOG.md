@@ -118,3 +118,34 @@ The corrected second pass left no local project-control action, the final ToolCo
 had no inner OPEN/BLOCKED factor, ImprovementCore consumed the combined result, PR 167 merged,
 and the canonical merge passed main-branch validation. TransferCore remains explicit external
 OPEN rather than being used as a false reason to keep ProjectManager locally unfinished.
+
+
+## D011
+
+Date: 2026-09-27
+
+Decision
+Add a first-class pre-project definition branch to ProjectManager rather than creating a separate competing intake controller.
+
+Reason
+The observed failure occurs before a full project exists. The validated 21-coordinate project object remains correct after promotion, while a compact admission object prevents premature build and preserves exploration.
+
+## D012
+
+Date: 2026-09-27
+
+Decision
+Use D0 = <G,C,K,M,R,E,B,A,O> as the current compact pre-project definition object.
+
+Reason
+The requested MT, PD, and repeated GOAL analysis retained these nine coordinates as the current approval-relevant surface without forcing downstream project implementation details.
+
+## D013
+
+Date: 2026-09-27
+
+Decision
+Require explicit USER approval after DEFINITION_READY and before PROMOTION_READY.
+
+Reason
+Human project selection is an authority boundary, not a confidence threshold that a tool can cross automatically.

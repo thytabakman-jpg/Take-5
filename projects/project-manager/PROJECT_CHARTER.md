@@ -10,7 +10,7 @@ evidence, verification, and handoff surfaces without becoming the domain solver.
 
 ## Scope
 
-The project includes the ProjectManager mathematical object, native runtime,
+The project includes the ProjectManager mathematical object, pre-project definition gate, native runtime,
 configured-tool registration, protected behavior manifest, regression tests,
 self-managed project package, 36-cell coverage evidence, ImprovementCore integration,
 safe TransferCore evidence boundary, research basis, and requested bootstrap receipts.
@@ -21,7 +21,8 @@ The tool has one exact current identity.
 A normal direct invocation resolves to the full configured tool.
 The full run carries D36_C, 22 question families, four cognitive operators, closure,
 reentry, and HF002 recurrence.
-The native runtime validates project packages and authority.
+The native runtime validates pre-project definitions, promotion barriers, project packages, and authority.
+A project candidate cannot promote without definition readiness plus explicit USER approval.
 A project change routes to the smallest owning authority and triggers impact reentry.
 OPEN and CONFLICT remain explicit.
 WBS and schedule remain separate.

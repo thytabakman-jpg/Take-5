@@ -6,9 +6,12 @@ sys.path.insert(0,"runtime")
 from direct_tool_command_gateway import direct_tool_ids,bind_direct_tool_commands
 from project_manager import (
     CORE_COORDINATES,
+    DEFINITION_COORDINATES,
+    ProjectDefinitionCandidate,
     ProjectEvent,
     WorkPackage,
     assess_project,
+    assess_project_definition,
     improvementcore_handoff,
     transfer_evidence_candidate,
 )
@@ -164,3 +167,85 @@ def test_checked_in_self_project_package_is_managed_by_same_runtime():
     assert out.missing_coordinates==()
     assert out.authority_gaps==()
     assert out.package_conflicts==()
+
+
+def definition_candidate(*,approval=None,blocking=()):
+    coordinates={
+        "goal":{"X":"learner","T":"change","I":"booklet","Sigma":"observable transfer"},
+        "core_object":"question as a structured gap",
+        "context_binding":"Sukkos must add nondecorative educational work",
+        "mechanism":"distinguish random absence from a structured answerable gap",
+        "route":("encounter","model","Sukkos embodiment","transfer"),
+        "evidence":"learner can turn an unknown into a question with a closure condition",
+        "boundaries":("preserve Project 1","no full build before promotion"),
+        "alternatives":("existing partition route","structured-gap route"),
+        "open_questions":tuple(blocking),
+    }
+    return ProjectDefinitionCandidate(
+        "sukkos-question-gap",
+        coordinates,
+        blocking_open=tuple(blocking),
+        human_approval_ref=approval,
+        evidence_refs=("candidate-definition",),
+    )
+
+
+def test_definition_gate_has_nine_distinct_coordinates():
+    assert len(DEFINITION_COORDINATES)==9
+    assert DEFINITION_COORDINATES==(
+        "goal","core_object","context_binding","mechanism","route",
+        "evidence","boundaries","alternatives","open_questions",
+    )
+
+
+def test_definition_ready_does_not_self_promote():
+    out=assess_project_definition(definition_candidate())
+    assert out.status=="DEFINITION_READY"
+    assert out.human_approval_valid is False
+    assert out.promotion_ready is False
+
+
+def test_blocking_open_preserves_exploration_state():
+    out=assess_project_definition(
+        definition_candidate(blocking=("exact Sukkos embodiment unresolved",))
+    )
+    assert out.status=="EXPLORATION_OPEN"
+    assert out.blocking_open==("exact Sukkos embodiment unresolved",)
+    assert out.promotion_ready is False
+
+
+def test_tool_or_system_cannot_impersonate_human_approval():
+    out=assess_project_definition(definition_candidate(approval="TOOL:auto"))
+    assert out.status=="EXPLORATION_OPEN"
+    assert out.human_approval_valid is False
+    assert out.promotion_ready is False
+
+
+def test_explicit_user_approval_crosses_only_the_promotion_barrier():
+    out=assess_project_definition(definition_candidate(approval="USER:approved"))
+    assert out.status=="PROMOTION_READY"
+    assert out.human_approval_valid is True
+    assert out.promotion_ready is True
+
+
+def test_project_manager_adapter_manages_candidate_without_creating_project():
+    from project_manager import project_manager_adapter
+    candidate=definition_candidate()
+    raw=project_manager_adapter({"candidate":candidate},None)
+    assert raw["status"]=="EXECUTED"
+    result=raw["result"]
+    assert result["definition_assessment"]["status"]=="DEFINITION_READY"
+    assert result["promotion_barrier"]["full_project_created"] is False
+    assert result["promotion_barrier"]["human_approval_required"] is True
+    assert result["improvementcore_handoff"]["effect_class"]=="EVIDENCE_ONLY"
+    assert result["improvementcore_handoff"]["authority"]=="NONE"
+
+
+def test_candidate_and_full_project_cannot_be_bound_as_one_state():
+    from project_manager import project_manager_adapter
+    raw=project_manager_adapter(
+        {"candidate":definition_candidate(),"project":package()},
+        None,
+    )
+    assert raw["status"]=="CONFLICT"
+    assert raw["result"]["blocker"]=="PROJECT_AND_CANDIDATE_SIMULTANEOUSLY_BOUND"

@@ -23,3 +23,12 @@ Current next frontier
 Use ProjectManager on additional projects; preserve TransferCore as explicit external OPEN
 until its current FullMath identity is recovered; reenter on any material regression,
 new result-sensitive project holdout, or admitted change to the transfer boundary.
+
+
+## Pre-project admission extension
+
+PREPROJECT_DEFINITION_GATE: IMPLEMENTED_CANDIDATE / VALIDATION_PENDING
+FULL_PROJECT_21_COORDINATE_STATE: PRESERVED_UNCHANGED
+CANDIDATE_STATE: FIRST_CLASS / EVIDENCE_ONLY BEFORE PROMOTION
+HUMAN_PROMOTION_AUTHORITY: REQUIRED
+CURRENT_VALIDATION_FRONTIER: run full repository validation and the 93-tool ProjectManager HF2 campaign on the candidate branch.
