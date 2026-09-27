@@ -61,6 +61,7 @@ class LegacyRestoredResult:
     hf2_status:str
     hf2_trace:tuple
     candidate_traces:tuple
+    parent_return_trace:tuple=()
 
 
 def _fingerprint(value:Any)->str:
@@ -301,4 +302,195 @@ def run_improvement_core_legacy_restored(
         str(hf_out.get("status","OPEN")),
         tuple(hf_out.get("trace",())),
         tuple(all_candidate_traces),
+    )
+
+
+# Preserve the validated Legacy-restored+HF2 implementation as one parent round.
+# The public entry below adds whole-job return closure.
+_run_improvement_core_legacy_restored_once=run_improvement_core_legacy_restored
+
+
+def run_improvement_core_legacy_restored(
+    user_text:str,
+    *,
+    target:str,
+    job:str,
+    basis:str,
+    state:Mapping[str,Any],
+    memory:Mapping[str,Any] | None=None,
+    generate_questions:Callable,
+    generate_work:Callable,
+    execute_work:Callable | None,
+    admit_results:Callable,
+    update_state:Callable,
+    configured_tool_adapters:Mapping[str,Callable] | None=None,
+    discovery_closure:Callable | None=None,
+    external_adapters:Mapping[str,Callable] | None=None,
+    force_external:bool=False,
+    allow_external_gap:bool=True,
+    authority=frozenset(),
+    boundary=None,
+    explicit_mode=None,
+    observer_risk=None,
+    observer_prepare:Callable[[dict[str,Any],Any],dict[str,Any]] | None=None,
+    knowledge_ledger:KnowledgeLedger | None=None,
+    episode_id:str="legacy-restored",
+    hf2_enabled:bool=True,
+    hf2_max_rounds:int=6,
+    max_iterations:int=32,
+    return_verifier:Callable|None=None,
+    parent_max_rounds:int=16,
+    allow_ungated_debug:bool=False,
+)->LegacyRestoredResult:
+    """Run Legacy-restored ImprovementCore to parent-level return closure.
+
+    Every parent round executes the complete Legacy loop under the current
+    modern guards and its HF2 recurrence.  A candidate terminal state is not a
+    user-visible stopping condition until the shared parent return gate either
+    licenses RETURN or directs a full re-entry.
+    """
+    from dataclasses import replace as _replace
+    from improvement_core_return_gate import evaluate_parent_return
+
+    if not hf2_enabled and not allow_ungated_debug:
+        out=_run_improvement_core_legacy_restored_once(
+            user_text,target=target,job=job,basis=basis,state=state,memory=memory,
+            generate_questions=generate_questions,generate_work=generate_work,
+            execute_work=execute_work,admit_results=admit_results,
+            update_state=update_state,
+            configured_tool_adapters=configured_tool_adapters,
+            discovery_closure=discovery_closure,
+            external_adapters=external_adapters,force_external=force_external,
+            allow_external_gap=allow_external_gap,authority=authority,
+            boundary=boundary,explicit_mode=explicit_mode,
+            observer_risk=observer_risk,observer_prepare=observer_prepare,
+            knowledge_ledger=knowledge_ledger,episode_id=episode_id,
+            hf2_enabled=False,hf2_max_rounds=hf2_max_rounds,
+            max_iterations=max_iterations,
+        )
+        return _replace(
+            out,status="OPEN",
+            blocker="HF2_DISABLE_REQUIRES_EXPLICIT_DEBUG_AUTHORITY",
+            parent_return_trace=({
+                "gate":"PARENT_RETURN_GATE",
+                "status":"OPEN",
+                "reason":"HF2_DISABLED_WITHOUT_DEBUG_AUTHORITY",
+            },),
+        )
+
+    current_state=dict(state)
+    current_memory=dict(memory or {})
+    parent_trace=[]
+    last=None
+
+    for parent_round in range(int(parent_max_rounds)):
+        last=_run_improvement_core_legacy_restored_once(
+            user_text,
+            target=target,
+            job=job,
+            basis=basis,
+            state=current_state,
+            memory=current_memory,
+            generate_questions=generate_questions,
+            generate_work=generate_work,
+            execute_work=execute_work,
+            admit_results=admit_results,
+            update_state=update_state,
+            configured_tool_adapters=configured_tool_adapters,
+            discovery_closure=discovery_closure,
+            external_adapters=external_adapters,
+            force_external=force_external,
+            allow_external_gap=allow_external_gap,
+            authority=authority,
+            boundary=boundary,
+            explicit_mode=explicit_mode,
+            observer_risk=observer_risk,
+            observer_prepare=observer_prepare,
+            knowledge_ledger=knowledge_ledger,
+            episode_id=f"{episode_id}:parent:{parent_round}",
+            hf2_enabled=hf2_enabled,
+            hf2_max_rounds=hf2_max_rounds,
+            max_iterations=max_iterations,
+        )
+
+        if allow_ungated_debug and return_verifier is None:
+            return _replace(
+                last,
+                parent_return_trace=tuple(parent_trace)+({
+                    "gate":"PARENT_RETURN_GATE",
+                    "disposition":"BYPASS_DEBUG",
+                    "parent_round":parent_round,
+                    "candidate_status":last.status,
+                    "hf2_status":last.hf2_status,
+                },),
+            )
+
+        if (
+            last.status=="COMPLETE"
+            and hf2_enabled
+            and last.hf2_status!="RELATIVE_CLOSE"
+        ):
+            return _replace(
+                last,status="OPEN",
+                blocker="PARENT_RETURN_GATE_HF2_NOT_SATURATED",
+                parent_return_trace=tuple(parent_trace)+({
+                    "gate":"PARENT_RETURN_GATE",
+                    "status":"OPEN",
+                    "reason":"HF2_NOT_RELATIVE_CLOSE",
+                    "parent_round":parent_round,
+                    "hf2_status":last.hf2_status,
+                },),
+            )
+
+        outcome=evaluate_parent_return(
+            candidate_status=last.status,
+            candidate_blocker=last.blocker,
+            state=last.state,
+            memory=last.memory,
+            context={
+                "controller":"ImprovementCore-Legacy-Restored",
+                "target":target,
+                "job":job,
+                "basis":basis,
+                "parent_round":parent_round,
+                "hf2_status":last.hf2_status,
+                "hf2_rounds":len(last.hf2_trace),
+                "candidate_status":last.status,
+                "candidate_blocker":last.blocker,
+                "candidate_trace_count":len(last.candidate_traces),
+            },
+            verifier=return_verifier,
+        )
+        receipt=dict(outcome.receipt)
+        receipt["parent_round"]=parent_round
+        receipt["hf2_status"]=last.hf2_status
+        receipt["hf2_rounds"]=len(last.hf2_trace)
+        parent_trace.append(receipt)
+
+        if outcome.disposition=="RETURN":
+            return _replace(
+                last,
+                status=outcome.terminal,
+                blocker=outcome.blocker,
+                state=outcome.next_state,
+                memory=outcome.next_memory,
+                parent_return_trace=tuple(parent_trace),
+            )
+
+        current_state=outcome.next_state
+        current_memory=outcome.next_memory
+
+    if last is None:
+        raise RuntimeError("IMPROVEMENTCORE_PARENT_RETURN_NO_ROUND")
+
+    return _replace(
+        last,
+        status="OPEN",
+        blocker="PARENT_RETURN_GATE_RESOURCE_STOP",
+        parent_return_trace=tuple(parent_trace)+({
+            "gate":"PARENT_RETURN_GATE",
+            "status":"OPEN",
+            "reason":"PARENT_MAX_ROUNDS",
+            "parent_max_rounds":int(parent_max_rounds),
+        },),
     )

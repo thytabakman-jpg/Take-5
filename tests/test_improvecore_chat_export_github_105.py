@@ -142,6 +142,28 @@ def _handlers():
     return handlers
 
 
+def _return_verifier(state,memory,context):
+    blocker=(state.get("execution_result") or {}).get("blocker")
+    if blocker:
+        return {
+            "disposition":"RETURN",
+            "terminal":"OPEN",
+            "goal_closed":False,
+            "owned_work_remaining":False,
+            "consequence_closed":True,
+            "blocker":str(blocker),
+            "evidence":["chat-export:source-blocker-dispositioned"],
+        }
+    return {
+        "disposition":"RETURN",
+        "terminal":"COMPLETE",
+        "goal_closed":True,
+        "owned_work_remaining":False,
+        "consequence_closed":True,
+        "evidence":["chat-export:whole-job-closed"],
+    }
+
+
 def test_chat_export_to_github_problem_runs_through_current_improvecore():
     transcript = INPUT.read_text(encoding="utf-8")
     resolution, out = dispatch_improvement_core(
@@ -150,11 +172,14 @@ def test_chat_export_to_github_problem_runs_through_current_improvecore():
         handlers=_handlers(),
         corpus=[{"id": "chat-export-github-105", "text": transcript}],
         observer_risk=True,
+        return_verifier=_return_verifier,
     )
 
     state = out.result.state
     assert resolution.controller == "IC-028"
     assert resolution.entrypoint.endswith("run_improvement_core_with_hf2")
+    assert out.status=="OPEN"
+    assert out.blocker=="COMPLETE_CHATGPT_SOURCE_NOT_AVAILABLE"
     assert out.result.terminal is True
     assert state["execution_result"]["github_direct_transport_proven"] is True
     assert state["execution_result"]["archive_generation_executed"] is False

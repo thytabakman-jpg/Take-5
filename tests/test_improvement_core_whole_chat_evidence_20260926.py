@@ -307,6 +307,29 @@ def _handlers():
     return handlers
 
 
+def _return_verifier(state,memory,context):
+    verified=state.get("verification_status")=="PASS"
+    next_work=bool(state.get("licensed_next_work"))
+    if str(context.get("candidate_status","OPEN"))=="COMPLETE" and not (verified and next_work):
+        return {
+            "disposition":"CONTINUE",
+            "goal_closed":False,
+            "owned_work_remaining":True,
+            "consequence_closed":True,
+            "evidence":["whole-chat:verification-or-next-work-missing"],
+        }
+    status=str(context.get("candidate_status","OPEN"))
+    return {
+        "disposition":"RETURN",
+        "terminal":status,
+        "goal_closed":status=="COMPLETE",
+        "owned_work_remaining":False,
+        "consequence_closed":True,
+        "blocker":context.get("candidate_blocker"),
+        "evidence":["whole-chat:analysis-job-closed"],
+    }
+
+
 def test_whole_chat_enters_improvement_core_as_evidence_not_instructions():
     packet=_corpus()
     records=tuple(packet["records"])
@@ -320,6 +343,7 @@ def test_whole_chat_enters_improvement_core_as_evidence_not_instructions():
         handlers=_handlers(),
         explicit_mode=MODE_OBSERVE_DECOUPLED,
         observer_risk=True,
+        return_verifier=_return_verifier,
     )
 
     assert resolution.controller=="IC-028"

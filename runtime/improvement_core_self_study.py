@@ -677,6 +677,33 @@ def handlers():
     out["REENTER"] = lambda state: {"state": state, "terminal": True}
     return out
 
+def verify_parent_return(state,memory,context):
+    status=str(context.get("candidate_status","OPEN"))
+    verification=state.get("verification") or {}
+    if status=="COMPLETE" and not (
+        verification.get("core_files_present")
+        and verification.get("configured_tool_execution_evidence")
+        and verification.get("all_configured_tools_full_36")
+        and verification.get("selected_candidate_reflects_handoff")
+    ):
+        return {
+            "disposition":"CONTINUE",
+            "goal_closed":False,
+            "owned_work_remaining":True,
+            "consequence_closed":True,
+            "evidence":["self-study:verification-not-yet-closed"],
+        }
+    return {
+        "disposition":"RETURN",
+        "terminal":status,
+        "goal_closed":status=="COMPLETE",
+        "owned_work_remaining":False,
+        "consequence_closed":True,
+        "blocker":context.get("candidate_blocker"),
+        "evidence":["self-study:whole-job-verified"],
+    }
+
+
 def run(output: Path):
     corpus = [
         {"id": "input-104", "text": read(INPUT)},
@@ -695,6 +722,8 @@ def run(output: Path):
         observer_risk=True,
         allow_external_gap=False,
         configured_tool_adapters=configured_tool_adapters(),
+        return_verifier=verify_parent_return,
+        parent_max_rounds=8,
     )
     state = result.result.state
     report = {
@@ -714,6 +743,7 @@ def run(output: Path):
         "verification": state.get("verification"),
         "terminal_disposition": state.get("terminal_disposition"),
         "configured_tool_outputs": state.get("configured_tool_outputs"),
+        "parent_return_trace": list(result.parent_return_trace),
     }
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(report, indent=2, sort_keys=True, default=str), encoding="utf-8")

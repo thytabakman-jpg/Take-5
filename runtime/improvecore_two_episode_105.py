@@ -410,6 +410,29 @@ def episode_b_handlers(a_result):
     out["REENTER"]=lambda state:{"state":state,"terminal":True}
     return out
 
+def verify_episode_return(state,memory,context):
+    status=str(context.get("candidate_status","OPEN"))
+    terminal_disposition=str(state.get("terminal_disposition",""))
+    verified=bool(state.get("verify") or state.get("verification"))
+    if status=="COMPLETE" and not (terminal_disposition and verified):
+        return {
+            "disposition":"CONTINUE",
+            "goal_closed":False,
+            "owned_work_remaining":True,
+            "consequence_closed":True,
+            "evidence":["two-episode:terminal-verification-incomplete"],
+        }
+    return {
+        "disposition":"RETURN",
+        "terminal":status,
+        "goal_closed":status=="COMPLETE",
+        "owned_work_remaining":False,
+        "consequence_closed":True,
+        "blocker":context.get("candidate_blocker"),
+        "evidence":[f"two-episode:{terminal_disposition or status}:verified"],
+    }
+
+
 def run(output):
     corpus=[{"id":"input-105","text":read(INPUT)}]
     _,a=dispatch_improvement_core(
@@ -419,6 +442,7 @@ def run(output):
         corpus=corpus,
         observer_risk=True,
         allow_external_gap=False,
+        return_verifier=verify_episode_return,
     )
     a_state=a.result.state
     if not a.result.terminal:

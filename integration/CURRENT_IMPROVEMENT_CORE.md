@@ -350,11 +350,21 @@ runtime/improvement_core_hf2_default.py
 
 Mathematical role:
 
-ImprovementCore_091 = HF2[ImprovementCore_one_pass].
+ImprovementCore_local = HF2[ImprovementCore_one_pass].
+
+The ordinary user-facing parent composition is:
+
+ImprovementCore_user
+=
+ParentReturnGate ∘ ImprovementCore_local
+
+with CONTINUE re-entering ImprovementCore_user until RETURN is licensed.
 
 HF2 owns only local same-capability recurrence. ImprovementCore retains global work discovery,
-selection, cross-capability replanning, admission, knowledge integration and terminality. HF1
-retains upstream invalidation/reentry classification. TRC retains consequence closure.
+selection, cross-capability replanning, admission, knowledge integration and terminality. The
+ParentReturnGate owns permission to emit a user-visible terminal result. HF1 retains upstream
+invalidation/reentry classification. TRC retains consequence closure. Parent-level continuation
+does not imply recursive child-manager live_continuation.
 
 Reapplication requires a material-effect witness plus a changed semantic projection. Pass-scoped
 traces, configured-tool receipts and binding bookkeeping do not count as semantic change.
@@ -665,3 +675,27 @@ Current source-freeze result:
 - 3,352 recursive tree entries and 3,175 Git blobs inventoried with non-truncated coverage;
 - the frozen legacy ImprovementCore reference preserved separately;
 - the intended two external GitHub ZIP identities remain OPEN and are not guessed.
+
+## Parent user-return closure
+
+Canonical architecture:
+architecture/IMPROVEMENT_CORE_PARENT_RETURN_CLOSURE_139.md
+
+Shared runtime:
+runtime/improvement_core_return_gate.py
+
+Current law:
+
+- a child/tool/work-package success is not parent completion;
+- an HF2 local relative close is not parent completion;
+- one strict gain is not permission to return to the user;
+- every ordinary user-visible terminal result requires a post-HF2 parent return receipt;
+- CONTINUE at the parent gate reopens terminality and reruns the complete ImprovementCore path, including HF2;
+- parent_return_continuation is distinct from recursive child-manager live_continuation;
+- a non-complete candidate cannot be upgraded to COMPLETE by the return verifier;
+- COMPLETE requires goal closure, no remaining owned executable work, consequence closure, and bound evidence;
+- OPEN/BLOCKED/CONFLICT require no remaining owned executable work plus a typed blocker and consequence closure;
+- missing return-verifier binding fails OPEN as PARENT_RETURN_GATE_REQUIRED;
+- HF2 disablement is allowed only through explicit debug authority.
+
+This repair exists because repeated episodes showed that local material success plus HF2 saturation could still return before the governing job was finished, leaving the user to act as the outer scheduler.

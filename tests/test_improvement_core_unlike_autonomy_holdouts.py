@@ -1,6 +1,19 @@
 from improvement_core_dispatch import dispatch_improvement_core
 from ic028_operator import GOAL_DIRECTED_STAGES
 
+def return_done(state,memory,context):
+    status=str(context.get("candidate_status","OPEN"))
+    return {
+        "disposition":"RETURN",
+        "terminal":status,
+        "goal_closed":status=="COMPLETE",
+        "owned_work_remaining":False,
+        "consequence_closed":True,
+        "blocker":context.get("candidate_blocker"),
+        "evidence":["test:unlike-autonomy-whole-job"],
+    }
+
+
 def handlers():
     out={}
     for stage in GOAL_DIRECTED_STAGES:
@@ -45,6 +58,7 @@ def run(name,corpus):
         corpus=corpus,
         state={"holdout":name},
         handlers=handlers(),
+        return_verifier=return_done,
     )
     return resolution,out
 
