@@ -181,7 +181,7 @@ Authoritative formal output crosses the formal-claim admission gate before green
 emission and parent return.
 
 
-## Pre-execution effect boundary — 2026-09-27 candidate extension
+## Pre-execution effect boundary — current validated extension
 
 The original invariant typed the semantic operation but did not independently type
 the effect authority of higher-order callbacks.
@@ -210,7 +210,7 @@ Generic/higher-order callbacks with an unknown effect class fail OPEN before
 invocation. Repository configured-tool execution may infer EVIDENCE_ONLY only
 because its current global contract is observer-only.
 
-This extension is implemented on branch fix/preexecution-effect-contract-145 at:
+This extension is implemented on current main at:
 - runtime/specification_before_transformation.py
 - runtime/improvement_core_recursive_manager.py
 - runtime/improvement_core_legacy_candidate.py
@@ -218,5 +218,14 @@ This extension is implemented on branch fix/preexecution-effect-contract-145 at:
 The immutable ICC128 Legacy snapshot is not modified. Its modern wrapper constrains
 the admissible executor binding before invoking the frozen E stage.
 
-Promotion of this extension requires repository validation and capability-preservation
-evidence.
+Promotion evidence:
+- PR #146
+- final head d3d0a19293b1f9e21aee2cb2147d9476c256587b
+- merge 42d933cfbbfb9ffff942f220246df900824d3d01
+- Take-5 Validation 36293609614 SUCCESS
+- Capability Preservation 36293609616 SUCCESS
+- ImproveCore Legacy Holdouts 131 run 36293609695 SUCCESS
+
+The validated repository-governed disposition is CLOSED_RELATIVE. External hosts or
+new executor surfaces that do not enter these governed paths remain outside this
+claim and reopen the relevant boundary when they become addressable.
