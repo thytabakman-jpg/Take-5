@@ -1,7 +1,7 @@
 # ImprovementCore Formal Authority Collapse Run 141
 
 Date: 2026-09-26
-Status: IMPLEMENTATION VALIDATED / PROMOTION PENDING
+Status: PROMOTED / CLOSED_RELATIVE
 Controller: ImprovementCore
 PR: #143
 
@@ -164,7 +164,23 @@ receipt.
 
 ## Promotion
 
-Implementation is validated.
+Implementation and persisted receipt were validated.
 
-Promotion waits only for the final receipt/documentation commit to pass the same
-repository gates and for PR #143 to merge.
+Final pre-merge receipt head:
+f0dbd04b6bc43c1ad388329af921558eaf68ff48
+
+Final pre-merge validation:
+- Take-5 Validation 36293035440: SUCCESS
+- Capability Preservation 36293035352: SUCCESS
+- ImproveCore Legacy Restoration 130 run 36293035315: SUCCESS
+- ImproveCore Legacy Semantic Holdouts 132 run 36293035358: SUCCESS
+
+PR #143 merged successfully.
+
+Merge commit:
+d0a625e02795b0863257005de3fa958ae02533a8
+
+Repository-owned repair status:
+CLOSED_RELATIVE.
+
+Universal external-host interception remains outside repository authority.
