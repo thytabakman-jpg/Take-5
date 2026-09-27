@@ -1,0 +1,6382 @@
+{
+  "schema_version": "0.1",
+  "source_repository": "thytabakman-jpg/Take-5",
+  "source_commit": "53b28a36d9998e4fe76f49b231695216fe419bdd",
+  "source_tree_sha": "cf32be0db7feafbd65f113d13036ca49ffb795ec",
+  "recursive_tree_truncated": false,
+  "entry_count": 910,
+  "blob_count": 864,
+  "tree_count": 46,
+  "entries": [
+    {
+      "path": ".github",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "64da06fccbbb5ac661543e6862c2c1b5fc44eac3",
+      "size": null
+    },
+    {
+      "path": ".github/CODEOWNERS",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "da4af01b4b902e663c15085e3107a03d1557f65e",
+      "size": 66
+    },
+    {
+      "path": ".github/dependabot.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7a161daa79a647519a4026cff6bd700c47ac94a4",
+      "size": 410
+    },
+    {
+      "path": ".github/pull_request_template.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a5aacfbe353775cab8599b9a05b98299bc744f25",
+      "size": 667
+    },
+    {
+      "path": ".github/workflows",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "bc1549b5e9e5cb8c24ea162c20c805f506b77bf6",
+      "size": null
+    },
+    {
+      "path": ".github/workflows/a5-tests.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4547b2a3b7c15407f92e25a30088fb3ea2dbc678",
+      "size": 2818
+    },
+    {
+      "path": ".github/workflows/capability-preservation.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "75be1a337f96e62a1d5194cc5df6a01adc870652",
+      "size": 673
+    },
+    {
+      "path": ".github/workflows/ic123-math-recovery-001.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "80f5057302e39d8beeb758f6eaf7034093ac048f",
+      "size": 1408
+    },
+    {
+      "path": ".github/workflows/improvecore-legacy-holdouts-131.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "18a5bf8b3aa2cceda1f868b1f8ef299a4d73c866",
+      "size": 1124
+    },
+    {
+      "path": ".github/workflows/improvecore-legacy-restoration-130.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fc4d71e20b550ef02c60534d800401652e1b7e97",
+      "size": 2183
+    },
+    {
+      "path": ".github/workflows/improvecore-legacy-semantic-holdouts-132.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a3142f0546b364faf0803bb4f53c8d6f42703897",
+      "size": 1309
+    },
+    {
+      "path": ".github/workflows/improvecore-self-study-104.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d0aaa2fc4098e58c7e186a861e833c4fec1ff2b6",
+      "size": 1028
+    },
+    {
+      "path": ".github/workflows/improvecore-two-episode-105.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4d20e9fc9eadc03c3cec7109136cbd96dae725cf",
+      "size": 837
+    },
+    {
+      "path": ".github/workflows/take6-bootstrap-validation.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "58d657bdcd07760bb1d09839beaada9cb1677caf",
+      "size": 1020
+    },
+    {
+      "path": ".gitignore",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0ebdc9fd56002b2e15fb02d2aa2c80904c6ca786",
+      "size": 357
+    },
+    {
+      "path": "ARCHITECTURE_CANDIDATE.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fb123af4875fb6046c97b392e0fab0098cbcb863",
+      "size": 3656
+    },
+    {
+      "path": "CAPABILITY_CURRENTNESS_MATRIX.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4f519679847336196e0ef9224d23466ea3bd9868",
+      "size": 4029
+    },
+    {
+      "path": "CURRENTNESS_AND_PLACEMENT_PROGRAM.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "be7e5f90ce93a2e81866859f25ddc7580b9ddcdd",
+      "size": 1875
+    },
+    {
+      "path": "FINISH_LINE.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "44593a450a4bfa7848ff7c4eb007f819a85bfa72",
+      "size": 1274
+    },
+    {
+      "path": "FUNCTIONALITY_RECOVERY_LEDGER.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1e9f1efe4d449ada04eb60e23b382748bfa14714",
+      "size": 7880
+    },
+    {
+      "path": "GITHUB_GOVERNANCE.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "065a330c69f0daf6a600912a9fee1b75976ba3ec",
+      "size": 3117
+    },
+    {
+      "path": "ICC_AUTONOMOUS_STEWARDSHIP.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "afdc32a488dfe25b6604646f2b4ad6023eafe5f0",
+      "size": 6564
+    },
+    {
+      "path": "KERNEL.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2b3d0689887671fe1aec16a4360d834029ecd8fd",
+      "size": 4531
+    },
+    {
+      "path": "MAP_CAPTURE_POLICY.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "08e73e08d8e96c1d0bb10e5e1112dde06e0706fd",
+      "size": 672
+    },
+    {
+      "path": "MIGRATION_STATE.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4716c300ed404bb32c5c6b03802638fc91f20bf7",
+      "size": 2396
+    },
+    {
+      "path": "PROMOTION_BENCHMARK.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "038dd3288048529eda3b3f835acfd27fc1b30dfe",
+      "size": 1456
+    },
+    {
+      "path": "README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5d9ce62c79521c2072bf4696c2fbc3949d964de4",
+      "size": 6132
+    },
+    {
+      "path": "SECURITY.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9cbd828d33f8f46f973df7b7f287f823fe9a5e5e",
+      "size": 1083
+    },
+    {
+      "path": "SUCCESSOR_CHARTER.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e6b786a01e55b0458c6a20088451bfa274108298",
+      "size": 1862
+    },
+    {
+      "path": "architecture",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "fbe06d1397070834ff4fab46b1a47d7ac8fe3295",
+      "size": null
+    },
+    {
+      "path": "architecture/A5_BEHAVIORAL_ARCHITECTURE_CANDIDATE_004.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a83091c5d912a61ade198eeacdfbdfeb5a13a8ae",
+      "size": 5635
+    },
+    {
+      "path": "architecture/ARCHITECTURE_DECISION_036_MATH_FIRST_TOOL_SELECTION.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "39088b15ad5550a3d646594688f969899106dafe",
+      "size": 5382
+    },
+    {
+      "path": "architecture/ARCHITECTURE_SCAN_013.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "58df9f47ee28e78f8e5ef238b9f49683cdf2ccfe",
+      "size": 2508
+    },
+    {
+      "path": "architecture/ARTIFACT_TO_WORK_INTAKE_CONTRACT_001_2026-09-25.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1e736d78739abd947c80c214e68806aebe511a74",
+      "size": 7128
+    },
+    {
+      "path": "architecture/ASSERT_COMPOUND_CONTRACT_055.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c36d1a6e8c4f724833c6208bd55aa1d75e635586",
+      "size": 6223
+    },
+    {
+      "path": "architecture/ASSISTANT_RESPONSE_EMISSION_BOUNDARY_065.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7e7f271253e436beee365f77452f766e84657d07",
+      "size": 2753
+    },
+    {
+      "path": "architecture/AUTHORITY_BEFORE_FORMAL_EMISSION_141.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "04c9eeba93c3567742c212d9adaa242be47ff48a",
+      "size": 7972
+    },
+    {
+      "path": "architecture/CANONICAL_FOUNDATION_034.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6c0d24017ac2937e086e87dabfc1db3b46ca7caf",
+      "size": 3474
+    },
+    {
+      "path": "architecture/CANONICAL_TOOL_IDENTITY_REPAIR_076.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "af597974b8087b27b9e867f0ae91f1c13f0bdefa",
+      "size": 2203
+    },
+    {
+      "path": "architecture/CAPABILITY_ADMISSION_PACK_001.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ac97b2152741f5252bab77eb7fa4f525a4abb39b",
+      "size": 3037
+    },
+    {
+      "path": "architecture/CAPABILITY_PRESERVATION_INVARIANT_097.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e6a7b2aa4553f7052789cf271455ae8a8a780cad",
+      "size": 2619
+    },
+    {
+      "path": "architecture/CORRECTED_MODE_CAPABILITY_RESEARCH_ARCHITECTURE_002.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "99a1b90c379ef67fb4488ca33350854a814b27ea",
+      "size": 10257
+    },
+    {
+      "path": "architecture/CROSS_REPOSITORY_IMPROVEMENTCORE_LINEAGE_CHOICE_080.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5f4a6d7a67d57798d9e684f4ad9da6774881e880",
+      "size": 7072
+    },
+    {
+      "path": "architecture/DESIRED_JANE_TOOL_061.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "55f621d82dc1b640ba6e1d076388df7c4a9d9eea",
+      "size": 6066
+    },
+    {
+      "path": "architecture/EXECUTION_CLAIM_INTEGRITY_117.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "087670547639eec415d3c383d53b423642a4c361",
+      "size": 4254
+    },
+    {
+      "path": "architecture/FOCUS_ROUTE_CONTRACT_054.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8d05b8a83deb08b8a7bb4d2145177c5f15af8e90",
+      "size": 10140
+    },
+    {
+      "path": "architecture/FULL_CONFIGURED_TOOL_INVOCATION_121.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "591225daead5326d0df7acdbf59f622ca1f639de",
+      "size": 6733
+    },
+    {
+      "path": "architecture/FULL_RUN_DEFAULT_DISPATCH_CONTRACT_066.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f360ef397234eefbc9259838414465cd29bc29c2",
+      "size": 2523
+    },
+    {
+      "path": "architecture/FULL_TOOL_MATHEMATICAL_IDENTITY_CONTRACT_002_2026-09-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5c05a7b4b85c9a64e822d5bede150fbc47ccd3e8",
+      "size": 5996
+    },
+    {
+      "path": "architecture/GLOBAL_TOOL_EXECUTION_CONTRACT_072.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "da625653cf5b8626a0effc4c2aad37f02f31b631",
+      "size": 2256
+    },
+    {
+      "path": "architecture/HF1_MATHEMATICS_084.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cae946539edd4b43a9dfd4df184c643522f2fb9c",
+      "size": 3508
+    },
+    {
+      "path": "architecture/HOST_INTERCEPTION_AUTHORITY_BOUNDARY_001_2026-09-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8492bbef1b08c3cad6b23adca995a98fdfb6f7f3",
+      "size": 1663
+    },
+    {
+      "path": "architecture/IC028_ADVANCED_ROOT_ARCH_FULLSPECTRUM_047.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3566899068cf4b1a41bf8fadfe3dfe5e0e74a311",
+      "size": 10744
+    },
+    {
+      "path": "architecture/IC028_COMPOUNDING_RECONCILE_049.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b0cc87663fd29a69f9701a94862d38e8526cb054",
+      "size": 7043
+    },
+    {
+      "path": "architecture/IC028_INQUIRY_COMPILER_051.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4e4bbf91264b3b536e038108c42a65e224f5c71f",
+      "size": 5673
+    },
+    {
+      "path": "architecture/IC028_ROLE_SEPARATION_DECISION_045.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "88cb281335c9e2dfdf7ae06c1d453de52f48d380",
+      "size": 5579
+    },
+    {
+      "path": "architecture/IC028_TERM_MT_MOMT_ROLE_DECISION_046.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b6d1b179cdab18c9d9fbe6ffa090b2dc00fb31d3",
+      "size": 11084
+    },
+    {
+      "path": "architecture/IC029_IMPROVED_CORE_SELF_AUDITED_MAP_076.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6c4b4ba342005e3597a59a9d86e670026ea008e6",
+      "size": 4951
+    },
+    {
+      "path": "architecture/ICC_QUESTION_DEPENDENCY_WRAPPER_075.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f5ae5130517a0c0a323e91b3c4378a6af75b8bf1",
+      "size": 3839
+    },
+    {
+      "path": "architecture/IC_JANE_WRAPPER_MATH_PLAN_037.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4ff005b8598f23ad646c8fd3cd23787ec44804a9",
+      "size": 9860
+    },
+    {
+      "path": "architecture/IMPROVEMENT_CORE_ACTIVATION_083.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3888f2eb07c7b5b0711b3a3296305221e2c4787b",
+      "size": 2832
+    },
+    {
+      "path": "architecture/IMPROVEMENT_CORE_ANTI_REPEAT_110.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "74d3111355a0b82407c09abfc5cab819e24373eb",
+      "size": 2917
+    },
+    {
+      "path": "architecture/IMPROVEMENT_CORE_CANONICAL_PROGRESS_MATHEMATICS_001_2026-09-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ee205c588c50cd335e6f597e5ece8de6f13350fa",
+      "size": 17008
+    },
+    {
+      "path": "architecture/IMPROVEMENT_CORE_CONCURRENCY_PREFLIGHT_084.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a1406f1662f9dca17b01b6734464a5994d58c55c",
+      "size": 2814
+    },
+    {
+      "path": "architecture/IMPROVEMENT_CORE_CONFIGURED_TOOL_EXECUTION_109.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9a63b1be6f8ce21d9bf0a0f10642ca75378ec7df",
+      "size": 4384
+    },
+    {
+      "path": "architecture/IMPROVEMENT_CORE_DEFAULT_HF2_118.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ab9d2af8dd433b9ec7605b4f2c3ba25aa8262062",
+      "size": 3692
+    },
+    {
+      "path": "architecture/IMPROVEMENT_CORE_EXTERNAL_ACQUISITION_090.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9e4f116120ed1a384a12db3922fb59568ae70e37",
+      "size": 4940
+    },
+    {
+      "path": "architecture/IMPROVEMENT_CORE_FRONTIER_CLOSURE_106.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "87f71a7c41fc2b39c9476c06f2bf6ec338049c92",
+      "size": 5939
+    },
+    {
+      "path": "architecture/IMPROVEMENT_CORE_FUNCTION_FIRST_HOLDOUT_112.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3da103aa720c06394997494a224a312acf8b334d",
+      "size": 5502
+    },
+    {
+      "path": "architecture/IMPROVEMENT_CORE_INDEXED_PROGRESS_MATHEMATICS_111.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "34243865826cd5afb9bf66b67c05f813e03bf538",
+      "size": 16168
+    },
+    {
+      "path": "architecture/IMPROVEMENT_CORE_INVOCATION_DISPATCH_079.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a828deda7c70431a8fad7a7704a9f4a3a78c86b1",
+      "size": 941
+    },
+    {
+      "path": "architecture/IMPROVEMENT_CORE_LEGACY_RESTORATION_TARGET_129.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "997ddfbc22c38bec3398b7728fd90afcb80bbe1e",
+      "size": 7190
+    },
+    {
+      "path": "architecture/IMPROVEMENT_CORE_MATERIAL_KNOWLEDGE_CAPTURE_113.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "15b246dcfb78a72cf639cb90f46ac332e65bcd96",
+      "size": 6187
+    },
+    {
+      "path": "architecture/IMPROVEMENT_CORE_MATHEMATICS_086.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3ed669bad5e3932b31a4d26d9a21e9b2ccebe4c2",
+      "size": 4864
+    },
+    {
+      "path": "architecture/IMPROVEMENT_CORE_MATH_CORPUS_INTEGRATION_090.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e3696d1c3d4647f097ec411d98426592a671094b",
+      "size": 17626
+    },
+    {
+      "path": "architecture/IMPROVEMENT_CORE_MAXIMIZATION_081.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "99b20e3944b6181a8da53a1bbcfefe3ae09132a7",
+      "size": 5298
+    },
+    {
+      "path": "architecture/IMPROVEMENT_CORE_PARENT_RETURN_CLOSURE_139.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "77e1330ffa6e1f316f023d2ef1283379d24fd58b",
+      "size": 4835
+    },
+    {
+      "path": "architecture/IMPROVEMENT_CORE_RECOVERY_MANIFEST_082.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6eaebe55e361549a295a996fb90ee79efeacd8b5",
+      "size": 13496
+    },
+    {
+      "path": "architecture/JANE_CONTINUITY_RECOVERY_098.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "05c8bc84f1011afbab57eb00add558b037344d41",
+      "size": 1740
+    },
+    {
+      "path": "architecture/KERNEL_MATH_CONTRACT_052.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9d3e55799c1131e7d166dab3d0611fb9348ef698",
+      "size": 7302
+    },
+    {
+      "path": "architecture/KERNEL_MATH_CONTRACT_052.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "dc5b788c4a786a3799cc61f97b1a33b954304b2e",
+      "size": 9567
+    },
+    {
+      "path": "architecture/LAMBDA_MATH_QUESTION_TOOL_CONTRACT_063.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "87c41ccd267491d0f0db5c1b4a0c6572505cb8df",
+      "size": 3317
+    },
+    {
+      "path": "architecture/LEARNING_OPERATOR_TOOLKIT_035.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "bf17a5960895aaf3239cf4c54fe0d70445bfd1a6",
+      "size": 12480
+    },
+    {
+      "path": "architecture/LEARNING_TOOL_ADMISSION_DECISION_040.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "67544e08caaf6143d2afaf0e2c29c169cab9433d",
+      "size": 4811
+    },
+    {
+      "path": "architecture/LOAD_BEARING_SEMANTIC_OBJECT_PACKAGE_CONTRACT_064.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7d9f4001a9408c7b013de273fdca5295581b33d4",
+      "size": 6006
+    },
+    {
+      "path": "architecture/MATHEMATICAL_COLOR_INVARIANT_062.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6604c3016cf488881dae7f76657a49520147fec1",
+      "size": 6410
+    },
+    {
+      "path": "architecture/MATH_FIRST_WRAPPER_CLOSURE_039.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "27e678c05b5002686e799705116dbafde8dac886",
+      "size": 5024
+    },
+    {
+      "path": "architecture/MODE_CUBE_CAPABILITY_ARCHITECTURE_001.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5427fdf7b2f537c4c3b3765f1f5a7b4be9636827",
+      "size": 6321
+    },
+    {
+      "path": "architecture/MODE_CUBE_CAPABILITY_BUILD_PACK_001.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "acb4b991aeec534b85dbfdbc8e6d842287e51a56",
+      "size": 7610
+    },
+    {
+      "path": "architecture/MOST_EFFECTIVE_OBJECTIVE_COMPILATION_001_2026-09-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ecb82af2a35e36f7e1ad39674a3265bad1e011c4",
+      "size": 1916
+    },
+    {
+      "path": "architecture/OBJECT_HYPOTHESIS_RECOVERY_058.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fd71408474ebaf1b6a5c55a58c8238976c1ce9c6",
+      "size": 2015
+    },
+    {
+      "path": "architecture/OBSERVER_ALL_TOOLS_SWEEP_038.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2bbaac4d49fb43f038b74fe37d513de5cf68e2dc",
+      "size": 10042
+    },
+    {
+      "path": "architecture/PORTABLE_MATHEMATICAL_OBJECT_CONTRACT_001_2026-09-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1e2faee29131e7953250eacd9c1ed92823e60c19",
+      "size": 3390
+    },
+    {
+      "path": "architecture/PROTECTED_TRANSITION_INTEGRITY_090.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "bbdb9699ab2a78c5f678a5b8bb564d742531ffee",
+      "size": 3950
+    },
+    {
+      "path": "architecture/QUESTION_TOOL_RENAME_REGISTRY_001.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b9594ab6538bb543448557feb427c8ce93fa4935",
+      "size": 2847
+    },
+    {
+      "path": "architecture/QUESTION_WORTH_ASKING_CONTRACT_056.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "82c2c40ceed6a0b5a5b519407f1d2bae3d74f9e0",
+      "size": 2222
+    },
+    {
+      "path": "architecture/RELATION_BASIS_AND_ADMISSION_001_2026-09-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ac3f55ca7b60b558b13ba8af6b9261bce21e849b",
+      "size": 1670
+    },
+    {
+      "path": "architecture/RESULT_PATH_AUTHORITY_DECISION_057.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fb3b980ff8fcf8473f089e0d5e08dc3ca6b4c57c",
+      "size": 984
+    },
+    {
+      "path": "architecture/ROOT_CAUSE_MATHEMATICS_087.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "960a2f8e747df6ada1879dc326a95ea7aa32cbb5",
+      "size": 5586
+    },
+    {
+      "path": "architecture/SIX_BY_SIX_BY_SIX_FOUNDATION_031.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6a71715354630dfb75e4fed27da6ef08515b47d5",
+      "size": 5591
+    },
+    {
+      "path": "architecture/SOLUTION_TO_MY_PROBLEM_CONTRACT_059.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4e50153a09626807fecbdad5a5f007b4b3252088",
+      "size": 3205
+    },
+    {
+      "path": "architecture/SOLUTION_TO_MY_PROBLEM_CONTRACT_060.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "085aef6df0e1c09bf250fdb79874fc4ef2f6cc58",
+      "size": 2787
+    },
+    {
+      "path": "architecture/SPECIFICATION_BEFORE_TRANSFORMATION_INVARIANT_134.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0306c822d29430a2093e9176f6cfbdf0d6028466",
+      "size": 7197
+    },
+    {
+      "path": "architecture/TAKE_TWO_OPERATING_LAW_099.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "75c2d682b43b3afba955c5d6439075d2ef176e67",
+      "size": 2171
+    },
+    {
+      "path": "architecture/TOOL_CONDUCTOR_PORTABLE_MATH_073.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "723fb5fdfc5fa1affcce0adaf5fe123dad8171c1",
+      "size": 3916
+    },
+    {
+      "path": "architecture/WRAPPER_CANONICAL_CONTRACT_053.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a90a24e3f97c137a21c95c732c59c856626808da",
+      "size": 14560
+    },
+    {
+      "path": "architecture/WRAPPER_TERM_PD_064.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b7d84235d8fc065128d0e67c5af9028ded23433c",
+      "size": 1303
+    },
+    {
+      "path": "artifacts",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "dafa8573abf9c39a708f2a22e1fbc33484b885ac",
+      "size": null
+    },
+    {
+      "path": "artifacts/chat-history",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "0f74149bee3705b5feff32b870416b3659df1a83",
+      "size": null
+    },
+    {
+      "path": "artifacts/chat-history/IMPROVECORE_RUNTIME_CHAT_2026-09-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "223fb14df5ed81c579af0c11bc27c29e88c8a2a5",
+      "size": 9699
+    },
+    {
+      "path": "artifacts/full-system-campaign",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "da597b94341a8ecd457429307b6a5d3f9bfb4bd7",
+      "size": null
+    },
+    {
+      "path": "artifacts/full-system-campaign/FULL_SYSTEM_SHOW_ME_THE_MATH_CAMPAIGN_REPORT_001_2026-09-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "811345b0e888af25dda7c27b6ee666eac310e845",
+      "size": 13660
+    },
+    {
+      "path": "artifacts/full-system-campaign/MT_AUDIT_PRIOR_CAMPAIGN_SUMMARY_003_2026-09-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b3fbab591bdd763ded94d2c8c669a76c49764773",
+      "size": 8439
+    },
+    {
+      "path": "artifacts/full-system-campaign/SHOW_ME_THE_MATH_FULL_SYSTEM_MATH_001_2026-09-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7e628a18601512ab526e5916ee1ee4192286b7fe",
+      "size": 4481
+    },
+    {
+      "path": "artifacts/icc128-legacy-learning",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "52167c52e4f96af7e5e52807962bfa8ea9e97d82",
+      "size": null
+    },
+    {
+      "path": "artifacts/icc128-legacy-learning/ICC128_ASSERT_MT_HF2_PREEXECUTION_EFFECT_CONTRACT_145_2026-09-27.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cd467c025dbf70347906009dedeaab3e00b16459",
+      "size": 5616
+    },
+    {
+      "path": "artifacts/icc128-legacy-learning/README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "17b76545664f6a49a2cf5eaf9d18dff20e6df797",
+      "size": 561
+    },
+    {
+      "path": "artifacts/icc128-legacy-learning/icc128-legacy-full-system-show-math-20260926-004.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4cf228571ac6110e18cfa72c1d11097c02e4a994",
+      "size": 10177
+    },
+    {
+      "path": "artifacts/icc128-legacy-learning/icc128-legacy-self-portability-20260926-004.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fa639464881ddfae18bda3fe2e371aa1845272bc",
+      "size": 4734
+    },
+    {
+      "path": "artifacts/icc128-legacy-learning/icc128-legacy-show-math-four-targets-20260926-003.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "59fda40906e9e767a001796bb696261710bd381e",
+      "size": 6936
+    },
+    {
+      "path": "artifacts/icc128-legacy-learning/icc128-legacy-tool-conductor-math-20260926-002.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "bc3f2251e8dd5e123f03d198d6f91d96d1b309a8",
+      "size": 4528
+    },
+    {
+      "path": "artifacts/icc128-legacy-learning/icc128-legacy-whole-chat-20260926-001.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f14c48ca87b6ecf189685f19c1fea53b8db34d8a",
+      "size": 10124
+    },
+    {
+      "path": "artifacts/icc128-legacy-learning/mt-pd-pdaudit-mt-hf2-20260926-001.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2aec3f4bca3e6a68d03c277f8b3534cc08f34ba8",
+      "size": 3505
+    },
+    {
+      "path": "artifacts/icc128-legacy-learning/mt-pd-pdaudit-mt-hf2-20260926-001.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e0aed336bbe3c7219f0d743fd4df32832faa99d7",
+      "size": 6308
+    },
+    {
+      "path": "artifacts/icc128-legacy-learning/system-reality-audit-repair-20260926-002.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "45727b9fd179fe4df7812299f77e825fbd4a5085",
+      "size": 3701
+    },
+    {
+      "path": "artifacts/improvecore",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "4e3205d15261687e685599128aa827bc44944101",
+      "size": null
+    },
+    {
+      "path": "artifacts/improvecore/FULL_TOOL_HF2_INVOCATION_REPAIR_CLOSURE_121_2026-09-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "00a98f3a3f142aa497bc3dc62598d472214c0896",
+      "size": 5062
+    },
+    {
+      "path": "artifacts/improvecore/FULL_TOOL_HF2_REGIME_091_TRANSPORT_121_2026-09-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "87ec1fe3cac538d8c45709af92785f47e178af52",
+      "size": 1657
+    },
+    {
+      "path": "artifacts/improvecore/GOAL_DIRECT_TOOL_HF2_PROMPT_118_2026-09-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0280468906ca2759b33e3c184e9f27358ce6e977",
+      "size": 2964
+    },
+    {
+      "path": "artifacts/improvecore/GOAL_IC123_IMPROVECORE_RUN_112_RESULT_2026-09-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "079f1f0c68f91a7c21ad00dc5f9246f4986caf17",
+      "size": 3154
+    },
+    {
+      "path": "artifacts/improvecore/GOAL_IC123_PRE_IMPROVECORE_112_2026-09-26.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "aa1ae29292d434b34a464ddbd0082f986702cdbf",
+      "size": 2353
+    },
+    {
+      "path": "artifacts/improvecore/GOAL_IC123_PRE_IMPROVECORE_112_2026-09-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "293ae38be8de199631539cba380d62056094bd04",
+      "size": 7560
+    },
+    {
+      "path": "artifacts/improvecore/GOAL_TWO_GITHUB_ZIPS_HF2_RUN_123_2026-09-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2fc122593e1846c59bcb12a555659f944e28a971",
+      "size": 4133
+    },
+    {
+      "path": "artifacts/improvecore/GOAL_WHOLE_EVIDENCE_ANTI_LOSS_2026-09-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "deb3822c96235793bb3ac479986a7f3ed8c7e519",
+      "size": 3065
+    },
+    {
+      "path": "artifacts/improvecore/HF2_FINISH_ALL_ZIP_JOBS_130_2026-09-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "17096990ac85000581ec333cf5ea2a88f5b46845",
+      "size": 2740
+    },
+    {
+      "path": "artifacts/improvecore/HF2_POST_BOUND_ZIP_INTAKE_127_2026-09-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "06ed5919b1bd942cd79f75a362e17e0824d49420",
+      "size": 2918
+    },
+    {
+      "path": "artifacts/improvecore/HF2_SECOND_FINISH_ALL_ZIP_JOBS_131_2026-09-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7a5376baf40d262e28bd52d92e7a8c946177ac1a",
+      "size": 3801
+    },
+    {
+      "path": "artifacts/improvecore/HOST_RESTRICTION_GOAL_MT_GOAL_IC123_IMPROVECORE_2026-09-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "bcf1ee8f90b5fc8f1b02edbdbd9a664d7add5a67",
+      "size": 6957
+    },
+    {
+      "path": "artifacts/improvecore/IC123_REWRITE_DIRECT_TOOL_HF2_118_2026-09-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6e073b8bf8331031fd07f749a556aa12cf2eab7d",
+      "size": 2355
+    },
+    {
+      "path": "artifacts/improvecore/ICC123_CURRENT_SYSTEM_VERIFICATION_001_2026-09-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "45bc3d2998ec1a0121d18f6c807e9037d0512799",
+      "size": 2793
+    },
+    {
+      "path": "artifacts/improvecore/IMPROVECORE_CURRENT_CHAT_RUN_103_RECEIPT_2026-09-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f3ac0541bd939b0ec5d6ea337524348d98ed133d",
+      "size": 2067
+    },
+    {
+      "path": "artifacts/improvecore/IMPROVECORE_RUN_107_RECEIPT_2026-09-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7eb2b1ad54896366d18fcfe94f95936d179be8ff",
+      "size": 2697
+    },
+    {
+      "path": "artifacts/improvecore/IMPROVECORE_SELF_STUDY_104_RECEIPT_2026-09-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b1c0c4aa72b3bb836652a5fb723823b8e359dd4a",
+      "size": 4102
+    },
+    {
+      "path": "artifacts/improvecore/IMPROVECORE_TAKEOVER_CURRENT_STATE_DELTA_001_2026-09-27.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fb972e6f4046585afe35a19f6af5859c3dedae85",
+      "size": 4881
+    },
+    {
+      "path": "artifacts/improvecore/IMPROVECORE_TAKEOVER_CURRENT_STATE_DELTA_002_2026-09-27.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a67c581c97b77134a7fab35449d579801d947f71",
+      "size": 6940
+    },
+    {
+      "path": "artifacts/improvecore/IMPROVEMENTCORE_BOUND_ZIP_INTAKE_RECOMMENDATION_126_2026-09-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "41ddd51f6092553668e4a15c589b5308b378f434",
+      "size": 3759
+    },
+    {
+      "path": "artifacts/improvecore/IMPROVEMENTCORE_CONFIGURED_TOOL_DURABLE_KNOWLEDGE_2026-09-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d5bfa1c0d15fcb11802b2cafe4f88bd75027486f",
+      "size": 3909
+    },
+    {
+      "path": "artifacts/improvecore/IMPROVEMENTCORE_EXTERNAL_BOUND_ZIP_RUNTIME_129_2026-09-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "442de598420652a04ed1b793ddf63581cdc257de",
+      "size": 3482
+    },
+    {
+      "path": "artifacts/improvecore/IMPROVEMENTCORE_FORMAL_AUTHORITY_COLLAPSE_RUN_141_2026-09-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6b20684431636bab9c371b71e16f51c512421a87",
+      "size": 5188
+    },
+    {
+      "path": "artifacts/improvecore/IMPROVEMENTCORE_FUNCTION_FIRST_HOLDOUT_112_RESULT_2026-09-26.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e36914c64c8240023ecaa897f81faca6eb3431ab",
+      "size": 2469
+    },
+    {
+      "path": "artifacts/improvecore/IMPROVEMENTCORE_GREENFIELD_TAKE6_RUN_133_2026-09-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "637b93d5b1371c2d11306d19233acaa3d5ef2f8e",
+      "size": 3363
+    },
+    {
+      "path": "artifacts/improvecore/IMPROVEMENTCORE_HF2_CHOICE_001_2026-09-26.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c20023119d208d2b47e809d1471b180fe0402620",
+      "size": 1688
+    },
+    {
+      "path": "artifacts/improvecore/IMPROVEMENTCORE_HF2_DIRECT_TOOL_CAMPAIGN_119_2026-09-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e38e59e43ac3188fa5c10aa074e52dbf8a10be2c",
+      "size": 2430
+    },
+    {
+      "path": "artifacts/improvecore/IMPROVEMENTCORE_HF2_OBSERVER_CAMPAIGN_115_2026-09-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b716e8bd82c39ba16b30598ab4bbb25037f9b223",
+      "size": 3508
+    },
+    {
+      "path": "artifacts/improvecore/IMPROVEMENTCORE_HF2_RUN_132_2026-09-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c5d17ad9d62736896d94d3a0ae6df3b4d4f574a2",
+      "size": 4017
+    },
+    {
+      "path": "artifacts/improvecore/IMPROVEMENTCORE_HF2_THINK_BIG_DIRECT_TOOL_120_2026-09-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "bddb65dd6d4a18254a062045ebafbcb568223315",
+      "size": 3807
+    },
+    {
+      "path": "artifacts/improvecore/IMPROVEMENTCORE_HF2_THINK_BIG_FIX_CAMPAIGN_117_2026-09-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e7adb02e3d70967b9d06cfade519277bf05b6db0",
+      "size": 3776
+    },
+    {
+      "path": "artifacts/improvecore/IMPROVEMENTCORE_HF2_THINK_BIG_FIX_CLOSURE_117_2026-09-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "396382a7d3437ae1bccb2c9bbd9328731de0baa1",
+      "size": 1212
+    },
+    {
+      "path": "artifacts/improvecore/IMPROVEMENTCORE_HF2_THINK_BIG_REENTRY_122_2026-09-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a6d880ab8b444f7c3df21c596eba761754493146",
+      "size": 2529
+    },
+    {
+      "path": "artifacts/improvecore/IMPROVEMENTCORE_HF2_THINK_BIG_SELECTION_116_2026-09-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0d6308e4c1cf6165f1484846457fa28ef7df8fd4",
+      "size": 2230
+    },
+    {
+      "path": "artifacts/improvecore/IMPROVEMENTCORE_LEGACY_RESTORATION_CLOSURE_133_2026-09-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e4d66561d800cc2b7310ab3d35d9112008219812",
+      "size": 3386
+    },
+    {
+      "path": "artifacts/improvecore/IMPROVEMENTCORE_MINIMAL_HF2_REPEATED_CAMPAIGN_2026-09-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8a104418d8738b7c36dd9aa144f73d089848364b",
+      "size": 3239
+    },
+    {
+      "path": "artifacts/improvecore/IMPROVEMENTCORE_MT_EVIDENCE_RUN_113_2026-09-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "932f630287cb7bdc950c6c1c1146d6fc520cab96",
+      "size": 6159
+    },
+    {
+      "path": "artifacts/improvecore/IMPROVEMENTCORE_MT_PERSISTENCE_EVIDENCE_RUN_2026-09-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8f9d1e15eb60f6d2724e88061f6b73631f39849c",
+      "size": 6674
+    },
+    {
+      "path": "artifacts/improvecore/IMPROVEMENTCORE_PREMATURE_RETURN_HF2_AUDIT_139_2026-09-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4fc5a7e402c38fd9ffdab8c4cc6a69e45d018731",
+      "size": 3222
+    },
+    {
+      "path": "artifacts/improvecore/IMPROVEMENTCORE_SECOND_PASS_BOUND_ZIP_HF2_128_2026-09-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "16f17a740fe4c149c8c96d9c77482a4af7001423",
+      "size": 1950
+    },
+    {
+      "path": "artifacts/improvecore/IMPROVEMENTCORE_SPECIFICATION_BEFORE_TRANSFORMATION_RUN_134_2026-09-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "126026b723da8a7ef69f2269807d625861f4e995",
+      "size": 5158
+    },
+    {
+      "path": "artifacts/improvecore/IMPROVEMENTCORE_TWO_GITHUB_ZIPS_AUTONOMOUS_HF2_125_2026-09-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a6e184dc8172e768398ce2e0ea894e42244f4c4d",
+      "size": 3734
+    },
+    {
+      "path": "artifacts/improvecore/IMPROVEMENTCORE_TWO_GITHUB_ZIPS_OBSERVER_HF2_124_2026-09-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5698c109bdd062bd593913291272aefeeb9969b5",
+      "size": 2310
+    },
+    {
+      "path": "artifacts/improvecore/IMPROVEMENTCORE_WHOLE_CHAT_EVIDENCE_RUN_114_2026-09-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "aad704736d91edd2dd996244c26ef93368de015d",
+      "size": 5307
+    },
+    {
+      "path": "artifacts/improvecore/LEGACY_CANDIDATE_CONTROL_HOLDOUT_131_2026-09-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "314a423b6f3b07dab1094958b378b41a582cb7f8",
+      "size": 1843
+    },
+    {
+      "path": "artifacts/improvecore/LEGACY_RESTORED_SEMANTIC_HOLDOUT_132_2026-09-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c80447fc43c41a6f4084727a96ab66cc54c1fd71",
+      "size": 2478
+    },
+    {
+      "path": "artifacts/improvecore/MT_DIRECT_TOOL_HF2_PROMPT_118_2026-09-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "941198564d9b938225d8e8752883f1a9aafb1f28",
+      "size": 4496
+    },
+    {
+      "path": "artifacts/improvecore/MT_EVIDENCE_PACKET_113_2026-09-26.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e9eaeacc8b51c76be2c7593bb4373def4dba094a",
+      "size": 3586
+    },
+    {
+      "path": "artifacts/improvecore/MT_WHOLE_SYSTEM_HF2_CAMPAIGN_004_2026-09-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "56a56edf2250436ba5cf03f6e388af0939a935da",
+      "size": 3651
+    },
+    {
+      "path": "artifacts/improvecore/ROOT_MT_ROOT_GOAL_PROJECTION_AUTHORITY_RUN_145_2026-09-27.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c7a54c9e2d02b1a570ac6d720b11ab4f6a7ec8ad",
+      "size": 7407
+    },
+    {
+      "path": "artifacts/improvecore/TWO_ZIP_LOGIC_ASSERT_GOAL_HF2_PROBLEM_IC_RUN_2026-09-26_1723ET.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1d3d4c40921e4fa701598d08799aa7e9dd73c042",
+      "size": 11141
+    },
+    {
+      "path": "artifacts/improvecore/WHOLE_CHAT_EVIDENCE_CORPUS_114_2026-09-26.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "21566a3650d300ff61385a080faddcf405545604",
+      "size": 2594
+    },
+    {
+      "path": "artifacts/mt",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "c9360e71b323a98fc1cf4fb3abb239d79bfc5ca4",
+      "size": null
+    },
+    {
+      "path": "artifacts/mt/MT_CURRENT_CHAT_INPUT_001_2026-09-26.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a5c288ac2a555979bf01de9860574c0b7658faff",
+      "size": 2783
+    },
+    {
+      "path": "artifacts/mt/MT_CURRENT_CHAT_RUN_001_2026-09-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "de555841d996f5bf37e5d8a4c09bf6babb610a05",
+      "size": 5912
+    },
+    {
+      "path": "artifacts/show-math",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "8f91a56a3c6ceb0091e354f75a7626f0def1a5e1",
+      "size": null
+    },
+    {
+      "path": "artifacts/show-math/GOAL_PROBLEM_SOLUTION_RUN_001_2026-09-26.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "714b9f18710254479729cd8a572e3d122ae4661b",
+      "size": 1876
+    },
+    {
+      "path": "artifacts/show-math/GOAL_PROBLEM_SOLUTION_RUN_001_2026-09-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "79a0c67846ed219e65cbd52f1a36c4d8e0dfb24e",
+      "size": 4309
+    },
+    {
+      "path": "artifacts/show-math/MT_PREVIOUS_RESPONSE_AUDIT_002_2026-09-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "413b60e8df7e42c1ea14fab0ac05ba5656141e2b",
+      "size": 4823
+    },
+    {
+      "path": "artifacts/show-math/SIGMA_ROUTER_EQUATION_RECOVERY_001_2026-09-27.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8a8e6c3f2564af3a919a6ba8d1011798b71649d1",
+      "size": 5902
+    },
+    {
+      "path": "campaign",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "522218619e1935fea488cf28822dbfe13b2205f9",
+      "size": null
+    },
+    {
+      "path": "campaign/ARCHITECTURE_ANALYSIS_CORE_DISCOVERY_PLAN_009.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ae2d99a1f946b3b43d772d04b79154fa1d186019",
+      "size": 7343
+    },
+    {
+      "path": "campaign/ARCHITECTURE_GOAL_SPINE_REENTRY_010.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "49460ec97857518056a3a122bd8cbcd6bbe1a4f8",
+      "size": 3427
+    },
+    {
+      "path": "campaign/ATTACK_POSTFLIGHT_12_LENSES_009.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f6345c96cf5c4a83a0366fcf52e9b4302d33dbec",
+      "size": 2259
+    },
+    {
+      "path": "campaign/IC022_GOAL_FREEZE_001.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0499c89cc97498ae7c993654d8b917b0e61ab703",
+      "size": 3417
+    },
+    {
+      "path": "campaign/IC023_ADAPTIVE_BUILD_PLAN_006.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "279471e1808335eb2d5af7c0092ff323734e320b",
+      "size": 3255
+    },
+    {
+      "path": "campaign/IC023_EXECUTION_GATE_001.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "407f4d4e4c0b1cdf597225dd57c417a43853bc15",
+      "size": 3194
+    },
+    {
+      "path": "campaign/IC023_GATE_002.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b8b1f15f0a8a8471f622cec5fbaa72ae4a4b11bb",
+      "size": 1521
+    },
+    {
+      "path": "campaign/IC023_GATE_003.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cb4a562803503e4675ab8b5541ef1d9f109bf3df",
+      "size": 1617
+    },
+    {
+      "path": "campaign/IC023_GATE_004.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "74200718c0e8c75751bbafe1ac93fcdf33afae40",
+      "size": 1747
+    },
+    {
+      "path": "campaign/IC023_GATE_005.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8ef447e89417faee79221bfeee8dd51f2e072665",
+      "size": 1635
+    },
+    {
+      "path": "campaign/IC023_PROMPT_REWRITE_003.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9ce728986f9a2021aa63adcfd32215ec1663f8e5",
+      "size": 2043
+    },
+    {
+      "path": "campaign/IC023_REASSESSMENT_007.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "dda31d6705de6915a90161f7c22f4e7875c08b4c",
+      "size": 1268
+    },
+    {
+      "path": "campaign/IC024_EXECUTION_TRANCHE_001.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "763b7c15fd3497f5c2731d042fd0b4b7f7116cbc",
+      "size": 2723
+    },
+    {
+      "path": "campaign/IC024_EXECUTION_TRANCHE_002.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2a59fb998001ac31305e03adc8517ae9457629ec",
+      "size": 5281
+    },
+    {
+      "path": "campaign/IC026_ACTUAL_GOAL_001.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3ca46ac214b895a37d9b0e37d5aa70a6e2d2091c",
+      "size": 2806
+    },
+    {
+      "path": "campaign/IC026_ACTUAL_GOAL_GATE_001.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "bea9ca1f6f76b21abc11deb655fcfa2ce8bacf8e",
+      "size": 2541
+    },
+    {
+      "path": "campaign/IC026_BLOCKER_REPAIR_001.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c861e8c92ebe4c4c8007dde8561790079a64580d",
+      "size": 1884
+    },
+    {
+      "path": "campaign/IC026_FROZEN_TARGET_002_FOUNDATION_BEFORE_MIGRATION.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "dd4f3c246c6f05481a556ba23b14c9b7cdeb7ad8",
+      "size": 3657
+    },
+    {
+      "path": "campaign/IC_12_BEFORE_12_AFTER_PROTOCOL_008.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "822d59358d7caf9b566b5c6aa093e9976572060d",
+      "size": 3768
+    },
+    {
+      "path": "campaign/IMPROVEMENT_CORE_ALL_TOOLS_CAMPAIGN_001.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "19bd4d5e46bbb9ffc6b4ff45b31715030d9d01cb",
+      "size": 9955
+    },
+    {
+      "path": "campaign/IMPROVEMENT_CORE_GOAL_RECOVERY_ARCHITECTURE_REENTRY_008.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1f197dd6e99c7708688b56483d582d3ecd6d1804",
+      "size": 3763
+    },
+    {
+      "path": "campaign/IMPROVEMENT_CORE_MTA_TARGET_SELECTION_001.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f9541185bee8c1a2e306679e07bd6174384ca8eb",
+      "size": 6007
+    },
+    {
+      "path": "campaign/MTA_ARCHITECTURE_IC_EXECUTION_005.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b0708c6ca143890dedf7dda7e517c54e892e45af",
+      "size": 4658
+    },
+    {
+      "path": "campaign/MTA_COMPLETION_012.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3223ed9d601c21e77f64750f6839885bd14bc174",
+      "size": 1502
+    },
+    {
+      "path": "campaign/MTA_EXECUTION_SUBSTRATE_REENTRY_007.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a996e58e1e8807e0b5950571fba00044df52824b",
+      "size": 2895
+    },
+    {
+      "path": "campaign/TWO_PASS_FULL_REPERTOIRE_CAMPAIGN_006.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4951064009c25371bfc7aca698e1ee68c50a0f73",
+      "size": 3445
+    },
+    {
+      "path": "dump",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "8a31c277dd2c9a27738625dfa7903a0ba5c8a4f7",
+      "size": null
+    },
+    {
+      "path": "dump/example-zero",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "7dbda0ab2aeaf939e7c762e1a929e48e8d2a7cfe",
+      "size": null
+    },
+    {
+      "path": "dump/example-zero/notes.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "139dd4e1d0a3d29a2e2e4e67ffb7801a9989614c",
+      "size": 207
+    },
+    {
+      "path": "dump/example-zero/take5.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "16286310794843dd01abcf934bf4385c9aab6547",
+      "size": 22
+    },
+    {
+      "path": "historical_controllers",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "2d8d8ab2ab0c51050a4c7135a1ac9b4e1b712084",
+      "size": null
+    },
+    {
+      "path": "historical_controllers/IC022.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "66a353802953a15c9923c0a8a155e7e205f30597",
+      "size": 46306
+    },
+    {
+      "path": "historical_controllers/IC023.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b78d61bf9034bf3d94717ee69505cc9bb76993f8",
+      "size": 4580
+    },
+    {
+      "path": "historical_controllers/IC024-G1.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7e664b906a80d8f9382f9f2a8e910e88162b6ab3",
+      "size": 4369
+    },
+    {
+      "path": "historical_controllers/IC024-G2.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "aac2a13f555c91f62478cc8c1aa36dde05529142",
+      "size": 5418
+    },
+    {
+      "path": "historical_controllers/IC024-G3.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4e05c9752bd546153a8be42ad492d5130262853a",
+      "size": 7378
+    },
+    {
+      "path": "historical_controllers/IC024.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cf63e738aaf9400d0f765dc270db1ceb34d7ec62",
+      "size": 3591
+    },
+    {
+      "path": "historical_controllers/IC028.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "641e1d02bf4baa1f2dd50e70891261a155904834",
+      "size": 9338
+    },
+    {
+      "path": "historical_controllers/IC028_CANONICAL_CURRENT_STATE.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6b9859b581062f6c5ea2f5c952244f89952612ff",
+      "size": 18322
+    },
+    {
+      "path": "historical_controllers/README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f21ec21bfb661b9d0045f8ec6065d34a9eaef71b",
+      "size": 2404
+    },
+    {
+      "path": "integration",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "ee5ea706cf860e88493cb78c7624b799b872f486",
+      "size": null
+    },
+    {
+      "path": "integration/ASSERT_FULL36_ARCHITECTURE_DEBT_071_2026-09-25.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "020018d2485aca9d38288d77fca321410fe445d7",
+      "size": 2591
+    },
+    {
+      "path": "integration/CAPABILITY_PRESERVATION_MANIFEST_100.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8097ed75ce22a5914609014a976fbcc00224b854",
+      "size": 9759
+    },
+    {
+      "path": "integration/CROSS_CHAT_INTEGRATION_CLOSURE_MARKER_060_2026-09-25.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8412ffc827cb27f9d897b2c8a988638bb719b239",
+      "size": 968
+    },
+    {
+      "path": "integration/CROSS_CHAT_INTEGRATION_INBOX_2026-09-25.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c657443cd11d20349ac35baeabd1d7708a3a061c",
+      "size": 20332
+    },
+    {
+      "path": "integration/CURRENT_EXECUTION_CLAIM_INTEGRITY.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d904fcc039c36de74636521520a7a666a397cbb3",
+      "size": 1989
+    },
+    {
+      "path": "integration/CURRENT_FULL_TOOL_INVOCATION.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "819bea024a8f60be9bee6f930bdd1fe194d62dfd",
+      "size": 5017
+    },
+    {
+      "path": "integration/CURRENT_HF1.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "21cca6732ae92104bf5116bdab46738ccc5c039c",
+      "size": 2710
+    },
+    {
+      "path": "integration/CURRENT_HF2.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "28c31795939980d05df578ddb9fff9a3361cef14",
+      "size": 5807
+    },
+    {
+      "path": "integration/CURRENT_ICC128_LEGACY_MATH.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "767eeb4796e172388dad59c7989163a325e43ca3",
+      "size": 3167
+    },
+    {
+      "path": "integration/CURRENT_IMPROVEMENT_CORE.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c27fb6f03f5d0d066e7acff7df732f0313b21cb4",
+      "size": 37354
+    },
+    {
+      "path": "integration/CURRENT_MATHEMATICAL_COLORING.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "56ed4b1318eb8ddb67fc5f44bda4422de5ffc1da",
+      "size": 7537
+    },
+    {
+      "path": "integration/CURRENT_PROTECTED_TRANSITION_INTEGRITY.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e114258060faee52c300b30abaa88598b7c196b5",
+      "size": 2212
+    },
+    {
+      "path": "integration/CURRENT_ROOT_CAUSE.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1400733c61ffe2cd4262f1cd8d906d1b1815aa80",
+      "size": 5016
+    },
+    {
+      "path": "integration/CURRENT_SHOW_ME_THE_MATH.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3e3afe87cb333eb838045f47433cba505ddde35e",
+      "size": 5334
+    },
+    {
+      "path": "integration/CURRENT_TOOL_REALITY.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ab4ec762d81da44e58a526a6adadb5dad104d348",
+      "size": 2464
+    },
+    {
+      "path": "integration/GITHUB_ROOT_CAUSE_PD_REPAIR_2026-09-25.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d0589a8b510c61774f52a8ebdf3c99c90cfa4836",
+      "size": 3605
+    },
+    {
+      "path": "integration/IC128_LEGACY_BEHAVIOR_BENCHMARK_129.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c2008545c8f19f6f668410212b04974b983e3219",
+      "size": 3107
+    },
+    {
+      "path": "integration/ICC123_CURRENTNESS_DELTA_002_2026-09-25.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7eb0585507d9cbfa3450e82062e20038ff494618",
+      "size": 7412
+    },
+    {
+      "path": "integration/ICC123_THREE_DAY_DEPENDENCY_PROVENANCE_MAP_001.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "41384b2901130ed817e96945697795ce183bcd1a",
+      "size": 5180
+    },
+    {
+      "path": "integration/ICC123_THREE_DAY_RECOVERY_CAMPAIGN_001_2026-09-25.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7d2f4a25449ab90aac4d85b0d25320e5e6b9f01a",
+      "size": 5768
+    },
+    {
+      "path": "integration/ICC123_THREE_DAY_RECOVERY_STATE_001_2026-09-25.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e7aa4ccd52a76c94e91c249745d600c57055cee3",
+      "size": 12062
+    },
+    {
+      "path": "integration/ICC124_LINEAGE_RECOVERY_001_2026-09-25.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3cc9023b05743ad2019bc61ee502ce1bbb6f05da",
+      "size": 1220
+    },
+    {
+      "path": "integration/ICC128_KERNEL_RESEARCH_RELATIVE_CLOSURE_001_2026-09-25.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "caf703619a81b6efc951667272a053e49df55d34",
+      "size": 5705
+    },
+    {
+      "path": "integration/ICC128_LEGACY_ACTIVATION.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "af3293725d9f000a2e804f673552a9382cd58fbb",
+      "size": 1210
+    },
+    {
+      "path": "integration/ICC128_LEGACY_LEARNING_REPORT_CONTRACT.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d681ece5d068b43e7d0e46acf32f437f7b6da275",
+      "size": 2678
+    },
+    {
+      "path": "integration/ICC128_SYSTEM_CLOSURE_LEDGER_056_2026-09-25.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "682f976e4b4a5a3586e8e184ff671450ea6f5b9e",
+      "size": 12534
+    },
+    {
+      "path": "integration/ICC23_ICC128_SEMANTIC_DRIFT_REPAIR_066_2026-09-25.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "08b00dc4299d8e4c39d8dea42a8c020e29d37333",
+      "size": 4164
+    },
+    {
+      "path": "integration/ICC_SHUTDOWN_HANDOFF_2026-09-25.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6e58ddbc307932c1972dad42308f7801b7db713b",
+      "size": 11080
+    },
+    {
+      "path": "integration/ICC_WRAPPER_REDESIGN_CONVERSATION_CAPTURE_074_2026-09-25.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4adb2e0f90bd7303dba8168a902a000877b627b7",
+      "size": 10488
+    },
+    {
+      "path": "integration/IMPROVECORE_CAPABILITY_RECOVERY_WORKSTREAM_100.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4a70a3faf915d69ea843eaae2441c4da01df82ed",
+      "size": 1884
+    },
+    {
+      "path": "integration/IMPROVECORE_CHAT_EXPORT_GITHUB_INPUT_105_2026-09-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a5c3237ea62c247f2b990fd3919b3f2c8b5332da",
+      "size": 1740
+    },
+    {
+      "path": "integration/IMPROVECORE_CHAT_HISTORY_4_MONTH_INPUT_101_2026-09-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3599a757b707c4e2dc9986947aeebfcb6b35d4da",
+      "size": 18993
+    },
+    {
+      "path": "integration/IMPROVECORE_CURRENT_CHAT_INPUT_103_2026-09-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0f359a3232ccf34911b41b8abb30bb39172d2291",
+      "size": 1577
+    },
+    {
+      "path": "integration/IMPROVECORE_KUREPA_CONVERSATION_POINTER_102_2026-09-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "65a1cf9d1c48d774610949b8f588f9f3510ad0d7",
+      "size": 1252
+    },
+    {
+      "path": "integration/IMPROVECORE_LEGACY_RESTORATION_CAMPAIGN_130.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "799defa72cc056d1764a7ef9d7a75489d34a798f",
+      "size": 1326
+    },
+    {
+      "path": "integration/IMPROVECORE_LEGACY_SEMANTIC_HOLDOUT_PACKET_132.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b16ac8f3dde65b5d96424b4184a6a243bd12179a",
+      "size": 10861
+    },
+    {
+      "path": "integration/IMPROVECORE_RECOVERY_BLUEPRINT_100.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ff1d7443bb0771ba065fe7545da6784bd91cb36e",
+      "size": 3298
+    },
+    {
+      "path": "integration/IMPROVECORE_SELF_STUDY_INPUT_104_2026-09-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f1b6ec9a35224fd1209d5cc6bdd533d1f19a7493",
+      "size": 5666
+    },
+    {
+      "path": "integration/IMPROVECORE_TWO_EPISODE_TOOL_RUN_INPUT_105_2026-09-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fdd314ecdb6ada9c78c1f7a3a44b453e86457d52",
+      "size": 1371
+    },
+    {
+      "path": "integration/IMPROVEMENTCORE_HISTORICAL_REPLAY_BASIS_001.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "72668517a4081ca6f3e1460fc89ebf65ddaecb9e",
+      "size": 2445
+    },
+    {
+      "path": "integration/IMPROVEMENT_CORE_CONCURRENCY_WORKSTREAM_084.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ecea4f5326d70042e36ef3e965f86db2930face3",
+      "size": 1416
+    },
+    {
+      "path": "integration/IMPROVEMENT_CORE_DURABLE_LEARNING_110.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6d57b7102e3691bc1e77ac59c5be2254854af8f1",
+      "size": 355
+    },
+    {
+      "path": "integration/IMPROVEMENT_CORE_KNOWLEDGE_LEDGER_113.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9c2bf32b0f8e337ec8cd5700cbafa6f531dcdc0f",
+      "size": 8142
+    },
+    {
+      "path": "integration/OBSERVER_MODE_REPROMPT_DEFECT_073_2026-09-25.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1642c462fffb573d1f6d8a39d4e6b7a2cc5eb457",
+      "size": 2047
+    },
+    {
+      "path": "integration/REASERCH_POST_CUTOVER_RECONCILIATION_FINAL_002_2026-09-25.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9ff1a5ee81f89c8502dc2bf31b4db4805308ffc7",
+      "size": 4644
+    },
+    {
+      "path": "integration/REASERCH_POST_CUTOVER_RECONCILIATION_PASS_001_2026-09-25.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a2c6fc48b64512b3ac8dd2e4497f7d8215a78dc6",
+      "size": 2498
+    },
+    {
+      "path": "integration/REASERCH_POST_MIGRATION_DRIFT_2026-09-25.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7a37ca8e93c98cefae85f61aa4b02e9a279ec136",
+      "size": 1683
+    },
+    {
+      "path": "integration/SEMANTIC_PACKAGE_BACKFILL_001_2026-09-25.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ee7d02a00276362dedec668f7dc79375830f23c8",
+      "size": 1484
+    },
+    {
+      "path": "legacy",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "a1e030b5803188778cf6bdf6de236b38f74b3ed2",
+      "size": null
+    },
+    {
+      "path": "legacy/icc128-legacy",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "f86f1b3a11a1a27a5f726982d8f7c48208314fe6",
+      "size": null
+    },
+    {
+      "path": "legacy/icc128-legacy/MANIFEST.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "96ba9e1a6fd7fd597a2d1e91196b3eb4fcb1ba20",
+      "size": 3969
+    },
+    {
+      "path": "legacy/icc128-legacy/README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d39c0e001137c9945b896619e782ff8c4f141261",
+      "size": 567
+    },
+    {
+      "path": "legacy/icc128-legacy/snapshot",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "aec6827d36a59a4e2f4a4092006f0c5971bedba2",
+      "size": null
+    },
+    {
+      "path": "legacy/icc128-legacy/snapshot/contracts",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "9a87d4d63bd087c17d09cd38a3bbd6b0066d131c",
+      "size": null
+    },
+    {
+      "path": "legacy/icc128-legacy/snapshot/contracts/ICC128_AUTONOMOUS_CONTROLLER_CURRENT.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e0eb421d8b4bf424f0bc1814f152ac98becc7f53",
+      "size": 6051
+    },
+    {
+      "path": "legacy/icc128-legacy/snapshot/contracts/ICC128_RHO_POLICY_CURRENT.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f916e3f5ccdf9c25bb177cd9dea8da83a5c500ba",
+      "size": 4301
+    },
+    {
+      "path": "legacy/icc128-legacy/snapshot/contracts/ICC128_SEMANTIC_GENERATOR_CURRENT.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "19a6bdc37555dd02bf116bd1308c499c339dc819",
+      "size": 4878
+    },
+    {
+      "path": "legacy/icc128-legacy/snapshot/math",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "c26e8a638d2539e87c32431bac30d2fb7e01bbce",
+      "size": null
+    },
+    {
+      "path": "legacy/icc128-legacy/snapshot/math/ICC128_FULL_TOOL_MATH_002_2026-09-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "eef6b2df3c7e567e50e5b3402ec9607827f290d5",
+      "size": 6404
+    },
+    {
+      "path": "legacy/icc128-legacy/snapshot/presentation",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "7053078aeecf0c72b6e3ab8f56f07f19a04e83be",
+      "size": null
+    },
+    {
+      "path": "legacy/icc128-legacy/snapshot/presentation/ICC128_PRESENTATION_CURRENT.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9b290e5790200e272f021be97d8c2048072d7d7d",
+      "size": 994
+    },
+    {
+      "path": "legacy/icc128-legacy/snapshot/presentation/ICC_128_CANDIDATE_V12_FRONTIER_CLOSED_2026-09-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3cbc5345349b539bfad0f3104f803727c1adf8c1",
+      "size": 218
+    },
+    {
+      "path": "legacy/icc128-legacy/snapshot/runtime",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "80c46e7c8e620d096c363d8de228f76390d55f52",
+      "size": null
+    },
+    {
+      "path": "legacy/icc128-legacy/snapshot/runtime/icc128_autonomous_controller.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "26c1c0cdcf48dbeeaf89b97f8b7556efd084acfa",
+      "size": 4592
+    },
+    {
+      "path": "legacy/icc128-legacy/snapshot/runtime/icc128_semantic_generator_adapter.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7902ff2954f39d322a44bec5d8f122c3302e9fc6",
+      "size": 3746
+    },
+    {
+      "path": "legacy/icc128-legacy/snapshot/runtime/rho128_policy.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b9688ab3d388ba76e93f0ec4d8713b9ebcea98de",
+      "size": 5005
+    },
+    {
+      "path": "legacy/icc128-legacy/snapshot/validation",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "5bfecc00239fee7de7e3ee4927d4be0c95352a5e",
+      "size": null
+    },
+    {
+      "path": "legacy/icc128-legacy/snapshot/validation/ICC128_RUNTIME_AND_HOST_BOUNDARY_CLOSURE_001_2026-09-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "78ae5739092f1d147c2155c890e0e6dcc51e20ad",
+      "size": 3182
+    },
+    {
+      "path": "migration",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "1e9ed95abba19c26f3239b7255b5e6cbfca9bd9d",
+      "size": null
+    },
+    {
+      "path": "migration/LEGACY_CONNECTION_AND_QUEUE_POLICY_025.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "82b8cbd57fe0b8b85d62b5ef3aa49ceeb5bf348b",
+      "size": 2594
+    },
+    {
+      "path": "migration/LEGACY_ISSUE_WORK_IMPORT_001.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "35fa7a8130ba7a5d520b3d07d80258334d4e3c36",
+      "size": 1404
+    },
+    {
+      "path": "provenance",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "9da9a8ad4d355a045ad653d9098775c6e93daf43",
+      "size": null
+    },
+    {
+      "path": "provenance/ic030",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "352de4a84e0f76fe3a4d160c070fd4b047280651",
+      "size": null
+    },
+    {
+      "path": "provenance/ic030/IC030_36_ARCHITECTURE_VALIDATION_001_2026-09-24.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "765c403dbc1451a0d2598befc288a437f9e78a76",
+      "size": 2854
+    },
+    {
+      "path": "provenance/ic030/IC030_SCOPE_MODE_POLICY_REGISTRY_001_2026-09-24.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "49df33ac4b72f626a0fd5e2da6445ac8cbf46d01",
+      "size": 2634
+    },
+    {
+      "path": "provenance/ic030/IMPROVECORE_36_CELL_SCOPE_MODE_AUDIT_001_2026-09-24.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "41cb0fef9730ad81113bf81a2f0a5dd1fadd3cc5",
+      "size": 17799
+    },
+    {
+      "path": "provenance/reaserch-migration-2026-09-24",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "bc02541f8d3a511bd122f2604325839c883e5650",
+      "size": null
+    },
+    {
+      "path": "provenance/reaserch-migration-2026-09-24/00_START_HERE.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4ee366e489ff548b0686d4a244adce6911369566",
+      "size": 2084
+    },
+    {
+      "path": "provenance/reaserch-migration-2026-09-24/01_STATE.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "33ff9fbeeaf148a38408c4db2a412408e6a420c3",
+      "size": 3186
+    },
+    {
+      "path": "provenance/reaserch-migration-2026-09-24/02_MATHEMATICS.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3c8952cb6a02d42de4897f93e7a3f6b92cb0fce9",
+      "size": 5135
+    },
+    {
+      "path": "provenance/reaserch-migration-2026-09-24/03_PROVENANCE_AND_SUPERSESSION.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "69c1f66e2ca583e77efa4a36ab305411f5a1a4ff",
+      "size": 2421
+    },
+    {
+      "path": "provenance/reaserch-migration-2026-09-24/04_MIGRATION_RUNBOOK.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5218e658d7d81410bcbd0b54cbd0c2cdfecf8c5d",
+      "size": 2740
+    },
+    {
+      "path": "provenance/reaserch-migration-2026-09-24/05_BACKFILL_QUEUE.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0676a0316289d079808d013d32f23de1f7c29504",
+      "size": 2951
+    },
+    {
+      "path": "requirements-dev.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7345f250f23f668c1016f96cf5ba9a21d0869119",
+      "size": 14
+    },
+    {
+      "path": "research",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "c7be0db1c6630d0d957598ce5ffb3539c98d0d98",
+      "size": null
+    },
+    {
+      "path": "research/ALL_TOOLS_PLAN_ATTACK_032.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "96c03a69025df603f1faf5e85f2cc209d3e02ce8",
+      "size": 6026
+    },
+    {
+      "path": "research/ARCHITECT_RUN_ON_RECURSIVE_INQUIRY_GOAL_008.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8ba0ed1c11dcefd9ea56a326a72ca2b706209136",
+      "size": 6594
+    },
+    {
+      "path": "research/ARTIFACT_REALITY_FOUNDATION_CANDIDATE_001.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3cf5532af163acabb7b7783e8853599f4f280af0",
+      "size": 2642
+    },
+    {
+      "path": "research/ASSERT_AFTER_MT_BLACK_BOX_LIFECYCLE_069_2026-09-25.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "029f7411eed686a1af333074e866341c538e4a62",
+      "size": 2731
+    },
+    {
+      "path": "research/ASSERT_BLACK_BOX_RESOLUTION_PIPELINE_070_2026-09-25.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d6c7b02716678917b48863ef16fb0220b3c80e56",
+      "size": 2228
+    },
+    {
+      "path": "research/AUDIT_KERNEL_001.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "51e41ac6f36c8566056516d3f237a1a882d9fc3c",
+      "size": 2820
+    },
+    {
+      "path": "research/BEHAVIOR_FIRST_CAPABILITY_UNIVERSE_001.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0099403bc3cfe3818c14f60251d1a813186b3323",
+      "size": 8033
+    },
+    {
+      "path": "research/CAPABILITY_MODE_COVERAGE_MAP_001.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "293e73e4aafa59097a9a98ff673945afc3696c29",
+      "size": 2684
+    },
+    {
+      "path": "research/CAPABILITY_UNIVERSE_CROSSWALK_QUOTIENT_002.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5d04527d4b98db3c0959f6fc54bf8a87555d9b6a",
+      "size": 9549
+    },
+    {
+      "path": "research/CROSS_PROJECT_MODE_EXPERIMENT_001.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3b2ac307be32363f974336b3bd4a0ac91903a765",
+      "size": 3324
+    },
+    {
+      "path": "research/CROSS_PROJECT_MODE_EXPERIMENT_001_SYNTHESIS.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5eacd47d2be2a6673f9c27bf627ac962459884e0",
+      "size": 2459
+    },
+    {
+      "path": "research/CURRENTNESS_AUDIT_CA001.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "643250d8f50267f36be8299be3c7903d11cd3bab",
+      "size": 2061
+    },
+    {
+      "path": "research/DOS002_WHOLE_SYSTEM_AND_THREE_LEVEL_ARCHITECTURE.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e52524ab5f9e55d0db0a47ff12c129d57c3389a4",
+      "size": 8796
+    },
+    {
+      "path": "research/DOS003_PAIRWISE_LEVEL_BOUNDARIES.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ebc5edb2f168ea25acc65944a2fff1612c044637",
+      "size": 6177
+    },
+    {
+      "path": "research/DOS_OBSERVER_ON_ONE_EQUATION_005.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "404c24f929a806ff47d1bcdd927018492bd1bc33",
+      "size": 2536
+    },
+    {
+      "path": "research/DUAL_ROOT_CAUSE_027.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d61d21a15dcf1a148d86d2ef4c685e3a940c537d",
+      "size": 3842
+    },
+    {
+      "path": "research/EMERGENT_OBJECT_ADMISSION_REFLEXIVE_HARDENING_001.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "86559673753a1364d4215420a91ca1a4d22046bc",
+      "size": 9392
+    },
+    {
+      "path": "research/EXTERNAL_ARCHITECTURE_COMPARISON_001.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d7d805cf4addbd023cfce89c255f35c0ed6e8b73",
+      "size": 3247
+    },
+    {
+      "path": "research/FROZEN_OBJECT_STRUCTURAL_SWEEP_REPLICATION_010.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0d11e48216e825303e2f13348d216a26f5f72b10",
+      "size": 9491
+    },
+    {
+      "path": "research/GDOS_COLLATERAL_DISCOVERIES_001.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "487e30b122259113b5f998c3b36a7b2b5b741eeb",
+      "size": 5407
+    },
+    {
+      "path": "research/GDOS_CROSS_SECTIONAL_STUDY_001.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5f0a6e582bf28a69792822e188b4a5ff29e44a79",
+      "size": 8886
+    },
+    {
+      "path": "research/GDOS_FIRST_TRANCHE_RESULTS_001.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4ee7ca33074c0a9083fb125f1bc661c945270c71",
+      "size": 14388
+    },
+    {
+      "path": "research/GDOS_OBSERVATION_MODE_BIAS_MT_001.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2069ed861aff31459ad130948cf9098e91f5bfb1",
+      "size": 5186
+    },
+    {
+      "path": "research/GOAL_DECOUPLED_OBSERVATION_SWEEP_DOS001.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e27c219f7fd7a4119b3a7fddfc77e076981cc5f3",
+      "size": 3288
+    },
+    {
+      "path": "research/GOAL_RUN_ON_RECURSIVE_INQUIRY_007.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a951527987dc2cd4d7c682782236c13f7b4cf069",
+      "size": 3053
+    },
+    {
+      "path": "research/HF_CURRENTNESS_REENTRY_019.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "23ce95ec02ced899bf964856f500a913f38aff88",
+      "size": 1472
+    },
+    {
+      "path": "research/IC023_AUTONOMOUS_CONVERSATION_READ_042.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e1170881a8a00249a629d412fae343c91c4b0086",
+      "size": 2658
+    },
+    {
+      "path": "research/IC028_CURIOSITY_FIRST_PD_053.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8ab1be7aaf3fb3eeadf8f9264241e0e594ecc631",
+      "size": 10922
+    },
+    {
+      "path": "research/IC028_FULL_SPECTRUM_INQUIRY_CLOSURE_052.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1a26361f25a9a8736282c248470129c61167de89",
+      "size": 5944
+    },
+    {
+      "path": "research/IC028_OBSERVER_WHOLE_SYSTEM_RUN_044.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ffc4c5822fdb24341bc360ae31e018fc17182a1a",
+      "size": 7408
+    },
+    {
+      "path": "research/IC028_TOOL_AS_QUESTION_CAMPAIGN_050.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e357bfcb0b29b924b99515c983c7df2154f28973",
+      "size": 6716
+    },
+    {
+      "path": "research/ICC123_KERNEL_ENFORCEMENT_TOPOLOGY_001_2026-09-25.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "54ae7c80a7d35309e7a22cd15815ce4f305ef904",
+      "size": 8277
+    },
+    {
+      "path": "research/ICC128_COMPLETE_MEDIATION_EXPERIMENT_001_2026-09-25.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f022c151ca581b3a0d60c933092a33afebb7403b",
+      "size": 12155
+    },
+    {
+      "path": "research/ICC128_KERNEL_WITNESS_AND_PLACEMENT_001_2026-09-25.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "65b93241d657ec2dbb332ae0ce9a63ef8210ecf8",
+      "size": 14352
+    },
+    {
+      "path": "research/ICC128_STATE_EFFECT_ROLE_TYPING_001_2026-09-25.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "80dd781a53d4e3f2bc4a98836983bc88130e9ab2",
+      "size": 10957
+    },
+    {
+      "path": "research/ICC_HISTORICAL_REPAIR_PATTERN_RUNTIME_REALIZATION_013.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e572b9bb10b129ed0151337875e42769a9901e59",
+      "size": 5322
+    },
+    {
+      "path": "research/ICC_ONE_EQUATION_QUESTION_COMPRESSION_003.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3be78fe28e49dcf9eb2950b5e91d0f40227c6058",
+      "size": 2240
+    },
+    {
+      "path": "research/IC_KERNEL_TOOL_USE_ROOT_CAUSE_001.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "18093976dc402a23c5bb81cabad736037c508e07",
+      "size": 3970
+    },
+    {
+      "path": "research/IMPROVECORE_EXTERNAL_ARCHITECTURE_RESEARCH_104_2026-09-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6388847bf4dda052bb66b781db35665682fc9020",
+      "size": 4476
+    },
+    {
+      "path": "research/IMPROVECORE_FOUNDATION_CAMPAIGN_033.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ba48733685ac2f26d5521bf500ed7cc656df0d87",
+      "size": 9366
+    },
+    {
+      "path": "research/IMPROVECORE_MODE_CUBE_DECISION_001.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2eaa500f072eb53d7d154bd40eb86545097f4a2d",
+      "size": 3527
+    },
+    {
+      "path": "research/IMPROVECORE_POST_MIGRATION_CAMPAIGN_037.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2d66b7a0f4e95dd202d477fe9bf0c05b21fcc0f2",
+      "size": 7772
+    },
+    {
+      "path": "research/IMPROVECORE_RECURSIVE_WRAPPER_REPAIR_001.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "564bb921db5fb53545b6e825755d340de86f69b6",
+      "size": 6963
+    },
+    {
+      "path": "research/IMPROVEMENT_CORE_RUN_ON_ONE_EQUATION_004.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b0886ef2ac7f363ae989d53f7021d8c40652ee96",
+      "size": 4773
+    },
+    {
+      "path": "research/IMPROVEMENT_CORE_USAGE_AUDIT_078_2026-09-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d226959a4a09bfeed145c20acc170f930e0ad5bb",
+      "size": 5101
+    },
+    {
+      "path": "research/JANE_MTA_ROOT_CAUSE_CAMPAIGN_039.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c1ba7d9b2cf789c9cc0ea96e8feb76878e33f329",
+      "size": 13004
+    },
+    {
+      "path": "research/JANE_TD_ROOT_MOMT_IC028_CAMPAIGN_040.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0712a948211b01585eb996c9f009cee7f2d8b3a0",
+      "size": 8852
+    },
+    {
+      "path": "research/KERNEL_MODE_EXPERIMENT_001.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c7a34e78c2f8e08b21eda07206bc9a0ee94da13f",
+      "size": 5615
+    },
+    {
+      "path": "research/LIVE_TEST_IS_OUGHT_REBT_036.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c13c05ad0102650a4d9016d87dff2717d96ec23b",
+      "size": 8111
+    },
+    {
+      "path": "research/MTA_CONFIGURED_RUN_IDENTITY_RECURSIVE_005.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3bef4970fda751060b42403dfb5ea5cf28ab02d8",
+      "size": 6021
+    },
+    {
+      "path": "research/MTA_LEGAL_TRANSITION_REENTRY_004.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5f6bde1afda8fd53a4c57e9255ef3dc3f7a6e45d",
+      "size": 6370
+    },
+    {
+      "path": "research/MTA_ROOT_CAUSE_WHOLE_RESPONSE_038.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3f9aa9bc9f5bd6d52b32c83435c532e956912163",
+      "size": 9129
+    },
+    {
+      "path": "research/MTA_RTC_AUTHORITATIVE_TRANSITION_CLOSURE_005.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "463992fef0e757250cc5596afb68e2bfbe09ddd1",
+      "size": 11214
+    },
+    {
+      "path": "research/MTA_SEMANTIC_GOVERNANCE_ADMISSION_001.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "60ce123d728381e6e528696910e253076f44f7b9",
+      "size": 4753
+    },
+    {
+      "path": "research/MTA_SEMANTIC_GOVERNANCE_EXHAUSTIVE_SWEEP_003.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "87b057d3c759018b579d778f3f0099584dd500e1",
+      "size": 14228
+    },
+    {
+      "path": "research/MT_ARCH_HF_CURRENTNESS_AUDIT_018.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "707e780f51bb8f79863741481cae295a52931cee",
+      "size": 5476
+    },
+    {
+      "path": "research/MT_BIAS_MODE_CAPABILITY_USE_001.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e2c119ffc50b78839164aa71f5cb73a80819ec12",
+      "size": 8923
+    },
+    {
+      "path": "research/MT_CAPABILITY_MODE_CUBE_003.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9e1c3c05fc4732c7ac0c0c14b4de21d30266f9ff",
+      "size": 9180
+    },
+    {
+      "path": "research/MT_FULL_WRAPPED_SEMANTIC_LIFECYCLE_068_2026-09-25.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "df8e66db1cc284928aa331bef6558b54ed409dc9",
+      "size": 8566
+    },
+    {
+      "path": "research/MT_GDOS_COUNTER_REGIME_IC_SKILL_USE_001.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7f8dfe67e2b66b8817509131c125b7a3a712f316",
+      "size": 6953
+    },
+    {
+      "path": "research/MT_IC029_RESPONSE_AUDIT_077_2026-09-25.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "66f20c0ee730eec445b6dc1cf764e108a81adf7b",
+      "size": 4145
+    },
+    {
+      "path": "research/MT_MODE_BIAS_DELEGATION_SYNTHESIS_002.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cc1edda673cbf86f89877db46a2beca2ade6507f",
+      "size": 8337
+    },
+    {
+      "path": "research/MT_ROOT_CAUSE_WHOLE_CHAT_088_2026-09-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b26998643e52c04326052171b531113fa21ab7e0",
+      "size": 3871
+    },
+    {
+      "path": "research/MT_SHOW_ME_THE_MATH_PORTABILITY_AUDIT_001_2026-09-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "bc5b6a3ed911f7da05c86bac143d787993eabe63",
+      "size": 5391
+    },
+    {
+      "path": "research/MT_SHOW_ME_THE_MATH_SELF_HOSTING_002_2026-09-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8f2451f401976b20ed9c94f21284db7639622701",
+      "size": 3183
+    },
+    {
+      "path": "research/MULTIOBJECT_MIDDLE_ALGEBRA_RESIDUAL_ATTACK_003.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7a4a57e70d43d42eaf002fe525c068445b787b71",
+      "size": 5272
+    },
+    {
+      "path": "research/PD_CORE_001.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e5ef39323e4c91dfce8c78a3f47ed68f23c60bdf",
+      "size": 2304
+    },
+    {
+      "path": "research/PD_KERNEL_001.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "38bd2e6d5eeddcf8f46141181875e12946defd75",
+      "size": 3075
+    },
+    {
+      "path": "research/PROJECT_LOCAL_PROGRAMS_001.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cfa202183b6bf67a69dd682ce48109208f8f167a",
+      "size": 2727
+    },
+    {
+      "path": "research/QUESTION_LINEAGE_AUDIT_001.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ae08d4389dce0f90e6c1b1f185e5cf05d192eabb",
+      "size": 6128
+    },
+    {
+      "path": "research/QUESTION_QUOTIENT_MERGE_TESTS_002.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5c148f4cbf3177d764bb36f96f3f821a98f0ca2a",
+      "size": 3506
+    },
+    {
+      "path": "research/QUESTION_SEARCH_MATH_001.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5c92532e7e31435622d5b4f30d39461e2cb85f7e",
+      "size": 3802
+    },
+    {
+      "path": "research/QUESTION_SEARCH_RUN_001.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f86b03cf2ee021f4b3acf41c61a9f13d3cc57e07",
+      "size": 11653
+    },
+    {
+      "path": "research/RCDL_MIGRATION_IMPACT_029.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "688530cfc980626ae355405035d5d8479d9481df",
+      "size": 3258
+    },
+    {
+      "path": "research/RECURSIVE_GDOS_RERUN_001.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "63553f08fab040202a17e379434cf37073ce22d6",
+      "size": 9666
+    },
+    {
+      "path": "research/RECURSIVE_INQUIRY_EQUATION_SELF_APPLICATION_006.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "14b3d554e6d0f925e47a6d2bbe4dfcadc5d9cea9",
+      "size": 6617
+    },
+    {
+      "path": "research/ROOT_CAUSE_ENTRY_CONTRACT_GAP_009.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4ff8bb3bef12cc4d672309af9c029cc17a0176d0",
+      "size": 9414
+    },
+    {
+      "path": "research/ROOT_CAUSE_IC_ARCHITECTURE_REPAIR_022.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8e0a7e1f204dc9ba31100b96d69f9f9800cdc21c",
+      "size": 3705
+    },
+    {
+      "path": "research/ROOT_CAUSE_OBSERVER_MODE_POST_REPAIR_011.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "63fd5f00df9e6bc630fbf77ab81331b513cacae0",
+      "size": 5643
+    },
+    {
+      "path": "research/ROOT_CAUSE_RUN_CURRENT_CHAT_089_2026-09-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "707c7a05cb2684c9f904fda43b537e78ed734611",
+      "size": 2922
+    },
+    {
+      "path": "research/SEMANTIC_GOVERNANCE_ADMISSION_CLOSURE_002.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cdd83e9e22ca04700bb38b0b38eb93a1345d7dee",
+      "size": 10963
+    },
+    {
+      "path": "research/SEMANTIC_GOVERNANCE_ADMISSION_SELF_APPLICATION_001.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c097108dec849dba290119de716ebddebc53e894",
+      "size": 1913
+    },
+    {
+      "path": "research/SIX_SCOPE_FOUNDATION_REBASE_030.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d863ab561ef4d8310d7820982519028a65428591",
+      "size": 5590
+    },
+    {
+      "path": "research/THE_EQUATION_CURRENT_CAPTURE_010.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1cfbb0ae69e2ac788b500f047b9da68c3ceb887e",
+      "size": 3827
+    },
+    {
+      "path": "research/THE_EQUATION_CURRENT_CAPTURE_012.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "36bf9f80cd88a57821b01b355885dd7b70262bea",
+      "size": 6018
+    },
+    {
+      "path": "research/THE_EQUATION_CURRENT_CAPTURE_014.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "98399925498f0356c398ab0d075682a6a932d561",
+      "size": 3460
+    },
+    {
+      "path": "research/TOOL_LINEAGE_RECOVERY_CONTRACT_001_2026-09-25.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a1aa5cb537f1a26452fd7be9ad1fb2a35bf6ac3f",
+      "size": 3401
+    },
+    {
+      "path": "runtime",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "30c5896f56869c5265cc2c7a4bce97b72d705ed4",
+      "size": null
+    },
+    {
+      "path": "runtime/DUMP_INTERFACE.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "11c9f34b1a3579366cef3bf853794c30c72bb335",
+      "size": 698
+    },
+    {
+      "path": "runtime/WORKER_ADAPTER_CONTRACT.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a59fb42a1ef94109ce19a53316e95ca8802aa4c4",
+      "size": 641
+    },
+    {
+      "path": "runtime/a5_core.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8294fb356aa10d950d56302a11949e94de50f53b",
+      "size": 5106
+    },
+    {
+      "path": "runtime/a5_programs.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a5aa0dd9b7a44775fe7d5763ad05f120a0b7ddfa",
+      "size": 18675
+    },
+    {
+      "path": "runtime/activation_bridge.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0bacff7da19e50bc94585c6e59f10376f43111a7",
+      "size": 3090
+    },
+    {
+      "path": "runtime/archive_artifact_intake.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "649e08a872efedf8a1ac54990addf95419c94190",
+      "size": 8356
+    },
+    {
+      "path": "runtime/artifact_intake.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1e73b646c9d864c2dae117d4e98ad8857a99eab3",
+      "size": 6846
+    },
+    {
+      "path": "runtime/assert_compound.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5cf33074a2341504824a78739790511ff2ee6a4b",
+      "size": 4616
+    },
+    {
+      "path": "runtime/assert_full36.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d70900a53ab7e370fed0817e133377984cac87f7",
+      "size": 2520
+    },
+    {
+      "path": "runtime/autonomous_observer.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b61294868aac1736eab6fe77fcd09c907c1c27c2",
+      "size": 1074
+    },
+    {
+      "path": "runtime/capability_foundry.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "692b392995d3a3d153e2b76082c0dada44dd3009",
+      "size": 4151
+    },
+    {
+      "path": "runtime/capability_preservation.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8067111da7fc2139dafe408acab1ed2e03b47d98",
+      "size": 2627
+    },
+    {
+      "path": "runtime/capability_router.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c2f611a152d6e4b543328ad6393db98a7cdacfda",
+      "size": 4800
+    },
+    {
+      "path": "runtime/capability_runtime.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a038f6ae5b976eac8993e0ff019f2a1a7839d418",
+      "size": 535
+    },
+    {
+      "path": "runtime/closed_loop.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "13abea6c62cd591488f6de81f075022034f17a41",
+      "size": 1810
+    },
+    {
+      "path": "runtime/closed_loop_v2.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "bf91fa8fb2aec23f2cb9c250aa8f90263141ec3a",
+      "size": 742
+    },
+    {
+      "path": "runtime/configured_function_ir.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "80c647e1696b131b242e460c801bfc8c7219a939",
+      "size": 6493
+    },
+    {
+      "path": "runtime/configured_hf2_execution.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6e6cdc26451f49df6a5fa703eb0b92a75205f74e",
+      "size": 6787
+    },
+    {
+      "path": "runtime/configured_run.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "dd10e6caa689d5698492e1d42bedde34718beea5",
+      "size": 2799
+    },
+    {
+      "path": "runtime/continuation_engine.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "537eae02c692070e7e2bee892f89e57d421d8982",
+      "size": 1842
+    },
+    {
+      "path": "runtime/controller_episode.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "303a973a6da8e5a19b2f8b4b2437ae7b343e8937",
+      "size": 1546
+    },
+    {
+      "path": "runtime/controller_lease.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "92236df38cc1098c186a3fb32afe4c5bc5391451",
+      "size": 714
+    },
+    {
+      "path": "runtime/coordinate_registry.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1dc7d119481e76b5758571acb64298acaa1bf57d",
+      "size": 1352
+    },
+    {
+      "path": "runtime/current_portfolio_identity.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6e381246ad36ad589606a327685a21b010d2451c",
+      "size": 2023
+    },
+    {
+      "path": "runtime/currentness_audit.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fe06f5f15453b2a747b9443878ef748486b493b6",
+      "size": 1545
+    },
+    {
+      "path": "runtime/delegation.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3d602b438a07205e9b0523d9a47b6addc9f86090",
+      "size": 846
+    },
+    {
+      "path": "runtime/delegation_officer.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6532f947ce597114c039d5ffb955fd54ef29f344",
+      "size": 911
+    },
+    {
+      "path": "runtime/desired_jane.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "18f47b71976a26fe1dfeff2fc4c9a53699bcb320",
+      "size": 5825
+    },
+    {
+      "path": "runtime/direct_tool_command_gateway.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "202cf5b7738c536f8e93e7c2d625e0582a6df5de",
+      "size": 4558
+    },
+    {
+      "path": "runtime/emergent_admission.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2c1332eb522bc32eb7f151951c423a0ec8ec020b",
+      "size": 1132
+    },
+    {
+      "path": "runtime/endogenous_work.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "01ae66415d95b4ad4c085fe1f65983ff7c027fd2",
+      "size": 2247
+    },
+    {
+      "path": "runtime/entry_contract.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "289374bb931dba926574dd35f5536602795a2e08",
+      "size": 5483
+    },
+    {
+      "path": "runtime/evidence_ledger.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "64ea2ddf21ef4ae09d582cbe4f9b6456d413ec12",
+      "size": 2538
+    },
+    {
+      "path": "runtime/execution_claim_integrity.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8b053ab10b5b3c9eca450f5efe05a4cd7cbcde1e",
+      "size": 5362
+    },
+    {
+      "path": "runtime/folder_refinery.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6df7c6a0bfc6fad145ab468958b11c91ae0a1b59",
+      "size": 1100
+    },
+    {
+      "path": "runtime/formal_claim_admission.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7e078595f0d58188fe69e781e9e4eca3e168e2c2",
+      "size": 14428
+    },
+    {
+      "path": "runtime/formal_object_registry.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "dbeffcb40ec00e43014daeca19f5d7192cca614c",
+      "size": 2070
+    },
+    {
+      "path": "runtime/foundation_snapshot.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c23239bf3ce9a6e9cd06e4e3d60ab3bc50a6a538",
+      "size": 997
+    },
+    {
+      "path": "runtime/full_invocation_portfolio.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b209bc7f7688c73dbe4ad9d7d181808cfae11bb7",
+      "size": 7479
+    },
+    {
+      "path": "runtime/full_spectrum_20.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "dc99945f8839f44bbbe4f2b8ab7fe40c75098188",
+      "size": 996
+    },
+    {
+      "path": "runtime/function_ir_holdouts.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5785fc86442515a19ff7d5b74973798649d64bcd",
+      "size": 6595
+    },
+    {
+      "path": "runtime/global_tool_execution.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a5850e55236dc2704894e31b6f3c61cda4902c65",
+      "size": 8509
+    },
+    {
+      "path": "runtime/goal.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f2f61549e23d1ba7ae74ce2bbd374cf8bd90efe2",
+      "size": 4228
+    },
+    {
+      "path": "runtime/hf002_recursive_continuation.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ecda6eb47df7874a77bff40cca296d71eb8c9d50",
+      "size": 4992
+    },
+    {
+      "path": "runtime/hf1_episode.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "18b7a0b3c48b4d207508b6f939dafb5650d9fe2e",
+      "size": 8102
+    },
+    {
+      "path": "runtime/hf1_recovery.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "888f0d6539aba49b1462687ae3447edcc3b63392",
+      "size": 1351
+    },
+    {
+      "path": "runtime/hf_controller.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "156873eaaea0717146c69335179fb048ad956251",
+      "size": 2686
+    },
+    {
+      "path": "runtime/historical_controller.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "df284bb41a07d5a8663a8706f7e906f194c134ec",
+      "size": 1212
+    },
+    {
+      "path": "runtime/historical_reconstruction.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5541cf1592e6170b17184db19176dca7ed067417",
+      "size": 1794
+    },
+    {
+      "path": "runtime/historical_replay_audit.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ce05ab754aa5251b3da985ec0e89b99e4afab102",
+      "size": 1669
+    },
+    {
+      "path": "runtime/ic028_challenger.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "eda4e5d90e5f34d21e013a79e9b8841e07486c34",
+      "size": 956
+    },
+    {
+      "path": "runtime/ic028_operator.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3c6b3b090dd1c1ca6698fde847566b0743b02ed1",
+      "size": 6926
+    },
+    {
+      "path": "runtime/ic123_math_recovery_campaign.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "501feb6787957351dda6598df2f7948c55f500ca",
+      "size": 16682
+    },
+    {
+      "path": "runtime/icc128_legacy.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3b8ca7b27671c2e427d3089985a2733ff887294b",
+      "size": 2630
+    },
+    {
+      "path": "runtime/icc128_legacy_portable.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "89a2d030c171bc2145c9fd835a895a24380ffa06",
+      "size": 30734
+    },
+    {
+      "path": "runtime/icc128_legacy_reporting.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "64590d738c0710f101f23455725642138dc239a6",
+      "size": 11429
+    },
+    {
+      "path": "runtime/icc_bootstrap.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b09db426b86eca14421d84afa0b82dc7f88c7008",
+      "size": 3355
+    },
+    {
+      "path": "runtime/icc_entry.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4548a48e69c3b855757dc99ee08814aac6387f9f",
+      "size": 2061
+    },
+    {
+      "path": "runtime/improvecore_two_episode_105.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3429e499ed8b61116fc8b9804ec0c39d83574677",
+      "size": 22005
+    },
+    {
+      "path": "runtime/improvement_core.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6fa4a374d7a9536f2fee36cc281982263ca3f4d2",
+      "size": 3869
+    },
+    {
+      "path": "runtime/improvement_core_concurrency.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9e0479370f4b989a96517a12aeceb8eee8a17ae4",
+      "size": 3397
+    },
+    {
+      "path": "runtime/improvement_core_dispatch.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "18ff630c633092ef7407dfc84362516a7d2d2b55",
+      "size": 4050
+    },
+    {
+      "path": "runtime/improvement_core_external_acquisition.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f49b9308f67910a32510ee6ad3ed05894a6cae38",
+      "size": 12085
+    },
+    {
+      "path": "runtime/improvement_core_hf2_default.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "33249430ca117722f6ed633b8dce962f1784dbd2",
+      "size": 17904
+    },
+    {
+      "path": "runtime/improvement_core_knowledge_ledger.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7b1bdd79a3d00e085a16c05efca44bd6043ea45a",
+      "size": 13351
+    },
+    {
+      "path": "runtime/improvement_core_learning_memory.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6715037e0642d6d501bf8e29542973351551adf7",
+      "size": 6355
+    },
+    {
+      "path": "runtime/improvement_core_legacy_candidate.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "49bc2e1b8c0bd301d05f3a1356da92415b7822ca",
+      "size": 7920
+    },
+    {
+      "path": "runtime/improvement_core_legacy_holdout_campaign.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "da377587d60cc333cf0f53b95ecfd87fd6552610",
+      "size": 8932
+    },
+    {
+      "path": "runtime/improvement_core_legacy_restoration_campaign.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2234a037ade3115bb4a52a5318a98752ef5556d8",
+      "size": 23796
+    },
+    {
+      "path": "runtime/improvement_core_legacy_restored.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "be1b77f44d73d98eea8aa620560b3402f44df06c",
+      "size": 17686
+    },
+    {
+      "path": "runtime/improvement_core_legacy_semantic_holdouts_132.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5f5768f8ff887e5ee1a42c1e7c8a646d089dd616",
+      "size": 7908
+    },
+    {
+      "path": "runtime/improvement_core_manager.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9de1a4fbfb1f644325a28869360124de5159e027",
+      "size": 2503
+    },
+    {
+      "path": "runtime/improvement_core_math.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9e0f10ccbfbdbc29d140a1e5b0648e122d952c8d",
+      "size": 1609
+    },
+    {
+      "path": "runtime/improvement_core_math_spine.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4a59eb7a04ed7b8b6d2e2a0011e4bb29eb2bc548",
+      "size": 5324
+    },
+    {
+      "path": "runtime/improvement_core_order_math.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "856dcacfdbcceb58c97243cdd89bf140f3f4f9a9",
+      "size": 13860
+    },
+    {
+      "path": "runtime/improvement_core_progress_relation.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f67bab748d51632469bcf58884fd2deaaf1b3932",
+      "size": 6561
+    },
+    {
+      "path": "runtime/improvement_core_recovery.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2b2d494a0df4519a626562758fcb585a44a7f429",
+      "size": 18227
+    },
+    {
+      "path": "runtime/improvement_core_recursive_manager.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "87275f493ecea4f12dddd21987dc5d443ede5708",
+      "size": 17107
+    },
+    {
+      "path": "runtime/improvement_core_regime.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a3fdc28a8377d1dd989c62740cdda506c3a0fab6",
+      "size": 15082
+    },
+    {
+      "path": "runtime/improvement_core_restored_dispatch.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6557d72858c556ab9de2c900e5e655da7585b9fe",
+      "size": 6097
+    },
+    {
+      "path": "runtime/improvement_core_return_gate.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "912fd4db2c6fe2594d785cfe2203e7edc6fe4929",
+      "size": 8971
+    },
+    {
+      "path": "runtime/improvement_core_route_calibration.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "96320c45db600613c0d716084b4494bef6df660e",
+      "size": 2791
+    },
+    {
+      "path": "runtime/improvement_core_self_study.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6784743444b087312129d1e169a1ca588af5ed3c",
+      "size": 35507
+    },
+    {
+      "path": "runtime/improvement_core_tool_bridge.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f5806b55d5b7fc2ab49c896970ee4f99bc8a33f7",
+      "size": 9500
+    },
+    {
+      "path": "runtime/improvement_core_upstream.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2fa43d1ec6bdf11c5e47a0aa24633e7fbccf9222",
+      "size": 2948
+    },
+    {
+      "path": "runtime/inquiry_bridge.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "806176aa00cce78b77b481f2e85e79c2260e2c9b",
+      "size": 2114
+    },
+    {
+      "path": "runtime/inquiry_compiler.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "be50d603e6a3a3ca6d1b3e4cf85c5e681d48432a",
+      "size": 1088
+    },
+    {
+      "path": "runtime/inquiry_session.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3a964a49a1e2e67a6e16ade3a808cc1f09e0b4a3",
+      "size": 3419
+    },
+    {
+      "path": "runtime/jane.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "eea4caf24aa1b15e3b5aac7ae1d3ba12ec1dd727",
+      "size": 2470
+    },
+    {
+      "path": "runtime/jane_continuity.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "173e1407cb5d5f2b5ba0017ba714a1b6d13361b7",
+      "size": 2172
+    },
+    {
+      "path": "runtime/jane_question_frontier.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ff26b2e248f787588719202eff31753a716b15b7",
+      "size": 891
+    },
+    {
+      "path": "runtime/jane_relevance.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "331fdfdae4d0e917adc538576560461a307496ba",
+      "size": 2118
+    },
+    {
+      "path": "runtime/jane_supervisor.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e242fd80ae3d77956a68cfd72200a689ce38d4c3",
+      "size": 4337
+    },
+    {
+      "path": "runtime/jane_sync.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e94da98da81a037d91ad5cc275c2639ac2177e69",
+      "size": 593
+    },
+    {
+      "path": "runtime/jhb_greenfield.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "85f8193ece4fe1740bee24dc25021648ce9e4119",
+      "size": 1147
+    },
+    {
+      "path": "runtime/kernel_f1.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "243bf2267d1c8fc811e57a168d081732e1b27748",
+      "size": 2895
+    },
+    {
+      "path": "runtime/kernel_preservation.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "67513316e32fe606a077f9ae887af4c0723107a8",
+      "size": 1176
+    },
+    {
+      "path": "runtime/kpd_projection.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7e5eabe70d4cfa8d2481f0561a9f4f645ff43a69",
+      "size": 1725
+    },
+    {
+      "path": "runtime/lambda_math.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "df19db5c8235c7cee6bf4c008d607269025a8bae",
+      "size": 2205
+    },
+    {
+      "path": "runtime/learning_operator_tools.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b62ca9c28f2683f2e94381cccbcc48ea24eeb560",
+      "size": 8979
+    },
+    {
+      "path": "runtime/learning_tool_bridge.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e617f487500bb5ea55712830b7f3207afca14e8e",
+      "size": 10902
+    },
+    {
+      "path": "runtime/legacy_tool_registry.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f469fd0b4c7c517e2123905e970bb6e53104682c",
+      "size": 929
+    },
+    {
+      "path": "runtime/lineage_state.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "72dcccfb27baa6f5d50a7956995665e077620fcc",
+      "size": 1172
+    },
+    {
+      "path": "runtime/material_delta.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e52c9ec43f3907a8720994da71c0c556d9d3d987",
+      "size": 852
+    },
+    {
+      "path": "runtime/math_first_selector.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "05286846b4c59e63d39242f3be750d2e94d695bb",
+      "size": 5033
+    },
+    {
+      "path": "runtime/math_first_wrapper.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "82c815efac97ec485db6bea8b0e57c6483c5335b",
+      "size": 12152
+    },
+    {
+      "path": "runtime/mathematical_color_gate.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3bfd73941c6da694a70815bd4ea15adbb6c11e1b",
+      "size": 9890
+    },
+    {
+      "path": "runtime/mathematical_color_recovery.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "dd8516607c163c4373611f2a0d37e282c78fb71d",
+      "size": 1815
+    },
+    {
+      "path": "runtime/mo_mt.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8d26b2c48cbf492d779f3f8a818894b2f9a1efaf",
+      "size": 1020
+    },
+    {
+      "path": "runtime/mode_centers.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "51f6bba79ea1a6bd36fc744746aae13def153891",
+      "size": 1090
+    },
+    {
+      "path": "runtime/mode_selector.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ae261ea5ee3e999e99bb92e482eb46100e539885",
+      "size": 657
+    },
+    {
+      "path": "runtime/mt_semantic_return_gate.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "dc4c35d7b265adcd45a530cfcb763b14c625ba88",
+      "size": 4045
+    },
+    {
+      "path": "runtime/object_recovery.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d4b6ed4231991e6965ad7a7d6ec9cd573b3c9ea6",
+      "size": 1833
+    },
+    {
+      "path": "runtime/portable_tool_conductor.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "753421d5b9aecd25f0e3c8d5712dbeb25fb8bab0",
+      "size": 13142
+    },
+    {
+      "path": "runtime/protected_transition_integrity.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "dcde8efda57b04c5068bf56aec7127f6e61bebb2",
+      "size": 3618
+    },
+    {
+      "path": "runtime/protected_transition_portfolio.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d1a06bba00b08ba5f51248cdddc1d4ddbe5d6130",
+      "size": 1653
+    },
+    {
+      "path": "runtime/protected_transition_recovery.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5622058dcf19473016dbd5afff96645de887e1c4",
+      "size": 1642
+    },
+    {
+      "path": "runtime/protected_transition_root_recheck.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a4416e2fa77e79850c86c32ba88e249dae808ea9",
+      "size": 2156
+    },
+    {
+      "path": "runtime/question_worth_asking.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "215ecfcf1e2cfb2083bee0f6f4238ebde63f989c",
+      "size": 2455
+    },
+    {
+      "path": "runtime/rcdl.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ae9ebccaaad642c5b729d08efbca940c3d0ed5bc",
+      "size": 1042
+    },
+    {
+      "path": "runtime/readiness_proof.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6713554fefb37dc72be3f062f4581fb59ac46a68",
+      "size": 877
+    },
+    {
+      "path": "runtime/reconcile.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "caf41b696392ece9043717d441e7162299fb7163",
+      "size": 554
+    },
+    {
+      "path": "runtime/recovery_corpus_manifest.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f030d43f3c47d3acc4fe6390ca5fad7333c372e8",
+      "size": 3933
+    },
+    {
+      "path": "runtime/recursive_episode.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "736e0ad77b6baab131065ea6a2cca3f0a7a48d6f",
+      "size": 4272
+    },
+    {
+      "path": "runtime/reflexive_currentness.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c9bb559c9f40917ef8f7f913ed831e67ad382f15",
+      "size": 905
+    },
+    {
+      "path": "runtime/relation_kernel.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "980fd3351a815034044750a01c120aa13eb2228c",
+      "size": 6849
+    },
+    {
+      "path": "runtime/repertoire_reachability.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "04f7ddce8b99c7fc46c3da5443feaf86ebfb9fb8",
+      "size": 2921
+    },
+    {
+      "path": "runtime/representation_discovery.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "70638134cfe19f97bdf0fef01873412522c17e02",
+      "size": 1819
+    },
+    {
+      "path": "runtime/research_system.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c1ddde525981e9b536ff7a8ae2c17314e0c1f7f7",
+      "size": 2042
+    },
+    {
+      "path": "runtime/result_path_registry.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8e1a67a18a11ce9ae297dbfe07048c6ee67a3162",
+      "size": 2406
+    },
+    {
+      "path": "runtime/role_assignment.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "dc932857dcfea0c7f63f9ed14d2c3e509ea18483",
+      "size": 473
+    },
+    {
+      "path": "runtime/root_cause.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "264ad61e3aa5fe027b783da17788dc0f99caee9b",
+      "size": 7260
+    },
+    {
+      "path": "runtime/root_cause_managed.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5748dc304715c3dc07350b0da22782169abbf6a9",
+      "size": 1462
+    },
+    {
+      "path": "runtime/root_cause_recovery.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6b0de3fefb8fb61971b8728aa3317f958d65e302",
+      "size": 2047
+    },
+    {
+      "path": "runtime/run_geometry.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a9678b55a970411e905c102323ef417b85bead10",
+      "size": 1494
+    },
+    {
+      "path": "runtime/run_request.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "633914af87857d0ccd4ee01a15aeaffe3635f6f9",
+      "size": 3009
+    },
+    {
+      "path": "runtime/scope_mode_36.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8edd985f89ccc9e95bbc458702699af5eba01cc8",
+      "size": 1102
+    },
+    {
+      "path": "runtime/scope_ontology.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "99318c0e1af5c85d3f60ebf0d01342f2ce09dddd",
+      "size": 1600
+    },
+    {
+      "path": "runtime/semantic_object_package.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e04f13545783d1b3626f75b0e4dd6894460cedd2",
+      "size": 5401
+    },
+    {
+      "path": "runtime/semantic_resolution_pipeline.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "075fc1e02a7f1036fa30fe5422d8c0db07ebe93c",
+      "size": 2697
+    },
+    {
+      "path": "runtime/show_me_the_math_contract.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "41955bc0ab2f630bb6d95380f6eb526e522488a4",
+      "size": 3886
+    },
+    {
+      "path": "runtime/show_me_the_math_portable.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f61c0930f2af984aad1352ae6df7f57af01edcaf",
+      "size": 11945
+    },
+    {
+      "path": "runtime/solution_to_my_problem.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8fb2340f348915501461287b4fbef438d0aa4f1a",
+      "size": 4828
+    },
+    {
+      "path": "runtime/specification_before_transformation.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7294cabab37e374efebf3ed7799d30561ad509fd",
+      "size": 13035
+    },
+    {
+      "path": "runtime/state_commit.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3f5917c8aceb9bb9857a8911cce23bbe648ffb70",
+      "size": 3257
+    },
+    {
+      "path": "runtime/system_audit.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cf64793f975723ea20b03dd0ba44b00dd60a3497",
+      "size": 6718
+    },
+    {
+      "path": "runtime/system_loop.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9a09be025c2be123cf64c556d08b4b5da36951d2",
+      "size": 3788
+    },
+    {
+      "path": "runtime/take5_dump.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "86eca5dd0bc38ec03de61e07c3c6e63bae870866",
+      "size": 2794
+    },
+    {
+      "path": "runtime/tool_manifest.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "eab02d962c7bd5b99fbff0a55d780767b53811e8",
+      "size": 12534
+    },
+    {
+      "path": "runtime/tool_manifest_audit.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3a84bea89f9e209ea7f23a1fc302197d54ed2a1d",
+      "size": 1041
+    },
+    {
+      "path": "runtime/tool_maturity.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "73b7e0246fe91bab14d257c65d5ea2ea2933ab2f",
+      "size": 1629
+    },
+    {
+      "path": "runtime/tool_reality_audit.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a44355b4250eed6ec730472868b187021a335a57",
+      "size": 2356
+    },
+    {
+      "path": "runtime/tool_run_closure.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4d3d8906f450ddc56134a87003d681d770a6a40c",
+      "size": 8885
+    },
+    {
+      "path": "runtime/tool_run_registry.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "dbce4c60dd42c7aa6f3a45d5534d99297c1b4185",
+      "size": 3194
+    },
+    {
+      "path": "runtime/typed_effect_ir.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b98c5ff6f7f426e2073834aca8a416061da56663",
+      "size": 6341
+    },
+    {
+      "path": "runtime/work_geometry.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6ef6b68ce9b6b88446f73797ba4d3ad333f237a0",
+      "size": 718
+    },
+    {
+      "path": "runtime/work_views.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "049be53ccbf7e546d337d1d5dc8cbb749c59ff22",
+      "size": 935
+    },
+    {
+      "path": "runtime/zero_request_episode.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8ac09d2965e840fb94c4613b66ae3ebfba08a72c",
+      "size": 700
+    },
+    {
+      "path": "semantic_objects",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "f5906bb732d637b3c0c4f7b3fdf9de933ae0e98f",
+      "size": null
+    },
+    {
+      "path": "semantic_objects/semantic-object-package",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "2e2bb76766b7669376a0c82d0e1e498d3fff5486",
+      "size": null
+    },
+    {
+      "path": "semantic_objects/semantic-object-package/CORE.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b708a0be411d9aef33ac8a90983e79255fb6f0ff",
+      "size": 1001
+    },
+    {
+      "path": "semantic_objects/semantic-object-package/MANIFEST.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "af53c32127797974b4aa4ff3ec89842d34d64e09",
+      "size": 308
+    },
+    {
+      "path": "semantic_objects/semantic-object-package/transitions",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "110b311ca71e4569dc46b49df1df7067c1eeebdf",
+      "size": null
+    },
+    {
+      "path": "semantic_objects/semantic-object-package/transitions/boundary_decomposition__to__boundary_decomposition.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2616d6e5a69f5deee303dc5cf3970d746fe6c208",
+      "size": 515
+    },
+    {
+      "path": "semantic_objects/semantic-object-package/transitions/boundary_decomposition__to__component.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "91a4d654b152bf311b7cebd032ee1c014986d966",
+      "size": 496
+    },
+    {
+      "path": "semantic_objects/semantic-object-package/transitions/boundary_decomposition__to__cross_layer.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fde0e43eb3fc7f0020f83199d040953d1a153fcf",
+      "size": 500
+    },
+    {
+      "path": "semantic_objects/semantic-object-package/transitions/boundary_decomposition__to__interface.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "73bd4abd7b43c56fbdc209d39006353280066abb",
+      "size": 496
+    },
+    {
+      "path": "semantic_objects/semantic-object-package/transitions/boundary_decomposition__to__subsystem.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "db670c779f430ea40e4a04f3d7dd7da92da1b90c",
+      "size": 496
+    },
+    {
+      "path": "semantic_objects/semantic-object-package/transitions/boundary_decomposition__to__system.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fe53872cd0394b34b16019c37d9612cabb8eb48b",
+      "size": 490
+    },
+    {
+      "path": "semantic_objects/semantic-object-package/transitions/component__to__boundary_decomposition.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c0cd8043fc3215980b5a0aa1eb043485d94ca98c",
+      "size": 496
+    },
+    {
+      "path": "semantic_objects/semantic-object-package/transitions/component__to__component.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "aa967506cafe97e5ccc6ce0b2ea464f4d83e2e9a",
+      "size": 463
+    },
+    {
+      "path": "semantic_objects/semantic-object-package/transitions/component__to__cross_layer.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c19a7e3578cf15db7228ae80f800e7b806314080",
+      "size": 472
+    },
+    {
+      "path": "semantic_objects/semantic-object-package/transitions/component__to__interface.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "de5daa6517ac91dbae079c313051d1760abe3b63",
+      "size": 465
+    },
+    {
+      "path": "semantic_objects/semantic-object-package/transitions/component__to__subsystem.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8a8df15d1be74a9614a49f36e89709828140c92f",
+      "size": 463
+    },
+    {
+      "path": "semantic_objects/semantic-object-package/transitions/component__to__system.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "78e6e97a2ccf15a9f833e4bc0863be4efd7d9e6c",
+      "size": 457
+    },
+    {
+      "path": "semantic_objects/semantic-object-package/transitions/cross_layer__to__boundary_decomposition.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "599af04b1516ac73073a8de2a88a214aa8356c43",
+      "size": 500
+    },
+    {
+      "path": "semantic_objects/semantic-object-package/transitions/cross_layer__to__component.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a56224bd8ee509ba7734dff1960e40cf3b72ab07",
+      "size": 472
+    },
+    {
+      "path": "semantic_objects/semantic-object-package/transitions/cross_layer__to__cross_layer.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "94f65709b7a5d23f162c5f2097c0454072e246ac",
+      "size": 471
+    },
+    {
+      "path": "semantic_objects/semantic-object-package/transitions/cross_layer__to__interface.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cf636086e77d2dc00e27c297ac0e8ea2b98b5677",
+      "size": 472
+    },
+    {
+      "path": "semantic_objects/semantic-object-package/transitions/cross_layer__to__subsystem.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c503b1489e603d84d4a6d560e441919cc0543fc4",
+      "size": 472
+    },
+    {
+      "path": "semantic_objects/semantic-object-package/transitions/cross_layer__to__system.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "72bbe2541fdceaa7cbca429341c5c55b7150071d",
+      "size": 466
+    },
+    {
+      "path": "semantic_objects/semantic-object-package/transitions/interface__to__boundary_decomposition.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a0d3d3dec1bfce517d64f944f1e657d517702e93",
+      "size": 496
+    },
+    {
+      "path": "semantic_objects/semantic-object-package/transitions/interface__to__component.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a91889c7be04c2fc67bdfa6649c205afaf153d4f",
+      "size": 465
+    },
+    {
+      "path": "semantic_objects/semantic-object-package/transitions/interface__to__cross_layer.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d15979982677994b5931c44ced8adaaed090d6fd",
+      "size": 472
+    },
+    {
+      "path": "semantic_objects/semantic-object-package/transitions/interface__to__interface.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "55654dfbb5a71ae9255cbe7147c5692dd7c93ec3",
+      "size": 463
+    },
+    {
+      "path": "semantic_objects/semantic-object-package/transitions/interface__to__subsystem.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f6a2fd7c14d18517963326592a9d335a95cb97d4",
+      "size": 465
+    },
+    {
+      "path": "semantic_objects/semantic-object-package/transitions/interface__to__system.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0acee8f5551ab80f2d7b4fa4c0c29c0a6937569c",
+      "size": 459
+    },
+    {
+      "path": "semantic_objects/semantic-object-package/transitions/subsystem__to__boundary_decomposition.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f663bd71ba5821186d95fdfb4d1cdb1518dbec3b",
+      "size": 496
+    },
+    {
+      "path": "semantic_objects/semantic-object-package/transitions/subsystem__to__component.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "aec9a2e7d656a7ca8d7673622d30bc54c379f848",
+      "size": 466
+    },
+    {
+      "path": "semantic_objects/semantic-object-package/transitions/subsystem__to__cross_layer.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "20f733243e90db8ebb5d08e9ac1e9738325f60b8",
+      "size": 472
+    },
+    {
+      "path": "semantic_objects/semantic-object-package/transitions/subsystem__to__interface.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "af3f0f4d13349b3d9fb44af8bdcd788e664f5b76",
+      "size": 465
+    },
+    {
+      "path": "semantic_objects/semantic-object-package/transitions/subsystem__to__subsystem.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "64fb007c7cdcfac07d2a394f6d02a359e9af9cf1",
+      "size": 463
+    },
+    {
+      "path": "semantic_objects/semantic-object-package/transitions/subsystem__to__system.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "10410c2c8325401de93be755c414823990a56cb1",
+      "size": 457
+    },
+    {
+      "path": "semantic_objects/semantic-object-package/transitions/system__to__boundary_decomposition.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3299472b6523cf267f47788d2353a2b63601db8c",
+      "size": 490
+    },
+    {
+      "path": "semantic_objects/semantic-object-package/transitions/system__to__component.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "dcdb6f08750ce9df8e67ff42c5761a886faaac33",
+      "size": 460
+    },
+    {
+      "path": "semantic_objects/semantic-object-package/transitions/system__to__cross_layer.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3c6cc95ff41a217bf9b5636d1d93b7fad4f0ffcd",
+      "size": 466
+    },
+    {
+      "path": "semantic_objects/semantic-object-package/transitions/system__to__interface.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "44efd7a4f649e7a301f88c3ebc56726a8463365e",
+      "size": 459
+    },
+    {
+      "path": "semantic_objects/semantic-object-package/transitions/system__to__subsystem.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0d2d1b1152e54cf6cb7f1ceef95a32bffe2efcee",
+      "size": 460
+    },
+    {
+      "path": "semantic_objects/semantic-object-package/transitions/system__to__system.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a9acf445c8e3d516d374fd9a6bc4458778b72e54",
+      "size": 451
+    },
+    {
+      "path": "semantic_objects/term-black-box",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "ef4a5fb177e5637f84ca09f9d18b074eccad0216",
+      "size": null
+    },
+    {
+      "path": "semantic_objects/term-black-box/CORE.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e7f837518dfee0d6e2361cde563fa4cf47c2ce79",
+      "size": 1046
+    },
+    {
+      "path": "semantic_objects/term-black-box/MANIFEST.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "678b080fcfae074e8f03f4820406c5ebc9523731",
+      "size": 330
+    },
+    {
+      "path": "semantic_objects/term-black-box/transitions",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "4b4827fb79dbf23583a3b11648df6b099a8ef113",
+      "size": null
+    },
+    {
+      "path": "semantic_objects/term-black-box/transitions/boundary_decomposition__to__boundary_decomposition.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1f9eca017029774b2350144109716a61f9402fc7",
+      "size": 568
+    },
+    {
+      "path": "semantic_objects/term-black-box/transitions/boundary_decomposition__to__component.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6fdf9df6b042222ed3c58302eef5189c09f916ad",
+      "size": 549
+    },
+    {
+      "path": "semantic_objects/term-black-box/transitions/boundary_decomposition__to__cross_layer.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4e33eb66bbd59bae70fd576234fcb7d74674fe37",
+      "size": 553
+    },
+    {
+      "path": "semantic_objects/term-black-box/transitions/boundary_decomposition__to__interface.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "bc1a139a7e960514783e02b3f810d6ee950d63da",
+      "size": 549
+    },
+    {
+      "path": "semantic_objects/term-black-box/transitions/boundary_decomposition__to__subsystem.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8d51f889a8dd13ec4b22a2ac23e566211c0eefa0",
+      "size": 549
+    },
+    {
+      "path": "semantic_objects/term-black-box/transitions/boundary_decomposition__to__system.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fd761d38dd0237d93c47f6c5a9f867c5f10dffc9",
+      "size": 543
+    },
+    {
+      "path": "semantic_objects/term-black-box/transitions/component__to__boundary_decomposition.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a6e31d8ae5a7fc811f4cdad098882a6b4e646fd8",
+      "size": 549
+    },
+    {
+      "path": "semantic_objects/term-black-box/transitions/component__to__component.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "43a8eeaa7f7876b2c07b1b5eaf896b9f868f57a7",
+      "size": 516
+    },
+    {
+      "path": "semantic_objects/term-black-box/transitions/component__to__cross_layer.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5df6333e077dedbcce5dcf9e1672612340b0e70f",
+      "size": 525
+    },
+    {
+      "path": "semantic_objects/term-black-box/transitions/component__to__interface.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e9fafd9383f584a2e77bbdbe64ba612d374738d5",
+      "size": 518
+    },
+    {
+      "path": "semantic_objects/term-black-box/transitions/component__to__subsystem.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "69974166af480a8c6f493110ff793a64ec241655",
+      "size": 516
+    },
+    {
+      "path": "semantic_objects/term-black-box/transitions/component__to__system.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "529aec5a5a5c550d41f8bc1ed977ccabc888b3a2",
+      "size": 510
+    },
+    {
+      "path": "semantic_objects/term-black-box/transitions/cross_layer__to__boundary_decomposition.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1599986fbe46991eb74a1407686913fbddb71699",
+      "size": 553
+    },
+    {
+      "path": "semantic_objects/term-black-box/transitions/cross_layer__to__component.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1eb442bd9496cc5cbf16fe59093c26e8d24a2856",
+      "size": 525
+    },
+    {
+      "path": "semantic_objects/term-black-box/transitions/cross_layer__to__cross_layer.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "155c07dd27316ffdfb0c001877822ab732ed92ee",
+      "size": 524
+    },
+    {
+      "path": "semantic_objects/term-black-box/transitions/cross_layer__to__interface.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ace98c8290233eb1e52659845edd5d2458a0809b",
+      "size": 525
+    },
+    {
+      "path": "semantic_objects/term-black-box/transitions/cross_layer__to__subsystem.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0fdfedc0f348b58c7fc48a0066f3ac1e34c1100a",
+      "size": 525
+    },
+    {
+      "path": "semantic_objects/term-black-box/transitions/cross_layer__to__system.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7b8a968678b9934a67cc308accbf9956801423eb",
+      "size": 519
+    },
+    {
+      "path": "semantic_objects/term-black-box/transitions/interface__to__boundary_decomposition.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c47281ba8401c4df280d61b2248ac89ef31e757f",
+      "size": 549
+    },
+    {
+      "path": "semantic_objects/term-black-box/transitions/interface__to__component.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "42b0e970d122e30ab2956751545cefe9de617368",
+      "size": 518
+    },
+    {
+      "path": "semantic_objects/term-black-box/transitions/interface__to__cross_layer.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f0ca7c2abe67d10cfd283c9e795f2e674f96eeab",
+      "size": 525
+    },
+    {
+      "path": "semantic_objects/term-black-box/transitions/interface__to__interface.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "56121c6f9e2acbee098aca672a46970be7ab81ee",
+      "size": 516
+    },
+    {
+      "path": "semantic_objects/term-black-box/transitions/interface__to__subsystem.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "20576011a0470922cab630df2524575c71f9ccc9",
+      "size": 518
+    },
+    {
+      "path": "semantic_objects/term-black-box/transitions/interface__to__system.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "95ba0b5c6fbe59dac9c141ac4cf8e15fafae0bf2",
+      "size": 512
+    },
+    {
+      "path": "semantic_objects/term-black-box/transitions/subsystem__to__boundary_decomposition.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d83b4970afa3dfce2794082d26d1dfe5466cc680",
+      "size": 549
+    },
+    {
+      "path": "semantic_objects/term-black-box/transitions/subsystem__to__component.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "79ba1542b68a8d6e13fb0f5b194614e970b0af87",
+      "size": 519
+    },
+    {
+      "path": "semantic_objects/term-black-box/transitions/subsystem__to__cross_layer.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "92b961fa6362143d8968bd97a1a4887213ecfabc",
+      "size": 525
+    },
+    {
+      "path": "semantic_objects/term-black-box/transitions/subsystem__to__interface.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3702c5788ba41b11e33b7d8c213c1123f8a7c1cb",
+      "size": 518
+    },
+    {
+      "path": "semantic_objects/term-black-box/transitions/subsystem__to__subsystem.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "be61c6e9144e550d8676050fe01735961fe9c3e8",
+      "size": 516
+    },
+    {
+      "path": "semantic_objects/term-black-box/transitions/subsystem__to__system.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "23dc7f5ca45c6177aeeb7da7947f922cfedaedcc",
+      "size": 510
+    },
+    {
+      "path": "semantic_objects/term-black-box/transitions/system__to__boundary_decomposition.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "995ab15131d0e7ffa8987ec54c5e45c0ec3640bf",
+      "size": 543
+    },
+    {
+      "path": "semantic_objects/term-black-box/transitions/system__to__component.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cceeea0f56f271c7b2826f31f5a645377ed201e8",
+      "size": 513
+    },
+    {
+      "path": "semantic_objects/term-black-box/transitions/system__to__cross_layer.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ba243b9c2afd188190042373d9a61aedefc2c2c1",
+      "size": 519
+    },
+    {
+      "path": "semantic_objects/term-black-box/transitions/system__to__interface.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ca045ab31ce16b2a2794cd0b2723187c0b73a258",
+      "size": 512
+    },
+    {
+      "path": "semantic_objects/term-black-box/transitions/system__to__subsystem.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "878c23c64be70b0a30ee6ce03a348d42c4bb77cc",
+      "size": 513
+    },
+    {
+      "path": "semantic_objects/term-black-box/transitions/system__to__system.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4bf83ea737e2666acc679d1a8718c0dd02a9bc43",
+      "size": 504
+    },
+    {
+      "path": "semantic_objects/term-load-bearing",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "064c38083de487ddcb1886adf05485f5228d4156",
+      "size": null
+    },
+    {
+      "path": "semantic_objects/term-load-bearing/CORE.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3998f9add75a3433b6963818e5b4e192b1bd94d0",
+      "size": 1044
+    },
+    {
+      "path": "semantic_objects/term-load-bearing/MANIFEST.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c17dd8ffc21c4b3008096c5bf10f22a249318b2c",
+      "size": 298
+    },
+    {
+      "path": "semantic_objects/term-load-bearing/transitions",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "855078eae7aec67f4928f606bf2fd72cf03756ef",
+      "size": null
+    },
+    {
+      "path": "semantic_objects/term-load-bearing/transitions/boundary_decomposition__to__boundary_decomposition.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c305ad86b4d2e4bf710177022b59d304490ffeb0",
+      "size": 498
+    },
+    {
+      "path": "semantic_objects/term-load-bearing/transitions/boundary_decomposition__to__component.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "be7bfec2bc639f890c3fd13e3cd660bc55927324",
+      "size": 479
+    },
+    {
+      "path": "semantic_objects/term-load-bearing/transitions/boundary_decomposition__to__cross_layer.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0cac4863209a325f53b9e892d340c4aaf624228b",
+      "size": 483
+    },
+    {
+      "path": "semantic_objects/term-load-bearing/transitions/boundary_decomposition__to__interface.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "db0fdd60d6db26a800e213c494dd62c388a947fb",
+      "size": 479
+    },
+    {
+      "path": "semantic_objects/term-load-bearing/transitions/boundary_decomposition__to__subsystem.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "814c307a7ea16b8626a1972833f90bc2707b2d59",
+      "size": 479
+    },
+    {
+      "path": "semantic_objects/term-load-bearing/transitions/boundary_decomposition__to__system.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7e39148dcb6b3e9c7c0600e4b6b04a19dec31311",
+      "size": 473
+    },
+    {
+      "path": "semantic_objects/term-load-bearing/transitions/component__to__boundary_decomposition.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "26f47bd32c5fae5af009e334856af0cebd062820",
+      "size": 479
+    },
+    {
+      "path": "semantic_objects/term-load-bearing/transitions/component__to__component.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d3777e4bd5c206a4d5b929f388751d4d85086ab9",
+      "size": 446
+    },
+    {
+      "path": "semantic_objects/term-load-bearing/transitions/component__to__cross_layer.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "71235d9fdf936c7a00a9c31d0bf4c2d484b918b3",
+      "size": 455
+    },
+    {
+      "path": "semantic_objects/term-load-bearing/transitions/component__to__interface.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4eee984087388d605600ef5e5d733976e94e5b3e",
+      "size": 448
+    },
+    {
+      "path": "semantic_objects/term-load-bearing/transitions/component__to__subsystem.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "84160becd5163cb69dda4d18003f4e21767654d5",
+      "size": 446
+    },
+    {
+      "path": "semantic_objects/term-load-bearing/transitions/component__to__system.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e834b1e298650c4d3ee2101b96346ab7be1c8978",
+      "size": 440
+    },
+    {
+      "path": "semantic_objects/term-load-bearing/transitions/cross_layer__to__boundary_decomposition.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0fe95d090332075f636d146f48466baab18c15cd",
+      "size": 483
+    },
+    {
+      "path": "semantic_objects/term-load-bearing/transitions/cross_layer__to__component.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "551be70c31edff53fef6b145d6c7ffc87077845a",
+      "size": 455
+    },
+    {
+      "path": "semantic_objects/term-load-bearing/transitions/cross_layer__to__cross_layer.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5b78c1b0cebeb0d444aee25d0bc4077e8a5c87a6",
+      "size": 454
+    },
+    {
+      "path": "semantic_objects/term-load-bearing/transitions/cross_layer__to__interface.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7c3be9c7f5e75e58fa4ea69d3d8ed1622000b078",
+      "size": 455
+    },
+    {
+      "path": "semantic_objects/term-load-bearing/transitions/cross_layer__to__subsystem.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "084426e898ad11eb4fd953bd601d461e4020baa5",
+      "size": 455
+    },
+    {
+      "path": "semantic_objects/term-load-bearing/transitions/cross_layer__to__system.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9bc7faaf9cf5df941ded6f11c6c509b6d38e64cf",
+      "size": 449
+    },
+    {
+      "path": "semantic_objects/term-load-bearing/transitions/interface__to__boundary_decomposition.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c0b3e88e63c7c53767694f911bc6aa5b93174120",
+      "size": 479
+    },
+    {
+      "path": "semantic_objects/term-load-bearing/transitions/interface__to__component.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "91cb578c819ea7875aec0eff47bca45bddb98953",
+      "size": 448
+    },
+    {
+      "path": "semantic_objects/term-load-bearing/transitions/interface__to__cross_layer.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "522cb8c3b9bda42cee874b5dd07b0189e1844cc9",
+      "size": 455
+    },
+    {
+      "path": "semantic_objects/term-load-bearing/transitions/interface__to__interface.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0fe3e2f1fa097fc91d1560851c39486267d36589",
+      "size": 446
+    },
+    {
+      "path": "semantic_objects/term-load-bearing/transitions/interface__to__subsystem.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "bd1b558c89a239e30ea99a093b692f6f4fb8724d",
+      "size": 448
+    },
+    {
+      "path": "semantic_objects/term-load-bearing/transitions/interface__to__system.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "63eed2bcbd0a4620194a878e3baa769bbf403af3",
+      "size": 442
+    },
+    {
+      "path": "semantic_objects/term-load-bearing/transitions/subsystem__to__boundary_decomposition.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c7f39616e8fa26058d41c13b90746166cb9c8bc6",
+      "size": 479
+    },
+    {
+      "path": "semantic_objects/term-load-bearing/transitions/subsystem__to__component.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d62b10e620c2812f198618277eab6d0a2f73578e",
+      "size": 449
+    },
+    {
+      "path": "semantic_objects/term-load-bearing/transitions/subsystem__to__cross_layer.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c4fcaf7b979013528d5bdf45cd0042d4180dc765",
+      "size": 455
+    },
+    {
+      "path": "semantic_objects/term-load-bearing/transitions/subsystem__to__interface.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e7a0ce5343d1f808a32f413f75fdddd6ec48ca13",
+      "size": 448
+    },
+    {
+      "path": "semantic_objects/term-load-bearing/transitions/subsystem__to__subsystem.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "05a6b5a9cca7effa3a3be62c196142048d93283a",
+      "size": 446
+    },
+    {
+      "path": "semantic_objects/term-load-bearing/transitions/subsystem__to__system.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "030464b14ffe8c37c6e61a6319cce420d5d7a833",
+      "size": 440
+    },
+    {
+      "path": "semantic_objects/term-load-bearing/transitions/system__to__boundary_decomposition.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f44ed15f6105306feb536f55ecbad0eb27392384",
+      "size": 473
+    },
+    {
+      "path": "semantic_objects/term-load-bearing/transitions/system__to__component.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "101a9b8053f6d0ecdb7cc12c69f3575956d602e9",
+      "size": 443
+    },
+    {
+      "path": "semantic_objects/term-load-bearing/transitions/system__to__cross_layer.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0f49f795b844925674d5224fad797f448f2e8081",
+      "size": 449
+    },
+    {
+      "path": "semantic_objects/term-load-bearing/transitions/system__to__interface.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e5f4836b065a0caf26e373f56bddf9b5fb8a724e",
+      "size": 442
+    },
+    {
+      "path": "semantic_objects/term-load-bearing/transitions/system__to__subsystem.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "51a879cfbb68e8917293015493645c2e31cca582",
+      "size": 443
+    },
+    {
+      "path": "semantic_objects/term-load-bearing/transitions/system__to__system.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b8b155a4293a08e68dcc8d2db052e88100446cae",
+      "size": 434
+    },
+    {
+      "path": "semantic_objects/term-tool",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "1653884d842044c84cff37ff7acce235afccef1d",
+      "size": null
+    },
+    {
+      "path": "semantic_objects/term-tool/CORE.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "91cbd039ddbf8286d3dfd0006e7e684c4bc4830f",
+      "size": 968
+    },
+    {
+      "path": "semantic_objects/term-tool/MANIFEST.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "99e8f46875cfd85683583b7fe44bcfda7aaee56e",
+      "size": 320
+    },
+    {
+      "path": "semantic_objects/term-tool/transitions",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "13ed387b579ae92863294cd1e92a7ee86ed0c826",
+      "size": null
+    },
+    {
+      "path": "semantic_objects/term-tool/transitions/boundary_decomposition__to__boundary_decomposition.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "bf1288ef4494fa66c4b7975e46bcf9b730130bb7",
+      "size": 558
+    },
+    {
+      "path": "semantic_objects/term-tool/transitions/boundary_decomposition__to__component.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d514c70ce934e67abcddb0cdfdc3c0100a86d557",
+      "size": 539
+    },
+    {
+      "path": "semantic_objects/term-tool/transitions/boundary_decomposition__to__cross_layer.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c0ae30b9d5dd25a7974a0e10a4b0f4e4d799938e",
+      "size": 543
+    },
+    {
+      "path": "semantic_objects/term-tool/transitions/boundary_decomposition__to__interface.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "90e15bd49fd476a8be7ac7f861098e85b985a593",
+      "size": 539
+    },
+    {
+      "path": "semantic_objects/term-tool/transitions/boundary_decomposition__to__subsystem.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "00469bf8b0e7e38354b98c2bbbff1caf87d6d50e",
+      "size": 539
+    },
+    {
+      "path": "semantic_objects/term-tool/transitions/boundary_decomposition__to__system.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "197fea55dde430b2b6471931fa61995b6007c200",
+      "size": 533
+    },
+    {
+      "path": "semantic_objects/term-tool/transitions/component__to__boundary_decomposition.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9b85654bc5e3833396ec89b2b1af8a52bcdb86b0",
+      "size": 539
+    },
+    {
+      "path": "semantic_objects/term-tool/transitions/component__to__component.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4b64594b66a839662a5722fd3cdd7cf18f10c284",
+      "size": 506
+    },
+    {
+      "path": "semantic_objects/term-tool/transitions/component__to__cross_layer.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "de32e8261b110b0c923b0de3a3bd3783a4c1c1ff",
+      "size": 515
+    },
+    {
+      "path": "semantic_objects/term-tool/transitions/component__to__interface.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8e585e9078cfd207bf469a8cc90ebe467f7bf341",
+      "size": 508
+    },
+    {
+      "path": "semantic_objects/term-tool/transitions/component__to__subsystem.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4ae3fd87b38bc9af1bf6c47a6d138ace252cdc51",
+      "size": 506
+    },
+    {
+      "path": "semantic_objects/term-tool/transitions/component__to__system.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6f7bd10010e196a00ebdf493defd723372561d85",
+      "size": 500
+    },
+    {
+      "path": "semantic_objects/term-tool/transitions/cross_layer__to__boundary_decomposition.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c97ecadf2edcfea04237bcc21cb704a732c06783",
+      "size": 543
+    },
+    {
+      "path": "semantic_objects/term-tool/transitions/cross_layer__to__component.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "394dfa540fb9e8f54d32b29d61e26a3c562fb495",
+      "size": 515
+    },
+    {
+      "path": "semantic_objects/term-tool/transitions/cross_layer__to__cross_layer.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2572f8d9bf44026eef8dedb5888ecc641f2c4269",
+      "size": 514
+    },
+    {
+      "path": "semantic_objects/term-tool/transitions/cross_layer__to__interface.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6f90197b73843b813dbe6f159c1eebf0f6eb7fc3",
+      "size": 515
+    },
+    {
+      "path": "semantic_objects/term-tool/transitions/cross_layer__to__subsystem.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "070919e0abd48d765565d2fa655f0b3345307bf0",
+      "size": 515
+    },
+    {
+      "path": "semantic_objects/term-tool/transitions/cross_layer__to__system.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3b6ecfc09f1566c282c29d81c988ceb9a71f6960",
+      "size": 509
+    },
+    {
+      "path": "semantic_objects/term-tool/transitions/interface__to__boundary_decomposition.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "609c7ff3fe41361fb4d25f9852ddd99be9ae7b12",
+      "size": 539
+    },
+    {
+      "path": "semantic_objects/term-tool/transitions/interface__to__component.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "380aff9e1645b833c67ae400fedaf89e54bef47d",
+      "size": 508
+    },
+    {
+      "path": "semantic_objects/term-tool/transitions/interface__to__cross_layer.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "127e127d1f640e7e653618f9bccd3edd343a42fe",
+      "size": 515
+    },
+    {
+      "path": "semantic_objects/term-tool/transitions/interface__to__interface.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "83320ec99d58a62a633855f61971002cc71d9de3",
+      "size": 506
+    },
+    {
+      "path": "semantic_objects/term-tool/transitions/interface__to__subsystem.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4fe445246933b406423625ca5898d93dd461bdb2",
+      "size": 508
+    },
+    {
+      "path": "semantic_objects/term-tool/transitions/interface__to__system.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "bcb9b758212ff55d2a72f9a07d5acf7c294652a6",
+      "size": 502
+    },
+    {
+      "path": "semantic_objects/term-tool/transitions/subsystem__to__boundary_decomposition.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "191b065604316479389f43fdb4b5ce62f0dea79b",
+      "size": 539
+    },
+    {
+      "path": "semantic_objects/term-tool/transitions/subsystem__to__component.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8710177f547aafc0f3a4008bf6bac68f60ad6ef9",
+      "size": 509
+    },
+    {
+      "path": "semantic_objects/term-tool/transitions/subsystem__to__cross_layer.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b7ff2cd3f969d1ef8efd57547dd02ba9d1b075ae",
+      "size": 515
+    },
+    {
+      "path": "semantic_objects/term-tool/transitions/subsystem__to__interface.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3d434c5d6ced389d2313f8c8b7b8f7955ae789f9",
+      "size": 508
+    },
+    {
+      "path": "semantic_objects/term-tool/transitions/subsystem__to__subsystem.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5bebde83ed18fd81415bcd7a5ecad4a4ef96df22",
+      "size": 506
+    },
+    {
+      "path": "semantic_objects/term-tool/transitions/subsystem__to__system.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f632975496465d7024e3e4b0ce4f2c84be43af0e",
+      "size": 500
+    },
+    {
+      "path": "semantic_objects/term-tool/transitions/system__to__boundary_decomposition.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7f30cac8bfa4b0304dd442353a69b2dbb58beeac",
+      "size": 533
+    },
+    {
+      "path": "semantic_objects/term-tool/transitions/system__to__component.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "350b9cc2621494d5712bfb929c415b0a37fc29c8",
+      "size": 503
+    },
+    {
+      "path": "semantic_objects/term-tool/transitions/system__to__cross_layer.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "75e8e4e82f3c06cf0eb316538cbc205f278e39e5",
+      "size": 509
+    },
+    {
+      "path": "semantic_objects/term-tool/transitions/system__to__interface.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "02d9f9f60b226749aa6782a44bb96000e56184a6",
+      "size": 502
+    },
+    {
+      "path": "semantic_objects/term-tool/transitions/system__to__subsystem.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0855b8398f110f5dd8233830617ba30a5c4b173a",
+      "size": 503
+    },
+    {
+      "path": "semantic_objects/term-tool/transitions/system__to__system.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "af2b375808ed3ba2aaf66f605af1c88a397352bb",
+      "size": 494
+    },
+    {
+      "path": "take6-bootstrap",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "45def4b1cfe732916640695b088996534abe9e3d",
+      "size": null
+    },
+    {
+      "path": "take6-bootstrap/ARCHITECTURE.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c530e2a8a4248ddbeaf7d6afbc3b451f9f2bea0c",
+      "size": 7590
+    },
+    {
+      "path": "take6-bootstrap/ARCHIVE_DURABILITY.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "072dc67e8408bfa018833d069e9c0e8b68d94f5c",
+      "size": 955
+    },
+    {
+      "path": "take6-bootstrap/BOOTSTRAP_MANIFEST.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2854af894067fa48fd7e24ff8f4b4a8d14b510ab",
+      "size": 2629
+    },
+    {
+      "path": "take6-bootstrap/BOOT_SEQUENCE.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a82e2877e7a80129ad0df44ee29dd7ab60f6b4f7",
+      "size": 1326
+    },
+    {
+      "path": "take6-bootstrap/IMPROVEMENTCORE_DECISION.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "27e21fbeaf820ad9b44c2134d640d4032cd27fb2",
+      "size": 3265
+    },
+    {
+      "path": "take6-bootstrap/KERNEL.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7aad1d0ba9d8a12d149504d013604dc5315d4285",
+      "size": 3240
+    },
+    {
+      "path": "take6-bootstrap/MIGRATION_FROM_TAKE5.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f63a9c2adc3315992ed8d3bbb444cba51519453f",
+      "size": 2887
+    },
+    {
+      "path": "take6-bootstrap/README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "deacea76ab61a4b4bda8cea39697f6e91a70a3e3",
+      "size": 3158
+    },
+    {
+      "path": "take6-bootstrap/VALIDATION_001.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d968dd017b0e480d39ed8b13e28365167ac89d09",
+      "size": 1563
+    },
+    {
+      "path": "take6-bootstrap/VALIDATION_002.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b4489bf2b0f67671eda5964e08847a87f65eaa8b",
+      "size": 2127
+    },
+    {
+      "path": "take6-bootstrap/migration",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "98a66fa494e32553cb3ee898fb55cf6f72fd1c58",
+      "size": null
+    },
+    {
+      "path": "take6-bootstrap/migration/FROZEN_REPOSITORY_INVENTORY_VALIDATION_001.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "188337f9e5d7902ccd127d662473fe45371829e3",
+      "size": 2008
+    },
+    {
+      "path": "take6-bootstrap/migration/SOURCE_FREEZE_001.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a120166d5f3e90e65a3d389ac8a188b67567e22e",
+      "size": 2098
+    },
+    {
+      "path": "take6-bootstrap/migration/SOURCE_MANIFEST_001.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a9ac98b5c6b92b07d564200e7d496ba387765c3a",
+      "size": 4857
+    },
+    {
+      "path": "take6-bootstrap/migration/inventories",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "51344ed83e0521b7e705f1c5b1820a654134bb18",
+      "size": null
+    },
+    {
+      "path": "take6-bootstrap/migration/inventories/REASERCH_TREE_INVENTORY_001.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c2b54a691b09474807606393a5ed430cc943f65b",
+      "size": 532804
+    },
+    {
+      "path": "take6-bootstrap/migration/inventories/TAKE2_TREE_INVENTORY_001.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3776db5bdcaa5142b259b997f3d2c83be8b60e3b",
+      "size": 6988
+    },
+    {
+      "path": "take6-bootstrap/migration/inventories/TAKE3_TREE_INVENTORY_001.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2d439a87711db3929a58ccadec711dcf431aa651",
+      "size": 2051
+    },
+    {
+      "path": "take6-bootstrap/migration/inventories/TAKE4_TREE_INVENTORY_001.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ead46d43568ab43323bea747feadf162e73b0c9c",
+      "size": 12853
+    },
+    {
+      "path": "take6-bootstrap/migration/inventories/TAKE5_TREE_INVENTORY_001.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5b9e734f24f75a07afe55a262ab9279f696fe373",
+      "size": 176365
+    },
+    {
+      "path": "take6-bootstrap/runtime",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "9127aef5a31f6215cf3e7fb9eaefc76a38cdf809",
+      "size": null
+    },
+    {
+      "path": "take6-bootstrap/runtime/archive.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0250ee82d4b58fab580ceaace43f458449984045",
+      "size": 2551
+    },
+    {
+      "path": "take6-bootstrap/runtime/authority.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fba78c65db2bf3f6040594c31b15b391e3dd5151",
+      "size": 1105
+    },
+    {
+      "path": "take6-bootstrap/runtime/checkpoint.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "bd5d9dfa0303edeba745a579f767d49f2235f847",
+      "size": 1711
+    },
+    {
+      "path": "take6-bootstrap/runtime/compiler.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "bd0fd0ed2c5fc3302de4ba081191dd1a50b55731",
+      "size": 5227
+    },
+    {
+      "path": "take6-bootstrap/runtime/durability.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d327dd6b96576819f469bef1d69094f6dfea5346",
+      "size": 1152
+    },
+    {
+      "path": "take6-bootstrap/runtime/invocation.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "057d0b765c5d4e80383adb6d815fa45e42328bad",
+      "size": 1514
+    },
+    {
+      "path": "take6-bootstrap/runtime/promotion.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "58ca61e73d961d687c715eba019ae3c823d8efed",
+      "size": 2481
+    },
+    {
+      "path": "take6-bootstrap/runtime/propagation.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4cff5dbd20a703090d81b69fe8b44638f8fd9f85",
+      "size": 1259
+    },
+    {
+      "path": "take6-bootstrap/runtime/views.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9daa55c27e2c33f5245dfa9f411419a1bb003dc5",
+      "size": 9430
+    },
+    {
+      "path": "take6-bootstrap/schemas",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "2f2b924101ff2cdaba341dc520afd6449be884f5",
+      "size": null
+    },
+    {
+      "path": "take6-bootstrap/schemas/artifact.schema.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5334d948643ba2b5d7ec4b5627c7bd7aa9d8150d",
+      "size": 1851
+    },
+    {
+      "path": "take6-bootstrap/schemas/event.schema.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9d7fe107fa421150245c5e61fb575caf7ef369e1",
+      "size": 1477
+    },
+    {
+      "path": "take6-bootstrap/schemas/semantic-object.schema.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b1f6be7229a34f07918e5aacaee4edd27b99dadb",
+      "size": 1613
+    },
+    {
+      "path": "take6-bootstrap/schemas/tool-capsule.schema.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9a760887bf3f0b3a10762563fbd39f947e660894",
+      "size": 1341
+    },
+    {
+      "path": "take6-bootstrap/tests",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "3331ab979ff30b3250324f665933ec3c779bc99d",
+      "size": null
+    },
+    {
+      "path": "take6-bootstrap/tests/test_invariants.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "69498483bb9bc78b4f61066efd595f00574b5a8b",
+      "size": 8835
+    },
+    {
+      "path": "take6-bootstrap/tests/test_views.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c21e4f05dd9d7cbc8b33c48fd19b0003400006bd",
+      "size": 7796
+    },
+    {
+      "path": "tests",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "198cfdd9f453d4d2708b6be00e6399aef5d7b8c0",
+      "size": null
+    },
+    {
+      "path": "tests/test_a5_core.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "48e1b68d05e1e1a179e5924c02c5833df7f6652d",
+      "size": 1112
+    },
+    {
+      "path": "tests/test_a5_registry.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "31b1b7313a6949c3eb7d9e84850a3c30d95fc4f5",
+      "size": 4823
+    },
+    {
+      "path": "tests/test_activation_bridge.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "69b2c87b08e8cb9ed490c58a1e1c462d889b4884",
+      "size": 1535
+    },
+    {
+      "path": "tests/test_all_capabilities_execute.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0a947aa7255ce8cba8d8622402f825d8a3636c9a",
+      "size": 2627
+    },
+    {
+      "path": "tests/test_archive_artifact_intake.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "548b552d2105a61caf16e881757bcfb187b77fe2",
+      "size": 3739
+    },
+    {
+      "path": "tests/test_artifact_intake.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1002b122f78e851f104afda39514e7aa28f877c7",
+      "size": 4499
+    },
+    {
+      "path": "tests/test_assert_compound.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ba8f8b6dfc5965987cfd53f9fa4353b4835e3c99",
+      "size": 3637
+    },
+    {
+      "path": "tests/test_assert_full36.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e7402f4a5b0bb60c3be6c2da1c608e7a4fed0762",
+      "size": 1316
+    },
+    {
+      "path": "tests/test_capability_foundry.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6c56263555861c94e2909ad6cec6852abd82689a",
+      "size": 4841
+    },
+    {
+      "path": "tests/test_capability_preservation.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "114e235bc99ceeec69fe8d671a2a52eb8aaf6401",
+      "size": 1221
+    },
+    {
+      "path": "tests/test_capability_preservation_manifest.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "dd475db7a461d9411a5e2c5de15e79fdfe1ae49d",
+      "size": 822
+    },
+    {
+      "path": "tests/test_capability_router.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "37ca0ba4af9f4909771dfbacdc236a6f0ae34a55",
+      "size": 1048
+    },
+    {
+      "path": "tests/test_configured_function_ir.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6ec700135ba732d58881192ae7e41f9a8e3726c9",
+      "size": 2274
+    },
+    {
+      "path": "tests/test_configured_run_spec.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ec801862694fbcfabf22850e77de3f58db44d72e",
+      "size": 493
+    },
+    {
+      "path": "tests/test_controller_episode.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0de255651868730bec83238527d85ae9263297e5",
+      "size": 787
+    },
+    {
+      "path": "tests/test_coordinate_registry.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ad06573fbcd6124086788995bf68cb93dff6c8bc",
+      "size": 696
+    },
+    {
+      "path": "tests/test_current_portfolio_identity.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c3c6b236dc7a80d07b098481b819c3af07e58be0",
+      "size": 355
+    },
+    {
+      "path": "tests/test_currentness_audit.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "93c88363e743d0084c49d3a705a00358933f65c5",
+      "size": 1622
+    },
+    {
+      "path": "tests/test_delegation_lineage.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8a1d77dad3b0f385b334534eaeebb0bd9fdced9b",
+      "size": 1886
+    },
+    {
+      "path": "tests/test_desired_jane.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e22dfed07ad6209cc57e5e49a23631ea682bf053",
+      "size": 1872
+    },
+    {
+      "path": "tests/test_desired_jane_registry.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e926d8ee241a77f02cdb2831af760099090ecc89",
+      "size": 312
+    },
+    {
+      "path": "tests/test_direct_tool_command_gateway.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "bd85ccb5da8e0ca0666b15e504280801d18653b0",
+      "size": 2575
+    },
+    {
+      "path": "tests/test_effectiveness_objective_compilation.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "847ff187ff48cce3b5bbca3db1a55e8bf158c21b",
+      "size": 1469
+    },
+    {
+      "path": "tests/test_evidence_ledger.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "17df6c85a8e939eba897288f9508a737bf9e9686",
+      "size": 1524
+    },
+    {
+      "path": "tests/test_execution_claim_integrity.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "84e0ca936e923b58370c787de02aa6ec8d8ef3ce",
+      "size": 2711
+    },
+    {
+      "path": "tests/test_formal_claim_admission.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "09d952e6a68a1a423cee424fce3e640103493453",
+      "size": 7877
+    },
+    {
+      "path": "tests/test_foundation_takeover.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7107a283a609868b14c86b7d128615f54f646cff",
+      "size": 1272
+    },
+    {
+      "path": "tests/test_full_invocation_portfolio.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "322b8cfa7b576d2b7aa5cbd4ec58f2a0a2d2cd6e",
+      "size": 406
+    },
+    {
+      "path": "tests/test_full_system_show_math_campaign_20260926.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8e9db4ff6ddd36f45555f7d99ce1d568c036e23e",
+      "size": 3628
+    },
+    {
+      "path": "tests/test_global_tool_execution.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9f5d821d85adbf65780e8cf8ef170e6a5cdf5bbf",
+      "size": 1970
+    },
+    {
+      "path": "tests/test_goal.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "24ac544ab2178098a31863fe87f54939a2c36858",
+      "size": 2940
+    },
+    {
+      "path": "tests/test_hf1_episode.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "39b70101c30b007853ee138c7d66378d284f6fe9",
+      "size": 3268
+    },
+    {
+      "path": "tests/test_hf1_recovery.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1a9a92d7b969b4eaeb177a8626d5f3481fdb6150",
+      "size": 210
+    },
+    {
+      "path": "tests/test_hf_current_controller.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5acf5d59c07847ef2255ca77e2365d060a725913",
+      "size": 1381
+    },
+    {
+      "path": "tests/test_hf_wrapper_reentry.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e9155ceeb02d169d38dc5bc936fc8b5876bb0530",
+      "size": 719
+    },
+    {
+      "path": "tests/test_historical_reconstruction.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ce3313aeceaaa722d1ca77c4ea6e23eff5face3b",
+      "size": 967
+    },
+    {
+      "path": "tests/test_historical_replay_audit.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4a4fccdd7c2861ccbdeff026e071cfb4af585d32",
+      "size": 246
+    },
+    {
+      "path": "tests/test_ic028_operator.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "286dc24f9da1b302f6b61bd1f9037fadf2a75ffa",
+      "size": 6510
+    },
+    {
+      "path": "tests/test_ic128_legacy_behavior_benchmark_129.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "336f8088ef4a1254a17f5d485fc2e8d323e18f80",
+      "size": 1141
+    },
+    {
+      "path": "tests/test_icc128_legacy.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f8fb19aaacdb18bc58595bd295c3ef6ed59d444f",
+      "size": 2569
+    },
+    {
+      "path": "tests/test_icc128_legacy_portability.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a7b778d685c6d96a9183fa9c16329dfc7a2c3b6c",
+      "size": 5083
+    },
+    {
+      "path": "tests/test_icc128_legacy_reporting.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f408667651637a5b2ae10e01e50ae30fc662a766",
+      "size": 5033
+    },
+    {
+      "path": "tests/test_icc_bootstrap.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c3a41837a2eff91264d7987ec5d74019d611c147",
+      "size": 2698
+    },
+    {
+      "path": "tests/test_improvecore_chat_export_github_105.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b32d99ad74b2a0c539fc81f28c48b04215630821",
+      "size": 8457
+    },
+    {
+      "path": "tests/test_improvecore_current_chat_103.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6b38da8cadb6a016317eded444d4517ed7afbe41",
+      "size": 9627
+    },
+    {
+      "path": "tests/test_improvecore_hf2_direct_tool_campaign_20260926.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9f531aebede3aabaa936507108e248d63cc57071",
+      "size": 7801
+    },
+    {
+      "path": "tests/test_improvecore_hf2_observer_campaign_20260926.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "883795001de680e03a5c9516c8baaf52077f7ab4",
+      "size": 8273
+    },
+    {
+      "path": "tests/test_improvecore_hf2_think_big_direct_tool_20260926.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a7b827f192591b0accb934b9f3645f7bd7a9b337",
+      "size": 9285
+    },
+    {
+      "path": "tests/test_improvecore_hf2_think_big_fix_20260926.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "02cae515b3004b2269a46a51acccd32e0b065726",
+      "size": 13800
+    },
+    {
+      "path": "tests/test_improvecore_hf2_think_big_reentry_20260926.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e1c787a5f3570f726d9227cdde56def4c7235ade",
+      "size": 7102
+    },
+    {
+      "path": "tests/test_improvement_core.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fbe152cf0f076d725da12236d41e2353e6e2d0b2",
+      "size": 3228
+    },
+    {
+      "path": "tests/test_improvement_core_anti_repeat_110.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "182d525d9f145cb2f8c91a945db10aba563254e1",
+      "size": 5084
+    },
+    {
+      "path": "tests/test_improvement_core_concurrency.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "431bb2e67bc5802a807d107fdfadad626ffdc54c",
+      "size": 2486
+    },
+    {
+      "path": "tests/test_improvement_core_dispatch.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b51cdce84a6413a181f06a9719f50ed48ad69e97",
+      "size": 3865
+    },
+    {
+      "path": "tests/test_improvement_core_external_acquisition.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5ba2bafd96c26a08e85d8d56151f32d1d568cc35",
+      "size": 6497
+    },
+    {
+      "path": "tests/test_improvement_core_frontier_closure_106.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "116d27bcf9d2dc17082c7885b35a28b57706c366",
+      "size": 1372
+    },
+    {
+      "path": "tests/test_improvement_core_hf2_default.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "377c1c5cee3717be96ff569ef61e3a88807129c7",
+      "size": 6546
+    },
+    {
+      "path": "tests/test_improvement_core_knowledge_ledger.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "208befe7e1271f1eb22e28d36b609902530e7036",
+      "size": 4251
+    },
+    {
+      "path": "tests/test_improvement_core_legacy_candidate.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0e957891665dc93ca0aff0b3400324be02550d78",
+      "size": 6213
+    },
+    {
+      "path": "tests/test_improvement_core_legacy_restored.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7c67e6eed942c9f31196e0f6090978be44b39e01",
+      "size": 8213
+    },
+    {
+      "path": "tests/test_improvement_core_manager.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9893fe8f0f02de92d36f6ea0071c73c75c3ee1be",
+      "size": 2219
+    },
+    {
+      "path": "tests/test_improvement_core_math_086.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0e7158bbfae7ba6adbb7370c4524cee04812caa5",
+      "size": 1915
+    },
+    {
+      "path": "tests/test_improvement_core_math_first.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "32148dacc4e6e26ff6b0b4c41f5e5bac5608a6ff",
+      "size": 1607
+    },
+    {
+      "path": "tests/test_improvement_core_math_spine.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e129ca18e9052aecc2c81eac76af940e5daa6917",
+      "size": 2775
+    },
+    {
+      "path": "tests/test_improvement_core_mode_profile.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d3ca6aaf8ca5da0adbcf20671311f483b1bc4db1",
+      "size": 1930
+    },
+    {
+      "path": "tests/test_improvement_core_mt_evidence_20260926.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "849538ab0aa5e0627548f831de23ec94c136ca5a",
+      "size": 12647
+    },
+    {
+      "path": "tests/test_improvement_core_order_math.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "46082c3fbbcdc9fe918dbc0975374e040d61c0cb",
+      "size": 7008
+    },
+    {
+      "path": "tests/test_improvement_core_progress_relation.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "34e669241e2893d0bafc2f9ae6d76bb00c3a9287",
+      "size": 6977
+    },
+    {
+      "path": "tests/test_improvement_core_recovery.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d294951c31e4f3f757b94b527125398f32ada62c",
+      "size": 449
+    },
+    {
+      "path": "tests/test_improvement_core_regime.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b00b39ad852d63bede668a47108b2919931b15f6",
+      "size": 15018
+    },
+    {
+      "path": "tests/test_improvement_core_restored_dispatch.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0c80a6865327d2ede2aa68928face5f6ad40cf27",
+      "size": 5192
+    },
+    {
+      "path": "tests/test_improvement_core_return_gate.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b9eb641acf8c2ae8cebb8a299596c2205ba0defc",
+      "size": 7436
+    },
+    {
+      "path": "tests/test_improvement_core_route_calibration.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5d8b8b11836e1359c41ec3dea6431c66c0c0fe27",
+      "size": 1011
+    },
+    {
+      "path": "tests/test_improvement_core_self_study_tool_execution.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8ccbaea9cd81aaf2643b59357ba5e13fcec307cf",
+      "size": 2167
+    },
+    {
+      "path": "tests/test_improvement_core_tool_bridge.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f2e1c0a213015bb5f57833a8d7ce38433859b2c0",
+      "size": 3500
+    },
+    {
+      "path": "tests/test_improvement_core_unlike_autonomy_holdouts.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f0ed41b044d394b789338ea7c796ef474952f7a0",
+      "size": 2690
+    },
+    {
+      "path": "tests/test_improvement_core_whole_chat_evidence_20260926.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c000d3cc65f7683b47ea1e3f095b80d4bbf19732",
+      "size": 13257
+    },
+    {
+      "path": "tests/test_inquiry_session.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e7cbc8f2eeb4663b2dac793e61d0fac066aacb8f",
+      "size": 4072
+    },
+    {
+      "path": "tests/test_jane_continuity.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ebcc6d549fd1958190a281c43e2223566b2d51b7",
+      "size": 792
+    },
+    {
+      "path": "tests/test_jane_continuity_integration.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "781cc97c5283c529257bd69886045d02a12cfdc3",
+      "size": 491
+    },
+    {
+      "path": "tests/test_jane_semantic_lifecycle.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c18fb660c2002b5ec85f8b09fd4e308b56da2bd9",
+      "size": 2719
+    },
+    {
+      "path": "tests/test_kernel_f1.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0c93d678408825323f8e0496f5370eb1fdf590fb",
+      "size": 1197
+    },
+    {
+      "path": "tests/test_kernel_preservation.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "230c47ee3b97f053c6e0a50a6ab552694d6b3ad3",
+      "size": 609
+    },
+    {
+      "path": "tests/test_kernel_preservation_integration.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "39b6724a8042c16ea94421d8e84cc04fe541b2f8",
+      "size": 688
+    },
+    {
+      "path": "tests/test_lambda_math.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8d8c8dced41c292e9828004d40783d37d94f2e63",
+      "size": 1616
+    },
+    {
+      "path": "tests/test_learning_tool_bridge.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "23f7494884f22af8cba74a9bd3d709be474f36c6",
+      "size": 4312
+    },
+    {
+      "path": "tests/test_learning_tool_configured_runs.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cf01ece0ab668e387bb47a91889a9c22f4ee3a41",
+      "size": 580
+    },
+    {
+      "path": "tests/test_math_first_selector.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "99c8743a235d61dac23d140e2cd8f7440194c476",
+      "size": 1724
+    },
+    {
+      "path": "tests/test_math_first_wrapper.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1ba338422e0f7d6c7b78b32a59480e9b469d1d23",
+      "size": 5582
+    },
+    {
+      "path": "tests/test_math_first_wrapper_holdout.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7899aa7d0d2f2fbaf1f9bc1b1505bd5d8bcf18f6",
+      "size": 2561
+    },
+    {
+      "path": "tests/test_mathematical_color_gate.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7b99126eadca852925a7d63fd84bd36c40340378",
+      "size": 10627
+    },
+    {
+      "path": "tests/test_mathematical_color_recovery.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3191bc77956886a67b829fadf02902b51beed3d9",
+      "size": 214
+    },
+    {
+      "path": "tests/test_mode_selector.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ab4a9a307b3c700ef3420823ec992093f3663a39",
+      "size": 728
+    },
+    {
+      "path": "tests/test_mt_current_chat_run_20260926.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2c8c7331655b67f9d2eb16745d8953cd0a9b5930",
+      "size": 9397
+    },
+    {
+      "path": "tests/test_mt_semantic_return_gate.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ee722051498979ae05aef6596fc73bf44e452534",
+      "size": 2319
+    },
+    {
+      "path": "tests/test_object_recovery.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a9d5e22924fdc78c56ee484ec11bda0f80f54625",
+      "size": 1478
+    },
+    {
+      "path": "tests/test_portable_tool_conductor.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "29042fca5d8c7aa2b2e5e28bbe330c014fa879b7",
+      "size": 3231
+    },
+    {
+      "path": "tests/test_preexecution_effect_contract.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4e340e8b06791e4678356935953a6741062763bf",
+      "size": 5764
+    },
+    {
+      "path": "tests/test_protected_transition_integrity.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "570d39ef8e87c6e45002337bd497d7489a17c1d5",
+      "size": 1736
+    },
+    {
+      "path": "tests/test_protected_transition_portfolio.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "00a0660fa336d9baa7b48344456ed0848e44f6e6",
+      "size": 4176
+    },
+    {
+      "path": "tests/test_protected_transition_recovery.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7d8363a6ca237d7a24e371f3f675ee9d0709c72c",
+      "size": 272
+    },
+    {
+      "path": "tests/test_protected_transition_root_recheck.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e8f94b716a3a48c65a44e7c1eacc47c406a2b2ab",
+      "size": 409
+    },
+    {
+      "path": "tests/test_question_worth_asking.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7445fddf495c69718e433ddd9bdf9a827272c948",
+      "size": 1390
+    },
+    {
+      "path": "tests/test_rcdl.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a0e2e6ff6767a8628cab03f1cc89ca02875769c3",
+      "size": 618
+    },
+    {
+      "path": "tests/test_readiness_proof.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0372cc16267f09e16fc7b78132a142941d4cf720",
+      "size": 422
+    },
+    {
+      "path": "tests/test_recovery_corpus_manifest.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "04cba475199c561bddb1bed13b47af8c51f83cfd",
+      "size": 2306
+    },
+    {
+      "path": "tests/test_recursive_episode.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8b041c2f4488cf5646c342665adc9a69839a5907",
+      "size": 2841
+    },
+    {
+      "path": "tests/test_relation_kernel.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a2aac482ad85e29a8693b75b538ba42b416738a1",
+      "size": 2189
+    },
+    {
+      "path": "tests/test_remaining_capabilities.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "058262960848645a40b4b45c474bf7625fdcb54f",
+      "size": 1118
+    },
+    {
+      "path": "tests/test_repertoire_reachability.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "03fe7353f3b893e627e737e8e99df0f4672e4833",
+      "size": 495
+    },
+    {
+      "path": "tests/test_repository_governance.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "bc2394b0d03f0488f6d39d3d9a2ae92728bf6a38",
+      "size": 2395
+    },
+    {
+      "path": "tests/test_representation_discovery.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1a52d6ec41087c6626e96afa430ba26a4e5b056a",
+      "size": 1079
+    },
+    {
+      "path": "tests/test_result_path_registry.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7a3fe9660cedfdc378ce8e7652bbec07dbf3b327",
+      "size": 1836
+    },
+    {
+      "path": "tests/test_root_cause_hf2.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "58ebedc5a59df1e2787151203652a449a4e5f4d0",
+      "size": 4630
+    },
+    {
+      "path": "tests/test_root_cause_recovery.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "74554167b9b312f3f26dfc4097a20346b622e7d6",
+      "size": 246
+    },
+    {
+      "path": "tests/test_run_geometry.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7c0ee3fd9d103c0c7e45fde8b5d48e79b885ab35",
+      "size": 814
+    },
+    {
+      "path": "tests/test_run_request.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7d8523b39f4f39b94f59b8871e7262514078385a",
+      "size": 2998
+    },
+    {
+      "path": "tests/test_scope_mode_36.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e33750ed3e5aea8856dedb616892eafc1603dc1f",
+      "size": 822
+    },
+    {
+      "path": "tests/test_scope_ontology.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a7e03bb297a6ef673f5eb6d69c6e2893ab845c08",
+      "size": 844
+    },
+    {
+      "path": "tests/test_semantic_object_package.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c885314a6ba2e6e4b4137f191ad4e3ec2d408a3b",
+      "size": 2069
+    },
+    {
+      "path": "tests/test_semantic_resolution_pipeline.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "65ad2d8777c4d19fa5bcc8627556ad21e06d242a",
+      "size": 1159
+    },
+    {
+      "path": "tests/test_show_me_the_math_contract.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7394fb5c3d90ca5a599b33aa71a43008b477f621",
+      "size": 2686
+    },
+    {
+      "path": "tests/test_show_me_the_math_self_hosting.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a1d22a740e6e4e272f949e093f8a8939c250c4d3",
+      "size": 5117
+    },
+    {
+      "path": "tests/test_solution_to_my_problem.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "efba46f4f85642e2ee5bc682249fbd6edb28cb3d",
+      "size": 3609
+    },
+    {
+      "path": "tests/test_specification_before_transformation.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8f8157b46588cf3bacb1ce345986bf291e179ecc",
+      "size": 8760
+    },
+    {
+      "path": "tests/test_state_commit.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "aea89a5aec6e349804e82e95ea691e7d8665d3ad",
+      "size": 1348
+    },
+    {
+      "path": "tests/test_system_architecture_currentness.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b4a80a81e1d7e0f136ef3f45013fcb0cfaa5e02f",
+      "size": 2375
+    },
+    {
+      "path": "tests/test_system_audit.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d7748670a912deba85065588b667be3d36202f03",
+      "size": 1116
+    },
+    {
+      "path": "tests/test_system_loop.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "448cecb2de09f8a2a81524af0c27ea746994e0dd",
+      "size": 1196
+    },
+    {
+      "path": "tests/test_takeover_independence.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e0bb3ea7590263a2fadae64ac20e2d583eb9efd3",
+      "size": 1631
+    },
+    {
+      "path": "tests/test_tool_manifest.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "23d37ca40f1d6bc45af4c4113eba3c1b28053b57",
+      "size": 2211
+    },
+    {
+      "path": "tests/test_tool_manifest_audit.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a0b8993432a9a0a0630bb56327eae7cac0c7bade",
+      "size": 790
+    },
+    {
+      "path": "tests/test_tool_maturity.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "20bc149027def53115178894262ddb9907abc9ca",
+      "size": 592
+    },
+    {
+      "path": "tests/test_tool_reality_audit.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "dba4c70dd191e6fc232d1a115946dc7205438d70",
+      "size": 1205
+    },
+    {
+      "path": "tests/test_tool_run_closure.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1b51daeaee27fa3108ce60af576245af1b0500b1",
+      "size": 3583
+    },
+    {
+      "path": "tests/test_typed_effect_ir.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1a9b6b1c3554bb4faad8515ad8e15f11d4588810",
+      "size": 2503
+    },
+    {
+      "path": "tests/test_typed_work.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a67ce9a125aa03e7f24cc3e9e027b9c4c40b9a98",
+      "size": 698
+    },
+    {
+      "path": "tests/test_unfamiliar_holdout.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d1f62511263193582a788ca08aafa7c7bdadcb95",
+      "size": 880
+    },
+    {
+      "path": "tests/test_work_views.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b6828085d8a1b8fa558d2494c94649dbcdebc51d",
+      "size": 713
+    },
+    {
+      "path": "tests/test_zero_request_episode.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "11b2e61e31f0fe51d6aa1f6ae7d3587d467e359d",
+      "size": 589
+    },
+    {
+      "path": "validation",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "406062d05c9ae675207f32812e36a4e469c9b6e0",
+      "size": null
+    },
+    {
+      "path": "validation/FINAL_GO_NO_GO_ATTACK_026.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7c7983670a6a9e829ad94b5fed2f341f04dda614",
+      "size": 2764
+    },
+    {
+      "path": "validation/FOUNDATION_TOOL_AUDIT_021.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "501713957fed4265ac35ca49008301b604362fe5",
+      "size": 8702
+    },
+    {
+      "path": "validation/HISTORICAL_RECONSTRUCTION_WITNESSES_015.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "aba8d03826fc61aa9716ef39ce3341a51be0a223",
+      "size": 2874
+    },
+    {
+      "path": "validation/MIGRATION_RECEIPT_035.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ba56ae757ce1e635049491f7dfbf9982cd2be681",
+      "size": 2378
+    },
+    {
+      "path": "validation/NT_MIGRATION_DISPOSITION_028.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ae31e635448c5448f941c7f0c85e291a13a7614d",
+      "size": 3458
+    },
+    {
+      "path": "validation/READINESS_EVIDENCE_016.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "63ef7a1eddefb1eb6ab5288630e846aa7b9d748c",
+      "size": 2019
+    },
+    {
+      "path": "validation/READINESS_EVIDENCE_024.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "945b303cf0c6cf31b95ee59ebb37b9a8885b71eb",
+      "size": 2779
+    },
+    {
+      "path": "validation/WHOLE_SYSTEM_SWEEP_023.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5d102bd9e6692da6f6af9b7392f09588e08b5259",
+      "size": 3243
+    },
+    {
+      "path": "validation/check_learning_operator_tools.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4646483408b77962402a532e37bee38d1d31ea4d",
+      "size": 2249
+    }
+  ]
+}
