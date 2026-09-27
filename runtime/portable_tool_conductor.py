@@ -60,6 +60,7 @@ NATIVE_ENTRYPOINTS: dict[str, tuple[str, tuple[str, ...]]] = {
     "ZeroRequest": ("zero_request_episode.zero_request_episode", ("observation_source",)),
     "ASSERT": ("assert_compound.run_to_fixed_point", ("assert_stage_bindings",)),
     "GOAL": ("goal.recover_goal", ("goal_candidates",)),
+    "MultiObject": ("multiobject.run_multiobject", ("multiobject_provider",)),
     "SolutionToMyProblem": ("solution_to_my_problem.solve", ()),
     "DesiredJane": ("desired_jane.recover_desired_jane", ()),
     "QuestionWorthAsking": ("question_worth_asking.select_question", ()),
