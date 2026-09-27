@@ -10,3 +10,8 @@ D4 ImprovementCore handoff depends on current ImprovementCore configured executi
 D5 Transfer activation depends on recovery and admission of the current TransferCore full identity.
 D6 Canonical promotion depends on repository validation and governance.
 D7 Self-management evidence depends on this project package remaining internally coherent.
+
+
+D8 Pre-project promotion depends on DefinitionReady plus explicit USER approval.
+D9 Full project package creation is downstream of promotion and is not a prerequisite for exploration.
+D10 Candidate evidence can use ImprovementCore and configured tools but remains evidence-only until admitted.

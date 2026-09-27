@@ -32,3 +32,16 @@ lifecycle state, open questions, decisions, lessons, handoffs, and affected cove
 Preserve unaffected accepted state.
 
 A stale precondition fingerprint reopens the delta instead of applying it to a changed project.
+
+
+## Pre-project promotion control
+
+A candidate definition is not a project mutation.
+
+DefinitionReady records that the compact definition is sufficiently resolved for a human decision.
+
+PromotionReady requires explicit USER approval.
+
+Only a later separately admitted PROMOTE transition can create the full project package.
+
+A tool output, automated controller, or newer artifact cannot substitute for that approval.

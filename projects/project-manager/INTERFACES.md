@@ -22,3 +22,13 @@ No target mutation and no authority grant.
 
 ProjectManager -> Git or repository
 State-changing writes remain under repository change governance and validation.
+
+
+ProjectManager -> ProjectDefinitionCandidate
+Assess the compact nine-coordinate definition object before any full project package exists.
+
+ProjectDefinitionCandidate -> ImprovementCore
+Send blocking opens and research work as evidence-only. ImprovementCore gains no promotion authority.
+
+ProjectDefinitionCandidate -> ManagedProject
+A separate PROMOTE transition is available only after DEFINITION_READY plus explicit USER approval.

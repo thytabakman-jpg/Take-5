@@ -57,3 +57,20 @@ Reusable learning cannot directly mutate another project.
 
 Protection
 TransferEvidenceCandidate remains evidence-only and non-authorizing.
+
+
+## L009 There was no durable state between idea and project
+
+Failure pattern
+A promising direction could trigger a full project package before the user had approved the highest-level identity.
+
+Protection
+ProjectDefinitionCandidate plus the DefinitionReady and USER-approval promotion barrier.
+
+## L010 Exploration and project construction are different effect classes
+
+Failure pattern
+Durable exploratory work looked like permission to construct the full project.
+
+Protection
+Candidate work remains EVIDENCE_ONLY. Full project creation requires a separate admitted PROMOTE transition.

@@ -39,6 +39,18 @@ CORE_COORDINATES=(
     "handoffs",
 )
 
+DEFINITION_COORDINATES=(
+    "goal",
+    "core_object",
+    "context_binding",
+    "mechanism",
+    "route",
+    "evidence",
+    "boundaries",
+    "alternatives",
+    "open_questions",
+)
+
 RECOVERY_OPERATIONS={
     "OBSERVE","DISCOVER","RECOVER","OBJECTIFY","FORMALIZE","COMPARE","AUDIT",
     "VERIFY","DIAGNOSE","RECONSTRUCT",
@@ -142,6 +154,30 @@ class ImprovementCoreHandoff:
 
 
 @dataclass(frozen=True)
+class ProjectDefinitionCandidate:
+    candidate_id:str
+    coordinates:Mapping[str,Any]
+    blocking_open:tuple[str,...]=()
+    human_approval_ref:str|None=None
+    evidence_refs:tuple[str,...]=()
+
+
+@dataclass(frozen=True)
+class ProjectDefinitionAssessment:
+    candidate_id:str
+    status:str
+    fingerprint:str
+    missing_coordinates:tuple[str,...]
+    empty_coordinates:tuple[str,...]
+    blocking_open:tuple[str,...]
+    invalid_blocking_open:tuple[str,...]
+    human_approval_ref:str|None
+    human_approval_valid:bool
+    promotion_ready:bool
+    evidence:tuple[str,...]
+
+
+@dataclass(frozen=True)
 class TransferEvidenceCandidate:
     project_id:str
     project_fingerprint:str
@@ -176,6 +212,87 @@ def _owners_for(registry:Mapping[str,Any],coordinate:str)->tuple[str,...]:
     if isinstance(raw,(list,tuple,set)):
         return tuple(str(x) for x in raw if str(x).strip())
     return (str(raw),)
+
+
+def definition_fingerprint(candidate:ProjectDefinitionCandidate)->str:
+    return project_fingerprint({
+        "candidate_id":candidate.candidate_id,
+        "coordinates":candidate.coordinates,
+        "blocking_open":candidate.blocking_open,
+        "human_approval_ref":candidate.human_approval_ref,
+        "evidence_refs":candidate.evidence_refs,
+    })
+
+
+def _definition_value_present(value:Any)->bool:
+    if value is None:
+        return False
+    if isinstance(value,str):
+        return bool(value.strip())
+    if isinstance(value,(list,tuple,set,frozenset,dict)):
+        return bool(value)
+    return True
+
+
+def assess_project_definition(
+    candidate:ProjectDefinitionCandidate,
+)->ProjectDefinitionAssessment:
+    if not isinstance(candidate,ProjectDefinitionCandidate):
+        raise ProjectManagerError("PROJECT_DEFINITION_CANDIDATE_REQUIRED")
+    if not candidate.candidate_id.strip():
+        raise ProjectManagerError("PROJECT_DEFINITION_CANDIDATE_ID_REQUIRED")
+    if not isinstance(candidate.coordinates,Mapping):
+        raise ProjectManagerError("PROJECT_DEFINITION_COORDINATES_MAPPING_REQUIRED")
+
+    missing=tuple(c for c in DEFINITION_COORDINATES if c not in candidate.coordinates)
+    empty=tuple(
+        c for c in DEFINITION_COORDINATES
+        if c in candidate.coordinates
+        and c!="open_questions"
+        and not _definition_value_present(candidate.coordinates.get(c))
+    )
+
+    raw_open=candidate.coordinates.get("open_questions",())
+    if isinstance(raw_open,str):
+        open_questions=(raw_open,)
+    elif isinstance(raw_open,(list,tuple,set,frozenset)):
+        open_questions=tuple(str(x) for x in raw_open)
+    else:
+        open_questions=()
+
+    blocking=tuple(str(x) for x in candidate.blocking_open if str(x))
+    invalid_blocking=tuple(x for x in blocking if x not in set(open_questions))
+
+    approval_ref=(
+        str(candidate.human_approval_ref).strip()
+        if candidate.human_approval_ref is not None else None
+    )
+    approval_valid=bool(approval_ref and approval_ref.startswith("USER:"))
+    invalid_approval=bool(approval_ref and not approval_valid)
+
+    ready=not (missing or empty or blocking or invalid_blocking or invalid_approval)
+    promotion_ready=bool(ready and approval_valid)
+
+    if promotion_ready:
+        status="PROMOTION_READY"
+    elif ready:
+        status="DEFINITION_READY"
+    else:
+        status="EXPLORATION_OPEN"
+
+    return ProjectDefinitionAssessment(
+        candidate_id=candidate.candidate_id,
+        status=status,
+        fingerprint=definition_fingerprint(candidate),
+        missing_coordinates=missing,
+        empty_coordinates=empty,
+        blocking_open=blocking,
+        invalid_blocking_open=invalid_blocking,
+        human_approval_ref=approval_ref,
+        human_approval_valid=approval_valid,
+        promotion_ready=promotion_ready,
+        evidence=tuple(str(x) for x in candidate.evidence_refs if str(x)),
+    )
 
 
 def validate_project_package(project:Mapping[str,Any])->tuple[
@@ -393,12 +510,82 @@ def project_manager_adapter(current:Any,plan:Any)->dict[str,Any]:
             "evidence":("runtime/project_manager.py",),
         }
 
+    candidate=current.get("candidate")
     project=current.get("project")
+
+    if candidate is not None and project is not None:
+        return {
+            "status":"CONFLICT",
+            "execution_truth":"CONFLICT",
+            "result":{"blocker":"PROJECT_AND_CANDIDATE_SIMULTANEOUSLY_BOUND"},
+            "material_delta":False,
+            "hf2_local_close":True,
+            "evidence":("runtime/project_manager.py",),
+        }
+
+    if candidate is not None:
+        try:
+            candidate_obj=(
+                candidate
+                if isinstance(candidate,ProjectDefinitionCandidate)
+                else ProjectDefinitionCandidate(**candidate)
+            )
+            assessment=assess_project_definition(candidate_obj)
+        except (ProjectManagerError,TypeError) as exc:
+            return {
+                "status":"OPEN",
+                "execution_truth":"OPEN",
+                "result":{"blocker":str(exc)},
+                "material_delta":False,
+                "hf2_local_close":True,
+                "evidence":("runtime/project_manager.py",),
+            }
+
+        result={
+            "definition_assessment":asdict(assessment),
+            "improvementcore_handoff":{
+                "candidate_id":assessment.candidate_id,
+                "candidate_fingerprint":assessment.fingerprint,
+                "blocking_open":assessment.blocking_open,
+                "authority":"NONE",
+                "effect_class":"EVIDENCE_ONLY",
+            },
+            "promotion_barrier":{
+                "definition_ready":assessment.status in {"DEFINITION_READY","PROMOTION_READY"},
+                "human_approval_required":not assessment.human_approval_valid,
+                "promotion_ready":assessment.promotion_ready,
+                "full_project_created":False,
+            },
+        }
+        semantic_status=(
+            "EXECUTED"
+            if assessment.status in {"DEFINITION_READY","PROMOTION_READY"}
+            else "OPEN"
+        )
+        return {
+            "status":semantic_status,
+            "execution_truth":(
+                "IMPLEMENTATION_EXECUTED" if semantic_status=="EXECUTED" else "OPEN"
+            ),
+            "result":result,
+            "state":dict(current),
+            "material_delta":False,
+            "hf2_local_close":True,
+            "trc_terminal":True,
+            "hf1_disposition":"STABLE",
+            "evidence":(
+                "runtime/project_manager.py",
+                "architecture/PROJECT_MANAGER_FULL_TOOL_MATH_002_2026-09-27.md",
+            ),
+            "related_objects":("ImprovementCore","ProjectDefinitionCandidate"),
+            "dependency_footprint":tuple(DEFINITION_COORDINATES),
+        }
+
     if not isinstance(project,Mapping):
         return {
             "status":"OPEN",
             "execution_truth":"OPEN",
-            "result":{"blocker":"PROJECT_PACKAGE_REQUIRED"},
+            "result":{"blocker":"PROJECT_OR_CANDIDATE_REQUIRED"},
             "material_delta":False,
             "hf2_local_close":True,
             "evidence":("runtime/project_manager.py",),
