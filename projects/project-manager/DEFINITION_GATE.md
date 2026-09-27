@@ -1,6 +1,6 @@
 # Pre-Project Definition Gate
 
-Status: VALIDATED CANDIDATE / PR MERGE PENDING
+Status: CURRENT / VALIDATED / MERGED
 Date: 2026-09-27
 
 ## Job
@@ -81,3 +81,11 @@ A new candidate and an existing project are separate managed states.
 Take-5 Validation 36349707998 SUCCESS.
 Capability Preservation 36349708034 SUCCESS.
 Tool System Every-Tool Sweep 36349708182 SUCCESS.
+
+
+## Canonical promotion
+
+PR 170 merged as 904f1336b4226b42e51a88630581a2f507ec2304.
+
+Post-merge Every-Tool Sweep 36349806935 SUCCESS.
+Post-merge Take-5 Validation 36349806942 SUCCESS.

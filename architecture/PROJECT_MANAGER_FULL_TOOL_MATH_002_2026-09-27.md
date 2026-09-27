@@ -1,7 +1,7 @@
 # ProjectManager Full Tool Mathematics 002
 
 Date: 2026-09-27
-Status: VALIDATED CANDIDATE / PR MERGE PENDING
+Status: CURRENT / VALIDATED / MERGED
 Supersedes for current admission work: PROJECT_MANAGER_FULL_TOOL_MATH_001_2026-09-27.md
 Canonical target: thytabakman-jpg/Take-5
 
@@ -203,3 +203,19 @@ Tool System Every-Tool Sweep:
 36349708182 SUCCESS.
 
 All three validation surfaces passed on the implementation head.
+
+
+## 11 Canonical promotion
+
+PR 170 merged to main as:
+
+904f1336b4226b42e51a88630581a2f507ec2304
+
+Post-merge Tool System Every-Tool Sweep:
+36349806935 SUCCESS.
+
+Post-merge Take-5 Validation:
+36349806942 SUCCESS.
+
+Canonical disposition:
+CURRENT / VALIDATED / MERGED.
