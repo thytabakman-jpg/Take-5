@@ -1,0 +1,24 @@
+{
+  "schema_version": "0.1",
+  "base_commit": "45ba1b8ffae50d20a96b9c3cd5904d7b120b66aa",
+  "base_tree_sha": "4d5e5a8d92e536fe409217b6f1ab7af17d1de299",
+  "target_commit": "2c2ad4de79a6a5484bc1c7631a83e342fe0b53ac",
+  "target_tree_sha": "e306b2a4eb9bfaa3390bbf12fe39116377bf2e45",
+  "remove_paths": [],
+  "upsert_entries": [
+    {
+      "path": "architecture/MULTIOBJECT_FULL_TOOL_MATH_001_2026-09-27.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f6855b5ade4aab4d829fcf2ea648659e42cf0bfc",
+      "size": 12521
+    },
+    {
+      "path": "tests/test_multiobject_fullmath_identity.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fec7279c186e763cfb60feeac1ab0a184d218f9c",
+      "size": 1947
+    }
+  ]
+}
