@@ -89,10 +89,13 @@ A selected object-transforming action with no operation class is OPEN rather
 than being silently treated as safe.
 
 Strict-gain claims about METHOD, INTERACTION, REDUCTION, ACTIVATION,
-HOST_BOUNDARY, or CONTROLLER also require a PASS specification receipt.
+HOST_BOUNDARY, or CONTROLLER require a PASS specification receipt when the
+claimed gain is itself a transformation of the object. Ordinary diagnostic,
+discovery, verification, or controller-state progress does not inherit a fake
+object-transformation obligation.
 
 This prevents execution or architectural churn from becoming evidence that an
-unknown device was improved.
+unknown device was improved without blocking the work needed to recover it.
 
 ## Emergent objects
 
