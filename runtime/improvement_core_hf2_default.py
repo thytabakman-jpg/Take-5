@@ -19,6 +19,7 @@ import json
 from typing import Any, Callable
 
 from hf002_recursive_continuation import HF002RecursiveContinuation
+from formal_claim_admission import request_requires_formal_claim_receipt
 from improvement_core_learning_memory import (
     DEFAULT_DURABLE_LEARNING_PATH,
     LearningMemory,
@@ -468,6 +469,9 @@ def run_improvement_core_with_hf2(
                 "hf2_rounds":len(last.hf2_trace),
                 "candidate_status":last.status,
                 "candidate_blocker":last.blocker,
+                "formal_claim_receipt_required":request_requires_formal_claim_receipt(
+                    user_text,target=target,job=job
+                ),
             },
             verifier=return_verifier,
         )

@@ -699,3 +699,28 @@ Current law:
 - HF2 disablement is allowed only through explicit debug authority.
 
 This repair exists because repeated episodes showed that local material success plus HF2 saturation could still return before the governing job was finished, leaving the user to act as the outer scheduler.
+
+
+## Authority-before-formal-emission return gate
+
+Canonical architecture:
+architecture/AUTHORITY_BEFORE_FORMAL_EMISSION_141.md
+
+A reconstruction/recovery pass is no longer sufficient evidence for a
+CURRENT/CANONICAL/EXACT_CURRENT formal-system mathematics claim.
+
+For formal-system math/equation jobs, the parent return path now requires at
+least one formal-claim admission receipt before COMPLETE can return. A present
+receipt whose status is not PASS also forbids COMPLETE.
+
+Repository surfaces:
+- runtime/formal_claim_admission.py
+- runtime/improvement_core_return_gate.py
+- runtime/improvement_core_hf2_default.py
+- runtime/improvement_core_legacy_restored.py
+- runtime/mathematical_color_gate.py
+
+This complements Specification-Before-Transformation. The earlier gate asks
+whether an object is recovered enough to change. This gate asks whether a
+reconstruction is recovered, current, authority-bound, dependency-closed, and
+type-correct enough to be emitted as the claimed authoritative mathematics.

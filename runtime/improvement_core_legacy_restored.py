@@ -351,6 +351,7 @@ def run_improvement_core_legacy_restored(
     """
     from dataclasses import replace as _replace
     from improvement_core_return_gate import evaluate_parent_return
+    from formal_claim_admission import request_requires_formal_claim_receipt
 
     if not hf2_enabled and not allow_ungated_debug:
         out=_run_improvement_core_legacy_restored_once(
@@ -458,6 +459,9 @@ def run_improvement_core_legacy_restored(
                 "candidate_status":last.status,
                 "candidate_blocker":last.blocker,
                 "candidate_trace_count":len(last.candidate_traces),
+                "formal_claim_receipt_required":request_requires_formal_claim_receipt(
+                    user_text,target=target,job=job
+                ),
             },
             verifier=return_verifier,
         )

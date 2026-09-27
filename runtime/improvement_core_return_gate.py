@@ -20,6 +20,44 @@ RETURNABLE={"COMPLETE","OPEN","BLOCKED","CONFLICT"}
 DISPOSITIONS={"RETURN","CONTINUE"}
 
 
+def _authoritative_formal_claims_present(state:Mapping[str,Any])->bool:
+    raw=state.get("authoritative_formal_claims",None)
+    if raw is None:
+        return False
+    if isinstance(raw,Mapping):
+        return True
+    if isinstance(raw,(list,tuple)):
+        return bool(raw)
+    return True
+
+
+def _unclosed_authoritative_formal_claims(state:Mapping[str,Any])->tuple[str,...]:
+    """Return authoritative formal claims that are not admission-closed.
+
+    The active semantic provider may attach these receipts only when the
+    governing job makes a CURRENT/CANONICAL/EXACT_CURRENT formal claim.  Their
+    absence creates no obligation for ordinary jobs.  Once present, however, a
+    non-PASS receipt forbids COMPLETE user return.
+    """
+    raw=state.get("authoritative_formal_claims",())
+    if isinstance(raw,Mapping):
+        raw=(raw,)
+    if not isinstance(raw,(list,tuple)):
+        return ("INVALID_AUTHORITATIVE_FORMAL_CLAIMS",)
+    residuals=[]
+    for i,row in enumerate(raw):
+        if not isinstance(row,Mapping):
+            residuals.append(f"INVALID_FORMAL_CLAIM_RECEIPT:{i}")
+            continue
+        status=str(row.get("status","")).upper()
+        if status!="PASS":
+            object_id=str(row.get("root_object_id") or row.get("object_id") or i)
+            residuals.append(f"FORMAL_CLAIM_NOT_PASS:{object_id}:{status or 'MISSING'}")
+            for item in row.get("residuals",()):
+                residuals.append(f"FORMAL_CLAIM_RESIDUAL:{object_id}:{item}")
+    return tuple(residuals)
+
+
 @dataclass(frozen=True)
 class ParentReturnOutcome:
     disposition:str
@@ -101,6 +139,11 @@ def evaluate_parent_return(
     state_patch=_mapping(decision.get("state_patch"),"state_patch")
     memory_patch=_mapping(decision.get("memory_patch"),"memory_patch")
 
+    proposed_state={**z,**state_patch}
+    formal_claims_present=_authoritative_formal_claims_present(proposed_state)
+    formal_claim_residuals=_unclosed_authoritative_formal_claims(proposed_state)
+    formal_claim_receipt_required=bool(ctx.get("formal_claim_receipt_required",False))
+
     receipt={
         "gate":"PARENT_RETURN_GATE",
         "disposition":disposition,
@@ -113,6 +156,9 @@ def evaluate_parent_return(
         "evidence":evidence,
         "reason":str(decision.get("reason","")),
         "context":ctx,
+        "formal_claim_receipt_required":formal_claim_receipt_required,
+        "authoritative_formal_claims_present":formal_claims_present,
+        "authoritative_formal_claim_residuals":formal_claim_residuals,
     }
 
     if disposition=="CONTINUE":
@@ -151,6 +197,14 @@ def evaluate_parent_return(
         raise RuntimeError("IC_PARENT_RETURN_GATE_RETURN_WITHOUT_EVIDENCE")
     if terminal=="COMPLETE" and not goal_closed:
         raise RuntimeError("IC_PARENT_RETURN_GATE_COMPLETE_WITHOUT_GOAL_CLOSURE")
+    if terminal=="COMPLETE" and formal_claim_receipt_required and not formal_claims_present:
+        raise RuntimeError(
+            "IC_PARENT_RETURN_GATE_COMPLETE_WITHOUT_FORMAL_CLAIM_RECEIPT"
+        )
+    if terminal=="COMPLETE" and formal_claim_residuals:
+        raise RuntimeError(
+            "IC_PARENT_RETURN_GATE_COMPLETE_WITH_UNCLOSED_AUTHORITATIVE_FORMAL_CLAIM"
+        )
 
     blocker=decision.get("blocker") or candidate_blocker
     if terminal in {"OPEN","BLOCKED","CONFLICT"} and not blocker:

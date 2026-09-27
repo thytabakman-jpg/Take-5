@@ -257,3 +257,23 @@ ExplicitlyUnresolved(o,\tau).
 The forbidden state is silent semantic disappearance.
 
 Take-6 is complete relative to a declared corpus only when no protected object reaches that forbidden state.
+
+
+## 12a. Authoritative formal-view admission
+
+Generated views are non-authoritative projections, but a generated view may make
+an authoritative claim about compiled state.
+
+For any CURRENT/CANONICAL/EXACT_CURRENT formal view, Take-6 must bind the view to:
+- the exact compiled subject/current payload CID;
+- the compiler and authority-policy CIDs;
+- exact dependency identities;
+- explicit admission of any frozen historical dependency;
+- dependency closure;
+- a composition type-check receipt.
+
+A view lacking that receipt may display recovery/candidate/history information
+but may not present the resulting mathematics as current authority.
+
+This imports the Take-5 Authority-Before-Formal-Emission invariant without
+making the view itself authoritative.

@@ -1,14 +1,19 @@
 """Fail-closed user-visible mathematical status emission.
 
 Formal-object identity is owned by runtime/formal_object_registry.py. This module
-owns only status assessment, typed rendering, and response-boundary enforcement.
+owns status assessment, typed rendering, and response-boundary enforcement.
+
+Authoritative claims such as CURRENT/CANONICAL/EXACT_CURRENT mathematics have
+one additional requirement: recovery alone is insufficient.  They must carry a
+passing formal-claim admission receipt proving identity/version/currentness,
+authority, dependency admission, and composition typing.
 """
 from __future__ import annotations
 
 from dataclasses import dataclass
 from enum import Enum
 import re
-from typing import Iterable, Mapping, Sequence
+from typing import Any, Iterable, Mapping, Sequence
 
 from formal_object_registry import (
     FORMAL_OBJECT_ALIASES,
@@ -34,6 +39,22 @@ class RecoveryAssessment:
     unresolved_coordinates: tuple[str, ...]
     complete_for_use: bool
     status: MathStatus
+    authoritative_claim: bool = False
+    authority_residuals: tuple[str, ...] = ()
+
+
+def _formal_claim_green(receipt: Any) -> bool:
+    return bool(receipt is not None and getattr(receipt, "green_licensed", False))
+
+
+def _formal_claim_residuals(receipt: Any) -> tuple[str, ...]:
+    if receipt is None:
+        return ("FORMAL_CLAIM_RECEIPT_REQUIRED",)
+    residuals = tuple(str(x) for x in getattr(receipt, "residuals", ()) if str(x))
+    if residuals:
+        return residuals
+    status = str(getattr(receipt, "status", "") or "OPEN")
+    return (f"FORMAL_CLAIM_NOT_ADMITTED:{status}",)
 
 
 def assess_recovery(
@@ -43,14 +64,25 @@ def assess_recovery(
     claim: str,
     required_coordinates: Sequence[str],
     coordinate_status: Mapping[str, str],
+    authoritative_claim: bool = False,
+    formal_claim_receipt: Any | None = None,
 ) -> RecoveryAssessment:
     required = tuple(required_coordinates)
     unresolved: list[str] = []
+    authority_residuals: tuple[str, ...] = ()
+
     if not required:
         unresolved.append("REQUIRED_COORDINATES_UNSPECIFIED")
     for coordinate in required:
         if coordinate_status.get(coordinate, "MISSING") not in RECOVERED_COORDINATE_STATUSES:
             unresolved.append(coordinate)
+
+    if authoritative_claim and not _formal_claim_green(formal_claim_receipt):
+        authority_residuals = _formal_claim_residuals(formal_claim_receipt)
+        unresolved.extend(
+            f"AUTHORITY:{residual}" for residual in authority_residuals
+        )
+
     complete_for_use = bool(required) and not unresolved
     status = MathStatus.RECOVERED if complete_for_use else MathStatus.UNRESOLVED
     return RecoveryAssessment(
@@ -61,6 +93,33 @@ def assess_recovery(
         unresolved_coordinates=tuple(unresolved),
         complete_for_use=complete_for_use,
         status=status,
+        authoritative_claim=authoritative_claim,
+        authority_residuals=authority_residuals,
+    )
+
+
+def assess_authoritative_recovery(
+    *,
+    object_id: str,
+    job: str,
+    claim: str,
+    required_coordinates: Sequence[str],
+    coordinate_status: Mapping[str, str],
+    formal_claim_receipt: Any | None,
+) -> RecoveryAssessment:
+    """Assess a current/canonical/exact-current mathematical claim.
+
+    This helper prevents callers from accidentally forgetting the authority gate
+    when the claim itself is authoritative.
+    """
+    return assess_recovery(
+        object_id=object_id,
+        job=job,
+        claim=claim,
+        required_coordinates=required_coordinates,
+        coordinate_status=coordinate_status,
+        authoritative_claim=True,
+        formal_claim_receipt=formal_claim_receipt,
     )
 
 
@@ -104,6 +163,14 @@ def _formal_pattern() -> re.Pattern:
 FORMAL_OBJECT_PATTERN = _formal_pattern()
 FORBIDDEN_RAW_MARKUP = ("<span", "</span>", "style=", "color:")
 FORBIDDEN_FALLBACK_MARKERS = ("🟢", "🔴")
+AUTHORITATIVE_TEXT_MARKERS = (
+    "current",
+    "canonical",
+    "exact",
+    "latest",
+    "new math",
+    "actual math",
+)
 MATH_SIGNAL_PATTERN = re.compile(
     r"(\\(?:color|boxed|Gamma|varphi|vdash|nvdash|neq|Rightarrow|implies|iff|land|lor|mu|operatorname)"
     r"|\$|[=≠→⇒⇔∧∨⊢⊬∈∉∀∃μΓφ])"
@@ -150,6 +217,15 @@ def verify_fragments(fragments: Sequence[Fragment]) -> None:
                 raise ColorInvariantViolation("MATH_STATUS_REQUIRED")
             if not fragment.latex.strip():
                 raise ColorInvariantViolation("EMPTY_MATH_FRAGMENT")
+            if (
+                isinstance(fragment, AssessedMathFragment)
+                and fragment.assessment.authoritative_claim
+                and fragment.status is MathStatus.RECOVERED
+                and fragment.assessment.authority_residuals
+            ):
+                raise ColorInvariantViolation(
+                    "AUTHORITATIVE_GREEN_WITH_UNCLOSED_AUTHORITY"
+                )
             continue
         if isinstance(fragment, TextFragment):
             lowered = fragment.text.lower()
@@ -178,9 +254,39 @@ def verify_assistant_response(rendered: str) -> None:
         raise ColorInvariantViolation("UNTYPED_FORMAL_LABEL_AT_RESPONSE_BOUNDARY")
 
 
-def emit_user_visible(fragments: Iterable[Fragment]) -> str:
+def _infer_authoritative_emission(parts: Sequence[Fragment]) -> bool:
+    text=" ".join(
+        fragment.text.lower()
+        for fragment in parts
+        if isinstance(fragment,TextFragment)
+    )
+    return any(marker in text for marker in AUTHORITATIVE_TEXT_MARKERS)
+
+
+def emit_user_visible(
+    fragments: Iterable[Fragment],
+    *,
+    authoritative_claim: bool | None = None,
+    formal_claim_receipt: Any | None = None,
+) -> str:
     parts = tuple(fragments)
     verify_fragments(parts)
+
+    authoritative=(
+        _infer_authoritative_emission(parts)
+        if authoritative_claim is None
+        else bool(authoritative_claim)
+    )
+    has_green=any(
+        isinstance(fragment,(MathFragment,AssessedMathFragment))
+        and fragment.status is MathStatus.RECOVERED
+        for fragment in parts
+    )
+    if authoritative and has_green and not _formal_claim_green(formal_claim_receipt):
+        raise ColorInvariantViolation(
+            "AUTHORITATIVE_FORMAL_CLAIM_RECEIPT_REQUIRED"
+        )
+
     rendered: list[str] = []
     for fragment in parts:
         if isinstance(fragment, (MathFragment, AssessedMathFragment)):
