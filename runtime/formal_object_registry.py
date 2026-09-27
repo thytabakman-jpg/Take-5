@@ -22,6 +22,9 @@ NON_TOOL_ALIASES={
 }
 
 MANUAL_ALIASES={
+    "PROJECT MANAGEMENT TOOL":"ProjectManager",
+    "PROJECT MANAGEMENT":"ProjectManager",
+    "PROJECT MANAGER TOOL":"ProjectManager",
     "IMPROVE CORE":"ImprovementCore",
     "IMPROVEMENT CORE":"ImprovementCore",
     "IMPROVECORE":"ImprovementCore",
