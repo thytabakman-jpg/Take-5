@@ -1,7 +1,7 @@
 # Pre-Project Definition Gate Analysis 001
 
 Date: 2026-09-27
-Status: REPOSITORY-VALIDATED / PR MERGE PENDING
+Status: CURRENT / VALIDATED / MERGED
 
 ## User-requested sequence
 
@@ -100,3 +100,17 @@ Capability Preservation 36349708034 SUCCESS.
 Tool System Every-Tool Sweep 36349708182 SUCCESS.
 
 The every-tool workflow also executed every registered tool plus development audits and passed its dedicated regression tests.
+
+
+## Canonical closure
+
+PR 170 merged to main:
+904f1336b4226b42e51a88630581a2f507ec2304
+
+Post-merge Every-Tool Sweep:
+36349806935 SUCCESS.
+
+Post-merge Take-5 Validation:
+36349806942 SUCCESS.
+
+The pre-project admission repair is current on main.

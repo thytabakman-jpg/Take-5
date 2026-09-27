@@ -137,4 +137,14 @@ Take-5 Validation 36349707998 SUCCESS.
 Capability Preservation 36349708034 SUCCESS.
 Tool System Every-Tool Sweep 36349708182 SUCCESS.
 
-Canonical merge remains pending.
+Canonical merge:
+PR 170
+commit 904f1336b4226b42e51a88630581a2f507ec2304
+
+Post-merge Tool System Every-Tool Sweep:
+36349806935 SUCCESS.
+
+Post-merge Take-5 Validation:
+36349806942 SUCCESS.
+
+V19 through V26 are current on canonical main.
