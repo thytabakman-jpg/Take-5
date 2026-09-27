@@ -61,6 +61,15 @@ def _return_done(state,memory,context):
     }
 
 
+def _fresh_stable(state,memory,context):
+    return {
+        "status":"NO_GAIN",
+        "owned_work_remaining":False,
+        "evidence":[f"test:legacy-fresh:{context['challenge_index']}"],
+        "challenge_id":f"legacy-fresh-{context['challenge_index']}",
+    }
+
+
 def test_wrapper_binds_entry_captures_knowledge_and_closes_hf2():
     ledger=KnowledgeLedger()
     out=run_improvement_core_legacy_restored(
@@ -72,6 +81,7 @@ def test_wrapper_binds_entry_captures_knowledge_and_closes_hf2():
         knowledge_ledger=ledger,
         hf2_enabled=True,
         return_verifier=_return_done,
+        fresh_reobserve=_fresh_stable,
     )
     assert out.status=="COMPLETE"
     assert out.hf2_status=="RELATIVE_CLOSE"
@@ -89,6 +99,7 @@ def test_observer_mode_fails_closed_without_observer_prepare():
         execute_work=_execute,admit_results=_admit,update_state=_complete,
         knowledge_ledger=KnowledgeLedger(),
         return_verifier=_return_done,
+        fresh_reobserve=_fresh_stable,
     )
     assert out.status=="BLOCKED"
     assert out.blocker=="OBSERVER_PREPARE_REQUIRED"
@@ -105,6 +116,7 @@ def test_external_gap_survives_candidate_completion():
         allow_external_gap=True,
         knowledge_ledger=KnowledgeLedger(),
         return_verifier=_return_done,
+        fresh_reobserve=_fresh_stable,
     )
     assert out.status=="OPEN"
     assert out.blocker=="EXTERNAL_ACQUISITION_GAP"
@@ -130,6 +142,7 @@ def test_outer_hf2_reapplies_same_capability_when_local_frontier_live():
         hf2_enabled=True,
         hf2_max_rounds=4,
         return_verifier=_return_done,
+        fresh_reobserve=_fresh_stable,
     )
     assert out.status=="COMPLETE"
     assert out.hf2_status=="RELATIVE_CLOSE"
@@ -151,6 +164,7 @@ def test_wrapper_preserves_missing_configured_tool_adapter_as_open():
         configured_tool_adapters={},
         knowledge_ledger=KnowledgeLedger(),
         return_verifier=_return_done,
+        fresh_reobserve=_fresh_stable,
     )
     assert out.status=="OPEN"
     assert out.state["terminal"]=="OPEN"
@@ -211,6 +225,7 @@ def test_parent_return_gate_prevents_one_meaningful_step_from_becoming_parent_co
         execute_work=execute,admit_results=_admit,update_state=update,
         knowledge_ledger=KnowledgeLedger(),
         return_verifier=verify_return,
+        fresh_reobserve=_fresh_stable,
         parent_max_rounds=4,
     )
 
