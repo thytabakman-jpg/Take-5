@@ -48,7 +48,8 @@
     "migration/source_snapshots/TAKE5_SNAPSHOT_003.json",
     "migration/inventories/TAKE5_TREE_INVENTORY_003.json",
     "migration/SOURCE_FRONTIER_003.md",
-    "migration/FROZEN_REPOSITORY_INVENTORY_VALIDATION_003.md"
+    "migration/FROZEN_REPOSITORY_INVENTORY_VALIDATION_003.md",
+    "VALIDATION_003.md"
   ],
   "source_refs": {
     "authority": "COMPILED_SOURCE_FRONTIER",
@@ -71,7 +72,8 @@
     "authority": "NON_AUTHORITATIVE_PROJECTION",
     "evidence": [
       "take6-bootstrap/VALIDATION_001.md",
-      "take6-bootstrap/VALIDATION_002.md"
+      "take6-bootstrap/VALIDATION_002.md",
+      "take6-bootstrap/VALIDATION_003.md"
     ],
     "production_promotion": false
   },
