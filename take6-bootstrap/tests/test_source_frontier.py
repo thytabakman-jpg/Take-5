@@ -34,10 +34,11 @@ def test_repository_snapshot_history_compiles_unique_frontier():
 
     take5 = compiled["repositories"]["thytabakman-jpg/Take-5"]
     assert take5["status"] == "CURRENT"
-    assert take5["current_commit"] == "a773ac5ac00fe4d04bd8e22a3d0ae949a6f35af2"
-    assert take5["current_tree_sha"] == "104d50432a0aead4508890ef1a410fa7356e41c4"
+    assert take5["current_commit"] == "53b28a36d9998e4fe76f49b231695216fe419bdd"
+    assert take5["current_tree_sha"] == "cf32be0db7feafbd65f113d13036ca49ffb795ec"
     assert take5["current_scope_digest"].startswith("sha256:")
     assert take5["known_commits"] == [
+        "53b28a36d9998e4fe76f49b231695216fe419bdd",
         "853c7f92dae62747d3f8f42a38b6d4b77e194ad2",
         "a773ac5ac00fe4d04bd8e22a3d0ae949a6f35af2",
     ]
@@ -56,13 +57,13 @@ def test_take5_frontier_inventory_matches_exact_snapshot():
     current = next(
         x for x in snapshots
         if x["repository"] == "thytabakman-jpg/Take-5"
-        and x["commit"] == "a773ac5ac00fe4d04bd8e22a3d0ae949a6f35af2"
+        and x["commit"] == "53b28a36d9998e4fe76f49b231695216fe419bdd"
     )
     inv_path = ROOT / current["inventory"]
     inventory = json.loads(inv_path.read_text(encoding="utf-8"))
     verify_inventory(current, inventory)
-    assert inventory["entry_count"] == 905
-    assert inventory["blob_count"] == 859
+    assert inventory["entry_count"] == 910
+    assert inventory["blob_count"] == 864
     assert inventory["recursive_tree_truncated"] is False
 
 
@@ -84,8 +85,8 @@ def test_promotion_frontier_match_passes_for_compiled_snapshot():
         compiled,
         observed={
             "thytabakman-jpg/Take-5": {
-                "commit": "a773ac5ac00fe4d04bd8e22a3d0ae949a6f35af2",
-                "tree_sha": "104d50432a0aead4508890ef1a410fa7356e41c4",
+                "commit": "53b28a36d9998e4fe76f49b231695216fe419bdd",
+                "tree_sha": "cf32be0db7feafbd65f113d13036ca49ffb795ec",
             }
         },
     )
@@ -173,7 +174,7 @@ def test_truncated_snapshot_cannot_enter_frontier():
 def test_successor_only_host_changes_do_not_stale_predecessor_frontier():
     compiled = _compiled_with_inventories()
     inventory = _load_inventory(
-        "migration/inventories/TAKE5_TREE_INVENTORY_002.json"
+        "migration/inventories/TAKE5_TREE_INVENTORY_003.json"
     )
     observed = json.loads(json.dumps(inventory))
 
@@ -205,7 +206,7 @@ def test_successor_only_host_changes_do_not_stale_predecessor_frontier():
 def test_real_predecessor_surface_change_stales_frontier():
     compiled = _compiled_with_inventories()
     inventory = _load_inventory(
-        "migration/inventories/TAKE5_TREE_INVENTORY_002.json"
+        "migration/inventories/TAKE5_TREE_INVENTORY_003.json"
     )
     observed = json.loads(json.dumps(inventory))
     runtime_entry = next(
