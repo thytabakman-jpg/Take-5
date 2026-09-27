@@ -95,6 +95,45 @@ GENERIC_BINDINGS=(
     ),
 )
 
+ICC128_BINDINGS=GENERIC_BINDINGS+(
+    ProtectedBinding(
+        "ICC128_ENDOGENOUS_CONTROLLER_LOOP",
+        "INTRA",
+        "runtime/icc128_autonomous_controller.py",
+        "tests/test_icc128_current.py",
+    ),
+    ProtectedBinding(
+        "ICC128_STATE_RELATIVE_SELECTOR",
+        "INTRA",
+        "runtime/rho128_policy.py",
+        "tests/test_icc128_current.py",
+    ),
+    ProtectedBinding(
+        "ICC128_RESELECTION_ON_MATERIAL_DELTA",
+        "POST",
+        "runtime/rho128_policy.py",
+        "tests/test_icc128_current.py",
+    ),
+    ProtectedBinding(
+        "ICC128_SEMANTIC_GENERATION",
+        "PRE",
+        "runtime/icc128_semantic_generator_adapter.py",
+        "tests/test_icc128_current.py",
+    ),
+    ProtectedBinding(
+        "ICC128_JANE_CONTINUITY_HANDOFF",
+        "PRE",
+        "runtime/jane_icc128_bridge.py",
+        "tests/test_jane_icc128_bridge.py",
+    ),
+    ProtectedBinding(
+        "ICC128_MINIMAL_RESPONSE_SELECTION",
+        "POST",
+        "runtime/adaptive_response_selector.py",
+        "tests/test_adaptive_response_selector.py",
+    ),
+)
+
 IMPROVEMENT_CORE_BINDINGS=GENERIC_BINDINGS+(
     ProtectedBinding(
         "IMPROVEMENTCORE_CONTROLLER_OWNERSHIP",
@@ -411,6 +450,15 @@ MULTIOBJECT_BINDINGS=GENERIC_BINDINGS+(
 )
 
 OVERRIDES={
+    "ICC128":ToolManifest(
+        tool_id="ICC128",
+        native_semantics="ICC128",
+        geometry_policy="D36_C",
+        closure_contract="ICC128_CONTROLLER_CLOSE_PLUS_TRC",
+        reentry_contract="STATE_RELATIVE_RESELECT_THEN_HF001",
+        bindings=ICC128_BINDINGS,
+        lineage_contract="legacy/icc128-legacy/snapshot/math/ICC128_FULL_TOOL_MATH_002_2026-09-26.md",
+    ),
     "ImprovementCore":ToolManifest(
         tool_id="ImprovementCore",
         native_semantics="IC-028",
