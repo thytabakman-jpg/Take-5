@@ -13,8 +13,12 @@ Contract:
     -> ICC128 registered-controller evidence
     -> HOST_INGRESS_ADMITTED receipt
 
-Without the receipt, the host may answer as itself, but it may not represent the
-answer as a repository-backed ICC execution.
+The host must carry explicit evidence-receipt identifiers rather than naked
+boolean assertions. This module still cannot verify an unrelated host's private
+state; it fails closed when the host cannot present the required receipts.
+
+Without the final ingress receipt, the host may answer as itself, but it may not
+represent the answer as a repository-backed ICC execution.
 """
 from __future__ import annotations
 
@@ -42,12 +46,12 @@ class HostIngressEvidence:
     repository: str
     ref: str
     commit_sha: str
-    canonical_repository_verified: bool
-    currentness_verified: bool
-    entry_contract_bound: bool
-    bootstrap_complete: bool
+    repository_verification_receipt: str
+    currentness_verification_receipt: str
+    entry_contract_receipt: str
+    bootstrap_receipt: str
     controller_id: str
-    controller_registered: bool
+    controller_registration_receipt: str
 
 
 @dataclass(frozen=True)
@@ -58,6 +62,7 @@ class ICCHostIngressReceipt:
     commit_sha: str
     controller_id: str
     request_digest: str
+    evidence_digest: str
     receipt_id: str
 
     @property
@@ -84,6 +89,13 @@ def _digest(value: str) -> str:
     return sha256(value.encode("utf-8")).hexdigest()
 
 
+def _require_receipt(value: str, error: str) -> str:
+    receipt=str(value).strip()
+    if not receipt:
+        raise ICCHostIngressBlocked(error)
+    return receipt
+
+
 def admit_icc_host_ingress(
     user_text: str,
     evidence: HostIngressEvidence,
@@ -97,28 +109,47 @@ def admit_icc_host_ingress(
         raise ICCHostIngressBlocked("ICC_CANONICAL_REF_REQUIRED")
     if not evidence.commit_sha or len(evidence.commit_sha) < 8:
         raise ICCHostIngressBlocked("ICC_CANONICAL_COMMIT_REQUIRED")
-    if not evidence.canonical_repository_verified:
-        raise ICCHostIngressBlocked("ICC_REPOSITORY_VERIFICATION_REQUIRED")
-    if not evidence.currentness_verified:
-        raise ICCHostIngressBlocked("ICC_CURRENTNESS_VERIFICATION_REQUIRED")
-    if not evidence.entry_contract_bound:
-        raise ICCHostIngressBlocked("ICC_ENTRY_CONTRACT_REQUIRED")
-    if not evidence.bootstrap_complete:
-        raise ICCHostIngressBlocked("ICC_BOOTSTRAP_RECEIPT_REQUIRED")
+    repository_receipt=_require_receipt(
+        evidence.repository_verification_receipt,
+        "ICC_REPOSITORY_VERIFICATION_RECEIPT_REQUIRED",
+    )
+    currentness_receipt=_require_receipt(
+        evidence.currentness_verification_receipt,
+        "ICC_CURRENTNESS_VERIFICATION_RECEIPT_REQUIRED",
+    )
+    entry_receipt=_require_receipt(
+        evidence.entry_contract_receipt,
+        "ICC_ENTRY_CONTRACT_RECEIPT_REQUIRED",
+    )
+    bootstrap_receipt=_require_receipt(
+        evidence.bootstrap_receipt,
+        "ICC_BOOTSTRAP_RECEIPT_REQUIRED",
+    )
     if evidence.controller_id != CANONICAL_CONTROLLER:
         raise ICCHostIngressBlocked("ICC_CONTROLLER_IDENTITY_MISMATCH")
-    if not evidence.controller_registered:
-        raise ICCHostIngressBlocked("ICC_CONTROLLER_REGISTRATION_REQUIRED")
+    registration_receipt=_require_receipt(
+        evidence.controller_registration_receipt,
+        "ICC_CONTROLLER_REGISTRATION_RECEIPT_REQUIRED",
+    )
 
     request_body = strip_icc_prefix(user_text)
     request_digest = _digest(request_body)
+    evidence_material = "|".join((
+        repository_receipt,
+        currentness_receipt,
+        entry_receipt,
+        bootstrap_receipt,
+        registration_receipt,
+    ))
+    evidence_digest = _digest(evidence_material)
     identity_material = "|".join((
         evidence.repository,
         evidence.ref,
         evidence.commit_sha,
         evidence.controller_id,
         request_digest,
-        "HOST_INGRESS_ADMITTED_V1",
+        evidence_digest,
+        "HOST_INGRESS_ADMITTED_V2",
     ))
     receipt_id = _digest(identity_material)
 
@@ -129,6 +160,7 @@ def admit_icc_host_ingress(
         commit_sha=evidence.commit_sha,
         controller_id=evidence.controller_id,
         request_digest=request_digest,
+        evidence_digest=evidence_digest,
         receipt_id=receipt_id,
     )
 
@@ -146,15 +178,11 @@ def require_icc_host_ingress(
         raise ICCHostIngressBlocked("ICC_HOST_INGRESS_REF_DRIFT")
     if receipt.controller_id != CANONICAL_CONTROLLER:
         raise ICCHostIngressBlocked("ICC_HOST_INGRESS_CONTROLLER_DRIFT")
-    if not receipt.commit_sha or not receipt.request_digest or not receipt.receipt_id:
+    if (
+        not receipt.commit_sha
+        or not receipt.request_digest
+        or not receipt.evidence_digest
+        or not receipt.receipt_id
+    ):
         raise ICCHostIngressBlocked("ICC_HOST_INGRESS_RECEIPT_INCOMPLETE")
     return receipt
-
-
-def receipt_banner(receipt: ICCHostIngressReceipt) -> str:
-    r = require_icc_host_ingress(receipt)
-    return (
-        f"{r.controller_id} "
-        f"{r.repository}@{r.ref}:{r.short_commit} "
-        f"ingress:{r.receipt_id[:12]}"
-    )

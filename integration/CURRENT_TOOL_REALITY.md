@@ -39,20 +39,28 @@ narrower result from being promoted into a stronger claim.
 
 ## Current native-realization residual
 
-The current registered material repertoire still lacks a recovered native
-entrypoint for:
+After the PR #160 recovery pack, the current registered material repertoire
+still lacks a recovered native entrypoint for exactly:
 
 - MTA
 - Architecture
 - PD
 - PDAudit
+
+The following five prior residuals now have native implementations, explicit
+tool-specific protected manifests, and regression witnesses:
+
 - GDOS
 - Discriminator
 - RTC
 - BiasPerturbation
 - Diagnosis
 
-No generic analysis substitutes for these missing native realizations.
+PR #160 head `9ef028eab6a929c1aec8aaa15c70d1d96f03a64f` passed Take-5
+Validation run 36301760629 and Capability Preservation run 36301760616.
+
+No generic analysis substitutes for the four remaining missing native
+realizations.
 
 GOAL delta (2026-09-27):
 
