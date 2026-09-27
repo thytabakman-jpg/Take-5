@@ -16,6 +16,7 @@ from current_portfolio_identity import audit_current_portfolio_identity
 from portable_tool_conductor import compilation_witness
 from tool_manifest import OVERRIDES
 from tool_manifest_audit import audit_tool_identities
+from tool_identity_dimensions import audit_current_repertoire as audit_operational_identity
 from tool_run_registry import CONFIGURED_RUNS
 
 
@@ -25,6 +26,7 @@ class ToolRealityAudit:
     configured_identity_status: str
     explicit_manifest_status: str
     native_execution_status: str
+    operational_identity_status: str
     checked: int
     generic_only: tuple[str, ...]
     native_unrecovered: tuple[str, ...]
@@ -47,11 +49,14 @@ def audit_tool_reality() -> ToolRealityAudit:
     configured_status = configured.status
     manifest_status = manifests.status
     native_status = "CLOSED_RELATIVE" if not native_unrecovered else "OPEN"
+    operational = audit_operational_identity()
+    operational_status = str(operational["status"])
 
     strong_closed = (
         configured_status == "CLOSED_RELATIVE"
         and manifest_status == "CLOSED_RELATIVE"
         and native_status == "CLOSED_RELATIVE"
+        and operational_status == "CLOSED_RELATIVE"
     )
 
     return ToolRealityAudit(
@@ -59,6 +64,7 @@ def audit_tool_reality() -> ToolRealityAudit:
         configured_identity_status=configured_status,
         explicit_manifest_status=manifest_status,
         native_execution_status=native_status,
+        operational_identity_status=operational_status,
         checked=len(CONFIGURED_RUNS),
         generic_only=tuple(manifests.generic_only),
         native_unrecovered=tuple(native_unrecovered),
