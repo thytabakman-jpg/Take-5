@@ -129,6 +129,7 @@ def test_discovery_that_enlarges_problem_can_be_strict_gain():
         effects=(witness(EffectKind.MATERIAL_RELATION_DISCOVERED),),
         obligation_states=("CLOSED",),
         boundary_verified=True,
+        specification_status="PASS",
     )
     assert strict_progress(cmp) is True
 
@@ -145,6 +146,7 @@ def test_lower_burden_equivalent_can_be_strict_gain():
         effects=(witness(EffectKind.LOWER_BURDEN_EQUIVALENT),),
         obligation_states=("NOT_APPLICABLE",),
         boundary_verified=True,
+        specification_status="PASS",
     )
     assert strict_progress(cmp) is True
 
@@ -204,6 +206,7 @@ def test_basis_change_requires_reconciliation_for_strict_comparison():
         effects=(witness(EffectKind.ACTION_CHANGED),),
         boundary_verified=True,
         basis_reconciled=True,
+        specification_status="PASS",
     )
     assert strict_progress(cmp2) is True
 
@@ -217,3 +220,18 @@ def test_relevant_dependency_change_relicenses_no_gain_route():
         frozenset({"evidence"}),
         frozenset({"unrelated"}),
     )
+
+
+def test_transform_sensitive_gain_is_open_without_specification_pass():
+    cmp = TransitionComparison(
+        scope=scope(),
+        pre_semantic_class="c0",
+        post_semantic_class="c1",
+        pre_basis_id="b0",
+        post_basis_id="b0",
+        effects=(witness(EffectKind.ACTION_CHANGED),),
+        obligation_states=("CLOSED",),
+        boundary_verified=True,
+        specification_status="OPEN",
+    )
+    assert strict_progress(cmp) is False
