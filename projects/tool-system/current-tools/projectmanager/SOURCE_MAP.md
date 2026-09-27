@@ -26,3 +26,11 @@ to make the folder look complete.
 - projects/project-manager/DEFINITION_GATE.md
 - runtime/project_manager.py
 - tests/test_project_definition_requested_sequence.py
+
+
+## Canonical admission validation
+
+- PR 170 semantic merge: 904f1336b4226b42e51a88630581a2f507ec2304
+- post-merge every-tool sweep: 36349806935 SUCCESS
+- post-merge Take-5 validation: 36349806942 SUCCESS
+- package status sync: PR 171 / main basis b5bf2e8c36a07fd698f4a2af8b82bc762c153968
