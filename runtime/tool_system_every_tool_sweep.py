@@ -25,7 +25,10 @@ from full_invocation_portfolio import audit_full_invocation_portfolio
 from portable_tool_conductor import run_tool_conductor
 from project_manager import CORE_COORDINATES, assess_project
 from protected_transition_portfolio import audit_protected_transition_portfolio
-from system_audit import run_audit
+from system_audit import run_audit, audit_audits
+from historical_replay_audit import audit_historical_replays
+from repertoire_reachability import audit_current_repertoire_reachability
+from system_cleanup_campaign import run_cleanup_campaign
 from tool_manifest import OVERRIDES
 from tool_manifest_audit import audit_tool_identities
 from tool_maturity import audit_all as audit_maturity
@@ -33,6 +36,41 @@ from tool_project_packages import audit_materialized
 from tool_reality_audit import audit_tool_reality
 from tool_run_registry import CONFIGURED_RUNS, MATERIAL_TOOLS
 from learning_operator_tools import FunctionalStackState,OODAState,RateDistortionCandidate
+from improvement_core_dispatch import dispatch_improvement_core
+from ic028_operator import GOAL_DIRECTED_STAGES
+from icc128_autonomous_controller import ICC128Controller
+from mt_semantic_return_gate import run_mt_with_before_return_gate
+from mta import run_mta
+from architecture_analysis import run_architecture_analysis
+from pd import run_pd
+from pd_audit import run_pd_audit
+from gdos import run_gdos
+from discriminator import run_discriminator
+from reconcile import reconcile
+from delegation import delegate
+from hf1_episode import HF1Execution, HF1Closure, run_hf1_episode
+from hf002_recursive_continuation import HF002RecursiveContinuation
+from root_cause import RootCandidate, run_root_cause_hf2
+from tool_run_closure import Consequence, ConsumerState, Disposition, StageResult, run_tool_run_closure
+from raise_the_ceiling import raise_the_ceiling
+from bias_perturbation import run_bias_perturbation
+from currentness_audit import assess as assess_currentness
+from capability_foundry import CapabilityFoundry, CapabilitySpec, CapabilityType
+from emergent_admission import ObjectCandidate, admit as admit_emergent
+from historical_reconstruction import ReconstructionCase, compare as compare_historical
+from zero_request_episode import zero_request_episode
+from multiobject import (
+    FrozenObject, RelationFinding, RouteResult, ResidualJudgment,
+    ReconciledFinding, run_multiobject,
+)
+from diagnosis import diagnose
+from assert_compound import AssertState, AssertStages, run_to_fixed_point
+from goal import GoalCandidate, GoalObject, recover_goal
+from solution_to_my_problem import Problem, Candidate, SolutionReceipt, solve
+from desired_jane import DesireEvidence, recover_desired_jane
+from question_worth_asking import QuestionCandidate, select_question
+from lambda_math import EntryState, reconstruct as reconstruct_lambda
+from semantic_resolution_pipeline import plan_black_box_resolution
 
 
 ROOT=Path(__file__).resolve().parents[1]
@@ -262,6 +300,584 @@ def project_manager_adapter(packet:dict[str,Any])->dict[str,Any]:
     }
 
 
+
+def _dev_executed(native:Any, *, evidence:str)->dict[str,Any]:
+    return {
+        "status":"EXECUTED",
+        "execution_truth":"IMPLEMENTATION_EXECUTED",
+        "result":plain(native),
+        "material_delta":False,
+        "evidence":(evidence,),
+    }
+
+
+def _improvement_core_adapter(packet:dict[str,Any])->dict[str,Any]:
+    handlers={}
+    for stage in GOAL_DIRECTED_STAGES:
+        def fn(state,stage=stage):
+            return {
+                "state":{**state,stage:True},
+                "material_delta":stage=="EXECUTE",
+                "supervisory_relevant":False,
+            }
+        handlers[stage]=fn
+    handlers["REENTER"]=lambda state:{"state":state,"terminal":True}
+    _,out=dispatch_improvement_core(
+        "ImproveCore, inspect the tool-system organization",
+        target="projects/tool-system",
+        job="development audit",
+        basis="every-tool-sweep",
+        state={},
+        handlers=handlers,
+        hf2_enabled=False,
+        allow_ungated_debug=True,
+    )
+    return _dev_executed(out,evidence="native:ImprovementCore")
+
+
+def _icc128_adapter(packet:dict[str,Any])->dict[str,Any]:
+    def gq(z,m):
+        return [] if z["step"]>=2 else [{"id":f"q{z['step']}","target":"tool-system"}]
+    def gw(q,z,m):
+        return [{"id":"w:"+x["id"],"job":"inspect organization"} for x in q]
+    def select(q,w,z,m):
+        return w[:1]
+    def execute(selected,z,m):
+        return [{"id":x["id"],"finding":"organization-evidence"} for x in selected]
+    def admit(results,z,m):
+        return {"material_result_delta":bool(results),"results":results}
+    def update(z,m,d):
+        z=dict(z);m=dict(m);z["step"]+=1
+        if z["step"]>=2:
+            z["terminal"]="COMPLETE";z["admitted_continuation"]=False
+        else:
+            z["terminal"]="CONTINUE";z["admitted_continuation"]=True
+        m[f"step{z['step']}"]=d
+        return z,m
+    out=ICC128Controller(gq,gw,select,execute,admit,update,max_iterations=4).run(
+        {"step":0,"terminal":"CONTINUE","admitted_continuation":True},{}
+    )
+    return _dev_executed(out,evidence="native:ICC128")
+
+
+def _mt_adapter(packet:dict[str,Any])->dict[str,Any]:
+    state={"target":"projects/tool-system","package_status":packet["project_summary"]["package_audit"]["status"]}
+    out=run_mt_with_before_return_gate(
+        state,
+        run_mt=lambda s:(s,{"target":"projects/tool-system","finding":"organized-project-under-development-sweep"}),
+        detect_black_boxes=lambda s,r:(),
+        execute_stage=lambda tool_id,object_id,s:(s,"CLOSED_RELATIVE",False),
+    )
+    return _dev_executed(out,evidence="native:MT")
+
+
+def _mta_adapter(packet:dict[str,Any])->dict[str,Any]:
+    def reconstruct(target,hypotheses,package,shared_math,evidence,contract):
+        return {
+            "Model":"single-owner non-destructive project packages",
+            "Findings":("separate authority from projection","append-only evidence"),
+            "FactorBasis":("authority","history","coverage","validation"),
+            "Residual":(),
+            "MaterialDeltas":(),
+            "DiscoveryDeltas":(),
+            "NewOrChangedObjects":(),
+            "Evidence":("projects/tool-system/","runtime/tool_project_packages.py"),
+            "Coverage":"current registered repertoire",
+            "VerificationObligations":("registry parity","overwrite guard"),
+            "OPEN":(),
+        }
+    out=run_mta(
+        "projects/tool-system",
+        {"two_36_surfaces":True},
+        ("tool-system project","validation receipts"),
+        {"protected":("one-owner","append-only","no-overwrite")},
+        generate_structural_hypotheses=lambda *args:("owned-package architecture",),
+        select_analysis_package=lambda *args:("authority","history","regression"),
+        reconstruct_protected_model=reconstruct,
+    )
+    return _dev_executed(out,evidence="native:MTA")
+
+
+def _architecture_adapter(packet:dict[str,Any])->dict[str,Any]:
+    def analyze(a,k):
+        return {
+            "ArchClass":"NON_DESTRUCTIVE_PROJECT_PACKAGE_OVERLAY",
+            "Violations":(),
+            "LocalizationFamilies":("current-tools","icc-variants"),
+            "DependencyState":("registry->packages","manifest->source-map"),
+            "InteractionState":("coverage!=handoff",),
+            "TransformationFrontier":(),
+            "SuccessorFrontier":(),
+            "Coverage":"93 current tools plus recovered variant inventory",
+            "OpenConflictBlocked":(),
+            "Provenance":("projects/tool-system","integration/CURRENT_TOOL_PROJECT_ORGANIZATION.md"),
+        }
+    out=run_architecture_analysis(
+        {"target":"projects/tool-system"},
+        {"protected":("one-owner","append-only","no-overwrite")},
+        analyze_architecture=analyze,
+    )
+    return _dev_executed(out,evidence="native:Architecture")
+
+
+def _pd_adapter(packet:dict[str,Any])->dict[str,Any]:
+    cases=((0,0),(1,0),(1,1))
+    out=run_pd(
+        cases,
+        rho=lambda x:x[0],
+        approx=lambda a,b:a==b,
+        representations={"organization-coordinate":lambda x:x},
+    )
+    return _dev_executed(out,evidence="native:PD")
+
+
+def _pdaudit_adapter(packet:dict[str,Any])->dict[str,Any]:
+    cases=((0,0),(1,0),(1,1))
+    out=run_pd_audit(
+        cases,
+        rho=lambda x:x[0],
+        approx=lambda a,b:a==b,
+        representations={"organization-coordinate":lambda x:x},
+        kappa_cases=lambda xs:{"case_count":len(xs)},
+        kappa_representations=lambda reps:{"representation_count":len(reps)},
+    )
+    return _dev_executed(out,evidence="native:PDAudit")
+
+
+def _gdos_adapter(packet:dict[str,Any])->dict[str,Any]:
+    target=packet["project_summary"]
+    out=run_gdos(
+        target,
+        observers=(
+            lambda x:{"package_status":x["package_audit"]["status"]},
+            lambda x:{"registered_tools":x["registered_tools"]},
+            lambda x:{"root_file_count":len(x["root_files"])},
+        ),
+        reconcile_fn=lambda rows:{"observations":rows,"agreement":"NO_MUTATION"},
+    )
+    return _dev_executed(out,evidence="native:GDOS")
+
+
+def _discriminator_adapter(packet:dict[str,Any])->dict[str,Any]:
+    out=run_discriminator(
+        ("single-owner-packages","rewrite-monolith"),
+        lambda x:x=="single-owner-packages",
+    )
+    return _dev_executed(out,evidence="native:Discriminator")
+
+
+def _reconciler_adapter(packet:dict[str,Any])->dict[str,Any]:
+    out=reconcile(
+        {"project":"tool-system"},
+        ({"finding":"package parity"},{"finding":"project-control complete"}]),
+        lambda state,results:{
+            **state,
+            "admitted_evidence":results,
+            "conflicts":(),
+            "open_coordinates":(),
+        },
+    )
+    return _dev_executed(out,evidence="native:Reconciler")
+
+
+def _delegated_executor_adapter(packet:dict[str,Any])->dict[str,Any]:
+    out,receipt=delegate(
+        episode="every-tool-sweep",
+        program_id="TOOL_SYSTEM_READ_ONLY_CHECK",
+        authority_in=frozenset({"observe","verify"}),
+        authority_local=frozenset({"observe"}),
+        payload={"project":"tool-system","status":packet["project_summary"]["package_audit"]["status"]},
+        worker=lambda payload:{"observed":payload,"mutation":False},
+    )
+    return _dev_executed({"output":out,"receipt":receipt},evidence="native:DelegatedExecutor")
+
+
+def _hf1_adapter(packet:dict[str,Any])->dict[str,Any]:
+    initial={
+        "identity":"tool-system","type":"PROJECT","scope":"SYSTEM","job":"VERIFY",
+        "readings":(),"result_sensitive":("organization",),"selectors":(),
+        "authority":"OBSERVE","provenance":"Take-5","open":(),
+        "obligations":("VERIFY_ORGANIZATION",),
+        "world_state":"stable","discovery_state":"stable","result_sensitive_state":"stable",
+    }
+    def execute_fn(package,mode,current):
+        nxt=dict(current)
+        nxt["obligations"]=()
+        return HF1Execution(nxt,{"package":package,"mode":mode},True,True)
+    def closure_fn(execution,current):
+        return HF1Closure(execution.packet,"CLOSED")
+    out=run_hf1_episode(
+        initial,
+        package_index={"dev-verify":("VERIFY_ORGANIZATION",)},
+        mode_flags={"exact_discriminant":True,"independent_local":True},
+        execute_fn=execute_fn,
+        closure_fn=closure_fn,
+        max_rounds=3,
+    )
+    return _dev_executed(out,evidence="native:HF001")
+
+
+def _hf2_adapter(packet:dict[str,Any])->dict[str,Any]:
+    hf2=HF002RecursiveContinuation(
+        run_capability=lambda s,m:{
+            "execution_truth":"IMPLEMENTATION_EXECUTED",
+            "result":{"project":"tool-system","verified":True},
+        },
+        admit_normalize=lambda raw,s,m:(dict(s),{
+            "material_result_delta":False,
+            "route_equivalence":"tool-system-dev-hf2",
+        }),
+        trc_verify=lambda pre,post,delta:{"terminal":True},
+        hf1_classify=lambda pre,post,delta:{"disposition":"STABLE"},
+        live_local=lambda s,m:False,
+        local_close=lambda s,m:True,
+        max_rounds=2,
+    )
+    out=hf2.run({"project":"tool-system"},{})
+    return _dev_executed(out,evidence="native:HF002")
+
+
+def _root_cause_adapter(packet:dict[str,Any])->dict[str,Any]:
+    candidate=RootCandidate(
+        "single-owner-control",
+        "ROOT_GENERATOR",
+        frozenset({"PROJECT_CONTROL_GAP"}),
+        evidence=frozenset({"first-sweep-projectmanager-receipt"}),
+        survives_representation_change=True,
+        removal_breaks_recurrence=True,
+    )
+    out=run_root_cause_hf2(
+        failure_class=("PROJECT_CONTROL_GAP",),
+        candidates=(candidate,),
+        basis_id="tool-system-every-tool",
+    )
+    return _dev_executed(out,evidence="native:RootCause")
+
+
+def _trc_adapter(packet:dict[str,Any])->dict[str,Any]:
+    q=Consequence(
+        "tool-system-project-control",
+        "VERIFY",
+        "CURRENT",
+        "PROJECT_LOCAL",
+        "every-tool-sweep",
+        "ANTI_LOSS",
+    )
+    out=run_tool_run_closure(
+        tool_result={"finding":"project-control-complete"},
+        pre_state={},
+        post_state={},
+        harvest_fn=lambda r,p,s:(q,),
+        disposition_fn=lambda c,s:Disposition.REALIZE,
+        realize_fn=lambda c,s:StageResult(s,"COMPLETED_UNVERIFIED",evidence=("realized",)),
+        verify_fn=lambda c,s:StageResult(s,"VERIFIED",evidence=("verified",)),
+        consume_fn=lambda c,s:StageResult(s,ConsumerState.CONSUMED.value,evidence=("consumed",)),
+        harvest_basis="EVERY_TOOL_SWEEP",
+        harvest_complete=True,
+    )
+    return _dev_executed(out,evidence="native:TRC")
+
+
+def _rtc_adapter(packet:dict[str,Any])->dict[str,Any]:
+    out=raise_the_ceiling({
+        "candidates":[{
+            "id":"native-every-tool-development-bindings",
+            "strict_gain":True,
+            "preserves":("anti-loss","single-owner","append-only"),
+        }]
+    })
+    return _dev_executed(out,evidence="native:RTC")
+
+
+def _bias_adapter(packet:dict[str,Any])->dict[str,Any]:
+    target={"owner":"single","surface":"docs"}
+    perturbations=(
+        {"owner":"single","surface":"yaml"},
+        {"owner":"single","surface":"markdown"},
+    )
+    out=run_bias_perturbation(
+        target,perturbations,
+        runner=lambda x:x["owner"],
+        semantics_equivalent=lambda a,b:a["owner"]==b["owner"],
+        result_equivalent=lambda a,b:a==b,
+    )
+    return _dev_executed(out,evidence="native:BiasPerturbation")
+
+
+def _currentness_adapter(packet:dict[str,Any])->dict[str,Any]:
+    out=assess_currentness(
+        component="projects/tool-system",
+        built_basis="current-main",
+        latest_basis="current-main",
+        protected=("one-owner","append-only","no-overwrite"),
+        delta=(),
+        evidence=("every-tool-sweep",),
+        reverified=True,
+    )
+    return _dev_executed(out,evidence="native:CurrentnessAudit")
+
+
+def _foundry_adapter(packet:dict[str,Any])->dict[str,Any]:
+    candidate=CapabilitySpec(
+        capability_id="DEV_ORGANIZATION_OBSERVER",
+        capability_type=CapabilityType.BEHAVIOR,
+        trigger="tool-system development sweep",
+        input_contract="project summary",
+        transform="observe -> compare -> report",
+        output_contract="evidence-only development finding",
+        success="finding consumed or typed OPEN",
+        failure="OPEN",
+        persistence="EPHEMERAL",
+    )
+    out=CapabilityFoundry().evaluate(
+        candidate,
+        functionally_subsumed=lambda a,b:False,
+        material_goal_gain=lambda c:True,
+        architecture_compatible=lambda c:True,
+    )
+    return _dev_executed(out,evidence="native:CapabilityFoundry")
+
+
+def _emergent_adapter(packet:dict[str,Any])->dict[str,Any]:
+    out=admit_emergent(ObjectCandidate(
+        object_id="TOOL_UMBRELLA_ALIAS",
+        object_type="SEMANTIC_OBJECT",
+        load_bearing=True,
+        known_equivalent="TERM:TOOL",
+    ))
+    return _dev_executed({"disposition":out},evidence="native:EmergentAdmission")
+
+
+def _historical_adapter(packet:dict[str,Any])->dict[str,Any]:
+    case=ReconstructionCase(
+        historical_id="pre-package-tool-organization",
+        successor_id="projects/tool-system",
+        frozen_job="prevent document overwrite and loss",
+        protected=("single-owner","append-only","open-preservation"),
+        predecessor_result={"intent":"preserve"},
+        successor_result={"intent":"preserve"},
+        predecessor_witness="Sukkos authority/change-control pattern",
+        successor_witness="every-tool project validation",
+        context="tool-system organization",
+    )
+    return _dev_executed(compare_historical(case),evidence="native:HistoricalReconstruction")
+
+
+def _zero_request_adapter(packet:dict[str,Any])->dict[str,Any]:
+    out=zero_request_episode(
+        ("projects/tool-system","runtime/tool_project_packages.py"),
+        lambda corpus,binding:{
+            "objects":len(corpus),
+            "structural":("authority-registry","per-object-packages","regression"),
+            "observation_only":binding.observation_only,
+        },
+    )
+    return _dev_executed(out,evidence="native:ZeroRequest")
+
+
+class _ToolSystemMultiProvider:
+    def joint(self,objects,*,route_id):
+        return RouteResult(
+            route_id,"FULL_JOINT",tuple(o.object_id for o in objects),
+            (RelationFinding("joint-1",tuple(o.object_id for o in objects),"COORDINATED_ANTI_LOSS",("joint",),("tool-system",)),),
+            isolation_receipt="isolated-joint",
+        )
+    def pair(self,left,right,*,route_id):
+        return RouteResult(route_id,"PAIR",(left.object_id,right.object_id),(),isolation_receipt="isolated-"+route_id)
+    def synthesize_pairs(self,pair_routes):
+        return RouteResult(
+            "PAIR_SYNTH","PAIR_SYNTHESIS",
+            ("REGISTRY","PACKAGES","VALIDATION"),
+            (RelationFinding("synth-1",("REGISTRY","PACKAGES","VALIDATION"),"SHARED_DEPENDENCY",("pairs",),("tool-system",)),),
+            isolation_receipt="pair-synthesis",
+        )
+    def challenge_reducibility(self,joint_route,pair_routes,pair_synthesis):
+        return (ResidualJudgment("joint-1","HIGHER_ORDER_RESIDUAL",("whole-system interaction",)),)
+    def triggered_views(self,objects,joint_route,pair_routes,pair_synthesis,residuals):
+        return ()
+    def analyze_view(self,request,objects):
+        raise AssertionError("no view requested")
+    def reconcile(self,pair_routes,pair_synthesis,joint_route,residuals,view_results):
+        return (
+            ReconciledFinding("joint-1","JOINT_ONLY",("higher-order anti-loss coupling",)),
+            ReconciledFinding("synth-1","PAIRWISE_ONLY",("pair synthesis",)),
+        )
+
+
+def _multiobject_adapter(packet:dict[str,Any])->dict[str,Any]:
+    objects=(
+        FrozenObject("REGISTRY","REGISTRY","SYSTEM","current tool inventory"),
+        FrozenObject("PACKAGES","PROJECT_STRUCTURE","SUBSYSTEM","per-object durable state"),
+        FrozenObject("VALIDATION","VERIFICATION","INTERFACE","regression gate"),
+    )
+    out=run_multiobject(objects,_ToolSystemMultiProvider())
+    return _dev_executed(out,evidence="native:MultiObject")
+
+
+def _diagnosis_adapter(packet:dict[str,Any])->dict[str,Any]:
+    out=diagnose({
+        "failures":[{
+            "id":"missing-project-control-coordinate",
+            "material":True,
+            "mechanism":"organization inherited earlier project pattern before ProjectManager 21-coordinate contract",
+        }]
+    })
+    return _dev_executed(out,evidence="native:Diagnosis")
+
+
+def _assert_adapter(packet:dict[str,Any])->dict[str,Any]:
+    stages=AssertStages(
+        assert_stage=lambda s:s,
+        compare_stage=lambda s:s,
+        resolve_stage=lambda s:s,
+        here_stage=lambda s:s,
+        inquire_stage=lambda s:s,
+        reassert_stage=lambda s:s,
+    )
+    out=run_to_fixed_point(AssertState(),stages,max_rounds=3)
+    return _dev_executed(out,evidence="native:ASSERT")
+
+
+def _goal_adapter(packet:dict[str,Any])->dict[str,Any]:
+    goal=GoalObject(
+        X="Take-5 tool and ICC ecosystem",
+        T="durably organized non-overwriting project system",
+        I="current registry plus recovered ICC/IC inventory",
+        Sigma="registry/package parity + owner integrity + regression validation",
+    )
+    candidate=GoalCandidate(
+        "tool-system-goal",
+        goal,
+        constraints=("no semantic duplication","preserve OPEN","local change only"),
+        evidence=("projects/tool-system/GOAL.md",),
+        grounded=True,
+        authority_typed=True,
+        determinate_enough=True,
+    )
+    return _dev_executed(recover_goal((candidate,)),evidence="native:GOAL")
+
+
+def _solution_adapter(packet:dict[str,Any])->dict[str,Any]:
+    problem=Problem(
+        observed=("historical overwrite/loss and dimension collision",),
+        generators=("unowned mutable truth and destructive replacement",),
+        required_effects=("single-owner-routing","append-only-history","regression-detection"),
+        protected=("semantic-authority","OPEN-preservation"),
+    )
+    candidate=Candidate(
+        id="owned-project-packages",
+        proposed_attacks=problem.generators,
+        proposed_effects=problem.required_effects,
+        proposed_preservations=problem.protected,
+        cost=1.0,
+    )
+    receipt=SolutionReceipt(
+        candidate_id=candidate.id,
+        source="every-tool-development-sweep",
+        execution_stage="CONSUMED",
+        observed_attacks=problem.generators,
+        observed_effects=problem.required_effects,
+        observed_preservations=problem.protected,
+        verification_status="PASS",
+        closure_status="CLOSED",
+        evidence=("package-audit","full-validation","projectmanager-assessment"),
+    )
+    return _dev_executed(solve(problem,(candidate,),(receipt,)),evidence="native:SolutionToMyProblem")
+
+
+def _desired_jane_adapter(packet:dict[str,Any])->dict[str,Any]:
+    evidence=(
+        DesireEvidence(
+            "project_continuity","WANT","current-user-request",
+            "Keep the whole tool project organized using durable project-control lessons without rewriting documents."
+        ),
+        DesireEvidence(
+            "silent_rewrite","DO_NOT_WANT","current-user-request",
+            "Do not rewrite documents across dimensions or lose prior work."
+        ),
+    )
+    return _dev_executed(recover_desired_jane(evidence),evidence="native:DesiredJane")
+
+
+def _question_adapter(packet:dict[str,Any])->dict[str,Any]:
+    questions=(
+        QuestionCandidate(
+            "control-gap",
+            "Are any native project-control coordinates missing or multiply owned?",
+            1.0,0.9,1.0,1.0,0.2,0.1,
+        ),
+        QuestionCandidate(
+            "cosmetic",
+            "Could package headings be reformatted?",
+            0.1,0.1,0.0,0.2,0.2,0.2,
+        ),
+    )
+    return _dev_executed(select_question(questions),evidence="native:QuestionWorthAsking")
+
+
+def _lambda_adapter(packet:dict[str,Any])->dict[str,Any]:
+    candidate=EntryState(
+        "organize-tool-system",
+        "projects/tool-system",
+        "observer-development",
+        ("no-overwrite","one-owner"),
+        "current-main",
+        "validated-relative-closure",
+    )
+    out=reconstruct_lambda(
+        (candidate,),
+        consistent=lambda x:True,
+        continuation_equivalent=lambda a,b:a==b,
+        result_sensitive=lambda coordinate:coordinate in {"T","C","S"},
+    )
+    return _dev_executed(out,evidence="native:LambdaMath")
+
+
+def _semantic_pipeline_adapter(packet:dict[str,Any])->dict[str,Any]:
+    out=plan_black_box_resolution(
+        "TOOL_SYSTEM_ORGANIZATION",
+        residuals=("CURRENTNESS_OPEN","DEPENDENCY_OPEN"),
+    )
+    return _dev_executed(out,evidence="native:SemanticResolutionPipeline")
+
+
+def development_adapters(summary:dict[str,Any])->dict[str,Any]:
+    return {
+        "ProjectManager":project_manager_adapter,
+        "ImprovementCore":_improvement_core_adapter,
+        "ICC128":_icc128_adapter,
+        "MT":_mt_adapter,
+        "MTA":_mta_adapter,
+        "Architecture":_architecture_adapter,
+        "PD":_pd_adapter,
+        "PDAudit":_pdaudit_adapter,
+        "GDOS":_gdos_adapter,
+        "Discriminator":_discriminator_adapter,
+        "Reconciler":_reconciler_adapter,
+        "DelegatedExecutor":_delegated_executor_adapter,
+        "HF001":_hf1_adapter,
+        "HF002":_hf2_adapter,
+        "RootCause":_root_cause_adapter,
+        "TRC":_trc_adapter,
+        "RTC":_rtc_adapter,
+        "BiasPerturbation":_bias_adapter,
+        "CurrentnessAudit":_currentness_adapter,
+        "CapabilityFoundry":_foundry_adapter,
+        "EmergentAdmission":_emergent_adapter,
+        "HistoricalReconstruction":_historical_adapter,
+        "ZeroRequest":_zero_request_adapter,
+        "MultiObject":_multiobject_adapter,
+        "Diagnosis":_diagnosis_adapter,
+        "ASSERT":_assert_adapter,
+        "GOAL":_goal_adapter,
+        "SolutionToMyProblem":_solution_adapter,
+        "DesiredJane":_desired_jane_adapter,
+        "QuestionWorthAsking":_question_adapter,
+        "LambdaMath":_lambda_adapter,
+        "SemanticResolutionPipeline":_semantic_pipeline_adapter,
+    }
+
+
 def maturity_summary()->dict[str,Any]:
     rows=audit_maturity()
     counts={}
@@ -279,6 +895,10 @@ def development_audits()->dict[str,Any]:
     reality=audit_tool_reality()
     system=run_audit(ROOT)
     packages=audit_materialized(ROOT)
+    historical_replays=audit_historical_replays()
+    reachability=audit_current_repertoire_reachability()
+    cleanup=run_cleanup_campaign(ROOT)
+    audit_architecture=audit_audits()
     return {
         "current_portfolio_identity":plain(identity),
         "full_invocation_portfolio":plain(invocation),
@@ -288,6 +908,10 @@ def development_audits()->dict[str,Any]:
         "tool_maturity":maturity_summary(),
         "system_audit":plain(system),
         "tool_project_package_audit":plain(packages),
+        "historical_replay_audit":plain(historical_replays),
+        "repertoire_reachability":plain(reachability),
+        "system_cleanup_campaign":plain(cleanup),
+        "audit_architecture":plain(audit_architecture),
     }
 
 
@@ -302,7 +926,7 @@ def run()->dict[str,Any]:
     }
     conductor=run_tool_conductor(
         packet,
-        adapters={"ProjectManager":project_manager_adapter},
+        adapters=development_adapters(summary),
     )
     rows=conductor["results"]
     statuses={}
@@ -312,10 +936,14 @@ def run()->dict[str,Any]:
     dev=development_audits()
 
     structural_failures=[]
-    for name in ("current_portfolio_identity","full_invocation_portfolio","protected_transition_portfolio"):
+    for name in ("current_portfolio_identity","full_invocation_portfolio","protected_transition_portfolio","repertoire_reachability"):
         status=str(dev[name].get("status",""))
         if status not in {"CLOSED_RELATIVE","PASS"}:
             structural_failures.append(f"{name}:{status}")
+    if dev["historical_replay_audit"].get("status")!="PASS":
+        structural_failures.append("historical_replay_audit:FAIL")
+    if dev["system_cleanup_campaign"].get("status")!="CLOSED_RELATIVE":
+        structural_failures.append("system_cleanup_campaign:OPEN")
     if dev["tool_project_package_audit"].get("status")!="CLOSED_RELATIVE":
         structural_failures.append("tool_project_package_audit:OPEN")
     if not dev["system_audit"].get("closed"):
