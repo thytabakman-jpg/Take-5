@@ -49,6 +49,8 @@ user phrase
 -> [typed BOUND_ZIP output] exact binding -> archive expansion -> artifact_intake -> obligations
 -> runtime/improvement_core_manager.py
 -> runtime/ic028_operator.py
+-> [after explicit SELECT] runtime/specification_before_transformation.py
+-> [when selected work is recovery-class, or a transformation has a PASS specification receipt] continue
 -> [when SELECT names a registered formal tool] runtime/improvement_core_tool_bridge.py
 -> current FULL_CONFIGURED_HF2_V1 plan
 -> runtime/configured_hf2_execution.py
@@ -105,7 +107,7 @@ Learning memory is active in two places:
 
 An unchanged blocked route remains blocked until a changed coordinate intersects its recorded dependency footprint.
 
-A selected formal tool must cross the configured execution bridge before EXECUTE can count it as run. The bridge binds the current FULL_CONFIGURED_HF2_V1 plan and executes the bound adapter through the configured recurrence engine. Ordinary registered tools use HF002; HF002 itself uses SELF recurrence. A missing adapter preserves OPEN with the selected tool identity; generic EXECUTE reasoning cannot substitute for the tool call.
+A selected formal tool must cross the configured execution bridge before EXECUTE can count it as run. Before binding, selected work crosses the Specification-Before-Transformation gate. Recovery-class work remains legal on an OPEN object. Architecture/build/modify/improve/replace/promote/supersede/migrate work remains OPEN until every transformation-relevant required coordinate is recovered or covered by an admitted invariance witness. The bridge then binds the current FULL_CONFIGURED_HF2_V1 plan and executes the bound adapter through the configured recurrence engine. Ordinary registered tools use HF002; HF002 itself uses SELF recurrence. A missing adapter preserves OPEN with the selected tool identity; generic EXECUTE reasoning cannot substitute for the tool call.
 
 This configured-tool execution repair is recorded in:
 architecture/IMPROVEMENT_CORE_CONFIGURED_TOOL_EXECUTION_109.md
@@ -197,6 +199,30 @@ Take-5
 
 Decision:
 architecture/CROSS_REPOSITORY_IMPROVEMENTCORE_LINEAGE_CHOICE_080.md
+
+## Specification-before-transformation current invariant
+
+Current invariant:
+- architecture/SPECIFICATION_BEFORE_TRANSFORMATION_INVARIANT_134.md
+- runtime/specification_before_transformation.py
+
+Current protected behavior:
+- object recovery and object transformation are distinct;
+- persistence/package existence does not prove semantic adequacy;
+- explicit selected transformations fail closed until the transformation-relative specification passes;
+- OPEN objects remain available to observe/discover/recover/formalize/compare/audit/verify/diagnose/reconstruct;
+- strict-progress claims consume the specification gate only when they claim an object transformation;
+- intrinsically epistemic configured tools may infer only a recovery-class operation where that inference cannot license mutation;
+- emergent transformation claims cannot be admitted from package reality alone;
+- Take-6 promotion requires predecessor and successor specification PASS.
+
+Validation:
+PR #140
+- final head cdba95c2605612821ade87492960d72c80d1a24a
+- merge 14026b20c06fedee2fc9b3caa3e8826a08e93e01
+- Take-5 Validation 36291341026 SUCCESS
+- Capability Preservation 36291341035 SUCCESS
+- ImproveCore Legacy Restoration 130 run 36291341021 SUCCESS
 
 ## Mode-aware execution
 
@@ -291,7 +317,9 @@ Open-world global maximality/minimality is not a licensed completion claim. Curr
 25. runtime/archive_artifact_intake.py
 26. runtime/improvement_core_manager.py
 27. runtime/ic028_operator.py
-28. runtime/improvement_core_tool_bridge.py
+28. runtime/specification_before_transformation.py
+29. architecture/SPECIFICATION_BEFORE_TRANSFORMATION_INVARIANT_134.md
+30. runtime/improvement_core_tool_bridge.py
 29. architecture/IMPROVEMENT_CORE_CONFIGURED_TOOL_EXECUTION_109.md
 30. runtime/improvement_core_recursive_manager.py
 31. runtime/improvement_core_learning_memory.py
@@ -621,6 +649,8 @@ take6-bootstrap/
 Take-6 is not current runtime authority.
 
 Its architectural correction is to separate immutable evidence/event history, deterministically compiled semantic current state, and disposable exact-capsule runtime execution. Human CURRENT pages and registry views are generated projections rather than independent authorities.
+
+Take-6 now also inherits the Specification-Before-Transformation invariant. Immutable evidence and exact capsules prevent semantic disappearance, but they do not license transformation of an unrecovered object. Promotion requires predecessor and successor specification PASS in addition to protected-behavior preservation, validation, and consequence closure.
 
 The bootstrap core currently passes 14 isolated anti-regression invariants.
 
