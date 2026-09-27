@@ -317,7 +317,34 @@ GOAL_BINDINGS=GENERIC_BINDINGS+(
     ProtectedBinding("GOAL_REOPEN_CONDITIONS","POST","runtime/goal.py","tests/test_goal.py"),
 )
 
+RECOVERED_NATIVE_BINDINGS=lambda behavior: GENERIC_BINDINGS+(
+    ProtectedBinding(behavior,"INTRA","runtime/recovered_tool_runtimes.py","tests/test_recovered_tool_runtimes.py"),
+)
+
+RECOVERED_NATIVE_MANIFESTS={
+    "MTA":("MTA_STRUCTURAL_MODEL_RECONSTRUCTION","MTA_sem=<GenerateStructuralHypotheses,SelectAnalysisPackage,ReconstructProtectedModel>"),
+    "Architecture":("ARCHITECTURE_CONTRACT_RELATIVE_ANALYSIS","AA_K(A)=<ArchClass,Violations,LocalizationFamilies,DependencyState,InteractionState,TransformationFrontier,SuccessorFrontier,Coverage,OpenConflictBlocked,Provenance>"),
+    "PD":("PD_MINIMAL_RESULT_SENSITIVITY","PD identifies result-relevant minimal sensitive coordinate sets in an admissible frame"),
+    "PDAudit":("PDAUDIT_FRAME_FIBER_SENSITIVITY","PDAudit_1.1=<R_T,Fib_rho,{lambda,MinSens_lambda},kappa_A,kappa_Lambda>"),
+    "GDOS":("GDOS_GOAL_DECOUPLED_OBSERVATION","Obs_b(X|P,V,C) with solve/improve/optimize pressure suppressed"),
+    "Discriminator":("DISCRIMINATOR_RESULT_SENSITIVE_COMPARISON","classify matched route differences as COMMUTES_RELATIVE/PATH_ONLY/RESULT_ORDER_SENSITIVE/DIRECTIONALLY_DEPENDENT"),
+    "RTC":("RTC_STRICT_SUCCESSOR_FRONTIER","Frontier_K(x)=ND_succ(Succ_K(x))"),
+    "BiasPerturbation":("BIAS_PERTURBATION_INVARIANCE","task-irrelevant perturbation changing protected decision is a bias signal absent task-relevant explanation"),
+    "MultiObject":("MULTIOBJECT_RELATION_RECONCILIATION","MO_core^2=<G_rel^MO,C_rel^MO>"),
+    "Diagnosis":("DIAGNOSIS_PARAMETERIZED_ROOT","Phi_t=<Root_{rho,K}(Z_t),DetState_t>"),
+}
+
 OVERRIDES={
+    "MTA":ToolManifest(tool_id="MTA",native_semantics="MTA_sem=<GenerateStructuralHypotheses,SelectAnalysisPackage,ReconstructProtectedModel>",geometry_policy="D36_C",closure_contract="TRC_PLUS_TYPED_OPEN",reentry_contract="HF001",bindings=RECOVERED_NATIVE_BINDINGS("MTA_STRUCTURAL_MODEL_RECONSTRUCTION")),
+    "Architecture":ToolManifest(tool_id="Architecture",native_semantics="AA_K(A)=typed contract-relative architecture successor analysis",geometry_policy="D36_C",closure_contract="TRC_PLUS_TYPED_OPEN",reentry_contract="HF001",bindings=RECOVERED_NATIVE_BINDINGS("ARCHITECTURE_CONTRACT_RELATIVE_ANALYSIS")),
+    "PD":ToolManifest(tool_id="PD",native_semantics="PD minimal result-sensitive coordinate relation",geometry_policy="D36_C",closure_contract="TRC_PLUS_TYPED_OPEN",reentry_contract="HF001",bindings=RECOVERED_NATIVE_BINDINGS("PD_MINIMAL_RESULT_SENSITIVITY")),
+    "PDAudit":ToolManifest(tool_id="PDAudit",native_semantics="PDAudit_1.1 quotient/fiber/sensitivity audit",geometry_policy="D36_C",closure_contract="TRC_PLUS_TYPED_OPEN",reentry_contract="HF001",bindings=RECOVERED_NATIVE_BINDINGS("PDAUDIT_FRAME_FIBER_SENSITIVITY")),
+    "GDOS":ToolManifest(tool_id="GDOS",native_semantics="goal-decoupled observation sweep",geometry_policy="D36_C",closure_contract="TRC_PLUS_TYPED_OPEN",reentry_contract="HF001",bindings=RECOVERED_NATIVE_BINDINGS("GDOS_GOAL_DECOUPLED_OBSERVATION")),
+    "Discriminator":ToolManifest(tool_id="Discriminator",native_semantics="matched result-sensitive route discriminator",geometry_policy="D36_C",closure_contract="TRC_PLUS_TYPED_OPEN",reentry_contract="HF001",bindings=RECOVERED_NATIVE_BINDINGS("DISCRIMINATOR_RESULT_SENSITIVE_COMPARISON")),
+    "RTC":ToolManifest(tool_id="RTC",native_semantics="RTC nondominated strict-successor frontier",geometry_policy="D36_C",closure_contract="TRC_PLUS_TYPED_OPEN",reentry_contract="HF001",bindings=RECOVERED_NATIVE_BINDINGS("RTC_STRICT_SUCCESSOR_FRONTIER")),
+    "BiasPerturbation":ToolManifest(tool_id="BiasPerturbation",native_semantics="protected-decision perturbation invariance benchmark",geometry_policy="D36_C",closure_contract="TRC_PLUS_TYPED_OPEN",reentry_contract="HF001",bindings=RECOVERED_NATIVE_BINDINGS("BIAS_PERTURBATION_INVARIANCE")),
+    "MultiObject":ToolManifest(tool_id="MultiObject",native_semantics="MO_core^2=<G_rel^MO,C_rel^MO>",geometry_policy="D36_C",closure_contract="TRC_PLUS_TYPED_OPEN",reentry_contract="HF001",bindings=RECOVERED_NATIVE_BINDINGS("MULTIOBJECT_RELATION_RECONCILIATION")),
+    "Diagnosis":ToolManifest(tool_id="Diagnosis",native_semantics="parameterized causal/root selector with set-valued determinacy",geometry_policy="D36_C",closure_contract="TRC_PLUS_TYPED_OPEN",reentry_contract="HF001",bindings=RECOVERED_NATIVE_BINDINGS("DIAGNOSIS_PARAMETERIZED_ROOT")),
     "GOAL":ToolManifest(
         tool_id="GOAL",
         native_semantics="GOAL_K(Y)=<GT,Succ,Inv,Scope,Auth,Reopen,Open,Witness>",
