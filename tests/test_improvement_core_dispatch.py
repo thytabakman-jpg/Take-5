@@ -7,6 +7,19 @@ from improvement_core_dispatch import (
 )
 from ic028_operator import GOAL_DIRECTED_STAGES
 
+def _return_done(state,memory,context):
+    status=str(context.get("candidate_status","OPEN"))
+    return {
+        "disposition":"RETURN",
+        "terminal":status,
+        "goal_closed":status=="COMPLETE",
+        "owned_work_remaining":False,
+        "consequence_closed":True,
+        "blocker":context.get("candidate_blocker"),
+        "evidence":["test:dispatch-whole-job"],
+    }
+
+
 def _handlers(calls):
     handlers={}
     for stage in GOAL_DIRECTED_STAGES:
@@ -40,6 +53,7 @@ def test_dispatch_executes_rich_controller_path_through_current_regime():
         basis="current",
         state={},
         handlers=_handlers(calls),
+        return_verifier=_return_done,
     )
     assert resolution.controller=="IC-028"
     assert resolution.entrypoint.endswith("run_improvement_core_with_hf2")
