@@ -2,7 +2,7 @@
 
 Status: GENERATED CURRENT INVENTORY
 Date: 2026-09-27
-Current configured tools: 92
+Current configured tools: 93
 
 - [C01](current-tools/c01/README.md)
 - [C02](current-tools/c02/README.md)
@@ -54,6 +54,7 @@ Current configured tools: 92
 - [C48](current-tools/c48/README.md)
 - [C49](current-tools/c49/README.md)
 - [ImprovementCore](current-tools/improvementcore/README.md)
+- [ProjectManager](current-tools/projectmanager/README.md)
 - [ICC128](current-tools/icc128/README.md)
 - [MT](current-tools/mt/README.md)
 - [MTA](current-tools/mta/README.md)
