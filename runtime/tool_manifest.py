@@ -308,7 +308,24 @@ ASSERT_BINDINGS=GENERIC_BINDINGS+(
     ),
 )
 
+GOAL_BINDINGS=GENERIC_BINDINGS+(
+    ProtectedBinding("GOAL_TARGET_BEFORE_PLAN","INTRA","runtime/goal.py","tests/test_goal.py"),
+    ProtectedBinding("GOAL_TARGET_METHOD_SEPARATION","INTRA","runtime/goal.py","tests/test_goal.py"),
+    ProtectedBinding("GOAL_SUCCESS_NOT_MILESTONE","INTRA","runtime/goal.py","tests/test_goal.py"),
+    ProtectedBinding("GOAL_VERSIONED_REFERENT","INTRA","runtime/goal.py","tests/test_goal.py"),
+    ProtectedBinding("GOAL_OPEN_PRESERVATION","POST","runtime/goal.py","tests/test_goal.py"),
+    ProtectedBinding("GOAL_REOPEN_CONDITIONS","POST","runtime/goal.py","tests/test_goal.py"),
+)
+
 OVERRIDES={
+    "GOAL":ToolManifest(
+        tool_id="GOAL",
+        native_semantics="GOAL_K(Y)=<GT,Succ,Inv,Scope,Auth,Reopen,Open,Witness>",
+        geometry_policy="D36_C",
+        closure_contract="TRC_PLUS_TYPED_OPEN",
+        reentry_contract="HF001_ON_MATERIAL_GOAL_CHANGE",
+        bindings=GOAL_BINDINGS,
+    ),
     "ImprovementCore":ToolManifest(
         tool_id="ImprovementCore",
         native_semantics="IC-028",
