@@ -1,67 +1,97 @@
 # Four-Page Architecture
 
-Status: WORKING ROUTE / NOT COPY-LOCKED
+Status: ROUTE LOCKED
+Date: 2026-09-27
 
-## Whole-booklet job
+## Whole-booklet transformation
 
-The booklet moves the learner from using questions without an explicit model to using a small question model independently.
-
-The pages form one causal route, not four adjacent mini-lessons.
+ordinary question use
+→ see questions alter possibilities
+→ inspect whether a question fits its matter
+→ use the model in a real Sukkos classification problem
+→ independently repair a question in a new domain.
 
 ## Page 1
 
+Title:
+WHAT DOES A QUESTION DO?
+
 Job:
-make the structure of a question necessary.
+make question function visible.
 
-Working movement:
-concrete mathematical or logical possibility problem
-→ some questions help more than others
-→ what makes a question work?
+Learner operation:
+track an eight-card possibility space through three yes/no questions.
 
-Required handoff:
-the learner needs a model of what a question contains.
+Exit:
+a question can change what remains possible.
+
+Bottom question:
+What makes a question fit what you are trying to find out?
 
 ## Page 2
 
+Title:
+ASK TO THE POINT
+
 Job:
-give a usable Jewish inquiry operation.
+introduce the Jewish inquiry operation and the three-part student model.
 
-Working movement:
-question structure
-→ disciplined asking
-→ a Jewish distinction or practice that changes how the learner frames the unknown.
+Source:
+Pirkei Avot 5:7.
 
-Required handoff:
-how can a holiday make this operation physical and testable?
+Learner operation:
+inspect Target, Relevant facts, and Answer test.
+
+Exit:
+the learner can diagnose why a question is vague or off-target.
+
+Bottom question:
+Can Sukkos give us a real question where one missing fact blocks the answer?
 
 ## Page 3
 
+Title:
+CAN THIS BE S'CHACH?
+
 Job:
-reveal Sukkos as an embodied question environment.
+make the model necessary inside a Sukkos-native source problem.
 
-Working movement:
-use the operation on a real Sukkos object, constraint set, or ritual structure.
+Sources:
+Mishnah Sukkah 1:4.
+Rambam, Mishneh Torah, Sukkah 5:1.
 
-Required surplus:
-Sukkos adds identity conditions, embodiment, or ritual reality unavailable from the generic lesson.
+Learner operation:
+classify material cards and detect missing attachment information.
 
-Required handoff:
-can the learner now use the operation somewhere new?
+Exit:
+the learner asks the missing question before classifying.
+
+Bottom question:
+Can you rebuild a vague question somewhere else?
 
 ## Page 4
+
+Title:
+BUILD THE QUESTION
 
 Job:
 independent transfer.
 
-Working movement:
-a new case with a vague or weak question
-→ learner identifies missing structure
-→ learner revises or constructs the question
-→ optional personal transfer.
+Learner operation:
+repair "Which way is better?" in a non-Sukkos route-choice case.
 
-## Cross-page invariant
+Exit:
+the learner constructs a question with a clear Target, Relevant facts, and Answer test.
 
-Each page changes learner state.
-Each page makes the next question available.
-The bridge must be public.
-The page title, visual, activity, and bottom question all serve the page job.
+## Causal hinge test
+
+P1 → P2
+Question function creates the need for question fit.
+
+P2 → P3
+Question fit receives a real Jewish and Sukkos test.
+
+P3 → P4
+Supported classification becomes independent formulation.
+
+No hinge requires hidden facilitator information.

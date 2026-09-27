@@ -1,29 +1,54 @@
 # Page 3
 
-Status: OPEN ROLE / WORKING FUNCTION
+Status: LOCKED ROLE
+Date: 2026-09-27
+
+## Title
+
+CAN THIS BE S'CHACH?
 
 ## Major learner move
 
-Use the question model on a Sukkos-native object or practice.
+Use the question model before making a Sukkos classification.
 
-## Leading candidate
+## Source rule
 
-What makes something count as a sukkah?
+Mishnah Sukkah 1:4 and Rambam Sukkah 5:1 ground the three checks used on this page.
 
-The page can make criteria, evidence, and answer conditions visible through inspection, classification, or construction.
+For today's check:
 
-## Entry
+grown from the ground,
+detached,
+not able to receive ritual impurity.
 
-Learner has a question model and a Jewish inquiry operation.
+The booklet notes that other laws of s'chach exist.
 
-## Exit
+## Material cards
 
-Learner has used them in a real holiday structure.
+Cut palm branch:
+YES / YES / NO.
+Passes today's three checks.
+
+Live grapevine:
+YES / NO / NO.
+Fails.
+
+Metal bowl:
+NO / YES / YES.
+Fails.
+
+Mystery leafy branch:
+YES / ? / NO.
+Cannot classify yet.
+
+## Required question
+
+Is the leafy branch still attached to the ground?
+
+## Learner exit
+
+The learner identifies missing information and asks before answering.
 
 ## Bottom handoff
 
-Can I use this way of asking on a different problem?
-
-## Required protection
-
-Replacing Sukkos with a generic building activity must lose something important.
+Can you rebuild a vague question somewhere else?

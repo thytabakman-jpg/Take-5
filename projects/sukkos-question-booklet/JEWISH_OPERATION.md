@@ -1,30 +1,49 @@
 # Jewish Conceptual Operation
 
-Status: OPEN
+Status: LOCKED_RELATIVE FOR CURRENT ROUTE
+Date: 2026-09-27
 
-## Required job
+## Source
 
-Page 2 needs a Jewish conceptual operation that exists meaningfully without the Sukkos reveal and gives the learner a usable discipline for asking or handling questions.
+Pirkei Avot 5:7.
 
-## Candidate family
+Key phrase:
 
-A strong candidate source family concerns asking in a fitting, relevant, or disciplined way rather than merely asking many questions.
+שואל כענין ומשיב כהלכה
 
-One possible anchor is the rabbinic category of asking "ka-inyan", asking to the matter or point.
+## Native content
 
-This remains a candidate until exact source wording, context, translation, learner fit, and educational application are verified.
+The mishnah includes asking according to the matter among traits of a chacham.
 
-## Acceptance test
+Rambam's commentary treats the fitting question as sensitive to the subject and the kind of demonstration the subject permits.
 
-1. What does the source actually say?
-2. What interpretation is being used?
-3. What student operation is derived from it?
-4. Does the operation address the Page 1 human problem?
-5. Does the operation remain meaningful before Sukkos appears?
+Bartenura explains the learner as asking within the matter being discussed.
 
-## OPEN
+## Educational operation
 
-Exact source.
-Exact operation.
-Whether one source or a small source pair is needed.
-Whether the operation centers relevance, precision, assumptions, answerability, or another distinction.
+Ask to the matter.
+
+Before asking:
+name the Target,
+include only Relevant facts,
+make the Answer test fit what is actually being asked.
+
+## Boundary
+
+The three-part model is the project's educational application.
+
+It is not attributed literally to Pirkei Avot.
+
+## Page 2 function
+
+Page 1 establishes that questions change a possibility space.
+
+Page 2 adds a Jewish discipline:
+the question also needs to fit its matter.
+
+This gives the learner an operation that remains meaningful without Sukkos.
+
+## Page 3 handoff
+
+Sukkos supplies a case where asking to the matter has a concrete consequence:
+without knowing whether a leafy branch is detached, the learner lacks enough information to classify it under the selected s'chach rule.

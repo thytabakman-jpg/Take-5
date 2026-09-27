@@ -1,35 +1,36 @@
 # Coverage Cell 29: BOUNDARY_DECOMPOSITION × ISOLATE
 
-Status: OPEN / ACTIVE AUDIT SURFACE
+Status: GENERATED_AND_DISPOSITIONED
+Date: 2026-09-27
 Authority: evidence only
 Canonical mutation authority: none
 
-## Scope
+## Finding
 
-category boundaries such as math/norm, source/application, backend/public, audit/authority.
+No source or mathematical statement is allowed to absorb the normative or educational application by naming similarity.
 
-## Mode face
+## Routed owners
 
-test the object without neighboring support and protect what it alone owns.
+See:
+AUTHORITY_REGISTRY.md
+DEPENDENCY_GRAPH.md
+ACCEPTANCE_GATES.md
 
-## Cell question
+The exact owner depends on the finding's semantic object.
 
-At the BOUNDARY_DECOMPOSITION scope, what changes or becomes visible when we test the object without neighboring support and protect what it alone owns?
+## Evidence basis
 
-## Required outputs
+Current project authority.
+Recovered Jewish Holiday Booklet architecture.
+Current Take-5 full-tool and 36-cell contracts.
+Source and educational research recorded in SOURCE_LOCK.md.
 
-1. Finding.
-2. Affected canonical owner.
-3. Evidence or reason.
-4. Disposition: GENERATED_AND_DISPOSITIONED, NOT_APPLICABLE, BLOCKED, OPEN, or DEFERRED_NONRESULTSENSITIVE.
-5. Any new question created.
-6. Any dependency or reentry trigger.
+## Disposition
 
-## Current bootstrap finding
+GENERATED_AND_DISPOSITIONED.
 
-The cell exists and is separately addressable.
-No cell is allowed to become a second editable source of canonical project truth.
+No result-sensitive OPEN remains in this cell for the current design pass.
 
-## Current disposition
+## Reentry
 
-OPEN until a project analysis explicitly runs this cell and routes its result.
+Reopen this cell only when a material change alters its scope or mode finding.

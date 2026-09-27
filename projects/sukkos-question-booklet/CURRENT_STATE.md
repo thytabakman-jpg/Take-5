@@ -1,42 +1,103 @@
 # Current State
 
-Status: BOOTSTRAP COMPLETE / DESIGN DISCOVERY OPEN
+Status: POPULATED / RENDER-READY CANDIDATE
 Date: 2026-09-27
 
 ## Lifecycle
 
-BOOK_SEED: COMPLETE
-DESIGN_BRIEF: ACTIVE
-ROUTE_LOCK: OPEN
-SOURCE_LOCK: OPEN
-PAGE_ROUTE: OPEN
-STUDENT_SPEC: OPEN
-ACTIVITY_SPEC: OPEN
-ARTIFACT_AUDIT: OPEN
-VISUAL_MASTER: OPEN
-RENDER: OPEN
-QA: OPEN
-CLASSROOM_VALIDATION: OPEN
-RELEASE: OPEN
+BOOK_SEED:
+COMPLETE.
 
-## Current governing goal
+DESIGN_BRIEF:
+COMPLETE.
+
+ROUTE_LOCK:
+COMPLETE.
+
+SOURCE_LOCK:
+COMPLETE_RELATIVE.
+
+PAGE_ROUTE:
+COMPLETE.
+
+STUDENT_SPEC:
+COMPLETE.
+
+ACTIVITY_SPEC:
+COMPLETE_ANALYTICALLY.
+
+ARTIFACT_AUDIT:
+PASS_RELATIVE.
+
+VISUAL_MASTER:
+COMPLETE_FOR_RENDER_CANDIDATE.
+
+RENDER:
+OPEN.
+
+QA:
+OPEN.
+
+CLASSROOM_VALIDATION:
+EMPIRICAL_PENDING.
+
+RELEASE:
+OPEN.
+
+## Governing learner goal
 
 A Grade 5–6 learner leaves with a usable basic model of a question and can improve or construct one on a new case.
 
-## Current strongest backend direction
+## Locked question model
 
-Question as structured information gap with an issue or unknown, relevant givens or presuppositions, an answer space or answer type, and a resolution condition.
+Target.
+Relevant facts.
+Answer test.
 
-The exact child-facing compression remains OPEN.
+Backend projection:
 
-## Current strongest Sukkos direction
+Q = <T, F, R>.
 
-Use a real sukkah as a bounded classification/design object whose criteria make precise questioning necessary.
+## Locked route
 
-This is a leading candidate, not a route lock.
+Page 1
+question narrows possibilities.
 
-## Current next design frontier
+Page 2
+ask to the point and inspect question structure.
 
-Close Q1 through Q4 in OPEN_QUESTIONS.md far enough to select a coherent four-page route.
+Page 3
+use the model to classify s'chach material and identify a missing fact.
 
-Exact copy and rendering remain downstream.
+Page 4
+repair a vague non-Sukkos question independently.
+
+## Source lock
+
+Pirkei Avot 5:7.
+
+Mishnah Sukkah 1:4.
+
+Rambam, Mishneh Torah, Shofar, Sukkah and Lulav 5:1.
+
+Research comparators:
+Stanford Encyclopedia of Philosophy on questions.
+Right Question Institute on question formulation.
+
+## Exact copy
+
+Locked in EXACT_COPY.md for the current render candidate.
+
+## Visual system
+
+Locked in VISUAL_MASTER.md for the current render candidate.
+
+## Remaining blocking frontier
+
+Produce the four-page render.
+
+Run page-level QA.
+
+Run whole-booklet QA.
+
+Do not reopen conceptual architecture unless render or classroom evidence exposes a result-sensitive defect.

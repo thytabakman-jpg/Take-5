@@ -1,64 +1,90 @@
 # Question Model
 
-Status: CANDIDATE / NOT YET ROUTE-LOCKED
+Status: LOCKED_RELATIVE FOR CURRENT ROUTE
 Authority: backend mathematics of the thing being taught
+Date: 2026-09-27
 
-## Full backend object
+## Backend question object
 
-A useful recovered question object is
+The recovered full question object remains:
 
 q = <Issue, Target, AnswerSpace, Presuppositions, ResolutionCondition>.
 
-Issue identifies the information gap.
-Target identifies what the question is about.
-AnswerSpace identifies the kinds of answers that are admissible.
-Presuppositions identify what the question takes as given.
-ResolutionCondition identifies what would count as having answered it.
+This distinguishes:
+what is unresolved,
+what object or variable is being asked about,
+which direct answers are admissible,
+what is taken as given,
+what counts as resolution.
 
-This is a backend model. It is not yet the student-facing wording.
+## Possibility-space semantics
 
-## Candidate student compression A
+Let Omega be the live finite possibility space for the Page 1 task.
 
-Question =
-WHAT I WANT TO KNOW
-+ WHAT I ALREADY KNOW THAT MATTERS
-+ WHAT WOULD COUNT AS AN ANSWER.
+A yes/no question induces a partition:
 
-This compression merges target with issue and treats answer space through the resolution test.
+Omega = Omega_yes disjoint-union Omega_no.
 
-## Candidate student compression B
+After answer a, the live state becomes Omega_a.
 
-Question =
-TARGET
-+ GIVENS
-+ POSSIBLE ANSWERS
-+ ANSWER TEST.
+For the eight-card task:
 
-This is more structurally explicit and potentially more demanding for Grade 5–6.
+8 → 4 → 2 → 1.
 
-## Possibility-space representation
+This demonstrates one mathematical function of a question:
+an answer can reduce the live possibility set.
 
-Let Omega be the live set of possibilities before an answer.
+Research comparator:
+partition semantics treats questions through answer classes over logical possibilities.
 
-A question Q induces answer classes
+## Student compression
 
-Pi_Q = {A_1, A_2, ..., A_n}
+Define the project teaching projection:
 
-such that the answer locates the case in one admissible class.
+kappa(q) = <T, F, R>.
 
-A useful elementary picture is
+T
+Target.
+What exactly am I trying to find out?
 
-Omega --ask Q--> smaller live possibility set.
+F
+Relevant facts.
+Which admitted facts or context matter to this target?
 
-The question does not itself produce truth. It specifies an information target and a structure within which an answer can resolve uncertainty.
+R
+Resolution condition.
+What would count as settling the question?
 
-## Design implication
+Student label:
+Answer test.
 
-Page 1 can make the function of a question visible through a concrete possibility-space task rather than through a definition alone.
+## Why three coordinates
 
-## OPEN
+Issue is compressed into Target.
+Presuppositions and relevant context are compressed into Relevant facts.
+AnswerSpace and ResolutionCondition are represented operationally through Answer test.
 
-Whether the final child-facing model uses three parts or four.
-Whether "what I already know" is presented as context, clues, givens, or constraints.
-Whether answer space needs explicit student-facing representation.
-Whether the core mathematics is a partition model, a constraint model, or a combined model.
+This is a pedagogical projection, not a claim that every philosophical theory of questions has exactly three parts.
+
+## Adequacy test
+
+A coordinate stays in the student model only when removing it changes performance.
+
+Remove Target:
+"Which is better?" can remain underspecified.
+
+Remove Relevant facts:
+today's construction delay can disappear from the route decision.
+
+Remove Answer test:
+"better" has no criterion.
+
+All three survive.
+
+## Is/ought boundary
+
+This mathematics describes information structure.
+
+It does not establish a value obligation to ask questions.
+
+The Jewish operation enters separately through SOURCE_LOCK and JEWISH_OPERATION.

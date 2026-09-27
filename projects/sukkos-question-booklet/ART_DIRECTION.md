@@ -1,47 +1,78 @@
 # Art Direction
 
-Status: WORKING / VISUAL MASTER NOT LOCKED
+Status: LOCKED FOR RENDER CANDIDATE
+Date: 2026-09-27
 
-## House inheritance
+## House identity
 
-Use an elegant, conversational, non-condescending visual language.
-Images perform intellectual work.
-Avoid a worksheet look.
-Avoid photorealistic imagery unless later explicitly authorized.
-Retain the small deer logo as a series marker.
-Avoid the earlier blue/gray box-heavy treatment.
-Use color functionally rather than decoratively.
-Each page can have a different composition because page jobs differ.
+Elegant.
+Conversational.
+Non-condescending.
+Illustrated rather than photorealistic.
+Visuals perform the main intellectual work.
+Small deer logo in a bottom corner.
+No portraits.
+No blue-gray box-heavy layout.
+No generic worksheet aesthetic.
 
-## Proposed visual grammar
+## Conceptual visual movement
 
-Page 1:
-a field of visible possibilities with a question acting on the field.
-The visual makes narrowing inspectable.
+many live possibilities
+→ three-part question structure
+→ real Sukkos classification
+→ learner-authored question.
 
-Page 2:
-a clean structural diagram of the parts of a question.
-The diagram is the main teaching object, not a text box.
+## Stable visual identities
 
-Page 3:
-a sukkah or candidate-sukkah visual with inspectable constraints and a real decision point.
-The holiday appears for the first time here unless route testing later moves the reveal.
+Target:
+focal-ring symbol and warm plum family.
 
-Page 4:
-a spacious before/after question transformation with room for one independent attempt.
+Relevant facts:
+selected-card or filter symbol and ochre family.
 
-## Whole-booklet visual movement
+Answer test:
+gate/check symbol and leaf-green family.
 
-many possibilities
-→ structure
-→ embodied Sukkos case
-→ learner authors a question.
+Symbols remain present when printed without color.
 
-## OPEN
+## Page 1
 
-Exact palette.
-Exact illustration style.
-Exact page geometry.
-Exact student writing space.
-Exact iconography for question components.
-Whether Page 3 uses one large sukkah cutaway, multiple candidate sukkahs, or a build diagram.
+The eight-card grid dominates the page.
+
+Cards use shape, pattern, and mark rather than color as their logical attributes.
+
+Progressively dim eliminated cards so the 8 → 4 → 2 → 1 movement is visually immediate.
+
+## Page 2
+
+The Hebrew phrase is small but visually distinct.
+
+The three-part model occupies the center.
+
+Use three connected forms, not three isolated boxes.
+
+The vague route question sits underneath as one object being inspected.
+
+## Page 3
+
+A simple sukkah-roof silhouette anchors the page.
+
+Four illustrated material cards sit around or below it.
+
+The mystery branch contains a visible question mark only at the detached row.
+
+The learner's missing question is the strongest visual emphasis near the bottom.
+
+## Page 4
+
+A simple two-route map dominates the upper half.
+
+Route A and Route B facts are visible on the paths.
+
+The lower half has generous writing space for the three coordinates and one rewritten question.
+
+## Density rule
+
+One visual problem per page.
+One major learner move per page.
+No extra decorative panels that compete with the operation.

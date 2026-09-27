@@ -1,51 +1,55 @@
 # ASSERT Baseline
 
-Status: CURRENT EVIDENCE STATE
+Status: REASSERTED AFTER ROUTE POPULATION
+Date: 2026-09-27
 Mode: observer / evidence recovery
 
 ## TRUE
 
-The project is a new independent Sukkos booklet.
-The public artifact contains four pages.
-The audience is Grade 5–6.
-The final learner direction concerns understanding questions and asking better questions at a basic level.
-The Sukkos connection must be meaningful rather than decorative.
-The project must use what has been learned from prior booklet work and recent tool/mathematics work.
-The project requires durable Markdown artifacts rather than chat-only state.
-The project requires a controller that manages scope, state, dependencies, and change.
-The 36-dimensional tool geometry is relevant as a coverage discipline.
-Different semantic dimensions require separate canonical ownership so one change does not overwrite another.
+The project is an independent four-page Grade 5–6 Sukkos booklet.
 
-## INHERITED EVIDENCE
+The governing learner goal is structural understanding and independent improvement of questions.
 
-Earlier booklet work established a four-page causal route:
-real phenomenon or structured encounter
-→ human problem
-→ usable Jewish conceptual operation
-→ holiday embodiment
-→ enactment and independent transfer.
+The 36-cell geometry is coverage, not content authority.
 
-Earlier booklet work established one major learner move per page, next-page questions earned by the prior page, no hidden facilitator intelligence, source/interpretation/application separation, science and analogy boundary discipline, visuals as curricular objects, repair and preservation control, and whole-booklet QA after local page QA.
+The project has one canonical owner per material semantic object.
 
-Current Take-5 tool work established Scope6 × ModeFace6 as a 36-cell coverage lattice, full configured tools as more than their native equation, ASSERT as a compound fixed-point discovery engine, GOAL as evidence-grounded goal recovery, MultiObject as relation and higher-order residual analysis, ImprovementCore as progress/reentry/learning control, and question objects as structured information targets rather than mere strings.
+The question backend can be represented as a structured information target with answer conditions.
+
+A finite yes/no question can be modeled as a partition of live possibilities.
+
+The current student projection Target, Relevant facts, Answer test preserves the distinctions needed by Page 3 and Page 4.
+
+Pirkei Avot 5:7 supplies a source-grounded Jewish operation of asking according to the matter.
+
+Mishnah Sukkah 1:4 and Rambam Sukkah 5:1 supply a source-grounded Page 3 classification problem.
+
+The mystery leafy branch lacks one result-sensitive fact and therefore requires a new question before classification.
+
+The Page 4 route-choice task removes the Sukkos scaffold and can represent independent transfer.
+
+Exact copy and visual master now exist.
 
 ## OPEN
 
-Exact student-facing question model.
-Exact Page 1 mathematical phenomenon.
-Exact Page 2 Jewish operation.
-Exact Page 3 Sukkos embodiment.
-Exact Page 4 transfer.
-Exact source set.
-Exact activity.
-Exact art master.
-Exact copy.
-Whether an edible-sukkah build is inherited into this independent project.
+Rendered artifact fidelity.
 
-## CONFLICTS
+Whole-booklet render coherence.
 
-No material conflict is currently admitted.
+Real Grade 5–6 learner performance.
 
-## REASSERT trigger
+Empirical mechanism.
 
-Any new user choice or evidence that changes the learner goal, question model, holiday embodiment, page topology, source basis, or inherited constraint triggers reassertion.
+## CONFLICT
+
+No current material conflict.
+
+## Reassertion trigger
+
+A source correction changes the learner operation.
+
+A render reveals a content or handoff loss.
+
+Classroom evidence shows the three-part model does not produce the intended transfer.
+
+A user change alters the governing goal, route, or house constraints.

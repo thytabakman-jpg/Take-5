@@ -1,31 +1,61 @@
 # Page 1
 
-Status: OPEN ROLE / WORKING FUNCTION
+Status: LOCKED ROLE
+Date: 2026-09-27
+
+## Title
+
+WHAT DOES A QUESTION DO?
 
 ## Major learner move
 
-Experience that some questions are structurally more useful than others.
+See a question as an operation on live possibilities.
 
-## Candidate encounter
+## Public encounter
 
-A concrete possibility-space or mystery problem in which questions visibly narrow what can still be true.
+Eight cards vary on exactly three binary attributes:
 
-## Entry
+shape:
+circle or square.
 
-Learner already knows ordinary question language.
+pattern:
+striped or plain.
 
-## Exit
+mark:
+star or moon.
 
-Learner notices that a question is not just wording. It has a target and changes what can be known.
+One hidden card is selected.
+
+## Visible sequence
+
+Question 1:
+Is it a circle?
+
+8 → 4.
+
+Question 2:
+Is it striped?
+
+4 → 2.
+
+Question 3:
+Does it have a star?
+
+2 → 1.
+
+## Mathematical object
+
+For the classroom yes/no case:
+
+Q maps each live possibility into a YES or NO answer class.
+
+Omega = Omega_yes disjoint-union Omega_no.
+
+## Learner exit
+
+Questions do more than request words.
+An answer changes which possibilities remain live.
 
 ## Bottom handoff
 
-What makes a question work?
-
-## Not owned here
-
-Final question mathematics.
-Jewish value.
-Sukkos content.
-Exact copy.
-Visual master.
+What makes a question fit what you are trying to find out?

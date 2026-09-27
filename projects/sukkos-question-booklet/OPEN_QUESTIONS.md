@@ -1,35 +1,62 @@
 # Open Questions
 
-Status: CURRENT
+Status: CURRENT AFTER ROUTE LOCK
+Date: 2026-09-27
 
-## Q1 Question structure
+## Closed in this build
 
-What is the smallest student-facing decomposition that materially improves a Grade 5–6 learner's ability to ask or repair a question?
+Q1 Student question structure
+Closed relative to current route:
+Target, Relevant facts, Answer test.
 
-## Q2 Mathematical phenomenon
+Q2 Page 1 mathematics
+Closed:
+eight-card binary partition task.
 
-What Page 1 encounter makes the structure of a question visible without turning the lesson into information-theory vocabulary?
+Q3 Jewish operation
+Closed relative:
+Pirkei Avot 5:7, sho'el ka-inyan.
 
-## Q3 Jewish operation
+Q4 Sukkos embodiment
+Closed relative:
+s'chach material classification.
 
-Which Jewish source supplies a genuine operation for disciplined questioning rather than a slogan about curiosity?
+Q5 Core activity
+Closed analytically:
+Page 1 possibility reduction, Page 3 missing-information classification, Page 4 independent repair.
 
-## Q4 Sukkos embodiment
+Q6 Four-page compression
+Closed:
+route locked in ROUTE_LOCK.md.
 
-Which Sukkos-native object, law, practice, or ritual structure forces use of the question model and adds something a generic activity cannot?
+Q7 Art
+Closed for render candidate:
+VISUAL_MASTER.md.
 
-## Q5 Activity
+Q8 Edible build
+Disposed:
+optional post-booklet extension only, not core evidence and not represented as halachically valid s'chach.
 
-What physical or shared action reveals whether learners can use the question structure rather than merely repeat it?
+## Remaining result-sensitive OPEN
 
-## Q6 Four-page compression
+O1 Render fidelity
+No four-page render has been produced and inspected against ARTIFACT_SPEC.md.
 
-What exact page route preserves one major move per page while keeping the final transfer independent?
+O2 Classroom wording
+Real learners have not tested the exact wording.
 
-## Q7 Art
+O3 Empirical mechanism
+Learner performance has not established that the intended mechanism caused transfer.
 
-What visual system lets the student see "unknown, givens, answer structure, resolution" before those ideas become text-heavy?
+O4 Optional extension
+No exact edible-model instruction is part of the core release package.
 
-## Q8 Inherited edible build
+## Nonblocking for render candidate
 
-Does the older edible-sukkah requirement remain binding for this independent project, or is it only evidence from the prior booklet family?
+O2
+O3
+O4
+
+## Blocking release
+
+O1.

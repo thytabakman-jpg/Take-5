@@ -1,46 +1,100 @@
 # RAID
 
-Status: CURRENT
+Status: CURRENT AFTER ROUTE LOCK
+Date: 2026-09-27
 
 ## Risks
 
 R1 Overcomplexity
-Backend question theory becomes too abstract for Grade 5–6.
-Mitigation: separate backend model from student compression and test every exposed distinction for transfer value.
+
+State:
+controlled.
+
+Control:
+backend question theory is separated from the three-part student projection.
 
 R2 Decorative Sukkos
-The holiday becomes a seasonal example rather than an operative embodiment.
-Mitigation: replacement test and holiday surplus gate.
+
+State:
+controlled analytically.
+
+Control:
+Page 3 uses real s'chach source criteria and a missing halachic fact.
 
 R3 Source slippage
-A Jewish source is made to say the educational model itself.
-Mitigation: source/interpretation/application separation.
+
+State:
+controlled.
+
+Control:
+SOURCE_LOCK.md and source/application boundaries.
 
 R4 Artifact overwrite
-One tweak rewrites unrelated accepted dimensions.
-Mitigation: authority registry, local deltas, impact pass, Git history.
+
+State:
+controlled.
+
+Control:
+authority registry, dependency graph, change control, Git history.
 
 R5 False closure
-A polished four-page draft is mistaken for project completion.
-Mitigation: explicit lifecycle state and OPEN registry.
+
+State:
+controlled.
+
+Control:
+render and classroom gates remain separate.
+
+R6 Tumah overload
+
+State:
+active low-level risk.
+
+Control:
+the page provides the receive-tumah fact on each card and does not teach tumah law.
+
+R7 Student interprets three checks as the whole halacha
+
+State:
+active low-level risk.
+
+Control:
+visible sentence states that other laws of s'chach exist.
+
+R8 "better" example is solved arithmetically without rebuilding the question
+
+State:
+active validation risk.
+
+Control:
+Page 4 requires the three question coordinates before the rewritten question.
 
 ## Assumptions
 
-A1 Four public pages remain fixed.
-A2 One-session Grade 5–6 use remains fixed.
-A3 Prior house-style preferences remain relevant unless explicitly changed.
-A4 Prior Sukkos edible-build requirement is not yet assumed to transfer.
+A1
+Four pages remain fixed.
 
-## Issues
+A2
+One-session Grade 5–6 use remains fixed.
 
-I1 Exact question decomposition is unresolved.
-I2 Exact Jewish operation is unresolved.
-I3 Exact Sukkos embodiment is unresolved.
-I4 Exact source set is unresolved.
+A3
+House visual preferences remain active.
+
+A4
+The edible model is optional in this independent project.
+
+## Current issues
+
+I1
+No rendered artifact exists under this route.
+
+I2
+No classroom validation exists under this route.
 
 ## Dependencies
 
-D1 Exact copy depends on route lock.
-D2 Art master depends on page jobs and activity mechanics.
-D3 Page 3 depends on source verification and Sukkos embodiment.
-D4 Release depends on full-page and whole-booklet QA.
+Render depends on ARTIFACT_SPEC.
+
+Release depends on render QA.
+
+Empirical mechanism claims depend on classroom validation.

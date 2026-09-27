@@ -1,25 +1,57 @@
 # Page 4
 
-Status: OPEN ROLE / WORKING FUNCTION
+Status: LOCKED ROLE
+Date: 2026-09-27
+
+## Title
+
+BUILD THE QUESTION
 
 ## Major learner move
 
 Independent transfer.
 
-## Candidate task
+## Case
 
-Present a new vague question.
-The learner identifies what is missing and rewrites or rebuilds it using the learned structure.
+The class is walking from school to the library.
 
-## Entry
+Route A:
+12 minutes.
 
-Learner has used the model with support on Page 3.
+Route B:
+9 minutes normally.
+Construction adds 5 minutes today.
 
-## Exit
+Someone asks:
 
-Learner can use the model without the Sukkos scaffold.
+Which way is better?
 
-## Evidence
+## Learner task
 
-The learner produces or repairs a question on a new case.
-Repeating the page vocabulary alone does not count as transfer.
+Target:
+write what "better" means for this decision.
+
+Relevant facts:
+identify which facts matter today.
+
+Answer test:
+state what result settles the comparison.
+
+Rewrite:
+write the full question.
+
+## Success form
+
+A successful question makes the target, today's relevant facts, and the comparison criterion recoverable.
+
+One admissible example:
+
+Which walking route gets us from school to the library in less time today?
+
+## Optional own transfer
+
+Write one question you actually want answered and mark its Target, Relevant facts, and Answer test.
+
+## Learner exit
+
+The learner can construct or repair a question without the Sukkos scaffold.

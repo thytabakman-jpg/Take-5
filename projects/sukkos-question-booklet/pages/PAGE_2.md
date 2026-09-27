@@ -1,23 +1,50 @@
 # Page 2
 
-Status: OPEN ROLE / WORKING FUNCTION
+Status: LOCKED ROLE
+Date: 2026-09-27
+
+## Title
+
+ASK TO THE POINT
 
 ## Major learner move
 
-Acquire a small Jewish discipline for asking a fitting, answerable, or relevant question.
+Inspect a question for fit.
 
-## Entry
+## Jewish anchor
 
-Learner has noticed that questions have structure.
+Pirkei Avot 5:7 describes a chacham as:
 
-## Exit
+שואל כענין
 
-Learner can use a Jewish conceptual operation to improve how the question is framed.
+asking according to the matter.
+
+## Student model
+
+Target.
+What exactly am I trying to find out?
+
+Relevant facts.
+What information matters to this question?
+
+Answer test.
+What would count as settling it?
+
+## Mathematical projection
+
+Q = <T, F, R>.
+
+## Weak-question example
+
+Which route is better?
+
+Problem:
+"better" has no stated target or answer test.
+
+## Learner exit
+
+The learner can identify which part of a question is missing or misaligned.
 
 ## Bottom handoff
 
-What would it look like to use this on something real in Sukkos?
-
-## Required protection
-
-The Jewish operation must exist meaningfully before the Sukkos reveal.
+Can Sukkos give us a real question where one missing fact blocks the answer?
