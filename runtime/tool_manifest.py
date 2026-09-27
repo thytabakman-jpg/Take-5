@@ -205,6 +205,19 @@ IMPROVEMENT_CORE_BINDINGS=GENERIC_BINDINGS+(
     ),
 )
 
+PROJECT_MANAGER_BINDINGS=GENERIC_BINDINGS+(
+    ProtectedBinding("PROJECTMANAGER_PROJECT_IDENTITY_BINDING","PRE","runtime/project_manager.py","tests/test_project_manager.py"),
+    ProtectedBinding("PROJECTMANAGER_PROJECT_PACKAGE_VALIDATION","PRE","runtime/project_manager.py","tests/test_project_manager.py"),
+    ProtectedBinding("PROJECTMANAGER_SINGLE_OWNER_AUTHORITY","INTRA","runtime/project_manager.py","tests/test_project_manager.py"),
+    ProtectedBinding("PROJECTMANAGER_LOCAL_CHANGE_ROUTING","INTRA","runtime/project_manager.py","tests/test_project_manager.py"),
+    ProtectedBinding("PROJECTMANAGER_OPEN_PRESERVATION","POST","runtime/project_manager.py","tests/test_project_manager.py"),
+    ProtectedBinding("PROJECTMANAGER_WBS_SCHEDULE_SEPARATION","INTRA","runtime/project_manager.py","tests/test_project_manager.py"),
+    ProtectedBinding("PROJECTMANAGER_IMPACT_REENTRY","POST","runtime/project_manager.py","tests/test_project_manager.py"),
+    ProtectedBinding("PROJECTMANAGER_SELF_MANAGEMENT","CROSS","projects/project-manager/SELF_MANAGEMENT.md","tests/test_project_manager.py"),
+    ProtectedBinding("PROJECTMANAGER_IMPROVEMENTCORE_HANDOFF","CROSS","runtime/project_manager.py","tests/test_project_manager.py"),
+    ProtectedBinding("PROJECTMANAGER_TRANSFERCORE_EVIDENCE_ONLY","CROSS","runtime/project_manager.py","tests/test_project_manager.py"),
+)
+
 MT_BINDINGS=GENERIC_BINDINGS+(
     ProtectedBinding(
         "MT_BLACK_BOX_SEMANTIC_RETURN_GATE",
@@ -471,6 +484,15 @@ FOUR_TOOL_RECOVERY_BINDINGS={
 }
 
 OVERRIDES={
+    "ProjectManager":ToolManifest(
+        tool_id="ProjectManager",
+        native_semantics="authority-governed nondeterministic labeled project-transition system with supervisory frontier policy",
+        geometry_policy="D36_C",
+        closure_contract="PROJECT_CONTROL_RELATIVE_CLOSE_PLUS_TRC",
+        reentry_contract="HF002_THEN_HF001_OR_IMPROVEMENTCORE",
+        bindings=PROJECT_MANAGER_BINDINGS,
+        lineage_contract="architecture/PROJECT_MANAGER_FULL_TOOL_MATH_001_2026-09-27.md",
+    ),
     "MTA":ToolManifest(
         tool_id="MTA",
         native_semantics="MTA_sem=<GenerateStructuralHypotheses,SelectAnalysisPackage,ReconstructProtectedModel>",

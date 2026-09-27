@@ -35,6 +35,9 @@ class RunRequest:
 
 
 ALIASES = {
+    "project manager": "ProjectManager",
+    "project management": "ProjectManager",
+    "project management tool": "ProjectManager",
     "mt": "MT",
     "mta": "MTA",
     "pd": "PD",
@@ -49,6 +52,7 @@ ALIASES = {
 }
 
 DEFAULT_GEOMETRY = {
+    "ProjectManager": Geometry.D36_C,
     "MT": Geometry.D36_C,
     "PD": Geometry.D36_C,
     "PDAudit": Geometry.D36_C,

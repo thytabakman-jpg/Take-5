@@ -1,0 +1,443 @@
+"""Native ProjectManager semantic core.
+
+ProjectManager is a project-control tool, not a domain solver. Its configured
+tool run is observer-only. It binds project identity and authority, validates
+the project package, preserves OPEN, computes an executable work frontier,
+routes bounded change candidates, and emits safe handoffs.
+
+Repository or project mutation remains a separate admitted commit operation.
+"""
+from __future__ import annotations
+
+from dataclasses import asdict, dataclass
+from hashlib import sha256
+import json
+from typing import Any, Iterable, Mapping
+
+
+CORE_COORDINATES=(
+    "identity",
+    "charter",
+    "goal",
+    "scope",
+    "authority",
+    "stakeholders",
+    "deliverables",
+    "schedule",
+    "resources",
+    "dependencies",
+    "interfaces",
+    "raid",
+    "questions",
+    "evidence",
+    "decisions",
+    "lessons",
+    "changes",
+    "lifecycle",
+    "verification",
+    "communications",
+    "handoffs",
+)
+
+RECOVERY_OPERATIONS={
+    "OBSERVE","DISCOVER","RECOVER","OBJECTIFY","FORMALIZE","COMPARE","AUDIT",
+    "VERIFY","DIAGNOSE","RECONSTRUCT",
+}
+TRANSFORM_OPERATIONS={
+    "ARCHITECT","BUILD","MODIFY","TRANSFORM","IMPROVE","REPLACE","PROMOTE",
+    "SUPERSEDE","MIGRATE","COMMIT",
+}
+EFFECT_CLASSES={"EVIDENCE_ONLY","TARGET_TRANSFORM"}
+
+
+class ProjectManagerError(RuntimeError):
+    pass
+
+
+@dataclass(frozen=True)
+class WorkPackage:
+    work_id:str
+    target_coordinate:str
+    target_object:str
+    operation_class:str
+    effect_class:str
+    dependencies:tuple[str,...]=()
+    tool_id:str|None=None
+    success:str=""
+    tests:tuple[str,...]=()
+    authority_ref:str|None=None
+    status:str="OPEN"
+
+    def structurally_complete(self)->bool:
+        return bool(
+            self.work_id
+            and self.target_coordinate
+            and self.target_object
+            and self.operation_class
+            and self.effect_class in EFFECT_CLASSES
+            and self.success
+        )
+
+    def effect_licensed(self)->bool:
+        if self.effect_class=="EVIDENCE_ONLY":
+            return True
+        return (
+            self.effect_class=="TARGET_TRANSFORM"
+            and self.operation_class in TRANSFORM_OPERATIONS
+            and bool(self.authority_ref)
+        )
+
+
+@dataclass(frozen=True)
+class ProjectEvent:
+    event_id:str
+    request:str
+    affected_coordinates:tuple[str,...]
+    source:str="USER"
+    evidence:tuple[str,...]=()
+    operation_class:str="OBSERVE"
+    effect_class:str="EVIDENCE_ONLY"
+    authority_ref:str|None=None
+
+
+@dataclass(frozen=True)
+class ProjectDelta:
+    event_id:str
+    owners:tuple[str,...]
+    affected_coordinates:tuple[str,...]
+    precondition_fingerprint:str
+    request:str
+    reason:str
+    dependencies:tuple[str,...]
+    impact_coordinates:tuple[str,...]
+    tests:tuple[str,...]
+    authority_ref:str|None
+    effect_class:str
+    status:str
+
+
+@dataclass(frozen=True)
+class ProjectAssessment:
+    project_id:str
+    status:str
+    fingerprint:str
+    missing_coordinates:tuple[str,...]
+    authority_gaps:tuple[str,...]
+    authority_conflicts:tuple[str,...]
+    package_conflicts:tuple[str,...]
+    executable_frontier:tuple[WorkPackage,...]
+    blocked_work:tuple[str,...]
+    delta:ProjectDelta|None
+    reentry_required:bool
+    evidence:tuple[str,...]
+
+
+@dataclass(frozen=True)
+class ImprovementCoreHandoff:
+    project_id:str
+    project_fingerprint:str
+    work:tuple[WorkPackage,...]
+    authority:str="NONE"
+    effect_class:str="EVIDENCE_ONLY"
+
+
+@dataclass(frozen=True)
+class TransferEvidenceCandidate:
+    project_id:str
+    project_fingerprint:str
+    payload:Mapping[str,Any]
+    transfercore_identity_status:str
+    status:str
+    effect_class:str="EVIDENCE_ONLY"
+    grants_authority:bool=False
+
+
+def _plain(value:Any)->Any:
+    if hasattr(value,"__dataclass_fields__"):
+        return asdict(value)
+    if isinstance(value,Mapping):
+        return {str(k):_plain(v) for k,v in value.items()}
+    if isinstance(value,(list,tuple)):
+        return [_plain(v) for v in value]
+    return value
+
+
+def project_fingerprint(project:Mapping[str,Any])->str:
+    payload=json.dumps(_plain(project),sort_keys=True,separators=(",",":"),default=str)
+    return sha256(payload.encode("utf-8")).hexdigest()
+
+
+def _owners_for(registry:Mapping[str,Any],coordinate:str)->tuple[str,...]:
+    raw=registry.get(coordinate)
+    if raw is None:
+        return ()
+    if isinstance(raw,str):
+        return (raw,) if raw.strip() else ()
+    if isinstance(raw,(list,tuple,set)):
+        return tuple(str(x) for x in raw if str(x).strip())
+    return (str(raw),)
+
+
+def validate_project_package(project:Mapping[str,Any])->tuple[
+    tuple[str,...],tuple[str,...],tuple[str,...],tuple[str,...]
+]:
+    if not isinstance(project,Mapping):
+        raise ProjectManagerError("PROJECT_MAPPING_REQUIRED")
+    project_id=str(project.get("project_id","")).strip()
+    if not project_id:
+        raise ProjectManagerError("PROJECT_ID_REQUIRED")
+
+    coordinates=project.get("coordinates")
+    if not isinstance(coordinates,Mapping):
+        raise ProjectManagerError("PROJECT_COORDINATES_MAPPING_REQUIRED")
+
+    authority_registry=project.get("authority_registry")
+    if not isinstance(authority_registry,Mapping):
+        raise ProjectManagerError("PROJECT_AUTHORITY_REGISTRY_REQUIRED")
+
+    missing=tuple(c for c in CORE_COORDINATES if c not in coordinates)
+    gaps=[]
+    conflicts=[]
+    for coordinate in CORE_COORDINATES:
+        owners=_owners_for(authority_registry,coordinate)
+        if not owners:
+            gaps.append(coordinate)
+        elif len(set(owners))!=1:
+            conflicts.append(coordinate)
+
+    package_conflicts=[]
+    deliverable_owner=_owners_for(authority_registry,"deliverables")
+    schedule_owner=_owners_for(authority_registry,"schedule")
+    if deliverable_owner and schedule_owner and deliverable_owner==schedule_owner:
+        package_conflicts.append("WBS_SCHEDULE_AUTHORITY_COLLAPSED")
+
+    return missing,tuple(gaps),tuple(conflicts),tuple(package_conflicts)
+
+
+def executable_frontier(
+    work:Iterable[WorkPackage],
+    *,
+    completed:Iterable[str]=(),
+)->tuple[tuple[WorkPackage,...],tuple[str,...]]:
+    completed_ids=frozenset(str(x) for x in completed)
+    frontier=[]
+    blocked=[]
+    seen=set()
+
+    for item in tuple(work):
+        if not isinstance(item,WorkPackage):
+            raise ProjectManagerError("WORK_PACKAGE_REQUIRED")
+        if item.work_id in seen:
+            blocked.append(f"{item.work_id}:DUPLICATE_WORK_ID")
+            continue
+        seen.add(item.work_id)
+
+        if not item.structurally_complete():
+            blocked.append(f"{item.work_id}:INCOMPLETE")
+            continue
+        if item.target_coordinate not in CORE_COORDINATES:
+            blocked.append(f"{item.work_id}:UNKNOWN_COORDINATE")
+            continue
+        if not set(item.dependencies)<=completed_ids:
+            blocked.append(f"{item.work_id}:DEPENDENCIES_OPEN")
+            continue
+        if not item.effect_licensed():
+            blocked.append(f"{item.work_id}:EFFECT_UNLICENSED")
+            continue
+        if item.status in {"COMPLETE","CLOSED","SUPERSEDED"}:
+            continue
+        if item.status in {"BLOCKED","CONFLICT"}:
+            blocked.append(f"{item.work_id}:{item.status}")
+            continue
+        frontier.append(item)
+
+    return tuple(frontier),tuple(blocked)
+
+
+def route_event(
+    project:Mapping[str,Any],
+    event:ProjectEvent,
+    *,
+    impact_coordinates:Iterable[str]=(),
+    tests:Iterable[str]=(),
+)->ProjectDelta:
+    if not isinstance(event,ProjectEvent):
+        raise ProjectManagerError("PROJECT_EVENT_REQUIRED")
+    if not event.event_id or not event.request:
+        raise ProjectManagerError("PROJECT_EVENT_ID_AND_REQUEST_REQUIRED")
+    unknown=tuple(c for c in event.affected_coordinates if c not in CORE_COORDINATES)
+    if unknown:
+        raise ProjectManagerError("PROJECT_EVENT_UNKNOWN_COORDINATES:"+",".join(unknown))
+
+    registry=project["authority_registry"]
+    owners=[]
+    unresolved=[]
+    conflicts=[]
+    for coordinate in event.affected_coordinates:
+        found=_owners_for(registry,coordinate)
+        if not found:
+            unresolved.append(coordinate)
+        elif len(set(found))!=1:
+            conflicts.append(coordinate)
+        else:
+            owners.append(found[0])
+
+    status="READY"
+    if unresolved:
+        status="OPEN"
+    if conflicts:
+        status="CONFLICT"
+
+    operation=event.operation_class.upper()
+    if operation not in RECOVERY_OPERATIONS|TRANSFORM_OPERATIONS:
+        status="OPEN"
+    if event.effect_class not in EFFECT_CLASSES:
+        status="OPEN"
+    if event.effect_class=="TARGET_TRANSFORM":
+        if operation not in TRANSFORM_OPERATIONS or not event.authority_ref:
+            status="OPEN"
+
+    return ProjectDelta(
+        event_id=event.event_id,
+        owners=tuple(dict.fromkeys(owners)),
+        affected_coordinates=tuple(event.affected_coordinates),
+        precondition_fingerprint=project_fingerprint(project),
+        request=event.request,
+        reason="ROUTE_TO_CANONICAL_OWNER_AND_IMPACT_MAP",
+        dependencies=tuple(str(x) for x in project.get("active_dependencies",())),
+        impact_coordinates=tuple(dict.fromkeys(str(x) for x in impact_coordinates)),
+        tests=tuple(str(x) for x in tests),
+        authority_ref=event.authority_ref,
+        effect_class=event.effect_class,
+        status=status,
+    )
+
+
+def assess_project(
+    project:Mapping[str,Any],
+    *,
+    event:ProjectEvent|None=None,
+    work:Iterable[WorkPackage]=(),
+    completed_work:Iterable[str]=(),
+    impact_coordinates:Iterable[str]=(),
+    tests:Iterable[str]=(),
+)->ProjectAssessment:
+    missing,gaps,authority_conflicts,package_conflicts=validate_project_package(project)
+    frontier,blocked=executable_frontier(work,completed=completed_work)
+    delta=(
+        route_event(project,event,impact_coordinates=impact_coordinates,tests=tests)
+        if event is not None else None
+    )
+
+    status="CLOSED_RELATIVE"
+    if authority_conflicts or package_conflicts or (delta and delta.status=="CONFLICT"):
+        status="CONFLICT"
+    elif missing or gaps or blocked or (delta and delta.status=="OPEN"):
+        status="OPEN"
+
+    reentry=bool(frontier or (delta and delta.status=="READY"))
+    evidence=tuple(str(x) for x in project.get("evidence_refs",()) if str(x))
+
+    return ProjectAssessment(
+        project_id=str(project["project_id"]),
+        status=status,
+        fingerprint=project_fingerprint(project),
+        missing_coordinates=missing,
+        authority_gaps=gaps,
+        authority_conflicts=authority_conflicts,
+        package_conflicts=package_conflicts,
+        executable_frontier=frontier,
+        blocked_work=blocked,
+        delta=delta,
+        reentry_required=reentry,
+        evidence=evidence,
+    )
+
+
+def improvementcore_handoff(assessment:ProjectAssessment)->ImprovementCoreHandoff:
+    return ImprovementCoreHandoff(
+        project_id=assessment.project_id,
+        project_fingerprint=assessment.fingerprint,
+        work=assessment.executable_frontier,
+    )
+
+
+def transfer_evidence_candidate(
+    assessment:ProjectAssessment,
+    payload:Mapping[str,Any],
+    *,
+    transfercore_identity_status:str,
+)->TransferEvidenceCandidate:
+    status=(
+        "CANDIDATE_FOR_ADMISSION"
+        if transfercore_identity_status=="FULL_MATH_RECOVERED_CURRENT"
+        else "OPEN_TRANSFERCORE_IDENTITY"
+    )
+    return TransferEvidenceCandidate(
+        project_id=assessment.project_id,
+        project_fingerprint=assessment.fingerprint,
+        payload=dict(payload),
+        transfercore_identity_status=str(transfercore_identity_status),
+        status=status,
+    )
+
+
+def project_manager_adapter(current:Any,plan:Any)->dict[str,Any]:
+    if not isinstance(current,Mapping):
+        return {
+            "status":"OPEN",
+            "execution_truth":"OPEN",
+            "result":{"blocker":"PROJECT_MANAGER_STATE_MAPPING_REQUIRED"},
+            "material_delta":False,
+            "hf2_local_close":True,
+            "evidence":("runtime/project_manager.py",),
+        }
+
+    project=current.get("project")
+    if not isinstance(project,Mapping):
+        return {
+            "status":"OPEN",
+            "execution_truth":"OPEN",
+            "result":{"blocker":"PROJECT_PACKAGE_REQUIRED"},
+            "material_delta":False,
+            "hf2_local_close":True,
+            "evidence":("runtime/project_manager.py",),
+        }
+
+    raw_work=current.get("work",())
+    work=tuple(x if isinstance(x,WorkPackage) else WorkPackage(**x) for x in raw_work)
+    raw_event=current.get("event")
+    event=(
+        raw_event
+        if isinstance(raw_event,ProjectEvent)
+        else (ProjectEvent(**raw_event) if isinstance(raw_event,Mapping) else None)
+    )
+    assessment=assess_project(
+        project,
+        event=event,
+        work=work,
+        completed_work=current.get("completed_work",()),
+        impact_coordinates=current.get("impact_coordinates",()),
+        tests=current.get("tests",()),
+    )
+    result={
+        "assessment":asdict(assessment),
+        "improvementcore_handoff":asdict(improvementcore_handoff(assessment)),
+    }
+    status=assessment.status
+    return {
+        "status":"EXECUTED" if status=="CLOSED_RELATIVE" else status,
+        "execution_truth":"IMPLEMENTATION_EXECUTED" if status=="CLOSED_RELATIVE" else status,
+        "result":result,
+        "state":dict(current),
+        "material_delta":False,
+        "hf2_local_close":True,
+        "trc_terminal":True,
+        "hf1_disposition":"STABLE",
+        "evidence":(
+            "runtime/project_manager.py",
+            "architecture/PROJECT_MANAGER_FULL_TOOL_MATH_001_2026-09-27.md",
+        ),
+        "related_objects":("ImprovementCore","TransferCore"),
+        "dependency_footprint":tuple(CORE_COORDINATES),
+    }

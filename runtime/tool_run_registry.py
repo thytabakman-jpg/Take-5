@@ -9,7 +9,7 @@ from learning_tool_bridge import SPECS as LEARNING_SPECS
 LEARNING_TOOLS=tuple(spec.program_id for spec in LEARNING_SPECS)
 
 MATERIAL_TOOLS=tuple([f"C{i:02d}" for i in range(1,50)]+[
-"ImprovementCore","ICC128","MT","MTA","Architecture","PD","PDAudit","GDOS","Discriminator","Reconciler",
+"ImprovementCore","ProjectManager","ICC128","MT","MTA","Architecture","PD","PDAudit","GDOS","Discriminator","Reconciler",
 "DelegatedExecutor","HF001","HF002","RootCause","TRC","RTC","BiasPerturbation","CurrentnessAudit",
 "CapabilityFoundry","EmergentAdmission","HistoricalReconstruction","ZeroRequest","MultiObject","Diagnosis",
 "ASSERT","GOAL","SolutionToMyProblem","DesiredJane","QuestionWorthAsking","LambdaMath","SemanticResolutionPipeline","ToolConductor"
@@ -18,6 +18,18 @@ MATERIAL_TOOLS=tuple([f"C{i:02d}" for i in range(1,50)]+[
 ASSERT_LAYERS=("ASSERT_LAYER_1","ASSERT_LAYER_2")
 
 PROTECTED_BEHAVIORS={
+    "ProjectManager":(
+        "PROJECTMANAGER_PROJECT_IDENTITY_BINDING",
+        "PROJECTMANAGER_PROJECT_PACKAGE_VALIDATION",
+        "PROJECTMANAGER_SINGLE_OWNER_AUTHORITY",
+        "PROJECTMANAGER_LOCAL_CHANGE_ROUTING",
+        "PROJECTMANAGER_OPEN_PRESERVATION",
+        "PROJECTMANAGER_WBS_SCHEDULE_SEPARATION",
+        "PROJECTMANAGER_IMPACT_REENTRY",
+        "PROJECTMANAGER_SELF_MANAGEMENT",
+        "PROJECTMANAGER_IMPROVEMENTCORE_HANDOFF",
+        "PROJECTMANAGER_TRANSFERCORE_EVIDENCE_ONLY",
+    ),
     "ICC128":(
         "ICC128_ENDOGENOUS_CONTROLLER_LOOP",
         "ICC128_STATE_RELATIVE_SELECTOR",
@@ -100,7 +112,7 @@ PROTECTED_BEHAVIORS={
 def _spec(tool):
     strong=(
         tool in {
-            "ImprovementCore","ICC128","MT","MTA","Architecture","PD","PDAudit","GDOS","RootCause","RTC",
+            "ImprovementCore","ProjectManager","ICC128","MT","MTA","Architecture","PD","PDAudit","GDOS","RootCause","RTC",
             "CurrentnessAudit","MultiObject","Diagnosis","ASSERT","GOAL","SolutionToMyProblem","DesiredJane",
             "QuestionWorthAsking","LambdaMath","SemanticResolutionPipeline","ToolConductor"
         }
