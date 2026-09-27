@@ -32,11 +32,12 @@
     "open_questions": []
   },
   "blocking_open": [],
-  "human_approval_ref": null,
+  "human_approval_ref": "USER:2026-09-27-do-the-job",
   "evidence_refs": [
     "candidates/sukkos-question-gap/WHOLE_CONVERSATION_GOAL_PROBLEM_RUN_001.md",
     "Stanford Encyclopedia of Philosophy: Questions",
     "Kohelet 7:10",
-    "Rema Orach Chayim 490:9"
+    "Rema Orach Chayim 490:9",
+    "projects/sukkos-question-booklet-2-frame-resolution/PROMOTION_RECEIPT.md"
   ]
 }
