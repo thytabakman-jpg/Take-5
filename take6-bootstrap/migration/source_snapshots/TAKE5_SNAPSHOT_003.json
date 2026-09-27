@@ -9,7 +9,7 @@
       "recursive_tree_truncated": false,
       "entry_count": 910,
       "blob_count": 864,
-      "inventory": "take6-bootstrap/migration/inventories/TAKE5_TREE_INVENTORY_003.json",
+      "inventory": "migration/inventories/TAKE5_TREE_INVENTORY_003.json",
       "supersedes": [
         "a773ac5ac00fe4d04bd8e22a3d0ae949a6f35af2"
       ],
