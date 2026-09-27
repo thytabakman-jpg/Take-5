@@ -53,6 +53,15 @@ def provider(calls=None):
             "evidence":["test:restored-dispatch-whole-job"],
         }
 
+    def fresh_reobserve(state,memory,context):
+        calls.append("F")
+        return {
+            "status":"NO_GAIN",
+            "owned_work_remaining":False,
+            "evidence":[f"test:fresh:{context['challenge_index']}"],
+            "challenge_id":f"fresh-{context['challenge_index']}",
+        }
+
     return RestoredSemanticProvider(
         generate_questions=generate_questions,
         generate_work=generate_work,
@@ -60,6 +69,7 @@ def provider(calls=None):
         admit_results=admit_results,
         update_state=update_state,
         verify_return=verify_return,
+        fresh_reobserve=fresh_reobserve,
         provider_id="test-provider",
     )
 
@@ -104,7 +114,7 @@ def test_bound_semantic_provider_executes_restored_controller():
     assert out.result is not None
     assert out.result.hf2_status=="RELATIVE_CLOSE"
     assert out.resolution.provider_id=="test-provider"
-    assert calls==["G_Q","G_W","E","A","U","R"]
+    assert calls==["G_Q","G_W","E","A","U","F","F","R"]
 
 
 def test_partial_entry_coordinates_fail_open():
