@@ -30,18 +30,18 @@ def test_semantic_identity_and_runtime_realization_are_separate_coordinates():
     assert mt.runtime_entrypoint
 
     conductor=encode("ToolConductor")
-    assert conductor.configured_identity_status=="OPEN"
+    assert conductor.configured_identity_status=="CLOSED_RELATIVE"
     assert conductor.realization_status=="SELF_CONTAINED"
-    assert "GENERIC_ONLY_MANIFEST" in conductor.residuals
+    assert "GENERIC_ONLY_MANIFEST" not in conductor.residuals
 
 
-def test_pd_and_architecture_fail_closed_instead_of_becoming_green_by_function_notation():
+def test_pd_and_architecture_are_identity_recovered_but_environment_bound():
     for name in ("PD","PDAudit","Architecture"):
         row=encode(name)
-        assert row.configured_identity_status=="OPEN"
-        assert "GENERIC_ONLY_MANIFEST" in row.residuals
-        assert row.realization_status=="UNRECOVERED"
-        assert "NATIVE_RUNTIME_UNRECOVERED" in row.residuals
+        assert row.configured_identity_status=="CLOSED_RELATIVE"
+        assert "GENERIC_ONLY_MANIFEST" not in row.residuals
+        assert row.realization_status=="ENVIRONMENT_BOUND"
+        assert "NATIVE_RUNTIME_UNRECOVERED" not in row.residuals
 
 
 def test_improvementcore_outer_function_has_explicit_manifest_but_keeps_environment_boundary():
