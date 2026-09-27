@@ -1,9 +1,12 @@
 """HF1 governed episode.
 
 HF1 composes K_PD projection, exact sufficient package selection, mode selection,
-execution, Tool Run Closure status, typed delta classification, and reentry.
-The older activation loop is treated as the execution sub-transition, not a
-competing controller loop.
+execution, Tool Run Closure status, fresh whole-state re-observation, typed delta
+classification, and reentry.
+
+The older activation loop is the execution sub-transition, not a competing
+controller loop.  A pre-existing empty obligation set is never sufficient for
+closure: HF1 must first regenerate/re-observe the whole continuation state.
 """
 from __future__ import annotations
 
@@ -99,6 +102,71 @@ def select_sufficient_package(obligations,package_index,costs=None):
     return () if best is None else tuple(best[1])
 
 
+def _fresh_reobserve(
+    packet:dict,
+    *,
+    fresh_observe_fn:Callable[[dict],dict]|None,
+    verify_fn:Callable[[dict],bool]|None,
+):
+    """Rebuild continuation state before any relative-close claim.
+
+    Return:
+      ("STABLE", packet, "NO_REENTRY", None)
+      ("REENTER", refreshed, route, None)
+      ("OPEN", packet_or_refreshed, route, blocker)
+
+    A changed packet with no typed W/D/R signature delta is rejected.  This keeps
+    the upstream discovery provider honest: newly generated questions/work must
+    be reflected in discovery/result-sensitive state rather than hidden in an
+    untracked field.
+    """
+    if fresh_observe_fn is None:
+        return "OPEN",dict(packet),"UNRESOLVED","FRESH_REOBSERVATION_REQUIRED"
+
+    refreshed=fresh_observe_fn(dict(packet))
+    if not isinstance(refreshed,dict):
+        return "OPEN",dict(packet),"UNRESOLVED","FRESH_REOBSERVATION_INVALID"
+
+    try:
+        delta=classify_delta(packet,refreshed)
+    except ValueError as exc:
+        return "OPEN",refreshed,"UNRESOLVED",str(exc)
+
+    typed_changed=(
+        delta.world_changed
+        or delta.discovery_changed
+        or delta.result_sensitive_delta
+    )
+    full_changed=packet!=refreshed
+    obligations=tuple(project(refreshed).obligations)
+
+    if full_changed and not typed_changed:
+        return (
+            "OPEN",refreshed,"UNRESOLVED",
+            "FRESH_REOBSERVATION_UNTYPED_DELTA",
+        )
+
+    route=hf1_reentry_route(
+        world_changed=delta.world_changed,
+        discovery_changed=delta.discovery_changed,
+        result_sensitive_delta=delta.result_sensitive_delta,
+    )
+
+    if route.action=="REVERIFY":
+        if verify_fn is None:
+            return "OPEN",refreshed,route.action,"REVERIFY_HANDLER_REQUIRED"
+        if not verify_fn(refreshed):
+            return "OPEN",refreshed,route.action,"REVERIFICATION_FAILED"
+
+    # Any typed change requires another HF1 round, even when it currently exposes
+    # no obligation.  A second fresh pass must confirm that the changed basis is
+    # now stable.
+    if typed_changed or obligations:
+        return "REENTER",refreshed,route.action,None
+
+    return "STABLE",refreshed,"NO_REENTRY",None
+
+
 def run_hf1_episode(
     initial_packet:dict,
     *,
@@ -107,50 +175,135 @@ def run_hf1_episode(
     execute_fn:Callable[[tuple[str,...],str,dict],HF1Execution],
     closure_fn:Callable[[HF1Execution,dict],HF1Closure],
     verify_fn:Callable[[dict],bool]|None=None,
+    fresh_observe_fn:Callable[[dict],dict]|None=None,
     package_costs:dict|None=None,
     max_rounds:int=32,
 )->HF1EpisodeResult:
+    """Run HF1 until fresh-observation-relative closure or typed non-closure.
+
+    HF1 no longer accepts "the caller supplied no obligations" as proof of
+    closure.  Before every relative-close candidate it performs a fresh whole
+    continuation-state observation through fresh_observe_fn.  Material discovery
+    reopens the episode; a missing observer fails OPEN.
+    """
     packet=dict(initial_packet)
     receipts=[]
 
     for i in range(1,max_rounds+1):
         p=project(packet)
         obligations=tuple(p.obligations)
+
         if not obligations:
-            receipts.append(HF1RoundReceipt(round=i,obligations=(),package=(),mode="NOT_SELECTED",closure_status="NOT_REQUIRED",reentry_action="NOT_REQUIRED",terminal=HF1Terminal.RELATIVE_CLOSE.value))
-            return HF1EpisodeResult(packet,HF1Terminal.RELATIVE_CLOSE,tuple(receipts))
+            fresh_status,fresh_packet,fresh_route,blocker=_fresh_reobserve(
+                packet,fresh_observe_fn=fresh_observe_fn,verify_fn=verify_fn
+            )
+            if fresh_status=="OPEN":
+                receipts.append(HF1RoundReceipt(
+                    round=i,obligations=(),package=(),mode="FRESH_REOBSERVE",
+                    closure_status="OPEN",reentry_action=fresh_route,
+                    terminal=HF1Terminal.OPEN.value,
+                ))
+                return HF1EpisodeResult(
+                    fresh_packet,HF1Terminal.OPEN,tuple(receipts),blocker
+                )
+            if fresh_status=="REENTER":
+                receipts.append(HF1RoundReceipt(
+                    round=i,
+                    obligations=tuple(project(fresh_packet).obligations),
+                    package=(),mode="FRESH_REOBSERVE",
+                    closure_status="FRESH_DELTA",
+                    reentry_action=fresh_route,
+                    terminal=HF1Terminal.CONTINUE.value,
+                ))
+                packet=fresh_packet
+                continue
+
+            receipts.append(HF1RoundReceipt(
+                round=i,obligations=(),package=(),mode="FRESH_REOBSERVE",
+                closure_status="FRESH_STABLE",reentry_action="NO_REENTRY",
+                terminal=HF1Terminal.RELATIVE_CLOSE.value,
+            ))
+            return HF1EpisodeResult(
+                fresh_packet,HF1Terminal.RELATIVE_CLOSE,tuple(receipts)
+            )
 
         package=select_sufficient_package(obligations,package_index,package_costs)
         if not package:
-            receipts.append(HF1RoundReceipt(round=i,obligations=obligations,package=(),mode="NOT_SELECTED",closure_status="NOT_RUN",reentry_action="NOT_RUN",terminal=HF1Terminal.BLOCKED.value))
-            return HF1EpisodeResult(packet,HF1Terminal.BLOCKED,tuple(receipts),"NO_SUFFICIENT_PACKAGE")
+            receipts.append(HF1RoundReceipt(
+                round=i,obligations=obligations,package=(),
+                mode="NOT_SELECTED",closure_status="NOT_RUN",
+                reentry_action="NOT_RUN",terminal=HF1Terminal.BLOCKED.value,
+            ))
+            return HF1EpisodeResult(
+                packet,HF1Terminal.BLOCKED,tuple(receipts),
+                "NO_SUFFICIENT_PACKAGE",
+            )
 
         flags=mode_flags(packet) if callable(mode_flags) else dict(mode_flags)
         mode=select_mode(**flags)
         if mode=="OPEN":
-            receipts.append(HF1RoundReceipt(round=i,obligations=obligations,package=package,mode=mode,closure_status="NOT_RUN",reentry_action="NOT_RUN",terminal=HF1Terminal.OPEN.value))
-            return HF1EpisodeResult(packet,HF1Terminal.OPEN,tuple(receipts),"MODE_UNRESOLVED")
+            receipts.append(HF1RoundReceipt(
+                round=i,obligations=obligations,package=package,mode=mode,
+                closure_status="NOT_RUN",reentry_action="NOT_RUN",
+                terminal=HF1Terminal.OPEN.value,
+            ))
+            return HF1EpisodeResult(
+                packet,HF1Terminal.OPEN,tuple(receipts),"MODE_UNRESOLVED"
+            )
 
         execution=execute_fn(package,mode,packet)
-        if not isinstance(execution,HF1Execution) or not execution.executed or not execution.consumed:
-            receipts.append(HF1RoundReceipt(round=i,obligations=obligations,package=package,mode=mode,closure_status="NOT_RUN",reentry_action="NOT_RUN",terminal=HF1Terminal.OPEN.value))
-            return HF1EpisodeResult(packet,HF1Terminal.OPEN,tuple(receipts),"EXECUTION_NOT_CONSUMED")
+        if (
+            not isinstance(execution,HF1Execution)
+            or not execution.executed
+            or not execution.consumed
+        ):
+            receipts.append(HF1RoundReceipt(
+                round=i,obligations=obligations,package=package,mode=mode,
+                closure_status="NOT_RUN",reentry_action="NOT_RUN",
+                terminal=HF1Terminal.OPEN.value,
+            ))
+            return HF1EpisodeResult(
+                packet,HF1Terminal.OPEN,tuple(receipts),
+                "EXECUTION_NOT_CONSUMED",
+            )
 
         closure=closure_fn(execution,packet)
         if not isinstance(closure,HF1Closure):
-            return HF1EpisodeResult(packet,HF1Terminal.OPEN,tuple(receipts),"CLOSURE_RESULT_INVALID")
+            return HF1EpisodeResult(
+                packet,HF1Terminal.OPEN,tuple(receipts),"CLOSURE_RESULT_INVALID"
+            )
         if closure.status=="BLOCKED":
-            receipts.append(HF1RoundReceipt(round=i,obligations=obligations,package=package,mode=mode,closure_status="BLOCKED",reentry_action="NOT_RUN",terminal=HF1Terminal.BLOCKED.value))
-            return HF1EpisodeResult(closure.packet,HF1Terminal.BLOCKED,tuple(receipts),"TOOL_RUN_CLOSURE_BLOCKED")
+            receipts.append(HF1RoundReceipt(
+                round=i,obligations=obligations,package=package,mode=mode,
+                closure_status="BLOCKED",reentry_action="NOT_RUN",
+                terminal=HF1Terminal.BLOCKED.value,
+            ))
+            return HF1EpisodeResult(
+                closure.packet,HF1Terminal.BLOCKED,tuple(receipts),
+                "TOOL_RUN_CLOSURE_BLOCKED",
+            )
         if closure.status!="CLOSED":
-            receipts.append(HF1RoundReceipt(round=i,obligations=obligations,package=package,mode=mode,closure_status=closure.status,reentry_action="NOT_RUN",terminal=HF1Terminal.OPEN.value))
-            return HF1EpisodeResult(closure.packet,HF1Terminal.OPEN,tuple(receipts),"TOOL_RUN_CLOSURE_OPEN")
+            receipts.append(HF1RoundReceipt(
+                round=i,obligations=obligations,package=package,mode=mode,
+                closure_status=closure.status,reentry_action="NOT_RUN",
+                terminal=HF1Terminal.OPEN.value,
+            ))
+            return HF1EpisodeResult(
+                closure.packet,HF1Terminal.OPEN,tuple(receipts),
+                "TOOL_RUN_CLOSURE_OPEN",
+            )
 
         try:
             delta=classify_delta(packet,closure.packet)
         except ValueError as exc:
-            receipts.append(HF1RoundReceipt(round=i,obligations=obligations,package=package,mode=mode,closure_status="CLOSED",reentry_action="UNRESOLVED",terminal=HF1Terminal.OPEN.value))
-            return HF1EpisodeResult(closure.packet,HF1Terminal.OPEN,tuple(receipts),str(exc))
+            receipts.append(HF1RoundReceipt(
+                round=i,obligations=obligations,package=package,mode=mode,
+                closure_status="CLOSED",reentry_action="UNRESOLVED",
+                terminal=HF1Terminal.OPEN.value,
+            ))
+            return HF1EpisodeResult(
+                closure.packet,HF1Terminal.OPEN,tuple(receipts),str(exc)
+            )
 
         route=hf1_reentry_route(
             world_changed=delta.world_changed,
@@ -161,22 +314,81 @@ def run_hf1_episode(
 
         if route.action=="REVERIFY":
             if verify_fn is None:
-                receipts.append(HF1RoundReceipt(round=i,obligations=obligations,package=package,mode=mode,closure_status="CLOSED",reentry_action=route.action,terminal=HF1Terminal.OPEN.value))
-                return HF1EpisodeResult(next_packet,HF1Terminal.OPEN,tuple(receipts),"REVERIFY_HANDLER_REQUIRED")
+                receipts.append(HF1RoundReceipt(
+                    round=i,obligations=obligations,package=package,mode=mode,
+                    closure_status="CLOSED",reentry_action=route.action,
+                    terminal=HF1Terminal.OPEN.value,
+                ))
+                return HF1EpisodeResult(
+                    next_packet,HF1Terminal.OPEN,tuple(receipts),
+                    "REVERIFY_HANDLER_REQUIRED",
+                )
             if not verify_fn(next_packet):
-                receipts.append(HF1RoundReceipt(round=i,obligations=obligations,package=package,mode=mode,closure_status="CLOSED",reentry_action=route.action,terminal=HF1Terminal.OPEN.value))
-                return HF1EpisodeResult(next_packet,HF1Terminal.OPEN,tuple(receipts),"REVERIFICATION_FAILED")
+                receipts.append(HF1RoundReceipt(
+                    round=i,obligations=obligations,package=package,mode=mode,
+                    closure_status="CLOSED",reentry_action=route.action,
+                    terminal=HF1Terminal.OPEN.value,
+                ))
+                return HF1EpisodeResult(
+                    next_packet,HF1Terminal.OPEN,tuple(receipts),
+                    "REVERIFICATION_FAILED",
+                )
 
         next_obligations=tuple(project(next_packet).obligations)
         if not next_obligations:
-            receipts.append(HF1RoundReceipt(round=i,obligations=obligations,package=package,mode=mode,closure_status="CLOSED",reentry_action=route.action,terminal=HF1Terminal.RELATIVE_CLOSE.value))
-            return HF1EpisodeResult(next_packet,HF1Terminal.RELATIVE_CLOSE,tuple(receipts))
+            fresh_status,fresh_packet,fresh_route,blocker=_fresh_reobserve(
+                next_packet,
+                fresh_observe_fn=fresh_observe_fn,
+                verify_fn=verify_fn,
+            )
+            if fresh_status=="OPEN":
+                receipts.append(HF1RoundReceipt(
+                    round=i,obligations=obligations,package=package,mode=mode,
+                    closure_status="CLOSED_THEN_FRESH_OPEN",
+                    reentry_action=fresh_route,
+                    terminal=HF1Terminal.OPEN.value,
+                ))
+                return HF1EpisodeResult(
+                    fresh_packet,HF1Terminal.OPEN,tuple(receipts),blocker
+                )
+            if fresh_status=="REENTER":
+                receipts.append(HF1RoundReceipt(
+                    round=i,obligations=obligations,package=package,mode=mode,
+                    closure_status="CLOSED_THEN_FRESH_DELTA",
+                    reentry_action=fresh_route,
+                    terminal=HF1Terminal.CONTINUE.value,
+                ))
+                packet=fresh_packet
+                continue
+
+            receipts.append(HF1RoundReceipt(
+                round=i,obligations=obligations,package=package,mode=mode,
+                closure_status="CLOSED_AND_FRESH_STABLE",
+                reentry_action=route.action,
+                terminal=HF1Terminal.RELATIVE_CLOSE.value,
+            ))
+            return HF1EpisodeResult(
+                fresh_packet,HF1Terminal.RELATIVE_CLOSE,tuple(receipts)
+            )
 
         if route.action=="NO_REENTRY":
-            receipts.append(HF1RoundReceipt(round=i,obligations=obligations,package=package,mode=mode,closure_status="CLOSED",reentry_action=route.action,terminal=HF1Terminal.OPEN.value))
-            return HF1EpisodeResult(next_packet,HF1Terminal.OPEN,tuple(receipts),"NO_PROGRESS_WITH_LIVE_OBLIGATIONS")
+            receipts.append(HF1RoundReceipt(
+                round=i,obligations=obligations,package=package,mode=mode,
+                closure_status="CLOSED",reentry_action=route.action,
+                terminal=HF1Terminal.OPEN.value,
+            ))
+            return HF1EpisodeResult(
+                next_packet,HF1Terminal.OPEN,tuple(receipts),
+                "NO_PROGRESS_WITH_LIVE_OBLIGATIONS",
+            )
 
-        receipts.append(HF1RoundReceipt(round=i,obligations=obligations,package=package,mode=mode,closure_status="CLOSED",reentry_action=route.action,terminal=HF1Terminal.CONTINUE.value))
+        receipts.append(HF1RoundReceipt(
+            round=i,obligations=obligations,package=package,mode=mode,
+            closure_status="CLOSED",reentry_action=route.action,
+            terminal=HF1Terminal.CONTINUE.value,
+        ))
         packet=next_packet
 
-    return HF1EpisodeResult(packet,HF1Terminal.OPEN,tuple(receipts),"HF1_MAX_ROUNDS")
+    return HF1EpisodeResult(
+        packet,HF1Terminal.OPEN,tuple(receipts),"HF1_MAX_ROUNDS"
+    )
