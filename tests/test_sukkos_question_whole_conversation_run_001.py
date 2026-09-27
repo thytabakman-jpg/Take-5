@@ -300,7 +300,7 @@ def test_requested_whole_conversation_sequence_and_solution():
 
     mt,mtrun,mtplan=_configured("MT",_mt)
     assert mt.status=="CLOSED_RELATIVE"
-    assert "PREMATURE_CANDIDATE_COLLAPSE" in mt.mt_result["finding"]
+    assert "PREMATURE_CANDIDATE_COLLAPSE" in mt.mt_result["distinctions"]\n    assert "prematurely collapsed" in mt.mt_result["finding"]
 
     g3,g3run,g3plan=_configured("GOAL",_goal_refined)
     assert g3.status=="CLOSED_RELATIVE"
