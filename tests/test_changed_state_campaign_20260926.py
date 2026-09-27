@@ -3,6 +3,7 @@ from pathlib import Path
 R=Path(__file__).resolve().parents[1]; sys.path.insert(0,str(R/"runtime"))
 from direct_tool_command_gateway import execute_direct_tool_commands
 from hf1_episode import HF1Execution,HF1Closure,run_hf1_episode
+from goal import recover_goal
 from hf002_recursive_continuation import HF002RecursiveContinuation
 from icc128_legacy_portable import Controller
 from improvement_core_knowledge_ledger import KnowledgeLedger
@@ -14,8 +15,13 @@ REWRITE="ImprovementCore owns this campaign. Reconstruct current authority and c
 
 def goal_adapter(key,val):
  def a(s,p):
-  changed=s.get(key)!=val; n=dict(s); n[key]=val
-  return {"status":"EXECUTED","execution_truth":"IMPLEMENTATION_EXECUTED","result":val,"state":n,"material_delta":changed,"hf2_live_local":changed,"hf2_local_close":not changed,"trc_terminal":True}
+  packet={"X":"whole-system" if key=="whole" else "current-message","S":dict(s),"J0":val["goal"],"K":"current-evidence","E":[val],"A":"observer","B":[]}
+  def recon(req):
+   return {"GT":key+"-goal-v1","Succ":val["goal"],"Inv":["execution_truth","OPEN_preservation"],"Scope":packet["X"],"Auth":"observer","Reopen":["material currentness or evidence change"],"Open":[],"Witness":[val["status"]]}
+  native=recover_goal(packet,goal_reconstructor=recon)
+  result={"status":native.status,"goal_contract":native.goal}
+  changed=s.get(key)!=result; n=dict(s); n[key]=result
+  return {"status":"EXECUTED","execution_truth":"IMPLEMENTATION_EXECUTED","result":result,"state":n,"material_delta":changed,"hf2_live_local":changed,"hf2_local_close":not changed,"trc_terminal":True,"evidence":("runtime/goal.py",)}
  return a
 
 def icc():
