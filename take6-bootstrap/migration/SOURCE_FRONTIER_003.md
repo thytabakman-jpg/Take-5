@@ -1,7 +1,7 @@
 # Take-6 Compiled Source Frontier 003
 
 Date: 2026-09-27
-Status: IMPLEMENTED CANDIDATE / VALIDATION PENDING
+Status: VALIDATED CANDIDATE / TAKE-6 PRODUCTION PROMOTION OPEN
 
 ## Why snapshot 003 exists
 
@@ -82,3 +82,23 @@ For thytabakman-jpg/Take-5 the known snapshot chain is:
 The source-frontier compiler must derive the final node as the unique maximal snapshot.
 
 No file name or document declaration supplies that currentness.
+
+
+## Validation
+
+Implementation head before validation metadata:
+4ae35805aee600476f95243180b70f3beab38bbf
+
+Take-6 Bootstrap Validation:
+36294454479
+SUCCESS
+35 passed.
+
+Capability Preservation:
+36294454473
+SUCCESS.
+
+Live Take-5 predecessor authority at validation:
+53b28a36d9998e4fe76f49b231695216fe419bdd
+
+This equals snapshot 003 before the successor-only PR merge. The PR itself changes only successor-bootstrap paths, which are outside the declared predecessor freshness scope.
