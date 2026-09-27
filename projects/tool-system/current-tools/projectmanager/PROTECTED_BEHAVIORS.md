@@ -9,3 +9,20 @@ without promotion into the live manifest.
 ## Rule
 
 This page routes authority. It does not duplicate editable protected behavior.
+
+
+## Current ProjectManager-specific admission protection
+
+The live manifest includes:
+
+PROJECTMANAGER_PREPROJECT_ADMISSION_GATE
+
+This protects the result-sensitive distinctions:
+
+IDEA != PROJECT
+DEFINITION_READY != HUMAN_APPROVED
+EVIDENCE_ONLY != TARGET_TRANSFORM
+CANDIDATE_STATE != FULL_PROJECT_STATE
+EXPLORATION_PERSISTENCE != PROJECT_PROMOTION
+
+Authoritative implementation and witness remain owned by runtime/tool_manifest.py and its cited files.
