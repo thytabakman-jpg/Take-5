@@ -31,6 +31,37 @@ def _authoritative_formal_claims_present(state:Mapping[str,Any])->bool:
     return True
 
 
+def _reachable_recoverable_open(state:Mapping[str,Any])->tuple[dict[str,Any],...]:
+    """Return result-sensitive OPEN residuals with an explicit reachable recovery route.
+
+    A residual is parent-owned recovery work only when the semantic producer has
+    supplied the route.  The gate does not invent tools or authority.
+    """
+    raw=state.get("open_residuals",())
+    if isinstance(raw,Mapping):
+        raw=(raw,)
+    if not isinstance(raw,(list,tuple)):
+        return ()
+    out=[]
+    for row in raw:
+        if not isinstance(row,Mapping):
+            continue
+        if not bool(row.get("result_sensitive",True)):
+            continue
+        if not bool(row.get("reachable",False)):
+            continue
+        route=str(row.get("recovery_route","")).strip()
+        if not route:
+            continue
+        out.append({
+            "residual_id":str(row.get("residual_id") or row.get("id") or route),
+            "recovery_route":route,
+            "owner":str(row.get("owner","ImprovementCore")),
+            "authority_ref":row.get("authority_ref"),
+        })
+    return tuple(out)
+
+
 def _unclosed_authoritative_formal_claims(state:Mapping[str,Any])->tuple[str,...]:
     """Return authoritative formal claims that are not admission-closed.
 
@@ -144,6 +175,8 @@ def evaluate_parent_return(
     formal_claim_residuals=_unclosed_authoritative_formal_claims(proposed_state)
     formal_claim_receipt_required=bool(ctx.get("formal_claim_receipt_required",False))
 
+    recoverable_open=_reachable_recoverable_open(proposed_state)
+
     receipt={
         "gate":"PARENT_RETURN_GATE",
         "disposition":disposition,
@@ -159,7 +192,30 @@ def evaluate_parent_return(
         "formal_claim_receipt_required":formal_claim_receipt_required,
         "authoritative_formal_claims_present":formal_claims_present,
         "authoritative_formal_claim_residuals":formal_claim_residuals,
+        "recoverable_open":recoverable_open,
     }
+
+    # A result-sensitive OPEN with a declared reachable recovery route is not a
+    # terminal external boundary.  It becomes parent-owned work and re-enters
+    # the complete ImprovementCore capability before any user return.
+    if disposition=="RETURN" and recoverable_open:
+        next_state={**z,**state_patch}
+        next_memory={**m,**memory_patch}
+        next_state["terminal"]="CONTINUE"
+        next_state["admitted_continuation"]=True
+        next_state["parent_return_continuation"]=True
+        next_state["owned_recovery_work"]=recoverable_open
+        receipt["disposition"]="CONTINUE"
+        receipt["forced_recovery_reentry"]=True
+        receipt["reason"]="REACHABLE_RESULT_SENSITIVE_OPEN"
+        return ParentReturnOutcome(
+            disposition="CONTINUE",
+            terminal="CONTINUE",
+            blocker=None,
+            next_state=next_state,
+            next_memory=next_memory,
+            receipt=receipt,
+        )
 
     if disposition=="CONTINUE":
         if not (owned or recheck):
