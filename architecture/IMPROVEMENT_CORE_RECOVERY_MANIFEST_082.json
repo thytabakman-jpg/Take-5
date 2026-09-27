@@ -42,7 +42,8 @@
     "archive_artifact_intake": "runtime/archive_artifact_intake.py",
     "external_bound_zip_runtime": "runtime/improvement_core_external_acquisition.py",
     "legacy_restored_core": "runtime/improvement_core_legacy_candidate.py",
-    "legacy_restored_wrapper": "runtime/improvement_core_legacy_restored.py"
+    "legacy_restored_wrapper": "runtime/improvement_core_legacy_restored.py",
+    "parent_return_gate": "runtime/improvement_core_return_gate.py"
   },
   "evidence": {
     "maximization": "architecture/IMPROVEMENT_CORE_MAXIMIZATION_081.md",
@@ -154,7 +155,9 @@
     "legacy_restoration_target": "architecture/IMPROVEMENT_CORE_LEGACY_RESTORATION_TARGET_129.md",
     "legacy_control_holdout": "artifacts/improvecore/LEGACY_CANDIDATE_CONTROL_HOLDOUT_131_2026-09-26.md",
     "legacy_semantic_holdout": "artifacts/improvecore/LEGACY_RESTORED_SEMANTIC_HOLDOUT_132_2026-09-26.md",
-    "legacy_restoration_closure": "artifacts/improvecore/IMPROVEMENTCORE_LEGACY_RESTORATION_CLOSURE_133_2026-09-26.md"
+    "legacy_restoration_closure": "artifacts/improvecore/IMPROVEMENTCORE_LEGACY_RESTORATION_CLOSURE_133_2026-09-26.md",
+    "parent_return_closure": "architecture/IMPROVEMENT_CORE_PARENT_RETURN_CLOSURE_139.md",
+    "premature_return_hf2_audit": "artifacts/improvecore/IMPROVEMENTCORE_PREMATURE_RETURN_HF2_AUDIT_139_2026-09-26.md"
   },
   "protected_behaviors": [
     "CONTROLLER_OWNERSHIP",
@@ -220,7 +223,13 @@
     "RESTORED_SEMANTIC_PROVIDER_REQUIRED_FAILS_OPEN",
     "RESTORED_NO_FIXED_STAGE_FALLBACK_UNDER_RESTORED_CLAIM",
     "RESTORED_MODERN_GUARDS_PRESERVED",
-    "FULL_HISTORY_ARCHIVE_NOT_ACTIVE_CONTEXT"
+    "FULL_HISTORY_ARCHIVE_NOT_ACTIVE_CONTEXT",
+    "PARENT_RETURN_GATE_REQUIRED_FOR_USER_VISIBLE_TERMINALITY",
+    "ONE_STRICT_GAIN_NOT_PARENT_COMPLETION",
+    "HF2_RELATIVE_CLOSE_NOT_PARENT_COMPLETION",
+    "PARENT_CONTINUE_REENTERS_COMPLETE_IMPROVEMENTCORE_WITH_HF2",
+    "RETURN_COMPLETE_REQUIRES_GOAL_NO_OWNED_WORK_CONSEQUENCE_EVIDENCE",
+    "RETURN_NONCOMPLETE_REQUIRES_TYPED_BLOCKER_AND_NO_OWNED_WORK"
   ],
   "open": [],
   "math": {
