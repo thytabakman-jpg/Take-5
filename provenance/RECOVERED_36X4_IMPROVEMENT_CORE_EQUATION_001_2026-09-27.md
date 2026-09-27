@@ -1,185 +1,109 @@
-# Recovered 36×4 Improvement Core Equation
+# Recovered Cheap 36-Dimensional Run Equation — Corrected
 
 Date: 2026-09-27
-Status: HISTORICAL EQUATION RECOVERY / SOURCE-DISCRIMINATED
+Status: CORRECTED HISTORICAL RECOVERY
 
-## Recovery target
+## Correction
 
-The lost equation was described by the user as:
-- connected to Improvement Core;
-- containing an explicit 36-part structure;
-- containing four things;
-- containing a large U / Update-like component;
-- cheap relative to running the expanded question surface;
-- produced by collapsing many questions into one mathematical form.
+This file previously misidentified the user's remembered equation by conflating:
+1. the four primitive cognitive operators; and
+2. the four configured-run transformations.
 
-## Exact recovered core from prior conversation
+That was a category error.
+
+The remembered equation is the configured-run equation recovered from prior conversation context.
+
+## Exact recovered equation
 
 \[
-X^{*}
+\operatorname{Run}_{T}^{36}(X)
 =
-\operatorname{HF1}_{K,J}^{TRC}
-\!\left[
-\operatorname{Update}_{K}
-\!\left(
-X,
-\operatorname{Adm}_{K}
-\!\left(
-\operatorname{Reconcile}_{J}
-\!\left\{
-o\!\left(\operatorname{Obs}^{*}_{K}(X;s,f)\right)
-:
-o\in\{D,R,R_c,S\},
-\ (s,f)\in S_6\times F_6
-\right\}
-\right)
-\right)
-\right]
-\]
-
-where
-
-\[
-D=\operatorname{DIFFERENTIATE},
-\qquad
-R=\operatorname{RELATE},
-\qquad
-R_c=\operatorname{RECONSTRUCT},
-\qquad
-S=\operatorname{STRENGTHEN}.
-\]
-
-The 36-domain is
-
-\[
-D_{36}^{C}
-=
-S_{\mathrm{scope}}
-\times
-F_{\mathrm{mode\text{-}face}},
-\qquad
-|D_{36}^{C}|=6\times6=36.
-\]
-
-Equivalent compact indexing:
-
-\[
-X^{*}
-=
-\operatorname{HF1}_{K,J}^{TRC}
+HF1^{TRC}_{session}
 \left[
-\operatorname{Update}_{K}
-\left(
-X,
-\operatorname{Adm}_{K}
-\left(
-\operatorname{Reconcile}_{J}
-\left\{
-o\left(\operatorname{Obs}^{*}_{K}(X;d)\right)
-:
-o\in O_{core},
-\ d\in D_{36}^{C}
-\right\}
-\right)
-\right)
+U_T\circ C_T\circ E_T\circ G_T
 \right]
+\left(
+\Pi_{36}[K_T](X)
+\right)
 \]
 
-with
+with the 36 projection expanded as
+
+\[
+\Pi_{36}[K_T](X)
+=
+\left\{
+K_T(X;d)
+\mid
+d\in\mathcal D_{36}
+\right\},
+\qquad
+|\mathcal D_{36}|=36.
+\]
+
+The four configured transformations are therefore
+
+\[
+G_T,\qquad E_T,\qquad C_T,\qquad U_T.
+\]
+
+The remembered large-U component is
+
+\[
+U_T.
+\]
+
+Equivalent wrapper order:
+
+\[
+K_T
+\rightarrow
+\Pi_{36}
+\rightarrow
+G_T
+\rightarrow
+E_T
+\rightarrow
+C_T
+\rightarrow
+U_T
+\rightarrow
+HF1^{TRC}_{session}.
+\]
+
+## Distinct equation recovered later
+
+The Show-Me-the-Math completeness gate is a separate mathematical object:
+
+\[
+\Sigma
+=
+\mathbf 1_{\Delta\cap\Omega\cap\Phi\cap\Xi}.
+\]
+
+Do not collapse these two equations.
+
+## Recovery distinction
+
+The following four-operator basis is real but is NOT the four-part structure in the remembered cheap equation:
 
 \[
 O_{core}
 =
 \{
-\operatorname{DIFFERENTIATE},
-\operatorname{RELATE},
-\operatorname{RECONSTRUCT},
-\operatorname{STRENGTHEN}
+DIFFERENTIATE,
+RELATE,
+RECONSTRUCT,
+STRENGTHEN
 \}.
 \]
 
-## Why this is the surviving recovery
+## Current recovery status
 
-It uniquely satisfies the remembered conjunction:
-1. 36-cell geometry;
-2. four-operation primitive basis;
-3. Update/U state step;
-4. Improvement Core / HF1 / TRC closure context.
+Historical identity of the cheap 36-dimensional equation: recovered from prior conversation context.
 
-Nearby candidates lacking one or more of these properties are not the recovery target.
+Repository source for the exact historical equation: not independently located in current code search.
 
-## Related exact repository evidence
+The Sigma completeness gate: independently repository-backed and executable-tested.
 
-Current recovered repository mathematics independently preserves:
-
-\[
-D_{36}^{C}=S_{\mathrm{scope}}\times F_{\mathrm{mode\text{-}face}},
-\qquad 6\times6=36.
-\]
-
-and the four-operator basis
-
-\[
-O_{core}
-=
-\{
-\operatorname{DIFFERENTIATE},
-\operatorname{RELATE},
-\operatorname{RECONSTRUCT},
-\operatorname{STRENGTHEN}
-\}.
-\]
-
-Historical cost factorization preserved in the recovery catalog:
-
-\[
-C_{\mathrm{naive}}
-=
-36H
-+
-6\sum_iR_i
-+
-6\sum_jM_j
-+
-\sum_{ij}\epsilon_{ij},
-\]
-
-\[
-C_{\mathrm{factored}}
-=
-H
-+
-\sum_iR_i
-+
-\sum_jM_j
-+
-\sum_{ij}\epsilon_{ij}
-+
-C_{\mathrm{coord}},
-\]
-
-\[
-\Delta C
-=
-35H
-+
-5\sum_iR_i
-+
-5\sum_jM_j
--
-C_{\mathrm{coord}}.
-\]
-
-This explains the remembered low-cost character: shared structure is factored rather than re-running the full expensive machinery independently in every cell.
-
-## Status boundary
-
-Historical identity of this equation: RECOVERED.
-
-Current universal executable realization of every symbol in this historical equation: not established by this artifact.
-
-Do not silently replace this equation with:
-- the bare 144-projection product;
-- the generic T36 wrapper;
-- the four-stage G/E/C/U controller alone;
-- the Sigma completeness gate.
+This correction supersedes the earlier content of this file.
