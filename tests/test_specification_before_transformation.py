@@ -177,3 +177,30 @@ def test_improvementcore_allows_recovery_work_on_unrecovered_object():
         }),
     )
     assert out.result.terminal
+
+
+def test_known_epistemic_tool_infers_safe_recovery_class():
+    state={"selected_tool":"RootCause"}
+    assert assess_selected_state(state).status=="PASS"
+
+
+def test_architecture_tool_does_not_get_recovery_inference():
+    state={"selected_tool":"Architecture"}
+    r=assess_selected_state(state)
+    assert r.status=="OPEN"
+    assert r.reason=="SELECTED_OPERATION_CLASS_REQUIRED"
+
+
+def test_architecture_transform_passes_only_with_adequate_specification():
+    state={
+        "selected_tool":"Architecture",
+        "selected_operation_class":"ARCHITECT",
+        "object_specification":{
+            "object_id":"TOOL:X",
+            "basis_id":"b0",
+            "identification_status":"IDENTIFIED",
+            "required_coordinates":["native","wrapper"],
+            "resolved_coordinates":["native","wrapper"],
+        },
+    }
+    assert assess_selected_state(state).status=="PASS"
