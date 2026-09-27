@@ -41,7 +41,8 @@ def test_continue_reopens_parent_and_forces_live_continuation():
     assert out.disposition=="CONTINUE"
     assert out.next_state["terminal"]=="CONTINUE"
     assert out.next_state["admitted_continuation"] is True
-    assert out.next_state["live_continuation"] is True
+    assert out.next_state["parent_return_continuation"] is True
+    assert out.next_state.get("live_continuation") is not True
     assert out.next_state["next_job"]=="b"
 
 
@@ -125,3 +126,22 @@ def test_missing_verifier_fails_open_not_complete():
     )
     assert out.terminal=="OPEN"
     assert out.blocker=="PARENT_RETURN_GATE_REQUIRED"
+
+
+
+def test_open_candidate_cannot_be_upgraded_to_complete():
+    def verifier(state,memory,context):
+        return {
+            "disposition":"RETURN",
+            "terminal":"COMPLETE",
+            "goal_closed":True,
+            "owned_work_remaining":False,
+            "consequence_closed":True,
+            "evidence":["unit:illegal-upgrade"],
+        }
+    with pytest.raises(RuntimeError,match="ILLEGAL_TERMINAL_UPGRADE"):
+        evaluate_parent_return(
+            candidate_status="OPEN",candidate_blocker="SOURCE_OPEN",
+            state={"terminal":"OPEN"},memory={},
+            context=_context(hf2_status="OPEN"),verifier=verifier,
+        )
