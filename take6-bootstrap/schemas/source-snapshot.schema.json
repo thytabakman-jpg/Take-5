@@ -11,19 +11,83 @@
     "supersedes"
   ],
   "properties": {
-    "repository": {"type": "string", "minLength": 1},
-    "role": {"type": ["string", "null"]},
-    "commit": {"type": "string", "minLength": 7},
-    "tree_sha": {"type": "string", "minLength": 7},
-    "recursive_tree_truncated": {"type": "boolean"},
-    "entry_count": {"type": ["integer", "null"], "minimum": 0},
-    "blob_count": {"type": ["integer", "null"], "minimum": 0},
-    "inventory": {"type": ["string", "null"]},
+    "repository": {
+      "type": "string",
+      "minLength": 1
+    },
+    "role": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "commit": {
+      "type": "string",
+      "minLength": 7
+    },
+    "tree_sha": {
+      "type": "string",
+      "minLength": 7
+    },
+    "recursive_tree_truncated": {
+      "type": "boolean"
+    },
+    "entry_count": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "blob_count": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "inventory": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
     "supersedes": {
       "type": "array",
-      "items": {"type": "string", "minLength": 7},
+      "items": {
+        "type": "string",
+        "minLength": 7
+      },
       "uniqueItems": true
     },
-    "note": {"type": ["string", "null"]}
+    "note": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "scope": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "exclude_prefixes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        },
+        "exclude_paths": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        }
+      }
+    }
   }
 }
