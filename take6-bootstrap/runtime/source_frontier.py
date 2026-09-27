@@ -55,8 +55,48 @@ def _validate_snapshot(row: Mapping[str, Any]) -> None:
         raise RuntimeError("TAKE6_SOURCE_SNAPSHOT_SUPERSEDES_INVALID")
 
 
+def _scope(row: Mapping[str, Any]) -> dict[str, Any]:
+    raw=row.get("scope") or {}
+    if not isinstance(raw, Mapping):
+        raise RuntimeError("TAKE6_SOURCE_SCOPE_INVALID")
+    return {
+        "exclude_prefixes": tuple(sorted(str(x) for x in raw.get("exclude_prefixes", ()))),
+        "exclude_paths": tuple(sorted(str(x) for x in raw.get("exclude_paths", ()))),
+    }
+
+
+def scoped_inventory_digest(
+    inventory: Mapping[str, Any],
+    scope: Mapping[str, Any] | None = None,
+) -> str:
+    raw_scope=scope or {}
+    exclude_prefixes=tuple(str(x) for x in raw_scope.get("exclude_prefixes", ()))
+    exclude_paths=set(str(x) for x in raw_scope.get("exclude_paths", ()))
+    selected=[]
+    entries=inventory.get("entries", ())
+    if not isinstance(entries, list):
+        raise RuntimeError("TAKE6_SOURCE_INVENTORY_ENTRIES_INVALID")
+    for row in entries:
+        if not isinstance(row, Mapping):
+            raise RuntimeError("TAKE6_SOURCE_INVENTORY_ENTRY_INVALID")
+        path=str(row.get("path", ""))
+        if path in exclude_paths or any(path.startswith(prefix) for prefix in exclude_prefixes):
+            continue
+        selected.append({
+            "path":path,
+            "mode":str(row.get("mode", "")),
+            "type":str(row.get("type", "")),
+            "sha":str(row.get("sha", "")),
+            "size":row.get("size"),
+        })
+    selected.sort(key=lambda x:x["path"])
+    return cid({"scope":_scope({"scope":raw_scope}),"entries":selected})
+
+
 def compile_source_frontier(
     snapshots: Iterable[Mapping[str, Any]],
+    *,
+    inventory_loader=None,
 ) -> dict[str, Any]:
     rows = [dict(x) for x in snapshots]
     for row in rows:
@@ -101,22 +141,34 @@ def compile_source_frontier(
             current = records[current_commit]
             current_tree_sha = str(current["tree_sha"])
             current_inventory = current.get("inventory")
+            current_scope = _scope(current)
+            current_scope_digest = None
+            if inventory_loader is not None and current_inventory:
+                inventory = inventory_loader(str(current_inventory))
+                verify_inventory(current, inventory)
+                current_scope_digest = scoped_inventory_digest(inventory, current_scope)
         elif len(maxima) > 1:
             status = "CONFLICT"
             current_commit = None
             current_tree_sha = None
             current_inventory = None
+            current_scope = None
+            current_scope_digest = None
         else:
             status = "OPEN"
             current_commit = None
             current_tree_sha = None
             current_inventory = None
+            current_scope = None
+            current_scope_digest = None
 
         compiled[repo] = {
             "status": status,
             "current_commit": current_commit,
             "current_tree_sha": current_tree_sha,
             "current_inventory": current_inventory,
+            "current_scope": current_scope,
+            "current_scope_digest": current_scope_digest,
             "maximal_commits": maxima,
             "known_commits": sorted(records),
         }
@@ -160,11 +212,20 @@ def frontier_matches_observed_authority(
     repository: str,
     observed_commit: str,
     observed_tree_sha: str,
+    observed_inventory: Mapping[str, Any] | None = None,
 ) -> bool:
     row = compiled.get("repositories", {}).get(repository, {})
+    if row.get("status") != "CURRENT":
+        return False
+    expected_scope_digest=row.get("current_scope_digest")
+    if expected_scope_digest and observed_inventory is not None:
+        observed_digest=scoped_inventory_digest(
+            observed_inventory,
+            row.get("current_scope") or {},
+        )
+        return observed_digest == expected_scope_digest
     return bool(
-        row.get("status") == "CURRENT"
-        and row.get("current_commit") == observed_commit
+        row.get("current_commit") == observed_commit
         and row.get("current_tree_sha") == observed_tree_sha
     )
 
@@ -180,6 +241,7 @@ def require_promotion_frontier_match(
             repository=repository,
             observed_commit=str(actual.get("commit", "")),
             observed_tree_sha=str(actual.get("tree_sha", "")),
+            observed_inventory=actual.get("inventory"),
         ):
             raise RuntimeError(
                 "TAKE6_PROMOTION_SOURCE_FRONTIER_LAG:" + repository
