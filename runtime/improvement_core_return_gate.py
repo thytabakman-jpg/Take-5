@@ -3,18 +3,23 @@
 A completed child, work package, tool run, HF2 local fixed point, or material
 strict-gain step is not sufficient to end the governing ImprovementCore job.
 
-The parent may return to the user only after a fresh post-HF2 verifier
-dispositions the whole governing job.  A verifier may instead return CONTINUE;
-the caller must then re-enter the complete ImprovementCore capability, including
-its normal HF2 layer, on the updated state.
+For COMPLETE, the gate now requires two independent coordinates:
 
-This module validates the verifier's claim.  It does not invent semantic
-closure on behalf of the active host/model.
+1. fresh whole-job stability: regenerate/re-observe the normalized state from a
+   fresh challenge context and require repeated no-delta passes;
+2. semantic return verification: goal closed, no owned work, consequences closed,
+   evidence bound, and any formal-currentness claims admission-closed.
+
+A material fresh challenge forces a complete parent re-entry.  Missing fresh
+re-observation fails OPEN.  This prevents "HF2 locally stopped" from being
+misreported as "a brand-new overview would find nothing."
 """
 from __future__ import annotations
 
 from dataclasses import dataclass, asdict
 from typing import Any, Callable, Mapping
+
+from whole_job_stability import run_whole_job_stability, receipt_dict as stability_receipt_dict
 
 RETURNABLE={"COMPLETE","OPEN","BLOCKED","CONFLICT"}
 DISPOSITIONS={"RETURN","CONTINUE"}
@@ -32,13 +37,6 @@ def _authoritative_formal_claims_present(state:Mapping[str,Any])->bool:
 
 
 def _unclosed_authoritative_formal_claims(state:Mapping[str,Any])->tuple[str,...]:
-    """Return authoritative formal claims that are not admission-closed.
-
-    The active semantic provider may attach these receipts only when the
-    governing job makes a CURRENT/CANONICAL/EXACT_CURRENT formal claim.  Their
-    absence creates no obligation for ordinary jobs.  Once present, however, a
-    non-PASS receipt forbids COMPLETE user return.
-    """
     raw=state.get("authoritative_formal_claims",())
     if isinstance(raw,Mapping):
         raw=(raw,)
@@ -84,23 +82,71 @@ def evaluate_parent_return(
     memory:Mapping[str,Any]|None,
     context:Mapping[str,Any],
     verifier:Callable[[dict[str,Any],dict[str,Any],dict[str,Any]],Mapping[str,Any]]|None,
+    fresh_reobserve:Callable[[dict[str,Any],dict[str,Any],dict[str,Any]],Mapping[str,Any]]|None=None,
+    stable_passes_required:int=2,
 )->ParentReturnOutcome:
-    """Validate a whole-job return/continue decision.
+    """Validate whole-job completion and user-return permission.
 
-    Required RETURN claims:
-    - consequence_closed=True
-    - owned_work_remaining=False
-    - non-empty evidence
-    - COMPLETE additionally requires goal_closed=True
-    - OPEN/BLOCKED/CONFLICT require a typed blocker
+    COMPLETE is impossible from the pre-existing parent state alone.  It must
+    survive a fresh whole-job re-observation challenge first.  Any material
+    challenge delta or owned work returns CONTINUE and forces a new full parent
+    ImprovementCore+HF2 round.
 
-    CONTINUE claims require owned_work_remaining=True or recheck_required=True.
-    The gate clears terminality and reactivates parent continuation before
-    handing state back for a fresh complete ImprovementCore+HF2 pass.
+    Non-complete candidates preserve their typed terminal status and continue to
+    use the semantic verifier for legal return.
     """
     z=dict(state)
     m=dict(memory or {})
     ctx=dict(context)
+    stability_receipt=None
+
+    if str(candidate_status).upper()=="COMPLETE":
+        stability=run_whole_job_stability(
+            state=z,
+            memory=m,
+            context=ctx,
+            reobserve=fresh_reobserve,
+            stable_passes_required=int(stable_passes_required),
+        )
+        stability_receipt=stability_receipt_dict(stability)
+        z=dict(stability.state)
+        m=dict(stability.memory)
+
+        if stability.disposition=="CONTINUE":
+            return ParentReturnOutcome(
+                disposition="CONTINUE",
+                terminal="CONTINUE",
+                blocker=None,
+                next_state=z,
+                next_memory=m,
+                receipt={
+                    "gate":"PARENT_RETURN_GATE",
+                    "disposition":"CONTINUE",
+                    "candidate_status":str(candidate_status),
+                    "candidate_blocker":candidate_blocker,
+                    "reason":"FRESH_WHOLE_JOB_DELTA",
+                    "whole_job_stability":stability_receipt,
+                    "context":ctx,
+                },
+            )
+
+        if stability.terminal!="COMPLETE":
+            return ParentReturnOutcome(
+                disposition="RETURN",
+                terminal=stability.terminal,
+                blocker=stability.blocker,
+                next_state=z,
+                next_memory=m,
+                receipt={
+                    "gate":"PARENT_RETURN_GATE",
+                    "disposition":"RETURN",
+                    "candidate_status":str(candidate_status),
+                    "candidate_blocker":candidate_blocker,
+                    "reason":"FRESH_WHOLE_JOB_NONCLOSURE",
+                    "whole_job_stability":stability_receipt,
+                    "context":ctx,
+                },
+            )
 
     if verifier is None:
         z["terminal"]="OPEN"
@@ -119,6 +165,7 @@ def evaluate_parent_return(
                 "status":"OPEN",
                 "reason":"NO_RETURN_VERIFIER",
                 "candidate_status":str(candidate_status),
+                "whole_job_stability":stability_receipt,
             },
         )
 
@@ -156,6 +203,7 @@ def evaluate_parent_return(
         "evidence":evidence,
         "reason":str(decision.get("reason","")),
         "context":ctx,
+        "whole_job_stability":stability_receipt,
         "formal_claim_receipt_required":formal_claim_receipt_required,
         "authoritative_formal_claims_present":formal_claims_present,
         "authoritative_formal_claim_residuals":formal_claim_residuals,
@@ -170,9 +218,6 @@ def evaluate_parent_return(
         next_memory={**m,**memory_patch}
         next_state["terminal"]="CONTINUE"
         next_state["admitted_continuation"]=True
-        # Parent-level continuation is not the same coordinate as recursive
-        # child-manager liveness.  The verifier may set live_continuation
-        # explicitly in state_patch when recursive child work is in fact live.
         next_state["parent_return_continuation"]=True
         return ParentReturnOutcome(
             disposition="CONTINUE",
@@ -197,6 +242,10 @@ def evaluate_parent_return(
         raise RuntimeError("IC_PARENT_RETURN_GATE_RETURN_WITHOUT_EVIDENCE")
     if terminal=="COMPLETE" and not goal_closed:
         raise RuntimeError("IC_PARENT_RETURN_GATE_COMPLETE_WITHOUT_GOAL_CLOSURE")
+    if terminal=="COMPLETE" and stability_receipt is None:
+        raise RuntimeError(
+            "IC_PARENT_RETURN_GATE_COMPLETE_WITHOUT_FRESH_STABILITY_RECEIPT"
+        )
     if terminal=="COMPLETE" and formal_claim_receipt_required and not formal_claims_present:
         raise RuntimeError(
             "IC_PARENT_RETURN_GATE_COMPLETE_WITHOUT_FORMAL_CLAIM_RECEIPT"
