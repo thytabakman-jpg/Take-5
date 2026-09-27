@@ -25,11 +25,20 @@ def test_every_current_tool_projects_every_enforced_dimension():
     assert out["projected_count"]==len(MATERIAL_TOOLS)
     assert not out["missing"]
     assert not out["incomplete"]
-    assert {
-        "question","job","responsibility","mathematical_object",
-        "native_semantics","wrapper","geometry","protected_behavior",
-        "closure","reentry","recurrence","lineage_currentness_runtime",
-    }==set(FULL_DIMENSION_NAMES)
+    required={
+        "identity","question","job","responsibility","goal","mathematical_object",
+        "native_semantics","inputs","outputs","state","configured_identity",
+        "envelope","mode","orchestration","wrapper","geometry","authority",
+        "currentness_provenance","lineage","lifecycle","persistence_propagation",
+        "runtime_realization","runtime_behavior","executability",
+        "controller_reachability","invocation","run_instance","host_capability",
+        "dependencies_transfers","semantic_roles","project_memberships",
+        "physical_location","backlog_open_obligations","protected_behavior",
+        "closure","reentry","recurrence","verification","evidence_receipts",
+        "failure_open_policy","admission_promotion","coverage_surface",
+        "question_projection","cognitive_projection",
+    }
+    assert required==set(FULL_DIMENSION_NAMES)
 
 
 def test_hf1_hf2_jobs_cannot_collapse_into_each_other():
