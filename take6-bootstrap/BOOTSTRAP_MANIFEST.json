@@ -36,8 +36,8 @@
     "migration/inventories/TAKE5_TREE_INVENTORY_001.json"
   ],
   "source_refs": {
-    "take5": "thytabakman-jpg/Take-5@df714811ab14e6d2d4dc0154f2a7136cb4794617",
-    "reaserch_observed": "thytabakman-jpg/Reaserch@1a18aa206c037709b1b17b6240c3ed8c9bc9e4f8"
+    "authority": "take6-bootstrap/migration/SOURCE_MANIFEST_001.json",
+    "rule": "Repository/archive source identities are owned only by the migration source manifest. Do not duplicate frozen refs in this bootstrap projection."
   },
   "design_decision": "Separate immutable evidence/event history from deterministically compiled semantic current state and disposable runtime execution.",
   "promotion_blockers": [
@@ -58,6 +58,8 @@
     "status": "PARTIAL_PASS",
     "repository_lineage": "PASS",
     "repository_member_inventory": "PASS",
-    "external_intended_zip_pair": "OPEN"
+    "external_intended_zip_pair": "OPEN",
+    "take5_cutoff_includes_legacy_restoration": "PASS",
+    "duplicate_source_ref_authority_removed": "PASS"
   }
 }
