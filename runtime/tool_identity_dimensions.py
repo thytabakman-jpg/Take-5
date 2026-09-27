@@ -487,6 +487,7 @@ def audit_current_repertoire()->dict[str,Any]:
         if empty:
             incomplete.append((tool_id,"EMPTY:"+",".join(empty)))
 
+        manifest=manifest_for(tool_id)
         package_root=ROOT/"projects"/"tool-system"/"current-tools"/_slug(tool_id)
         required_paths=(
             ROOT/"runtime"/"tool_run_registry.py",
