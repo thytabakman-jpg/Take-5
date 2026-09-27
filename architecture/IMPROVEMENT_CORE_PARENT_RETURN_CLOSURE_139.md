@@ -82,9 +82,13 @@ CONTINUE forces:
 
 terminal := CONTINUE
 admitted_continuation := TRUE
-live_continuation := TRUE
+parent_return_continuation := TRUE
 
 and then re-enters the complete ImprovementCore path, including HF2 again.
+
+ParentReturnContinuation and RecursiveChildContinuation are distinct coordinates.
+The parent gate does not manufacture live_continuation. A verifier may set
+live_continuation explicitly only when recursive child-manager work is actually live.
 
 Therefore:
 
@@ -153,7 +157,9 @@ Required tests cover:
 8. COMPLETE without goal closure is rejected;
 9. return with an open consequence is rejected;
 10. non-complete return without typed blocker is rejected;
-11. HF2-disabled ordinary execution is rejected unless explicit debug authority is present.
+11. an OPEN/BLOCKED/CONFLICT candidate cannot be upgraded to COMPLETE by the return verifier;
+12. parent continuation does not silently assert recursive child-manager liveness;
+13. HF2-disabled ordinary execution is rejected unless explicit debug authority is present.
 
 ## Closure boundary
 
