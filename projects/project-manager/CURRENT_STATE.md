@@ -39,7 +39,7 @@ CURRENT_VALIDATION_FRONTIER: apply the admission gate to future candidate projec
 
 ## Mandatory management spine extension
 
-Status: IMPLEMENTED_CANDIDATE / VALIDATION_PENDING
+Status: CURRENT / VALIDATED / MERGED_PR_173
 
 Every normal ProjectManager run now requires:
 
@@ -56,3 +56,8 @@ ASSERT
 All factors use their current full configured plans and HF002.
 
 Specialized/heavy tools remain adaptively routed rather than automatically tool-smashed.
+
+
+MANDATORY_SPINE_CANONICAL_COMMIT: 225d4edb956bb29de3e3eb0433f0c9ada84feb11
+MANDATORY_SPINE_POST_MERGE_EVERY_TOOL_SWEEP: PASS_RUN_36350803983
+MANDATORY_SPINE_POST_MERGE_VALIDATION: PASS_RUN_36350803988
