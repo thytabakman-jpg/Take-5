@@ -11,6 +11,8 @@ def test_cleanup_campaign_joins_narrow_green_surfaces_without_overclaiming():
     assert out.protected_transition_status=="PASS"
     assert out.full_invocation_status=="CLOSED_RELATIVE"
     assert out.reachability_status=="CLOSED_RELATIVE"
+    assert out.capability_preservation_status=="PRESERVED"
+    assert out.capability_preservation_open==()
     assert out.capability_repair==()
     assert out.tool_reality_status=="OPEN"
     assert set(out.native_unrecovered)=={"MTA","Architecture","PD","PDAudit"}
