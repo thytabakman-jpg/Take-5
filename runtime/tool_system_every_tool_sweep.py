@@ -31,6 +31,7 @@ from repertoire_reachability import audit_current_repertoire_reachability
 from system_cleanup_campaign import run_cleanup_campaign
 from tool_manifest import OVERRIDES
 from tool_manifest_audit import audit_tool_identities
+from tool_identity_dimensions import audit_current_repertoire as audit_operational_identity
 from tool_maturity import audit_all as audit_maturity
 from tool_project_packages import audit_materialized
 from tool_reality_audit import audit_tool_reality
@@ -512,6 +513,7 @@ def _hf1_adapter(packet:dict[str,Any])->dict[str,Any]:
         mode_flags={"exact_discriminant":True,"independent_local":True},
         execute_fn=execute_fn,
         closure_fn=closure_fn,
+        fresh_observe_fn=lambda current:dict(current),
         max_rounds=3,
     )
     return _dev_executed(out,evidence="native:HF001")
@@ -893,6 +895,7 @@ def development_audits()->dict[str,Any]:
     transitions=audit_protected_transition_portfolio()
     manifests=audit_tool_identities(CONFIGURED_RUNS,OVERRIDES)
     reality=audit_tool_reality()
+    operational_identity=audit_operational_identity()
     system=run_audit(ROOT)
     packages=audit_materialized(ROOT)
     historical_replays=audit_historical_replays()
@@ -905,6 +908,7 @@ def development_audits()->dict[str,Any]:
         "protected_transition_portfolio":plain(transitions),
         "tool_manifest_audit":plain(manifests),
         "tool_reality_audit":plain(reality),
+        "tool_operational_identity_audit":plain(operational_identity),
         "tool_maturity":maturity_summary(),
         "system_audit":plain(system),
         "tool_project_package_audit":plain(packages),
@@ -946,6 +950,8 @@ def run()->dict[str,Any]:
         structural_failures.append("system_cleanup_campaign:OPEN")
     if dev["tool_project_package_audit"].get("status")!="CLOSED_RELATIVE":
         structural_failures.append("tool_project_package_audit:OPEN")
+    if dev["tool_operational_identity_audit"].get("status")!="CLOSED_RELATIVE":
+        structural_failures.append("tool_operational_identity_audit:OPEN")
     if not dev["system_audit"].get("closed"):
         structural_failures.append("system_audit:OPEN")
 
