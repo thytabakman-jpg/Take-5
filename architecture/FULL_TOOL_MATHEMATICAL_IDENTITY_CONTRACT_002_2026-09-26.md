@@ -152,14 +152,27 @@ For the portability job, a load-bearing symbol is RED/OPEN whenever:
 - an external primitive lacks a typed contract or availability assumption;
 - initialization/runtime/persistence needed for protected behavior is missing.
 
-## 11 Tool creation and successor gate
+## 11 Tool creation, transformation, and successor gate
 
 A new formal tool requires a canonical full-math artifact containing native math,
 wrapper, geometry, protected behavior, lineage/currentness/runtime boundary,
 closure/reentry, OPEN coordinates, and canonical identity.
 
+Creation of an OPEN candidate package is permitted before full recovery.
+Object-transforming work is not.
+
+For a proposed architecture/build/modify/improve/replace/promote/supersede operation
+tau, every load-bearing coordinate required by tau must be recovered or accompanied
+by an admitted invariance witness proving that variation of the unresolved coordinate
+cannot alter the protected result. Object identity must be recovered to one licensed
+equivalence class, or tau must be invariant across every surviving class.
+
+Therefore package existence, naming, persistence, wrapper recovery, or one equation
+cannot independently license transformation of an unrecovered tool.
+
 A successor may supersede a predecessor only with explicit dispositions for protected
-behavior and wrapper/geometry changes.
+behavior and wrapper/geometry changes and a PASS specification-before-transformation
+receipt for the predecessor/successor comparison job.
 
 ## 12 HF002 coordinate
 

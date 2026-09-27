@@ -141,6 +141,20 @@ def _transition_comparison(
         ),
         boundary_verified=True,
         basis_reconciled=bool(delta.get("basis_reconciled",False)),
+        transformation_claim=bool(
+            selected.get("transform_claim")
+            or selected.get("transformation_claim")
+            or str(selected.get("operation_class","")).upper() in {
+                "ARCHITECT","BUILD","MODIFY","TRANSFORM","IMPROVE",
+                "REPLACE","PROMOTE","SUPERSEDE","MIGRATE",
+                "INTEGRATE_TRANSFORM","EXECUTE_TRANSFORM",
+            }
+        ),
+        specification_status=str(
+            selected.get("specification_status")
+            or delta.get("specification_status")
+            or "OPEN"
+        ),
     )
 
 

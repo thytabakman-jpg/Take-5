@@ -28,6 +28,13 @@ A package may contain unresolved content. Absence of solved mathematics does not
 
 Unresolved coordinates are recorded as BLACK_BOX_OPEN.
 
+A durable package is evidence/persistence, not a transformation license.
+Architecture, build, modification, improvement, replacement, promotion, or other
+object-transforming work requires the separate job-relative
+Specification-Before-Transformation gate. An OPEN coordinate is legal only when
+the proposed transformation does not depend on it or an admitted invariance
+witness proves result-independence.
+
 ## MT dual output
 
 MT has two distinct jobs:

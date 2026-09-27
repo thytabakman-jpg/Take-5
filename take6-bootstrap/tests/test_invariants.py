@@ -174,6 +174,8 @@ def test_promotion_blocks_silent_behavior_loss():
             predecessor_protected=["A", "B"],
             successor_preserved=["A"],
             consequence_closed=True,
+            predecessor_specification_status="PASS",
+            successor_specification_status="PASS",
         )
     except RuntimeError as exc:
         assert "SILENT_BEHAVIOR_LOSS" in str(exc)
@@ -188,6 +190,8 @@ def test_promotion_can_preserve_typed_open_without_false_pass():
         validations=["HOLDOUT"],
         required_validations=["HOLDOUT"],
         consequence_closed=True,
+        predecessor_specification_status="PASS",
+        successor_specification_status="PASS",
     )
     assert receipt.status == "OPEN"
     assert receipt.typed_open_behaviors == ("B",)
@@ -234,3 +238,18 @@ def test_durability_passes_two_independent_domains():
     receipt = verify_durable(target, replicas)
     assert receipt.status == "PASS"
     assert len(receipt.independent_trust_domains) == 2
+
+
+def test_promotion_blocks_unrecovered_object_specification():
+    try:
+        verify_promotion(
+            predecessor_protected=["A"],
+            successor_preserved=["A"],
+            consequence_closed=True,
+            predecessor_specification_status="OPEN",
+            successor_specification_status="PASS",
+        )
+    except RuntimeError as exc:
+        assert "PROMOTION_SPECIFICATION_OPEN" in str(exc)
+    else:
+        raise AssertionError("unrecovered predecessor specification promoted")

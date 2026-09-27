@@ -95,6 +95,37 @@ The authoritative tool identity is the capsule CID. Markdown names and aliases o
 
 No second handwritten FullMath, registry, wrapper, runtime pointer, and current pointer are allowed to drift independently. They are either inside the capsule or generated from it.
 
+
+## 4a. Specification before transformation
+
+Immutable identity does not make an unknown object known.
+
+For object \(o\), job \(J\), basis \(K\), and proposed transformation \(\tau\), let
+\(Req_{J,K}(o,\tau)\) be the coordinates on which the protected result can depend.
+
+A transformation is licensed only when every required coordinate is recovered or
+has an admitted invariance witness proving that variation of the unresolved
+coordinate cannot change the protected result.
+
+\[
+TransformLicensed_{J,K}(o,\tau)
+\iff
+Req_{J,K}(o,\tau)
+\subseteq
+Resolved_K(o) \cup Invariant_{J,K}(o,\tau).
+\]
+
+Object identity must also be IDENTIFIED, or the transformation must be invariant
+across every surviving object hypothesis.
+
+OBSERVE, DISCOVER, RECOVER, OBJECTIFY, FORMALIZE, COMPARE, AUDIT, VERIFY,
+DIAGNOSE, and RECONSTRUCT remain legal on OPEN objects. Architecture, build,
+modification, improvement, replacement, promotion, supersession, migration, and
+other object-transforming transitions fail closed until this gate passes.
+
+Package existence, content addressing, exact persistence, and runtime binding are
+not substitutes for specification adequacy.
+
 ## 5. Invocation identity
 
 Every execution uses:

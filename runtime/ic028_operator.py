@@ -15,6 +15,7 @@ from improvement_core_tool_bridge import (
     bind_selected_tools,
     execute_bound_tools,
 )
+from specification_before_transformation import assess_selected_state
 
 @dataclass
 class OperatorReceipt:
@@ -103,6 +104,21 @@ def run_ic028(lease:ControllerLease,state:Any,handlers:dict[str,Callable], *,
             elif out is not None:
                 current=out
             receipts.append(OperatorReceipt(stage,"EXECUTED",out))
+
+            if stage=="SELECT":
+                specification=assess_selected_state(current)
+                receipts.append(OperatorReceipt(
+                    "SPECIFICATION_GATE",
+                    specification.status,
+                    specification,
+                ))
+                if not specification.licensed:
+                    return OperatorResult(
+                        current,
+                        receipts,
+                        False,
+                        specification.blocker,
+                    )
 
             if stage=="BIND":
                 try:

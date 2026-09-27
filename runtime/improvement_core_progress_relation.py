@@ -9,6 +9,11 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import FrozenSet, Mapping, Sequence, Tuple
 
+try:
+    from specification_before_transformation import progress_specification_licensed
+except ModuleNotFoundError:  # package-style import in repository-root tests
+    from .specification_before_transformation import progress_specification_licensed
+
 
 class EvaluationTarget(str, Enum):
     ARTIFACT = "ARTIFACT"
@@ -89,6 +94,8 @@ class TransitionComparison:
     obligation_states: Tuple[str, ...] = ()
     boundary_verified: bool = False
     basis_reconciled: bool = False
+    transformation_claim: bool = False
+    specification_status: str = "OPEN"
 
 
 @dataclass(frozen=True)
@@ -133,6 +140,11 @@ def strict_progress(cmp: TransitionComparison) -> bool:
         and obligations_typed(cmp)
         and comparison_basis_valid(cmp)
         and cmp.boundary_verified
+        and progress_specification_licensed(
+            cmp.scope.target.value,
+            cmp.specification_status,
+            transformation_claim=cmp.transformation_claim,
+        )
     )
 
 

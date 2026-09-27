@@ -13,6 +13,8 @@ class ObjectCandidate:
     known_equivalent:str|None=None
     executable_claim:bool=False
     bound:bool=False
+    transform_claim:bool=False
+    specification_status:str="OPEN"
  
 def admit(o:ObjectCandidate, package_verifier=None):
     if o.load_bearing is False:
@@ -24,6 +26,8 @@ def admit(o:ObjectCandidate, package_verifier=None):
     if not o.object_id or not o.object_type:
         return Admission.OPEN
     if o.executable_claim and not o.bound:
+        return Admission.OPEN
+    if o.transform_claim and str(o.specification_status).upper()!="PASS":
         return Admission.OPEN
     verified = bool(package_verifier(o.object_id)) if package_verifier is not None else False
     if not verified:
