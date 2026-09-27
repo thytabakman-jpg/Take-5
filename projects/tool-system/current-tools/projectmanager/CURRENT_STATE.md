@@ -26,3 +26,13 @@ Canonical math: architecture/PROJECT_MANAGER_FULL_TOOL_MATH_002_2026-09-27.md
 Canonical runtime: runtime/project_manager.py
 Canonical semantic merge: 904f1336b4226b42e51a88630581a2f507ec2304
 Current package sync basis: main at b5bf2e8c36a07fd698f4a2af8b82bc762c153968
+
+
+## Mandatory management spine projection
+
+Status: IMPLEMENTED_CANDIDATE / VALIDATION_PENDING
+Spine: ASSERT -> GOAL_PRE -> MT -> PD -> PDAudit -> GOAL_POST -> CurrentnessAudit -> QuestionWorthAsking
+Native continuation: ProjectManager assessment
+Specialized tools: adaptive
+Protected behavior: PROJECTMANAGER_MANDATORY_MANAGEMENT_SPINE
+Canonical math candidate: architecture/PROJECT_MANAGER_FULL_TOOL_MATH_003_2026-09-27.md

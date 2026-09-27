@@ -15,3 +15,9 @@ D7 Self-management evidence depends on this project package remaining internally
 D8 Pre-project promotion depends on DefinitionReady plus explicit USER approval.
 D9 Full project package creation is downstream of promotion and is not a prerequisite for exploration.
 D10 Candidate evidence can use ImprovementCore and configured tools but remains evidence-only until admitted.
+
+
+D11 Ordinary ProjectManager invocation depends on the mandatory management spine.
+D12 The spine depends on current configured identities for ASSERT, GOAL, MT, PD, PDAudit,
+CurrentnessAudit, and QuestionWorthAsking.
+D13 Specialized tools remain adaptive dependencies rather than unconditional ordinary-run factors.

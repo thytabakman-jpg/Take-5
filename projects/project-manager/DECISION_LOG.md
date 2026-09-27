@@ -149,3 +149,29 @@ Require explicit USER approval after DEFINITION_READY and before PROMOTION_READY
 
 Reason
 Human project selection is an authority boundary, not a confidence threshold that a tool can cross automatically.
+
+
+## D014
+
+Date: 2026-09-27
+
+Decision
+Make a mandatory management spine part of every ordinary ProjectManager run.
+
+Spine
+ASSERT -> GOAL_PRE -> MT -> PD -> PDAudit -> GOAL_POST -> CurrentnessAudit -> QuestionWorthAsking.
+
+Reason
+Project state cannot be managed reliably when governing goal, structure, result-sensitive distinctions,
+currentness, and live questions are only checked when a user remembers to ask for those tools manually.
+
+## D015
+
+Date: 2026-09-27
+
+Decision
+Keep the 93-tool campaign and specialized tools outside the mandatory ordinary-run spine.
+
+Reason
+The system already learned that exhaustive tool-smashing is inferior to question-dependent routing.
+The mandatory spine contains the always-relevant management factors; additional tools remain adaptive.

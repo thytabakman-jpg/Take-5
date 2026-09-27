@@ -34,3 +34,11 @@ to make the folder look complete.
 - post-merge every-tool sweep: 36349806935 SUCCESS
 - post-merge Take-5 validation: 36349806942 SUCCESS
 - package status sync: PR 171 / main basis b5bf2e8c36a07fd698f4a2af8b82bc762c153968
+
+
+## Mandatory spine candidate extension
+
+- architecture/PROJECT_MANAGER_FULL_TOOL_MATH_003_2026-09-27.md
+- runtime/project_manager_management_spine.py
+- tests/test_project_manager_management_spine.py
+- projects/project-manager/tool-runs/IMPROVEMENTCORE_MANDATORY_SPINE_001.md

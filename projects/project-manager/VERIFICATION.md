@@ -148,3 +148,17 @@ Post-merge Take-5 Validation:
 36349806942 SUCCESS.
 
 V19 through V26 are current on canonical main.
+
+
+## Mandatory management spine verification
+
+V27 every normal ProjectManager run executes the eight mandatory spine stages in order.
+V28 GOAL_PRE precedes MT/PD/PDAudit and GOAL_POST follows them.
+V29 every spine factor carries 36 cells, 792 question projections, 144 cognitive projections, and HF002 recurrence.
+V30 missing governing goal fails OPEN rather than silently continuing.
+V31 the Sukkos structured-gap candidate executes through the spine and remains EXPLORATION_OPEN with five blockers.
+V32 the existing ProjectManager exhaustive every-tool campaign still passes.
+V33 capability preservation and full Take-5 validation pass.
+
+Status:
+PENDING branch validation.

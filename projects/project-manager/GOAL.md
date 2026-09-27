@@ -1,6 +1,6 @@
 # Goal
 
-Status: CURRENT CANDIDATE EXTENSION / VALIDATION PENDING
+Status: CURRENT / SPINE EXTENSION VALIDATION PENDING
 
 G = <X,T,I,Sigma>
 
@@ -25,3 +25,13 @@ No candidate-to-project promotion without definition readiness and explicit USER
 No full project package required while a candidate remains exploratory.
 No TransferCore mutation while its full identity is OPEN.
 Every material admitted change receives impact, verification, state, and evidence updates.
+
+
+## Invocation requirement
+
+The goal is not merely a stored project coordinate.
+
+Every ordinary ProjectManager run performs GOAL recovery before structural/discrimination work
+and performs GOAL recovery again after MT, PD, and PDAudit.
+
+A changed post-discovery governing goal reopens project planning rather than being ignored.
