@@ -118,3 +118,17 @@ The corrected second pass left no local project-control action, the final ToolCo
 had no inner OPEN/BLOCKED factor, ImprovementCore consumed the combined result, PR 167 merged,
 and the canonical merge passed main-branch validation. TransferCore remains explicit external
 OPEN rather than being used as a false reason to keep ProjectManager locally unfinished.
+
+
+## D011
+
+Date: 2026-09-27
+
+Decision
+Supersede the current ProjectManager TransferCore-identity OPEN with the recovered current
+TransferCore candidate, while preserving every historical OPEN receipt as provenance.
+
+Reason
+The exact object was recovered from Reaserch authority artifacts and stale Take-5 PR 76,
+then strengthened to close PR 76's own local residuals. Transfer admission remains distinct
+from target mutation authority. Canonical currentness depends on present-basis validation.
