@@ -419,16 +419,17 @@ Take-5 corroborating current-basis sources:
 - architecture/FULL_TOOL_MATHEMATICAL_IDENTITY_CONTRACT_002_2026-09-26.md
 
 Runtime:
-OPEN before a new governed Take-5 native realization.
+`runtime/multiobject.py::run_multiobject`.
 
 Execution truth:
-the historical/legacy mathematics and validation corpus exist; a current generic
-Take-5 native entrypoint is not yet admitted at this identity-recovery stage.
+the native Take-5 orchestration program is recovered as an environment-bound
+runtime. Domain relation generation remains an explicit `multiobject_provider`
+input and may not be replaced by generic host reasoning.
 
 Persistence:
-native relation-state persistence is part of the adaptive successor-state
-semantics when a configured runtime realizes it; exact Take-5 persistence binding
-remains a runtime-realization obligation.
+the native program exposes a normalized relation-state result and material-delta
+signature. Cross-run/configured persistence remains owned by the configured
+wrapper/controller rather than hidden native state.
 
 ## 7. Run specification target
 
@@ -493,7 +494,7 @@ Still OPEN:
 - complete relation-generator-family adequacy;
 - future-domain independent holdout;
 - arbitrary unstructured-object semantic packet generation;
-- current Take-5 native runtime until separately built and admitted;
+- self-contained domain relation generation without a supplied provider;
 - universal external-host interception.
 
 These OPEN coordinates remain visible and cannot be promoted by a runtime pass.
@@ -515,7 +516,7 @@ Identity recovery:
 CLOSED_RELATIVE.
 
 Native Take-5 runtime:
-OPEN.
+CLOSED_RELATIVE after governed admission of the implementation branch.
 
 Global semantic minimality/completeness:
 OPEN.
