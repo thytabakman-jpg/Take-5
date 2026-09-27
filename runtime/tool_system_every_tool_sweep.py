@@ -469,7 +469,7 @@ def _discriminator_adapter(packet:dict[str,Any])->dict[str,Any]:
 def _reconciler_adapter(packet:dict[str,Any])->dict[str,Any]:
     out=reconcile(
         {"project":"tool-system"},
-        ({"finding":"package parity"},{"finding":"project-control complete"}]),
+        ({"finding":"package parity"},{"finding":"project-control complete"}),
         lambda state,results:{
             **state,
             "admitted_evidence":results,
