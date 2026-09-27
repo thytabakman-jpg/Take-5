@@ -8,7 +8,6 @@ from icc_host_ingress import (
     ICCHostIngressBlocked,
     admit_icc_host_ingress,
     is_icc_request,
-    receipt_banner,
     require_icc_host_ingress,
     strip_icc_prefix,
 )
@@ -18,13 +17,13 @@ def _evidence(**overrides):
     data=dict(
         repository="thytabakman-jpg/Take-5",
         ref="main",
-        commit_sha="1967e45dc62bbd99795d291be1d430b2f58f329f",
-        canonical_repository_verified=True,
-        currentness_verified=True,
-        entry_contract_bound=True,
-        bootstrap_complete=True,
+        commit_sha="519428bc2bf0b4560b2f859f0413b5147917b56a",
+        repository_verification_receipt="github:repo:verified",
+        currentness_verification_receipt="currentness:main:519428bc",
+        entry_contract_receipt="entry:bound:icc128",
+        bootstrap_receipt="bootstrap:ASSERT_OBSERVER>GOAL_OBSERVER",
         controller_id="ICC128",
-        controller_registered=True,
+        controller_registration_receipt="registry:ICC128:current",
     )
     data.update(overrides)
     return HostIngressEvidence(**data)
@@ -55,25 +54,23 @@ def test_complete_external_evidence_admits_and_yields_receipt():
     assert r.repository=="thytabakman-jpg/Take-5"
     assert r.ref=="main"
     assert r.controller_id=="ICC128"
-    assert r.short_commit=="1967e45d"
+    assert r.short_commit=="519428bc"
     assert r.request_digest
+    assert r.evidence_digest
     assert r.receipt_id
     assert require_icc_host_ingress(r) is r
-    assert receipt_banner(r).startswith(
-        "ICC128 thytabakman-jpg/Take-5@main:1967e45d ingress:"
-    )
 
 
 @pytest.mark.parametrize(("field","value","error"),[
     ("repository","thytabakman-jpg/Reaserch","ICC_CANONICAL_REPOSITORY_MISMATCH"),
     ("ref","dev","ICC_CANONICAL_REF_REQUIRED"),
     ("commit_sha","","ICC_CANONICAL_COMMIT_REQUIRED"),
-    ("canonical_repository_verified",False,"ICC_REPOSITORY_VERIFICATION_REQUIRED"),
-    ("currentness_verified",False,"ICC_CURRENTNESS_VERIFICATION_REQUIRED"),
-    ("entry_contract_bound",False,"ICC_ENTRY_CONTRACT_REQUIRED"),
-    ("bootstrap_complete",False,"ICC_BOOTSTRAP_RECEIPT_REQUIRED"),
+    ("repository_verification_receipt","","ICC_REPOSITORY_VERIFICATION_RECEIPT_REQUIRED"),
+    ("currentness_verification_receipt","","ICC_CURRENTNESS_VERIFICATION_RECEIPT_REQUIRED"),
+    ("entry_contract_receipt","","ICC_ENTRY_CONTRACT_RECEIPT_REQUIRED"),
+    ("bootstrap_receipt","","ICC_BOOTSTRAP_RECEIPT_REQUIRED"),
     ("controller_id","ICC123","ICC_CONTROLLER_IDENTITY_MISMATCH"),
-    ("controller_registered",False,"ICC_CONTROLLER_REGISTRATION_REQUIRED"),
+    ("controller_registration_receipt","","ICC_CONTROLLER_REGISTRATION_RECEIPT_REQUIRED"),
 ])
 def test_ingress_fails_closed_on_missing_or_wrong_evidence(field,value,error):
     with pytest.raises(ICCHostIngressBlocked,match=error):
