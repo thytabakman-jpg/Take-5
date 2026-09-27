@@ -1,9 +1,9 @@
 # Current State — Sukkos Question Booklet Candidate 2
 
 Date: 2026-09-27
-Status: DEFINITION_READY / USER_APPROVAL_REQUIRED
+Status: PROMOTED_TO_PROJECT / BUILD_COMPLETE_RELATIVE
 
-Current candidate:
+Promoted candidate:
 Frame and Resolution plus Kohelet 7:10.
 
 Canonical candidate definition:
@@ -13,16 +13,14 @@ Historical alternative retained:
 DEFINITION.md
 Structured Gap Candidate 001.
 
-Governing result:
-The current problem is solved relative to pre-project definition.
-No full project has been created.
+User promotion authority:
+USER:2026-09-27-do-the-job
 
-Next legal transition:
-explicit user approval or rejection of Candidate 002.
+Project destination:
+projects/sukkos-question-booklet-2-frame-resolution/
 
-Forbidden before approval:
-full project package,
-page copy,
-visual production,
-source-lock expansion beyond what is needed to evaluate the candidate,
-rendering.
+Current project state:
+RELEASE_CANDIDATE / RENDER_QA_PASS
+
+Project 1:
+UNCHANGED.
