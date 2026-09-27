@@ -51,6 +51,26 @@ NATIVE_ENTRYPOINTS: dict[str, tuple[str, tuple[str, ...]]] = {
         "mt_semantic_return_gate.run_mt_with_before_return_gate",
         ("mt_runner", "semantic_resolver"),
     ),
+    "GDOS": (
+        "gdos.run_gdos",
+        ("observers", "reconcile_fn"),
+    ),
+    "Discriminator": (
+        "discriminator.run_discriminator",
+        ("predicate",),
+    ),
+    "RTC": (
+        "raise_the_ceiling.raise_the_ceiling",
+        (),
+    ),
+    "BiasPerturbation": (
+        "bias_perturbation.run_bias_perturbation",
+        ("runner", "semantics_equivalent", "result_equivalent"),
+    ),
+    "Diagnosis": (
+        "diagnosis.diagnose",
+        (),
+    ),
     "Reconciler": ("reconcile.reconcile", ()),
     "DelegatedExecutor": ("delegation.delegate", ("worker",)),
     "HF001": ("hf1_episode.run_hf1_episode", ("execution_callbacks",)),
