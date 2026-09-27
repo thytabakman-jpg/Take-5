@@ -91,9 +91,16 @@ def test_no_selection_does_not_create_fake_transform_obligation():
 
 
 def test_transform_sensitive_progress_claim_requires_pass():
-    assert not progress_specification_licensed("CONTROLLER","OPEN")
-    assert progress_specification_licensed("CONTROLLER","PASS")
-    assert progress_specification_licensed("ARTIFACT","OPEN")
+    assert not progress_specification_licensed(
+        "CONTROLLER","OPEN",transformation_claim=True
+    )
+    assert progress_specification_licensed(
+        "CONTROLLER","PASS",transformation_claim=True
+    )
+    assert progress_specification_licensed(
+        "ARTIFACT","OPEN",transformation_claim=True
+    )
+    assert progress_specification_licensed("CONTROLLER","OPEN")
 
 
 def test_emergent_transform_claim_cannot_be_admitted_from_package_reality_alone():
