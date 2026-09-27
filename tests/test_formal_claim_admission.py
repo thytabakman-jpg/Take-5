@@ -172,3 +172,21 @@ def test_mapping_input_fails_closed_without_authority_and_version():
     assert any(x.startswith("VERSION_ID_REQUIRED") for x in r.residuals)
     assert any(x.startswith("BASIS_ID_REQUIRED") for x in r.residuals)
     assert any(x.startswith("AUTHORITY_ID_REQUIRED") for x in r.residuals)
+
+
+def test_formal_system_math_request_requires_claim_receipt():
+    from formal_claim_admission import request_requires_formal_claim_receipt
+    assert request_requires_formal_claim_receipt(
+        "Give me the current math for ImprovementCore",
+        target="ImprovementCore",
+        job="recover current controller mathematics",
+    )
+
+
+def test_unrelated_math_question_does_not_trigger_formal_system_receipt():
+    from formal_claim_admission import request_requires_formal_claim_receipt
+    assert not request_requires_formal_claim_receipt(
+        "What is 2 plus 2?",
+        target="arithmetic",
+        job="calculate",
+    )
