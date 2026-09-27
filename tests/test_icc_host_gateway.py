@@ -43,8 +43,8 @@ def test_host_gateway_delegates_only_after_receipt(monkeypatch):
 
 def test_hosted_emission_requires_receipt_and_exposes_source_identity():
     out=emit_hosted_icc_result(_receipt(),(TextFragment("answer"),))
-    assert r"\\color{green}{\\operatorname{ICC128}}" in out
-    assert r"\\color{green}{\\operatorname{TAKE5}}" in out
+    assert r"\color{green}{\operatorname{ICC128}}" in out
+    assert r"\color{green}{\operatorname{TAKE5}}" in out
     assert "/main @1967e45d ingress:" in out
     assert out.endswith("answer")
 
