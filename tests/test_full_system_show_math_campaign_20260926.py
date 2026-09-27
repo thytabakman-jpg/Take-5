@@ -47,7 +47,7 @@ def test_everything_tool_conductor_covers_current_registered_repertoire():
     tc=[r for r in out["results"] if r["tool_id"]=="ToolConductor"]
     assert len(tc)==1
     assert tc[0]["status"]=="EXECUTED_SELF_WITNESS"
-    assert len(out["portability_open_set"])==31
+    assert len(out["portability_open_set"])==len(portability_open_set())
     assert tuple(out["portability_open_set"])==tuple(portability_open_set())
     assert out["status"]=="OPEN"
 
