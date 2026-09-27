@@ -19,3 +19,12 @@ Current admission-aware FullMath:
 The earlier FullMath 001 remains lineage evidence for the managed-project core.
 FullMath 002 adds the pre-project sum-type admission branch while preserving the existing
 21-coordinate ManagedProject state.
+
+
+## Mandatory orchestration extension
+
+Current candidate FullMath:
+- architecture/PROJECT_MANAGER_FULL_TOOL_MATH_003_2026-09-27.md
+
+FullMath 003 preserves FullMath 002's pre-project admission object and adds the mandatory
+ordinary-run management spine.

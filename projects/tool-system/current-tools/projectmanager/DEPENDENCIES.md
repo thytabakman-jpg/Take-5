@@ -29,3 +29,11 @@ A dependency change reopens the affected cone. Unaffected package state remains 
 - tests/test_project_definition_requested_sequence.py
 
 A change to definition readiness, promotion authority, or candidate/full-project separation reopens this package projection and its regression evidence.
+
+
+## Mandatory spine dependencies
+
+- runtime/project_manager_management_spine.py
+- architecture/PROJECT_MANAGER_FULL_TOOL_MATH_003_2026-09-27.md
+- configured identities for ASSERT, GOAL, MT, PD, PDAudit, CurrentnessAudit, QuestionWorthAsking
+- tests/test_project_manager_management_spine.py

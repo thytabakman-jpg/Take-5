@@ -530,6 +530,28 @@ def project_manager_adapter(current:Any,plan:Any)->dict[str,Any]:
                 if isinstance(candidate,ProjectDefinitionCandidate)
                 else ProjectDefinitionCandidate(**candidate)
             )
+            from project_manager_management_spine import run_management_spine
+            spine=run_management_spine({
+                **dict(current),
+                "candidate":candidate_obj,
+            })
+            if spine.status!="CLOSED_RELATIVE":
+                return {
+                    "status":spine.status,
+                    "execution_truth":spine.status,
+                    "result":{
+                        "blocker":spine.blocker,
+                        "management_spine":asdict(spine),
+                    },
+                    "state":dict(current),
+                    "material_delta":False,
+                    "hf2_local_close":True,
+                    "trc_terminal":True,
+                    "evidence":(
+                        "runtime/project_manager_management_spine.py",
+                        "architecture/PROJECT_MANAGER_FULL_TOOL_MATH_003_2026-09-27.md",
+                    ),
+                }
             assessment=assess_project_definition(candidate_obj)
         except (ProjectManagerError,TypeError) as exc:
             return {
@@ -542,6 +564,7 @@ def project_manager_adapter(current:Any,plan:Any)->dict[str,Any]:
             }
 
         result={
+            "management_spine":asdict(spine),
             "definition_assessment":asdict(assessment),
             "improvementcore_handoff":{
                 "candidate_id":assessment.candidate_id,
@@ -575,7 +598,7 @@ def project_manager_adapter(current:Any,plan:Any)->dict[str,Any]:
             "hf1_disposition":"STABLE",
             "evidence":(
                 "runtime/project_manager.py",
-                "architecture/PROJECT_MANAGER_FULL_TOOL_MATH_002_2026-09-27.md",
+                "architecture/PROJECT_MANAGER_FULL_TOOL_MATH_003_2026-09-27.md",
             ),
             "related_objects":("ImprovementCore","ProjectDefinitionCandidate"),
             "dependency_footprint":tuple(DEFINITION_COORDINATES),
@@ -589,6 +612,26 @@ def project_manager_adapter(current:Any,plan:Any)->dict[str,Any]:
             "material_delta":False,
             "hf2_local_close":True,
             "evidence":("runtime/project_manager.py",),
+        }
+
+    from project_manager_management_spine import run_management_spine
+    spine=run_management_spine(dict(current))
+    if spine.status!="CLOSED_RELATIVE":
+        return {
+            "status":spine.status,
+            "execution_truth":spine.status,
+            "result":{
+                "blocker":spine.blocker,
+                "management_spine":asdict(spine),
+            },
+            "state":dict(current),
+            "material_delta":False,
+            "hf2_local_close":True,
+            "trc_terminal":True,
+            "evidence":(
+                "runtime/project_manager_management_spine.py",
+                "architecture/PROJECT_MANAGER_FULL_TOOL_MATH_003_2026-09-27.md",
+            ),
         }
 
     raw_work=current.get("work",())
@@ -608,6 +651,7 @@ def project_manager_adapter(current:Any,plan:Any)->dict[str,Any]:
         tests=current.get("tests",()),
     )
     result={
+        "management_spine":asdict(spine),
         "assessment":asdict(assessment),
         "improvementcore_handoff":asdict(improvementcore_handoff(assessment)),
     }
@@ -623,7 +667,7 @@ def project_manager_adapter(current:Any,plan:Any)->dict[str,Any]:
         "hf1_disposition":"STABLE",
         "evidence":(
             "runtime/project_manager.py",
-            "architecture/PROJECT_MANAGER_FULL_TOOL_MATH_001_2026-09-27.md",
+            "architecture/PROJECT_MANAGER_FULL_TOOL_MATH_003_2026-09-27.md",
         ),
         "related_objects":("ImprovementCore","TransferCore"),
         "dependency_footprint":tuple(CORE_COORDINATES),

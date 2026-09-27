@@ -25,3 +25,13 @@ A valid package keeps all of these true:
 - ProjectDefinitionCandidate and ManagedProject cannot be simultaneously bound as one state
 - the full configured MT -> PD -> GOAL -> GOAL witness remains stable on second supervisory pass
 - existing managed-project behavior remains preserved
+
+
+## Mandatory spine invariants
+
+- all eight mandatory stages execute on every normal ProjectManager run
+- stage order is stable
+- GOAL runs twice
+- every factor uses D36_C, 792 question projections, 144 cognitive projections, and HF002
+- failure of a mandatory factor prevents native ProjectManager assessment
+- the exhaustive 93-tool campaign remains a separate verification surface

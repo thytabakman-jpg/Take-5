@@ -1,0 +1,48 @@
+{
+  "candidate_id": "sukkos-question-gap",
+  "coordinates": {
+    "goal": {
+      "X": "Grade 5-6 learner who already asks ordinary questions",
+      "T": "understand a question as a deliberately structured missing piece that can be made answerable",
+      "I": "possible four-page Sukkos learning experience",
+      "Sigma": "on a new case, learner identifies what is fixed, what is missing, and what would close the gap"
+    },
+    "core_object": "question = structured known state + deliberately identified gap + closure condition",
+    "context_binding": "candidate Sukkos relation is deliberate bounded incompleteness; exact correspondence remains unresolved",
+    "mechanism": "distinguish random missing information from a deliberately shaped answerable gap",
+    "route": [
+      "missing",
+      "structured missing",
+      "question",
+      "Sukkos embodiment",
+      "independent transfer"
+    ],
+    "evidence": "learner can state what is fixed, what exact information is missing, and what answer closes the gap",
+    "boundaries": [
+      "Project 1 unchanged",
+      "no full Project 2 package before definition readiness and user approval"
+    ],
+    "alternatives": [
+      "Project 1 partition route",
+      "structured-gap route"
+    ],
+    "open_questions": [
+      "What exactly distinguishes a structured gap from arbitrary missing information?",
+      "What mathematics best captures the object?",
+      "Which exact Sukkos structure embodies the relation without a false analogy?",
+      "Does the Sukkos connection survive a replacement test?",
+      "What Jewish conceptual operation belongs between the abstract model and Sukkos?"
+    ]
+  },
+  "blocking_open": [
+    "What exactly distinguishes a structured gap from arbitrary missing information?",
+    "What mathematics best captures the object?",
+    "Which exact Sukkos structure embodies the relation without a false analogy?",
+    "Does the Sukkos connection survive a replacement test?",
+    "What Jewish conceptual operation belongs between the abstract model and Sukkos?"
+  ],
+  "human_approval_ref": null,
+  "evidence_refs": [
+    "candidates/sukkos-question-gap/DEFINITION.md"
+  ]
+}

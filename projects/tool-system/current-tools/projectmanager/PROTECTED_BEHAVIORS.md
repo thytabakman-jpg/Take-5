@@ -26,3 +26,13 @@ CANDIDATE_STATE != FULL_PROJECT_STATE
 EXPLORATION_PERSISTENCE != PROJECT_PROMOTION
 
 Authoritative implementation and witness remain owned by runtime/tool_manifest.py and its cited files.
+
+
+## Mandatory management protection
+
+Candidate live manifest adds:
+
+PROJECTMANAGER_MANDATORY_MANAGEMENT_SPINE
+
+It requires every normal ProjectManager assessment to be preceded by full configured
+ASSERT, GOAL_PRE, MT, PD, PDAudit, GOAL_POST, CurrentnessAudit, and QuestionWorthAsking execution.

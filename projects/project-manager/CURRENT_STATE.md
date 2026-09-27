@@ -35,3 +35,24 @@ PREPROJECT_GATE_CANONICAL_COMMIT: 904f1336b4226b42e51a88630581a2f507ec2304
 PREPROJECT_GATE_POST_MERGE_EVERY_TOOL_SWEEP: PASS_RUN_36349806935
 PREPROJECT_GATE_POST_MERGE_VALIDATION: PASS_RUN_36349806942
 CURRENT_VALIDATION_FRONTIER: apply the admission gate to future candidate projects; reenter only on a material holdout or regression.
+
+
+## Mandatory management spine extension
+
+Status: IMPLEMENTED_CANDIDATE / VALIDATION_PENDING
+
+Every normal ProjectManager run now requires:
+
+ASSERT
+-> GOAL_PRE
+-> MT
+-> PD
+-> PDAudit
+-> GOAL_POST
+-> CurrentnessAudit
+-> QuestionWorthAsking
+-> native ProjectManager assessment.
+
+All factors use their current full configured plans and HF002.
+
+Specialized/heavy tools remain adaptively routed rather than automatically tool-smashed.

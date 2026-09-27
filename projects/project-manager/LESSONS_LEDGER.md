@@ -74,3 +74,20 @@ Durable exploratory work looked like permission to construct the full project.
 
 Protection
 Candidate work remains EVIDENCE_ONLY. Full project creation requires a separate admitted PROMOTE transition.
+
+
+## L011 Project control needs mandatory epistemic bootstrap
+
+Failure pattern
+ProjectManager could receive a state and manage it correctly relative to stale or insufficiently recovered goals and distinctions.
+
+Protection
+Every ordinary run now executes the mandatory configured management spine before native project assessment.
+
+## L012 Exhaustive verification is not ordinary orchestration
+
+Failure pattern
+"Use more tools" can collapse into running the entire repertoire on every routine project check.
+
+Protection
+Keep a compact mandatory spine and route heavier tools only when the live state creates a result-sensitive reason.
