@@ -991,7 +991,12 @@ def _run_named_native(tool_id:str, packet:dict[str,Any])->Any:
         from portable_tool_conductor import run_tool_conductor
         adapters={}
         for other in MATERIAL_TOOLS:
-            if other=="ToolConductor" or other.startswith("C") or other.startswith("L-"):
+            is_c_capability=(
+                other.startswith("C")
+                and len(other)==3
+                and other[1:].isdigit()
+            )
+            if other=="ToolConductor" or is_c_capability or other.startswith("L-"):
                 continue
             adapters[other]=lambda inner_packet,other=other:_named_adapter_raw(
                 other,packet,None
