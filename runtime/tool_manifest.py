@@ -203,6 +203,12 @@ IMPROVEMENT_CORE_BINDINGS=GENERIC_BINDINGS+(
         "runtime/improvement_core_math_spine.py",
         "tests/test_improvement_core_regime.py",
     ),
+    ProtectedBinding(
+        "IMPROVEMENTCORE_FRESH_WHOLE_JOB_STABILITY",
+        "POST",
+        "runtime/whole_job_stability.py",
+        "tests/test_whole_job_stability.py",
+    ),
 )
 
 PROJECT_MANAGER_BINDINGS=GENERIC_BINDINGS+(
@@ -232,6 +238,12 @@ HF001_BINDINGS=GENERIC_BINDINGS+(
     ProtectedBinding(
         "HF001_GOVERNED_EPISODE",
         "INTRA",
+        "runtime/hf1_episode.py",
+        "tests/test_hf1_episode.py",
+    ),
+    ProtectedBinding(
+        "HF001_FRESH_REOBSERVATION_CLOSURE",
+        "POST",
         "runtime/hf1_episode.py",
         "tests/test_hf1_episode.py",
     ),
@@ -557,11 +569,12 @@ OVERRIDES={
     ),
     "HF001":ToolManifest(
         tool_id="HF001",
-        native_semantics="HF001",
+        native_semantics="fresh-observation governed episode-level continuation and reentry",
         geometry_policy="D36_C",
-        closure_contract="TRC",
-        reentry_contract="HF001",
+        closure_contract="TRC_PLUS_FRESH_REOBSERVATION_STABILITY",
+        reentry_contract="FRESH_DELTA_TO_EARLIEST_INVALIDATED_STAGE",
         bindings=HF001_BINDINGS,
+        lineage_contract="architecture/HF1_MATHEMATICS_173.md",
     ),
     "HF002":ToolManifest(
         tool_id="HF002",
