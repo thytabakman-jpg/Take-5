@@ -1,7 +1,7 @@
 # Take Two Discovery Reentry Integration 001
 
 Date: 2026-09-25
-Status: TRANSFERRED FROM PR #6 / PENDING CURRENT VALIDATION
+Status: VALIDATED TRANSFER ON PR #161 HEAD 02fa863b
 Decision authority: ICC synthesis using pre-upgrade ICC-128 as outer controller and ICC-123 Multi-Object residual logic as an internal challenge
 Protected baseline: Take-2 remains untouched
 
@@ -160,3 +160,21 @@ Treat this as a controller invariant and feedback law shared by the math-first w
 
 Take-2 remains the historical protected behavioral baseline.
 Take-5 is the canonical integration surface after current validation.
+
+
+## Current validation
+
+The stale PR #6 behavior was transferred onto the current post-PR-160 basis and
+validated rather than merged from its historical branch.
+
+PR #161 head `02fa863b9de5abeba786ecce63c66167c32fb91a` passed:
+
+- Take-5 Validation run 36302187179;
+- Capability Preservation run 36302187186.
+
+The current regression witness includes the mandatory ICC bootstrap and proves:
+
+stable admitted world state
++ stable protected result
++ material discovery delta
+=> reentry.
