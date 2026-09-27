@@ -333,6 +333,7 @@ def run_improvement_core_with_hf2(
     hf2_enabled:bool=True,
     hf2_max_rounds:int=6,
     return_verifier:Callable|None=None,
+    fresh_reobserve:Callable|None=None,
     parent_max_rounds:int=16,
     allow_ungated_debug:bool=False,
 )->ImprovementCoreRegimeResult:
@@ -474,6 +475,7 @@ def run_improvement_core_with_hf2(
                 ),
             },
             verifier=return_verifier,
+            fresh_reobserve=fresh_reobserve,
         )
         receipt=dict(outcome.receipt)
         receipt["parent_round"]=parent_round
