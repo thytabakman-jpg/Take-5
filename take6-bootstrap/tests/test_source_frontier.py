@@ -10,6 +10,7 @@ from runtime.source_frontier import (
     frontier_matches_observed_authority,
     load_source_snapshots,
     require_promotion_frontier_match,
+    resolve_snapshot_inventory,
     verify_inventory,
 )
 
@@ -28,16 +29,30 @@ def _compiled_with_inventories():
     )
 
 
+def _current_take5():
+    snapshots = load_source_snapshots(SNAPSHOT_ROOT)
+    compiled = compile_source_frontier(snapshots, inventory_loader=_load_inventory)
+    commit = compiled["repositories"]["thytabakman-jpg/Take-5"]["current_commit"]
+    snapshot = next(
+        x for x in snapshots
+        if x["repository"] == "thytabakman-jpg/Take-5"
+        and x["commit"] == commit
+    )
+    return snapshot, resolve_snapshot_inventory(snapshot, _load_inventory)
+
+
 def test_repository_snapshot_history_compiles_unique_frontier():
     snapshots = load_source_snapshots(SNAPSHOT_ROOT)
     compiled = compile_source_frontier(snapshots, inventory_loader=_load_inventory)
 
     take5 = compiled["repositories"]["thytabakman-jpg/Take-5"]
     assert take5["status"] == "CURRENT"
-    assert take5["current_commit"] == "53b28a36d9998e4fe76f49b231695216fe419bdd"
-    assert take5["current_tree_sha"] == "cf32be0db7feafbd65f113d13036ca49ffb795ec"
+    assert take5["current_commit"] == "2c2ad4de79a6a5484bc1c7631a83e342fe0b53ac"
+    assert take5["current_tree_sha"] == "e306b2a4eb9bfaa3390bbf12fe39116377bf2e45"
     assert take5["current_scope_digest"].startswith("sha256:")
     assert take5["known_commits"] == [
+        "2c2ad4de79a6a5484bc1c7631a83e342fe0b53ac",
+        "45ba1b8ffae50d20a96b9c3cd5904d7b120b66aa",
         "53b28a36d9998e4fe76f49b231695216fe419bdd",
         "853c7f92dae62747d3f8f42a38b6d4b77e194ad2",
         "a773ac5ac00fe4d04bd8e22a3d0ae949a6f35af2",
@@ -57,13 +72,14 @@ def test_take5_frontier_inventory_matches_exact_snapshot():
     current = next(
         x for x in snapshots
         if x["repository"] == "thytabakman-jpg/Take-5"
-        and x["commit"] == "53b28a36d9998e4fe76f49b231695216fe419bdd"
+        and x["commit"] == "2c2ad4de79a6a5484bc1c7631a83e342fe0b53ac"
     )
-    inv_path = ROOT / current["inventory"]
-    inventory = json.loads(inv_path.read_text(encoding="utf-8"))
+    inventory = resolve_snapshot_inventory(current, _load_inventory)
     verify_inventory(current, inventory)
-    assert inventory["entry_count"] == 910
-    assert inventory["blob_count"] == 864
+    assert inventory["entry_count"] == 928
+    assert inventory["blob_count"] == 881
+    assert inventory["derived_from_inventory"] == "migration/inventories/TAKE5_TREE_INVENTORY_004.json"
+    assert inventory["applied_delta"] == "migration/inventory_deltas/TAKE5_TREE_DELTA_005.json"
     assert inventory["recursive_tree_truncated"] is False
 
 
@@ -85,8 +101,8 @@ def test_promotion_frontier_match_passes_for_compiled_snapshot():
         compiled,
         observed={
             "thytabakman-jpg/Take-5": {
-                "commit": "53b28a36d9998e4fe76f49b231695216fe419bdd",
-                "tree_sha": "cf32be0db7feafbd65f113d13036ca49ffb795ec",
+                "commit": "2c2ad4de79a6a5484bc1c7631a83e342fe0b53ac",
+                "tree_sha": "e306b2a4eb9bfaa3390bbf12fe39116377bf2e45",
             }
         },
     )
@@ -173,9 +189,7 @@ def test_truncated_snapshot_cannot_enter_frontier():
 
 def test_successor_only_host_changes_do_not_stale_predecessor_frontier():
     compiled = _compiled_with_inventories()
-    inventory = _load_inventory(
-        "migration/inventories/TAKE5_TREE_INVENTORY_003.json"
-    )
+    _, inventory = _current_take5()
     observed = json.loads(json.dumps(inventory))
 
     workflow = next(
@@ -206,7 +220,7 @@ def test_successor_only_host_changes_do_not_stale_predecessor_frontier():
 def test_real_predecessor_surface_change_stales_frontier():
     compiled = _compiled_with_inventories()
     inventory = _load_inventory(
-        "migration/inventories/TAKE5_TREE_INVENTORY_003.json"
+        "migration/inventories/TAKE5_TREE_INVENTORY_004.json"
     )
     observed = json.loads(json.dumps(inventory))
     runtime_entry = next(

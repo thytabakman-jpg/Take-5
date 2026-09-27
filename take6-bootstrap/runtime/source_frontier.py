@@ -93,6 +93,70 @@ def scoped_inventory_digest(
     return cid({"scope":_scope({"scope":raw_scope}),"entries":selected})
 
 
+def resolve_snapshot_inventory(
+    snapshot: Mapping[str, Any],
+    inventory_loader,
+) -> dict[str, Any]:
+    """Resolve either a full frozen inventory or a small immutable delta chain."""
+    direct = snapshot.get("inventory")
+    delta_path = snapshot.get("inventory_delta")
+    base_path = snapshot.get("base_inventory")
+
+    if delta_path:
+        if not base_path:
+            raise RuntimeError("TAKE6_SOURCE_DELTA_BASE_INVENTORY_REQUIRED")
+        base = inventory_loader(str(base_path))
+        delta = inventory_loader(str(delta_path))
+        if not isinstance(delta, Mapping):
+            raise RuntimeError("TAKE6_SOURCE_INVENTORY_DELTA_INVALID")
+
+        if str(delta.get("base_commit", "")) != str(delta.get("expected_base_commit", delta.get("base_commit", ""))):
+            raise RuntimeError("TAKE6_SOURCE_INVENTORY_DELTA_BASE_CONFLICT")
+        if str(delta.get("target_commit", "")) != str(snapshot.get("commit", "")):
+            raise RuntimeError("TAKE6_SOURCE_INVENTORY_DELTA_TARGET_COMMIT_MISMATCH")
+        if str(delta.get("target_tree_sha", "")) != str(snapshot.get("tree_sha", "")):
+            raise RuntimeError("TAKE6_SOURCE_INVENTORY_DELTA_TARGET_TREE_MISMATCH")
+        if str(base.get("source_commit", "")) != str(delta.get("base_commit", "")):
+            raise RuntimeError("TAKE6_SOURCE_INVENTORY_DELTA_BASE_COMMIT_MISMATCH")
+        if str(base.get("source_tree_sha", "")) != str(delta.get("base_tree_sha", "")):
+            raise RuntimeError("TAKE6_SOURCE_INVENTORY_DELTA_BASE_TREE_MISMATCH")
+
+        entries = {
+            str(row["path"]): dict(row)
+            for row in base.get("entries", ())
+            if isinstance(row, Mapping) and row.get("path")
+        }
+        for path in delta.get("remove_paths", ()):
+            entries.pop(str(path), None)
+        for row in delta.get("upsert_entries", ()):
+            if not isinstance(row, Mapping) or not row.get("path"):
+                raise RuntimeError("TAKE6_SOURCE_INVENTORY_DELTA_ENTRY_INVALID")
+            entries[str(row["path"])] = dict(row)
+
+        resolved_entries = [entries[k] for k in sorted(entries)]
+        resolved = {
+            "schema_version": str(base.get("schema_version", "0.1")),
+            "source_repository": str(snapshot["repository"]),
+            "source_commit": str(snapshot["commit"]),
+            "source_tree_sha": str(snapshot["tree_sha"]),
+            "recursive_tree_truncated": False,
+            "entry_count": len(resolved_entries),
+            "blob_count": sum(1 for row in resolved_entries if row.get("type") == "blob"),
+            "tree_count": sum(1 for row in resolved_entries if row.get("type") == "tree"),
+            "entries": resolved_entries,
+            "derived_from_inventory": str(base_path),
+            "applied_delta": str(delta_path),
+        }
+        verify_inventory(snapshot, resolved)
+        return resolved
+
+    if not direct:
+        raise RuntimeError("TAKE6_SOURCE_INVENTORY_REQUIRED")
+    inventory = inventory_loader(str(direct))
+    verify_inventory(snapshot, inventory)
+    return dict(inventory)
+
+
 def compile_source_frontier(
     snapshots: Iterable[Mapping[str, Any]],
     *,
@@ -140,12 +204,11 @@ def compile_source_frontier(
             current_commit = maxima[0]
             current = records[current_commit]
             current_tree_sha = str(current["tree_sha"])
-            current_inventory = current.get("inventory")
+            current_inventory = current.get("inventory") or current.get("inventory_delta")
             current_scope = _scope(current)
             current_scope_digest = None
             if inventory_loader is not None and current_inventory:
-                inventory = inventory_loader(str(current_inventory))
-                verify_inventory(current, inventory)
+                inventory = resolve_snapshot_inventory(current, inventory_loader)
                 current_scope_digest = scoped_inventory_digest(inventory, current_scope)
         elif len(maxima) > 1:
             status = "CONFLICT"
