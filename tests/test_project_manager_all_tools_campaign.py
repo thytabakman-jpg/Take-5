@@ -1,0 +1,84 @@
+import json
+import sys
+from pathlib import Path
+
+ROOT=Path(__file__).resolve().parents[1]
+sys.path.insert(0,str(ROOT/"runtime"))
+
+from project_manager_all_tools_campaign import (
+    BEST_ORDER,
+    compact_receipt,
+    order_is_exact,
+    run_all_tools_campaign,
+)
+from tool_run_registry import MATERIAL_TOOLS
+
+
+def _run():
+    project=json.loads(
+        (ROOT/"projects"/"project-manager"/"PROJECT_STATE.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    current=(
+        ROOT/"projects"/"project-manager"/"CURRENT_STATE.md"
+    ).read_text(encoding="utf-8")
+    return run_all_tools_campaign(
+        project=project,
+        current_state_text=current,
+        basis_ref="main:ProjectManager",
+    )
+
+
+def test_best_order_is_exact_current_repertoire_permutation():
+    assert order_is_exact()
+    assert len(BEST_ORDER)==len(MATERIAL_TOOLS)==93
+    assert set(BEST_ORDER)==set(MATERIAL_TOOLS)
+
+
+def test_every_registered_tool_runs_under_its_registered_recurrence():
+    out=_run()
+    assert out.tool_count==93
+    assert tuple(r.tool_id for r in out.receipts)==BEST_ORDER
+    assert all(r.cell_count==36 for r in out.receipts)
+    assert all(r.question_count==792 for r in out.receipts)
+    assert all(r.cognitive_count==144 for r in out.receipts)
+
+    for receipt in out.receipts:
+        if receipt.tool_id=="HF002":
+            assert receipt.recurrence_engine=="SELF"
+            assert receipt.recurrence_status=="SELF_CLOSE"
+        else:
+            assert receipt.recurrence_engine=="HF002"
+            assert receipt.recurrence_status=="RELATIVE_CLOSE"
+
+
+def test_first_pass_reaches_end_and_exposes_only_bounded_project_consequences():
+    out=_run()
+    assert out.status in {"ACTION_REQUIRED","CLOSED_RELATIVE"}
+    assert out.improvementcore_consumed is True
+    assert out.toolconductor_complete is True
+    assert "handoffs" in out.external_open
+    assert any(
+        f.finding_id=="PM-ALL-003" and f.disposition=="EXTERNAL_OPEN"
+        for f in out.findings
+    )
+
+    # During the first campaign pass the checked-in self-state may still contain
+    # the old post-build next-frontier sentence.  The campaign must detect it
+    # rather than treating a stale projection as closure.
+    current=(
+        ROOT/"projects"/"project-manager"/"CURRENT_STATE.md"
+    ).read_text(encoding="utf-8")
+    stale="Run repository validation, repair any regression" in current
+    if stale:
+        assert out.status=="ACTION_REQUIRED"
+        assert "PM-ALL-001" in out.local_actions
+    else:
+        assert out.status=="CLOSED_RELATIVE"
+        assert out.local_actions==()
+
+    print(
+        "PROJECT_MANAGER_ALL_TOOLS_RECEIPT="
+        +json.dumps(compact_receipt(out),sort_keys=True,default=str)
+    )
