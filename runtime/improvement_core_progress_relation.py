@@ -9,7 +9,10 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import FrozenSet, Mapping, Sequence, Tuple
 
-from specification_before_transformation import progress_specification_licensed
+try:
+    from specification_before_transformation import progress_specification_licensed
+except ModuleNotFoundError:  # package-style import in repository-root tests
+    from .specification_before_transformation import progress_specification_licensed
 
 
 class EvaluationTarget(str, Enum):
