@@ -19,3 +19,31 @@ Primary executable guard:
 
 runtime/tool_project_packages.py
 tests/test_tool_project_packages.py
+
+
+## Tool operational identity dimensions
+
+CI must also fail when any current registered tool lacks any enforced identity coordinate:
+
+- Question
+- Job
+- Responsibility
+- MathematicalObject species
+- native semantics
+- configured wrapper
+- geometry
+- protected behavior
+- closure
+- reentry
+- recurrence
+- lineage/currentness/runtime routing
+
+Executable audit:
+
+runtime/tool_identity_dimensions.py
+
+Regression:
+
+tests/test_tool_identity_dimensions.py
+
+Exact set parity with runtime/tool_run_registry.py::MATERIAL_TOOLS is required.
