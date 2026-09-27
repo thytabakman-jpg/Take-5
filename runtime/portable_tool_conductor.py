@@ -62,6 +62,7 @@ NATIVE_ENTRYPOINTS: dict[str, tuple[str, tuple[str, ...]]] = {
     "SolutionToMyProblem": ("solution_to_my_problem.solve", ()),
     "DesiredJane": ("desired_jane.recover_desired_jane", ()),
     "QuestionWorthAsking": ("question_worth_asking.select_question", ()),
+    "GOAL": ("goal.recover_goal", ("goal_reconstructor",)),
     "LambdaMath": ("lambda_math.reconstruct", ()),
     "SemanticResolutionPipeline": (
         "semantic_resolution_pipeline.plan_black_box_resolution",
