@@ -45,6 +45,7 @@ SAFE_RECOVERY_TOOL_OPERATION_CLASS={
     "ASSERT":"VERIFY",
     "PD":"COMPARE",
     "PDAudit":"VERIFY",
+    "MT":"RECONSTRUCT",
     "MTA":"RECONSTRUCT",
     "Diagnosis":"DIAGNOSE",
     "HistoricalReconstruction":"RECONSTRUCT",
