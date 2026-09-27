@@ -428,7 +428,85 @@ DIAGNOSIS_BINDINGS=GENERIC_BINDINGS+(
 )
 
 
+
+FOUR_TOOL_RECOVERY_BINDINGS={
+    "MTA":GENERIC_BINDINGS+(
+        ProtectedBinding(
+            "MTA_STRUCTURAL_MODEL_RECONSTRUCTION",
+            "INTRA",
+            "runtime/mta.py",
+            "tests/test_four_tool_recovery_20260927.py",
+        ),
+    ),
+    "Architecture":GENERIC_BINDINGS+(
+        ProtectedBinding(
+            "ARCHITECTURE_CONTRACT_RELATIVE_ANALYSIS",
+            "INTRA",
+            "runtime/architecture_analysis.py",
+            "tests/test_four_tool_recovery_20260927.py",
+        ),
+    ),
+    "PD":GENERIC_BINDINGS+(
+        ProtectedBinding(
+            "PD_MINIMAL_RESULT_SENSITIVITY",
+            "INTRA",
+            "runtime/pd.py",
+            "tests/test_four_tool_recovery_20260927.py",
+        ),
+    ),
+    "PDAudit":GENERIC_BINDINGS+(
+        ProtectedBinding(
+            "PDAUDIT_FRAME_FIBER_SENSITIVITY",
+            "INTRA",
+            "runtime/pd_audit.py",
+            "tests/test_four_tool_recovery_20260927.py",
+        ),
+        ProtectedBinding(
+            "PDAUDIT_RAW_NORMALIZATION_SEPARATION",
+            "POST",
+            "runtime/pd_audit.py",
+            "tests/test_four_tool_recovery_20260927.py",
+        ),
+    ),
+}
+
 OVERRIDES={
+    "MTA":ToolManifest(
+        tool_id="MTA",
+        native_semantics="MTA_sem=<GenerateStructuralHypotheses,SelectAnalysisPackage,ReconstructProtectedModel>",
+        geometry_policy="D36_C",
+        closure_contract="TRC_PLUS_TYPED_OPEN",
+        reentry_contract="HF002_THEN_HF001",
+        bindings=FOUR_TOOL_RECOVERY_BINDINGS["MTA"],
+        lineage_contract="architecture/FOUR_TOOL_STRONG_REALITY_RECOVERY_162_2026-09-27.md",
+    ),
+    "Architecture":ToolManifest(
+        tool_id="Architecture",
+        native_semantics="contract-relative AA_K(A) architecture analysis and successor frontier",
+        geometry_policy="D36_C",
+        closure_contract="TRC_PLUS_TYPED_OPEN",
+        reentry_contract="HF002_THEN_HF001",
+        bindings=FOUR_TOOL_RECOVERY_BINDINGS["Architecture"],
+        lineage_contract="architecture/FOUR_TOOL_STRONG_REALITY_RECOVERY_162_2026-09-27.md",
+    ),
+    "PD":ToolManifest(
+        tool_id="PD",
+        native_semantics="quotient result classes, fibers, and representation-relative minimal result-sensitive coordinate sets",
+        geometry_policy="D36_C",
+        closure_contract="TRC_PLUS_TYPED_OPEN",
+        reentry_contract="HF002_THEN_HF001",
+        bindings=FOUR_TOOL_RECOVERY_BINDINGS["PD"],
+        lineage_contract="architecture/FOUR_TOOL_STRONG_REALITY_RECOVERY_162_2026-09-27.md",
+    ),
+    "PDAudit":ToolManifest(
+        tool_id="PDAudit",
+        native_semantics="PDAudit_1.1 fixed-frame fiber/sensitivity evaluator with raw-normalized separation",
+        geometry_policy="D36_C",
+        closure_contract="TRC_PLUS_TYPED_OPEN",
+        reentry_contract="HF002_THEN_HF001",
+        bindings=FOUR_TOOL_RECOVERY_BINDINGS["PDAudit"],
+        lineage_contract="architecture/FOUR_TOOL_STRONG_REALITY_RECOVERY_162_2026-09-27.md",
+    ),
     "ICC128":ToolManifest(
         tool_id="ICC128",
         native_semantics="ICC128",
