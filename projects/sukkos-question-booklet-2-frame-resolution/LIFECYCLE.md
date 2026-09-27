@@ -14,5 +14,7 @@ PROMOTED
 -> CLASSROOM_VALIDATION.
 
 Current state:
-COPY_LOCK and VISUAL_LOCK complete.
-Render in progress.
+RELEASE_CANDIDATE.
+Render complete.
+Render QA passed.
+Classroom validation remains empirical pending.
