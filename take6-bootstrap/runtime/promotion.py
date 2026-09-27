@@ -11,6 +11,8 @@ class PromotionReceipt:
     authorized_deltas: tuple[str, ...]
     validations: tuple[str, ...]
     consequence_closed: bool
+    predecessor_specification_status: str
+    successor_specification_status: str
 
 def verify_promotion(
     *,
@@ -21,6 +23,8 @@ def verify_promotion(
     validations: Iterable[str] = (),
     required_validations: Iterable[str] = (),
     consequence_closed: bool,
+    predecessor_specification_status: str = "OPEN",
+    successor_specification_status: str = "OPEN",
 ) -> PromotionReceipt:
     pred=set(map(str, predecessor_protected))
     kept=set(map(str, successor_preserved))
@@ -30,7 +34,16 @@ def verify_promotion(
     vals=set(map(str, validations))
     req=set(map(str, required_validations))
     missing_validations=sorted(req-vals)
+    predecessor_specification_status=str(predecessor_specification_status).upper()
+    successor_specification_status=str(successor_specification_status).upper()
 
+    if predecessor_specification_status!="PASS" or successor_specification_status!="PASS":
+        raise RuntimeError(
+            "TAKE6_PROMOTION_SPECIFICATION_OPEN:"
+            + predecessor_specification_status
+            + ":"
+            + successor_specification_status
+        )
     if missing:
         raise RuntimeError("TAKE6_PROMOTION_SILENT_BEHAVIOR_LOSS:" + ",".join(missing))
     if missing_validations:
@@ -46,4 +59,6 @@ def verify_promotion(
         authorized_deltas=tuple(sorted(auth)),
         validations=tuple(sorted(vals)),
         consequence_closed=True,
+        predecessor_specification_status=predecessor_specification_status,
+        successor_specification_status=successor_specification_status,
     )
