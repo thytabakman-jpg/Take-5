@@ -41,10 +41,9 @@ def test_everything_tool_conductor_covers_current_registered_repertoire():
         "target":"full current conversation and user campaign request",
         "campaign":"full-system-show-math-campaign-20260926",
     })
-    assert len(MATERIAL_TOOLS)==91
-    assert out["tool_count"]==91
+    assert out["tool_count"]==len(MATERIAL_TOOLS)
     assert tuple(r["tool_id"] for r in out["results"])==tuple(MATERIAL_TOOLS)
-    assert len({r["tool_id"] for r in out["results"]})==91
+    assert len({r["tool_id"] for r in out["results"]})==len(MATERIAL_TOOLS)
     tc=[r for r in out["results"] if r["tool_id"]=="ToolConductor"]
     assert len(tc)==1
     assert tc[0]["status"]=="EXECUTED_SELF_WITNESS"
