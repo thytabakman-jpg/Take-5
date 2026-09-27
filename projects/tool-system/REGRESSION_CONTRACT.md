@@ -23,27 +23,33 @@ tests/test_tool_project_packages.py
 
 ## Tool operational identity dimensions
 
-CI must also fail when any current registered tool lacks any enforced identity coordinate:
+Every registered current tool must pass the canonical master identity projection
+defined by:
 
-- Question
-- Job
-- Responsibility
-- MathematicalObject species
-- native semantics
-- configured wrapper
-- geometry
-- protected behavior
-- closure
-- reentry
-- recurrence
-- lineage/currentness/runtime routing
+architecture/TOOL_OPERATIONAL_IDENTITY_CONTRACT_172_2026-09-27.md
 
-Executable audit:
+and executed by:
 
-runtime/tool_identity_dimensions.py
+runtime/tool_identity_dimensions.py.
 
-Regression:
+The enforced union includes the operational nucleus, native/configured
+mathematics, stewardship/currentness, runtime/reachability, invocation/run/host
+boundaries, protected behavior, stopping/reentry, evidence/admission and
+configured discovery surfaces.
 
-tests/test_tool_identity_dimensions.py
+Exact dimension names are owned by
+runtime/tool_identity_dimensions.py::MASTER_DIMENSION_NAMES.
 
-Exact set parity with runtime/tool_run_registry.py::MATERIAL_TOOLS is required.
+CI must fail on:
+
+1. registry/projection set mismatch;
+2. a missing operational nucleus;
+3. an empty master coordinate;
+4. a missing or incomplete configured/manifest identity;
+5. a strong-reality failure for a routed runtime coordinate;
+6. a tool-name-only or generic placeholder substituted for unrecovered
+   result-sensitive semantics;
+7. a future tool admitted without a complete master projection.
+
+This contract deliberately points to the canonical executable dimension set
+instead of copying a shorter list that can drift.
