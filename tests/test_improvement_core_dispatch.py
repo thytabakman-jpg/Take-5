@@ -20,6 +20,15 @@ def _return_done(state,memory,context):
     }
 
 
+def _fresh_stable(state,memory,context):
+    return {
+        "status":"NO_GAIN",
+        "owned_work_remaining":False,
+        "evidence":[f"test:fresh-stable:{context['challenge_index']}"],
+        "challenge_id":f"test-fresh-{context['challenge_index']}",
+    }
+
+
 def _handlers(calls):
     handlers={}
     for stage in GOAL_DIRECTED_STAGES:
@@ -54,6 +63,7 @@ def test_dispatch_executes_rich_controller_path_through_current_regime():
         state={},
         handlers=_handlers(calls),
         return_verifier=_return_done,
+        fresh_reobserve=_fresh_stable,
     )
     assert resolution.controller=="IC-028"
     assert resolution.entrypoint.endswith("run_improvement_core_with_hf2")
@@ -79,6 +89,7 @@ def test_dispatch_can_seed_from_corpus_without_host_supplied_job_coordinates():
         state={},
         handlers=_handlers(calls),
         return_verifier=_return_done,
+        fresh_reobserve=_fresh_stable,
     )
     assert resolution.controller=="IC-028"
     assert out.result.state["upstream_discovery"]["status"]=="OBSERVED"
