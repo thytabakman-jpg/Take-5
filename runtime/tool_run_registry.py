@@ -9,7 +9,7 @@ from learning_tool_bridge import SPECS as LEARNING_SPECS
 LEARNING_TOOLS=tuple(spec.program_id for spec in LEARNING_SPECS)
 
 MATERIAL_TOOLS=tuple([f"C{i:02d}" for i in range(1,50)]+[
-"ImprovementCore","MT","MTA","Architecture","PD","PDAudit","GDOS","Discriminator","Reconciler",
+"ImprovementCore","ICC128","MT","MTA","Architecture","PD","PDAudit","GDOS","Discriminator","Reconciler",
 "DelegatedExecutor","HF001","HF002","RootCause","TRC","RTC","BiasPerturbation","CurrentnessAudit",
 "CapabilityFoundry","EmergentAdmission","HistoricalReconstruction","ZeroRequest","MultiObject","Diagnosis",
 "ASSERT","GOAL","SolutionToMyProblem","DesiredJane","QuestionWorthAsking","LambdaMath","SemanticResolutionPipeline","ToolConductor"
@@ -18,6 +18,14 @@ MATERIAL_TOOLS=tuple([f"C{i:02d}" for i in range(1,50)]+[
 ASSERT_LAYERS=("ASSERT_LAYER_1","ASSERT_LAYER_2")
 
 PROTECTED_BEHAVIORS={
+    "ICC128":(
+        "ICC128_ENDOGENOUS_CONTROLLER_LOOP",
+        "ICC128_STATE_RELATIVE_SELECTOR",
+        "ICC128_RESELECTION_ON_MATERIAL_DELTA",
+        "ICC128_SEMANTIC_GENERATION",
+        "ICC128_JANE_CONTINUITY_HANDOFF",
+        "ICC128_MINIMAL_RESPONSE_SELECTION",
+    ),
     "ImprovementCore":(
         "IMPROVEMENTCORE_CONTROLLER_OWNERSHIP",
         "IMPROVEMENTCORE_OBSERVER_FIRST_MODE",
@@ -70,7 +78,7 @@ PROTECTED_BEHAVIORS={
 def _spec(tool):
     strong=(
         tool in {
-            "ImprovementCore","MT","MTA","Architecture","PD","PDAudit","GDOS","RootCause","RTC",
+            "ImprovementCore","ICC128","MT","MTA","Architecture","PD","PDAudit","GDOS","RootCause","RTC",
             "CurrentnessAudit","MultiObject","Diagnosis","ASSERT","GOAL","SolutionToMyProblem","DesiredJane",
             "QuestionWorthAsking","LambdaMath","SemanticResolutionPipeline","ToolConductor"
         }
