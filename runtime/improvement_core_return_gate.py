@@ -119,7 +119,10 @@ def evaluate_parent_return(
         next_memory={**m,**memory_patch}
         next_state["terminal"]="CONTINUE"
         next_state["admitted_continuation"]=True
-        next_state["live_continuation"]=True
+        # Parent-level continuation is not the same coordinate as recursive
+        # child-manager liveness.  The verifier may set live_continuation
+        # explicitly in state_patch when recursive child work is in fact live.
+        next_state["parent_return_continuation"]=True
         return ParentReturnOutcome(
             disposition="CONTINUE",
             terminal="CONTINUE",
@@ -132,6 +135,9 @@ def evaluate_parent_return(
     terminal=str(decision.get("terminal") or candidate_status).upper()
     if terminal not in RETURNABLE:
         raise RuntimeError("IC_PARENT_RETURN_GATE_INVALID_RETURN_TERMINAL")
+    candidate=str(candidate_status).upper()
+    if candidate in {"OPEN","BLOCKED","CONFLICT"} and terminal!=candidate:
+        raise RuntimeError("IC_PARENT_RETURN_GATE_ILLEGAL_TERMINAL_UPGRADE")
     if owned:
         raise RuntimeError("IC_PARENT_RETURN_GATE_RETURN_WITH_OWNED_WORK")
     if not consequence_closed:
@@ -149,7 +155,9 @@ def evaluate_parent_return(
     next_memory={**m,**memory_patch}
     next_state["terminal"]=terminal
     next_state["admitted_continuation"]=False
-    next_state["live_continuation"]=False
+    next_state["parent_return_continuation"]=False
+    if "live_continuation" not in state_patch:
+        next_state["live_continuation"]=False
 
     return ParentReturnOutcome(
         disposition="RETURN",
