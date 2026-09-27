@@ -7,8 +7,10 @@ narrow green surface for whole-system closure.
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass
+import json
 from pathlib import Path
 
+from capability_preservation import evaluate_manifest
 from current_portfolio_identity import audit_current_portfolio_identity
 from full_invocation_portfolio import audit_full_invocation_portfolio
 from protected_transition_portfolio import audit_protected_transition_portfolio
@@ -26,10 +28,22 @@ class CleanupCampaignReceipt:
     protected_transition_status:str
     full_invocation_status:str
     reachability_status:str
+    capability_preservation_status:str
+    capability_preservation_open:tuple[str,...]
     tool_reality_status:str
     native_unrecovered:tuple[str,...]
     generic_only:tuple[str,...]
     capability_repair:tuple[str,...]
+
+
+def _capability_preservation(repo_root:Path):
+    path=repo_root/"integration"/"CAPABILITY_PRESERVATION_MANIFEST_100.json"
+    if not path.exists():
+        return "OPEN",("MANIFEST_MISSING",)
+    payload=json.loads(path.read_text(encoding="utf-8"))
+    results=evaluate_manifest(payload.get("capabilities",{}))
+    open_ids=tuple(r.capability_id for r in results if not r.preserved)
+    return ("PRESERVED" if results and not open_ids else "OPEN"),open_ids
 
 
 def run_cleanup_campaign(root=None)->CleanupCampaignReceipt:
@@ -39,6 +53,7 @@ def run_cleanup_campaign(root=None)->CleanupCampaignReceipt:
     pti=audit_protected_transition_portfolio()
     invocation=audit_full_invocation_portfolio()
     reachability=audit_current_repertoire_reachability()
+    preservation_status,preservation_open=_capability_preservation(repo_root)
     reality=audit_tool_reality()
     maturity=audit_all()
     capability_repair=tuple(
@@ -52,6 +67,7 @@ def run_cleanup_campaign(root=None)->CleanupCampaignReceipt:
         or pti.status!="PASS"
         or invocation.status!="CLOSED_RELATIVE"
         or reachability.status!="CLOSED_RELATIVE"
+        or preservation_status!="PRESERVED"
         or bool(capability_repair)
     )
     return CleanupCampaignReceipt(
@@ -61,6 +77,8 @@ def run_cleanup_campaign(root=None)->CleanupCampaignReceipt:
         protected_transition_status=pti.status,
         full_invocation_status=invocation.status,
         reachability_status=reachability.status,
+        capability_preservation_status=preservation_status,
+        capability_preservation_open=preservation_open,
         tool_reality_status=reality.status,
         native_unrecovered=tuple(reality.native_unrecovered),
         generic_only=tuple(reality.generic_only),
