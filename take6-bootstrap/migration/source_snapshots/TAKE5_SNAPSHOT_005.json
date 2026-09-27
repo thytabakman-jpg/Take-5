@@ -1,0 +1,28 @@
+{
+  "schema_version": "0.1",
+  "snapshots": [
+    {
+      "repository": "thytabakman-jpg/Take-5",
+      "role": "migration_frontier_take5",
+      "commit": "2c2ad4de79a6a5484bc1c7631a83e342fe0b53ac",
+      "tree_sha": "e306b2a4eb9bfaa3390bbf12fe39116377bf2e45",
+      "recursive_tree_truncated": false,
+      "entry_count": 928,
+      "blob_count": 881,
+      "base_inventory": "migration/inventories/TAKE5_TREE_INVENTORY_004.json",
+      "inventory_delta": "migration/inventory_deltas/TAKE5_TREE_DELTA_005.json",
+      "supersedes": [
+        "45ba1b8ffae50d20a96b9c3cd5904d7b120b66aa"
+      ],
+      "scope": {
+        "exclude_prefixes": [
+          "take6-bootstrap/"
+        ],
+        "exclude_paths": [
+          "take6-bootstrap",
+          ".github/workflows/take6-bootstrap-validation.yml"
+        ]
+      }
+    }
+  ]
+}
