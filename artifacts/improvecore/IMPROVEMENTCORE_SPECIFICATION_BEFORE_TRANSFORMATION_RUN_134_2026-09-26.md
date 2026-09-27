@@ -3,7 +3,7 @@
 Date: 2026-09-26
 Branch: fix/specification-before-transformation-134
 Base: 16631379c1373d33067b0189a7adc4bfce3cf157
-Status: IMPLEMENTED / VALIDATION PENDING
+Status: MERGED / VALIDATED
 
 ## Evidence
 
@@ -108,12 +108,25 @@ The system can continue learning while an object is OPEN, but its legal work
 frontier contracts to recovery/observation/formalization/verification until the
 transformation-relevant specification is adequate.
 
-## Validation target
+## Validation closure
 
-The branch is not current authority until CI passes and the pull request is
-merged. No current pointer is changed by this artifact alone.
+PR #140 was validated and merged.
 
-Remaining external boundary after repository validation:
+Final validated head:
+cdba95c2605612821ade87492960d72c80d1a24a
+
+Validation:
+- Take-5 Validation 36291341026: SUCCESS
+- Capability Preservation 36291341035: SUCCESS
+- ImproveCore Legacy Restoration 130 run 36291341021: SUCCESS
+
+Merge:
+14026b20c06fedee2fc9b3caa3e8826a08e93e01
+
+Repository-level disposition:
+CLOSED_RELATIVE.
+
+Remaining external boundary:
 universal enforcement in a ChatGPT host that does not execute this repository
 runtime remains outside repository authority.
 

@@ -1,7 +1,7 @@
 # Specification Before Transformation Invariant 134
 
 Date: 2026-09-26
-Status: CANDIDATE IMPLEMENTED ON BRANCH / VALIDATION REQUIRED
+Status: CURRENT VALIDATED / ENFORCED
 
 ## Problem
 
@@ -140,3 +140,21 @@ The following formerly separable failures are one family:
   behavior is not known.
 
 The gate converts each from silent progress into explicit OPEN/RECOVERY work.
+
+
+## Validation and promotion
+
+Promoted through PR #140.
+
+Validation basis on the final PR head:
+- Take-5 Validation 36291341026: SUCCESS
+- Capability Preservation 36291341035: SUCCESS
+- ImproveCore Legacy Restoration 130 run 36291341021: SUCCESS
+
+Merge:
+14026b20c06fedee2fc9b3caa3e8826a08e93e01
+
+The first validation pass exposed an over-broad implementation that gated every
+controller progress event. The corrected implementation gates only actual
+object-transforming claims and permits intrinsically epistemic/recovery work on
+OPEN objects. The final validation basis includes that correction.
