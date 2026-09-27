@@ -1,7 +1,7 @@
 # ICC Host Ingress Contract 001
 
 Date: 2026-09-27
-Status: VALIDATED CANDIDATE FOR PR #159
+Status: CURRENT BASIS / HARDENING IN CLEANUP CAMPAIGN
 
 ## Problem
 
@@ -46,7 +46,28 @@ The receipt binds repository, ref, commit, controller, and a digest of the
 request body. The visible banner projects the controller, canonical source
 commit, and receipt identifier.
 
-## Validation\n\nPR #159 pre-admission head `e164235b7439f7d0829b32b66c12ee7c34255209` passed:\n\n- Take-5 Validation run 36300397075: SUCCESS;\n- Capability Preservation run 36300397054: SUCCESS.\n\nThe validation covered the full test suite, canonical whole-system audit, closed-loop fixture, zero-request dump, and capability preservation.\n\n## Boundary\n
+## Validation
+
+PR #159 pre-admission head `e164235b7439f7d0829b32b66c12ee7c34255209` passed:
+
+- Take-5 Validation run 36300397075: SUCCESS;
+- Capability Preservation run 36300397054: SUCCESS.
+
+The validation covered the full test suite, canonical whole-system audit,
+closed-loop fixture, zero-request dump, and capability preservation.
+
+## Evidence contract
+
+Ingress evidence is carried as explicit receipt identifiers for repository
+verification, currentness verification, entry binding, protected bootstrap, and
+current controller registration. Naked boolean assertions do not satisfy the
+host-ingress contract.
+
+These receipts remain host-supplied evidence. Take-5 does not claim access to
+private external-host state that the host does not expose.
+
+## Boundary
+
 Repository code cannot force an unrelated host to call this module. Therefore
 this contract solves truthful ICC identity and fail-closed repository ingress
 where the host cooperates with Take-5. Universal host interception remains an
