@@ -54,3 +54,19 @@ Reconstruct:
 - migration provenance
 
 Failure to reconstruct any protected current object blocks promotion.
+
+
+## Promotion preflight source frontier
+
+Before any Take-6 authority switch:
+
+1. Load all immutable migration source snapshots.
+2. Compile a unique source frontier per predecessor repository.
+3. Verify each referenced inventory against its exact repository/commit/tree snapshot.
+4. Recompute the declared predecessor-scope digest from the observed predecessor authority surface.
+5. Require the observed scoped digest to equal the compiled frontier digest.
+6. Treat any in-scope mismatch as SOURCE_FRONTIER_LAG and block promotion.
+7. Ignore only changes explicitly outside the predecessor scope, such as the temporarily hosted take6-bootstrap subtree.
+8. Record the verified source_frontier_cid in the promotion receipt.
+
+This prevents both stale migration and infinite self-reference while the successor is incubated inside Take-5.
