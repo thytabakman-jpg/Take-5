@@ -265,3 +265,46 @@ def test_authoritative_current_claim_can_turn_green_after_formal_claim_admission
     )
     assert a.status is MathStatus.RECOVERED
     assert a.complete_for_use
+
+
+def test_shared_emission_blocks_current_green_without_formal_claim_receipt():
+    with pytest.raises(
+        ColorInvariantViolation,
+        match="AUTHORITATIVE_FORMAL_CLAIM_RECEIPT_REQUIRED",
+    ):
+        emit_user_visible((
+            TextFragment("Current "),
+            MathFragment(r"X=Y",MathStatus.RECOVERED),
+            TextFragment("."),
+        ))
+
+
+def test_shared_emission_accepts_current_green_with_pass_receipt():
+    from formal_claim_admission import FormalClaimReceipt
+    receipt=FormalClaimReceipt(
+        status="PASS",
+        claim_scope="CURRENT",
+        root_object_id="ImprovementCore",
+        root_version_id="regime-091",
+        root_authority_id="CURRENT_IMPROVEMENT_CORE",
+        residuals=(),
+        evidence_refs=("integration/CURRENT_IMPROVEMENT_CORE.md",),
+    )
+    out=emit_user_visible(
+        (
+            TextFragment("Current "),
+            MathFragment(r"X=Y",MathStatus.RECOVERED),
+            TextFragment("."),
+        ),
+        formal_claim_receipt=receipt,
+    )
+    assert out==r"Current \color{green}{X=Y}."
+
+
+def test_shared_emission_allows_authoritative_red_without_pass_receipt():
+    out=emit_user_visible((
+        TextFragment("Current "),
+        MathFragment("X",MathStatus.UNRESOLVED),
+        TextFragment(" remains unresolved."),
+    ))
+    assert out==r"Current \color{red}{X} remains unresolved."
