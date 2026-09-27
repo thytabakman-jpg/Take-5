@@ -20,6 +20,7 @@ governing_principles:
   - child_authority_cannot_exceed_grant
   - no_self_promotion
   - architecture_is_earned_by_result_sensitive_evidence
+  - icc_identity_claim_requires_host_ingress_receipt
 
 candidate_layers:
   - KERNEL
@@ -153,3 +154,15 @@ mathematical_color_emission:
   required_projection: LATEX_GLYPH_COLOR
   fallback_projection: forbidden
   fail_closed: true
+
+host_ingress:
+  invariant: >-
+    An external host may represent a response as repository-backed ICC only after
+    canonical Take-5/main currentness, bound entry, protected bootstrap, and current
+    ICC128 registration are evidenced in a HOST_INGRESS_ADMITTED receipt for the
+    exact request. ICC prefix alone expresses intent and does not establish execution.
+  runtime: runtime/icc_host_ingress.py
+  host_gateway: runtime/icc_host_gateway.py
+  architecture: architecture/ICC_HOST_INGRESS_CONTRACT_001_2026-09-27.md
+  fail_closed: true
+  universal_external_host_interception: not_repository_owned
