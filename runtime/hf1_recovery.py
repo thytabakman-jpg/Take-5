@@ -21,7 +21,22 @@ def validate_hf1_recovery():
     p=select_sufficient_package(("A","B"),{"X":["A"],"Y":["B"]})
     if set(p)!={"X","Y"}:
         failures.append("HF1_SUFFICIENT_COVER_DRIFT")
-    base={"world_state":"w","discovery_state":"d","result_sensitive_state":"r"}
+    base={
+        "identity":"hf1-recovery-fixture",
+        "type":"RECOVERY_FIXTURE",
+        "scope":"SYSTEM",
+        "job":"VERIFY",
+        "readings":(),
+        "result_sensitive":(),
+        "selectors":(),
+        "authority":"OBSERVE",
+        "provenance":"Take-5",
+        "open":(),
+        "obligations":(),
+        "world_state":"w",
+        "discovery_state":"d",
+        "result_sensitive_state":"r",
+    }
     delta=classify_delta(base,{**base,"world_state":"w2"})
     if not delta.world_changed or delta.discovery_changed or delta.result_sensitive_delta:
         failures.append("HF1_DELTA_SEMANTICS_DRIFT")
