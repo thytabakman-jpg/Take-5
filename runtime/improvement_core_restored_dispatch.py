@@ -27,6 +27,7 @@ REQUIRED_PROVIDER_FIELDS=(
     "generate_work",
     "admit_results",
     "update_state",
+    "verify_return",
 )
 
 
@@ -36,6 +37,7 @@ class RestoredSemanticProvider:
     generate_work:Callable
     admit_results:Callable
     update_state:Callable
+    verify_return:Callable
     execute_work:Callable|None=None
     observer_prepare:Callable|None=None
     discovery_closure:Callable|None=None
@@ -106,6 +108,7 @@ def dispatch_improvement_core_restored(
     hf2_enabled:bool=True,
     hf2_max_rounds:int=6,
     max_iterations:int=32,
+    parent_max_rounds:int=16,
 )->RestoredDispatchResult:
     """Dispatch into restored ImprovementCore only when semantic bindings are real."""
     resolution=resolve_restored_improvement_core_invocation(
@@ -176,6 +179,8 @@ def dispatch_improvement_core_restored(
         hf2_enabled=hf2_enabled,
         hf2_max_rounds=hf2_max_rounds,
         max_iterations=max_iterations,
+        return_verifier=provider.verify_return,
+        parent_max_rounds=parent_max_rounds,
     )
     return RestoredDispatchResult(
         resolution,result.status,result.blocker,result

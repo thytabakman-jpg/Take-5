@@ -107,6 +107,27 @@ def run_case(case):
             nxt["admitted_continuation"]=True
         return nxt,dict(memory)
 
+    def verify_return(state,memory,context):
+        idx=int(state.get("semantic_phase",0))
+        if idx<len(phases):
+            return {
+                "disposition":"CONTINUE",
+                "goal_closed":False,
+                "owned_work_remaining":True,
+                "consequence_closed":True,
+                "evidence":[f"semantic-holdout:{case['id']}:phase:{idx}:remaining"],
+            }
+        status=str(context.get("candidate_status","OPEN"))
+        return {
+            "disposition":"RETURN",
+            "terminal":status,
+            "goal_closed":status=="COMPLETE",
+            "owned_work_remaining":False,
+            "consequence_closed":True,
+            "blocker":context.get("candidate_blocker"),
+            "evidence":[f"semantic-holdout:{case['id']}:whole-job-closed"],
+        }
+
     out=run_improvement_core_legacy_restored(
         "ImproveCore, independently determine the next useful work from this project evidence",
         target=f"semantic-holdout:{case['id']}",
@@ -123,6 +144,8 @@ def run_case(case):
         hf2_enabled=True,
         hf2_max_rounds=4,
         max_iterations=8,
+        return_verifier=verify_return,
+        parent_max_rounds=8,
     )
 
     selected=[]

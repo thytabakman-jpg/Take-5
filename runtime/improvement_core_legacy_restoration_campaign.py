@@ -354,6 +354,29 @@ def handlers():
     out["REENTER"]=lambda state:{"state":state,"terminal":True}
     return out
 
+def verify_parent_return(state,memory,context):
+    phase=int(state.get("campaign_phase",0))
+    status=str(context.get("candidate_status","OPEN"))
+    if phase<14 and status=="COMPLETE":
+        return {
+            "disposition":"CONTINUE",
+            "goal_closed":False,
+            "owned_work_remaining":True,
+            "consequence_closed":True,
+            "evidence":[f"legacy-restoration:phase:{phase}:continuation"],
+            "reason":"campaign successor work remains before closure",
+        }
+    return {
+        "disposition":"RETURN",
+        "terminal":status,
+        "goal_closed":status=="COMPLETE",
+        "owned_work_remaining":False,
+        "consequence_closed":True,
+        "blocker":context.get("candidate_blocker"),
+        "evidence":[f"legacy-restoration:phase:{phase}:whole-job-dispositioned"],
+    }
+
+
 def run(output:Path):
     snap=evidence_snapshot()
     initial_phase=10 if snap["candidate_present"] else 0
@@ -368,6 +391,8 @@ def run(output:Path):
         allow_external_gap=False,
         hf2_enabled=True,
         hf2_max_rounds=8,
+        return_verifier=verify_parent_return,
+        parent_max_rounds=16,
     )
     report={
         "controller":result.receipt.controller,
@@ -376,6 +401,7 @@ def run(output:Path):
         "hf2_status":result.hf2_status,
         "hf2_rounds":len(result.hf2_trace),
         "hf2_trace":list(result.hf2_trace),
+        "parent_return_trace":list(result.parent_return_trace),
         "final_state":result.result.state,
     }
     output.parent.mkdir(parents=True,exist_ok=True)

@@ -36,12 +36,26 @@ def provider(calls=None):
         nxt["admitted_continuation"]=False
         return nxt,dict(memory)
 
+    def verify_return(state,memory,context):
+        calls.append("R")
+        status=str(context.get("candidate_status","OPEN"))
+        return {
+            "disposition":"RETURN",
+            "terminal":status,
+            "goal_closed":status=="COMPLETE",
+            "owned_work_remaining":False,
+            "consequence_closed":True,
+            "blocker":context.get("candidate_blocker"),
+            "evidence":["test:restored-dispatch-whole-job"],
+        }
+
     return RestoredSemanticProvider(
         generate_questions=generate_questions,
         generate_work=generate_work,
         execute_work=execute_work,
         admit_results=admit_results,
         update_state=update_state,
+        verify_return=verify_return,
         provider_id="test-provider",
     )
 
@@ -86,7 +100,7 @@ def test_bound_semantic_provider_executes_restored_controller():
     assert out.result is not None
     assert out.result.hf2_status=="RELATIVE_CLOSE"
     assert out.resolution.provider_id=="test-provider"
-    assert calls==["G_Q","G_W","E","A","U"]
+    assert calls==["G_Q","G_W","E","A","U","R"]
 
 
 def test_partial_entry_coordinates_fail_open():
@@ -120,3 +134,24 @@ def test_observer_mode_stays_fail_closed_when_provider_has_no_observer_binding()
     )
     assert out.status=="BLOCKED"
     assert out.blocker=="OBSERVER_PREPARE_REQUIRED"
+
+
+
+def test_incomplete_semantic_provider_without_return_verifier_fails_open():
+    p=provider()
+    p_without_return=type("IncompleteProvider",(),{
+        "generate_questions":p.generate_questions,
+        "generate_work":p.generate_work,
+        "execute_work":p.execute_work,
+        "admit_results":p.admit_results,
+        "update_state":p.update_state,
+        "provider_id":"incomplete-provider",
+    })()
+    out=dispatch_improvement_core_restored(
+        "ImproveCore solve this",
+        target="x",job="solve",basis="b",
+        state=initial_state(),
+        semantic_provider=p_without_return,
+    )
+    assert out.status=="OPEN"
+    assert "verify_return" in out.blocker

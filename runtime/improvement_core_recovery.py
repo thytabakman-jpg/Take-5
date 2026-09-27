@@ -33,6 +33,10 @@ REQUIRED_FILES=(
     "runtime/improvement_core_hf2_default.py",
     "tests/test_improvement_core_hf2_default.py",
     "architecture/IMPROVEMENT_CORE_DEFAULT_HF2_118.md",
+    "runtime/improvement_core_return_gate.py",
+    "tests/test_improvement_core_return_gate.py",
+    "architecture/IMPROVEMENT_CORE_PARENT_RETURN_CLOSURE_139.md",
+    "artifacts/improvecore/IMPROVEMENTCORE_PREMATURE_RETURN_HF2_AUDIT_139_2026-09-26.md",
     "tests/test_improvement_core_mode_profile.py",
     "runtime/improvement_core_upstream.py",
     "runtime/improvement_core_external_acquisition.py",
@@ -187,6 +191,8 @@ def validate_recovery()->dict:
             failures.append("KNOWLEDGE_LEDGER_RUNTIME_DRIFT")
         if regime.get("default_local_recurrence")!="HF002":
             failures.append("DEFAULT_HF002_RUNTIME_DRIFT")
+        if regime.get("parent_return_gate")!="runtime/improvement_core_return_gate.py":
+            failures.append("PARENT_RETURN_GATE_RUNTIME_MISSING")
         if regime.get("recursive_activation")!="LIVE_CONTINUATION":
             failures.append("RECURSIVE_ACTIVATION_CONTRACT_MISSING")
         if regime.get("learning_activation")!="RECURSIVE_ROUTE_GATE_AND_STAGE_LEARNING_EVENTS":
@@ -227,6 +233,12 @@ def validate_recovery()->dict:
             failures.append("LEGACY_RESTORATION_CLOSURE_ANCHOR_MISSING")
         if "Unchanged repair routes are NO_GAIN." not in anchor:
             failures.append("LEGACY_RESTORATION_ANTI_CHURN_ANCHOR_MISSING")
+        if "## Parent user-return closure" not in anchor:
+            failures.append("PARENT_RETURN_CLOSURE_ANCHOR_MISSING")
+        if "one strict gain is not permission to return to the user" not in anchor:
+            failures.append("ONE_STRICT_GAIN_NOT_PARENT_COMPLETION_ANCHOR_MISSING")
+        if "PARENT_RETURN_GATE_REQUIRED" not in anchor:
+            failures.append("PARENT_RETURN_GATE_FAIL_CLOSED_ANCHOR_MISSING")
 
         protected=set(manifest.get("protected_behaviors",[]))
         for required_behavior in (
@@ -236,6 +248,18 @@ def validate_recovery()->dict:
         ):
             if required_behavior not in protected:
                 failures.append("BOUND_ZIP_RUNTIME_PROTECTED_BEHAVIOR_MISSING:"+required_behavior)
+        for required_behavior in (
+            "PARENT_RETURN_GATE_REQUIRED_FOR_USER_VISIBLE_TERMINALITY",
+            "ONE_STRICT_GAIN_NOT_PARENT_COMPLETION",
+            "HF2_RELATIVE_CLOSE_NOT_PARENT_COMPLETION",
+            "PARENT_CONTINUE_REENTERS_COMPLETE_IMPROVEMENTCORE_WITH_HF2",
+            "RETURN_COMPLETE_REQUIRES_GOAL_NO_OWNED_WORK_CONSEQUENCE_EVIDENCE",
+            "RETURN_NONCOMPLETE_REQUIRES_TYPED_BLOCKER_AND_NO_OWNED_WORK",
+            "PARENT_RETURN_CONTINUATION_DISTINCT_FROM_RECURSIVE_CHILD_LIVENESS",
+            "NONCOMPLETE_CANDIDATE_CANNOT_UPGRADE_TO_COMPLETE_AT_RETURN_GATE",
+        ):
+            if required_behavior not in protected:
+                failures.append("PARENT_RETURN_PROTECTED_BEHAVIOR_MISSING:"+required_behavior)
         for required_behavior in (
             "LEGACY_ENDOGENOUS_QUESTION_WORK_LOOP",
             "LEGACY_CHEAP_DIRECT_ROUTING",

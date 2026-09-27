@@ -6,6 +6,20 @@ from improvement_core_regime import run_improvement_core_regime
 from ic028_operator import GOAL_DIRECTED_STAGES
 
 
+def _return_done(state,memory,context):
+    status=str(context.get("candidate_status","OPEN"))
+    return {
+        "disposition":"RETURN",
+        "terminal":status,
+        "goal_closed":status=="COMPLETE",
+        "owned_work_remaining":False,
+        "consequence_closed":True,
+        "blocker":context.get("candidate_blocker"),
+        "evidence":["test:whole-job-post-hf2"],
+    }
+
+
+
 def _handlers(counter, *, reenter_upstream=False, material=True):
     handlers={}
 
@@ -63,6 +77,7 @@ def test_bare_improvementcore_reapplies_under_hf2_until_second_pass_has_no_new_s
         basis="current",
         state={},
         handlers=_handlers(calls),
+        return_verifier=_return_done,
     )
     assert resolution.entrypoint.endswith("run_improvement_core_with_hf2")
     assert out.status=="COMPLETE"
@@ -83,6 +98,7 @@ def test_hf2_requires_material_witness_not_state_change_alone():
         basis="current",
         state={},
         handlers=_handlers(calls,material=False),
+        return_verifier=_return_done,
     )
     assert out.status=="COMPLETE"
     assert out.hf2_status=="RELATIVE_CLOSE"
@@ -99,6 +115,7 @@ def test_hf1_upstream_reentry_escapes_local_hf2_and_returns_parent_open():
         basis="current",
         state={},
         handlers=_handlers(calls,reenter_upstream=True),
+        return_verifier=_return_done,
     )
     assert out.status=="OPEN"
     assert out.blocker=="HF002_RETURN_REENTER"
@@ -116,6 +133,7 @@ def test_debug_surface_can_disable_default_hf2():
         state={},
         handlers=_handlers(calls),
         hf2_enabled=False,
+        allow_ungated_debug=True,
     )
     assert out.status=="COMPLETE"
     assert out.hf2_status=="DISABLED"
@@ -136,3 +154,64 @@ def test_direct_regime_remains_one_pass_low_level_surface():
     assert out.status=="COMPLETE"
     assert out.hf2_status is None
     assert calls["execute"]==1
+
+
+
+def test_parent_return_gate_reenters_full_improvementcore_after_meaningful_step():
+    calls={"execute":0,"gate":0}
+
+    def verify_return(state,memory,context):
+        calls["gate"]+=1
+        if calls["gate"]==1:
+            return {
+                "disposition":"CONTINUE",
+                "owned_work_remaining":True,
+                "consequence_closed":True,
+                "goal_closed":False,
+                "state_patch":{"parent_phase":1},
+                "evidence":["test:first-step-not-parent-complete"],
+                "reason":"another owned job remains",
+            }
+        return {
+            "disposition":"RETURN",
+            "terminal":"COMPLETE",
+            "goal_closed":True,
+            "owned_work_remaining":False,
+            "consequence_closed":True,
+            "evidence":["test:governing-job-closed"],
+        }
+
+    _,out=dispatch_improvement_core(
+        "ImproveCore, finish the whole job",
+        target="problem",
+        job="finish all owned work",
+        basis="current",
+        state={},
+        handlers=_handlers(calls),
+        return_verifier=verify_return,
+        parent_max_rounds=4,
+    )
+
+    assert out.status=="COMPLETE"
+    assert calls["gate"]==2
+    assert calls["execute"]==3
+    assert len(out.parent_return_trace)==2
+    assert out.parent_return_trace[0]["disposition"]=="CONTINUE"
+    assert out.parent_return_trace[0]["hf2_status"]=="RELATIVE_CLOSE"
+    assert out.parent_return_trace[1]["disposition"]=="RETURN"
+    assert out.parent_return_trace[1]["hf2_status"]=="RELATIVE_CLOSE"
+
+
+def test_user_facing_improvementcore_without_parent_return_verifier_fails_open():
+    calls={"execute":0}
+    _,out=dispatch_improvement_core(
+        "ImproveCore, solve this fully",
+        target="problem",
+        job="solve",
+        basis="current",
+        state={},
+        handlers=_handlers(calls),
+    )
+    assert out.status=="OPEN"
+    assert out.blocker=="PARENT_RETURN_GATE_REQUIRED"
+    assert len(out.parent_return_trace)==1

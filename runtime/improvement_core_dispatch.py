@@ -58,6 +58,9 @@ def dispatch_improvement_core(
     configured_tool_adapters:dict[str,Callable]|None=None,
     hf2_enabled:bool=True,
     hf2_max_rounds:int=6,
+    return_verifier:Callable|None=None,
+    parent_max_rounds:int=16,
+    allow_ungated_debug:bool=False,
 ):
     resolution=resolve_improvement_core_invocation(user_text)
 
@@ -99,5 +102,8 @@ def dispatch_improvement_core(
         configured_tool_adapters=configured_tool_adapters,
         hf2_enabled=hf2_enabled,
         hf2_max_rounds=hf2_max_rounds,
+        return_verifier=return_verifier,
+        parent_max_rounds=parent_max_rounds,
+        allow_ungated_debug=allow_ungated_debug,
     )
     return resolution,result
