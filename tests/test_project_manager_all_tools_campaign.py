@@ -55,6 +55,15 @@ def test_every_registered_tool_runs_under_its_registered_recurrence():
 
 def test_first_pass_reaches_end_and_exposes_only_bounded_project_consequences():
     out=_run()
+    print(
+        "PROJECT_MANAGER_ALL_TOOLS_DEBUG="
+        +json.dumps(compact_receipt(out),sort_keys=True,default=str)
+    )
+    conductor=next(r for r in out.receipts if r.tool_id=="ToolConductor")
+    print(
+        "PROJECT_MANAGER_TOOLCONDUCTOR_DEBUG="
+        +json.dumps(conductor.native_summary,sort_keys=True,default=str)
+    )
     assert out.status in {"ACTION_REQUIRED","CLOSED_RELATIVE"}
     assert out.improvementcore_consumed is True
     assert out.toolconductor_complete is True
