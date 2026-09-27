@@ -59,6 +59,7 @@ def dispatch_improvement_core(
     hf2_enabled:bool=True,
     hf2_max_rounds:int=6,
     return_verifier:Callable|None=None,
+    fresh_reobserve:Callable|None=None,
     parent_max_rounds:int=16,
     allow_ungated_debug:bool=False,
 ):
@@ -103,6 +104,7 @@ def dispatch_improvement_core(
         hf2_enabled=hf2_enabled,
         hf2_max_rounds=hf2_max_rounds,
         return_verifier=return_verifier,
+        fresh_reobserve=fresh_reobserve,
         parent_max_rounds=parent_max_rounds,
         allow_ungated_debug=allow_ungated_debug,
     )
