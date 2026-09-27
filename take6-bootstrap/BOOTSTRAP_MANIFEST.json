@@ -67,7 +67,11 @@
     "migration/inventory_deltas/TAKE5_TREE_DELTA_007.json",
     "migration/source_snapshots/TAKE5_SNAPSHOT_007.json",
     "migration/SOURCE_FRONTIER_007.md",
-    "migration/REPOSITORY_INVENTORY_VALIDATION_007.md"
+    "migration/REPOSITORY_INVENTORY_VALIDATION_007.md",
+    "migration/inventory_deltas/TAKE5_TREE_DELTA_008.json",
+    "migration/source_snapshots/TAKE5_SNAPSHOT_008.json",
+    "migration/SOURCE_FRONTIER_008.md",
+    "migration/REPOSITORY_INVENTORY_VALIDATION_008.md"
   ],
   "source_refs": {
     "authority": "COMPILED_SOURCE_FRONTIER",
@@ -99,7 +103,7 @@
     "status": "COMPILED_FRONTIER_ACTIVE__EXTERNAL_ZIP_PAIR_OPEN",
     "repository_lineage": "PASS",
     "repository_member_inventory": "PASS",
-    "take5_predecessor_surface_frontier": "SNAPSHOT_007",
+    "take5_predecessor_surface_frontier": "SNAPSHOT_008",
     "successor_host_self_reference_excluded": "PASS_BY_DECLARED_SCOPE",
     "external_intended_zip_pair": "OPEN"
   }
