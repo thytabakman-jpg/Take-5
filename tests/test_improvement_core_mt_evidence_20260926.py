@@ -293,6 +293,29 @@ def _handlers():
     return handlers
 
 
+def _return_verifier(state,memory,context):
+    verified=state.get("verification_status")=="PASS"
+    next_work=bool(state.get("licensed_next_work"))
+    if str(context.get("candidate_status","OPEN"))=="COMPLETE" and not (verified and next_work):
+        return {
+            "disposition":"CONTINUE",
+            "goal_closed":False,
+            "owned_work_remaining":True,
+            "consequence_closed":True,
+            "evidence":["mt-evidence:verification-or-next-work-missing"],
+        }
+    status=str(context.get("candidate_status","OPEN"))
+    return {
+        "disposition":"RETURN",
+        "terminal":status,
+        "goal_closed":status=="COMPLETE",
+        "owned_work_remaining":False,
+        "consequence_closed":True,
+        "blocker":context.get("candidate_blocker"),
+        "evidence":["mt-evidence:analysis-job-closed"],
+    }
+
+
 def test_full_mt_evidence_plan_and_black_box_spine_are_current():
     plan=build_tool_execution_plan(CONFIGURED_RUNS["MT"])
     assert plan.complete
@@ -319,6 +342,7 @@ def test_current_improvement_core_consumes_mt_as_evidence_not_draft():
         handlers=_handlers(),
         explicit_mode=MODE_OBSERVE_DECOUPLED,
         observer_risk=True,
+        return_verifier=_return_verifier,
     )
 
     assert resolution.controller=="IC-028"
