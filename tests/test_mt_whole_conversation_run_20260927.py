@@ -66,7 +66,7 @@ def adapter(initial,plan):
 
     def execute_stage(tool_id,object_id,state):
         witness=compilation_witness(tool_id)
-        if witness.entrypoint is None:
+        if witness.entrypoint is None or witness.required_environment:
             return state,"OPEN",False
         return state,"CLOSED_RELATIVE",False
 
@@ -140,7 +140,7 @@ def test_mt_whole_conversation_uses_current_full_configured_path_and_preserves_o
     assert fs["F1"]["disposition"]=="CLOSED_RELATIVE"
     assert fs["F3"]["disposition"]=="CLOSED_RELATIVE"
     assert fs["F4"]["disposition"]=="CLOSED_RELATIVE"
-    assert fs["F5"]["disposition"]=="OPEN"
+    assert fs["F5"]["disposition"]=="CLOSED_RELATIVE"
     assert fs["F7"]["disposition"]=="OPEN"
     assert fs["F8"]["disposition"]=="EXTERNAL_NOT_OWNED"
     print("MT_WHOLE_CONVERSATION_RECEIPT="+json.dumps({
