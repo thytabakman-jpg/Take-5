@@ -1,7 +1,7 @@
 # Native Tool Recovery Pack 160
 
 Date: 2026-09-27
-Status: CANDIDATE PENDING VALIDATION
+Status: VALIDATED ON PR #160 HEAD 9ef028ea
 Scope: current Take-5 configured repertoire
 
 ## Job
@@ -99,11 +99,22 @@ risking semantic substitution.
 This OPEN state is a success condition of the recovery discipline, not a failure
 of the pack.
 
-## Validation target
+## Validation
 
-After admission, tool_reality_audit native_unrecovered is exactly:
+PR #160 head `9ef028eab6a929c1aec8aaa15c70d1d96f03a64f` passed:
 
-MTA, Architecture, PD, PDAudit.
+- Take-5 Validation run 36301760629;
+- Capability Preservation run 36301760616.
+
+The full suite, canonical whole-system audit, closed-loop fixture, and zero-request
+fixture all passed.
+
+The strong tool-reality regression establishes the native residual exactly as:
+
+- MTA
+- Architecture
+- PD
+- PDAudit
 
 No strong whole-portfolio closure claim follows while the explicit-manifest layer
 or these native identities remain OPEN.
