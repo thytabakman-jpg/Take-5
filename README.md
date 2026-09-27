@@ -67,7 +67,7 @@ IC and Jane remain protected role-separated suboperators. The validated math-fir
 
 The learning lenses are now first-class IC candidates through a typed bridge. Missing runtime inputs leave the corresponding lens inapplicable and preserve OPEN; no lens is forced onto a problem merely because its mathematics exists.
 
-Current resume frontier: close strong tool-reality residuals identified by `integration/CURRENT_TOOL_REALITY.md`: explicit tool-specific manifest reconstruction and recovered native realization for registered tools that remain open. Narrower configured identity stays distinct from strong whole-portfolio closure. Universal external-host interception remains outside repository authority.
+Current finite registered-repertoire strong tool reality is CLOSED_RELATIVE under `integration/CURRENT_TOOL_REALITY.md`. Configured identity, explicit tool-specific manifests, and recovered native realization now agree for the current repertoire. Environment-bound execution remains explicit where a tool requires domain inputs, and universal external-host interception remains outside repository authority.
 
 ## GitHub operating boundary
 

@@ -1,54 +1,112 @@
 # CURRENT TOOL REALITY — Strong Closure Gate 001
 
-Date: 2026-09-26
+Date: 2026-09-27
 Status: CURRENT / FAIL-CLOSED
 Canonical repository: thytabakman-jpg/Take-5
 
 ## Governing distinction
 
-Take-5 has several narrower claims that are individually useful but are not
-interchangeable:
+Take-5 keeps four reality layers distinct:
 
 1. configured identity exists;
-2. a configured execution plan can be constructed;
+2. a complete configured execution plan can be constructed;
 3. a canonical manifest explicitly reconstructs tool-specific protected behavior;
 4. a native executable realization is recovered.
 
-A strong whole-portfolio tool claim is closed only when all four layers agree.
+A strong current finite-repertoire claim closes only when all four layers agree.
 
-The canonical executable audit is:
+Canonical executable audit:
 
 runtime/tool_reality_audit.py
 
 ## Current result
 
 Configured identity:
+
 CLOSED_RELATIVE.
 
 Explicit tool-specific manifest identity:
-OPEN.
+
+CLOSED_RELATIVE.
 
 Native executable realization:
-OPEN.
 
-Therefore strong whole-portfolio tool reality:
-OPEN.
+CLOSED_RELATIVE.
 
-This does not invalidate narrower configured-identity evidence. It prevents the
-narrower result from being promoted into a stronger claim.
+Therefore current finite registered-repertoire strong tool reality:
 
-## Current native-realization residual
+CLOSED_RELATIVE.
 
-After the PR #160 recovery pack, the current registered material repertoire
-still lacks a recovered native entrypoint for exactly:
+This is a finite, repository-owned, current-basis claim.  It is not a claim of
+universal host interception, self-contained execution for every environment, or
+global mathematical completeness.
+
+## Four-tool recovery delta
+
+PR #162 closes the exact residual left by PR #161:
 
 - MTA
 - Architecture
 - PD
 - PDAudit
 
-The following five prior residuals now have native implementations, explicit
-tool-specific protected manifests, and regression witnesses:
+Each now has:
+
+- an explicit current tool-specific manifest;
+- a dedicated native semantic runtime;
+- protected-behavior regression evidence;
+- an explicit environment boundary where domain semantics are not repository
+  constants;
+- the shared FULL_CONFIGURED_HF2_V1 invocation profile rather than a private
+  replacement wrapper.
+
+Native entrypoints:
+
+- MTA -> runtime/mta.py::run_mta
+- Architecture -> runtime/architecture_analysis.py::run_architecture_analysis
+- PD -> runtime/pd.py::run_pd
+- PDAudit -> runtime/pd_audit.py::run_pd_audit
+
+Canonical recovery artifact:
+
+architecture/FOUR_TOOL_STRONG_REALITY_RECOVERY_162_2026-09-27.md
+
+The four are environment-bound, not native-unrecovered.  Missing required
+environment bindings during a particular run still preserve OPEN/BLOCKED rather
+than being treated as successful execution.
+
+## Validation evidence
+
+PR #162 implementation head:
+
+4fbd06bdec8148fa204e2680a70cc58551caa2cc
+
+Take-5 Validation:
+
+36333914107 SUCCESS.
+
+Capability Preservation:
+
+36333914178 SUCCESS.
+
+The validation job passed:
+
+- full pytest suite;
+- canonical whole-system audit;
+- closed-loop fixture;
+- zero-request dump.
+
+The strong audit on that head reports:
+
+generic_only = ()
+
+native_unrecovered = ()
+
+status = CLOSED_RELATIVE.
+
+## Historical frontier
+
+PR #160 recovered native programs for:
 
 - GDOS
 - Discriminator
@@ -56,63 +114,39 @@ tool-specific protected manifests, and regression witnesses:
 - BiasPerturbation
 - Diagnosis
 
-PR #160 head `9ef028eab6a929c1aec8aaa15c70d1d96f03a64f` passed Take-5
-Validation run 36301760629 and Capability Preservation run 36301760616.
+PR #161 then aligned the explicit-manifest residual and native-runtime residual
+to exactly:
 
-No generic analysis substitutes for the four remaining missing native
-realizations.
+MTA, Architecture, PD, PDAudit.
 
-GOAL delta (2026-09-27):
+That four-object frontier is historical evidence after PR #162.  It is not the
+current strong-reality state.
 
-- native semantic core: `runtime/goal.py::recover_goal`;
-- explicit protected-behavior manifest: admitted in `runtime/tool_manifest.py`;
-- dedicated full mathematical identity: `architecture/GOAL_FULL_TOOL_MATH_001_2026-09-27.md`;
-- PR #148 ordering defect preserved as historical process evidence; this package is current-state reconciliation;
-- candidate goal extraction/evidence remains an explicit environment input;
-- plural or ungrounded governing goals preserve OPEN/CONFLICT rather than arbitrary selection.
+## GOAL and MultiObject
 
+GOAL has a native semantic core, explicit protected-behavior manifest, and a
+dedicated full mathematical identity.  Candidate extraction remains an explicit
+environment input and plural or ungrounded governing goals preserve
+OPEN/CONFLICT.
 
-MultiObject delta (2026-09-27):
-
-- full mathematical identity recovered and admitted before runtime build: `architecture/MULTIOBJECT_FULL_TOOL_MATH_001_2026-09-27.md`;
-- native orchestration core: `runtime/multiobject.py::run_multiobject`;
-- all currently required unordered pairs plus an independent full-joint route are enforced;
-- route-isolation receipts, reducibility coverage, gated views, typed reconciliation and OPEN/CONFLICT preservation are executable;
-- domain relation generation remains an explicit `multiobject_provider` environment boundary;
-- global two-role minimality, universal all-pairs necessity and generator-family completeness remain OPEN.
-
-## Manifest residual
-
-runtime/tool_manifest_audit.py remains the authority for explicit versus
-generic-only manifest identity.
-
-PR #161 backfills explicit manifests only from already-executable typed registries
-or dedicated native modules. On validated head
-`02fa863b9de5abeba786ecce63c66167c32fb91a`, the generic-only residual is
-exactly:
-
-- MTA
-- Architecture
-- PD
-- PDAudit
-
-Take-5 Validation run 36302187179 and Capability Preservation run 36302187186
-both succeeded.
-
-Generic-only identity remains OPEN for those four. A generic wrapper can prove
-common wrapper/closure/reentry behavior without proving the historical or
-tool-specific identity of the named tool.
+MultiObject has a dedicated full mathematical identity and native orchestration
+core.  Domain relation generation remains an explicit environment boundary.
+Global two-role minimality, universal all-pairs necessity, and generator-family
+completeness remain OPEN without reopening native tool reality.
 
 ## Recovery rule
 
-Fresh recovery must load this file before making a whole-portfolio closure claim.
+Fresh recovery loads this file before making a whole-portfolio closure claim.
 
-A later repair can close an affected tool by supplying the missing explicit
-manifest/protected-behavior witness and native realization. The audit recomputes
-from current registries and therefore reopens or closes on evidence rather than
-on remembered status.
+The audit remains live.  A later registry addition, lost manifest, removed
+entrypoint, invalid currentness state, or new protected behavior can reopen the
+affected coordinates automatically.  CLOSED_RELATIVE is therefore evidence
+sensitive, not permanent by declaration.
 
 ## External boundary
 
-Universal interception by an unrelated chat host remains EXTERNAL_NOT_OWNED.
+Universal interception by an unrelated chat host remains:
+
+EXTERNAL_NOT_OWNED.
+
 That boundary is distinct from repository tool reality.

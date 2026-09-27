@@ -1,7 +1,7 @@
 # Four-Tool Strong Reality Recovery 162
 
 Date: 2026-09-27
-Status: CANDIDATE PENDING PR VALIDATION
+Status: VALIDATED IMPLEMENTATION ON PR #162
 Canonical repository: thytabakman-jpg/Take-5
 Scope: MTA, Architecture, PD, PDAudit
 
@@ -206,5 +206,30 @@ Universal unrelated-host interception remains EXTERNAL_NOT_OWNED.
 
 ## Validation
 
-Pending PR validation at creation time.  The current recovery anchor is updated
-only after the pull-request validation suite confirms the repository state.
+PR #162 implementation head:
+
+4fbd06bdec8148fa204e2680a70cc58551caa2cc
+
+Take-5 Validation run 36333914107:
+
+SUCCESS.
+
+Capability Preservation run 36333914178:
+
+SUCCESS.
+
+The validation workflow passed the full test suite, canonical whole-system
+audit, closed-loop fixture, and zero-request dump.
+
+On that validated head:
+
+generic_only = ()
+
+native_unrecovered = ()
+
+strong tool reality = CLOSED_RELATIVE.
+
+The four recovered programs remain environment-bound where their historical
+semantics require external/domain functions.  That does not reopen native
+program recovery; a particular invocation without the required bindings still
+fails closed as OPEN/BLOCKED.
