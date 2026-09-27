@@ -51,6 +51,8 @@ def test_learning_filter_removes_blocked_candidate_before_frontier_choice(tmp_pa
                 "basis_id":"b0",
                 "goal_gain":999,
                 "dependency_footprint":["evidence"],
+                "operation_class":"VERIFY",
+                "execution_effect_class":"EVIDENCE_ONLY",
             },
             {
                 "id":"fresh",
@@ -58,6 +60,8 @@ def test_learning_filter_removes_blocked_candidate_before_frontier_choice(tmp_pa
                 "basis_id":"b0",
                 "goal_gain":1,
                 "dependency_footprint":["evidence"],
+                "operation_class":"VERIFY",
+                "execution_effect_class":"EVIDENCE_ONLY",
             },
         ]
 
@@ -96,6 +100,8 @@ def test_same_basis_semantic_no_effect_cycle_is_closed_and_persisted(tmp_path):
             "route_id":"audit-again",
             "basis_id":"b0",
             "dependency_footprint":["representation"],
+            "operation_class":"VERIFY",
+            "execution_effect_class":"EVIDENCE_ONLY",
         }
 
     def admit(ret,z,m):
@@ -135,7 +141,11 @@ def test_same_basis_semantic_no_effect_cycle_is_closed_and_persisted(tmp_path):
 
 def test_material_label_cannot_hide_protected_regression():
     def select(z,m):
-        return {"id":"unsafe","route_id":"unsafe","basis_id":"b0"}
+        return {
+            "id":"unsafe","route_id":"unsafe","basis_id":"b0",
+            "operation_class":"VERIFY",
+            "execution_effect_class":"EVIDENCE_ONLY",
+        }
 
     def admit(ret,z,m):
         return "ADMIT",{"material_result_delta":True}
