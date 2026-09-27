@@ -332,7 +332,7 @@ def _typed_io(tool_id:str,op:ToolOperationalIdentity,native_owner:str):
     if tool_id.startswith("C") and tool_id[1:].isdigit():
         spec=A5_REGISTRY.get(tool_id)
         return (
-            "REGISTERED_CAPABILITY_PAYLOAD:"+",".join(spec.roles),
+            "REGISTERED_CAPABILITY_PAYLOAD:"+",".join(spec.required_roles),
             "PROTECTED_OUTPUT:"+",".join(spec.protected_outputs),
             "PACKET_STATE_DEFINED_BY_CAPABILITY_RUNTIME",
         )
