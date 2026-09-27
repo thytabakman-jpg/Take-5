@@ -411,19 +411,26 @@ owning authority and admitted change path.
 
 ## 17 TransferCore relation
 
-The requested TransferCore link is fail closed.
+The TransferCore link remains fail closed with respect to target mutation, but the tool identity
+is now recovered on the current validation branch.
 
-Current Take-5 does not contain a recovered current FullMath identity for TransferCore.
-
-Therefore the only admitted interface in this version is:
+Current path:
 
 ProjectManager
 -> TransferEvidenceCandidate(effect=EVIDENCE_ONLY, grants_authority=false)
--> OPEN_TRANSFERCORE_IDENTITY
+-> TransferCore typed relation/admission
+-> non-authoritative handoff
+-> target authority binding
+-> explicit mutation authorization
+-> target transition
+-> independent target verification
+-> feedback/reentry.
 
-until a current recovered TransferCore identity and target-side admission path exist.
+Transfer admission never grants target mutation authority.
 
-No transfer candidate can mutate a target project or self-authorize reuse.
+A missing or plural target authority, missing mutation authorization, unresolved bridge license,
+unresolved target effect, or blocking external acquisition preserves OPEN/BLOCKED rather than
+silently applying the transfer.
 
 ## 18 Requested bootstrap sequence
 
@@ -474,7 +481,7 @@ This artifact does not claim:
 universal host interception;
 that every project uses identical domain-specific authority files;
 that all projects need every optional PM technique;
-that TransferCore is recovered/current;
+that TransferCore admission authorizes target mutation;
 that ProjectManager replaces ImprovementCore;
 that control closure equals project completion;
 that 21 native coordinates are 21 independent dimensions;
