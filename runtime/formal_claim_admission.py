@@ -317,3 +317,57 @@ def claim_green_licensed(
     packet: FormalCompositionPacket | Mapping[str, Any] | None,
 ) -> bool:
     return assess_formal_claim(packet).green_licensed
+
+
+FORMAL_OUTPUT_MARKERS=(
+    "show me the math",
+    "actual math",
+    "full math",
+    "current math",
+    "current mathematics",
+    "canonical math",
+    "canonical mathematics",
+    "exact math",
+    "exact mathematics",
+    "equation",
+    "equations",
+)
+
+FORMAL_SYSTEM_MARKERS=(
+    "tool",
+    "device",
+    "controller",
+    "system",
+    "core",
+    "icc",
+    "assert",
+    "goal",
+    "mt",
+    "pd",
+    "hf1",
+    "hf2",
+    "wrapper",
+    "improvementcore",
+    "improve core",
+)
+
+
+def request_requires_formal_claim_receipt(
+    user_text: str,
+    *,
+    target: str | None = None,
+    job: str | None = None,
+) -> bool:
+    """Detect repository-governed requests that emit formal-system mathematics.
+
+    This is intentionally narrower than every mathematical question.  It looks
+    for an explicit math/equation request plus a formal-system/device target.
+    Callers may also force the requirement by placing
+    formal_claim_receipt_required=True in the parent-return context.
+    """
+    combined=" ".join(
+        str(x or "") for x in (user_text,target,job)
+    ).lower()
+    wants_formal_output=any(marker in combined for marker in FORMAL_OUTPUT_MARKERS)
+    names_system=any(marker in combined for marker in FORMAL_SYSTEM_MARKERS)
+    return wants_formal_output and names_system
