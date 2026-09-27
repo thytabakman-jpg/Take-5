@@ -1,9 +1,9 @@
 {
-  "schema_version": "0.1",
+  "schema_version": "0.2",
   "object_id": "TAKE6:BOOTSTRAP:001",
-  "status": "GREENFIELD_SUCCESSOR_CANDIDATE_CORE_VALIDATED",
+  "status": "NON_AUTHORITATIVE_BOOTSTRAP_INDEX",
   "date": "2026-09-26",
-  "authority": "NONE_UNTIL_PROMOTION",
+  "authority": "PROJECTION_ONLY__COMPILED_STATE_AND_COMPILED_SOURCE_FRONTIER_GOVERN",
   "files": [
     "README.md",
     "KERNEL.yaml",
@@ -33,11 +33,25 @@
     "migration/inventories/TAKE2_TREE_INVENTORY_001.json",
     "migration/inventories/TAKE3_TREE_INVENTORY_001.json",
     "migration/inventories/TAKE4_TREE_INVENTORY_001.json",
-    "migration/inventories/TAKE5_TREE_INVENTORY_001.json"
+    "migration/inventories/TAKE5_TREE_INVENTORY_001.json",
+    "VALIDATION_002.md",
+    "schemas/source-snapshot.schema.json",
+    "runtime/views.py",
+    "runtime/source_frontier.py",
+    "tests/test_views.py",
+    "tests/test_source_frontier.py",
+    "migration/source_snapshots/REPOSITORY_SNAPSHOTS_001.json",
+    "migration/source_snapshots/TAKE5_SNAPSHOT_002.json",
+    "migration/inventories/TAKE5_TREE_INVENTORY_002.json",
+    "migration/SOURCE_FRONTIER_002.md",
+    "migration/FROZEN_REPOSITORY_INVENTORY_VALIDATION_002.md"
   ],
   "source_refs": {
-    "authority": "take6-bootstrap/migration/SOURCE_MANIFEST_001.json",
-    "rule": "Repository/archive source identities are owned only by the migration source manifest. Do not duplicate frozen refs in this bootstrap projection."
+    "authority": "COMPILED_SOURCE_FRONTIER",
+    "runtime": "take6-bootstrap/runtime/source_frontier.py",
+    "snapshots": "take6-bootstrap/migration/source_snapshots/",
+    "historical_manifest": "take6-bootstrap/migration/SOURCE_MANIFEST_001.json",
+    "rule": "Source snapshots are immutable evidence. Migration-current source state is compiled from explicit supersession and scoped inventories; no hand-authored manifest path is a CURRENT pointer."
   },
   "design_decision": "Separate immutable evidence/event history from deterministically compiled semantic current state and disposable runtime execution.",
   "promotion_blockers": [
@@ -50,16 +64,19 @@
     "fresh-checkout/disaster reconstruction not yet certified on real corpus"
   ],
   "validation": {
-    "status": "PASS_RELATIVE_TO_BOOTSTRAP_FIXTURES",
-    "isolated_tests_passed": 14,
+    "authority": "NON_AUTHORITATIVE_PROJECTION",
+    "evidence": [
+      "take6-bootstrap/VALIDATION_001.md",
+      "take6-bootstrap/VALIDATION_002.md"
+    ],
     "production_promotion": false
   },
   "migration_source_freeze": {
-    "status": "PARTIAL_PASS",
+    "status": "COMPILED_FRONTIER_ACTIVE__EXTERNAL_ZIP_PAIR_OPEN",
     "repository_lineage": "PASS",
     "repository_member_inventory": "PASS",
-    "external_intended_zip_pair": "OPEN",
-    "take5_cutoff_includes_legacy_restoration": "PASS",
-    "duplicate_source_ref_authority_removed": "PASS"
+    "take5_predecessor_surface_frontier": "SNAPSHOT_002",
+    "successor_host_self_reference_excluded": "PASS_BY_DECLARED_SCOPE",
+    "external_intended_zip_pair": "OPEN"
   }
 }
