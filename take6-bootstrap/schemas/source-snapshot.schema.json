@@ -88,6 +88,18 @@
           "uniqueItems": true
         }
       }
+    },
+    "base_inventory": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "inventory_delta": {
+      "type": [
+        "string",
+        "null"
+      ]
     }
   }
 }
