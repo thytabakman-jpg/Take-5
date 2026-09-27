@@ -57,6 +57,7 @@ class ImprovementCoreRegimeResult:
     knowledge_summary:tuple=()
     hf2_status:str|None=None
     hf2_trace:tuple=()
+    parent_return_trace:tuple=()
 
     @property
     def receipt(self):
