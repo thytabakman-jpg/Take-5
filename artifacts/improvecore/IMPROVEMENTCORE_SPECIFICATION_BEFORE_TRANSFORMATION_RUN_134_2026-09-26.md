@@ -77,8 +77,9 @@ Transformation-class work fails closed.
      before BIND/EXECUTE.
 
 3. runtime/improvement_core_progress_relation.py
-   - strict progress at METHOD, INTERACTION, REDUCTION, ACTIVATION, HOST_BOUNDARY,
-     and CONTROLLER targets requires specification PASS.
+   - object-transforming strict progress at METHOD, INTERACTION, REDUCTION,
+     ACTIVATION, HOST_BOUNDARY, and CONTROLLER targets requires specification
+     PASS; ordinary diagnostic/controller progress remains legal.
 
 4. runtime/emergent_admission.py
    - package reality alone cannot admit a governing transformation claim.
@@ -115,3 +116,21 @@ merged. No current pointer is changed by this artifact alone.
 Remaining external boundary after repository validation:
 universal enforcement in a ChatGPT host that does not execute this repository
 runtime remains outside repository authority.
+
+
+## Validation correction
+
+The first Take-5 validation run exposed an over-broad first implementation:
+all CONTROLLER strict-progress transitions were initially forced through the
+specification gate, including ordinary recursive diagnostic progress.
+
+That was not the governing invariant. The repaired implementation indexes the
+gate by an explicit transformation claim. This preserves the distinction:
+
+diagnose/recover unknown object = legal;
+
+claim to architect/build/modify/improve/replace/promote unknown object = OPEN.
+
+Current intrinsically epistemic configured tools may infer a recovery-class
+operation only where that inference cannot license a mutation. Other configured
+tools remain fail-closed until the selected work supplies its operation class.
