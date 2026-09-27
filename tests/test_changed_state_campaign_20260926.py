@@ -61,7 +61,7 @@ def h1_adapter(s,p):
  x,_,_=frontier()
  packet={"identity":"campaign","type":"promotion","scope":"Take-6","job":"reentry","readings":[],"result_sensitive":True,"selectors":[],"authority":"Take-5","provenance":"current","open":True,"obligations":[x],"world_state":"main","discovery_state":x,"result_sensitive_state":"current"}
  def ex(pkg,mode,p): return HF1Execution({**p,"obligations":[]},value=pkg)
- o=run_hf1_episode(packet,package_index={"p":{x}},mode_flags={"goal_uncertain":False,"observer_risk":False,"action_authorized":False},execute_fn=ex,closure_fn=lambda e,p:HF1Closure(e.packet,"CLOSED"),verify_fn=lambda p:True,max_rounds=3)
+ o=run_hf1_episode(packet,package_index={"p":{x}},mode_flags={"exact_discriminant":True,"independent_local":True},execute_fn=ex,closure_fn=lambda e,p:HF1Closure(e.packet,"CLOSED"),verify_fn=lambda p:True,max_rounds=3)
  result={"terminal":o.terminal.value,"blocker":o.blocker,"selected":x,"receipts":[r.__dict__ for r in o.receipts]}
  return {"status":"EXECUTED","execution_truth":"IMPLEMENTATION_EXECUTED","result":result,"state":{**s,"hf1":result},"material_delta":False,"hf2_live_local":False,"hf2_local_close":True,"trc_terminal":True}
 
