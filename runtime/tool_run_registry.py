@@ -9,7 +9,7 @@ from learning_tool_bridge import SPECS as LEARNING_SPECS
 LEARNING_TOOLS=tuple(spec.program_id for spec in LEARNING_SPECS)
 
 MATERIAL_TOOLS=tuple([f"C{i:02d}" for i in range(1,50)]+[
-"ImprovementCore","ProjectManager","ICC128","MT","MTA","Architecture","PD","PDAudit","GDOS","Discriminator","Reconciler",
+"ImprovementCore","ProjectManager","TransferCore","ICC128","MT","MTA","Architecture","PD","PDAudit","GDOS","Discriminator","Reconciler",
 "DelegatedExecutor","HF001","HF002","RootCause","TRC","RTC","BiasPerturbation","CurrentnessAudit",
 "CapabilityFoundry","EmergentAdmission","HistoricalReconstruction","ZeroRequest","MultiObject","Diagnosis",
 "ASSERT","GOAL","SolutionToMyProblem","DesiredJane","QuestionWorthAsking","LambdaMath","SemanticResolutionPipeline","ToolConductor"
@@ -50,6 +50,23 @@ PROTECTED_BEHAVIORS={
         "IMPROVEMENTCORE_STRICT_PROGRESS",
         "IMPROVEMENTCORE_EXTERNAL_ACQUISITION",
         "IMPROVEMENTCORE_PLURAL_FRONTIER_PRESERVATION",
+        "IMPROVEMENTCORE_RECOVERABLE_OPEN_PARENT_REENTRY",
+    ),
+    "TransferCore":(
+        "TRANSFER_SOURCE_TARGET_TYPING",
+        "TRANSFER_BRIDGE_LICENSE",
+        "TRANSFER_TARGET_EFFECT",
+        "TRANSFER_NO_AUTHORITY_LAUNDERING",
+        "TRANSFER_FEEDBACK_REENTRY",
+        "TRANSFER_JOINT_IRREDUCIBILITY",
+        "TRANSFER_REPRESENTATION_HIERARCHY_ORDER_CHALLENGE",
+        "TRANSFER_TYPED_UPDATE_ALGEBRA",
+        "TRANSFER_NONDOMINATED_TARGET_FRONTIER",
+        "TRANSFER_PERSISTENT_QUEUE_STALE_GUARD",
+        "TRANSFER_TARGET_AUTHORITY_BINDING",
+        "TRANSFER_AUTHORIZED_TARGET_TRANSITION",
+        "TRANSFER_EXECUTION_TRUTH_LEDGER",
+        "TRANSFER_EXTERNAL_ACQUISITION_TYPING",
     ),
     "MT":("MT_BLACK_BOX_SEMANTIC_RETURN_GATE",),
     "MTA":("MTA_STRUCTURAL_MODEL_RECONSTRUCTION",),
@@ -112,7 +129,7 @@ PROTECTED_BEHAVIORS={
 def _spec(tool):
     strong=(
         tool in {
-            "ImprovementCore","ProjectManager","ICC128","MT","MTA","Architecture","PD","PDAudit","GDOS","RootCause","RTC",
+            "ImprovementCore","ProjectManager","TransferCore","ICC128","MT","MTA","Architecture","PD","PDAudit","GDOS","RootCause","RTC",
             "CurrentnessAudit","MultiObject","Diagnosis","ASSERT","GOAL","SolutionToMyProblem","DesiredJane",
             "QuestionWorthAsking","LambdaMath","SemanticResolutionPipeline","ToolConductor"
         }
