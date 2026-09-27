@@ -1,0 +1,42 @@
+{
+  "candidate_id": "sukkos-question-booklet-2-frame-resolution",
+  "coordinates": {
+    "goal": {
+      "X": "Grade 5-6 learner who asks ordinary questions",
+      "T": "understand that a question frames an issue through assumptions, live alternatives, and resolution conditions; repair a question that smuggles in a disputed assumption",
+      "I": "possible four-page Sukkos learning experience, not yet built",
+      "Sigma": "on a new question, learner identifies an assumption, keeps genuine alternatives open, states what would settle it, and rewrites the question"
+    },
+    "core_object": "q=<P,I> relative to context s; P=presuppositional/background commitments; I=nonempty downward-closed cover of s made of resolving information states; t resolves q iff t in I; nontrivial iff s notin I",
+    "context_binding": "Kohelet 7:10 explicitly evaluates the wisdom of a question; Rema Orach Chayim 490:9 records the custom of reading Kohelet on Sukkot",
+    "mechanism": "detect hidden commitment -> reopen alternatives -> specify resolution -> rewrite question",
+    "route": [
+      "question-looking sentence",
+      "hidden frame",
+      "ASSUMES/OPENS/SETTLES",
+      "Sukkos reveal through Kohelet 7:10",
+      "independent question repair"
+    ],
+    "evidence": "learner identifies built-in assumption, states live alternatives and settlement evidence, and rewrites a new question",
+    "boundaries": [
+      "Project 1 unchanged",
+      "no full Project 2 before explicit user approval",
+      "formal model is project model, not unique theory",
+      "source/application boundary preserved"
+    ],
+    "alternatives": [
+      "Structured Gap",
+      "Issue/Resolution plus Sukkah Sufficiency",
+      "Frame/Resolution plus Kohelet"
+    ],
+    "open_questions": []
+  },
+  "blocking_open": [],
+  "human_approval_ref": null,
+  "evidence_refs": [
+    "candidates/sukkos-question-gap/WHOLE_CONVERSATION_GOAL_PROBLEM_RUN_001.md",
+    "Stanford Encyclopedia of Philosophy: Questions",
+    "Kohelet 7:10",
+    "Rema Orach Chayim 490:9"
+  ]
+}
