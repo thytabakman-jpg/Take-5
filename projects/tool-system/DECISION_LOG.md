@@ -22,3 +22,21 @@ variants in a separate namespace.
 
 Keep Scope x ModeFace coverage and SourceScope x TargetScope handoffs as separate
 36-cell surfaces.
+
+## 2026-09-27 D005
+
+Admit the 21-coordinate ProjectManager control surface as the tool-system
+project-control completeness basis. Goal, stakeholders, schedule, resources,
+and communications receive separate project-level owners.
+
+## 2026-09-27 D006
+
+A current tool is not development-sweep complete merely because its configured
+route is reachable. The every-tool campaign requires a native/project-grounded
+execution disposition for every current registered tool, with ToolConductor's
+self-witness as the only explicit self-reference exception.
+
+## 2026-09-27 D007
+
+TOOL_INDEX.md is a navigational projection and must remain in exact set/count
+parity with runtime/tool_run_registry.py.
