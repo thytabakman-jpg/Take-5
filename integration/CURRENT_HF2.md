@@ -202,3 +202,27 @@ Final repository-owned disposition:
 CURRENT_REGISTERED_REPERTOIRE_HF2_INVOCATION = CLOSED_RELATIVE.
 
 Universal external host interception = EXTERNAL_NOT_OWNED.
+
+
+## Parent-return boundary
+
+HF2 remains a capability-local recurrence operator.
+
+HF2 relative closure does not authorize a user-visible ImprovementCore return.
+
+For user-facing ImprovementCore, the current composition is:
+
+HF2[ImprovementCore]
+-> ParentReturnGate
+-> {
+     RETURN,
+     CONTINUE -> HF2[ImprovementCore]
+   }.
+
+The parent gate is:
+runtime/improvement_core_return_gate.py
+
+Canonical architecture:
+architecture/IMPROVEMENT_CORE_PARENT_RETURN_CLOSURE_139.md
+
+Therefore repeated user prompts are not the intended outer recurrence mechanism. When repository-owned work remains, the parent gate returns CONTINUE internally and the complete ImprovementCore+HF2 path executes again before a user-visible return.
