@@ -31,6 +31,13 @@ PLURAL, OPEN and BLOCKED are preserved.
 
 Common mathematics can proceed before singleton identification through the intersection of candidate invariant sets.
 
+This does not license object-specific architecture or improvement. A downstream
+transformation on a PLURAL hypothesis space is legal only when the transformation
+is invariant across every surviving class. After IDENTIFIED, the separate
+Specification-Before-Transformation gate still requires every job-relevant
+load-bearing coordinate to be recovered or covered by an admitted invariance
+witness.
+
 ## Runtime
 
 runtime/object_recovery.py
