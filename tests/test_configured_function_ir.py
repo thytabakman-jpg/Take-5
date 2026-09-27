@@ -18,9 +18,10 @@ def test_registered_holdout_uses_one_generic_encoder_without_alias_substitution(
     ids=tuple(row["object_id"] for row in report["rows"])
     assert ids==HOLDOUT
     assert "ICC123" in report["blocked_unregistered"]
-    assert "ICC128" in report["blocked_unregistered"]
+    assert "ICC128" not in report["blocked_unregistered"]
     assert encode("ICC123").residuals==("UNREGISTERED_NAMED_OBJECT",)
-    assert encode("ICC128").residuals==("UNREGISTERED_NAMED_OBJECT",)
+    assert encode("ICC128").registered is True
+    assert encode("ICC128").configured_identity_status=="CLOSED_RELATIVE"
 
 
 def test_semantic_identity_and_runtime_realization_are_separate_coordinates():
