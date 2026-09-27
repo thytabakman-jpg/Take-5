@@ -62,18 +62,19 @@
       "tree_inventory": "take6-bootstrap/migration/inventories/TAKE4_TREE_INVENTORY_001.json"
     },
     {
-      "role": "current_working_authority_take5",
+      "role": "current_working_authority_take5_at_migration_cutoff",
       "repository": "thytabakman-jpg/Take-5",
       "ref": "main",
-      "commit": "360b93b66f307ff800299d3a2122a00d336c66a3",
-      "tree_sha": "bece091a96bb953ddd5cd628752745b7beacd022",
-      "observed_paths": 858,
-      "markdown": 461,
-      "python": 291,
-      "json": 25,
-      "yaml": 33,
+      "commit": "853c7f92dae62747d3f8f42a38b6d4b77e194ad2",
+      "tree_sha": "6bb206f9c22776b595e62bb3c1ab19197df0f395",
+      "observed_paths": 875,
+      "markdown": 465,
+      "python": 300,
+      "json": 26,
+      "yaml": 36,
       "zip": 0,
-      "tree_inventory": "take6-bootstrap/migration/inventories/TAKE5_TREE_INVENTORY_001.json"
+      "tree_inventory": "take6-bootstrap/migration/inventories/TAKE5_TREE_INVENTORY_001.json",
+      "cutoff_note": "This cutoff includes the merged Legacy ImprovementCore restoration and intentionally excludes the source-freeze commit itself to avoid self-referential source identity."
     },
     {
       "role": "frozen_legacy_improvementcore_behavioral_reference",
@@ -111,12 +112,14 @@
     "legacy_behavioral_reference_freeze": "PASS_RELATIVE_TO_DECLARED_COMMIT",
     "intended_zip_pair_freeze": "OPEN",
     "overall": "OPEN",
-    "repository_member_inventory": "PASS"
+    "repository_member_inventory": "PASS",
+    "take5_cutoff_includes_legacy_restoration": "PASS"
   },
   "inventory_summary": {
-    "frozen_tree_entries": 3352,
-    "frozen_blobs": 3175,
+    "frozen_tree_entries": 3369,
+    "frozen_blobs": 3192,
     "recursive_tree_truncation": false,
-    "rule": "Inventories are derived evidence for member accounting. Frozen source authority remains repository+commit+tree SHA."
+    "rule": "Inventories are derived evidence for member accounting. Frozen source authority remains repository+commit+tree SHA.",
+    "currentness_repair": "Take-5 cutoff advanced from 360b93 to 853c7f so the restored Legacy ImprovementCore implementation is inside the migration basis."
   }
 }
