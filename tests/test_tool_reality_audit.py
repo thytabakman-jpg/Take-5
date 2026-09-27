@@ -16,6 +16,7 @@ def test_strong_tool_reality_cannot_inherit_narrow_configured_identity_closure()
     assert "MultiObject" not in audit.generic_only
     for recovered in ("GDOS","Discriminator","RTC","BiasPerturbation","Diagnosis"):
         assert recovered not in audit.generic_only
+    assert set(audit.generic_only)=={"MTA","Architecture","PD","PDAudit"}
 
 
 def test_missing_native_realizations_are_explicit_not_silently_substituted():

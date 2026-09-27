@@ -31,9 +31,15 @@ def test_semantic_identity_and_runtime_realization_are_separate_coordinates():
     assert mt.runtime_entrypoint
 
     conductor=encode("ToolConductor")
-    assert conductor.configured_identity_status=="OPEN"
+    assert conductor.configured_identity_status=="CLOSED_RELATIVE"
     assert conductor.realization_status=="SELF_CONTAINED"
-    assert "GENERIC_ONLY_MANIFEST" in conductor.residuals
+    assert "GENERIC_ONLY_MANIFEST" not in conductor.residuals
+
+    mta=encode("MTA")
+    assert mta.configured_identity_status=="OPEN"
+    assert mta.realization_status=="UNRECOVERED"
+    assert "GENERIC_ONLY_MANIFEST" in mta.residuals
+    assert "NATIVE_RUNTIME_UNRECOVERED" in mta.residuals
 
 
 def test_pd_and_architecture_fail_closed_instead_of_becoming_green_by_function_notation():

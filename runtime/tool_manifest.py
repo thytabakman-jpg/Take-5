@@ -7,6 +7,8 @@ The manifest references implementation/witness surfaces. It does not duplicate
 their semantics.
 """
 from dataclasses import dataclass
+from a5_programs import REGISTRY as A5_REGISTRY
+from learning_tool_bridge import SPECS as LEARNING_SPECS
 
 PHASES={"PRE","INTRA","POST","CROSS"}
 
@@ -549,6 +551,125 @@ OVERRIDES={
     ),
 
 }
+
+# Registry-defined capabilities have tool-specific identity in their executable
+# registries. These backfills do not invent new semantics; they project those
+# already-typed identities into the canonical manifest layer.
+for _i in range(1,50):
+    _pid=f"C{_i:02d}"
+    _spec=A5_REGISTRY.get(_pid)
+    OVERRIDES.setdefault(_pid,ToolManifest(
+        tool_id=_pid,
+        native_semantics=f"{_spec.job} -> {','.join(_spec.protected_outputs)}",
+        geometry_policy="D36_C",
+        closure_contract="TRC",
+        reentry_contract="HF001",
+        bindings=GENERIC_BINDINGS+(
+            ProtectedBinding(
+                f"{_pid}_REGISTERED_CAPABILITY_IDENTITY",
+                "INTRA",
+                "runtime/a5_programs.py",
+                "tests/test_a5_registry.py",
+            ),
+        ),
+        lineage_contract="architecture/EXPLICIT_TOOL_MANIFEST_BACKFILL_161_2026-09-27.md",
+    ))
+
+for _spec in LEARNING_SPECS:
+    OVERRIDES.setdefault(_spec.program_id,ToolManifest(
+        tool_id=_spec.program_id,
+        native_semantics=f"{_spec.obligation}: {_spec.input_type} -> {_spec.output_type}",
+        geometry_policy="D36_C",
+        closure_contract="TRC",
+        reentry_contract="HF001",
+        bindings=GENERIC_BINDINGS+(
+            ProtectedBinding(
+                f"{_spec.program_id}_TYPED_LEARNING_IDENTITY",
+                "INTRA",
+                "runtime/learning_tool_bridge.py",
+                "tests/test_learning_tool_configured_runs.py",
+            ),
+        ),
+        lineage_contract="architecture/EXPLICIT_TOOL_MANIFEST_BACKFILL_161_2026-09-27.md",
+    ))
+
+_DEDICATED_NATIVE={
+    "Reconciler":(
+        "admitted results -> coherent joint state with conflicts/subsumptions/revisions/relations/OPEN",
+        "runtime/reconcile.py",
+    ),
+    "DelegatedExecutor":(
+        "bounded authority-preserving delegation with exact input/output hashes and reintegration receipt",
+        "runtime/delegation.py",
+    ),
+    "TRC":(
+        "recursive material consequence closure with typed disposition, verification and consumption",
+        "runtime/tool_run_closure.py",
+    ),
+    "CurrentnessAudit":(
+        "built basis vs latest admitted basis -> KEEP/PATCH/REPLACE/OPEN",
+        "runtime/currentness_audit.py",
+    ),
+    "CapabilityFoundry":(
+        "typed capability candidate generation without self-admission or self-authorization",
+        "runtime/capability_foundry.py",
+    ),
+    "EmergentAdmission":(
+        "load-bearing object admission guard preserving OPEN and executable binding requirements",
+        "runtime/emergent_admission.py",
+    ),
+    "HistoricalReconstruction":(
+        "frozen-job protected-result predecessor/successor comparison with execution witnesses",
+        "runtime/historical_reconstruction.py",
+    ),
+    "ZeroRequest":(
+        "observation-only governed episode over an addressable corpus without manufacturing a substantive job",
+        "runtime/zero_request_episode.py",
+    ),
+    "SolutionToMyProblem":(
+        "candidate solution frontier requiring execution/effect/preservation/verification/closure receipts",
+        "runtime/solution_to_my_problem.py",
+    ),
+    "DesiredJane":(
+        "evidence-polarity reconstruction of required/prohibited/open/conflicting Jane coordinates",
+        "runtime/desired_jane.py",
+    ),
+    "QuestionWorthAsking":(
+        "nondominated live-question selection over result sensitivity, information gain, unlock, actionability and burden",
+        "runtime/question_worth_asking.py",
+    ),
+    "LambdaMath":(
+        "set-valued entry-state reconstruction with continuation-equivalence quotienting and result-sensitive ambiguity",
+        "runtime/lambda_math.py",
+    ),
+    "SemanticResolutionPipeline":(
+        "configured black-box semantic-resolution stage plan with typed residual activation",
+        "runtime/semantic_resolution_pipeline.py",
+    ),
+    "ToolConductor":(
+        "exhaustive product over registered repertoire with one fail-closed execution disposition per factor",
+        "runtime/portable_tool_conductor.py",
+    ),
+}
+
+for _pid,(_sem,_impl) in _DEDICATED_NATIVE.items():
+    OVERRIDES.setdefault(_pid,ToolManifest(
+        tool_id=_pid,
+        native_semantics=_sem,
+        geometry_policy="D36_C",
+        closure_contract="TRC_PLUS_TYPED_OPEN",
+        reentry_contract="HF001",
+        bindings=GENERIC_BINDINGS+(
+            ProtectedBinding(
+                f"{_pid}_EXPLICIT_NATIVE_IDENTITY",
+                "INTRA",
+                _impl,
+                "tests/test_explicit_native_manifests.py",
+            ),
+        ),
+        lineage_contract="architecture/EXPLICIT_TOOL_MANIFEST_BACKFILL_161_2026-09-27.md",
+    ))
+
 
 def manifest_for(tool_id:str)->ToolManifest:
     tool_id=str(tool_id)

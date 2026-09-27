@@ -18,6 +18,7 @@ def test_portfolio_identity_audit_keeps_remaining_generic_only_tools_open():
     for recovered in ("GDOS","Discriminator","RTC","BiasPerturbation","Diagnosis"):
         assert recovered in audit.explicit
         assert recovered not in audit.generic_only
+    assert set(audit.generic_only)=={"MTA","Architecture","PD","PDAudit"}
 
 
 def test_explicit_subset_can_close_relative():
