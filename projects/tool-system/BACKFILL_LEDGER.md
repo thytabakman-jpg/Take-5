@@ -1,13 +1,13 @@
 # Tool Package Backfill Ledger
 
 Date: 2026-09-27
-Status: VALIDATED / ADMISSION PENDING
+Status: VALIDATED / CURRENT-REGISTRY PARITY
 
-Current configured tool packages: 92
+Current configured tool packages: 93
 ICC/IC variant packages: 45
-Total object packages: 137
+Total object packages: 138
 Coverage pages per package: 36
-Total dedicated coverage pages: 4,932
+Total dedicated coverage pages: 4,968
 
 ## Migration method
 
@@ -29,3 +29,13 @@ Capability Preservation 36334999156: SUCCESS.
 The organizational backfill is complete relative to the current registered tool
 inventory and the recovered ICC/IC variant inventory. New inventory evidence
 reopens only the affected backfill cone.
+
+
+## 2026-09-27 currentness delta
+
+ProjectManager was admitted after the original 92-tool backfill. Its package was
+created by the anti-loss package mechanism, increasing the current repertoire to
+93 tools and total object packages to 138.
+
+The every-tool sweep verified exact registry/package parity and zero native
+development-run OPEN tools on PR #166.
