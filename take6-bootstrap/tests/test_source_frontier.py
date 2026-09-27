@@ -47,8 +47,8 @@ def test_repository_snapshot_history_compiles_unique_frontier():
 
     take5 = compiled["repositories"]["thytabakman-jpg/Take-5"]
     assert take5["status"] == "CURRENT"
-    assert take5["current_commit"] == "91cc65b5379b9354036254c5dcff24d08490ae87"
-    assert take5["current_tree_sha"] == "55cc51cf22363e458c7f5f234109241e193cc16b"
+    assert take5["current_commit"] == "ca732202c5eef65fcddea0fe73cff1999bd2f165"
+    assert take5["current_tree_sha"] == "141bd97d4c64233fbc11af60ede0077dd7a66726"
     assert take5["current_scope_digest"].startswith("sha256:")
     assert take5["known_commits"] == [
         "2c2ad4de79a6a5484bc1c7631a83e342fe0b53ac",
@@ -58,6 +58,7 @@ def test_repository_snapshot_history_compiles_unique_frontier():
         "853c7f92dae62747d3f8f42a38b6d4b77e194ad2",
         "91cc65b5379b9354036254c5dcff24d08490ae87",
         "a773ac5ac00fe4d04bd8e22a3d0ae949a6f35af2",
+        "ca732202c5eef65fcddea0fe73cff1999bd2f165",
     ]
 
     for repo in (
@@ -74,14 +75,14 @@ def test_take5_frontier_inventory_matches_exact_snapshot():
     current = next(
         x for x in snapshots
         if x["repository"] == "thytabakman-jpg/Take-5"
-        and x["commit"] == "91cc65b5379b9354036254c5dcff24d08490ae87"
+        and x["commit"] == "ca732202c5eef65fcddea0fe73cff1999bd2f165"
     )
     inventory = resolve_snapshot_inventory(current, _load_inventory)
     verify_inventory(current, inventory)
-    assert inventory["entry_count"] == 931
-    assert inventory["blob_count"] == 884
+    assert inventory["entry_count"] == 934
+    assert inventory["blob_count"] == 887
     assert inventory["derived_from_inventory"] == "migration/inventories/TAKE5_TREE_INVENTORY_004.json"
-    assert inventory["applied_delta"] == "migration/inventory_deltas/TAKE5_TREE_DELTA_007.json"
+    assert inventory["applied_delta"] == "migration/inventory_deltas/TAKE5_TREE_DELTA_008.json"
     assert inventory["recursive_tree_truncated"] is False
 
 
@@ -103,8 +104,8 @@ def test_promotion_frontier_match_passes_for_compiled_snapshot():
         compiled,
         observed={
             "thytabakman-jpg/Take-5": {
-                "commit": "91cc65b5379b9354036254c5dcff24d08490ae87",
-                "tree_sha": "55cc51cf22363e458c7f5f234109241e193cc16b",
+                "commit": "ca732202c5eef65fcddea0fe73cff1999bd2f165",
+                "tree_sha": "141bd97d4c64233fbc11af60ede0077dd7a66726",
             }
         },
     )
