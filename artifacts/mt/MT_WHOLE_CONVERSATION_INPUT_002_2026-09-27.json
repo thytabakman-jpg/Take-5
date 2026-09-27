@@ -1,0 +1,78 @@
+{
+  "schema_version": 2,
+  "object_id": "TAKE5:MT-WHOLE-CONVERSATION:20260927-002",
+  "target": "current ChatGPT conversation available to this run",
+  "source_role": "CHAT_EVIDENCE_WITH_SUMMARIZED_AND_SKIPPED_REGIONS",
+  "corpus_limit": {
+    "raw_complete": false,
+    "reason": "The active conversation context contains summarized/skipped regions rather than every raw message.",
+    "consequence": "Exhaustive claims about every raw utterance remain OPEN."
+  },
+  "facts": [
+    {
+      "id": "C1",
+      "claim": "The conversation repeatedly targets regression, loss, tool downgrade, artifact loss, and exact recovery of formal devices.",
+      "status": "OBSERVED"
+    },
+    {
+      "id": "C2",
+      "claim": "The current registered direct-tool invocation contract requires wrapper, OBSERVER mode, D36_C, Q01-Q22 across all 36 cells, four cognitive operators across all 36 cells, closure, reentry, and HF002 recurrence for ordinary tools.",
+      "status": "REPOSITORY_EVIDENCED"
+    },
+    {
+      "id": "C3",
+      "claim": "Exact D36_C axes are currently recovered as Scope6 x ModeFace6.",
+      "status": "REPOSITORY_EVIDENCED"
+    },
+    {
+      "id": "C4",
+      "claim": "Q01-Q22 family semantics are recovered on the current basis, while global completeness/minimality remains OPEN.",
+      "status": "REPOSITORY_EVIDENCED"
+    },
+    {
+      "id": "C5",
+      "claim": "ImprovementCore's current user-facing composition separates one-pass regime, local HF2 recurrence, and the parent return gate.",
+      "status": "REPOSITORY_EVIDENCED"
+    },
+    {
+      "id": "C6",
+      "claim": "Specification-before-transformation is current and validated for repository-governed transformation paths.",
+      "status": "REPOSITORY_EVIDENCED"
+    },
+    {
+      "id": "C7",
+      "claim": "Authority-before-formal-emission is current and validated for authoritative formal-system claims.",
+      "status": "REPOSITORY_EVIDENCED"
+    },
+    {
+      "id": "C8",
+      "claim": "Higher-order callback execution is now gated by operation class and effect class before target-transforming callbacks run on the current governed paths.",
+      "status": "REPOSITORY_EVIDENCED"
+    },
+    {
+      "id": "C9",
+      "claim": "Durable ImprovementCore knowledge capture governs material knowledge crossing the repository path, not every raw chat event or every external source.",
+      "status": "REPOSITORY_EVIDENCED"
+    },
+    {
+      "id": "C10",
+      "claim": "Universal interception by an unrelated external ChatGPT host remains outside repository authority.",
+      "status": "REPOSITORY_EVIDENCED"
+    },
+    {
+      "id": "C11",
+      "claim": "The visible chat corpus for this run is not raw-complete.",
+      "status": "OBSERVED"
+    },
+    {
+      "id": "C12",
+      "claim": "Earlier assistant runs sometimes applied reconstructed tool semantics without a repository-native configured execution receipt.",
+      "status": "OBSERVED"
+    }
+  ],
+  "black_boxes": [
+    "CHAT_CORPUS_COMPLETENESS",
+    "STRONG_TOOL_REALITY_RESIDUAL",
+    "UNIVERSAL_HOST_INTERCEPTION"
+  ]
+}
