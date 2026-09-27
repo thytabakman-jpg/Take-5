@@ -9,7 +9,7 @@ Current formal object:
 HF1 / HF001
 
 Current mathematical surface:
-architecture/HF1_MATHEMATICS_084.md
+architecture/HF1_MATHEMATICS_173.md
 
 Current runtime:
 runtime/hf1_episode.py
@@ -26,6 +26,7 @@ runtime/tool_run_registry.py
 HF1 is the governed recurrence:
 
 x_t
+-> FreshObserve(x_t)
 -> K_PD(x_t)
 -> O_t
 -> P*_t
@@ -58,9 +59,13 @@ result-sensitive-only delta -> REVERIFY
 no delta -> NO_REENTRY.
 
 Relative closure requires:
-- Tool Run Closure CLOSED;
+- Tool Run Closure CLOSED when a tool run occurred;
 - no live K_PD obligations;
+- a fresh whole-continuation observation is available;
+- fresh observation exposes no new obligation and no typed W/D/R delta;
 - required reverification succeeded.
+
+An inherited empty obligation set is not closure evidence.
 
 ## Architectural resolution
 
@@ -106,10 +111,11 @@ tests/test_hf1_episode.py
 
 ## Scope
 
-HF1 mathematics is complete relative to the typed packet interface.
+HF1 mathematics is complete relative to the typed packet plus fresh-observer interface.
 
-Construction of world_state, discovery_state, and result_sensitive_state is upstream.
-HF1 requires them for delta classification and fails OPEN when they are missing.
+Construction of world_state, discovery_state, and result_sensitive_state remains host/domain bound,
+but HF1 now requires a fresh observer before relative close. It fails OPEN when the observer or
+typed signatures are missing, and rejects an untyped fresh delta.
 
 Global minimality of the entire Take-5 controller is not part of the HF1 job.
 
