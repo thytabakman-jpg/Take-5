@@ -35,6 +35,24 @@ Among admissible responses, choose minimum extra output.
 
 User rejection updates durable episode state and forces reselection.
 
+## Host ingress identity
+
+Host-facing repository-backed ICC execution is now gated by:
+
+- runtime/icc_host_ingress.py
+- runtime/icc_host_gateway.py
+- architecture/ICC_HOST_INGRESS_CONTRACT_001_2026-09-27.md
+
+The prefix ICC expresses routing intent. It does not establish that ICC ran.
+
+A host may claim repository-backed ICC identity only with a HOST_INGRESS_ADMITTED
+receipt bound to the exact request, canonical Take-5/main commit, verified
+currentness, bound entry contract, complete ASSERT then GOAL observer bootstrap,
+and registered current ICC128 identity.
+
+Hosted ICC emission requires the same receipt and projects the formal ICC128 and
+Take-5 identities through the mathematical color gate.
+
 ## Historical recovery guard
 
 Active recovery gate:
@@ -52,8 +70,7 @@ The 36x4 configured-run expression is retained only as a source-backed prior-ass
 
 ## Validation
 
-Take-5 Validation run 36298980965: SUCCESS.
-
+Take-5 Validation run 36298980965: SUCCESS.\n\nHost-ingress PR #159 validation before final documentation delta:\n- Take-5 Validation run 36300397075: SUCCESS.\n- Capability Preservation run 36300397054: SUCCESS.\n
 The active repository path now covers:
 Jane continuity -> ICC128 state-relative selection -> execution/reselection -> exact recovery gate -> minimal response selection.
 
