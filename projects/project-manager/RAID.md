@@ -19,8 +19,8 @@ Control: observer-only ProjectManager adapter plus separate admitted commit.
 R5 ProjectManager self-authorizes its own promotion.
 Control: repository validation and governance remain external authority.
 
-R6 TransferCore name creates false confidence.
-Control: evidence-only boundary while its full identity is OPEN.
+R6 Transfer admission is mistaken for target mutation authority.
+Control: typed non-authoritative handoff, unique target authority binding, explicit mutation authorization, and independent target verification.
 
 R7 36 cells are misdescribed as 36 native dimensions.
 Control: separate native project coordinates from D36_C coverage.
@@ -33,7 +33,7 @@ A3 ImprovementCore remains the substantive autonomous improvement controller.
 
 ## Issues
 
-I1 TransferCore current full mathematical identity is not recovered in Take-5.
+I1 TransferCore prior identity gap is closed by the current recovery candidate and remains under validation.
 
 ## Dependencies
 

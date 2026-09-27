@@ -23,5 +23,5 @@ No tool-output-to-truth shortcut.
 No project mutation from observer-mode tool execution.
 No candidate-to-project promotion without definition readiness and explicit USER approval.
 No full project package required while a candidate remains exploratory.
-No TransferCore mutation while its full identity is OPEN.
+No target state change follows merely from TransferCore admission; target authority and explicit authorization remain separate.
 Every material admitted change receives impact, verification, state, and evidence updates.

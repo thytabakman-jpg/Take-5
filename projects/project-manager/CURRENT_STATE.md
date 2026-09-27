@@ -12,7 +12,7 @@ SELF_PROJECT_PACKAGE: CURRENT
 D36_C_COVERAGE_SHELL: CURRENT
 REQUESTED_BOOTSTRAP_SEQUENCE: SEMANTIC_RELATIVE_CLOSE
 IMPROVEMENTCORE_INTERFACE: CURRENT
-TRANSFERCORE_INTERFACE: OPEN_TRANSFERCORE_IDENTITY
+TRANSFERCORE_INTERFACE: CURRENT_CANDIDATE_UNDER_VALIDATION
 REPOSITORY_TESTS: PASS_937_POST_MERGE_RUN_36348323649
 PR_VALIDATION: PASS_RUN_36336038887
 CANONICAL_PROMOTION: MERGED_PR_164_COMMIT_4d8477dd79e45292e9f8f736721b97eedb23f054
@@ -20,9 +20,9 @@ CANONICAL_PROMOTION: MERGED_PR_164_COMMIT_4d8477dd79e45292e9f8f736721b97eedb23f0
 ALL_TOOLS_HF2_CAMPAIGN: CURRENT / CLOSED_RELATIVE / MERGED_PR_167 / POST_MERGE_RUN_36348323649
 
 Current next frontier
-Use ProjectManager on additional projects; preserve TransferCore as explicit external OPEN
-until its current FullMath identity is recovered; reenter on any material regression,
-new result-sensitive project holdout, or admitted change to the transfer boundary.
+Validate recovered TransferCore plus the recoverable-OPEN parent-reentry invariant while preserving
+the current pre-project definition gate; then reenter only on a material regression, new transfer
+counterexample, result-sensitive project holdout, or admitted boundary change.
 
 
 ## Pre-project admission extension

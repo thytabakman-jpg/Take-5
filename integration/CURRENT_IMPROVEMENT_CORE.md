@@ -740,3 +740,23 @@ This complements Specification-Before-Transformation. The earlier gate asks
 whether an object is recovered enough to change. This gate asks whether a
 reconstruction is recovered, current, authority-bound, dependency-closed, and
 type-correct enough to be emitted as the claimed authoritative mathematics.
+
+
+## Recoverable OPEN parent reentry 2026-09-27
+
+ImprovementCore now distinguishes local HF002 saturation from parent-job closure.
+
+A result-sensitive OPEN carrying an explicit reachable recovery route is parent-owned work.
+The parent return gate converts a proposed user return into CONTINUE, captures the residual
+as owned_recovery_work, and re-enters the complete ImprovementCore capability.
+
+Current contract:
+architecture/IMPROVEMENT_CORE_RECOVERABLE_OPEN_REENTRY_001_2026-09-27.md
+
+Runtime:
+runtime/improvement_core_return_gate.py
+
+Regression:
+tests/test_improvement_core_return_gate.py
+
+This does not change HF002's same-capability local recurrence identity.

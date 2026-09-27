@@ -24,7 +24,11 @@ effect_class = EVIDENCE_ONLY
 grants_authority = false
 
 Current status
-OPEN_TRANSFERCORE_IDENTITY.
+TRANSFERCORE_CURRENT_CANDIDATE_UNDER_VALIDATION.
+
+ProjectManager emits non-authoritative transfer evidence.
+TransferCore determines the typed source-target relation.
+Target mutation still requires a unique target authority binding and separate explicit authorization.
 
 ## Domain tool handoff
 

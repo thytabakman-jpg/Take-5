@@ -43,6 +43,10 @@ NATIVE_ENTRYPOINTS: dict[str, tuple[str, tuple[str, ...]]] = {
         "project_manager.project_manager_adapter",
         (),
     ),
+    "TransferCore": (
+        "transfer_core.transfer_core_adapter",
+        (),
+    ),
     "MTA": (
         "mta.run_mta",
         ("generate_structural_hypotheses","select_analysis_package","reconstruct_protected_model"),

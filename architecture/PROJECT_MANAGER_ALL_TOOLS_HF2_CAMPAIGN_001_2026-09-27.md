@@ -219,3 +219,19 @@ ImprovementCore consumed the combined result;
 TRC closed local consequences;
 no local project-control finding remains;
 surviving external OPEN state is explicit and non-authorizing.
+
+
+## 2026-09-27 TransferCore recovery reentry
+
+The original campaign basis contained 93 registered tools and correctly recorded TransferCore
+as an external OPEN at that time.
+
+ImprovementCore later recovered TransferCore from historical authority/evidence and promoted it
+into the current validation repertoire. The live campaign basis is therefore 94 registered tools,
+with TransferCore in the propagation and transfer-safety phase.
+
+The historical 93-tool receipts remain immutable evidence of the earlier basis.
+
+On the new basis, campaign closure requires all 94 current configured factors, full configured
+TransferCore execution, ImprovementCore consumption, ToolConductor exhaustive coverage, and no
+locally reachable result-sensitive OPEN.

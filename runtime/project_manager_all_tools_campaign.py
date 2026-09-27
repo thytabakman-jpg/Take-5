@@ -86,7 +86,7 @@ PHASES=(
     ),
     (
         "PROPAGATION_TRANSFER_SAFETY",
-        ("C36","C37","C38","C39","C40","C41","C42","C43"),
+        ("TransferCore","C36","C37","C38","C39","C40","C41","C42","C43"),
     ),
     (
         "VERIFICATION",
@@ -183,7 +183,7 @@ def _capability_inputs(packet:dict[str,Any])->dict[str,dict[str,Any]]:
         "C06":{"dependencies":[
             {"id":"Take-5","availability":"CURRENT"},
             {"id":"ImprovementCore","availability":"CURRENT"},
-            {"id":"TransferCore","availability":"OPEN"},
+            {"id":"TransferCore","availability":"CURRENT"},
         ]},
         "C07":{"candidate_edges":[
             {"from":"ProjectManager","to":"ImprovementCore","material":True},
@@ -259,7 +259,7 @@ def _capability_inputs(packet:dict[str,Any])->dict[str,dict[str,Any]]:
         ]},
         "C22":{"improvement_frontier":[
             "preserve validated manager",
-            "recover TransferCore separately",
+            "preserve current TransferCore authority separation",
         ]},
         "C23":{"typed_relation":{
             "source":"ProjectManager",
@@ -273,9 +273,9 @@ def _capability_inputs(packet:dict[str,Any])->dict[str,dict[str,Any]]:
         "C34":{"protected_before":protected,"protected_after":protected},
         "C35":{"candidates":[
             {"id":"keep-current"},
-            {"id":"recover-transfercore-separately"},
+            {"id":"preserve-transfer-authority-separation"},
         ]},
-        "C36":{"affected_update":{"local":"current","external":"TransferCore OPEN"}},
+        "C36":{"affected_update":{"local":"current","transfercore":"CURRENT"}},
         "C37":{"provenance_chain":[
             "ProjectManager evidence",
             "TransferEvidenceCandidate",
@@ -404,10 +404,7 @@ def build_packet(
     current_state_text:str,
     basis_ref:str,
 )->dict[str,Any]:
-    transfer_open=(
-        "OPEN_TRANSFERCORE_IDENTITY" in current_state_text
-        or "TransferCore" in str(project.get("evidence_refs",()))
-    )
+    transfer_open=("TransferCore" not in CONFIGURED_RUNS)
     packet={
         "target":"ProjectManager",
         "basis_ref":str(basis_ref),
@@ -464,9 +461,9 @@ def _run_named_native(tool_id:str, packet:dict[str,Any])->Any:
     if tool_id=="ASSERT":
         from assert_compound import AssertState,AssertStages,identity_stage,run_to_fixed_point
         state=AssertState(
-            assertions=("ProjectManager is current","TransferCore remains external OPEN"),
+            assertions=("ProjectManager is current","TransferCore is current"),
             world=(packet["basis_ref"],),
-            discovery=("93-tool exhaustive campaign",),
+            discovery=("94-tool exhaustive campaign",),
         )
         stages=AssertStages(
             identity_stage,identity_stage,identity_stage,
@@ -478,9 +475,9 @@ def _run_named_native(tool_id:str, packet:dict[str,Any])->Any:
         from goal import GoalCandidate,GoalObject,recover_goal
         goal=GoalObject(
             X="current ProjectManager plus exhaustive tool evidence",
-            T="locally consequence-closed ProjectManager with explicit external OPEN",
+            T="locally consequence-closed ProjectManager with current transfer boundary",
             I="run entire registered repertoire and consume all local consequences",
-            Sigma="authority preserved; no invented TransferCore identity",
+            Sigma="authority preserved; TransferCore admission remains distinct from target mutation",
         )
         return recover_goal((
             GoalCandidate(
@@ -493,6 +490,39 @@ def _run_named_native(tool_id:str, packet:dict[str,Any])->Any:
 
     if tool_id=="ProjectManager":
         return project_manager_adapter({"project":packet["project"]},None)
+
+    if tool_id=="TransferCore":
+        from transfer_core import TransferSource,TransferTarget,run_transfer_core
+        source=TransferSource(
+            "pm-campaign-source",
+            "project-manager",
+            "ALL_TOOLS_HF2_CANONICAL_001",
+            ("projects/project-manager/tool-runs/ALL_TOOLS_HF2_CANONICAL_001.md",),
+            "project-control-result",
+            {"finding":"transfer admission must not grant target mutation authority"},
+            {"basis":packet["basis_ref"]},
+        )
+        target=TransferTarget(
+            "pm-self",
+            "project-manager",
+            "preserve transfer authority separation",
+            "project",
+            {"authority_coordinate":"handoffs"},
+        )
+        return run_transfer_core(
+            source,
+            candidate_targets=(target,),
+            evaluate_relation=lambda src,tgt:{
+                "relation_statement":"ProjectManager transfer evidence is admissible only through target authority review",
+                "applicability":True,
+                "bridge_license":"LICENSED",
+                "target_effect":"preserves non-authoritative transfer handoff boundary",
+                "material_effect":True,
+                "duplication_status":"NOVEL_EFFECT",
+                "authority_state":"target mutation requires separate authorization",
+                "evidence":{"campaign":"current"},
+            },
+        )
 
     if tool_id=="CurrentnessAudit":
         return assess_currentness(
@@ -529,7 +559,7 @@ def _run_named_native(tool_id:str, packet:dict[str,Any])->Any:
             "OBSERVER",
             "authority preserved",
             "current validated state",
-            "93 registered tools",
+            "94 registered tools",
         )
         return reconstruct(
             (state,),
@@ -552,7 +582,7 @@ def _run_named_native(tool_id:str, packet:dict[str,Any])->Any:
             ),
             QuestionCandidate(
                 "transfercore",
-                "What is the exact current TransferCore FullMath identity?",
+                "Does current TransferCore preserve transfer admission versus target mutation authority?",
                 1.0,1.0,1.0,0.2,0.8,0.1,True,
             ),
         ))
@@ -761,13 +791,13 @@ def _run_named_native(tool_id:str, packet:dict[str,Any])->Any:
         from solution_to_my_problem import Problem,Candidate,SolutionReceipt,solve
         problem=Problem(
             observed=("unsafe cross-project transfer risk",),
-            generators=("unrecovered TransferCore identity",),
+            generators=("transfer admission authority laundering",),
             required_effects=("fail-closed transfer",),
             protected=("ProjectManager authority",),
         )
         candidate=Candidate(
             "evidence-only-transfer-boundary",
-            proposed_attacks=("unrecovered TransferCore identity",),
+            proposed_attacks=("transfer admission authority laundering",),
             proposed_effects=("fail-closed transfer",),
             proposed_preservations=("ProjectManager authority",),
             cost=1.0,
@@ -776,12 +806,12 @@ def _run_named_native(tool_id:str, packet:dict[str,Any])->Any:
             candidate_id=candidate.id,
             source="ProjectManager validation",
             execution_stage="CONSUMED",
-            observed_attacks=("unrecovered TransferCore identity",),
+            observed_attacks=("transfer admission authority laundering",),
             observed_effects=("fail-closed transfer",),
             observed_preservations=("ProjectManager authority",),
             verification_status="PASS",
             closure_status="CLOSED",
-            evidence=("TRANSFERCORE_INTERFACE: OPEN_TRANSFERCORE_IDENTITY",),
+            evidence=("TRANSFERCORE_INTERFACE: CURRENT",),
         )
         return solve(problem,(candidate,),(receipt,))
 

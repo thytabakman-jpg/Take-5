@@ -149,3 +149,17 @@ Require explicit USER approval after DEFINITION_READY and before PROMOTION_READY
 
 Reason
 Human project selection is an authority boundary, not a confidence threshold that a tool can cross automatically.
+
+
+## D014
+
+Date: 2026-09-27
+
+Decision
+Supersede the current TransferCore-identity OPEN with the recovered TransferCore candidate while
+preserving every historical OPEN receipt as provenance.
+
+Reason
+The exact object was recovered from Reaserch authority artifacts and stale Take-5 PR 76, then
+strengthened to consume the local residuals named by that candidate. Transfer admission remains
+distinct from target state-change authority. Canonical currentness depends on present-basis validation.

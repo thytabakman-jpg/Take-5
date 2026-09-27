@@ -148,3 +148,23 @@ Post-merge Take-5 Validation:
 36349806942 SUCCESS.
 
 V19 through V26 are current on canonical main.
+
+
+## TransferCore recovery reentry candidate
+
+The historical V16 and historical campaign receipts remain correct for their earlier basis.
+
+Current recovery candidate:
+- architecture/TRANSFERCORE_FULL_TOOL_001_2026-09-27.md
+- integration/CURRENT_TRANSFERCORE.md
+- runtime/transfer_core.py
+- tests/test_transfer_core.py
+
+Current V16 successor:
+TransferCore admission remains non-authoritative; target state change requires a unique target
+authority binding, separate explicit authorization, and independent verification.
+
+The current 94-tool campaign additionally requires TransferCore full configured execution and
+no TransferCore-identity residual before relative closure.
+
+Canonical promotion remains contingent on present-basis validation.

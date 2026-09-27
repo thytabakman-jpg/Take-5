@@ -4,9 +4,11 @@ Status: CURRENT
 
 Q1 TransferCore exact current FullMath identity.
 
-Resume condition
-Recover and admit the current object, wrapper, geometry, protected behavior, authority,
-runtime, persistence, and target-side admission path.
+Current disposition
+CLOSED_BY_RECOVERY_CANDIDATE. The current candidate is defined by
+architecture/TRANSFERCORE_FULL_TOOL_001_2026-09-27.md,
+runtime/transfer_core.py, and integration/CURRENT_TRANSFERCORE.md.
+It remains subject to current branch validation before canonical promotion.
 
 Q2 Optional project-domain coordinate packs.
 

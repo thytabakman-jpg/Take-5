@@ -17,8 +17,8 @@ Return result, evidence, and consequence metadata.
 ProjectManager routes any proposed project-state change through the owning authority.
 
 ProjectManager -> TransferCore
-Evidence candidate only while TransferCore full identity is OPEN.
-No target mutation and no authority grant.
+Emit typed non-authoritative transfer evidence into the current TransferCore relation pipeline.
+Transfer admission grants no target state-change authority; target authority binding and explicit authorization remain separate.
 
 ProjectManager -> Git or repository
 State-changing writes remain under repository change governance and validation.

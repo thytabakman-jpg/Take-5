@@ -249,3 +249,15 @@ def test_candidate_and_full_project_cannot_be_bound_as_one_state():
     )
     assert raw["status"]=="CONFLICT"
     assert raw["result"]["blocker"]=="PROJECT_AND_CANDIDATE_SIMULTANEOUSLY_BOUND"
+
+
+def test_current_transfercore_identity_still_does_not_grant_project_authority():
+    out=assess_project(package())
+    transfer=transfer_evidence_candidate(
+        out,
+        {"lesson":"transfer admission is not target authority"},
+        transfercore_identity_status="FULL_MATH_RECOVERED_CURRENT",
+    )
+    assert transfer.status=="CANDIDATE_FOR_ADMISSION"
+    assert transfer.effect_class=="EVIDENCE_ONLY"
+    assert transfer.grants_authority is False

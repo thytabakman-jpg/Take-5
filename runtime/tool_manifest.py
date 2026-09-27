@@ -203,6 +203,12 @@ IMPROVEMENT_CORE_BINDINGS=GENERIC_BINDINGS+(
         "runtime/improvement_core_math_spine.py",
         "tests/test_improvement_core_regime.py",
     ),
+    ProtectedBinding(
+        "IMPROVEMENTCORE_RECOVERABLE_OPEN_PARENT_REENTRY",
+        "POST",
+        "runtime/improvement_core_return_gate.py",
+        "tests/test_improvement_core_return_gate.py",
+    ),
 )
 
 PROJECT_MANAGER_BINDINGS=GENERIC_BINDINGS+(
@@ -217,6 +223,23 @@ PROJECT_MANAGER_BINDINGS=GENERIC_BINDINGS+(
     ProtectedBinding("PROJECTMANAGER_IMPROVEMENTCORE_HANDOFF","CROSS","runtime/project_manager.py","tests/test_project_manager.py"),
     ProtectedBinding("PROJECTMANAGER_TRANSFERCORE_EVIDENCE_ONLY","CROSS","runtime/project_manager.py","tests/test_project_manager.py"),
     ProtectedBinding("PROJECTMANAGER_PREPROJECT_ADMISSION_GATE","PRE","runtime/project_manager.py","tests/test_project_manager.py"),
+)
+
+TRANSFERCORE_BINDINGS=GENERIC_BINDINGS+(
+    ProtectedBinding("TRANSFER_SOURCE_TARGET_TYPING","INTRA","runtime/transfer_core.py","tests/test_transfer_core.py"),
+    ProtectedBinding("TRANSFER_BRIDGE_LICENSE","INTRA","runtime/transfer_core.py","tests/test_transfer_core.py"),
+    ProtectedBinding("TRANSFER_TARGET_EFFECT","INTRA","runtime/transfer_core.py","tests/test_transfer_core.py"),
+    ProtectedBinding("TRANSFER_NO_AUTHORITY_LAUNDERING","CROSS","runtime/transfer_core.py","tests/test_transfer_core.py"),
+    ProtectedBinding("TRANSFER_FEEDBACK_REENTRY","POST","runtime/transfer_core.py","tests/test_transfer_core.py"),
+    ProtectedBinding("TRANSFER_JOINT_IRREDUCIBILITY","INTRA","runtime/transfer_core.py","tests/test_transfer_core.py"),
+    ProtectedBinding("TRANSFER_REPRESENTATION_HIERARCHY_ORDER_CHALLENGE","INTRA","runtime/transfer_core.py","tests/test_transfer_core.py"),
+    ProtectedBinding("TRANSFER_TYPED_UPDATE_ALGEBRA","INTRA","runtime/transfer_core.py","tests/test_transfer_core.py"),
+    ProtectedBinding("TRANSFER_NONDOMINATED_TARGET_FRONTIER","INTRA","runtime/transfer_core.py","tests/test_transfer_core.py"),
+    ProtectedBinding("TRANSFER_PERSISTENT_QUEUE_STALE_GUARD","CROSS","runtime/transfer_core.py","tests/test_transfer_core.py"),
+    ProtectedBinding("TRANSFER_TARGET_AUTHORITY_BINDING","CROSS","runtime/transfer_core.py","tests/test_transfer_core.py"),
+    ProtectedBinding("TRANSFER_AUTHORIZED_TARGET_TRANSITION","CROSS","runtime/transfer_core.py","tests/test_transfer_core.py"),
+    ProtectedBinding("TRANSFER_EXECUTION_TRUTH_LEDGER","POST","runtime/transfer_core.py","tests/test_transfer_core.py"),
+    ProtectedBinding("TRANSFER_EXTERNAL_ACQUISITION_TYPING","PRE","runtime/transfer_core.py","tests/test_transfer_core.py"),
 )
 
 MT_BINDINGS=GENERIC_BINDINGS+(
@@ -493,6 +516,15 @@ OVERRIDES={
         reentry_contract="HF002_THEN_HF001_OR_IMPROVEMENTCORE",
         bindings=PROJECT_MANAGER_BINDINGS,
         lineage_contract="architecture/PROJECT_MANAGER_FULL_TOOL_MATH_002_2026-09-27.md",
+    ),
+    "TransferCore":ToolManifest(
+        tool_id="TransferCore",
+        native_semantics="typed authority-separated source-set to bounded target transfer transition system",
+        geometry_policy="D36_C",
+        closure_contract="TRANSFER_RELATIVE_CLOSE_PLUS_TRC",
+        reentry_contract="HF002_THEN_TARGET_VERIFICATION_OR_IMPROVEMENTCORE",
+        bindings=TRANSFERCORE_BINDINGS,
+        lineage_contract="architecture/TRANSFERCORE_FULL_TOOL_001_2026-09-27.md",
     ),
     "MTA":ToolManifest(
         tool_id="MTA",
