@@ -341,6 +341,75 @@ GOAL_BINDINGS=GENERIC_BINDINGS+(
     ),
 )
 
+MULTIOBJECT_BINDINGS=GENERIC_BINDINGS+(
+    ProtectedBinding(
+        "MO_FROZEN_OBJECT_IDENTITY",
+        "PRE",
+        "runtime/multiobject.py",
+        "tests/test_multiobject.py",
+    ),
+    ProtectedBinding(
+        "MO_REQUIRED_PAIR_COVERAGE",
+        "INTRA",
+        "runtime/multiobject.py",
+        "tests/test_multiobject.py",
+    ),
+    ProtectedBinding(
+        "MO_PAIR_ROUTE_ISOLATION",
+        "INTRA",
+        "runtime/multiobject.py",
+        "tests/test_multiobject.py",
+    ),
+    ProtectedBinding(
+        "MO_INDEPENDENT_FULL_JOINT_ROUTE",
+        "INTRA",
+        "runtime/multiobject.py",
+        "tests/test_multiobject.py",
+    ),
+    ProtectedBinding(
+        "MO_LOWER_ORDER_SYNTHESIS",
+        "INTRA",
+        "runtime/multiobject.py",
+        "tests/test_multiobject.py",
+    ),
+    ProtectedBinding(
+        "MO_TYPED_RECONCILIATION",
+        "INTRA",
+        "runtime/multiobject.py",
+        "tests/test_multiobject.py",
+    ),
+    ProtectedBinding(
+        "MO_REDUCIBILITY_CHALLENGE",
+        "INTRA",
+        "runtime/multiobject.py",
+        "tests/test_multiobject.py",
+    ),
+    ProtectedBinding(
+        "MO_OPEN_CONFLICT_INCOMPARABILITY_PRESERVATION",
+        "POST",
+        "runtime/multiobject.py",
+        "tests/test_multiobject.py",
+    ),
+    ProtectedBinding(
+        "MO_GATED_VIEW_EXPANSION",
+        "INTRA",
+        "runtime/multiobject.py",
+        "tests/test_multiobject.py",
+    ),
+    ProtectedBinding(
+        "MO_CONFIGURED_ADEQUACY_BOUNDARY",
+        "CROSS",
+        "architecture/MULTIOBJECT_FULL_TOOL_MATH_001_2026-09-27.md",
+        "tests/test_multiobject_fullmath_identity.py",
+    ),
+    ProtectedBinding(
+        "MO_FULL_TOOL_IDENTITY",
+        "PRE",
+        "architecture/MULTIOBJECT_FULL_TOOL_MATH_001_2026-09-27.md",
+        "tests/test_multiobject_fullmath_identity.py",
+    ),
+)
+
 OVERRIDES={
     "ImprovementCore":ToolManifest(
         tool_id="ImprovementCore",
@@ -398,6 +467,15 @@ OVERRIDES={
         reentry_contract="HF001",
         bindings=GOAL_BINDINGS,
         lineage_contract="architecture/GOAL_FULL_TOOL_MATH_001_2026-09-27.md",
+    ),
+    "MultiObject":ToolManifest(
+        tool_id="MultiObject",
+        native_semantics="MULTIOBJECT_V0_2_ADAPTIVE",
+        geometry_policy="D36_C_PLUS_NATIVE_ARITY_DIRECTION_VIEW",
+        closure_contract="BASIS_RELATIVE_RELATION_CLOSURE_PLUS_TRC",
+        reentry_contract="HF002_THEN_HF001",
+        bindings=MULTIOBJECT_BINDINGS,
+        lineage_contract="architecture/MULTIOBJECT_FULL_TOOL_MATH_001_2026-09-27.md",
     ),
 }
 
