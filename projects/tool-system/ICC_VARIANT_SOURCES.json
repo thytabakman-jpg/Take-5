@@ -1,0 +1,240 @@
+{
+  "schema_version": 1,
+  "object_id": "TAKE5_TOOL_SYSTEM_ICC_VARIANT_SOURCES_001",
+  "date": "2026-09-27",
+  "authority": "projects/tool-system/ICC_VARIANT_REGISTRY.md",
+  "aliases": {
+    "ICC-022": "IC-022",
+    "ICC-023": "IC-023",
+    "ICC-024": "IC-024",
+    "IC028": "IC-028",
+    "ICC128": "ICC-128-CURRENT"
+  },
+  "variants": [
+    {
+      "object_id": "IC-001",
+      "status": "LEGACY_PROVENANCE",
+      "source": "thytabakman-jpg/Reaserch:projects/improvement-core/versions/IC-2026-09-23-001.yaml"
+    },
+    {
+      "object_id": "IC-002",
+      "status": "LEGACY_PROVENANCE",
+      "source": "thytabakman-jpg/Reaserch:projects/improvement-core/versions/IC-2026-09-23-002.yaml"
+    },
+    {
+      "object_id": "IC-003",
+      "status": "LEGACY_PROVENANCE",
+      "source": "thytabakman-jpg/Reaserch:projects/improvement-core/versions/IC-2026-09-23-003.yaml"
+    },
+    {
+      "object_id": "IC-004",
+      "status": "LEGACY_PROVENANCE",
+      "source": "thytabakman-jpg/Reaserch:projects/improvement-core/versions/IC-2026-09-23-004.yaml"
+    },
+    {
+      "object_id": "IC-005",
+      "status": "LEGACY_PROVENANCE",
+      "source": "thytabakman-jpg/Reaserch:projects/improvement-core/versions/IC-2026-09-23-005.yaml"
+    },
+    {
+      "object_id": "IC-006",
+      "status": "LEGACY_PROVENANCE",
+      "source": "thytabakman-jpg/Reaserch:projects/improvement-core/versions/IC-2026-09-23-006.yaml"
+    },
+    {
+      "object_id": "IC-007",
+      "status": "LEGACY_PROVENANCE",
+      "source": "thytabakman-jpg/Reaserch:projects/improvement-core/versions/IC-2026-09-23-007.yaml"
+    },
+    {
+      "object_id": "IC-008",
+      "status": "LEGACY_PROVENANCE",
+      "source": "thytabakman-jpg/Reaserch:projects/improvement-core/versions/IC-2026-09-23-008.yaml"
+    },
+    {
+      "object_id": "IC-009",
+      "status": "LEGACY_PROVENANCE",
+      "source": "thytabakman-jpg/Reaserch:projects/improvement-core/versions/IC-2026-09-23-009.yaml"
+    },
+    {
+      "object_id": "IC-010",
+      "status": "LEGACY_PROVENANCE",
+      "source": "thytabakman-jpg/Reaserch:projects/improvement-core/versions/IC-2026-09-23-010.yaml"
+    },
+    {
+      "object_id": "IC-011",
+      "status": "LEGACY_PROVENANCE",
+      "source": "thytabakman-jpg/Reaserch:projects/improvement-core/versions/IC-2026-09-23-011.yaml"
+    },
+    {
+      "object_id": "IC-012",
+      "status": "LEGACY_PROVENANCE",
+      "source": "thytabakman-jpg/Reaserch:projects/improvement-core/versions/IC-2026-09-23-012.yaml"
+    },
+    {
+      "object_id": "IC-013",
+      "status": "LEGACY_PROVENANCE",
+      "source": "thytabakman-jpg/Reaserch:projects/improvement-core/versions/IC-2026-09-23-013.yaml"
+    },
+    {
+      "object_id": "IC-014",
+      "status": "LEGACY_PROVENANCE",
+      "source": "thytabakman-jpg/Reaserch:projects/improvement-core/versions/IC-2026-09-23-014.yaml"
+    },
+    {
+      "object_id": "IC-015",
+      "status": "LEGACY_PROVENANCE",
+      "source": "thytabakman-jpg/Reaserch:projects/improvement-core/versions/IC-2026-09-23-015.yaml"
+    },
+    {
+      "object_id": "IC-017",
+      "status": "LEGACY_PROVENANCE",
+      "source": "thytabakman-jpg/Reaserch:projects/improvement-core/versions/IC-2026-09-23-017.yaml"
+    },
+    {
+      "object_id": "IC-018",
+      "status": "LEGACY_PROVENANCE",
+      "source": "thytabakman-jpg/Reaserch:projects/improvement-core/versions/IC-2026-09-23-018.yaml"
+    },
+    {
+      "object_id": "IC-019",
+      "status": "LEGACY_PROVENANCE",
+      "source": "thytabakman-jpg/Reaserch:projects/improvement-core/versions/IC-2026-09-24-019.yaml"
+    },
+    {
+      "object_id": "IC-020",
+      "status": "LEGACY_PROVENANCE",
+      "source": "thytabakman-jpg/Reaserch:projects/improvement-core/versions/IC-2026-09-24-020.yaml"
+    },
+    {
+      "object_id": "IC-021",
+      "status": "LEGACY_PROVENANCE",
+      "source": "thytabakman-jpg/Reaserch:projects/improvement-core/versions/IC-2026-09-24-021.yaml"
+    },
+    {
+      "object_id": "IC-022",
+      "status": "LEGACY_PROVENANCE",
+      "source": "thytabakman-jpg/Reaserch:projects/improvement-core/versions/IC-2026-09-24-022.yaml"
+    },
+    {
+      "object_id": "IC-023",
+      "status": "LEGACY_PROVENANCE",
+      "source": "thytabakman-jpg/Reaserch:projects/improvement-core/versions/IC-2026-09-24-023.yaml"
+    },
+    {
+      "object_id": "IC-024",
+      "status": "LEGACY_PROVENANCE",
+      "source": "thytabakman-jpg/Reaserch:projects/improvement-core/versions/IC-2026-09-24-024.yaml"
+    },
+    {
+      "object_id": "IC-025",
+      "status": "LEGACY_PROVENANCE",
+      "source": "thytabakman-jpg/Reaserch:projects/improvement-core/versions/IC-2026-09-24-025.yaml"
+    },
+    {
+      "object_id": "IC-026",
+      "status": "LEGACY_PROVENANCE",
+      "source": "thytabakman-jpg/Reaserch:projects/improvement-core/versions/IC-2026-09-24-026.yaml"
+    },
+    {
+      "object_id": "IC-028",
+      "status": "LEGACY_PROVENANCE",
+      "source": "thytabakman-jpg/Reaserch:projects/improvement-core/versions/IC-2026-09-24-028.yaml"
+    },
+    {
+      "object_id": "IC-024-G1",
+      "status": "LEGACY_PROVENANCE",
+      "source": "thytabakman-jpg/Reaserch:projects/improvement-core/versions/IC-2026-09-24-024-G1.yaml"
+    },
+    {
+      "object_id": "IC-024-G2",
+      "status": "LEGACY_PROVENANCE",
+      "source": "thytabakman-jpg/Reaserch:projects/improvement-core/versions/IC-2026-09-24-024-G2.yaml"
+    },
+    {
+      "object_id": "IC-024-G3",
+      "status": "LEGACY_PROVENANCE",
+      "source": "thytabakman-jpg/Reaserch:projects/improvement-core/versions/IC-2026-09-24-024-G3.yaml"
+    },
+    {
+      "object_id": "IC-016",
+      "status": "UNRECOVERED_GAP",
+      "source": "no canonical version artifact recovered"
+    },
+    {
+      "object_id": "IC-027",
+      "status": "UNRECOVERED_GAP",
+      "source": "no canonical version artifact recovered"
+    },
+    {
+      "object_id": "IC-029",
+      "status": "LEGACY_RESEARCH_SUCCESSOR",
+      "source": "thytabakman-jpg/Reaserch:architecture/IC029_IMPROVED_CORE_SELF_AUDITED_MAP_076.md"
+    },
+    {
+      "object_id": "IC-030",
+      "status": "LEGACY_RESEARCH_SUCCESSOR",
+      "source": "thytabakman-jpg/Reaserch:architecture/IC030_RECURSIVE_IMPROVEMENTCORE_MANAGER_001.md"
+    },
+    {
+      "object_id": "IC-031",
+      "status": "LEGACY_RESEARCH_SUCCESSOR",
+      "source": "thytabakman-jpg/Reaserch:architecture/IC031_COMPOUNDING_DISCOVERY_IMPROVEMENTCORE_001.md"
+    },
+    {
+      "object_id": "IC-032",
+      "status": "LEGACY_RESEARCH_SUCCESSOR",
+      "source": "thytabakman-jpg/Reaserch:architecture/IC032_CUMULATIVE_EXPERIMENTAL_IMPROVECORE_001.md"
+    },
+    {
+      "object_id": "ICC",
+      "status": "CURRENT_INTEGRATED_STACK",
+      "source": "ICC_AUTONOMOUS_STEWARDSHIP.md"
+    },
+    {
+      "object_id": "ICC-107",
+      "status": "MENTIONED_UNRECOVERED",
+      "source": "conversation-recovered label; no defining repository artifact recovered"
+    },
+    {
+      "object_id": "ICC-108",
+      "status": "MENTIONED_UNRECOVERED",
+      "source": "conversation-recovered label; no defining repository artifact recovered"
+    },
+    {
+      "object_id": "ICC-118",
+      "status": "UNRECOVERED_FORMAL_OBJECT",
+      "source": "recovered completion-guard mention; no canonical formal object recovered"
+    },
+    {
+      "object_id": "IC-121",
+      "status": "UNRESOLVED_HISTORICAL_IDENTITY",
+      "source": "conversation-recovered historical identity; defining artifact not recovered"
+    },
+    {
+      "object_id": "IC-122",
+      "status": "UNRESOLVED_HISTORICAL_IDENTITY",
+      "source": "conversation-recovered historical identity; defining artifact not recovered"
+    },
+    {
+      "object_id": "ICC-123",
+      "status": "RECOVERED_HISTORICAL_OBJECT",
+      "source": "integration/ICC123_THREE_DAY_RECOVERY_STATE_001_2026-09-25.md"
+    },
+    {
+      "object_id": "ICC-124",
+      "status": "LINEAGE_OPEN",
+      "source": "integration/ICC124_LINEAGE_RECOVERY_001_2026-09-25.md"
+    },
+    {
+      "object_id": "ICC-128-LEGACY",
+      "status": "PRESERVED_LEGACY_OBJECT",
+      "source": "legacy/icc128-legacy/MANIFEST.yaml"
+    },
+    {
+      "object_id": "ICC-128-CURRENT",
+      "status": "CURRENT_CONFIGURED_IDENTITY_VIEW",
+      "source": "integration/CURRENT_ICC128_CONVERSATION_CONTROL.md"
+    }
+  ]
+}
