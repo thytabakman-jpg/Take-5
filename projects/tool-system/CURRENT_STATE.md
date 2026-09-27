@@ -1,6 +1,6 @@
 # Tool System Current State
 
-Status: VALIDATED / ADMISSION VIA PR #166
+Status: CURRENT / VALIDATED / MERGED
 Date: 2026-09-27
 
 Architecture contract: DEFINED
@@ -14,7 +14,7 @@ ICC-variant materialization: COMPLETE RELATIVE TO RECOVERED INVENTORY
 Every-tool native development sweep: CLOSED_RELATIVE
 CI regression gate: PASS
 PR validation: PASS
-Canonical admission: PR #166 MERGE
+Canonical admission: COMPLETE
 
 ## Materialized state
 
@@ -50,9 +50,21 @@ Development audits:
 - system cleanup campaign: CLOSED_RELATIVE
 - whole-system audit: closed
 
-Every-tool workflow run 36348207101: SUCCESS.
-Take-5 Validation on the same repaired head: SUCCESS.
-Capability Preservation on the same repaired head: SUCCESS.
+Every-tool organization sweep:
+- PR #166 final head: SUCCESS
+- Tool System Every-Tool Sweep run 36348367823: SUCCESS
+- Take-5 Validation run 36348367822: SUCCESS
+- Capability Preservation run 36348367834: SUCCESS
+
+ProjectManager exhaustive HF2 campaign:
+- PR #167 head c4ddb4d611b87eb1f5724364d79c8f0a301ae843
+- Take-5 Validation run 36348278315: SUCCESS
+- Capability Preservation run 36348278308: SUCCESS
+- all 93 current registered tools covered exactly once per pass
+- ordinary tools used HF002 recurrence; HF002 used SELF recurrence
+- ImprovementCore consumed the accumulated campaign evidence
+- ToolConductor completed the exhaustive second sweep
+- no local ProjectManager action remained; external TransferCore identity remained explicit OPEN
 
 ## Governing target
 
