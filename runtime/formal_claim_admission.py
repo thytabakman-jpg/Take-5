@@ -320,6 +320,8 @@ def claim_green_licensed(
 
 
 FORMAL_OUTPUT_MARKERS=(
+    "math",
+    "mathematics",
     "show me the math",
     "actual math",
     "full math",
