@@ -78,6 +78,7 @@ def test_dispatch_can_seed_from_corpus_without_host_supplied_job_coordinates():
         ],
         state={},
         handlers=_handlers(calls),
+        return_verifier=_return_done,
     )
     assert resolution.controller=="IC-028"
     assert out.result.state["upstream_discovery"]["status"]=="OBSERVED"
