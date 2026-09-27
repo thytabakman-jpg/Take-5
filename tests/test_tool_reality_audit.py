@@ -12,7 +12,7 @@ def test_strong_tool_reality_cannot_inherit_narrow_configured_identity_closure()
     assert audit.status == "OPEN"
     assert audit.explicit_manifest_status == "OPEN"
     assert "ImprovementCore" not in audit.generic_only
-    assert "GOAL" in audit.generic_only
+    assert "GOAL" not in audit.generic_only
 
 
 def test_missing_native_realizations_are_explicit_not_silently_substituted():
@@ -29,9 +29,9 @@ def test_missing_native_realizations_are_explicit_not_silently_substituted():
         "BiasPerturbation",
         "MultiObject",
         "Diagnosis",
-        "GOAL",
     }
     assert set(audit.native_unrecovered) == expected
     assert "MT" not in audit.native_unrecovered
     assert "ASSERT" not in audit.native_unrecovered
     assert "ImprovementCore" not in audit.native_unrecovered
+    assert "GOAL" not in audit.native_unrecovered

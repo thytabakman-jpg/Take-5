@@ -52,9 +52,16 @@ entrypoint for:
 - BiasPerturbation
 - MultiObject
 - Diagnosis
-- GOAL
 
 No generic analysis substitutes for these missing native realizations.
+
+GOAL delta (2026-09-27):
+
+- native semantic core: `runtime/goal.py::recover_goal`;
+- explicit protected-behavior manifest: admitted in `runtime/tool_manifest.py`;
+- candidate goal extraction/evidence remains an explicit environment input;
+- plural or ungrounded governing goals preserve OPEN/CONFLICT rather than arbitrary selection.
+
 
 ## Manifest residual
 
