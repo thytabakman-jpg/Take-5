@@ -243,7 +243,12 @@ def evaluate_parent_return(
             blocker=None,
             next_state=dict(stability.state),
             next_memory=dict(stability.memory),
-            receipt={**receipt,"reason":"FRESH_WHOLE_JOB_DELTA"},
+            receipt={
+                **receipt,
+                "disposition":"CONTINUE",
+                "reason":"FRESH_WHOLE_JOB_DELTA",
+                "pre_fresh_verifier_disposition":disposition,
+            },
         )
 
     if stability.terminal!="COMPLETE":
