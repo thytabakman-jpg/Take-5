@@ -339,6 +339,7 @@ def run_improvement_core_legacy_restored(
     hf2_max_rounds:int=6,
     max_iterations:int=32,
     return_verifier:Callable|None=None,
+    fresh_reobserve:Callable|None=None,
     parent_max_rounds:int=16,
     allow_ungated_debug:bool=False,
 )->LegacyRestoredResult:
@@ -464,6 +465,7 @@ def run_improvement_core_legacy_restored(
                 ),
             },
             verifier=return_verifier,
+            fresh_reobserve=fresh_reobserve,
         )
         receipt=dict(outcome.receipt)
         receipt["parent_round"]=parent_round
