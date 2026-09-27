@@ -158,3 +158,24 @@ The first validation pass exposed an over-broad implementation that gated every
 controller progress event. The corrected implementation gates only actual
 object-transforming claims and permits intrinsically epistemic/recovery work on
 OPEN objects. The final validation basis includes that correction.
+
+
+## Complementary authoritative-emission gate
+
+This invariant governs whether an object may be transformed. It does not make
+every legal reconstruction authoritative.
+
+The separate invariant in:
+
+architecture/AUTHORITY_BEFORE_FORMAL_EMISSION_141.md
+
+governs promotion of a reconstruction to a CURRENT/CANONICAL/EXACT_CURRENT
+formal claim.
+
+Therefore:
+
+RecoveryLicensed(o) does not imply AuthoritativeEmissionLicensed(o).
+
+Object-transforming work crosses this specification gate before transformation.
+Authoritative formal output crosses the formal-claim admission gate before green
+emission and parent return.
