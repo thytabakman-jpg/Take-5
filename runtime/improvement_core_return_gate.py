@@ -87,66 +87,21 @@ def evaluate_parent_return(
 )->ParentReturnOutcome:
     """Validate whole-job completion and user-return permission.
 
-    COMPLETE is impossible from the pre-existing parent state alone.  It must
-    survive a fresh whole-job re-observation challenge first.  Any material
-    challenge delta or owned work returns CONTINUE and forces a new full parent
-    ImprovementCore+HF2 round.
+    Ordering is load-bearing:
 
-    Non-complete candidates preserve their typed terminal status and continue to
-    use the semantic verifier for legal return.
+    1. the semantic return verifier dispositions the actual governing job;
+    2. OPEN/BLOCKED/CONFLICT and CONTINUE are preserved immediately;
+    3. only a proposed COMPLETE crosses the fresh whole-job stability challenge;
+    4. fresh material delta forces parent CONTINUE;
+    5. COMPLETE survives only after repeated fresh no-delta passes.
+
+    This prevents the generic fresh gate from masking a more specific known
+    noncomplete boundary while still making fresh stability mandatory for
+    completion.
     """
     z=dict(state)
     m=dict(memory or {})
     ctx=dict(context)
-    stability_receipt=None
-
-    if str(candidate_status).upper()=="COMPLETE":
-        stability=run_whole_job_stability(
-            state=z,
-            memory=m,
-            context=ctx,
-            reobserve=fresh_reobserve,
-            stable_passes_required=int(stable_passes_required),
-        )
-        stability_receipt=stability_receipt_dict(stability)
-        z=dict(stability.state)
-        m=dict(stability.memory)
-
-        if stability.disposition=="CONTINUE":
-            return ParentReturnOutcome(
-                disposition="CONTINUE",
-                terminal="CONTINUE",
-                blocker=None,
-                next_state=z,
-                next_memory=m,
-                receipt={
-                    "gate":"PARENT_RETURN_GATE",
-                    "disposition":"CONTINUE",
-                    "candidate_status":str(candidate_status),
-                    "candidate_blocker":candidate_blocker,
-                    "reason":"FRESH_WHOLE_JOB_DELTA",
-                    "whole_job_stability":stability_receipt,
-                    "context":ctx,
-                },
-            )
-
-        if stability.terminal!="COMPLETE":
-            return ParentReturnOutcome(
-                disposition="RETURN",
-                terminal=stability.terminal,
-                blocker=stability.blocker,
-                next_state=z,
-                next_memory=m,
-                receipt={
-                    "gate":"PARENT_RETURN_GATE",
-                    "disposition":"RETURN",
-                    "candidate_status":str(candidate_status),
-                    "candidate_blocker":candidate_blocker,
-                    "reason":"FRESH_WHOLE_JOB_NONCLOSURE",
-                    "whole_job_stability":stability_receipt,
-                    "context":ctx,
-                },
-            )
 
     if verifier is None:
         z["terminal"]="OPEN"
@@ -165,7 +120,7 @@ def evaluate_parent_return(
                 "status":"OPEN",
                 "reason":"NO_RETURN_VERIFIER",
                 "candidate_status":str(candidate_status),
-                "whole_job_stability":stability_receipt,
+                "whole_job_stability":None,
             },
         )
 
@@ -187,11 +142,12 @@ def evaluate_parent_return(
     memory_patch=_mapping(decision.get("memory_patch"),"memory_patch")
 
     proposed_state={**z,**state_patch}
+    proposed_memory={**m,**memory_patch}
     formal_claims_present=_authoritative_formal_claims_present(proposed_state)
     formal_claim_residuals=_unclosed_authoritative_formal_claims(proposed_state)
     formal_claim_receipt_required=bool(ctx.get("formal_claim_receipt_required",False))
 
-    receipt={
+    base_receipt={
         "gate":"PARENT_RETURN_GATE",
         "disposition":disposition,
         "candidate_status":str(candidate_status),
@@ -203,7 +159,6 @@ def evaluate_parent_return(
         "evidence":evidence,
         "reason":str(decision.get("reason","")),
         "context":ctx,
-        "whole_job_stability":stability_receipt,
         "formal_claim_receipt_required":formal_claim_receipt_required,
         "authoritative_formal_claims_present":formal_claims_present,
         "authoritative_formal_claim_residuals":formal_claim_residuals,
@@ -214,18 +169,16 @@ def evaluate_parent_return(
             raise RuntimeError(
                 "IC_PARENT_RETURN_GATE_CONTINUE_WITHOUT_LIVE_WORK_OR_RECHECK"
             )
-        next_state={**z,**state_patch}
-        next_memory={**m,**memory_patch}
-        next_state["terminal"]="CONTINUE"
-        next_state["admitted_continuation"]=True
-        next_state["parent_return_continuation"]=True
+        proposed_state["terminal"]="CONTINUE"
+        proposed_state["admitted_continuation"]=True
+        proposed_state["parent_return_continuation"]=True
         return ParentReturnOutcome(
             disposition="CONTINUE",
             terminal="CONTINUE",
             blocker=None,
-            next_state=next_state,
-            next_memory=next_memory,
-            receipt=receipt,
+            next_state=proposed_state,
+            next_memory=proposed_memory,
+            receipt={**base_receipt,"whole_job_stability":None},
         )
 
     terminal=str(decision.get("terminal") or candidate_status).upper()
@@ -240,39 +193,83 @@ def evaluate_parent_return(
         raise RuntimeError("IC_PARENT_RETURN_GATE_RETURN_WITH_OPEN_CONSEQUENCE")
     if not evidence:
         raise RuntimeError("IC_PARENT_RETURN_GATE_RETURN_WITHOUT_EVIDENCE")
-    if terminal=="COMPLETE" and not goal_closed:
-        raise RuntimeError("IC_PARENT_RETURN_GATE_COMPLETE_WITHOUT_GOAL_CLOSURE")
-    if terminal=="COMPLETE" and stability_receipt is None:
-        raise RuntimeError(
-            "IC_PARENT_RETURN_GATE_COMPLETE_WITHOUT_FRESH_STABILITY_RECEIPT"
+
+    blocker=decision.get("blocker") or candidate_blocker
+
+    # Preserve typed noncomplete boundaries before invoking generic fresh closure.
+    if terminal in {"OPEN","BLOCKED","CONFLICT"}:
+        if not blocker:
+            raise RuntimeError("IC_PARENT_RETURN_GATE_NONCOMPLETE_WITHOUT_BLOCKER")
+        proposed_state["terminal"]=terminal
+        proposed_state["admitted_continuation"]=False
+        proposed_state["parent_return_continuation"]=False
+        if "live_continuation" not in state_patch:
+            proposed_state["live_continuation"]=False
+        return ParentReturnOutcome(
+            disposition="RETURN",
+            terminal=terminal,
+            blocker=str(blocker),
+            next_state=proposed_state,
+            next_memory=proposed_memory,
+            receipt={**base_receipt,"whole_job_stability":None},
         )
-    if terminal=="COMPLETE" and formal_claim_receipt_required and not formal_claims_present:
+
+    # From here the semantic verifier is proposing COMPLETE.
+    if not goal_closed:
+        raise RuntimeError("IC_PARENT_RETURN_GATE_COMPLETE_WITHOUT_GOAL_CLOSURE")
+    if formal_claim_receipt_required and not formal_claims_present:
         raise RuntimeError(
             "IC_PARENT_RETURN_GATE_COMPLETE_WITHOUT_FORMAL_CLAIM_RECEIPT"
         )
-    if terminal=="COMPLETE" and formal_claim_residuals:
+    if formal_claim_residuals:
         raise RuntimeError(
             "IC_PARENT_RETURN_GATE_COMPLETE_WITH_UNCLOSED_AUTHORITATIVE_FORMAL_CLAIM"
         )
 
-    blocker=decision.get("blocker") or candidate_blocker
-    if terminal in {"OPEN","BLOCKED","CONFLICT"} and not blocker:
-        raise RuntimeError("IC_PARENT_RETURN_GATE_NONCOMPLETE_WITHOUT_BLOCKER")
+    stability=run_whole_job_stability(
+        state=proposed_state,
+        memory=proposed_memory,
+        context=ctx,
+        reobserve=fresh_reobserve,
+        stable_passes_required=int(stable_passes_required),
+    )
+    stability_receipt=stability_receipt_dict(stability)
+    receipt={**base_receipt,"whole_job_stability":stability_receipt}
 
-    next_state={**z,**state_patch}
-    next_memory={**m,**memory_patch}
-    next_state["terminal"]=terminal
-    next_state["admitted_continuation"]=False
-    next_state["parent_return_continuation"]=False
+    if stability.disposition=="CONTINUE":
+        return ParentReturnOutcome(
+            disposition="CONTINUE",
+            terminal="CONTINUE",
+            blocker=None,
+            next_state=dict(stability.state),
+            next_memory=dict(stability.memory),
+            receipt={**receipt,"reason":"FRESH_WHOLE_JOB_DELTA"},
+        )
+
+    if stability.terminal!="COMPLETE":
+        return ParentReturnOutcome(
+            disposition="RETURN",
+            terminal=stability.terminal,
+            blocker=stability.blocker,
+            next_state=dict(stability.state),
+            next_memory=dict(stability.memory),
+            receipt={**receipt,"reason":"FRESH_WHOLE_JOB_NONCLOSURE"},
+        )
+
+    final_state=dict(stability.state)
+    final_memory=dict(stability.memory)
+    final_state["terminal"]="COMPLETE"
+    final_state["admitted_continuation"]=False
+    final_state["parent_return_continuation"]=False
     if "live_continuation" not in state_patch:
-        next_state["live_continuation"]=False
+        final_state["live_continuation"]=False
 
     return ParentReturnOutcome(
         disposition="RETURN",
-        terminal=terminal,
-        blocker=None if terminal=="COMPLETE" else str(blocker),
-        next_state=next_state,
-        next_memory=next_memory,
+        terminal="COMPLETE",
+        blocker=None,
+        next_state=final_state,
+        next_memory=final_memory,
         receipt=receipt,
     )
 
