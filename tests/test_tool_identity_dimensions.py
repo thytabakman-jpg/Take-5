@@ -19,7 +19,10 @@ def test_every_current_tool_has_question_job_responsibility_and_species():
 
 def test_every_current_tool_projects_every_enforced_dimension():
     out=audit_current_repertoire()
-    assert out["status"]=="CLOSED_RELATIVE"
+    assert out["status"]=="CLOSED_RELATIVE", {
+        "missing":out["missing"],
+        "incomplete":out["incomplete"],
+    }
     assert out["parity"] is True
     assert out["tool_count"]==len(MATERIAL_TOOLS)
     assert out["projected_count"]==len(MATERIAL_TOOLS)
