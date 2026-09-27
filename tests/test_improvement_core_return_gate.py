@@ -203,3 +203,25 @@ def test_complete_accepts_closed_authoritative_formal_claim():
     )
     assert out.terminal=="COMPLETE"
     assert out.receipt["authoritative_formal_claim_residuals"]==()
+
+
+def test_formal_math_job_cannot_complete_without_any_formal_claim_receipt():
+    def verifier(state,memory,context):
+        return {
+            "disposition":"RETURN",
+            "terminal":"COMPLETE",
+            "goal_closed":True,
+            "owned_work_remaining":False,
+            "consequence_closed":True,
+            "evidence":["unit:math-output"],
+        }
+    with pytest.raises(
+        RuntimeError,
+        match="COMPLETE_WITHOUT_FORMAL_CLAIM_RECEIPT",
+    ):
+        evaluate_parent_return(
+            candidate_status="COMPLETE",candidate_blocker=None,
+            state={"terminal":"COMPLETE"},memory={},
+            context=_context(formal_claim_receipt_required=True),
+            verifier=verifier,
+        )
