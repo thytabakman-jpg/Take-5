@@ -22,5 +22,5 @@ No silent overwrite.
 No WBS and schedule collapse.
 No tool-output-to-truth shortcut.
 No project mutation from observer-mode tool execution.
-No TransferCore mutation while its full identity is OPEN.
+No target mutation follows merely from TransferCore admission; target authority and explicit mutation authorization remain separate.
 Every material admitted change receives impact, verification, state, and evidence updates.
