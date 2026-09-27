@@ -39,6 +39,16 @@ class CompilationWitness:
 # Native repository entrypoints that were recovered without claiming signature
 # uniformity. A portable host may bind these through adapters.
 NATIVE_ENTRYPOINTS: dict[str, tuple[str, tuple[str, ...]]] = {
+    "MTA": ("recovered_tool_runtimes.run_mta", ("generate_structural_hypotheses","select_analysis_package","reconstruct_protected_model")),
+    "Architecture": ("recovered_tool_runtimes.run_architecture_analysis", ("analyze_architecture",)),
+    "PD": ("recovered_tool_runtimes.run_pd", ("rho","approx","representations")),
+    "PDAudit": ("recovered_tool_runtimes.run_pd_audit", ("rho","approx","representations")),
+    "GDOS": ("recovered_tool_runtimes.run_gdos", ("observe",)),
+    "Discriminator": ("recovered_tool_runtimes.run_discriminator", ("run_route","equivalent","classify_difference")),
+    "RTC": ("recovered_tool_runtimes.run_rtc", ("generators","admissible","preserve","strict_gain","dominates")),
+    "BiasPerturbation": ("recovered_tool_runtimes.run_bias_perturbation", ("runner","protected_decision")),
+    "MultiObject": ("recovered_tool_runtimes.run_multi_object", ("generate_relations","reconcile_relations")),
+    "Diagnosis": ("recovered_tool_runtimes.run_diagnosis", ("causal_support","root_selector")),
     "ImprovementCore": (
         "improvement_core_dispatch.dispatch_improvement_core",
         ("handlers", "authority", "controller_context"),
