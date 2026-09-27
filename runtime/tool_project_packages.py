@@ -19,6 +19,7 @@ silently rewritten.
 from __future__ import annotations
 
 from dataclasses import dataclass
+import json
 from pathlib import Path
 from typing import Any, Iterable
 
@@ -111,82 +112,46 @@ def current_tool_specs()->tuple[ProjectObjectSpec,...]:
 
 
 # Historical controller variants are deliberately separate from the live
-# configured-tool registry. Missing/recovered-only identities remain typed OPEN.
-ICC_VARIANTS=(
-    # Reaserch immutable version lineage.
-    ("IC-001","LEGACY_PROVENANCE","thytabakman-jpg/Reaserch:projects/improvement-core/versions/IC-2026-09-23-001.yaml"),
-    ("IC-002","LEGACY_PROVENANCE","thytabakman-jpg/Reaserch:projects/improvement-core/versions/IC-2026-09-23-002.yaml"),
-    ("IC-003","LEGACY_PROVENANCE","thytabakman-jpg/Reaserch:projects/improvement-core/versions/IC-2026-09-23-003.yaml"),
-    ("IC-004","LEGACY_PROVENANCE","thytabakman-jpg/Reaserch:projects/improvement-core/versions/IC-2026-09-23-004.yaml"),
-    ("IC-005","LEGACY_PROVENANCE","thytabakman-jpg/Reaserch:projects/improvement-core/versions/IC-2026-09-23-005.yaml"),
-    ("IC-006","LEGACY_PROVENANCE","thytabakman-jpg/Reaserch:projects/improvement-core/versions/IC-2026-09-23-006.yaml"),
-    ("IC-007","LEGACY_PROVENANCE","thytabakman-jpg/Reaserch:projects/improvement-core/versions/IC-2026-09-23-007.yaml"),
-    ("IC-008","LEGACY_PROVENANCE","thytabakman-jpg/Reaserch:projects/improvement-core/versions/IC-2026-09-23-008.yaml"),
-    ("IC-009","LEGACY_PROVENANCE","thytabakman-jpg/Reaserch:projects/improvement-core/versions/IC-2026-09-23-009.yaml"),
-    ("IC-010","LEGACY_PROVENANCE","thytabakman-jpg/Reaserch:projects/improvement-core/versions/IC-2026-09-23-010.yaml"),
-    ("IC-011","LEGACY_PROVENANCE","thytabakman-jpg/Reaserch:projects/improvement-core/versions/IC-2026-09-23-011.yaml"),
-    ("IC-012","LEGACY_PROVENANCE","thytabakman-jpg/Reaserch:projects/improvement-core/versions/IC-2026-09-23-012.yaml"),
-    ("IC-013","LEGACY_PROVENANCE","thytabakman-jpg/Reaserch:projects/improvement-core/versions/IC-2026-09-23-013.yaml"),
-    ("IC-014","LEGACY_PROVENANCE","thytabakman-jpg/Reaserch:projects/improvement-core/versions/IC-2026-09-23-014.yaml"),
-    ("IC-015","LEGACY_PROVENANCE","thytabakman-jpg/Reaserch:projects/improvement-core/versions/IC-2026-09-23-015.yaml"),
-    ("IC-017","LEGACY_PROVENANCE","thytabakman-jpg/Reaserch:projects/improvement-core/versions/IC-2026-09-23-017.yaml"),
-    ("IC-018","LEGACY_PROVENANCE","thytabakman-jpg/Reaserch:projects/improvement-core/versions/IC-2026-09-23-018.yaml"),
-    ("IC-019","LEGACY_PROVENANCE","thytabakman-jpg/Reaserch:projects/improvement-core/versions/IC-2026-09-24-019.yaml"),
-    ("IC-020","LEGACY_PROVENANCE","thytabakman-jpg/Reaserch:projects/improvement-core/versions/IC-2026-09-24-020.yaml"),
-    ("IC-021","LEGACY_PROVENANCE","thytabakman-jpg/Reaserch:projects/improvement-core/versions/IC-2026-09-24-021.yaml"),
-    ("IC-022","LEGACY_PROVENANCE","thytabakman-jpg/Reaserch:projects/improvement-core/versions/IC-2026-09-24-022.yaml"),
-    ("IC-023","LEGACY_PROVENANCE","thytabakman-jpg/Reaserch:projects/improvement-core/versions/IC-2026-09-24-023.yaml"),
-    ("IC-024","LEGACY_PROVENANCE","thytabakman-jpg/Reaserch:projects/improvement-core/versions/IC-2026-09-24-024.yaml"),
-    ("IC-025","LEGACY_PROVENANCE","thytabakman-jpg/Reaserch:projects/improvement-core/versions/IC-2026-09-24-025.yaml"),
-    ("IC-026","LEGACY_PROVENANCE","thytabakman-jpg/Reaserch:projects/improvement-core/versions/IC-2026-09-24-026.yaml"),
-    ("IC-028","LEGACY_PROVENANCE","thytabakman-jpg/Reaserch:projects/improvement-core/versions/IC-2026-09-24-028.yaml"),
-    ("IC-024-G1","LEGACY_PROVENANCE","thytabakman-jpg/Reaserch:projects/improvement-core/versions/IC-2026-09-24-024-G1.yaml"),
-    ("IC-024-G2","LEGACY_PROVENANCE","thytabakman-jpg/Reaserch:projects/improvement-core/versions/IC-2026-09-24-024-G2.yaml"),
-    ("IC-024-G3","LEGACY_PROVENANCE","thytabakman-jpg/Reaserch:projects/improvement-core/versions/IC-2026-09-24-024-G3.yaml"),
-    ("IC-016","UNRECOVERED_GAP","no canonical version artifact recovered"),
-    ("IC-027","UNRECOVERED_GAP","no canonical version artifact recovered"),
-    ("IC-029","LEGACY_RESEARCH_SUCCESSOR","thytabakman-jpg/Reaserch:architecture/IC029_IMPROVED_CORE_SELF_AUDITED_MAP_076.md"),
-    ("IC-030","LEGACY_RESEARCH_SUCCESSOR","thytabakman-jpg/Reaserch:architecture/IC030_RECURSIVE_IMPROVEMENTCORE_MANAGER_001.md"),
-    ("IC-031","LEGACY_RESEARCH_SUCCESSOR","thytabakman-jpg/Reaserch:architecture/IC031_COMPOUNDING_DISCOVERY_IMPROVEMENTCORE_001.md"),
-    ("IC-032","LEGACY_RESEARCH_SUCCESSOR","thytabakman-jpg/Reaserch:architecture/IC032_CUMULATIVE_EXPERIMENTAL_IMPROVECORE_001.md"),
-    # Later named ICC objects.
-    ("ICC","CURRENT_INTEGRATED_STACK","ICC_AUTONOMOUS_STEWARDSHIP.md"),
-    ("ICC-107","MENTIONED_UNRECOVERED","conversation-recovered label; no defining repository artifact recovered"),
-    ("ICC-108","MENTIONED_UNRECOVERED","conversation-recovered label; no defining repository artifact recovered"),
-    ("ICC-118","UNRECOVERED_FORMAL_OBJECT","recovered completion-guard mention; no canonical formal object recovered"),
-    ("IC-121","UNRESOLVED_HISTORICAL_IDENTITY","conversation-recovered historical identity; defining artifact not recovered"),
-    ("IC-122","UNRESOLVED_HISTORICAL_IDENTITY","conversation-recovered historical identity; defining artifact not recovered"),
-    ("ICC-123","RECOVERED_HISTORICAL_OBJECT","integration/ICC123_THREE_DAY_RECOVERY_STATE_001_2026-09-25.md"),
-    ("ICC-124","LINEAGE_OPEN","integration/ICC124_LINEAGE_RECOVERY_001_2026-09-25.md"),
-    ("ICC-128-LEGACY","PRESERVED_LEGACY_OBJECT","legacy/icc128-legacy/MANIFEST.yaml"),
-    ("ICC-128-CURRENT","CURRENT_CONFIGURED_IDENTITY_VIEW","integration/CURRENT_ICC128_CONVERSATION_CONTROL.md"),
-)
+# configured-tool registry. Their provenance lives in project-owned data rather
+# than in runtime source, preserving Take-5 predecessor independence.
+ICC_VARIANT_DATA=Path(__file__).resolve().parents[1]/"projects/tool-system/ICC_VARIANT_SOURCES.json"
 
-ICC_ALIASES={
-    "ICC-022":"IC-022",
-    "ICC-023":"IC-023",
-    "ICC-024":"IC-024",
-    "IC028":"IC-028",
-    "ICC128":"ICC-128-CURRENT",
-}
+
+def _variant_payload()->dict[str,Any]:
+    if not ICC_VARIANT_DATA.is_file():
+        raise RuntimeError("ICC_VARIANT_SOURCE_DATA_MISSING")
+    value=json.loads(ICC_VARIANT_DATA.read_text(encoding="utf-8"))
+    if not isinstance(value,dict):
+        raise RuntimeError("ICC_VARIANT_SOURCE_DATA_INVALID")
+    return value
+
+
+_VARIANT_PAYLOAD=_variant_payload()
+ICC_ALIASES=dict(_VARIANT_PAYLOAD.get("aliases",{}))
 
 
 def icc_variant_specs()->tuple[ProjectObjectSpec,...]:
     out=[]
     reverse={}
     for alias,target in ICC_ALIASES.items():
-        reverse.setdefault(target,[]).append(alias)
-    for object_id,status,source in ICC_VARIANTS:
+        reverse.setdefault(str(target),[]).append(str(alias))
+    for row in _VARIANT_PAYLOAD.get("variants",()):
+        if not isinstance(row,dict):
+            raise RuntimeError("ICC_VARIANT_ROW_INVALID")
+        object_id=str(row.get("object_id","")).strip()
+        status=str(row.get("status","")).strip()
+        source=str(row.get("source","")).strip()
+        if not object_id or not status:
+            raise RuntimeError("ICC_VARIANT_IDENTITY_INCOMPLETE")
         out.append(ProjectObjectSpec(
             object_id=object_id,
             display_name=object_id,
             species="ICC_VARIANT",
             status=status,
-            source_refs=(source,),
+            source_refs=((source,) if source else ()),
             aliases=tuple(reverse.get(object_id,())),
         ))
     return tuple(out)
-
 
 def all_project_specs()->tuple[ProjectObjectSpec,...]:
     return current_tool_specs()+icc_variant_specs()
@@ -585,7 +550,7 @@ def package_files(spec:ProjectObjectSpec)->dict[str,str]:
 def materialize_package(base:Path,spec:ProjectObjectSpec)->tuple[Path,...]:
     written=[]
     for rel,content in package_files(spec).items():
-        path=base/rel
+        path=base/PACKAGE_ROOT/rel
         path.parent.mkdir(parents=True,exist_ok=True)
         if path.exists():
             existing=path.read_text(encoding="utf-8")
