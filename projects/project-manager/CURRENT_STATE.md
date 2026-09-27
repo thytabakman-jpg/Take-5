@@ -17,6 +17,9 @@ REPOSITORY_TESTS: PASS_934
 PR_VALIDATION: PASS_RUN_36336038887
 CANONICAL_PROMOTION: MERGED_PR_164_COMMIT_4d8477dd79e45292e9f8f736721b97eedb23f054
 
+ALL_TOOLS_HF2_CAMPAIGN: CLOSED_RELATIVE_PASS_2_RUN_36348190619
+
 Current next frontier
-Run repository validation, repair any regression, record receipts, and promote only after
-the current branch passes governance.
+Use ProjectManager on additional projects; preserve TransferCore as explicit external OPEN
+until its current FullMath identity is recovered; reenter on any material regression,
+new result-sensitive project holdout, or admitted change to the transfer boundary.
