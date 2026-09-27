@@ -24,7 +24,10 @@ def _state(**extra):
         "one_validated_capability_clearly_fits":True,
         "consequence_bounded":True,
         "no_material_rival_exposed":True,
-        "work_items":[{"id":"cheap","jobs":["solve"],"burden":1}],
+        "work_items":[{
+            "id":"cheap","jobs":["solve"],"burden":1,
+            "operation_class":"VERIFY","execution_effect_class":"EVIDENCE_ONLY",
+        }],
     }
     out.update(extra)
     return out
@@ -158,7 +161,10 @@ def test_parent_return_gate_prevents_one_meaningful_step_from_becoming_parent_co
     calls={"execute":[],"gate":0}
 
     def work(state_phase):
-        return [{"id":f"job-{state_phase}","jobs":["solve"],"burden":1}]
+        return [{
+            "id":f"job-{state_phase}","jobs":["solve"],"burden":1,
+            "operation_class":"VERIFY","execution_effect_class":"EVIDENCE_ONLY",
+        }]
 
     def q(state,memory):
         return [{"question_id":f"q-{state.get('phase',0)}","issue":"finish all work","obligations":["solve"]}]

@@ -38,6 +38,8 @@ def _recursive_handlers():
                 "id":"j1",
                 "route_id":"route-j1",
                 "task":"verify",
+                "operation_class":"VERIFY",
+                "execution_effect_class":"EVIDENCE_ONLY",
                 "basis_id":z.get("basis_id","b0"),
                 "dependency_footprint":["evidence"],
             }
@@ -74,8 +76,14 @@ def test_learning_memory_blocks_unchanged_no_gain_and_reopens_on_dependency_delt
 
 def test_recursive_manager_keeps_parent_control_across_children():
     def select(z,m):
-        if z["step"]==0:return {"id":"j1","task":"diagnose","basis_id":"b0"}
-        if z["step"]==1:return {"id":"j2","task":"verify","basis_id":"b1"}
+        if z["step"]==0:return {
+            "id":"j1","task":"diagnose","operation_class":"DIAGNOSE",
+            "execution_effect_class":"EVIDENCE_ONLY","basis_id":"b0"
+        }
+        if z["step"]==1:return {
+            "id":"j2","task":"verify","operation_class":"VERIFY",
+            "execution_effect_class":"EVIDENCE_ONLY","basis_id":"b1"
+        }
         return None
     def child(job):
         return ChildReturn(
@@ -194,8 +202,10 @@ def test_recursive_manager_preserves_plural_nondominated_frontier():
 def test_recursive_manager_filters_protected_regression_before_choice():
     def select(z,m):
         return [
-            {"id":"unsafe","basis_id":"b0","goal_gain":999,"preserves_protected":False},
-            {"id":"safe","basis_id":"b0","goal_gain":1},
+            {"id":"unsafe","basis_id":"b0","goal_gain":999,"preserves_protected":False,
+             "operation_class":"VERIFY","execution_effect_class":"EVIDENCE_ONLY"},
+            {"id":"safe","basis_id":"b0","goal_gain":1,
+             "operation_class":"VERIFY","execution_effect_class":"EVIDENCE_ONLY"},
         ]
     def child(job):
         return ChildReturn(

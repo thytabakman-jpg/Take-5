@@ -29,6 +29,11 @@ TRANSFORM_SENSITIVE_TARGETS=frozenset({
     "HOST_BOUNDARY","CONTROLLER",
 })
 
+EXECUTION_EFFECT_CLASSES=frozenset({
+    "EVIDENCE_ONLY",
+    "TARGET_TRANSFORM",
+})
+
 # These configured tools are intrinsically epistemic/recovery operations in their
 # admitted current identity.  Inferring a recovery class for them is safe because
 # the inference cannot license an object mutation.  Every other configured tool
@@ -40,6 +45,7 @@ SAFE_RECOVERY_TOOL_OPERATION_CLASS={
     "ASSERT":"VERIFY",
     "PD":"COMPARE",
     "PDAudit":"VERIFY",
+    "MT":"RECONSTRUCT",
     "MTA":"RECONSTRUCT",
     "Diagnosis":"DIAGNOSE",
     "HistoricalReconstruction":"RECONSTRUCT",
@@ -82,6 +88,28 @@ class SpecificationReceipt:
             return None
         suffix=f":{self.reason}" if self.reason else ""
         return f"SPECIFICATION_{self.status}{suffix}"
+
+
+@dataclass(frozen=True)
+class ExecutionAdmissionReceipt:
+    status:str
+    operation_class:str
+    effect_class:str
+    specification_status:str
+    object_id:str|None=None
+    basis_id:str|None=None
+    reason:str|None=None
+
+    @property
+    def licensed(self)->bool:
+        return self.status=="PASS"
+
+    @property
+    def blocker(self)->str|None:
+        if self.licensed:
+            return None
+        suffix=f":{self.reason}" if self.reason else ""
+        return f"EXECUTION_ADMISSION_{self.status}{suffix}"
 
 
 def _norm(value:Any)->str:
@@ -240,6 +268,83 @@ def assess_selected_state(state:Any)->SpecificationReceipt:
     if not op:
         return SpecificationReceipt("OPEN","UNSPECIFIED",None,None,reason="SELECTED_OPERATION_CLASS_REQUIRED")
     return assess_transformation(selected_specification(state),op)
+
+
+def _work_item_state(item:Mapping[str,Any])->dict[str,Any]:
+    state={"selected_action":dict(item)}
+    tool_id=item.get("tool_id")
+    if tool_id:
+        state["selected_tool"]=str(tool_id)
+    return state
+
+
+def _effect_class(item:Mapping[str,Any], *, configured_observer:bool)->str:
+    for key in ("execution_effect_class","effect_class","execution_effect"):
+        value=item.get(key)
+        if value:
+            return _norm(value)
+    if configured_observer:
+        return "EVIDENCE_ONLY"
+    return ""
+
+
+def assess_executable_work_item(
+    item:Mapping[str,Any],
+    *,
+    configured_observer:bool=False,
+)->ExecutionAdmissionReceipt:
+    """License a work callback before it can execute.
+
+    The operation class answers what semantic job is being attempted.
+    The effect class answers whether the callback itself can change target
+    reality before admission.
+
+    Repository configured-tool execution is observer-only, so callers may set
+    configured_observer=True to infer EVIDENCE_ONLY. Generic/higher-order
+    callbacks must declare their effect class explicitly.
+    """
+    if not isinstance(item,Mapping):
+        return ExecutionAdmissionReceipt(
+            "OPEN","UNSPECIFIED","UNSPECIFIED","OPEN",
+            reason="WORK_ITEM_MAPPING_REQUIRED",
+        )
+
+    spec=assess_selected_state(_work_item_state(item))
+    if not spec.licensed:
+        return ExecutionAdmissionReceipt(
+            spec.status,
+            spec.operation_class,
+            _effect_class(item,configured_observer=configured_observer) or "UNSPECIFIED",
+            spec.status,
+            spec.object_id,
+            spec.basis_id,
+            spec.reason,
+        )
+
+    effect=_effect_class(item,configured_observer=configured_observer)
+    if not effect:
+        return ExecutionAdmissionReceipt(
+            "OPEN",spec.operation_class,"UNSPECIFIED",spec.status,
+            spec.object_id,spec.basis_id,"EFFECT_CLASS_REQUIRED",
+        )
+    if effect not in EXECUTION_EFFECT_CLASSES:
+        return ExecutionAdmissionReceipt(
+            "OPEN",spec.operation_class,effect,spec.status,
+            spec.object_id,spec.basis_id,"EFFECT_CLASS_INVALID",
+        )
+    if effect=="TARGET_TRANSFORM" and spec.operation_class not in TRANSFORMATION_OPERATION_CLASSES:
+        return ExecutionAdmissionReceipt(
+            "OPEN",spec.operation_class,effect,spec.status,
+            spec.object_id,spec.basis_id,"TARGET_TRANSFORM_OPERATION_REQUIRED",
+        )
+
+    return ExecutionAdmissionReceipt(
+        "PASS",spec.operation_class,effect,spec.status,
+        spec.object_id,spec.basis_id,
+        "CONFIGURED_OBSERVER_INFERENCE" if configured_observer and not any(
+            item.get(k) for k in ("execution_effect_class","effect_class","execution_effect")
+        ) else None,
+    )
 
 
 def progress_specification_licensed(

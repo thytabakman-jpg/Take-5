@@ -19,7 +19,11 @@ def provider(calls=None):
 
     def generate_work(questions,state,memory):
         calls.append("G_W")
-        return [{"id":"cheap","jobs":["solve"],"burden":1}]
+        return [{
+            "id":"cheap","jobs":["solve"],"burden":1,
+            "operation_class":"VERIFY",
+            "execution_effect_class":"EVIDENCE_ONLY",
+        }]
 
     def execute_work(selected,state,memory):
         calls.append("E")

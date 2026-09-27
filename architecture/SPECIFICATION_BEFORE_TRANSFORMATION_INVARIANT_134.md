@@ -179,3 +179,44 @@ RecoveryLicensed(o) does not imply AuthoritativeEmissionLicensed(o).
 Object-transforming work crosses this specification gate before transformation.
 Authoritative formal output crosses the formal-claim admission gate before green
 emission and parent return.
+
+
+## Pre-execution effect boundary — 2026-09-27 candidate extension
+
+The original invariant typed the semantic operation but did not independently type
+the effect authority of higher-order callbacks.
+
+That distinction is now explicit.
+
+For selected work w:
+
+OpLicensed(w)
+iff
+Recovery(Op(w))
+or
+(Transform(Op(w)) and SpecAdequate(w)).
+
+EffectLicensed(w)
+iff
+Effect(w)=EVIDENCE_ONLY
+or
+(Effect(w)=TARGET_TRANSFORM and Transform(Op(w))).
+
+ExecLicensed(w)
+iff
+OpLicensed(w) and EffectLicensed(w).
+
+Generic/higher-order callbacks with an unknown effect class fail OPEN before
+invocation. Repository configured-tool execution may infer EVIDENCE_ONLY only
+because its current global contract is observer-only.
+
+This extension is implemented on branch fix/preexecution-effect-contract-145 at:
+- runtime/specification_before_transformation.py
+- runtime/improvement_core_recursive_manager.py
+- runtime/improvement_core_legacy_candidate.py
+
+The immutable ICC128 Legacy snapshot is not modified. Its modern wrapper constrains
+the admissible executor binding before invoking the frozen E stage.
+
+Promotion of this extension requires repository validation and capability-preservation
+evidence.

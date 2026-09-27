@@ -5,6 +5,7 @@ from specification_before_transformation import (
     SpecificationPacket,
     assess_transformation,
     assess_selected_state,
+    assess_executable_work_item,
     progress_specification_licensed,
 )
 from emergent_admission import Admission,ObjectCandidate,admit
@@ -204,3 +205,74 @@ def test_architecture_transform_passes_only_with_adequate_specification():
         },
     }
     assert assess_selected_state(state).status=="PASS"
+
+
+def test_generic_callback_requires_explicit_effect_class():
+    r=assess_executable_work_item({
+        "id":"inspect-x",
+        "operation_class":"VERIFY",
+    })
+    assert r.status=="OPEN"
+    assert r.reason=="EFFECT_CLASS_REQUIRED"
+
+
+def test_generic_evidence_only_callback_is_licensed_for_recovery():
+    r=assess_executable_work_item({
+        "id":"inspect-x",
+        "operation_class":"VERIFY",
+        "execution_effect_class":"EVIDENCE_ONLY",
+    })
+    assert r.status=="PASS"
+    assert r.effect_class=="EVIDENCE_ONLY"
+
+
+def test_target_transform_callback_requires_transform_operation_and_specification():
+    r=assess_executable_work_item({
+        "id":"mutate-x",
+        "operation_class":"IMPROVE",
+        "execution_effect_class":"TARGET_TRANSFORM",
+    })
+    assert r.status=="OPEN"
+    assert r.reason=="SPECIFICATION_PACKET_REQUIRED"
+
+
+def test_target_transform_callback_passes_with_adequate_specification():
+    r=assess_executable_work_item({
+        "id":"mutate-x",
+        "operation_class":"IMPROVE",
+        "execution_effect_class":"TARGET_TRANSFORM",
+        "object_specification":{
+            "object_id":"TOOL:X",
+            "basis_id":"b0",
+            "identification_status":"IDENTIFIED",
+            "required_coordinates":["native","protected"],
+            "resolved_coordinates":["native","protected"],
+        },
+    })
+    assert r.status=="PASS"
+    assert r.effect_class=="TARGET_TRANSFORM"
+    assert r.specification_status=="PASS"
+
+
+def test_configured_observer_infers_evidence_only_but_not_missing_operation_semantics():
+    assert assess_executable_work_item(
+        {"id":"root","tool_id":"RootCause"},
+        configured_observer=True,
+    ).status=="PASS"
+
+    r=assess_executable_work_item(
+        {"id":"arch","tool_id":"Architecture"},
+        configured_observer=True,
+    )
+    assert r.status=="OPEN"
+    assert r.reason=="SELECTED_OPERATION_CLASS_REQUIRED"
+
+
+def test_mt_is_safe_recovery_for_configured_observer_execution():
+    r=assess_executable_work_item(
+        {"id":"mt","tool_id":"MT"},
+        configured_observer=True,
+    )
+    assert r.status=="PASS"
+    assert r.operation_class=="RECOVER"
+    assert r.effect_class=="EVIDENCE_ONLY"

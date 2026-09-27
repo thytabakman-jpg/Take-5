@@ -12,6 +12,7 @@ from typing import Any, Callable
 
 from improvement_core_learning_memory import LearningMemory
 from improvement_core_math_spine import ControllerOption, nondominated_frontier
+from specification_before_transformation import assess_executable_work_item
 from improvement_core_progress_relation import (
     ClaimScope,
     EffectKind,
@@ -153,6 +154,10 @@ def _transition_comparison(
         specification_status=str(
             selected.get("specification_status")
             or delta.get("specification_status")
+            or assess_executable_work_item(
+                selected,
+                configured_observer=False,
+            ).specification_status
             or "OPEN"
         ),
     )
@@ -347,6 +352,20 @@ class RecursiveImprovementCoreManager:
                     "memory":m,
                     "traces":[asdict(t) for t in self.traces],
                     "blocker":"IC_MANAGER_LEARNING_BLOCKED_UNCHANGED_ROUTE",
+                }
+
+            execution_admission=assess_executable_work_item(
+                selected,
+                configured_observer=False,
+            )
+            if not execution_admission.licensed:
+                return {
+                    "status":"OPEN",
+                    "state":z,
+                    "memory":m,
+                    "traces":[asdict(t) for t in self.traces],
+                    "blocker":execution_admission.blocker,
+                    "execution_admission":asdict(execution_admission),
                 }
 
             job=ChildJob(id=f"child:{i}",job=selected,basis_id=basis)

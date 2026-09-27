@@ -41,8 +41,10 @@ def test_cheap_direct_executes_one_minimal_package():
         "consequence_bounded":True,
         "no_material_rival_exposed":True,
         "work_items":[
-            {"id":"cheap","jobs":["solve"],"burden":1,"info_gain":3},
-            {"id":"heavy","jobs":["solve"],"burden":9,"info_gain":3},
+            {"id":"cheap","jobs":["solve"],"burden":1,"info_gain":3,
+             "operation_class":"VERIFY","execution_effect_class":"EVIDENCE_ONLY"},
+            {"id":"heavy","jobs":["solve"],"burden":9,"info_gain":3,
+             "operation_class":"VERIFY","execution_effect_class":"EVIDENCE_ONLY"},
         ],
     }
     def execute(selected,state,memory):
@@ -70,8 +72,10 @@ def test_deep_route_preserves_nondominated_plurality():
         "required_jobs":["solve"],
         "multiple_material_packages_fit":True,
         "work_items":[
-            {"id":"info","jobs":["solve"],"burden":5,"info_gain":10,"dependency_leverage":1},
-            {"id":"leverage","jobs":["solve"],"burden":5,"info_gain":1,"dependency_leverage":10},
+            {"id":"info","jobs":["solve"],"burden":5,"info_gain":10,"dependency_leverage":1,
+             "operation_class":"VERIFY","execution_effect_class":"EVIDENCE_ONLY"},
+            {"id":"leverage","jobs":["solve"],"burden":5,"info_gain":1,"dependency_leverage":10,
+             "operation_class":"VERIFY","execution_effect_class":"EVIDENCE_ONLY"},
         ],
     }
     def execute(selected,state,memory):
@@ -99,7 +103,10 @@ def test_material_delta_records_reselection_requirement():
         "one_validated_capability_clearly_fits":True,
         "consequence_bounded":True,
         "no_material_rival_exposed":True,
-        "work_items":[{"id":"cheap","jobs":["solve"],"burden":1}],
+        "work_items":[{
+            "id":"cheap","jobs":["solve"],"burden":1,
+            "operation_class":"VERIFY","execution_effect_class":"EVIDENCE_ONLY",
+        }],
     }
     def admit(results,state,memory):
         return {"material_result_delta":True,"changed_representation":True}
@@ -123,7 +130,10 @@ def test_live_inquiry_cannot_silently_terminate():
         "one_validated_capability_clearly_fits":True,
         "consequence_bounded":True,
         "no_material_rival_exposed":True,
-        "work_items":[{"id":"cheap","jobs":["solve"],"burden":1}],
+        "work_items":[{
+            "id":"cheap","jobs":["solve"],"burden":1,
+            "operation_class":"VERIFY","execution_effect_class":"EVIDENCE_ONLY",
+        }],
     }
     def update(state,memory,delta):
         nxt=dict(state)

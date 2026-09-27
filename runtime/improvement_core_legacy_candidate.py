@@ -13,6 +13,7 @@ from typing import Any, Callable, Mapping
 
 import icc128_legacy
 from improvement_core_tool_bridge import bind_selected_tools, execute_bound_tools
+from specification_before_transformation import assess_executable_work_item
 
 
 TERMINAL={"COMPLETE","OPEN","BLOCKED","CONFLICT"}
@@ -80,6 +81,22 @@ def run_legacy_candidate(
         results=[]
 
         if formal:
+            formal_admission=[
+                (item,assess_executable_work_item(item,configured_observer=True))
+                for item in formal
+            ]
+            denied=[(item,receipt) for item,receipt in formal_admission if not receipt.licensed]
+            if denied:
+                return [{
+                    "status":"OPEN",
+                    "execution_truth":"NOT_EXECUTED",
+                    "blocker":denied[0][1].blocker,
+                    "selected":formal,
+                    "execution_admission":tuple(
+                        receipt.__dict__ for _,receipt in formal_admission
+                    ),
+                }]
+
             tool_ids=tuple(dict.fromkeys(str(x["tool_id"]) for x in formal))
             bridge_state={**current,"selected_tools":tool_ids}
             try:
@@ -103,7 +120,22 @@ def run_legacy_candidate(
             })
 
         if generic:
-            if execute_work is None:
+            generic_admission=[
+                (item,assess_executable_work_item(item,configured_observer=False))
+                for item in generic
+            ]
+            denied=[(item,receipt) for item,receipt in generic_admission if not receipt.licensed]
+            if denied:
+                results.append({
+                    "status":"OPEN",
+                    "execution_truth":"NOT_EXECUTED",
+                    "blocker":denied[0][1].blocker,
+                    "selected":generic,
+                    "execution_admission":tuple(
+                        receipt.__dict__ for _,receipt in generic_admission
+                    ),
+                })
+            elif execute_work is None:
                 results.append({
                     "status":"OPEN",
                     "execution_truth":"NOT_EXECUTED",
