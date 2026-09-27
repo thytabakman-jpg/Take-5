@@ -76,3 +76,16 @@ over the heterogeneous sequence rather than redefining HF002.
 
 Reason
 Current HF002 is same-capability local recurrence.
+
+
+## D008
+
+Date: 2026-09-27
+
+Decision
+Promote ProjectManager to current canonical Take-5 state through PR 164.
+
+Reason
+The repaired head passed the full Take-5 validation suite, capability preservation,
+the canonical whole-system audit, the closed-loop fixture, and the zero-request dump.
+The squash merge commit then passed the main-branch validation run.
