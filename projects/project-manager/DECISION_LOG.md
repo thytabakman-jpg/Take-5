@@ -89,3 +89,18 @@ Reason
 The repaired head passed the full Take-5 validation suite, capability preservation,
 the canonical whole-system audit, the closed-loop fixture, and the zero-request dump.
 The squash merge commit then passed the main-branch validation run.
+
+
+## D009
+
+Date: 2026-09-27
+
+Decision
+Treat the dependency-aware 93-tool HF2 campaign as a validated exhaustive verification
+surface for ProjectManager, without turning its run receipt into a new semantic authority.
+
+Reason
+The second pass ran every current registered tool from the corrected project state, preserved
+each tool's configured recurrence identity, completed ToolConductor's exhaustive sweep,
+was consumed by ImprovementCore, and left no local ProjectManager action unresolved.
+TransferCore remains an explicit external OPEN boundary rather than being invented or bypassed.
