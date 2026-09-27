@@ -316,6 +316,15 @@ def _return_verifier(state,memory,context):
     }
 
 
+def _fresh_stable(state,memory,context):
+    return {
+        "status":"NO_GAIN",
+        "owned_work_remaining":False,
+        "evidence":[f"test:fresh-stable:{context['challenge_index']}"],
+        "challenge_id":f"test-fresh-{context['challenge_index']}",
+    }
+
+
 def test_full_mt_evidence_plan_and_black_box_spine_are_current():
     plan=build_tool_execution_plan(CONFIGURED_RUNS["MT"])
     assert plan.complete
@@ -343,6 +352,7 @@ def test_current_improvement_core_consumes_mt_as_evidence_not_draft():
         explicit_mode=MODE_OBSERVE_DECOUPLED,
         observer_risk=True,
         return_verifier=_return_verifier,
+        fresh_reobserve=_fresh_stable,
     )
 
     assert resolution.controller=="IC-028"
