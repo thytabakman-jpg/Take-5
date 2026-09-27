@@ -86,8 +86,21 @@ MultiObject delta (2026-09-27):
 runtime/tool_manifest_audit.py remains the authority for explicit versus
 generic-only manifest identity.
 
-Generic-only identity is OPEN at the strong identity layer. A generic wrapper can
-prove common wrapper/closure/reentry behavior without proving the historical or
+PR #161 backfills explicit manifests only from already-executable typed registries
+or dedicated native modules. On validated head
+`02fa863b9de5abeba786ecce63c66167c32fb91a`, the generic-only residual is
+exactly:
+
+- MTA
+- Architecture
+- PD
+- PDAudit
+
+Take-5 Validation run 36302187179 and Capability Preservation run 36302187186
+both succeeded.
+
+Generic-only identity remains OPEN for those four. A generic wrapper can prove
+common wrapper/closure/reentry behavior without proving the historical or
 tool-specific identity of the named tool.
 
 ## Recovery rule
