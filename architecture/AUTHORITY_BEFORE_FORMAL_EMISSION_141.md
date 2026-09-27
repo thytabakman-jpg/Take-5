@@ -1,7 +1,7 @@
 # Authority Before Formal Emission Invariant 141
 
 Date: 2026-09-26
-Status: IMPLEMENTED / VALIDATED CANDIDATE / PROMOTION PENDING
+Status: CURRENT / IMPLEMENTED / VALIDATED / PROMOTED
 Canonical repository: thytabakman-jpg/Take-5
 
 ## Problem
@@ -318,5 +318,11 @@ Implementation validation on PR #143 head c45817e28ab3130402d430acfc3878e13d26d9
 - ImproveCore Legacy Restoration 130 run 36292992599: SUCCESS
 - ImproveCore Legacy Semantic Holdouts 132 run 36292992595: SUCCESS
 
-Promotion remains pending until the final documentation/receipt commit also passes
-the repository gates and PR #143 is merged.
+Promotion completed through PR #143.
+Merge commit: d0a625e02795b0863257005de3fa958ae02533a8.
+
+The final persisted receipt head also passed:
+- Take-5 Validation 36293035440: SUCCESS
+- Capability Preservation 36293035352: SUCCESS
+- ImproveCore Legacy Restoration 130 run 36293035315: SUCCESS
+- ImproveCore Legacy Semantic Holdouts 132 run 36293035358: SUCCESS.
