@@ -232,6 +232,7 @@ def test_transform_sensitive_gain_is_open_without_specification_pass():
         effects=(witness(EffectKind.ACTION_CHANGED),),
         obligation_states=("CLOSED",),
         boundary_verified=True,
+        transformation_claim=True,
         specification_status="OPEN",
     )
     assert strict_progress(cmp) is False
