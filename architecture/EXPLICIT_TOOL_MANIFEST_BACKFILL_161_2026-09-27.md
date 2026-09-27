@@ -1,7 +1,7 @@
 # Explicit Tool Manifest Backfill 161
 
 Date: 2026-09-27
-Status: CANDIDATE PENDING CURRENT VALIDATION
+Status: VALIDATED ON PR #161 HEAD 02fa863b
 
 ## Problem
 
@@ -84,3 +84,20 @@ the same exact four-element set:
 MTA, Architecture, PD, PDAudit.
 
 This alignment makes the remaining strong tool-reality frontier precise.
+
+
+## Validation
+
+PR #161 head `02fa863b9de5abeba786ecce63c66167c32fb91a` passed:
+
+- Take-5 Validation run 36302187179;
+- Capability Preservation run 36302187186.
+
+The validated residual at the explicit-manifest layer is exactly:
+
+- MTA;
+- Architecture;
+- PD;
+- PDAudit.
+
+The same four identities remain the native-runtime residual.
