@@ -16,6 +16,8 @@ ICC means Jane + the validated math-first wrapper + Improvement Core / IC-028 + 
 
 ## Start here
 
+1. `architecture/PROJECT_MANAGER_FULL_TOOL_MATH_001_2026-09-27.md` + `runtime/project_manager.py` — reusable authority-bound ProjectManager tool; its first managed project is itself under `projects/project-manager/`.
+
 1. `integration/CURRENT_TOOL_PROJECT_ORGANIZATION.md` — current anti-loss organization for all live tools and recovered ICC/IC variants; per-object packages, 36-cell coverage, append-only evidence, and overwrite regression guards.
 1. `integration/CURRENT_TOOL_REALITY.md` — fail-closed strong whole-portfolio tool-reality gate; separates configured identity from explicit manifest identity and native realization.
 1. `integration/CURRENT_IMPROVEMENT_CORE.md` — current ImprovementCore recovery authority and regime-090 runtime path.

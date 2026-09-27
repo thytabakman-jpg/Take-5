@@ -1,0 +1,119 @@
+{
+  "schema_version": "1.0",
+  "project_id": "project-manager",
+  "projection_status": "RUNTIME_INPUT_PROJECTION_NOT_AUTHORITY",
+  "coordinates": {
+    "identity": {
+      "status": "CURRENT",
+      "owner": "PROJECT_CHARTER.md"
+    },
+    "charter": {
+      "status": "CURRENT",
+      "owner": "PROJECT_CHARTER.md"
+    },
+    "goal": {
+      "status": "CURRENT",
+      "owner": "GOAL.md"
+    },
+    "scope": {
+      "status": "CURRENT",
+      "owner": "PROJECT_CHARTER.md"
+    },
+    "authority": {
+      "status": "CURRENT",
+      "owner": "AUTHORITY_REGISTRY.md"
+    },
+    "stakeholders": {
+      "status": "CURRENT",
+      "owner": "COMMUNICATIONS.md"
+    },
+    "deliverables": {
+      "status": "CURRENT",
+      "owner": "WBS.md"
+    },
+    "schedule": {
+      "status": "CURRENT",
+      "owner": "SCHEDULE.md"
+    },
+    "resources": {
+      "status": "CURRENT",
+      "owner": "RESOURCES.md"
+    },
+    "dependencies": {
+      "status": "CURRENT",
+      "owner": "DEPENDENCIES.md"
+    },
+    "interfaces": {
+      "status": "CURRENT",
+      "owner": "INTERFACES.md"
+    },
+    "raid": {
+      "status": "CURRENT",
+      "owner": "RAID.md"
+    },
+    "questions": {
+      "status": "CURRENT",
+      "owner": "OPEN_QUESTIONS.md"
+    },
+    "evidence": {
+      "status": "CURRENT",
+      "owner": "EVIDENCE.md"
+    },
+    "decisions": {
+      "status": "CURRENT",
+      "owner": "DECISION_LOG.md"
+    },
+    "lessons": {
+      "status": "CURRENT",
+      "owner": "LESSONS_LEDGER.md"
+    },
+    "changes": {
+      "status": "CURRENT",
+      "owner": "CHANGE_CONTROL.md"
+    },
+    "lifecycle": {
+      "status": "CURRENT",
+      "owner": "CURRENT_STATE.md"
+    },
+    "verification": {
+      "status": "CURRENT",
+      "owner": "VERIFICATION.md"
+    },
+    "communications": {
+      "status": "CURRENT",
+      "owner": "COMMUNICATIONS.md"
+    },
+    "handoffs": {
+      "status": "CURRENT",
+      "owner": "HANDOFFS.md"
+    }
+  },
+  "authority_registry": {
+    "identity": "PROJECT_CHARTER.md",
+    "charter": "PROJECT_CHARTER.md",
+    "goal": "GOAL.md",
+    "scope": "PROJECT_CHARTER.md",
+    "authority": "AUTHORITY_REGISTRY.md",
+    "stakeholders": "COMMUNICATIONS.md",
+    "deliverables": "WBS.md",
+    "schedule": "SCHEDULE.md",
+    "resources": "RESOURCES.md",
+    "dependencies": "DEPENDENCIES.md",
+    "interfaces": "INTERFACES.md",
+    "raid": "RAID.md",
+    "questions": "OPEN_QUESTIONS.md",
+    "evidence": "EVIDENCE.md",
+    "decisions": "DECISION_LOG.md",
+    "lessons": "LESSONS_LEDGER.md",
+    "changes": "CHANGE_CONTROL.md",
+    "lifecycle": "CURRENT_STATE.md",
+    "verification": "VERIFICATION.md",
+    "communications": "COMMUNICATIONS.md",
+    "handoffs": "HANDOFFS.md"
+  },
+  "evidence_refs": [
+    "architecture/PROJECT_MANAGER_FULL_TOOL_MATH_001_2026-09-27.md",
+    "projects/project-manager/EVIDENCE.md",
+    "projects/project-manager/tool-runs/OUTER_SEQUENCE_REENTRY_001.md"
+  ]
+}
