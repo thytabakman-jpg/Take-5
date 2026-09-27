@@ -144,6 +144,10 @@ def test_multiobject_second_identical_run_has_no_material_delta_when_signature_r
             "SYNTH:"+first.state.pair_synthesis.status+":"+",".join(f.finding_id for f in first.state.pair_synthesis.findings),
         ]
         +["RESID:"+x.finding_id+":"+x.status for x in first.state.residuals]
+        +[
+            "VIEW:"+r.route_id+":"+r.status+":"+",".join(f.finding_id for f in r.findings)
+            for r in first.state.view_results
+        ]
         +["RECON:"+x.finding_id+":"+x.status for x in first.state.reconciliation]
     ))
     second=run_multiobject(_objects(),Provider(),previous_signature=signature)
