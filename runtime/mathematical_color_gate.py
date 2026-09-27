@@ -163,6 +163,14 @@ def _formal_pattern() -> re.Pattern:
 FORMAL_OBJECT_PATTERN = _formal_pattern()
 FORBIDDEN_RAW_MARKUP = ("<span", "</span>", "style=", "color:")
 FORBIDDEN_FALLBACK_MARKERS = ("🟢", "🔴")
+AUTHORITATIVE_TEXT_MARKERS = (
+    "current",
+    "canonical",
+    "exact",
+    "latest",
+    "new math",
+    "actual math",
+)
 MATH_SIGNAL_PATTERN = re.compile(
     r"(\\(?:color|boxed|Gamma|varphi|vdash|nvdash|neq|Rightarrow|implies|iff|land|lor|mu|operatorname)"
     r"|\$|[=≠→⇒⇔∧∨⊢⊬∈∉∀∃μΓφ])"
@@ -246,9 +254,39 @@ def verify_assistant_response(rendered: str) -> None:
         raise ColorInvariantViolation("UNTYPED_FORMAL_LABEL_AT_RESPONSE_BOUNDARY")
 
 
-def emit_user_visible(fragments: Iterable[Fragment]) -> str:
+def _infer_authoritative_emission(parts: Sequence[Fragment]) -> bool:
+    text=" ".join(
+        fragment.text.lower()
+        for fragment in parts
+        if isinstance(fragment,TextFragment)
+    )
+    return any(marker in text for marker in AUTHORITATIVE_TEXT_MARKERS)
+
+
+def emit_user_visible(
+    fragments: Iterable[Fragment],
+    *,
+    authoritative_claim: bool | None = None,
+    formal_claim_receipt: Any | None = None,
+) -> str:
     parts = tuple(fragments)
     verify_fragments(parts)
+
+    authoritative=(
+        _infer_authoritative_emission(parts)
+        if authoritative_claim is None
+        else bool(authoritative_claim)
+    )
+    has_green=any(
+        isinstance(fragment,(MathFragment,AssessedMathFragment))
+        and fragment.status is MathStatus.RECOVERED
+        for fragment in parts
+    )
+    if authoritative and has_green and not _formal_claim_green(formal_claim_receipt):
+        raise ColorInvariantViolation(
+            "AUTHORITATIVE_FORMAL_CLAIM_RECEIPT_REQUIRED"
+        )
+
     rendered: list[str] = []
     for fragment in parts:
         if isinstance(fragment, (MathFragment, AssessedMathFragment)):
