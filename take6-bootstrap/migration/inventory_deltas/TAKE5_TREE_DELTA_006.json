@@ -1,0 +1,80 @@
+{
+  "schema_version": "0.1",
+  "base_commit": "45ba1b8ffae50d20a96b9c3cd5904d7b120b66aa",
+  "base_tree_sha": "4d5e5a8d92e536fe409217b6f1ab7af17d1de299",
+  "target_commit": "4085f5d3479e6c02929026011bb377179d7f2303",
+  "target_tree_sha": "d194d90e89debaea08569ef9b5b8bbe9483a601b",
+  "remove_paths": [],
+  "upsert_entries": [
+    {
+      "path": "architecture/MULTIOBJECT_FULL_TOOL_MATH_001_2026-09-27.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "11b107aa83730d419f47cdf9690dc8d9cd3a43b2",
+      "size": 12644
+    },
+    {
+      "path": "integration/CURRENT_TOOL_REALITY.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4d1650a48f4d24fceff6ab67347135850cdd40a7",
+      "size": 3324
+    },
+    {
+      "path": "runtime/multiobject.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "20f192ae19ea7eab5331f60dc714d06bc7942106",
+      "size": 18653
+    },
+    {
+      "path": "runtime/portable_tool_conductor.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "92585b95e01eb228f9f53527f2017036951b9212",
+      "size": 13221
+    },
+    {
+      "path": "runtime/tool_manifest.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f0f928f94b3b7128a95292caa228aec5a19af038",
+      "size": 15090
+    },
+    {
+      "path": "runtime/tool_run_registry.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d487a33c9a5614b1d86bd2d3820f4d6056624d83",
+      "size": 3684
+    },
+    {
+      "path": "tests/test_multiobject.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7b3c5211d1f8c3def04e885e1d9cbbe865e1dbe5",
+      "size": 6435
+    },
+    {
+      "path": "tests/test_multiobject_fullmath_identity.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fec7279c186e763cfb60feeac1ab0a184d218f9c",
+      "size": 1947
+    },
+    {
+      "path": "tests/test_tool_manifest_audit.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "be221d4f07dda4cdf8705c50f4c885bd2e77bac2",
+      "size": 884
+    },
+    {
+      "path": "tests/test_tool_reality_audit.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d67a979ddade4eaff26b11ce98aff814dfac1877",
+      "size": 1290
+    }
+  ]
+}
