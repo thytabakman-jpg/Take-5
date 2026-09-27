@@ -7,7 +7,7 @@ Invocation: direct imperative "Run MT on this whole conversation."
 Status: EXECUTED / MATERIAL FINDINGS / OVERALL OPEN
 Execution class: PROGRAM_WITH_ENVIRONMENT
 Semantic worker: bound by the current run
-Repository basis: PR #155 head aec128f0e614abfc40cef552efd24c40781529b8
+Repository basis: PR #156 validated head 694fad5f109a8b2479b76493c58890a4e5ef2548
 
 ## Full invocation receipt
 
@@ -269,14 +269,11 @@ This is a successful fail-closed MT run.
 
 ## Validation
 
-PR #155 initial head:
-aec128f0e614abfc40cef552efd24c40781529b8
+PR #156 validated head before receipt-only metadata correction:
+694fad5f109a8b2479b76493c58890a4e5ef2548
 
 Take-5 Validation:
-36295284539 SUCCESS
-
-Test suite:
-855 passed.
+36295420828 SUCCESS
 
 Canonical whole-system audit:
 PASS.
@@ -285,7 +282,9 @@ Closed-loop fixture:
 PASS.
 
 Capability Preservation:
-36295284582 SUCCESS.
+36295420822 SUCCESS.
+
+This metadata-only correction changes no MT semantic finding or execution path; the final PR head is revalidated before merge.
 
 ## Reentry condition
 
