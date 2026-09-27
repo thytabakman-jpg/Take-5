@@ -190,3 +190,14 @@ def test_unrelated_math_question_does_not_trigger_formal_system_receipt():
         target="arithmetic",
         job="calculate",
     )
+
+
+def test_canonical_state_admission_stores_normalized_receipt():
+    from formal_claim_admission import admit_formal_claim_to_state
+    state,receipt=admit_formal_claim_to_state({},packet(binding()))
+    assert receipt.status=="PASS"
+    assert len(state["authoritative_formal_claims"])==1
+    row=state["authoritative_formal_claims"][0]
+    assert row["status"]=="PASS"
+    assert row["root_object_id"]=="ImprovementCore"
+    assert row["root_version_id"]=="regime-091"
