@@ -7,6 +7,6 @@ D2 Configured invocation depends on tool_run_registry, tool_manifest, global exe
 direct-command routing, Tool Run Closure, HF002, and HF001.
 D3 Project mutation depends on separate admitted authority and change paths.
 D4 ImprovementCore handoff depends on current ImprovementCore configured execution.
-D5 Transfer activation depends on recovery and admission of the current TransferCore full identity.
+D5 Transfer activation depends on the current TransferCore configured identity/runtime, explicit bridge licensing, target authority binding, and separate target mutation authorization.
 D6 Canonical promotion depends on repository validation and governance.
 D7 Self-management evidence depends on this project package remaining internally coherent.
