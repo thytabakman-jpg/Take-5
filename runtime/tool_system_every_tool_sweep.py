@@ -1002,6 +1002,8 @@ def main()->None:
             k:(v.get("status") if isinstance(v,dict) and "status" in v else v.get("closed") if isinstance(v,dict) and "closed" in v else None)
             for k,v in receipt["development_audits"].items()
         },
+        "tool_operational_identity_missing":receipt["development_audits"]["tool_operational_identity_audit"].get("missing",()),
+        "tool_operational_identity_incomplete":receipt["development_audits"]["tool_operational_identity_audit"].get("incomplete",()),
     }
     print("EVERY_TOOL_SWEEP="+json.dumps(compact,sort_keys=True,default=str))
 
