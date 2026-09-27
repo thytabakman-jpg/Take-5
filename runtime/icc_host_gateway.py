@@ -11,10 +11,15 @@ from typing import Iterable
 from icc_entry import run_icc
 from icc_host_ingress import (
     ICCHostIngressReceipt,
-    receipt_banner,
     require_icc_host_ingress,
 )
-from mathematical_color_gate import Fragment, TextFragment
+from mathematical_color_gate import (
+    AssessedMathFragment,
+    Fragment,
+    MathStatus,
+    RecoveryAssessment,
+    TextFragment,
+)
 from result_path_registry import emit_default_result
 
 
@@ -28,14 +33,36 @@ def run_hosted_icc(
     return run_icc(*args, **kwargs)
 
 
+def _identity_fragment(label: str, receipt: ICCHostIngressReceipt) -> AssessedMathFragment:
+    assessment=RecoveryAssessment(
+        object_id=label,
+        job="HOST_INGRESS_IDENTITY",
+        claim="HOST_INGRESS_RECEIPT_BACKED_IDENTITY",
+        required_coordinates=("HOST_INGRESS_RECEIPT",),
+        unresolved_coordinates=(),
+        complete_for_use=True,
+        status=MathStatus.RECOVERED,
+        authoritative_claim=False,
+        authority_residuals=(),
+    )
+    return AssessedMathFragment(
+        rf"\operatorname{{{label}}}",
+        assessment,
+    )
+
+
 def emit_hosted_icc_result(
     host_ingress_receipt: ICCHostIngressReceipt | None,
     fragments: Iterable[Fragment],
 ) -> str:
     """Emit a repository-backed ICC result with its visible ingress receipt."""
     receipt=require_icc_host_ingress(host_ingress_receipt)
-    banner=receipt_banner(receipt)
     return emit_default_result((
-        TextFragment(banner+"\n"),
+        _identity_fragment("ICC128",receipt),
+        TextFragment(" "),
+        _identity_fragment("TAKE5",receipt),
+        TextFragment(
+            f"/main @{receipt.short_commit} ingress:{receipt.receipt_id[:12]}\n"
+        ),
         *tuple(fragments),
     ))
