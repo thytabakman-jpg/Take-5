@@ -101,6 +101,7 @@ def test_external_gap_survives_candidate_completion():
         external_adapters={},
         allow_external_gap=True,
         knowledge_ledger=KnowledgeLedger(),
+        return_verifier=_return_done,
     )
     assert out.status=="OPEN"
     assert out.blocker=="EXTERNAL_ACQUISITION_GAP"
@@ -146,6 +147,7 @@ def test_wrapper_preserves_missing_configured_tool_adapter_as_open():
         update_state=lambda s,m,d:(dict(s),dict(m)),
         configured_tool_adapters={},
         knowledge_ledger=KnowledgeLedger(),
+        return_verifier=_return_done,
     )
     assert out.status=="OPEN"
     assert out.state["terminal"]=="OPEN"
