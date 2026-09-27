@@ -214,9 +214,13 @@ def actual_project_manager_input()->dict[str,Any]:
     owner_candidates={
         "identity":"README.md",
         "charter":"PROJECT_CHARTER.md",
+        "goal":"GOAL.md",
         "scope":"PROJECT_CHARTER.md",
         "authority":"AUTHORITY_REGISTRY.md",
+        "stakeholders":"STAKEHOLDERS.md",
         "deliverables":"WBS.md",
+        "schedule":"SCHEDULE.md",
+        "resources":"RESOURCES.md",
         "dependencies":"SOURCE_MAP.md",
         "interfaces":"TWO_36_SURFACES.md",
         "raid":"RAID.md",
@@ -227,6 +231,7 @@ def actual_project_manager_input()->dict[str,Any]:
         "changes":"CHANGE_CONTROL.md",
         "lifecycle":"CURRENT_STATE.md",
         "verification":"REGRESSION_CONTRACT.md",
+        "communications":"COMMUNICATIONS.md",
         "handoffs":"TWO_36_SURFACES.md",
     }
     coordinates={}
