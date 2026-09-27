@@ -1,18 +1,18 @@
 {
   "schema_version": "0.1",
   "source_repository": "thytabakman-jpg/Take-5",
-  "source_commit": "360b93b66f307ff800299d3a2122a00d336c66a3",
-  "source_tree_sha": "bece091a96bb953ddd5cd628752745b7beacd022",
+  "source_commit": "853c7f92dae62747d3f8f42a38b6d4b77e194ad2",
+  "source_tree_sha": "6bb206f9c22776b595e62bb3c1ab19197df0f395",
   "recursive_tree_truncated": false,
-  "entry_count": 858,
-  "blob_count": 814,
+  "entry_count": 875,
+  "blob_count": 831,
   "tree_count": 44,
   "entries": [
     {
       "path": ".github",
       "mode": "040000",
       "type": "tree",
-      "sha": "085c78b5a2dd20988fbddfc397bc06c830732e34",
+      "sha": "3bb5664b31a31d752cbe1ee68bfc7a8290e5e4a2",
       "size": null
     },
     {
@@ -40,7 +40,7 @@
       "path": ".github/workflows",
       "mode": "040000",
       "type": "tree",
-      "sha": "49ce6aae6c76ba198009a5f9f663f9bcf0ab49f9",
+      "sha": "fb81f656df9b0b9108b68f4603642002f6fab2ff",
       "size": null
     },
     {
@@ -63,6 +63,27 @@
       "type": "blob",
       "sha": "80f5057302e39d8beeb758f6eaf7034093ac048f",
       "size": 1408
+    },
+    {
+      "path": ".github/workflows/improvecore-legacy-holdouts-131.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "18a5bf8b3aa2cceda1f868b1f8ef299a4d73c866",
+      "size": 1124
+    },
+    {
+      "path": ".github/workflows/improvecore-legacy-restoration-130.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fc4d71e20b550ef02c60534d800401652e1b7e97",
+      "size": 2183
+    },
+    {
+      "path": ".github/workflows/improvecore-legacy-semantic-holdouts-132.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a3142f0546b364faf0803bb4f53c8d6f42703897",
+      "size": 1309
     },
     {
       "path": ".github/workflows/improvecore-self-study-104.yml",
@@ -187,7 +208,7 @@
       "path": "architecture",
       "mode": "040000",
       "type": "tree",
-      "sha": "7fff5c447e7dd7b9a5f145b3f2ac0e9a1c3a49f9",
+      "sha": "011d059d8ac006c7a883d6c27a3c3541520d4b87",
       "size": null
     },
     {
@@ -509,8 +530,8 @@
       "path": "architecture/IMPROVEMENT_CORE_RECOVERY_MANIFEST_082.json",
       "mode": "100644",
       "type": "blob",
-      "sha": "de6c619ac337d0aade0a3eced559881f27737cd4",
-      "size": 11248
+      "sha": "4f3ec1d37b3c3b5b1a19f66fd61690ce8ae139c2",
+      "size": 12710
     },
     {
       "path": "architecture/JANE_CONTINUITY_RECOVERY_098.md",
@@ -712,7 +733,7 @@
       "path": "artifacts",
       "mode": "040000",
       "type": "tree",
-      "sha": "75a9f0bfd152de6199c897198d92dd9a64c187f6",
+      "sha": "f6911850b40b467d68af0b89d205820eb2ac2c0b",
       "size": null
     },
     {
@@ -831,7 +852,7 @@
       "path": "artifacts/improvecore",
       "mode": "040000",
       "type": "tree",
-      "sha": "901de62be39a640f6e112b0bdea13b659a0f257d",
+      "sha": "3d696d503dc85b5297d70c95d32b96f4cb053784",
       "size": null
     },
     {
@@ -1045,6 +1066,13 @@
       "size": 2230
     },
     {
+      "path": "artifacts/improvecore/IMPROVEMENTCORE_LEGACY_RESTORATION_CLOSURE_133_2026-09-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e4d66561d800cc2b7310ab3d35d9112008219812",
+      "size": 3386
+    },
+    {
       "path": "artifacts/improvecore/IMPROVEMENTCORE_MINIMAL_HF2_REPEATED_CAMPAIGN_2026-09-26.md",
       "mode": "100644",
       "type": "blob",
@@ -1092,6 +1120,20 @@
       "type": "blob",
       "sha": "aad704736d91edd2dd996244c26ef93368de015d",
       "size": 5307
+    },
+    {
+      "path": "artifacts/improvecore/LEGACY_CANDIDATE_CONTROL_HOLDOUT_131_2026-09-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "314a423b6f3b07dab1094958b378b41a582cb7f8",
+      "size": 1843
+    },
+    {
+      "path": "artifacts/improvecore/LEGACY_RESTORED_SEMANTIC_HOLDOUT_132_2026-09-26.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c80447fc43c41a6f4084727a96ab66cc54c1fd71",
+      "size": 2478
     },
     {
       "path": "artifacts/improvecore/MT_DIRECT_TOOL_HF2_PROMPT_118_2026-09-26.md",
@@ -1468,7 +1510,7 @@
       "path": "integration",
       "mode": "040000",
       "type": "tree",
-      "sha": "e1bd1c1a85d32fbf076b2f7982f26be8de379fe1",
+      "sha": "451a687414a1b11f92064dade272dcfe81376e07",
       "size": null
     },
     {
@@ -1538,8 +1580,8 @@
       "path": "integration/CURRENT_IMPROVEMENT_CORE.md",
       "mode": "100644",
       "type": "blob",
-      "sha": "5c1ea25384242afb3ea447fa1532e518b94d7a4b",
-      "size": 28399
+      "sha": "71c21331e2074367edf5ed25b46985087dff4299",
+      "size": 30881
     },
     {
       "path": "integration/CURRENT_MATHEMATICAL_COLORING.md",
@@ -1708,6 +1750,20 @@
       "type": "blob",
       "sha": "65a1cf9d1c48d774610949b8f588f9f3510ad0d7",
       "size": 1252
+    },
+    {
+      "path": "integration/IMPROVECORE_LEGACY_RESTORATION_CAMPAIGN_130.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "799defa72cc056d1764a7ef9d7a75489d34a798f",
+      "size": 1326
+    },
+    {
+      "path": "integration/IMPROVECORE_LEGACY_SEMANTIC_HOLDOUT_PACKET_132.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b16ac8f3dde65b5d96424b4184a6a243bd12179a",
+      "size": 10861
     },
     {
       "path": "integration/IMPROVECORE_RECOVERY_BLUEPRINT_100.md",
@@ -2665,7 +2721,7 @@
       "path": "runtime",
       "mode": "040000",
       "type": "tree",
-      "sha": "b98acc57ee3189ec811018256265d089ca8b8112",
+      "sha": "d532a54a83fa425be8929b60bc5baf38ab4219d8",
       "size": null
     },
     {
@@ -3117,6 +3173,41 @@
       "size": 6355
     },
     {
+      "path": "runtime/improvement_core_legacy_candidate.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2ea066cad0e049f590e8cbe445a8be242153a4c5",
+      "size": 6516
+    },
+    {
+      "path": "runtime/improvement_core_legacy_holdout_campaign.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "da377587d60cc333cf0f53b95ecfd87fd6552610",
+      "size": 8932
+    },
+    {
+      "path": "runtime/improvement_core_legacy_restoration_campaign.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "aee7048db608bb6f97b6dfcddfbce657efe051e0",
+      "size": 22815
+    },
+    {
+      "path": "runtime/improvement_core_legacy_restored.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c20011dcdd62d9cc7973921b45d1eedae901a74e",
+      "size": 10249
+    },
+    {
+      "path": "runtime/improvement_core_legacy_semantic_holdouts_132.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e299f4c0b9a48290a37bc90bf5c8d6ee570e0f86",
+      "size": 7020
+    },
+    {
       "path": "runtime/improvement_core_manager.py",
       "mode": "100644",
       "type": "blob",
@@ -3155,8 +3246,8 @@
       "path": "runtime/improvement_core_recovery.py",
       "mode": "100644",
       "type": "blob",
-      "sha": "74ca327c5b992cbc3bc7c7a71bcc5548fd71f8a1",
-      "size": 12957
+      "sha": "132a1a7c6b00f3ee5bbd14b54eb862c6b217bd1e",
+      "size": 16631
     },
     {
       "path": "runtime/improvement_core_recursive_manager.py",
@@ -3171,6 +3262,13 @@
       "type": "blob",
       "sha": "91522f67c9317d6d5f5ca1b1cb204fcab8634c01",
       "size": 15049
+    },
+    {
+      "path": "runtime/improvement_core_restored_dispatch.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "42c21628a8545db3b04a83983d67f77af411dee2",
+      "size": 5926
     },
     {
       "path": "runtime/improvement_core_route_calibration.py",
@@ -5017,7 +5115,7 @@
       "path": "tests",
       "mode": "040000",
       "type": "tree",
-      "sha": "d4c8063b52dab844594018f1902fbf2492c60f61",
+      "sha": "220ce9d631e8c43a55d8bf522784786be5af2f50",
       "size": null
     },
     {
@@ -5413,6 +5511,20 @@
       "size": 4251
     },
     {
+      "path": "tests/test_improvement_core_legacy_candidate.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3934c30cc3ae17ebc045bd36e8cb5fb1fce85d0c",
+      "size": 5677
+    },
+    {
+      "path": "tests/test_improvement_core_legacy_restored.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a0d63e4ab797c9a0a7729674458ee8ed0bd03bad",
+      "size": 4435
+    },
+    {
       "path": "tests/test_improvement_core_manager.py",
       "mode": "100644",
       "type": "blob",
@@ -5481,6 +5593,13 @@
       "type": "blob",
       "sha": "0b9291e9067cabdb6077e38e09d4ce0b2f20454c",
       "size": 14544
+    },
+    {
+      "path": "tests/test_improvement_core_restored_dispatch.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "211b2e6c94f8cf49d5289be8d9b9b8b204a5faed",
+      "size": 3879
     },
     {
       "path": "tests/test_improvement_core_route_calibration.py",
