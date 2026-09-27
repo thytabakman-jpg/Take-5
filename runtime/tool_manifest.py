@@ -308,6 +308,33 @@ ASSERT_BINDINGS=GENERIC_BINDINGS+(
     ),
 )
 
+GOAL_BINDINGS=GENERIC_BINDINGS+(
+    ProtectedBinding(
+        "GOAL_EVIDENCE_GROUNDED_ADMISSION",
+        "PRE",
+        "runtime/goal.py",
+        "tests/test_goal.py",
+    ),
+    ProtectedBinding(
+        "GOAL_CONSTRAINT_SEPARATION",
+        "INTRA",
+        "runtime/goal.py",
+        "tests/test_goal.py",
+    ),
+    ProtectedBinding(
+        "GOAL_OBJECT_X_T_I_SIGMA",
+        "INTRA",
+        "runtime/goal.py",
+        "tests/test_goal.py",
+    ),
+    ProtectedBinding(
+        "GOAL_PLURALITY_FAIL_OPEN",
+        "POST",
+        "runtime/goal.py",
+        "tests/test_goal.py",
+    ),
+)
+
 OVERRIDES={
     "ImprovementCore":ToolManifest(
         tool_id="ImprovementCore",
@@ -356,6 +383,14 @@ OVERRIDES={
         closure_contract="TRC",
         reentry_contract="HF001",
         bindings=ASSERT_BINDINGS,
+    ),
+    "GOAL":ToolManifest(
+        tool_id="GOAL",
+        native_semantics="GOAL",
+        geometry_policy="D36_C",
+        closure_contract="GOAL_ADMISSIBILITY_PLUS_TRC",
+        reentry_contract="HF001",
+        bindings=GOAL_BINDINGS,
     ),
 }
 
