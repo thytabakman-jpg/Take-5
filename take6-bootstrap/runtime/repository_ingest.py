@@ -20,6 +20,7 @@ from runtime.checkpoint import make_checkpoint, verify_checkpoint
 from runtime.source_frontier import (
     compile_source_frontier,
     load_source_snapshots,
+    resolve_snapshot_inventory,
     verify_inventory,
 )
 
@@ -209,7 +210,7 @@ def ingest_current_repository_frontier(
 
     for repository in sorted(current):
         snapshot = current[repository]
-        inventory = loader(str(snapshot["inventory"]))
+        inventory = resolve_snapshot_inventory(snapshot, loader)
         checkout = inputs / repository.rsplit("/", 1)[-1]
         receipt, records = ingest_repository_snapshot(
             snapshot=snapshot,
