@@ -1,6 +1,6 @@
 # ProjectManager self-managed project
 
-Status: IMPLEMENTATION CANDIDATE ON VALIDATION BRANCH
+Status: CURRENT / VALIDATED / MERGED
 Date: 2026-09-27
 
 This directory is the first project managed by ProjectManager.
