@@ -371,3 +371,36 @@ def request_requires_formal_claim_receipt(
     wants_formal_output=any(marker in combined for marker in FORMAL_OUTPUT_MARKERS)
     names_system=any(marker in combined for marker in FORMAL_SYSTEM_MARKERS)
     return wants_formal_output and names_system
+
+
+def admit_formal_claim_to_state(
+    state: Mapping[str, Any],
+    packet: FormalCompositionPacket | Mapping[str, Any] | None,
+) -> tuple[dict[str, Any], FormalClaimReceipt]:
+    """Compute and persist one formal-claim receipt in controller state.
+
+    This is the canonical producer path consumed by the ImprovementCore parent
+    return gate.  It stores only the normalized receipt, never the mutable
+    caller packet.
+    """
+    receipt=assess_formal_claim(packet)
+    out=dict(state)
+    raw=out.get("authoritative_formal_claims",())
+    if isinstance(raw,Mapping):
+        claims=[dict(raw)]
+    elif isinstance(raw,(list,tuple)):
+        claims=[dict(x) for x in raw if isinstance(x,Mapping)]
+    else:
+        claims=[]
+    row={
+        "status":receipt.status,
+        "claim_scope":receipt.claim_scope,
+        "root_object_id":receipt.root_object_id,
+        "root_version_id":receipt.root_version_id,
+        "root_authority_id":receipt.root_authority_id,
+        "residuals":receipt.residuals,
+        "evidence_refs":receipt.evidence_refs,
+    }
+    claims.append(row)
+    out["authoritative_formal_claims"]=claims
+    return out,receipt
