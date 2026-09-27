@@ -50,7 +50,6 @@ entrypoint for:
 - Discriminator
 - RTC
 - BiasPerturbation
-- MultiObject
 - Diagnosis
 
 No generic analysis substitutes for these missing native realizations.
@@ -64,6 +63,15 @@ GOAL delta (2026-09-27):
 - candidate goal extraction/evidence remains an explicit environment input;
 - plural or ungrounded governing goals preserve OPEN/CONFLICT rather than arbitrary selection.
 
+
+MultiObject delta (2026-09-27):
+
+- full mathematical identity recovered and admitted before runtime build: `architecture/MULTIOBJECT_FULL_TOOL_MATH_001_2026-09-27.md`;
+- native orchestration core: `runtime/multiobject.py::run_multiobject`;
+- all currently required unordered pairs plus an independent full-joint route are enforced;
+- route-isolation receipts, reducibility coverage, gated views, typed reconciliation and OPEN/CONFLICT preservation are executable;
+- domain relation generation remains an explicit `multiobject_provider` environment boundary;
+- global two-role minimality, universal all-pairs necessity and generator-family completeness remain OPEN.
 
 ## Manifest residual
 
