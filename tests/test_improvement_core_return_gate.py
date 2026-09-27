@@ -147,3 +147,59 @@ def test_open_candidate_cannot_be_upgraded_to_complete():
             state={"terminal":"OPEN"},memory={},
             context=_context(hf2_status="OPEN"),verifier=verifier,
         )
+
+
+def test_complete_rejects_unclosed_authoritative_formal_claim():
+    def verifier(state,memory,context):
+        return {
+            "disposition":"RETURN",
+            "terminal":"COMPLETE",
+            "goal_closed":True,
+            "owned_work_remaining":False,
+            "consequence_closed":True,
+            "evidence":["unit:formal-claim-open"],
+        }
+    state={
+        "terminal":"COMPLETE",
+        "authoritative_formal_claims":[{
+            "status":"OPEN",
+            "root_object_id":"ImprovementCore",
+            "residuals":["ROOT_CURRENTNESS_MISMATCH"],
+        }],
+    }
+    with pytest.raises(
+        RuntimeError,
+        match="COMPLETE_WITH_UNCLOSED_AUTHORITATIVE_FORMAL_CLAIM",
+    ):
+        evaluate_parent_return(
+            candidate_status="COMPLETE",candidate_blocker=None,
+            state=state,memory={},
+            context=_context(),verifier=verifier,
+        )
+
+
+def test_complete_accepts_closed_authoritative_formal_claim():
+    def verifier(state,memory,context):
+        return {
+            "disposition":"RETURN",
+            "terminal":"COMPLETE",
+            "goal_closed":True,
+            "owned_work_remaining":False,
+            "consequence_closed":True,
+            "evidence":["unit:formal-claim-pass"],
+        }
+    state={
+        "terminal":"COMPLETE",
+        "authoritative_formal_claims":[{
+            "status":"PASS",
+            "root_object_id":"ImprovementCore",
+            "residuals":[],
+        }],
+    }
+    out=evaluate_parent_return(
+        candidate_status="COMPLETE",candidate_blocker=None,
+        state=state,memory={},
+        context=_context(),verifier=verifier,
+    )
+    assert out.terminal=="COMPLETE"
+    assert out.receipt["authoritative_formal_claim_residuals"]==()
