@@ -1,10 +1,10 @@
 # Four-Page Architecture
 > Governing authority: GOAL.md. This file may specialize the governing goal but may not override it.
 
-Status: BACKEND LOCKED
+Status: BACKEND RELOCKED AFTER IMPROVEMENTCORE 002
 
 Whole movement
-IS / some information tells you about a target -> HUMAN TECHNOLOGY / choose a target and an informative question -> SUKKOS SURPLUS / meaningful distinctions plus reintegration -> TRANSFER / I can choose and build the question I need.
+IS / some information tells you about a target -> HUMAN TECHNOLOGY / choose a target and an informative question -> SUKKOS SURPLUS / meaningful distinctions followed by one grouping -> TRANSFER / I can choose and build the question I need.
 
 Page 1 — IS
 Job: make target-relative information mathematically real.
@@ -21,9 +21,9 @@ Bridge: Can Sukkos show us a case where the right distinctions reveal what we ar
 
 Page 3 — SUKKOS SURPLUS
 Job: add a Sukkos-native religious operation.
-Source: Vayikra Rabbah 30:12. Within its symbolic mapping, taste/smell distinguish four types; the source then binds the differentiated types into one grouping.
-Educational operation: choose relevant distinction -> identify type -> refuse to make type equal separation or total worth.
-Exit: distinctions can be informative without becoming the whole story of a person/group.
+Source: Vayikra Rabbah 30:12. Within its symbolic mapping, taste/smell differentiate four types; the source then says the differentiated types are bound into one grouping.
+Source-grounded surplus: differentiation is preserved and is followed by deliberate grouping together.
+Educational application: a useful distinction can help us understand a part of a situation without requiring us to use that distinction as a reason for separation.
 Bridge: Can I choose and build a question whose answer actually tells me what I need to know?
 
 Page 4 — TRANSFER
