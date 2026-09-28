@@ -1,3 +1,22 @@
+# PROJECTMANAGER PROMOTION NOTE — 2026-09-28
+
+Status of this file: HISTORICAL ROUTE-SKELETON EVIDENCE
+
+The user authorized building both routes as independent projects. This skeleton is preserved as lineage evidence and no longer governs production state.
+
+Current independent project authorities:
+
+- `projects/sukkos-question-entropy/`
+- `projects/sukkos-question-mutual-information/`
+
+Important source correction admitted during promotion:
+
+Vayikra Rabbah 30:12 uses taste/no taste and smell/no smell as a Midrashic symbolic classification of four human types represented by the four species, followed by a one-group move. The production projects do not treat taste/smell as a halachic species-identification algorithm.
+
+Page 4 in both production routes is explicitly image-led and non-worksheet.
+
+---
+
 # Sukkos Question Booklet — Two Information-Theory Route Skeletons 001
 
 Date: 2026-09-27
