@@ -1,0 +1,65 @@
+name: Full repository recovery export
+
+on:
+  push:
+    branches:
+      - recovery/full-git-bundle-20260929
+
+permissions:
+  contents: write
+
+jobs:
+  export:
+    if: ${{ !contains(github.event.head_commit.message, '[recovery-export]') }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build full Git bundle and commit chunked export
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          BRANCH="${GITHUB_REF#refs/heads/}"
+          git clone "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" repo
+          cd repo
+          git checkout "${BRANCH}"
+          git fetch origin '+refs/heads/*:refs/remotes/origin/*' --tags --prune
+          git fetch origin '+refs/pull/*/head:refs/remotes/pull/*' || true
+          git bundle create ../repo.bundle --all
+          git bundle verify ../repo.bundle
+          rm -rf recovery-export
+          mkdir -p recovery-export
+          python - <<'PY'
+          import base64, hashlib, json, os, pathlib, subprocess
+          bundle = pathlib.Path("../repo.bundle")
+          data = bundle.read_bytes()
+          b64 = base64.b64encode(data).decode("ascii")
+          chunk_size = 700_000
+          out = pathlib.Path("recovery-export")
+          chunks = []
+          for i in range(0, len(b64), chunk_size):
+              name = f"bundle.b64.part-{i//chunk_size:04d}"
+              text = b64[i:i+chunk_size]
+              (out / name).write_text(text, encoding="ascii")
+              chunks.append({"name": name, "chars": len(text), "sha256": hashlib.sha256(text.encode("ascii")).hexdigest()})
+          refs = subprocess.check_output(["git","for-each-ref","--format=%(refname) %(objectname)"], text=True).splitlines()
+          manifest = {
+              "schema": "take2-full-git-bundle-v1",
+              "repository": os.environ["GITHUB_REPOSITORY"],
+              "source_ref": os.environ["GITHUB_REF"],
+              "source_head": subprocess.check_output(["git","rev-parse","HEAD"], text=True).strip(),
+              "bundle_bytes": len(data),
+              "bundle_sha256": hashlib.sha256(data).hexdigest(),
+              "base64_chars": len(b64),
+              "chunk_size": chunk_size,
+              "chunk_count": len(chunks),
+              "chunks": chunks,
+              "refs": refs,
+              "restore": "cat bundle.b64.part-* | base64 -d > repository.bundle && git bundle verify repository.bundle"
+          }
+          (out / "MANIFEST.json").write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+          PY
+          git add recovery-export
+          git config user.name "ICC Recovery Export"
+          git config user.email "actions@users.noreply.github.com"
+          git commit -m "[recovery-export] capture complete repository bundle"
+          git push origin "HEAD:${BRANCH}"
