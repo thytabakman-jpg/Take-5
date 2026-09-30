@@ -327,9 +327,15 @@ GOAL_BINDINGS=GENERIC_BINDINGS+(
         "tests/test_goal.py",
     ),
     ProtectedBinding(
+        "GOAL_ROBUST_MT_PREREQUISITE",
+        "PRE",
+        "runtime/goal.py",
+        "tests/test_goal.py",
+    ),
+    ProtectedBinding(
         "GOAL_FULL_TOOL_IDENTITY",
         "PRE",
-        "architecture/GOAL_FULL_TOOL_MATH_001_2026-09-27.md",
+        "architecture/GOAL_FULL_TOOL_MATH_002_2026-09-30.md",
         "tests/test_goal_fullmath_identity.py",
     ),
 )
@@ -679,7 +685,7 @@ OVERRIDES={
         closure_contract="GOAL_ADMISSIBILITY_PLUS_TRC",
         reentry_contract="HF001",
         bindings=GOAL_BINDINGS,
-        lineage_contract="architecture/GOAL_FULL_TOOL_MATH_001_2026-09-27.md",
+        lineage_contract="architecture/GOAL_FULL_TOOL_MATH_002_2026-09-30.md",
     ),
     "MultiObject":ToolManifest(
         tool_id="MultiObject",
