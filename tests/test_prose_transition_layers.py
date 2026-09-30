@@ -4,6 +4,9 @@ sys.path.insert(0,"runtime")
 from architecture_analysis import run_architecture_analysis
 from solution_to_my_problem import Problem,Candidate,SolutionReceipt,solve
 from improvement_core_return_gate import evaluate_parent_return
+from global_tool_execution import execute_protected_transition,ToolExecutionBlocked
+from tool_run_registry import CONFIGURED_RUNS
+from prose import ProseContract,ProseEvidence
 
 
 ARCH_REQUIRED=(
@@ -141,3 +144,45 @@ def test_improvementcore_complete_accepts_pass_prose_receipt():
         verifier=_return_verifier,
     )
     assert out.terminal=="COMPLETE"
+
+
+def _identity(value,plan):
+    return value,"witness"
+
+
+def _execute(value,plan):
+    return value,"execute",{"hf2_local_close":True}
+
+
+def _emit(value,plan):
+    return "emission"
+
+
+def test_final_emission_blocks_negative_first_prose():
+    evidence=ProseEvidence(
+        semantic_preservation="PASS",
+        earned_claim_strength="PASS",
+        no_unsupported_inflation="PASS",
+        evidence=("semantic","strength","inflation"),
+    )
+    try:
+        execute_protected_transition(
+            CONFIGURED_RUNS["Prose"],
+            behavior_id="PROSE_AFFIRMATIVE_FIRST_GATE",
+            dispatch_fn=lambda plan:("seed","dispatch"),
+            execute_fn=_execute,
+            consume_fn=_identity,
+            update_fn=_identity,
+            reentry_fn=_identity,
+            emission_audit_fn=_emit,
+            prose_contract=ProseContract("canon"),
+            prose_text_fn=lambda value,plan:(
+                "Ramban does not merely offer a different emphasis. "
+                "He directly attacks the premise."
+            ),
+            prose_evidence=evidence,
+        )
+    except ToolExecutionBlocked as exc:
+        assert "PROSE_NOT_ADMISSIBLE" in str(exc)
+    else:
+        raise AssertionError("negative-first prose escaped final emission gate")
