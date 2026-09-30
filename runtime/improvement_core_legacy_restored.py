@@ -251,6 +251,8 @@ def run_improvement_core_legacy_restored(
 
     def hf1_classify(before,after,delta):
         status=str(after.get("terminal","CONTINUE"))
+        if status=="COMPLETE":
+            return {"disposition":"STABLE"}
         if status in {"OPEN","BLOCKED","CONFLICT"}:
             return {"disposition":status}
         if after.get("upstream_invalidated"):
