@@ -128,6 +128,25 @@ Two consecutive no-delta passes are a bounded executable idempotence witness.
 
 This is basis-relative, not a theorem of globally complete discovery.
 
+## Parent reentry memory continuity
+
+Fresh whole-job challenges can emit persistent memory patches in addition to state
+patches.  A material fresh challenge that forces parent CONTINUE must carry that
+memory into the next parent round.  Otherwise the next fresh re-observation can
+forget discoveries, suppressions, failure/subsumption memory, or prior challenge
+evidence that the closure contract explicitly treats as persistent.
+
+Therefore parent reentry transports both:
+
+state_(t+1) = outcome.next_state
+
+and
+
+memory_(t+1) = outcome.next_memory.
+
+Resetting ephemeral challenge context does not reset persistent parent-return
+memory.
+
 ## Fail closed
 
 Missing fresh re-observer:
