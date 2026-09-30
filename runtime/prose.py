@@ -91,12 +91,22 @@ _NEGATIVE_FIRST_PATTERNS=(
 )
 
 
-def _allowed(match_text:str, contract:ProseContract)->bool:
-    lowered=match_text.casefold()
-    return any(
-        str(span).strip() and str(span).casefold() in lowered
-        for span in contract.allowed_negative_spans
-    )
+def _allowed(text:str, start:int, end:int, contract:ProseContract)->bool:
+    lowered=str(text).casefold()
+    for raw in contract.allowed_negative_spans:
+        span=str(raw).strip().casefold()
+        if not span:
+            continue
+        offset=0
+        while True:
+            idx=lowered.find(span,offset)
+            if idx<0:
+                break
+            span_end=idx+len(span)
+            if idx<=end and span_end>=start:
+                return True
+            offset=idx+1
+    return False
 
 
 def audit_affirmative_first(text:str, contract:ProseContract)->tuple[ProseViolation,...]:
@@ -106,7 +116,7 @@ def audit_affirmative_first(text:str, contract:ProseContract)->tuple[ProseViolat
     for code,pattern in _NEGATIVE_FIRST_PATTERNS:
         for match in pattern.finditer(value):
             excerpt=match.group(0).strip()
-            if not excerpt or _allowed(excerpt,contract):
+            if not excerpt or _allowed(value,match.start(),match.end(),contract):
                 continue
             key=(match.start(),match.end(),code)
             if key in seen:
