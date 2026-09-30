@@ -66,6 +66,11 @@ forwarded into the nested conductor environment.
 
 A_K = A \ {K}.
 
+The ordinary selected-tool adapter environment is not automatically reused as A. Conductor
+consultation adapters must be explicitly consultation-safe. This prevents a mutating selected
+tool from executing before the controller's specification/admission gates merely because the
+same adapter exists for later selected execution.
+
 Thus the active controller's ToolConductor factor may remain OPEN, but cannot recursively
 spawn the same active controller through an injected adapter.
 
