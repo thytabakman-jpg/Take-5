@@ -14,6 +14,7 @@ semantics or bindings are OPEN/BLOCKED, never silently substituted.
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass
+from functools import lru_cache
 from typing import Any, Callable, Mapping
 
 from capability_runtime import execute_capability
@@ -196,8 +197,13 @@ def portability_closed() -> bool:
 
 
 
+@lru_cache(maxsize=None)
+def _configured_plan(tool_id: str):
+    return build_tool_execution_plan(CONFIGURED_RUNS[tool_id])
+
+
 def _plan_payload(tool_id: str) -> dict[str, Any]:
-    plan=build_tool_execution_plan(CONFIGURED_RUNS[tool_id])
+    plan=_configured_plan(tool_id)
     return {
         "tool_id":plan.tool_id,
         "mode":plan.mode,
@@ -217,7 +223,7 @@ def _run_configured_factor(
     packet: Mapping[str, Any],
     adapter: Callable[[Mapping[str, Any], Any], Any],
 ) -> dict[str, Any]:
-    plan=build_tool_execution_plan(CONFIGURED_RUNS[tool_id])
+    plan=_configured_plan(tool_id)
     try:
         recurrence=execute_configured_with_hf2(
             tool_id=tool_id,
