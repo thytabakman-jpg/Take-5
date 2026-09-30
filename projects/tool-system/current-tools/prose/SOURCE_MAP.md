@@ -25,3 +25,9 @@
 
 Pointers preserve provenance. This package does not copy legacy evidence merely
 to make the folder look complete.
+
+## Numeric-year dating extension
+
+- architecture/PROSE_NUMERIC_YEAR_DATING_MATHEMATICS_002_2026-09-30.md
+- runtime/prose.py
+- tests/test_prose.py
