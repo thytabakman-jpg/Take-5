@@ -2,7 +2,8 @@ import sys
 sys.path.insert(0,"runtime")
 
 from prose import (
-    AFFIRMATIVE_FIRST,FIRST_MENTION_PERSON_DATES,ProseContract,ProseEvidence,
+    AFFIRMATIVE_FIRST,FIRST_MENTION_PERSON_DATES,NUMERIC_YEAR_DATES_ONLY,
+    ProseContract,ProseEvidence,
     assess_prose,require_prose_admissible,ProseAcceptanceError,
 )
 
@@ -107,3 +108,74 @@ def test_unknown_person_date_stays_open_instead_of_being_guessed():
     )
     assert out.status=="OPEN"
     assert "PERSON_DATE_UNRESOLVED:Some Scholar" in out.residuals
+
+
+def test_default_prose_contract_rejects_numeric_century_label():
+    out=assess_prose(
+        "Rashi lived in the 11th century.",
+        ProseContract("numeric-years"),
+        PASS_EVIDENCE,
+    )
+    assert out.status=="REPAIR_REQUIRED"
+    assert any(v.code=="NUMERIC_CENTURY_LABEL" for v in out.violations)
+
+
+def test_default_prose_contract_rejects_word_century_label():
+    out=assess_prose(
+        "Rambam wrote in the twelfth century.",
+        ProseContract("numeric-years"),
+        PASS_EVIDENCE,
+    )
+    assert out.status=="REPAIR_REQUIRED"
+    assert any(v.code=="WORD_CENTURY_LABEL" for v in out.violations)
+
+
+def test_numeric_uncertainty_formats_pass():
+    contract=ProseContract(
+        "numeric-years",
+        constraints=(NUMERIC_YEAR_DATES_ONLY,FIRST_MENTION_PERSON_DATES),
+        person_dates=(
+            ("Scholar A","c. 1075–1141"),
+            ("Scholar B","fl. 1170–1190"),
+            ("Scholar C","d. 1204"),
+        ),
+    )
+    text=(
+        "Scholar A (c. 1075–1141) appears first. "
+        "Scholar B (fl. 1170–1190) appears next. "
+        "Scholar C (d. 1204) appears last."
+    )
+    assert require_prose_admissible(text,contract,PASS_EVIDENCE).status=="PASS"
+
+
+def test_person_date_century_substitute_is_rejected():
+    contract=ProseContract(
+        "numeric-years",
+        constraints=(NUMERIC_YEAR_DATES_ONLY,FIRST_MENTION_PERSON_DATES),
+        person_dates=(("Some Scholar","12th century"),),
+    )
+    out=assess_prose(
+        "Some Scholar (12th century) argues for the reading.",
+        contract,
+        PASS_EVIDENCE,
+    )
+    assert out.status=="REPAIR_REQUIRED"
+    assert any(
+        v.code in {"NUMERIC_CENTURY_LABEL","PERSON_DATE_CENTURY_LABEL_FORBIDDEN"}
+        for v in out.violations
+    )
+
+
+def test_person_date_without_numeric_year_is_rejected_not_guessed():
+    contract=ProseContract(
+        "numeric-years",
+        constraints=(NUMERIC_YEAR_DATES_ONLY,FIRST_MENTION_PERSON_DATES),
+        person_dates=(("Some Scholar","medieval"),),
+    )
+    out=assess_prose(
+        "Some Scholar (medieval) argues for the reading.",
+        contract,
+        PASS_EVIDENCE,
+    )
+    assert out.status=="REPAIR_REQUIRED"
+    assert any(v.code=="PERSON_DATE_NUMERIC_YEAR_REQUIRED" for v in out.violations)

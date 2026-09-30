@@ -15,15 +15,19 @@ from typing import Iterable
 
 AFFIRMATIVE_FIRST="AFFIRMATIVE_FIRST"
 FIRST_MENTION_PERSON_DATES="FIRST_MENTION_PERSON_DATES"
-SUPPORTED_CONSTRAINTS=frozenset({AFFIRMATIVE_FIRST,FIRST_MENTION_PERSON_DATES})
+NUMERIC_YEAR_DATES_ONLY="NUMERIC_YEAR_DATES_ONLY"
+SUPPORTED_CONSTRAINTS=frozenset({
+    AFFIRMATIVE_FIRST,
+    FIRST_MENTION_PERSON_DATES,
+    NUMERIC_YEAR_DATES_ONLY,
+})
 
 
 @dataclass(frozen=True)
 class ProseContract:
     contract_id:str
-    constraints:tuple[str,...]=(AFFIRMATIVE_FIRST,)
+    constraints:tuple[str,...]=(AFFIRMATIVE_FIRST,NUMERIC_YEAR_DATES_ONLY)
     allowed_negative_spans:tuple[str,...]=()
-    person_dates:tuple[tuple[str,str],...]=()
     person_dates:tuple[tuple[str,str],...]=()
 
 
@@ -93,6 +97,53 @@ _NEGATIVE_FIRST_PATTERNS=(
     ),
 )
 
+_CENTURY_LABEL_PATTERNS=(
+    (
+        "NUMERIC_CENTURY_LABEL",
+        re.compile(
+            r"\b(?:[1-9]|1\d|20|21)(?:st|nd|rd|th)\s*[- ]?\s*centur(?:y|ies)\b",
+            re.IGNORECASE,
+        ),
+    ),
+    (
+        "WORD_CENTURY_LABEL",
+        re.compile(
+            r"\b(?:first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|"
+            r"tenth|eleventh|twelfth|thirteenth|fourteenth|fifteenth|sixteenth|"
+            r"seventeenth|eighteenth|nineteenth|twentieth|twenty[- ]first)"
+            r"\s*[- ]?\s*centur(?:y|ies)\b",
+            re.IGNORECASE,
+        ),
+    ),
+)
+
+_YEAR_TOKEN=re.compile(r"(?<!\d)\d{1,4}(?!\d)")
+
+
+def audit_numeric_year_dates(text:str)->tuple[ProseViolation,...]:
+    value=str(text or "")
+    violations=[]
+    for code,pattern in _CENTURY_LABEL_PATTERNS:
+        for match in pattern.finditer(value):
+            violations.append(ProseViolation(
+                constraint_id=NUMERIC_YEAR_DATES_ONLY,
+                code=code,
+                start=match.start(),
+                end=match.end(),
+                excerpt=match.group(0),
+            ))
+    return tuple(sorted(violations,key=lambda x:(x.start,x.end,x.code)))
+
+
+def _valid_numeric_person_date(date:str)->bool:
+    value=str(date or "").strip()
+    if not value:
+        return False
+    if audit_numeric_year_dates(value):
+        return False
+    return bool(_YEAR_TOKEN.search(value))
+
+
 
 def _allowed(text:str, start:int, end:int, contract:ProseContract)->bool:
     lowered=str(text).casefold()
@@ -153,6 +204,20 @@ def audit_first_mention_person_dates(
         if not date:
             residuals.append(f"PERSON_DATE_UNRESOLVED:{name}")
             continue
+        if not _valid_numeric_person_date(date):
+            code=(
+                "PERSON_DATE_CENTURY_LABEL_FORBIDDEN"
+                if audit_numeric_year_dates(date)
+                else "PERSON_DATE_NUMERIC_YEAR_REQUIRED"
+            )
+            violations.append(ProseViolation(
+                constraint_id=NUMERIC_YEAR_DATES_ONLY,
+                code=code,
+                start=match.start(),
+                end=match.end(),
+                excerpt=f"{name} ({date})",
+            ))
+            continue
         expected=f" ({date})"
         tail=value[match.end():match.end()+len(expected)]
         if tail!=expected:
@@ -181,6 +246,20 @@ def audit_first_mention_person_dates(text:str, contract:ProseContract):
         if not date:
             residuals.append(f"PERSON_DATE_UNRESOLVED:{name}")
             continue
+        if not _valid_numeric_person_date(date):
+            code=(
+                "PERSON_DATE_CENTURY_LABEL_FORBIDDEN"
+                if audit_numeric_year_dates(date)
+                else "PERSON_DATE_NUMERIC_YEAR_REQUIRED"
+            )
+            violations.append(ProseViolation(
+                constraint_id=NUMERIC_YEAR_DATES_ONLY,
+                code=code,
+                start=match.start(),
+                end=match.end(),
+                excerpt=f"{name} ({date})",
+            ))
+            continue
         expected=f" ({date})"
         if value[match.end():match.end()+len(expected)]!=expected:
             violations.append(ProseViolation(
@@ -205,6 +284,8 @@ def assess_prose(
     residuals=()
     if AFFIRMATIVE_FIRST in requested:
         violations=violations+audit_affirmative_first(text,contract)
+    if NUMERIC_YEAR_DATES_ONLY in requested:
+        violations=violations+audit_numeric_year_dates(text)
     if FIRST_MENTION_PERSON_DATES in requested:
         date_violations,date_residuals=audit_first_mention_person_dates(text,contract)
         violations=violations+date_violations
@@ -220,11 +301,6 @@ def assess_prose(
         return ProseAssessment(
             "REPAIR_REQUIRED",contract.contract_id,violations,(),
             residuals+("PROTECTED_PROSE_CONSTRAINT_VIOLATED",),(),
-        )
-
-    if residuals:
-        return ProseAssessment(
-            "OPEN",contract.contract_id,(),(),residuals,(),
         )
 
     if residuals:

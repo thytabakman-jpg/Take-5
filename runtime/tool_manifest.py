@@ -538,6 +538,12 @@ PROSE_BINDINGS=GENERIC_BINDINGS+(
         "tests/test_prose.py",
     ),
     ProtectedBinding(
+        "PROSE_NUMERIC_YEAR_DATING_GATE",
+        "INTRA",
+        "runtime/prose.py",
+        "tests/test_prose.py",
+    ),
+    ProtectedBinding(
         "PROSE_SEMANTIC_STRENGTH_NO_INFLATION_RECEIPTS",
         "POST",
         "runtime/prose.py",

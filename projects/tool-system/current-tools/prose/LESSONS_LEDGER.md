@@ -11,3 +11,9 @@ mutation while semantic and structural checks still pass.
 
 Reader-first framing becomes architecture when a project marks it protected, but
 concrete prose realization still requires its own acceptance object.
+
+## 2026-09-30 L003
+
+A first-mention date requirement is incomplete unless the representation of the
+date is also protected. Numeric-year dating prevents loss of chronological
+precision into century labels while preserving explicit uncertainty.
