@@ -103,7 +103,7 @@ NATIVE_ENTRYPOINTS: dict[str, tuple[str, tuple[str, ...]]] = {
     "HistoricalReconstruction": ("historical_reconstruction.compare", ()),
     "ZeroRequest": ("zero_request_episode.zero_request_episode", ("observation_source",)),
     "ASSERT": ("assert_compound.run_to_fixed_point", ("assert_stage_bindings",)),
-    "GOAL": ("goal.recover_goal", ("goal_candidates",)),
+    "GOAL": ("goal.recover_goal_configured", ("goal_candidates","goal_mt_receipt")),
     "MultiObject": ("multiobject.run_multiobject", ("multiobject_provider",)),
     "SolutionToMyProblem": ("solution_to_my_problem.solve", ()),
     "Prose": ("prose.assess_prose", ()),
