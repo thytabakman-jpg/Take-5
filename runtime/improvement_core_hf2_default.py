@@ -314,11 +314,13 @@ def _governed_default_fresh_reobserve(state,memory,context):
     may override this observer, but ordinary callers cannot silently omit the
     closure challenge.
     """
+    # parent_return_continuation is parent-loop bookkeeping, not evidence that
+    # substantive owned work still exists. Treating it as fresh work causes a
+    # completed re-entry round to re-open itself indefinitely.
     live=bool(
         state.get("owned_work_remaining",False)
         or state.get("live_continuation",False)
         or state.get("admitted_continuation",False)
-        or state.get("parent_return_continuation",False)
     )
     index=int(context.get("challenge_index",0))
     if live:
