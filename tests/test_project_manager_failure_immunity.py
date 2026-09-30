@@ -156,7 +156,7 @@ def test_target_transform_with_explicit_impact_and_tests_is_ready_but_not_closed
         tests=("schedule-regression",),
     )
     assert out.delta.status=="READY"
-    assert out.status=="CLOSED_RELATIVE"
+    assert out.status=="OPEN"
     assert out.reentry_required
 
 
