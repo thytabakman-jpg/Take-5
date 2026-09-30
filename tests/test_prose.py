@@ -2,7 +2,7 @@ import sys
 sys.path.insert(0,"runtime")
 
 from prose import (
-    AFFIRMATIVE_FIRST,FIRST_MENTION_PERSON_DATES,NUMERIC_YEAR_DATES_ONLY,
+    AFFIRMATIVE_FIRST,FIRST_MENTION_PERSON_DATES,NUMERIC_YEAR_DATES_ONLY,ORDERED_ANCHORS,
     ProseContract,ProseEvidence,
     assess_prose,require_prose_admissible,ProseAcceptanceError,
 )
@@ -179,3 +179,41 @@ def test_person_date_without_numeric_year_is_rejected_not_guessed():
     )
     assert out.status=="REPAIR_REQUIRED"
     assert any(v.code=="PERSON_DATE_NUMERIC_YEAR_REQUIRED" for v in out.violations)
+
+
+def test_person_name_inside_larger_word_is_not_a_first_mention():
+    contract=ProseContract(
+        "exact-person-boundary",
+        constraints=(FIRST_MENTION_PERSON_DATES,),
+        person_dates=(("Rashi","1040–1105"),),
+    )
+    text="PseudoRashi is not the protected person. Rashi (1040–1105) appears later."
+    assert require_prose_admissible(text,contract,PASS_EVIDENCE).status=="PASS"
+
+
+def test_ordered_anchors_pass_in_declared_order():
+    contract=ProseContract(
+        "local-order",
+        constraints=(ORDERED_ANCHORS,),
+        ordered_anchors=("claim", "evidence", "implication"),
+    )
+    out=assess_prose("claim. evidence. implication.",contract,PASS_EVIDENCE)
+    assert out.status=="PASS"
+
+
+def test_ordered_anchors_reject_out_of_order_realization():
+    contract=ProseContract(
+        "local-order",
+        constraints=(ORDERED_ANCHORS,),
+        ordered_anchors=("claim", "evidence", "implication"),
+    )
+    out=assess_prose("evidence. claim. implication.",contract,PASS_EVIDENCE)
+    assert out.status=="REPAIR_REQUIRED"
+    assert any(v.code=="ORDERED_ANCHOR_OUT_OF_ORDER" for v in out.violations)
+
+
+def test_ordered_anchors_without_contract_data_stays_open():
+    contract=ProseContract("local-order",constraints=(ORDERED_ANCHORS,))
+    out=assess_prose("claim. evidence.",contract,PASS_EVIDENCE)
+    assert out.status=="OPEN"
+    assert "ORDERED_ANCHORS_REQUIRED" in out.residuals
