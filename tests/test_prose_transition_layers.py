@@ -1,7 +1,7 @@
 import sys
 sys.path.insert(0,"runtime")
 
-from architecture_analysis import run_architecture_analysis
+from architecture_analysis import run_architecture_analysis,UNIT_JOB_PURITY
 from solution_to_my_problem import Problem,Candidate,SolutionReceipt,solve
 from improvement_core_return_gate import evaluate_parent_return
 from global_tool_execution import execute_protected_transition,ToolExecutionBlocked
@@ -186,3 +186,49 @@ def test_final_emission_blocks_negative_first_prose():
         assert "PROSE_NOT_ADMISSIBLE" in str(exc)
     else:
         raise AssertionError("negative-first prose escaped final emission gate")
+
+
+
+def test_architecture_unit_job_purity_rejects_merged_question_and_scope_jobs():
+    out=run_architecture_analysis(
+        {},
+        {},
+        analyze_architecture=lambda a,c:_arch_result(
+            UnitJobState={
+                "paragraph-1":("STATE_RESEARCH_QUESTION","DELIMIT_SCOPE_EXCLUSIONS"),
+            },
+            UnitJobEvidence=("canonical-authority-1.2-reader-role-analysis",),
+        ),
+        protected_constraints=(UNIT_JOB_PURITY,),
+    )
+    assert out["status"]=="OPEN"
+    assert "ARCHITECTURE_UNIT_JOB_PURITY_VIOLATION" in out["blocker"]
+
+
+def test_architecture_unit_job_purity_accepts_separate_reader_jobs():
+    out=run_architecture_analysis(
+        {},
+        {},
+        analyze_architecture=lambda a,c:_arch_result(
+            UnitJobState={
+                "paragraph-1":("STATE_RESEARCH_QUESTION",),
+                "paragraph-2":("DELIMIT_SCOPE_EXCLUSIONS",),
+            },
+            UnitJobEvidence=("canonical-authority-1.2-reader-role-analysis",),
+        ),
+        protected_constraints=(UNIT_JOB_PURITY,),
+    )
+    assert out["status"]=="RELATIVE_CLOSE"
+
+
+def test_architecture_unit_job_purity_missing_evidence_stays_open():
+    out=run_architecture_analysis(
+        {},
+        {},
+        analyze_architecture=lambda a,c:_arch_result(
+            UnitJobState={"paragraph-1":("STATE_RESEARCH_QUESTION",)},
+        ),
+        protected_constraints=(UNIT_JOB_PURITY,),
+    )
+    assert out["status"]=="OPEN"
+    assert out["blocker"]=="ARCHITECTURE_UNIT_JOB_EVIDENCE_MISSING"
