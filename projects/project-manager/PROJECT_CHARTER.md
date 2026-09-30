@@ -30,6 +30,10 @@ The tool can manage this project with no special bypass.
 ImprovementCore can consume the evidence-only work frontier.
 TransferCore cannot mutate anything while its current full identity is unresolved.
 Repository validation passes before canonical promotion.
+Every currently known project-management failure cluster is represented by a fail-closed control.
+Every root generator from the cross-project failure history is a closure invariant.
+A pending executable frontier or unprocessed transform prevents relative closure.
+Transform work requires authority, impact mapping, and regression verification.
 
 ## Non-goals
 
