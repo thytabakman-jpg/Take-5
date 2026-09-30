@@ -43,6 +43,7 @@ def run_improvement_core_manager(
     controller_decide:Callable|None=None,
     max_rounds:int=8,
     configured_tool_adapters:dict[str,Callable]|None=None,
+    tool_conductor_adapters:dict[str,Callable]|None=None,
 )->ImprovementCoreManagerResult:
     binding=bind_entry_contract(
         user_text,
@@ -64,6 +65,7 @@ def run_improvement_core_manager(
         controller_decide=controller_decide,
         max_rounds=max_rounds,
         configured_tool_adapters=configured_tool_adapters,
+        tool_conductor_adapters=tool_conductor_adapters,
     )
     receipt=ImprovementCoreManagerReceipt(
         controller=binding.contract.controller,
