@@ -383,6 +383,7 @@ def run_improvement_core_with_hf2(
     )
 
     current_state=state
+    parent_return_memory={}
     parent_trace=[]
     last=None
 
@@ -459,7 +460,7 @@ def run_improvement_core_with_hf2(
             candidate_status=last.status,
             candidate_blocker=last.blocker,
             state=final_state,
-            memory={},
+            memory=parent_return_memory,
             context={
                 "controller":"ImprovementCore",
                 "target":target,
@@ -477,6 +478,8 @@ def run_improvement_core_with_hf2(
             verifier=return_verifier,
             fresh_reobserve=fresh_reobserve,
         )
+        parent_return_memory=dict(outcome.next_memory)
+
         receipt=dict(outcome.receipt)
         receipt["parent_round"]=parent_round
         receipt["hf2_status"]=last.hf2_status
