@@ -299,6 +299,10 @@ def _semantic_question_text(paragraph:str)->str:
     return value
 
 
+def _question_terminal_core(value:str)->str:
+    return str(value or "").rstrip().rstrip("\"'”’)]}*_!")
+
+
 def audit_question_termination(text:str)->tuple[ProseViolation,...]:
     violations=[]
     for start,end,paragraph in _paragraph_spans(text):
@@ -306,7 +310,7 @@ def audit_question_termination(text:str)->tuple[ProseViolation,...]:
         question_positions=[i for i,ch in enumerate(semantic) if ch=="?"]
         if not question_positions:
             continue
-        valid=(len(question_positions)==1 and semantic.rstrip().endswith("?"))
+        valid=(len(question_positions)==1 and _question_terminal_core(semantic).endswith("?"))
         if valid:
             continue
         violations.append(ProseViolation(
