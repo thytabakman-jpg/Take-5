@@ -16,10 +16,12 @@ from typing import Iterable
 AFFIRMATIVE_FIRST="AFFIRMATIVE_FIRST"
 FIRST_MENTION_PERSON_DATES="FIRST_MENTION_PERSON_DATES"
 NUMERIC_YEAR_DATES_ONLY="NUMERIC_YEAR_DATES_ONLY"
+ORDERED_ANCHORS="ORDERED_ANCHORS"
 SUPPORTED_CONSTRAINTS=frozenset({
     AFFIRMATIVE_FIRST,
     FIRST_MENTION_PERSON_DATES,
     NUMERIC_YEAR_DATES_ONLY,
+    ORDERED_ANCHORS,
 })
 
 
@@ -29,6 +31,7 @@ class ProseContract:
     constraints:tuple[str,...]=(AFFIRMATIVE_FIRST,NUMERIC_YEAR_DATES_ONLY)
     allowed_negative_spans:tuple[str,...]=()
     person_dates:tuple[tuple[str,str],...]=()
+    ordered_anchors:tuple[str,...]=()
 
 
 @dataclass(frozen=True)
@@ -186,51 +189,6 @@ def audit_affirmative_first(text:str, contract:ProseContract)->tuple[ProseViolat
     return tuple(sorted(violations,key=lambda x:(x.start,x.end,x.code)))
 
 
-def audit_first_mention_person_dates(
-    text:str,
-    contract:ProseContract,
-)->tuple[tuple[ProseViolation,...],tuple[str,...]]:
-    value=str(text or "")
-    violations=[]
-    residuals=[]
-    for raw_name,raw_date in contract.person_dates:
-        name=str(raw_name).strip()
-        date=str(raw_date).strip()
-        if not name:
-            continue
-        match=re.search(r"(?<!\\w)"+re.escape(name)+r"(?!\\w)",value)
-        if match is None:
-            continue
-        if not date:
-            residuals.append(f"PERSON_DATE_UNRESOLVED:{name}")
-            continue
-        if not _valid_numeric_person_date(date):
-            code=(
-                "PERSON_DATE_CENTURY_LABEL_FORBIDDEN"
-                if audit_numeric_year_dates(date)
-                else "PERSON_DATE_NUMERIC_YEAR_REQUIRED"
-            )
-            violations.append(ProseViolation(
-                constraint_id=NUMERIC_YEAR_DATES_ONLY,
-                code=code,
-                start=match.start(),
-                end=match.end(),
-                excerpt=f"{name} ({date})",
-            ))
-            continue
-        expected=f" ({date})"
-        tail=value[match.end():match.end()+len(expected)]
-        if tail!=expected:
-            violations.append(ProseViolation(
-                constraint_id=FIRST_MENTION_PERSON_DATES,
-                code="FIRST_MENTION_DATE_MISSING",
-                start=match.start(),
-                end=match.end(),
-                excerpt=match.group(0),
-            ))
-    return tuple(violations),tuple(residuals)
-
-
 def audit_first_mention_person_dates(text:str, contract:ProseContract):
     value=str(text or "")
     violations=[]
@@ -240,7 +198,7 @@ def audit_first_mention_person_dates(text:str, contract:ProseContract):
         date=str(raw_date).strip()
         if not name:
             continue
-        match=re.search(r"(?<!\\w)"+re.escape(name)+r"(?!\\w)",value)
+        match=re.search(r"(?<!\w)"+re.escape(name)+r"(?!\w)",value)
         if match is None:
             continue
         if not date:
@@ -272,6 +230,28 @@ def audit_first_mention_person_dates(text:str, contract:ProseContract):
     return tuple(violations),tuple(residuals)
 
 
+def audit_ordered_anchors(text:str, contract:ProseContract)->tuple[ProseViolation,...]:
+    """Require supplied exact anchors to occur in the declared order."""
+    value=str(text or "")
+    anchors=tuple(str(x) for x in contract.ordered_anchors if str(x))
+    violations=[]
+    cursor=0
+    for anchor in anchors:
+        pos=value.find(anchor,cursor)
+        if pos>=0:
+            cursor=pos+len(anchor)
+            continue
+        anywhere=value.find(anchor)
+        violations.append(ProseViolation(
+            constraint_id=ORDERED_ANCHORS,
+            code=("ORDERED_ANCHOR_OUT_OF_ORDER" if anywhere>=0 else "ORDERED_ANCHOR_MISSING"),
+            start=max(anywhere,0),
+            end=(anywhere+len(anchor) if anywhere>=0 else 0),
+            excerpt=anchor,
+        ))
+    return tuple(violations)
+
+
 def assess_prose(
     text:str,
     contract:ProseContract,
@@ -290,6 +270,11 @@ def assess_prose(
         date_violations,date_residuals=audit_first_mention_person_dates(text,contract)
         violations=violations+date_violations
         residuals=residuals+date_residuals
+    if ORDERED_ANCHORS in requested:
+        if not tuple(str(x) for x in contract.ordered_anchors if str(x)):
+            residuals=residuals+("ORDERED_ANCHORS_REQUIRED",)
+        else:
+            violations=violations+audit_ordered_anchors(text,contract)
 
     if unsupported:
         return ProseAssessment(
