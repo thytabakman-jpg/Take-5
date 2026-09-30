@@ -317,7 +317,21 @@ def run_tool_conductor(
             continue
 
         if tool_id.startswith("C") and tool_id[1:].isdigit() and 1 <= int(tool_id[1:]) <= 49:
-            payload = capability_inputs.get(tool_id, {})
+            if tool_id not in capability_inputs:
+                results.append({
+                    "tool_id":tool_id,
+                    "status":"OPEN",
+                    "result":{
+                        "reason":"TARGET_BOUND_INPUT_REQUIRED",
+                        "required_input_key":f"capability_inputs.{tool_id}",
+                    },
+                    "witness":witness.payload(),
+                    "configured_plan":_plan_payload(tool_id),
+                    "recurrence":None,
+                })
+                continue
+
+            payload = capability_inputs[tool_id]
 
             def capability_adapter(current,plan,_tool_id=tool_id,_payload=payload):
                 try:
