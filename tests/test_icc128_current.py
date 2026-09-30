@@ -1,6 +1,6 @@
 from icc128_autonomous_controller import ICC128Controller
 from rho128_policy import Package, choose, needs_reselection
-from tool_run_registry import CONFIGURED_RUNS
+from tool_run_registry import CONFIGURED_RUNS,MATERIAL_TOOLS
 
 def test_icc128_is_current_registered_tool():
     s=CONFIGURED_RUNS["ICC128"]
@@ -10,9 +10,11 @@ def test_icc128_is_current_registered_tool():
     assert s.recurrence_engine=="HF002"
 
 def test_icc128_endogenous_loop_reenters_until_complete():
+    seen_in_work=[]
     def gq(z,m):
         return [] if z["step"]>=2 else [{"id":f"q{z['step']}"}]
     def gw(q,z,m):
+        seen_in_work.append(z["tool_conductor_coverage_status"])
         return [{"id":"w:"+x["id"]} for x in q]
     def select(q,w,z,m):
         return w[:1]
@@ -35,6 +37,11 @@ def test_icc128_endogenous_loop_reenters_until_complete():
     )
     assert out["status"]=="COMPLETE"
     assert len(out["traces"])==2
+    assert seen_in_work==["COMPLETE","COMPLETE"]
+    assert all(
+        trace["tool_conductor"]["coverage_complete"]
+        for trace in out["traces"]
+    )
 
 def test_state_relative_selector_prefers_minimum_burden_when_cheap():
     state={
@@ -53,3 +60,33 @@ def test_state_relative_selector_prefers_minimum_burden_when_cheap():
 
 def test_material_failure_forces_reselection():
     assert needs_reselection({"failed_route":True})
+
+
+def test_icc128_fails_when_tool_conductor_does_not_cover_registry():
+    def bad_runner(packet,adapters=None):
+        rows=tuple({
+            "tool_id":tool_id,
+            "status":"OPEN",
+            "result":{},
+            "configured_plan":{"tool_id":tool_id},
+        } for tool_id in MATERIAL_TOOLS[:-1])
+        return {"status":"OPEN","tool_count":len(rows),"results":rows}
+
+    controller=ICC128Controller(
+        lambda z,m:[{"id":"q"}],
+        lambda q,z,m:[{"id":"w"}],
+        lambda q,w,z,m:w,
+        lambda s,z,m:[],
+        lambda r,z,m:{},
+        lambda z,m,d:(z,m),
+        tool_conductor_runner=bad_runner,
+    )
+    try:
+        controller.run(
+            {"terminal":"CONTINUE","admitted_continuation":True},
+            {},
+        )
+    except RuntimeError as exc:
+        assert "ICC128_TOOL_CONDUCTOR_COVERAGE_FAILURE" in str(exc)
+    else:
+        raise AssertionError("expected incomplete conductor coverage to fail")
