@@ -577,6 +577,18 @@ PROSE_BINDINGS=GENERIC_BINDINGS+(
         "runtime/prose.py",
         "tests/test_prose.py",
     ),
+    ProtectedBinding(
+        "PROSE_QUESTION_TERMINATION_GATE",
+        "INTRA",
+        "runtime/prose.py",
+        "tests/test_prose.py",
+    ),
+    ProtectedBinding(
+        "PROSE_JEWISH_LEXICAL_FORM_GATE",
+        "INTRA",
+        "runtime/prose.py",
+        "tests/test_prose.py",
+    ),
 )
 
 OVERRIDES={

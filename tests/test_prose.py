@@ -3,7 +3,8 @@ sys.path.insert(0,"runtime")
 
 from prose import (
     AFFIRMATIVE_FIRST,FIRST_MENTION_PERSON_DATES,NUMERIC_YEAR_DATES_ONLY,ORDERED_ANCHORS,
-    READER_LOAD,ProseContract,ProseEvidence,
+    READER_LOAD,QUESTION_TERMINATES_PARAGRAPH,JEWISH_LEXICAL_FORMS,
+    ProseContract,ProseEvidence,
     assess_prose,require_prose_admissible,ProseAcceptanceError,
 )
 
@@ -277,5 +278,145 @@ def test_reader_load_passes_with_explicit_evidence():
         "The paper asks one narrow question.",
         ProseContract("reader-load",constraints=(READER_LOAD,)),
         evidence,
+    )
+    assert out.status=="PASS"
+
+
+def test_default_prose_rejects_question_buried_mid_paragraph():
+    out=assess_prose(
+        "What is the governing claim? The paragraph continues after the question.",
+        ProseContract("question-default"),
+        PASS_EVIDENCE,
+    )
+    assert out.status=="REPAIR_REQUIRED"
+    assert any(v.code=="QUESTION_BURIED_IN_PARAGRAPH" for v in out.violations)
+
+
+def test_terminal_question_passes_in_ordinary_paragraph():
+    out=require_prose_admissible(
+        "The section narrows the issue. What can this source establish?",
+        ProseContract("question-terminal"),
+        PASS_EVIDENCE,
+    )
+    assert out.status=="PASS"
+
+
+def test_question_only_paragraph_passes():
+    out=require_prose_admissible(
+        "What can this source establish?",
+        ProseContract("question-only"),
+        PASS_EVIDENCE,
+    )
+    assert out.status=="PASS"
+
+
+def test_first_question_ends_paragraph_so_two_questions_fail():
+    out=assess_prose(
+        "What can this source establish? What follows from that?",
+        ProseContract("two-questions"),
+        PASS_EVIDENCE,
+    )
+    assert out.status=="REPAIR_REQUIRED"
+    assert any(v.code=="QUESTION_BURIED_IN_PARAGRAPH" for v in out.violations)
+
+
+def test_terminal_question_with_sup_citation_passes():
+    text=(
+        "What can this source establish? "
+        "<sup>[[C067]](../control/CLAIM_SUPPORT_LEDGER.md#claim-ca-a0155)</sup>"
+    )
+    out=require_prose_admissible(
+        text,
+        ProseContract("question-citation"),
+        PASS_EVIDENCE,
+    )
+    assert out.status=="PASS"
+
+
+def test_question_followed_by_new_paragraph_passes():
+    text=(
+        "What can this source establish?\n\n"
+        "The next paragraph begins the answer."
+    )
+    out=require_prose_admissible(
+        text,
+        ProseContract("question-paragraph-break"),
+        PASS_EVIDENCE,
+    )
+    assert out.status=="PASS"
+
+
+def test_jewish_lexical_gate_requires_explicit_lexicon():
+    out=assess_prose(
+        "Ramban reads the verse differently.",
+        ProseContract(
+            "jewish-lexicon-open",
+            constraints=(JEWISH_LEXICAL_FORMS,),
+        ),
+        PASS_EVIDENCE,
+    )
+    assert out.status=="OPEN"
+    assert "JEWISH_LEXICON_REQUIRED" in out.residuals
+
+
+def test_jewish_lexical_gate_rejects_declared_noncanonical_form():
+    contract=ProseContract(
+        "jewish-lexicon-repair",
+        constraints=(JEWISH_LEXICAL_FORMS,),
+        jewish_lexicon=(
+            ("Ramban",("ramban",)),
+            ("peshat",("pshat","p'shat")),
+            ("eilu ve-eilu",("elu v'elu","eilu v'eilu")),
+        ),
+    )
+    out=assess_prose(
+        "The pshat reading is attributed to Ramban.",
+        contract,
+        PASS_EVIDENCE,
+    )
+    assert out.status=="REPAIR_REQUIRED"
+    assert any(
+        v.code=="JEWISH_TERM_NONCANONICAL" and "pshat -> peshat" in v.excerpt
+        for v in out.violations
+    )
+
+
+def test_jewish_lexical_gate_accepts_canonical_forms():
+    contract=ProseContract(
+        "jewish-lexicon-pass",
+        constraints=(JEWISH_LEXICAL_FORMS,),
+        jewish_lexicon=(
+            ("Ramban",("ramban",)),
+            ("peshat",("pshat","p'shat")),
+            ("eilu ve-eilu",("elu v'elu","eilu v'eilu")),
+        ),
+    )
+    out=require_prose_admissible(
+        "Ramban presents a peshat reading alongside the eilu ve-eilu discussion.",
+        contract,
+        PASS_EVIDENCE,
+    )
+    assert out.status=="PASS"
+
+
+def test_jewish_lexicon_conflict_fails_open():
+    contract=ProseContract(
+        "jewish-lexicon-conflict",
+        constraints=(JEWISH_LEXICAL_FORMS,),
+        jewish_lexicon=(
+            ("peshat",("pshat",)),
+            ("peshaṭ",("pshat",)),
+        ),
+    )
+    out=assess_prose("The text uses peshat.",contract,PASS_EVIDENCE)
+    assert out.status=="OPEN"
+    assert any(x.startswith("JEWISH_LEXICON_CONFLICT:pshat:") for x in out.residuals)
+
+
+def test_terminal_quoted_question_passes():
+    out=require_prose_admissible(
+        'The source asks, "What follows?"',
+        ProseContract("quoted-question"),
+        PASS_EVIDENCE,
     )
     assert out.status=="PASS"
