@@ -58,7 +58,7 @@ class ICC128Controller:
     dcc: DiscoveryClosure | None = None
     max_iterations:int=64
     traces:list[ICC128Trace]=field(default_factory=list)
-    configured_tool_adapters:Mapping[str,Callable]=field(default_factory=dict)
+    tool_conductor_adapters:Mapping[str,Callable]=field(default_factory=dict)
     tool_conductor_runner:Callable[...,dict[str,Any]]|None=None
 
     def run(self,state:dict[str,Any],memory:dict[str,Any])->dict[str,Any]:
@@ -78,7 +78,7 @@ class ICC128Controller:
             conductor_packet={**z,"icc_questions":tuple(q)}
             conductor_kwargs={
                 "active_controller":"ICC128",
-                "adapters":self.configured_tool_adapters,
+                "adapters":self.tool_conductor_adapters,
             }
             if self.tool_conductor_runner is not None:
                 conductor_kwargs["conductor_runner"]=self.tool_conductor_runner
