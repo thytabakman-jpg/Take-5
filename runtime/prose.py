@@ -267,7 +267,7 @@ def audit_ordered_anchors(text:str, contract:ProseContract)->tuple[ProseViolatio
 
 
 _TRAILING_QUESTION_DECORATION=re.compile(
-    r"(?:\s*(?:<sup\\b[^>]*>.*?</sup>|\\[\\^[^\\]]+\\]|\\[(?:\\d+(?:\\s*[-,;]\\s*\\d+)*)\\]))+\\s*$",
+    r"(?:\s*(?:<sup\b[^>]*>.*?</sup>|\[\^[^\]]+\]|\[(?:\d+(?:\s*[-,;]\s*\d+)*)\]))+\s*$",
     re.IGNORECASE|re.DOTALL,
 )
 
@@ -370,7 +370,7 @@ def audit_jewish_lexical_forms(
     violations=[]
     for canonical,aliases in entries:
         for alias in aliases:
-            pattern=re.compile(r"(?<!\\w)"+re.escape(alias)+r"(?!\\w)")
+            pattern=re.compile(r"(?<!\w)"+re.escape(alias)+r"(?!\w)")
             for match in pattern.finditer(value):
                 violations.append(ProseViolation(
                     constraint_id=JEWISH_LEXICAL_FORMS,
