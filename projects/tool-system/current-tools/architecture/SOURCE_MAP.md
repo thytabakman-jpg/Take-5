@@ -14,6 +14,12 @@
 - integration/CURRENT_TOOL_REALITY.md
 - projects/tool-system/AUTHORITY_REGISTRY.md
 
+## Architecture mathematics
+
+- architecture/PROSE_ARCHITECTURE_READER_LOAD_MATHEMATICS_004_2026-09-30.md
+- runtime/architecture_analysis.py
+- tests/test_prose_transition_layers.py
+
 ## Rule
 
 Pointers preserve provenance. This package does not copy legacy evidence merely

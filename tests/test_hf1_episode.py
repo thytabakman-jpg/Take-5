@@ -80,3 +80,38 @@ def test_hf1_fails_open_when_live_obligations_have_no_material_delta():
     )
     assert out.terminal==HF1Terminal.OPEN
     assert out.blocker=="NO_PROGRESS_WITH_LIVE_OBLIGATIONS"
+
+
+
+def test_hf1_bundles_prose_reader_load_and_architecture_unit_job_repair():
+    start={
+        **BASE,
+        "obligations":["PROSE_READER_LOAD","ARCHITECTURE_UNIT_JOB_PURITY"],
+    }
+
+    def execute(package,mode,packet):
+        assert package==("PROSE_ARCH_REPAIR",)
+        assert mode!="OPEN"
+        return HF1Execution({
+            **packet,
+            "obligations":[],
+            "result_sensitive_state":"reader-and-structure-repaired",
+        })
+
+    out=run_hf1_episode(
+        start,
+        package_index={
+            "PROSE_ARCH_REPAIR":[
+                "PROSE_READER_LOAD",
+                "ARCHITECTURE_UNIT_JOB_PURITY",
+            ],
+        },
+        mode_flags={"exact_discriminant":True,"independent_local":True},
+        execute_fn=execute,
+        closure_fn=lambda execution,previous:HF1Closure(execution.packet,"CLOSED"),
+        verify_fn=lambda packet:(
+            packet["result_sensitive_state"]=="reader-and-structure-repaired"
+        ),
+    )
+    assert out.terminal==HF1Terminal.RELATIVE_CLOSE
+    assert out.receipts[-1].reentry_action=="REVERIFY"

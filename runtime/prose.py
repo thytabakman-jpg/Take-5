@@ -17,11 +17,13 @@ AFFIRMATIVE_FIRST="AFFIRMATIVE_FIRST"
 FIRST_MENTION_PERSON_DATES="FIRST_MENTION_PERSON_DATES"
 NUMERIC_YEAR_DATES_ONLY="NUMERIC_YEAR_DATES_ONLY"
 ORDERED_ANCHORS="ORDERED_ANCHORS"
+READER_LOAD="READER_LOAD"
 SUPPORTED_CONSTRAINTS=frozenset({
     AFFIRMATIVE_FIRST,
     FIRST_MENTION_PERSON_DATES,
     NUMERIC_YEAR_DATES_ONLY,
     ORDERED_ANCHORS,
+    READER_LOAD,
 })
 
 
@@ -40,6 +42,8 @@ class ProseEvidence:
     earned_claim_strength:str="OPEN"
     no_unsupported_inflation:str="OPEN"
     evidence:tuple[str,...]=()
+    reader_load:str="OPEN"
+    reader_load_evidence:tuple[str,...]=()
 
 
 @dataclass(frozen=True)
@@ -282,15 +286,48 @@ def assess_prose(
             residuals+tuple(f"UNSUPPORTED_CONSTRAINT:{x}" for x in unsupported),(),
         )
 
+    reader_load_evidence=()
+    if READER_LOAD in requested:
+        if evidence is None:
+            residuals=residuals+("READER_LOAD_RECEIPT_REQUIRED",)
+        else:
+            reader_load_status=str(evidence.reader_load or "OPEN").upper()
+            reader_load_evidence=tuple(
+                str(x) for x in evidence.reader_load_evidence if str(x)
+            )
+            if reader_load_status=="BLOCKED":
+                return ProseAssessment(
+                    "BLOCKED",contract.contract_id,violations,(),
+                    residuals+("READER_LOAD:BLOCKED",),
+                    tuple(evidence.evidence)+reader_load_evidence,
+                )
+            if reader_load_status in {"FAIL","REPAIR_REQUIRED"}:
+                violations=violations+(ProseViolation(
+                    constraint_id=READER_LOAD,
+                    code="READER_LOAD_REPAIR_REQUIRED",
+                    start=0,
+                    end=min(len(str(text or "")),220),
+                    excerpt=(
+                        "; ".join(reader_load_evidence)
+                        or str(text or "")[:220]
+                    ),
+                ),)
+            elif reader_load_status!="PASS":
+                residuals=residuals+(f"READER_LOAD:{reader_load_status}",)
+            elif not reader_load_evidence:
+                residuals=residuals+("READER_LOAD_EVIDENCE_REQUIRED",)
+
     if violations:
         return ProseAssessment(
             "REPAIR_REQUIRED",contract.contract_id,violations,(),
-            residuals+("PROTECTED_PROSE_CONSTRAINT_VIOLATED",),(),
+            residuals+("PROTECTED_PROSE_CONSTRAINT_VIOLATED",),
+            tuple(evidence.evidence)+reader_load_evidence if evidence is not None else (),
         )
 
     if residuals:
         return ProseAssessment(
-            "OPEN",contract.contract_id,(),(),residuals,(),
+            "OPEN",contract.contract_id,(),(),residuals,
+            tuple(evidence.evidence)+reader_load_evidence if evidence is not None else (),
         )
 
     if evidence is None:
