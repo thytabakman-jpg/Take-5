@@ -55,7 +55,8 @@ def stages_for(entry_contract):
 def run_ic028(lease:ControllerLease,state:Any,handlers:dict[str,Callable], *,
               entry_contract=None,jane_update:Callable|None=None,
               controller_decide:Callable|None=None,max_rounds:int=8,
-              configured_tool_adapters:dict[str,Callable]|None=None):
+              configured_tool_adapters:dict[str,Callable]|None=None,
+              tool_conductor_adapters:dict[str,Callable]|None=None):
     if entry_contract is None:
         return OperatorResult(state,[],False,"ENTRY_CONTRACT_REQUIRED")
     if lease.controller!=entry_contract.controller:
@@ -81,7 +82,7 @@ def run_ic028(lease:ControllerLease,state:Any,handlers:dict[str,Callable], *,
                 consultation=consult_registered_repertoire(
                     packet,
                     active_controller="ImprovementCore",
-                    adapters=configured_tool_adapters,
+                    adapters=tool_conductor_adapters,
                 )
                 current=attach_consultation(current,consultation)
                 receipts.append(OperatorReceipt(
