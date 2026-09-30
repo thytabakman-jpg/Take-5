@@ -76,3 +76,22 @@ def test_second_fresh_pass_can_reopen_after_first_no_gain():
     assert out.disposition=="CONTINUE"
     assert calls==[0,1]
     assert out.state["question_frontier"]==["new-question"]
+
+def test_untyped_fresh_state_change_fails_open():
+    def reobserve(state,memory,context):
+        return {
+            "status":"NO_GAIN",
+            "state_patch":{"question_frontier":["new-question"]},
+            "evidence":["fresh:untyped-state-change"],
+            "challenge_id":"fresh-untyped",
+        }
+
+    out=run_whole_job_stability(
+        state={"terminal":"COMPLETE"},memory={},context={},reobserve=reobserve
+    )
+
+    assert out.disposition=="RETURN"
+    assert out.terminal=="OPEN"
+    assert out.blocker=="FRESH_REOBSERVATION_UNTYPED_STATE_DELTA"
+    assert out.state["question_frontier"]==["new-question"]
+
