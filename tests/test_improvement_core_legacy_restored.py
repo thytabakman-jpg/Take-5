@@ -2,7 +2,10 @@ import sys
 sys.path.insert(0,"runtime")
 
 from improvement_core_knowledge_ledger import KnowledgeLedger
-from improvement_core_legacy_restored import run_improvement_core_legacy_restored
+from improvement_core_legacy_restored import (
+    _run_improvement_core_legacy_restored_once,
+    run_improvement_core_legacy_restored,
+)
 
 
 def _q(state,memory):
