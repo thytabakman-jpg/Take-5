@@ -550,6 +550,12 @@ PROSE_BINDINGS=GENERIC_BINDINGS+(
         "tests/test_prose.py",
     ),
     ProtectedBinding(
+        "PROSE_ORDERED_ANCHOR_GATE",
+        "INTRA",
+        "runtime/prose.py",
+        "tests/test_prose.py",
+    ),
+    ProtectedBinding(
         "PROSE_SEMANTIC_STRENGTH_NO_INFLATION_RECEIPTS",
         "POST",
         "runtime/prose.py",
@@ -627,7 +633,7 @@ OVERRIDES={
         closure_contract="TRC_PLUS_TYPED_OPEN",
         reentry_contract="HF002_THEN_HF001",
         bindings=SOLUTION_TO_MY_PROBLEM_BINDINGS,
-        lineage_contract="architecture/PROSE_PROTECTED_TRANSITION_MATHEMATICS_001_2026-09-30.md",
+        lineage_contract="architecture/PROSE_RAISE_CEILING_MATHEMATICS_003_2026-09-30.md",
     ),
     "Prose":ToolManifest(
         tool_id="Prose",
