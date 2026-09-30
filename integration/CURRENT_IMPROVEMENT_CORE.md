@@ -36,7 +36,7 @@ Controller:
 - IC-028
 
 Current regime version:
-- 091
+- 092
 
 Current invocation path:
 
@@ -363,7 +363,7 @@ Open-world global maximality/minimality is not a licensed completion claim. Curr
 
 ## Default HF2 local recurrence
 
-Regime 091 promotes the previously validated explicit HF2[ImprovementCore] campaign composition
+Regime 091 historically promoted the previously validated explicit HF2[ImprovementCore] campaign composition
 into the normal user-facing invocation path.
 
 Canonical user-facing entry:
@@ -766,3 +766,25 @@ runtime/controller_tool_conductor.py
 The consultation uses the real portable ToolConductor product operator. It does not
 treat factor-level OPEN/BLOCKED as traversal failure. Instead, the complete disposition
 vector is attached to controller state before work generation and selection.
+
+
+## Regime 092 mandatory ToolConductor promotion — 2026-09-30
+
+Regime 092 changes the current IC-028 operating path by making exhaustive ToolConductor
+consultation mandatory after OBJECTIFY and before GENERATE_WORK / SELECT.
+
+This is a controller identity change, not a documentation-only revision. Regime 091 remains
+the historical point at which default local HF2 recurrence entered the normal user-facing path.
+
+Regime 092 preserves that HF2 behavior and adds:
+- exact registered-repertoire conductor coverage before work selection;
+- factor-level OPEN/BLOCKED preservation as evidence;
+- active-controller anti-recursion;
+- pass-scoped conductor receipts excluded from HF2 semantic-delta detection;
+- separation between consultation-safe conductor adapters and later selected-tool execution
+  adapters, preserving Specification-Before-Transformation.
+
+Mathematical contract:
+architecture/CONTROLLER_TOOL_CONDUCTOR_MANDATORY_CONSULTATION_005_2026-09-30.md
+
+Validation evidence is recorded in the corresponding repair artifact after PR validation.
