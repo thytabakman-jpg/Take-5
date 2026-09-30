@@ -339,6 +339,7 @@ def run_improvement_core_legacy_restored(
     hf2_max_rounds:int=6,
     max_iterations:int=32,
     return_verifier:Callable|None=None,
+    fresh_reobserve:Callable|None=None,
     parent_max_rounds:int=16,
     allow_ungated_debug:bool=False,
 )->LegacyRestoredResult:
@@ -352,6 +353,9 @@ def run_improvement_core_legacy_restored(
     from dataclasses import replace as _replace
     from improvement_core_return_gate import evaluate_parent_return
     from formal_claim_admission import request_requires_formal_claim_receipt
+    from improvement_core_hf2_default import _governed_default_fresh_reobserve
+
+    effective_fresh_reobserve=fresh_reobserve or _governed_default_fresh_reobserve
 
     if not hf2_enabled and not allow_ungated_debug:
         out=_run_improvement_core_legacy_restored_once(
@@ -464,6 +468,7 @@ def run_improvement_core_legacy_restored(
                 ),
             },
             verifier=return_verifier,
+            fresh_reobserve=effective_fresh_reobserve,
         )
         receipt=dict(outcome.receipt)
         receipt["parent_round"]=parent_round
