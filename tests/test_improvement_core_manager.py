@@ -66,3 +66,23 @@ def test_manager_fails_closed_when_rich_stage_is_missing():
     )
     assert not out.result.terminal
     assert out.result.blocker=="UNBOUND:GENERATE_WORK"
+
+
+
+def test_tool_conductor_is_mandatory_before_work_generation_and_selection():
+    calls=[]
+    out=run_improvement_core_manager(
+        "ImproveCore, inspect all available tools before choosing work",
+        target="system",
+        job="select work",
+        basis="current",
+        state={},
+        handlers=_handlers(GOAL_DIRECTED_STAGES,calls),
+    )
+    stages=list(out.receipt.stages)
+    assert "TOOL_CONDUCTOR" in stages
+    assert stages.index("TOOL_CONDUCTOR") < stages.index("GENERATE_WORK")
+    assert stages.index("TOOL_CONDUCTOR") < stages.index("SELECT")
+    consultation=out.result.state["tool_conductor_consultation"]
+    assert consultation["coverage_complete"] is True
+    assert consultation["tool_count"]==consultation["expected_tool_count"]
