@@ -1,7 +1,7 @@
 # ICC PROSE + ARCHITECTURE HF1 Repair Run
 
 Date: 2026-09-30
-Status: IMPLEMENTED ON REPAIR BRANCH; VALIDATION PENDING
+Status: VALIDATED / MERGED
 Branch: fix/prose-architecture-reader-load-20260930
 Math basis: architecture/PROSE_ARCHITECTURE_READER_LOAD_MATHEMATICS_004_2026-09-30.md
 
@@ -70,4 +70,15 @@ Regression witness:
 
 ## Closure
 
-Repository validation must pass before status is advanced to VALIDATED.
+HF1 repair disposition: RELATIVE_CLOSE.
+
+Validation evidence:
+- Take-5 Validation run 36724235054: SUCCESS
+- Capability Preservation run 36724235102: SUCCESS
+- Tool System Every-Tool Sweep run 36724234958: SUCCESS
+- PR #185: MERGED
+- merge commit: ea5898b40ede0b4ef456d94d3d5e4b99ae2b6d06
+
+The observed regression now has explicit result-sensitive ownership in both Prose and
+Architecture. Missing reader-load or unit-job evidence fails open rather than passing
+silently.
