@@ -165,6 +165,17 @@ A fresh observer may not smuggle a new question, frontier, authority, execution
 fact, or other state change through a nominal NO_GAIN/STABLE result without
 typing the change on the material-delta surface.
 
+Missing fresh status:
+
+OPEN(FRESH_REOBSERVATION_STATUS_REQUIRED).
+
+A closure candidate must explicitly attest owned-work state.  Missing
+owned_work_remaining cannot be interpreted as false:
+
+OPEN(FRESH_REOBSERVATION_OWNED_WORK_ATTESTATION_REQUIRED).
+
+This keeps absence-of-data from becoming closure evidence.
+
 Fresh OPEN/BLOCKED/CONFLICT:
 
 preserve the typed noncomplete boundary.
