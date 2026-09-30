@@ -15,6 +15,9 @@ from typing import Iterable
 
 
 TERMINAL={"CLOSED_RELATIVE","OPEN","CONFLICT"}
+FULL_INVOCATION_PROFILE="FULL_CONFIGURED_HF2_V1"
+MT_BLACK_BOX_GATE="MT_BLACK_BOX_SEMANTIC_RETURN_GATE"
+MT_PREFLIGHT_STATUSES=frozenset({"CLOSED_RELATIVE","OPEN"})
 
 
 @dataclass(frozen=True)
@@ -48,6 +51,29 @@ class GoalRecoveryResult:
     rejected_candidate_ids:tuple[str,...]
     blocker:str|None
     evidence:tuple[str,...]
+
+
+@dataclass(frozen=True)
+class GoalMTReceipt:
+    """Configured robust-MT preflight witness required before GOAL."""
+
+    tool_id:str="MT"
+    invocation_profile:str=FULL_INVOCATION_PROFILE
+    black_box_gate:str=MT_BLACK_BOX_GATE
+    status:str="OPEN"
+    evidence:tuple[str,...]=()
+    open_objects:tuple[str,...]=()
+
+
+def _valid_mt_preflight(receipt:GoalMTReceipt|None)->bool:
+    return bool(
+        isinstance(receipt,GoalMTReceipt)
+        and receipt.tool_id=="MT"
+        and receipt.invocation_profile==FULL_INVOCATION_PROFILE
+        and receipt.black_box_gate==MT_BLACK_BOX_GATE
+        and str(receipt.status).upper() in MT_PREFLIGHT_STATUSES
+        and any(str(x).strip() for x in receipt.evidence)
+    )
 
 
 def _candidate_signature(candidate:GoalCandidate)->tuple:
@@ -134,4 +160,37 @@ def recover_goal(candidates:Iterable[GoalCandidate])->GoalRecoveryResult:
         tuple(c.candidate_id for c in rejected),
         None,
         tuple(dict.fromkeys(ev for c in supporters for ev in c.evidence)),
+    )
+
+
+def recover_goal_configured(
+    candidates:Iterable[GoalCandidate],
+    mt_receipt:GoalMTReceipt|None,
+)->GoalRecoveryResult:
+    """Configured GOAL boundary with the robust-MT-before-GOAL prerequisite.
+
+    MT may remain OPEN while preserving unresolved semantic residue.  What this
+    boundary forbids is claiming a configured GOAL run without a valid robust-MT
+    execution witness.
+    """
+    if not _valid_mt_preflight(mt_receipt):
+        return GoalRecoveryResult(
+            "OPEN",None,(),(),(),(),
+            "MT_PREREQUISITE_REQUIRED",(),
+        )
+
+    result=recover_goal(candidates)
+    mt_evidence=(
+        f"MT_PREFLIGHT:{str(mt_receipt.status).upper()}",
+        *tuple(str(x) for x in mt_receipt.evidence if str(x).strip()),
+    )
+    return GoalRecoveryResult(
+        result.status,
+        result.active_goal,
+        result.active_candidate_ids,
+        result.constraint_sets,
+        result.admitted_candidate_ids,
+        result.rejected_candidate_ids,
+        result.blocker,
+        tuple(dict.fromkeys(result.evidence+mt_evidence)),
     )
