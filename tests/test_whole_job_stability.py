@@ -58,6 +58,7 @@ def test_second_fresh_pass_can_reopen_after_first_no_gain():
         if i==0:
             return {
                 "status":"NO_GAIN",
+                "owned_work_remaining":False,
                 "evidence":["fresh:first-stable"],
                 "challenge_id":"fresh-0",
             }
@@ -81,6 +82,7 @@ def test_untyped_fresh_state_change_fails_open():
     def reobserve(state,memory,context):
         return {
             "status":"NO_GAIN",
+            "owned_work_remaining":False,
             "state_patch":{"question_frontier":["new-question"]},
             "evidence":["fresh:untyped-state-change"],
             "challenge_id":"fresh-untyped",
@@ -94,4 +96,33 @@ def test_untyped_fresh_state_change_fails_open():
     assert out.terminal=="OPEN"
     assert out.blocker=="FRESH_REOBSERVATION_UNTYPED_STATE_DELTA"
     assert out.state["question_frontier"]==["new-question"]
+
+def test_missing_fresh_status_fails_open():
+    def reobserve(state,memory,context):
+        return {
+            "owned_work_remaining":False,
+            "evidence":["fresh:status-missing"],
+        }
+
+    out=run_whole_job_stability(
+        state={"terminal":"COMPLETE"},memory={},context={},reobserve=reobserve
+    )
+
+    assert out.terminal=="OPEN"
+    assert out.blocker=="FRESH_REOBSERVATION_STATUS_REQUIRED"
+
+
+def test_missing_owned_work_attestation_cannot_count_as_stable():
+    def reobserve(state,memory,context):
+        return {
+            "status":"NO_GAIN",
+            "evidence":["fresh:owned-work-attestation-missing"],
+        }
+
+    out=run_whole_job_stability(
+        state={"terminal":"COMPLETE"},memory={},context={},reobserve=reobserve
+    )
+
+    assert out.terminal=="OPEN"
+    assert out.blocker=="FRESH_REOBSERVATION_OWNED_WORK_ATTESTATION_REQUIRED"
 
