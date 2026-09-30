@@ -231,7 +231,7 @@ def test_user_facing_improvementcore_without_parent_return_verifier_fails_open()
     assert len(out.parent_return_trace)==1
 
 
-def test_user_facing_improvementcore_without_fresh_reobserver_fails_open_before_complete():
+def test_user_facing_improvementcore_without_host_fresh_reobserver_uses_governed_default():
     calls={"execute":0}
     _,out=dispatch_improvement_core(
         "ImproveCore, solve this fully",
@@ -242,8 +242,14 @@ def test_user_facing_improvementcore_without_fresh_reobserver_fails_open_before_
         handlers=_handlers(calls),
         return_verifier=_return_done,
     )
-    assert out.status=="OPEN"
-    assert out.blocker=="FRESH_WHOLE_JOB_REOBSERVATION_REQUIRED"
+    assert out.status=="COMPLETE"
+    stability=out.parent_return_trace[-1]["whole_job_stability"]
+    assert stability["terminal"]=="COMPLETE"
+    assert len(stability["receipts"])==2
+    assert all(
+        row["challenge_id"].startswith("governed-default-stable-")
+        for row in stability["receipts"]
+    )
 
 
 def test_fresh_whole_job_discovery_reenters_parent_then_requires_two_stable_reruns():
