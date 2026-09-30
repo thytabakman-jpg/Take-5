@@ -41,3 +41,21 @@ Canonical math: architecture/PROJECT_MANAGER_FULL_TOOL_MATH_003_2026-09-27.md
 Canonical spine merge: 225d4edb956bb29de3e3eb0433f0c9ada84feb11
 Post-merge every-tool sweep: 36350803983 SUCCESS
 Post-merge Take-5 validation: 36350803988 SUCCESS
+
+
+## Failure-immunity projection
+
+Status: CANDIDATE / PR 187
+Known-failure controls: 17
+Root invariants: 5
+Protected behaviors:
+- PROJECTMANAGER_FAILURE_PREVENTION_ENVELOPE
+- PROJECTMANAGER_TRANSFORM_IMPACT_VERIFICATION_GATE
+- PROJECTMANAGER_NO_FALSE_CLOSE_WITH_FRONTIER
+- PROJECTMANAGER_HISTORICAL_FAILURE_HOLDOUT_GATE
+Canonical candidate math: architecture/PROJECT_MANAGER_FULL_TOOL_MATH_004_2026-09-30.md
+Canonical runtime: runtime/project_manager.py + runtime/project_manager_integrity.py
+Regression witness: tests/test_project_manager_failure_immunity.py
+
+Promotion remains gated on same-head Capability Preservation, Tool System Every-Tool
+Sweep, and Take-5 Validation.
