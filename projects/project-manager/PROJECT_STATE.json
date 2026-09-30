@@ -114,6 +114,272 @@
   "evidence_refs": [
     "architecture/PROJECT_MANAGER_FULL_TOOL_MATH_001_2026-09-27.md",
     "projects/project-manager/EVIDENCE.md",
-    "projects/project-manager/tool-runs/OUTER_SEQUENCE_REENTRY_001.md"
-  ]
+    "projects/project-manager/tool-runs/OUTER_SEQUENCE_REENTRY_001.md",
+    "architecture/PROJECT_MANAGER_FULL_TOOL_MATH_004_2026-09-30.md",
+    "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+    "projects/project-manager/tool-runs/FAILURE_IMMUNITY_ICC_RTC_TOOLCONDUCTOR_001.md"
+  ],
+  "failure_controls": {
+    "canonical_authority": {
+      "status": "CURRENT",
+      "owner": "FAILURE_PREVENTION_MATRIX.md",
+      "evidence": [
+        "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+        "projects/project-manager/CONTROLLER.md",
+        "projects/project-manager/VERIFICATION.md"
+      ],
+      "tests": [
+        "tests/test_project_manager_failure_immunity.py"
+      ]
+    },
+    "state_currentness": {
+      "status": "CURRENT",
+      "owner": "FAILURE_PREVENTION_MATRIX.md",
+      "evidence": [
+        "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+        "projects/project-manager/CONTROLLER.md",
+        "projects/project-manager/VERIFICATION.md"
+      ],
+      "tests": [
+        "tests/test_project_manager_failure_immunity.py"
+      ]
+    },
+    "project_entry_continuity": {
+      "status": "CURRENT",
+      "owner": "FAILURE_PREVENTION_MATRIX.md",
+      "evidence": [
+        "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+        "projects/project-manager/CONTROLLER.md",
+        "projects/project-manager/VERIFICATION.md"
+      ],
+      "tests": [
+        "tests/test_project_manager_failure_immunity.py"
+      ]
+    },
+    "goal_scope_object": {
+      "status": "CURRENT",
+      "owner": "FAILURE_PREVENTION_MATRIX.md",
+      "evidence": [
+        "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+        "projects/project-manager/CONTROLLER.md",
+        "projects/project-manager/VERIFICATION.md"
+      ],
+      "tests": [
+        "tests/test_project_manager_failure_immunity.py"
+      ]
+    },
+    "adaptive_planning": {
+      "status": "CURRENT",
+      "owner": "FAILURE_PREVENTION_MATRIX.md",
+      "evidence": [
+        "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+        "projects/project-manager/CONTROLLER.md",
+        "projects/project-manager/VERIFICATION.md"
+      ],
+      "tests": [
+        "tests/test_project_manager_failure_immunity.py"
+      ]
+    },
+    "ownership_control": {
+      "status": "CURRENT",
+      "owner": "FAILURE_PREVENTION_MATRIX.md",
+      "evidence": [
+        "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+        "projects/project-manager/CONTROLLER.md",
+        "projects/project-manager/VERIFICATION.md"
+      ],
+      "tests": [
+        "tests/test_project_manager_failure_immunity.py"
+      ]
+    },
+    "execution_truth": {
+      "status": "CURRENT",
+      "owner": "FAILURE_PREVENTION_MATRIX.md",
+      "evidence": [
+        "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+        "projects/project-manager/CONTROLLER.md",
+        "projects/project-manager/VERIFICATION.md"
+      ],
+      "tests": [
+        "tests/test_project_manager_failure_immunity.py"
+      ]
+    },
+    "change_propagation": {
+      "status": "CURRENT",
+      "owner": "FAILURE_PREVENTION_MATRIX.md",
+      "evidence": [
+        "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+        "projects/project-manager/CONTROLLER.md",
+        "projects/project-manager/VERIFICATION.md"
+      ],
+      "tests": [
+        "tests/test_project_manager_failure_immunity.py"
+      ]
+    },
+    "closure_verification": {
+      "status": "CURRENT",
+      "owner": "FAILURE_PREVENTION_MATRIX.md",
+      "evidence": [
+        "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+        "projects/project-manager/CONTROLLER.md",
+        "projects/project-manager/VERIFICATION.md"
+      ],
+      "tests": [
+        "tests/test_project_manager_failure_immunity.py"
+      ]
+    },
+    "artifact_production": {
+      "status": "CURRENT",
+      "owner": "FAILURE_PREVENTION_MATRIX.md",
+      "evidence": [
+        "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+        "projects/project-manager/CONTROLLER.md",
+        "projects/project-manager/VERIFICATION.md"
+      ],
+      "tests": [
+        "tests/test_project_manager_failure_immunity.py"
+      ]
+    },
+    "research_evidence": {
+      "status": "CURRENT",
+      "owner": "FAILURE_PREVENTION_MATRIX.md",
+      "evidence": [
+        "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+        "projects/project-manager/CONTROLLER.md",
+        "projects/project-manager/VERIFICATION.md"
+      ],
+      "tests": [
+        "tests/test_project_manager_failure_immunity.py"
+      ]
+    },
+    "information_architecture": {
+      "status": "CURRENT",
+      "owner": "FAILURE_PREVENTION_MATRIX.md",
+      "evidence": [
+        "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+        "projects/project-manager/CONTROLLER.md",
+        "projects/project-manager/VERIFICATION.md"
+      ],
+      "tests": [
+        "tests/test_project_manager_failure_immunity.py"
+      ]
+    },
+    "recursive_audit_stopping": {
+      "status": "CURRENT",
+      "owner": "FAILURE_PREVENTION_MATRIX.md",
+      "evidence": [
+        "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+        "projects/project-manager/CONTROLLER.md",
+        "projects/project-manager/VERIFICATION.md"
+      ],
+      "tests": [
+        "tests/test_project_manager_failure_immunity.py"
+      ]
+    },
+    "cross_project_transfer": {
+      "status": "CURRENT",
+      "owner": "FAILURE_PREVENTION_MATRIX.md",
+      "evidence": [
+        "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+        "projects/project-manager/CONTROLLER.md",
+        "projects/project-manager/VERIFICATION.md"
+      ],
+      "tests": [
+        "tests/test_project_manager_failure_immunity.py"
+      ]
+    },
+    "concurrency_promotion": {
+      "status": "CURRENT",
+      "owner": "FAILURE_PREVENTION_MATRIX.md",
+      "evidence": [
+        "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+        "projects/project-manager/CONTROLLER.md",
+        "projects/project-manager/VERIFICATION.md"
+      ],
+      "tests": [
+        "tests/test_project_manager_failure_immunity.py"
+      ]
+    },
+    "human_orchestration": {
+      "status": "CURRENT",
+      "owner": "FAILURE_PREVENTION_MATRIX.md",
+      "evidence": [
+        "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+        "projects/project-manager/CONTROLLER.md",
+        "projects/project-manager/VERIFICATION.md"
+      ],
+      "tests": [
+        "tests/test_project_manager_failure_immunity.py"
+      ]
+    },
+    "known_holdouts": {
+      "status": "CURRENT",
+      "owner": "FAILURE_PREVENTION_MATRIX.md",
+      "evidence": [
+        "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+        "projects/project-manager/CONTROLLER.md",
+        "projects/project-manager/VERIFICATION.md"
+      ],
+      "tests": [
+        "tests/test_project_manager_failure_immunity.py"
+      ]
+    }
+  },
+  "root_invariants": {
+    "representation_authority_execution_separated": {
+      "status": "CURRENT",
+      "owner": "CONTROLLER.md",
+      "evidence": [
+        "architecture/PROJECT_MANAGER_FULL_TOOL_MATH_004_2026-09-30.md",
+        "projects/project-manager/FAILURE_PREVENTION_MATRIX.md"
+      ],
+      "tests": [
+        "tests/test_project_manager_failure_immunity.py"
+      ]
+    },
+    "state_externalized_before_action": {
+      "status": "CURRENT",
+      "owner": "CONTROLLER.md",
+      "evidence": [
+        "architecture/PROJECT_MANAGER_FULL_TOOL_MATH_004_2026-09-30.md",
+        "projects/project-manager/FAILURE_PREVENTION_MATRIX.md"
+      ],
+      "tests": [
+        "tests/test_project_manager_failure_immunity.py"
+      ]
+    },
+    "mandatory_transition_path": {
+      "status": "CURRENT",
+      "owner": "CONTROLLER.md",
+      "evidence": [
+        "architecture/PROJECT_MANAGER_FULL_TOOL_MATH_004_2026-09-30.md",
+        "projects/project-manager/FAILURE_PREVENTION_MATRIX.md"
+      ],
+      "tests": [
+        "tests/test_project_manager_failure_immunity.py"
+      ]
+    },
+    "closure_scope_typed": {
+      "status": "CURRENT",
+      "owner": "CONTROLLER.md",
+      "evidence": [
+        "architecture/PROJECT_MANAGER_FULL_TOOL_MATH_004_2026-09-30.md",
+        "projects/project-manager/FAILURE_PREVENTION_MATRIX.md"
+      ],
+      "tests": [
+        "tests/test_project_manager_failure_immunity.py"
+      ]
+    },
+    "human_not_final_integration_layer": {
+      "status": "CURRENT",
+      "owner": "CONTROLLER.md",
+      "evidence": [
+        "architecture/PROJECT_MANAGER_FULL_TOOL_MATH_004_2026-09-30.md",
+        "projects/project-manager/FAILURE_PREVENTION_MATRIX.md"
+      ],
+      "tests": [
+        "tests/test_project_manager_failure_immunity.py"
+      ]
+    }
+  }
 }
