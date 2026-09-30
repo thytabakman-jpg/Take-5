@@ -24,6 +24,7 @@ class ProseContract:
     constraints:tuple[str,...]=(AFFIRMATIVE_FIRST,)
     allowed_negative_spans:tuple[str,...]=()
     person_dates:tuple[tuple[str,str],...]=()
+    person_dates:tuple[tuple[str,str],...]=()
 
 
 @dataclass(frozen=True)
@@ -165,6 +166,33 @@ def audit_first_mention_person_dates(
     return tuple(violations),tuple(residuals)
 
 
+def audit_first_mention_person_dates(text:str, contract:ProseContract):
+    value=str(text or "")
+    violations=[]
+    residuals=[]
+    for raw_name,raw_date in contract.person_dates:
+        name=str(raw_name).strip()
+        date=str(raw_date).strip()
+        if not name:
+            continue
+        match=re.search(r"(?<!\\w)"+re.escape(name)+r"(?!\\w)",value)
+        if match is None:
+            continue
+        if not date:
+            residuals.append(f"PERSON_DATE_UNRESOLVED:{name}")
+            continue
+        expected=f" ({date})"
+        if value[match.end():match.end()+len(expected)]!=expected:
+            violations.append(ProseViolation(
+                constraint_id=FIRST_MENTION_PERSON_DATES,
+                code="FIRST_MENTION_DATE_MISSING",
+                start=match.start(),
+                end=match.end(),
+                excerpt=match.group(0),
+            ))
+    return tuple(violations),tuple(residuals)
+
+
 def assess_prose(
     text:str,
     contract:ProseContract,
@@ -192,6 +220,11 @@ def assess_prose(
         return ProseAssessment(
             "REPAIR_REQUIRED",contract.contract_id,violations,(),
             residuals+("PROTECTED_PROSE_CONSTRAINT_VIOLATED",),(),
+        )
+
+    if residuals:
+        return ProseAssessment(
+            "OPEN",contract.contract_id,(),(),residuals,(),
         )
 
     if residuals:
