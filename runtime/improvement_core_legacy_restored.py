@@ -269,6 +269,8 @@ def run_improvement_core_legacy_restored(
         hf1_classify=hf1_classify,
         live_local=lambda current,hf_memory:bool(
             current.get("hf2_live_local",False)
+            or current.get("admitted_continuation",False)
+            or current.get("parent_return_continuation",False)
         ),
         local_close=lambda current,hf_memory:str(
             current.get("terminal","CONTINUE")
