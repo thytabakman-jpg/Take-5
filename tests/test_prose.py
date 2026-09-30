@@ -364,7 +364,7 @@ def test_jewish_lexical_gate_rejects_declared_noncanonical_form():
         "jewish-lexicon-repair",
         constraints=(JEWISH_LEXICAL_FORMS,),
         jewish_lexicon=(
-            ("Ramban",("ramban","Ramban\"")),
+            ("Ramban",("ramban",)),
             ("peshat",("pshat","p'shat")),
             ("eilu ve-eilu",("elu v'elu","eilu v'eilu")),
         ),
@@ -411,3 +411,12 @@ def test_jewish_lexicon_conflict_fails_open():
     out=assess_prose("The text uses peshat.",contract,PASS_EVIDENCE)
     assert out.status=="OPEN"
     assert any(x.startswith("JEWISH_LEXICON_CONFLICT:pshat:") for x in out.residuals)
+
+
+def test_terminal_quoted_question_passes():
+    out=require_prose_admissible(
+        'The source asks, "What follows?"',
+        ProseContract("quoted-question"),
+        PASS_EVIDENCE,
+    )
+    assert out.status=="PASS"
