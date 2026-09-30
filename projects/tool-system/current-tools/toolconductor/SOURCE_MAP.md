@@ -18,3 +18,12 @@
 
 Pointers preserve provenance. This package does not copy legacy evidence merely
 to make the folder look complete.
+
+
+## Current controller consumers
+
+- architecture/CONTROLLER_TOOL_CONDUCTOR_MANDATORY_CONSULTATION_005_2026-09-30.md
+- runtime/controller_tool_conductor.py
+
+These consumers do not change ToolConductor's exhaustive product identity. They make
+current ImprovementCore and ICC128 consume an actual traversal receipt before selection.
