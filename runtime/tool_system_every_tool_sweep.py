@@ -67,6 +67,7 @@ from diagnosis import diagnose
 from assert_compound import AssertState, AssertStages, run_to_fixed_point
 from goal import GoalCandidate, GoalObject, recover_goal
 from solution_to_my_problem import Problem, Candidate, SolutionReceipt, solve
+from prose import ProseContract, ProseEvidence, assess_prose
 from desired_jane import DesireEvidence, recover_desired_jane
 from question_worth_asking import QuestionCandidate, select_question
 from lambda_math import EntryState, reconstruct as reconstruct_lambda
@@ -785,6 +786,21 @@ def _solution_adapter(packet:dict[str,Any])->dict[str,Any]:
     return _dev_executed(solve(problem,(candidate,),(receipt,)),evidence="native:SolutionToMyProblem")
 
 
+def _prose_adapter(packet:dict[str,Any])->dict[str,Any]:
+    evidence=ProseEvidence(
+        semantic_preservation="PASS",
+        earned_claim_strength="PASS",
+        no_unsupported_inflation="PASS",
+        evidence=("every-tool:semantic","every-tool:strength","every-tool:no-inflation"),
+    )
+    out=assess_prose(
+        "The project preserves its protected prose contract.",
+        ProseContract("every-tool"),
+        evidence,
+    )
+    return _dev_executed(out,evidence="native:Prose")
+
+
 def _desired_jane_adapter(packet:dict[str,Any])->dict[str,Any]:
     evidence=(
         DesireEvidence(
@@ -871,6 +887,7 @@ def development_adapters(summary:dict[str,Any])->dict[str,Any]:
         "ASSERT":_assert_adapter,
         "GOAL":_goal_adapter,
         "SolutionToMyProblem":_solution_adapter,
+        "Prose":_prose_adapter,
         "DesiredJane":_desired_jane_adapter,
         "QuestionWorthAsking":_question_adapter,
         "LambdaMath":_lambda_adapter,

@@ -9,7 +9,7 @@ from tool_run_registry import CONFIGURED_RUNS
 DEDICATED=(
     "Reconciler","DelegatedExecutor","TRC","CurrentnessAudit",
     "CapabilityFoundry","EmergentAdmission","HistoricalReconstruction",
-    "ZeroRequest","SolutionToMyProblem","DesiredJane","QuestionWorthAsking",
+    "ZeroRequest","SolutionToMyProblem","Prose","DesiredJane","QuestionWorthAsking",
     "LambdaMath","SemanticResolutionPipeline","ToolConductor",
 )
 

@@ -32,6 +32,7 @@ from protected_transition_integrity import (
     ProtectedTransitionReceipt,
     require_protected_transition,
 )
+from prose import ProseContract, ProseEvidence, ProseAcceptanceError, require_prose_admissible
 
 
 class ToolExecutionBlocked(RuntimeError):
@@ -126,6 +127,9 @@ def execute_protected_transition(
     reentry_fn,
     emission_audit_fn,
     requested_mode: str | None=None,
+    prose_contract: ProseContract | None=None,
+    prose_text_fn=None,
+    prose_evidence: ProseEvidence | None=None,
 ) -> ProtectedExecutionResult:
     """Execute one repository-governed configured transition end to end.
 
@@ -231,6 +235,23 @@ def execute_protected_transition(
     evidence["reentry"]=str(reentry_ev or "")
     if not evidence["reentry"]:
         raise ToolExecutionBlocked("PTI_REENTRY_WITNESS_MISSING")
+
+    if prose_contract is not None:
+        if not callable(prose_text_fn):
+            raise ToolExecutionBlocked("PROSE_TEXT_PROJECTION_REQUIRED")
+        if prose_evidence is None:
+            raise ToolExecutionBlocked("PROSE_EVIDENCE_REQUIRED")
+        projected=prose_text_fn(reentered,plan)
+        try:
+            prose_assessment=require_prose_admissible(
+                str(projected),prose_contract,prose_evidence
+            )
+        except ProseAcceptanceError as exc:
+            raise ToolExecutionBlocked(str(exc)) from exc
+        evidence["prose_acceptance"]=(
+            f"{prose_assessment.contract_id}:{prose_assessment.status}:"
+            +"|".join(prose_assessment.evidence)
+        )
 
     emission_ev=emission_audit_fn(reentered,plan)
     evidence["user_visible_boundary"]=str(emission_ev or "")

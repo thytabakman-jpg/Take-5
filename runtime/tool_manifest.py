@@ -203,6 +203,12 @@ IMPROVEMENT_CORE_BINDINGS=GENERIC_BINDINGS+(
         "runtime/improvement_core_math_spine.py",
         "tests/test_improvement_core_regime.py",
     ),
+    ProtectedBinding(
+        "IMPROVEMENTCORE_PROSE_RETURN_GATE",
+        "POST",
+        "runtime/improvement_core_return_gate.py",
+        "tests/test_prose_transition_layers.py",
+    ),
 )
 
 PROJECT_MANAGER_BINDINGS=GENERIC_BINDINGS+(
@@ -460,6 +466,12 @@ FOUR_TOOL_RECOVERY_BINDINGS={
             "runtime/architecture_analysis.py",
             "tests/test_four_tool_recovery_20260927.py",
         ),
+        ProtectedBinding(
+            "ARCHITECTURE_PROTECTED_PROSE_CONSTRAINT_BINDING",
+            "POST",
+            "runtime/architecture_analysis.py",
+            "tests/test_prose_transition_layers.py",
+        ),
     ),
     "PD":GENERIC_BINDINGS+(
         ProtectedBinding(
@@ -484,6 +496,48 @@ FOUR_TOOL_RECOVERY_BINDINGS={
         ),
     ),
 }
+
+SOLUTION_TO_MY_PROBLEM_BINDINGS=GENERIC_BINDINGS+(
+    ProtectedBinding(
+        "SolutionToMyProblem_EXPLICIT_NATIVE_IDENTITY",
+        "INTRA",
+        "runtime/solution_to_my_problem.py",
+        "tests/test_explicit_native_manifests.py",
+    ),
+    ProtectedBinding(
+        "SOLUTION_PROTECTED_PROSE_PRESERVATION",
+        "INTRA",
+        "runtime/solution_to_my_problem.py",
+        "tests/test_prose_transition_layers.py",
+    ),
+)
+
+PROSE_BINDINGS=GENERIC_BINDINGS+(
+    ProtectedBinding(
+        "Prose_EXPLICIT_NATIVE_IDENTITY",
+        "INTRA",
+        "runtime/prose.py",
+        "tests/test_explicit_native_manifests.py",
+    ),
+    ProtectedBinding(
+        "PROSE_PROTECTED_CONTRACT_ACCEPTANCE",
+        "PRE",
+        "runtime/prose.py",
+        "tests/test_prose.py",
+    ),
+    ProtectedBinding(
+        "PROSE_AFFIRMATIVE_FIRST_GATE",
+        "INTRA",
+        "runtime/prose.py",
+        "tests/test_prose.py",
+    ),
+    ProtectedBinding(
+        "PROSE_SEMANTIC_STRENGTH_NO_INFLATION_RECEIPTS",
+        "POST",
+        "runtime/prose.py",
+        "tests/test_prose.py",
+    ),
+)
 
 OVERRIDES={
     "ProjectManager":ToolManifest(
@@ -547,6 +601,24 @@ OVERRIDES={
         closure_contract="TRC_PLUS_HF002_LOCAL_RELATIVE_CLOSE",
         reentry_contract="HF001_OR_IMPROVEMENTCORE_PARENT_REPLAN",
         bindings=IMPROVEMENT_CORE_BINDINGS,
+    ),
+    "SolutionToMyProblem":ToolManifest(
+        tool_id="SolutionToMyProblem",
+        native_semantics="candidate solution frontier with protected-prose preservation receipts",
+        geometry_policy="D36_C",
+        closure_contract="TRC_PLUS_TYPED_OPEN",
+        reentry_contract="HF002_THEN_HF001",
+        bindings=SOLUTION_TO_MY_PROBLEM_BINDINGS,
+        lineage_contract="architecture/PROSE_PROTECTED_TRANSITION_MATHEMATICS_001_2026-09-30.md",
+    ),
+    "Prose":ToolManifest(
+        tool_id="Prose",
+        native_semantics="protected reader-facing prose acceptance under frozen contract with semantic-strength-no-inflation receipts",
+        geometry_policy="D36_C",
+        closure_contract="PROSE_PASS_OR_TYPED_REPAIR_OPEN_BLOCKED_PLUS_TRC",
+        reentry_contract="HF002_THEN_HF001",
+        bindings=PROSE_BINDINGS,
+        lineage_contract="architecture/PROSE_PROTECTED_TRANSITION_MATHEMATICS_001_2026-09-30.md",
     ),
     "MT":ToolManifest(
         tool_id="MT",
@@ -731,6 +803,10 @@ _DEDICATED_NATIVE={
     "SolutionToMyProblem":(
         "candidate solution frontier requiring execution/effect/preservation/verification/closure receipts",
         "runtime/solution_to_my_problem.py",
+    ),
+    "Prose":(
+        "protected prose contract audit with semantic-strength-no-inflation acceptance receipts",
+        "runtime/prose.py",
     ),
     "DesiredJane":(
         "evidence-polarity reconstruction of required/prohibited/open/conflicting Jane coordinates",

@@ -12,7 +12,7 @@ MATERIAL_TOOLS=tuple([f"C{i:02d}" for i in range(1,50)]+[
 "ImprovementCore","ProjectManager","ICC128","MT","MTA","Architecture","PD","PDAudit","GDOS","Discriminator","Reconciler",
 "DelegatedExecutor","HF001","HF002","RootCause","TRC","RTC","BiasPerturbation","CurrentnessAudit",
 "CapabilityFoundry","EmergentAdmission","HistoricalReconstruction","ZeroRequest","MultiObject","Diagnosis",
-"ASSERT","GOAL","SolutionToMyProblem","DesiredJane","QuestionWorthAsking","LambdaMath","SemanticResolutionPipeline","ToolConductor"
+"ASSERT","GOAL","SolutionToMyProblem","Prose","DesiredJane","QuestionWorthAsking","LambdaMath","SemanticResolutionPipeline","ToolConductor"
 ]+list(LEARNING_TOOLS))
 
 ASSERT_LAYERS=("ASSERT_LAYER_1","ASSERT_LAYER_2")
@@ -52,10 +52,14 @@ PROTECTED_BEHAVIORS={
         "IMPROVEMENTCORE_STRICT_PROGRESS",
         "IMPROVEMENTCORE_EXTERNAL_ACQUISITION",
         "IMPROVEMENTCORE_PLURAL_FRONTIER_PRESERVATION",
+        "IMPROVEMENTCORE_PROSE_RETURN_GATE",
     ),
     "MT":("MT_BLACK_BOX_SEMANTIC_RETURN_GATE",),
     "MTA":("MTA_STRUCTURAL_MODEL_RECONSTRUCTION",),
-    "Architecture":("ARCHITECTURE_CONTRACT_RELATIVE_ANALYSIS",),
+    "Architecture":(
+        "ARCHITECTURE_CONTRACT_RELATIVE_ANALYSIS",
+        "ARCHITECTURE_PROTECTED_PROSE_CONSTRAINT_BINDING",
+    ),
     "PD":("PD_MINIMAL_RESULT_SENSITIVITY",),
     "PDAudit":(
         "PDAUDIT_FRAME_FIBER_SENSITIVITY",
@@ -82,6 +86,14 @@ PROTECTED_BEHAVIORS={
     ),
     "Diagnosis":(
         "DIAGNOSIS_MECHANISM_BEFORE_REPAIR",
+    ),
+    "SolutionToMyProblem":(
+        "SOLUTION_PROTECTED_PROSE_PRESERVATION",
+    ),
+    "Prose":(
+        "PROSE_PROTECTED_CONTRACT_ACCEPTANCE",
+        "PROSE_AFFIRMATIVE_FIRST_GATE",
+        "PROSE_SEMANTIC_STRENGTH_NO_INFLATION_RECEIPTS",
     ),
     "ASSERT":(
         "ASSERT_COMPOUND_STAGE_ORDER",
@@ -115,7 +127,7 @@ def _spec(tool):
     strong=(
         tool in {
             "ImprovementCore","ProjectManager","ICC128","MT","MTA","Architecture","PD","PDAudit","GDOS","RootCause","RTC",
-            "CurrentnessAudit","MultiObject","Diagnosis","ASSERT","GOAL","SolutionToMyProblem","DesiredJane",
+            "CurrentnessAudit","MultiObject","Diagnosis","ASSERT","GOAL","SolutionToMyProblem","Prose","DesiredJane",
             "QuestionWorthAsking","LambdaMath","SemanticResolutionPipeline","ToolConductor"
         }
         or tool in LEARNING_TOOLS

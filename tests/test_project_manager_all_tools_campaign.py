@@ -32,13 +32,13 @@ def _run():
 
 def test_best_order_is_exact_current_repertoire_permutation():
     assert order_is_exact()
-    assert len(BEST_ORDER)==len(MATERIAL_TOOLS)==93
+    assert len(BEST_ORDER)==len(MATERIAL_TOOLS)
     assert set(BEST_ORDER)==set(MATERIAL_TOOLS)
 
 
 def test_every_registered_tool_runs_under_its_registered_recurrence():
     out=_run()
-    assert out.tool_count==93
+    assert out.tool_count==len(MATERIAL_TOOLS)
     assert tuple(r.tool_id for r in out.receipts)==BEST_ORDER
     assert all(r.cell_count==36 for r in out.receipts)
     assert all(r.question_count==792 for r in out.receipts)

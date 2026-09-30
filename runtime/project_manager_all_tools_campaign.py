@@ -90,7 +90,7 @@ PHASES=(
     ),
     (
         "VERIFICATION",
-        ("C44","C45","C46"),
+        ("C44","C45","C46","Prose"),
     ),
     (
         "AUTONOMOUS_CONSUMPTION_CLOSURE",
@@ -784,6 +784,24 @@ def _run_named_native(tool_id:str, packet:dict[str,Any])->Any:
             evidence=("TRANSFERCORE_INTERFACE: OPEN_TRANSFERCORE_IDENTITY",),
         )
         return solve(problem,(candidate,),(receipt,))
+
+    if tool_id=="Prose":
+        from prose import ProseContract,ProseEvidence,assess_prose
+        evidence=ProseEvidence(
+            semantic_preservation="PASS",
+            earned_claim_strength="PASS",
+            no_unsupported_inflation="PASS",
+            evidence=(
+                "pm-all-tools:semantic",
+                "pm-all-tools:strength",
+                "pm-all-tools:no-inflation",
+            ),
+        )
+        return assess_prose(
+            "ProjectManager preserves the protected prose contract.",
+            ProseContract("pm-all-tools"),
+            evidence,
+        )
 
     if tool_id=="CapabilityFoundry":
         foundry=CapabilityFoundry()

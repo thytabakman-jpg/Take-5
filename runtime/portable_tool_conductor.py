@@ -106,6 +106,7 @@ NATIVE_ENTRYPOINTS: dict[str, tuple[str, tuple[str, ...]]] = {
     "GOAL": ("goal.recover_goal", ("goal_candidates",)),
     "MultiObject": ("multiobject.run_multiobject", ("multiobject_provider",)),
     "SolutionToMyProblem": ("solution_to_my_problem.solve", ()),
+    "Prose": ("prose.assess_prose", ()),
     "DesiredJane": ("desired_jane.recover_desired_jane", ()),
     "QuestionWorthAsking": ("question_worth_asking.select_question", ()),
     "LambdaMath": ("lambda_math.reconstruct", ()),
