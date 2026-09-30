@@ -169,3 +169,35 @@ It does not yet define the separate mandatory preflight requested elsewhere:
 ASSERT -> SemanticDeterminacy -> CompressionSafety.
 
 That preflight can precede this consultation without changing the mathematics here.
+
+
+## Performance-preserving configured-plan cache
+
+Mandatory controller consultation makes ToolConductor a hot path.
+
+For each registered factor i, the full configured execution plan is a pure function of the
+current immutable ConfiguredRunSpec during one process:
+
+Plan_i = BuildPlan(CONFIGURED_RUNS[i]).
+
+The plan does not depend on controller packet x or consultation context c.
+
+Therefore memoization is semantics-preserving:
+
+BuildPlan_i repeated n times = same Plan_i,
+
+and replacing repeated reconstruction with one cached Plan_i does not change:
+
+- factor identity;
+- D36_C cells;
+- question/cognitive projections;
+- recurrence engine;
+- invocation profile;
+- factor execution result;
+- conductor cardinality;
+- OPEN/BLOCKED preservation.
+
+Only plan-construction cost changes.
+
+The cache must not cache factor outputs or controller packets. Tool execution remains fresh on
+every consultation.
