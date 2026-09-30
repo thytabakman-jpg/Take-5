@@ -49,6 +49,9 @@ user phrase
 -> [typed BOUND_ZIP output] exact binding -> archive expansion -> artifact_intake -> obligations
 -> runtime/improvement_core_manager.py
 -> runtime/ic028_operator.py
+-> after OBJECTIFY: runtime/controller_tool_conductor.py
+-> exhaustive ToolConductor registered-repertoire consultation
+-> GENERATE_WORK / SELECT consume the conductor receipt
 -> [after explicit SELECT] runtime/specification_before_transformation.py
 -> [when selected work is recovery-class, or a transformation has a PASS specification receipt] continue
 -> [when SELECT names a registered formal tool] runtime/improvement_core_tool_bridge.py
@@ -177,6 +180,9 @@ architecture/IMPROVEMENT_CORE_ACTIVATION_083.md
 58. every declared ZIP member is accounted for, while binary/encrypted/unreadable members remain explicit unresolved evidence rather than disappearing.
 59. typed BOUND_ZIP external-acquisition outputs execute exact binding, archive expansion, artifact intake, and work lifting before controller stages.
 60. bound-ZIP processing failures convert the external acquisition to OPEN_GAP, preventing false controller closure; raw archive bytes and generator callables are not persisted in controller evidence.
+61. before GENERATE_WORK and SELECT, current ImprovementCore performs a real ToolConductor traversal over the exact registered repertoire.
+62. conductor coverage is complete only when every registered factor has exactly one typed disposition; factor-level OPEN/BLOCKED remains evidence rather than false controller failure.
+63. the active ImprovementCore adapter is suppressed inside the nested conductor call so mandatory consultation cannot recursively spawn the same active controller.
 
 ## Cross-repository lineage
 
@@ -740,3 +746,23 @@ This complements Specification-Before-Transformation. The earlier gate asks
 whether an object is recovered enough to change. This gate asks whether a
 reconstruction is recovered, current, authority-bound, dependency-closed, and
 type-correct enough to be emitted as the claimed authoritative mathematics.
+
+
+## Mandatory ToolConductor consultation — 2026-09-30
+
+Current IC-028 ordering now contains a repository-owned ToolConductor stage:
+
+OBJECTIFY
+-> TOOL_CONDUCTOR
+-> GENERATE_WORK
+-> SELECT.
+
+The exact contract is:
+architecture/CONTROLLER_TOOL_CONDUCTOR_MANDATORY_CONSULTATION_005_2026-09-30.md
+
+Runtime:
+runtime/controller_tool_conductor.py
+
+The consultation uses the real portable ToolConductor product operator. It does not
+treat factor-level OPEN/BLOCKED as traversal failure. Instead, the complete disposition
+vector is attached to controller state before work generation and selection.
