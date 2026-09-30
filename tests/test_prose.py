@@ -3,7 +3,7 @@ sys.path.insert(0,"runtime")
 
 from prose import (
     AFFIRMATIVE_FIRST,FIRST_MENTION_PERSON_DATES,NUMERIC_YEAR_DATES_ONLY,ORDERED_ANCHORS,
-    ProseContract,ProseEvidence,
+    READER_LOAD,ProseContract,ProseEvidence,
     assess_prose,require_prose_admissible,ProseAcceptanceError,
 )
 
@@ -217,3 +217,65 @@ def test_ordered_anchors_without_contract_data_stays_open():
     out=assess_prose("claim. evidence.",contract,PASS_EVIDENCE)
     assert out.status=="OPEN"
     assert "ORDERED_ANCHORS_REQUIRED" in out.residuals
+
+
+
+def test_reader_load_repair_required_for_observed_canonical_authority_case():
+    text=(
+        "The paper therefore asks a deliberately narrow question: when canonical "
+        "interpreters make incompatible truth-apt claims, what source-grounded basis, "
+        "if any, can give a later evaluator warranted reason to favor one claim as true?"
+    )
+    evidence=ProseEvidence(
+        semantic_preservation="PASS",
+        earned_claim_strength="PASS",
+        no_unsupported_inflation="PASS",
+        evidence=("fixture:semantic","fixture:strength","fixture:no-inflation"),
+        reader_load="REPAIR_REQUIRED",
+        reader_load_evidence=(
+            "buried grammatical spine",
+            "multiple simultaneous abstract referents",
+            "nested qualification load",
+        ),
+    )
+    out=assess_prose(
+        text,
+        ProseContract("reader-load",constraints=(READER_LOAD,)),
+        evidence,
+    )
+    assert out.status=="REPAIR_REQUIRED"
+    assert any(v.code=="READER_LOAD_REPAIR_REQUIRED" for v in out.violations)
+
+
+def test_reader_load_pass_requires_concrete_evidence():
+    evidence=ProseEvidence(
+        semantic_preservation="PASS",
+        earned_claim_strength="PASS",
+        no_unsupported_inflation="PASS",
+        evidence=("fixture:semantic","fixture:strength","fixture:no-inflation"),
+        reader_load="PASS",
+    )
+    out=assess_prose(
+        "The paper asks one narrow question.",
+        ProseContract("reader-load",constraints=(READER_LOAD,)),
+        evidence,
+    )
+    assert out.status=="OPEN"
+    assert "READER_LOAD_EVIDENCE_REQUIRED" in out.residuals
+
+
+def test_reader_load_passes_with_explicit_evidence():
+    evidence=ProseEvidence(
+        semantic_preservation="PASS",
+        earned_claim_strength="PASS",
+        no_unsupported_inflation="PASS",
+        evidence=("fixture:semantic","fixture:strength","fixture:no-inflation"),
+        reader_load="PASS",
+        reader_load_evidence=("main proposition is immediate",),
+    )
+    out=require_prose_admissible(
+        "The paper asks one narrow question.",
+        ProseContract("reader-load",constraints=(READER_LOAD,)),
+        evidence,
+    )
+    assert out.status=="PASS"
