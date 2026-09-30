@@ -61,3 +61,30 @@ Specialized/heavy tools remain adaptively routed rather than automatically tool-
 MANDATORY_SPINE_CANONICAL_COMMIT: 225d4edb956bb29de3e3eb0433f0c9ada84feb11
 MANDATORY_SPINE_POST_MERGE_EVERY_TOOL_SWEEP: PASS_RUN_36350803983
 MANDATORY_SPINE_POST_MERGE_VALIDATION: PASS_RUN_36350803988
+
+
+## Failure-immunity extension
+
+Status: CANDIDATE ON BRANCH / PROMOTION REQUIRES FULL VALIDATION
+
+Source:
+Take-2 audits/PROJECT_MANAGEMENT_FAILURE_HISTORY_READONLY_2026-09-30.md
+
+Added candidate controls:
+
+- 17-cluster failure-prevention envelope
+- five root closure invariants
+- bounded remediation work for missing/open/invalid controls
+- target-transform impact-map requirement
+- target-transform regression-verification requirement
+- explicit bad-coordinate state blocker
+- nonempty executable frontier blocks CLOSED_RELATIVE
+- READY unprocessed transform blocks CLOSED_RELATIVE
+- self-instance carries the same controls
+- ICC128 and ToolConductor remain promotion-level exhaustive verification
+
+Candidate mathematics:
+architecture/PROJECT_MANAGER_FULL_TOOL_MATH_004_2026-09-30.md
+
+Promotion remains OPEN until branch validation, capability preservation, every-tool
+sweep, and ProjectManager failure-immunity tests pass on the same head.
