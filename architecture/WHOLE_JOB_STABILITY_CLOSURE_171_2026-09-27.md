@@ -157,6 +157,14 @@ Fresh material delta:
 
 CONTINUE parent; rerun complete ImprovementCore+HF2.
 
+Changed fresh state without a typed material delta:
+
+OPEN(FRESH_REOBSERVATION_UNTYPED_STATE_DELTA).
+
+A fresh observer may not smuggle a new question, frontier, authority, execution
+fact, or other state change through a nominal NO_GAIN/STABLE result without
+typing the change on the material-delta surface.
+
 Fresh OPEN/BLOCKED/CONFLICT:
 
 preserve the typed noncomplete boundary.
