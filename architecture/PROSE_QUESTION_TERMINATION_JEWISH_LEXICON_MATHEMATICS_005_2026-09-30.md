@@ -28,12 +28,13 @@ Define:
 QuestionTerminal(u)
 iff
 - SemanticText(u) contains no question mark; or
-- SemanticText(u) contains exactly one question mark and its final non-whitespace character is `?`.
+- SemanticText(u) contains exactly one question mark and, after removing only terminal closing-quote / closing-delimiter / emphasis decoration, its final non-whitespace character is `?`.
 
 The single question may constitute the whole paragraph or may be the paragraph's final sentence.
 
 Therefore:
 - "What follows?" passes.
+- "\"What follows?\"" passes.
 - "The paper asks one question. What follows?" passes.
 - "What follows? The paper then answers it." fails.
 - "What follows? Why?" fails because the first question did not terminate the paragraph.
