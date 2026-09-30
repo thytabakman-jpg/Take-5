@@ -170,6 +170,7 @@ def run_case(case):
         "status":out.status,
         "blocker":out.blocker,
         "hf2_status":out.hf2_status,
+        "hf2_trace":out.hf2_trace,
         "entry_receipt":out.entry_receipt,
         "selected":selected,
         "expected_selected":expected,
