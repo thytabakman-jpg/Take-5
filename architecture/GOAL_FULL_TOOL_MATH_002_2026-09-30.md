@@ -98,3 +98,32 @@ The successor is admissible because:
 4. missing MT evidence now fails open instead of being silently ignored.
 
 No broader arbitrary-prose autonomy claim is introduced.
+
+
+## Inherited protected behavior set
+
+This successor retains the protected behaviors established by 001:
+
+```
+GOAL_EVIDENCE_GROUNDED_ADMISSION
+GOAL_CONSTRAINT_SEPARATION
+GOAL_OBJECT_X_T_I_SIGMA
+GOAL_PLURALITY_FAIL_OPEN
+GOAL_FULL_TOOL_IDENTITY
+```
+
+The configured geometry remains `D36_C`. Ordinary configured recurrence remains
+`HF002` under `FULL_CONFIGURED_HF2_V1`.
+
+## Historical process defect
+
+The historical process defect recorded in 001 remains part of the retained
+lineage. Earlier implementation existed before this dedicated mathematical
+identity was frozen. This successor does not erase that chronology; it only
+closes the newly localized MT-prerequisite gap prospectively.
+
+## External boundary
+
+Repository-owned configured GOAL is strengthened by this successor.
+Universal interception by an unrelated external host remains
+`EXTERNAL_NOT_OWNED`.
