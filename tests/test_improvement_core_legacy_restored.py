@@ -236,3 +236,34 @@ def test_legacy_restored_without_parent_return_verifier_fails_open_after_candida
     assert out.status=="OPEN"
     assert out.blocker=="PARENT_RETURN_GATE_REQUIRED"
     assert len(out.parent_return_trace)==1
+
+
+def test_hf2_reapplies_when_controller_admits_continuation_without_private_live_flag():
+    calls={"execute":0}
+    def q(state,memory):
+        return [{"question_id":"q","issue":"finish","obligations":["solve"]}]
+    def w(questions,state,memory):
+        return [{"id":"job","jobs":["solve"],"burden":1,"operation_class":"VERIFY","execution_effect_class":"EVIDENCE_ONLY"}]
+    def execute(selected,state,memory):
+        calls["execute"]+=1
+        return [{"status":"EXECUTED","execution_truth":"SEMANTICALLY_APPLIED"}]
+    def update(state,memory,delta):
+        nxt=dict(state)
+        if calls["execute"]==1:
+            nxt["terminal"]="CONTINUE"
+            nxt["admitted_continuation"]=True
+        else:
+            nxt["terminal"]="COMPLETE"
+            nxt["admitted_continuation"]=False
+        return nxt,dict(memory)
+    out=_run_improvement_core_legacy_restored_once(
+        "ImproveCore, finish admitted continuation",
+        target="x",job="finish",basis="b",
+        state=_state(),memory={},
+        generate_questions=q,generate_work=w,execute_work=execute,
+        admit_results=_admit,update_state=update,
+        knowledge_ledger=KnowledgeLedger(),
+    )
+    assert calls["execute"]>=2
+    assert out.status=="COMPLETE"
+    assert out.hf2_status=="RELATIVE_CLOSE"
