@@ -45,3 +45,20 @@ interfaces, risk and issue state, evidence, decisions, change and baseline histo
 verification, and information and handoff surfaces.
 
 Domain-specific project content remains extensible and owned by project-specific files.
+
+
+## Cross-project failure-history basis — 2026-09-30
+
+The current raise-the-ceiling pass additionally uses the cross-project management
+failure audit stored in Take-2:
+
+audits/PROJECT_MANAGEMENT_FAILURE_HISTORY_READONLY_2026-09-30.md
+
+The evidence spans authority/currentness, resume/handoff, scope/object typing,
+adaptive planning, ownership, execution truth, change propagation, closure,
+artifact production, research evidence, discoverability, recursive stopping,
+cross-project transfer, concurrency/promotion, human orchestration, and lower-frequency
+holdouts.
+
+The operational generalization is encoded in FAILURE_PREVENTION_MATRIX.md rather
+than treating the audit as narrative-only learning.
