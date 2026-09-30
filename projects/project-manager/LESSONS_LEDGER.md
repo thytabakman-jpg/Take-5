@@ -91,3 +91,52 @@ Failure pattern
 
 Protection
 Keep a compact mandatory spine and route heavier tools only when the live state creates a result-sensitive reason.
+
+
+## L013 Lessons are not prevention
+
+Failure pattern
+A correct lesson, audit, or protocol existed but later execution bypassed it.
+
+Protection
+Historical failure classes now live in an executable ProjectManager integrity envelope.
+Missing/stale controls block closure and generate remediation work.
+
+## L014 Work remaining and project closure are incompatible
+
+Failure pattern
+The runtime could expose executable work while aggregate project status still read
+CLOSED_RELATIVE.
+
+Protection
+Any legal executable frontier or READY unprocessed transform now blocks relative closure.
+
+## L015 Mutation requires consequence evidence
+
+Failure pattern
+A bounded requested change could be clear while impact propagation and regression
+verification remained implicit.
+
+Protection
+TARGET_TRANSFORM requires authority, explicit impact mapping, and regression tests.
+
+## L016 ProjectManager must manage malformed management state
+
+Failure pattern
+ProjectManager was strongest when handed a well-formed project package, while the
+historical failures often consisted precisely of malformed authority, currentness,
+handoff, closure, or execution control.
+
+Protection
+Seventeen failure controls and five root invariants are first-class managed obligations;
+gaps become bounded work instead of disappearing into prose.
+
+## L017 Human memory is not a control plane
+
+Failure pattern
+The user repeatedly became scheduler, historian, state restorer, and regression detector.
+
+Protection
+human_orchestration and human_not_final_integration_layer are explicit closure controls.
+The user retains goal/authority/acceptance decisions without carrying routine system
+continuity.
