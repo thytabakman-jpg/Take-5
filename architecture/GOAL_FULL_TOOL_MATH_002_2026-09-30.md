@@ -66,7 +66,7 @@ cannot be truthfully reported without a preflight witness.
 
 ## Preserved native semantics
 
-`runtime/goal.py::recover_goal` remains the native semantic operator from 001.
+`runtime/goal.py::recover_goal` (`goal.recover_goal`) remains the native semantic operator from 001.
 
 A new configured entrypoint may wrap it, but no successor may:
 - merge protected constraints into G=<X,T,I,Sigma>;
