@@ -35,6 +35,10 @@ Incomplete, duplicate, reordered, or untyped coverage fails OPEN.
 
 The active controller adapter is removed before the nested ToolConductor call.
 
+The normal selected-tool adapter map is not automatically forwarded into pre-selection
+consultation. Any supplied conductor adapter must be explicitly consultation-safe, preserving
+the existing Specification-Before-Transformation gate.
+
 Thus ImprovementCore cannot recursively spawn ImprovementCore through its mandatory
 conductor consultation, and ICC128 cannot recursively spawn ICC128.
 
