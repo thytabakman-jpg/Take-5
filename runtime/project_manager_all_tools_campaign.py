@@ -90,7 +90,7 @@ PHASES=(
     ),
     (
         "VERIFICATION",
-        ("C44","C45","C46"),
+        ("C44","C45","C46","Prose"),
     ),
     (
         "AUTONOMOUS_CONSUMPTION_CLOSURE",
