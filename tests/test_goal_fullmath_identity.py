@@ -7,7 +7,7 @@ from tool_manifest import manifest_for
 from tool_run_registry import PROTECTED_BEHAVIORS
 
 
-IDENTITY_PATH="architecture/GOAL_FULL_TOOL_MATH_001_2026-09-27.md"
+IDENTITY_PATH="architecture/GOAL_FULL_TOOL_MATH_002_2026-09-30.md"
 
 
 def test_goal_fullmath_artifact_reconstructs_five_identity_coordinates():
@@ -19,8 +19,9 @@ def test_goal_fullmath_artifact_reconstructs_five_identity_coordinates():
         "G_GOAL",
         "P_GOAL",
         "L_GOAL",
-        "GOAL_EVIDENCE_GROUNDED_ADMISSION",
-        "GOAL_PLURALITY_FAIL_OPEN",
+        "GOAL_ROBUST_MT_PREREQUISITE",
+        "MT_BLACK_BOX_SEMANTIC_RETURN_GATE",
+        "FULL_CONFIGURED_HF2_V1",
         "goal.recover_goal",
         "D36_C",
         "HF002",
@@ -40,7 +41,7 @@ def test_future_goal_transformation_has_explicit_top_level_specification_basis()
     required=frozenset({"N_GOAL","W_GOAL","G_GOAL","P_GOAL","L_GOAL"})
     packet=SpecificationPacket(
         object_id="GOAL",
-        basis_id="GOAL_FULL_TOOL_MATH_001_2026-09-27",
+        basis_id="GOAL_FULL_TOOL_MATH_002_2026-09-30",
         identification_status="IDENTIFIED",
         required_coordinates=required,
         resolved_coordinates=required,
