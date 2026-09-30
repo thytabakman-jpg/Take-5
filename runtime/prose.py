@@ -14,7 +14,8 @@ from typing import Iterable
 
 
 AFFIRMATIVE_FIRST="AFFIRMATIVE_FIRST"
-SUPPORTED_CONSTRAINTS=frozenset({AFFIRMATIVE_FIRST})
+FIRST_MENTION_PERSON_DATES="FIRST_MENTION_PERSON_DATES"
+SUPPORTED_CONSTRAINTS=frozenset({AFFIRMATIVE_FIRST,FIRST_MENTION_PERSON_DATES})
 
 
 @dataclass(frozen=True)
@@ -22,6 +23,7 @@ class ProseContract:
     contract_id:str
     constraints:tuple[str,...]=(AFFIRMATIVE_FIRST,)
     allowed_negative_spans:tuple[str,...]=()
+    person_dates:tuple[tuple[str,str],...]=()
 
 
 @dataclass(frozen=True)
@@ -132,6 +134,37 @@ def audit_affirmative_first(text:str, contract:ProseContract)->tuple[ProseViolat
     return tuple(sorted(violations,key=lambda x:(x.start,x.end,x.code)))
 
 
+def audit_first_mention_person_dates(
+    text:str,
+    contract:ProseContract,
+)->tuple[tuple[ProseViolation,...],tuple[str,...]]:
+    value=str(text or "")
+    violations=[]
+    residuals=[]
+    for raw_name,raw_date in contract.person_dates:
+        name=str(raw_name).strip()
+        date=str(raw_date).strip()
+        if not name:
+            continue
+        match=re.search(r"(?<!\\w)"+re.escape(name)+r"(?!\\w)",value)
+        if match is None:
+            continue
+        if not date:
+            residuals.append(f"PERSON_DATE_UNRESOLVED:{name}")
+            continue
+        expected=f" ({date})"
+        tail=value[match.end():match.end()+len(expected)]
+        if tail!=expected:
+            violations.append(ProseViolation(
+                constraint_id=FIRST_MENTION_PERSON_DATES,
+                code="FIRST_MENTION_DATE_MISSING",
+                start=match.start(),
+                end=match.end(),
+                excerpt=match.group(0),
+            ))
+    return tuple(violations),tuple(residuals)
+
+
 def assess_prose(
     text:str,
     contract:ProseContract,
@@ -141,20 +174,29 @@ def assess_prose(
     unsupported=tuple(sorted(set(requested)-SUPPORTED_CONSTRAINTS))
 
     violations=()
+    residuals=()
     if AFFIRMATIVE_FIRST in requested:
-        violations=audit_affirmative_first(text,contract)
+        violations=violations+audit_affirmative_first(text,contract)
+    if FIRST_MENTION_PERSON_DATES in requested:
+        date_violations,date_residuals=audit_first_mention_person_dates(text,contract)
+        violations=violations+date_violations
+        residuals=residuals+date_residuals
 
     if unsupported:
         return ProseAssessment(
             "OPEN",contract.contract_id,violations,unsupported,
-            tuple(f"UNSUPPORTED_CONSTRAINT:{x}" for x in unsupported),(),
+            residuals+tuple(f"UNSUPPORTED_CONSTRAINT:{x}" for x in unsupported),(),
         )
 
     if violations:
         return ProseAssessment(
-            "REPAIR_REQUIRED",contract.contract_id,violations,(),(
-                "PROTECTED_PROSE_CONSTRAINT_VIOLATED",
-            ),(),
+            "REPAIR_REQUIRED",contract.contract_id,violations,(),
+            residuals+("PROTECTED_PROSE_CONSTRAINT_VIOLATED",),(),
+        )
+
+    if residuals:
+        return ProseAssessment(
+            "OPEN",contract.contract_id,(),(),residuals,(),
         )
 
     if evidence is None:
