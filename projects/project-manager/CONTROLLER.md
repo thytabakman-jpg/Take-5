@@ -240,3 +240,53 @@ subject to Inv(P_t,P_(t+1)) and recursive reentry until relative fixed point.
 In plain language
 
 Know what the project actually is, know exactly where it is trying to get, preserve everything already established, identify everything still separating current state from target state, choose and coordinate the next legal bounded piece of work, verify and admit the resulting change, update authoritative project state, and repeat until another complete pass finds nothing material left to do.
+
+
+## Failure-prevention envelope
+
+Every ManagedProject assessment now includes the 17-cluster failure-prevention
+surface and five root invariants defined in FAILURE_PREVENTION_MATRIX.md.
+
+Integrity(P)=CURRENT is required for relative closure.
+
+Missing, stale, open, blocked, pending, unknown, unverified, invalid, or conflicted
+management controls cannot be compressed into a generic success state. They either
+generate bounded evidence-only remediation work, remain OPEN, or produce CONFLICT.
+
+This adds a management-layer adversarial holdout to the 21-coordinate project state
+without replacing the 21 coordinates.
+
+## Transform preflight
+
+TARGET_TRANSFORM requires all of:
+
+- transform-class operation;
+- explicit authority_ref;
+- explicit impact map;
+- explicit regression-verification tests;
+- precondition fingerprint.
+
+A clear requested edit is not enough to license mutation when its consequence cone
+and verification surface are unrepresented.
+
+## Closure correction
+
+CLOSED_RELATIVE now additionally requires:
+
+ExecutableFrontier(P)=empty.
+
+A READY but unprocessed transform is also nonterminal.
+
+Therefore work remaining and project closure cannot coexist in the same ProjectManager
+assessment.
+
+## Historical-failure guarantee
+
+For every failure class in the 2026-09-30 cross-project failure history, a properly
+managed run must return one of:
+
+PREVENTED
+OPEN
+CONFLICT.
+
+Silent passage as CLOSED_RELATIVE is not licensed.
