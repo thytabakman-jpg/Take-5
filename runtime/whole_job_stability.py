@@ -108,7 +108,15 @@ def run_whole_job_stability(
         if not isinstance(raw,Mapping):
             raise RuntimeError("WHOLE_JOB_STABILITY_INVALID_REOBSERVATION")
         row=dict(raw)
-        status=str(row.get("status","STABLE")).upper()
+        if "status" not in row:
+            z["terminal"]="OPEN"
+            z["admitted_continuation"]=False
+            z["parent_return_continuation"]=False
+            return WholeJobStabilityResult(
+                "RETURN","OPEN","FRESH_REOBSERVATION_STATUS_REQUIRED",
+                z,m,tuple(receipts)
+            )
+        status=str(row["status"]).upper()
         evidence=tuple(str(x) for x in row.get("evidence",()) if str(x))
         if not evidence:
             raise RuntimeError("WHOLE_JOB_STABILITY_EVIDENCE_REQUIRED")
@@ -118,8 +126,26 @@ def run_whole_job_stability(
             key not in z or z.get(key)!=value
             for key,value in state_patch.items()
         )
+        typed_material=any(bool(row.get(k)) for k in MATERIAL_KEYS)
+        owned_present="owned_work_remaining" in row
+        if owned_present and not isinstance(row["owned_work_remaining"],bool):
+            z["terminal"]="OPEN"
+            z["admitted_continuation"]=False
+            z["parent_return_continuation"]=False
+            return WholeJobStabilityResult(
+                "RETURN","OPEN","FRESH_REOBSERVATION_OWNED_WORK_ATTESTATION_INVALID",
+                z,m,tuple(receipts)
+            )
+        if status not in NONCOMPLETE and not typed_material and not owned_present:
+            z["terminal"]="OPEN"
+            z["admitted_continuation"]=False
+            z["parent_return_continuation"]=False
+            return WholeJobStabilityResult(
+                "RETURN","OPEN","FRESH_REOBSERVATION_OWNED_WORK_ATTESTATION_REQUIRED",
+                z,m,tuple(receipts)
+            )
         owned=bool(row.get("owned_work_remaining",False))
-        material=owned or any(bool(row.get(k)) for k in MATERIAL_KEYS)
+        material=owned or typed_material
         challenge_id=str(row.get("challenge_id") or f"fresh:{index}")
 
         receipt=FreshChallengeReceipt(
