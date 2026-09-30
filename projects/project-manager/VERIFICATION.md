@@ -174,3 +174,29 @@ Take-5 Validation 36350713639 SUCCESS.
 Post-merge:
 Tool System Every-Tool Sweep 36350803983 SUCCESS.
 Take-5 Validation 36350803988 SUCCESS.
+
+
+## Failure-immunity verification
+
+V34 exactly 17 historical failure-control classes are defined.
+V35 exactly five root-generator invariants are defined.
+V36 missing failure control fails OPEN and creates bounded remediation work.
+V37 stale failure control fails OPEN.
+V38 conflicted failure control yields CONFLICT.
+V39 CURRENT failure control without durable evidence or regression tests is invalid.
+V40 NOT_APPLICABLE requires explicit reason and evidence.
+V41 TARGET_TRANSFORM without impact map fails OPEN.
+V42 TARGET_TRANSFORM without regression verification fails OPEN.
+V43 executable work frontier prevents CLOSED_RELATIVE.
+V44 transform work package without tests is structurally incomplete.
+V45 explicitly OPEN project coordinate prevents CLOSED_RELATIVE.
+V46 direct ProjectManager output exposes the known-failure integrity assessment.
+V47 ProjectManager self-instance passes all 17 controls and five root invariants.
+V48 failure-prevention matrix names every control and root invariant.
+V49 prior ProjectManager behavior remains regression-green.
+V50 exhaustive ProjectManager campaign including ICC128, RTC, and ToolConductor passes.
+V51 capability preservation passes.
+V52 full Take-5 validation passes.
+
+Status:
+OPEN until promotion evidence is recorded.
