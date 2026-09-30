@@ -16,6 +16,8 @@ from __future__ import annotations
 from dataclasses import dataclass, asdict
 from typing import Any, Callable, Mapping
 
+from whole_job_stability import run_whole_job_stability, receipt_dict as stability_receipt_dict
+
 RETURNABLE={"COMPLETE","OPEN","BLOCKED","CONFLICT"}
 DISPOSITIONS={"RETURN","CONTINUE"}
 
@@ -116,6 +118,8 @@ def evaluate_parent_return(
     memory:Mapping[str,Any]|None,
     context:Mapping[str,Any],
     verifier:Callable[[dict[str,Any],dict[str,Any],dict[str,Any]],Mapping[str,Any]]|None,
+    fresh_reobserve:Callable[[dict[str,Any],dict[str,Any],dict[str,Any]],Mapping[str,Any]]|None=None,
+    stable_passes_required:int=2,
 )->ParentReturnOutcome:
     """Validate a whole-job return/continue decision.
 
@@ -172,6 +176,7 @@ def evaluate_parent_return(
     memory_patch=_mapping(decision.get("memory_patch"),"memory_patch")
 
     proposed_state={**z,**state_patch}
+    proposed_memory={**m,**memory_patch}
     formal_claims_present=_authoritative_formal_claims_present(proposed_state)
     formal_claim_residuals=_unclosed_authoritative_formal_claims(proposed_state)
     formal_claim_receipt_required=bool(ctx.get("formal_claim_receipt_required",False))
@@ -256,21 +261,55 @@ def evaluate_parent_return(
     if terminal in {"OPEN","BLOCKED","CONFLICT"} and not blocker:
         raise RuntimeError("IC_PARENT_RETURN_GATE_NONCOMPLETE_WITHOUT_BLOCKER")
 
-    next_state={**z,**state_patch}
-    next_memory={**m,**memory_patch}
-    next_state["terminal"]=terminal
-    next_state["admitted_continuation"]=False
-    next_state["parent_return_continuation"]=False
-    if "live_continuation" not in state_patch:
-        next_state["live_continuation"]=False
+    # Preserve typed noncomplete boundaries before generic fresh-completion testing.
+    if terminal in {"OPEN","BLOCKED","CONFLICT"}:
+        proposed_state["terminal"]=terminal
+        proposed_state["admitted_continuation"]=False
+        proposed_state["parent_return_continuation"]=False
+        if "live_continuation" not in state_patch:
+            proposed_state["live_continuation"]=False
+        return ParentReturnOutcome(
+            disposition="RETURN", terminal=terminal, blocker=str(blocker),
+            next_state=proposed_state, next_memory=proposed_memory,
+            receipt={**receipt,"whole_job_stability":None},
+        )
 
+    # Semantic, formal-claim, and Prose admission have all passed. COMPLETE now
+    # also requires a fresh whole-job challenge to reach repeated no-gain stability.
+    stability=run_whole_job_stability(
+        state=proposed_state,
+        memory=proposed_memory,
+        context=ctx,
+        reobserve=fresh_reobserve,
+        stable_passes_required=int(stable_passes_required),
+    )
+    stability_receipt=stability_receipt_dict(stability)
+    receipt={**receipt,"whole_job_stability":stability_receipt}
+
+    if stability.disposition=="CONTINUE":
+        return ParentReturnOutcome(
+            disposition="CONTINUE", terminal="CONTINUE", blocker=None,
+            next_state=dict(stability.state), next_memory=dict(stability.memory),
+            receipt={**receipt,"disposition":"CONTINUE","reason":"FRESH_WHOLE_JOB_DELTA"},
+        )
+    if stability.terminal!="COMPLETE":
+        return ParentReturnOutcome(
+            disposition="RETURN", terminal=stability.terminal,
+            blocker=stability.blocker, next_state=dict(stability.state),
+            next_memory=dict(stability.memory),
+            receipt={**receipt,"reason":"FRESH_WHOLE_JOB_NONCLOSURE"},
+        )
+
+    final_state=dict(stability.state)
+    final_memory=dict(stability.memory)
+    final_state["terminal"]="COMPLETE"
+    final_state["admitted_continuation"]=False
+    final_state["parent_return_continuation"]=False
+    if "live_continuation" not in state_patch:
+        final_state["live_continuation"]=False
     return ParentReturnOutcome(
-        disposition="RETURN",
-        terminal=terminal,
-        blocker=None if terminal=="COMPLETE" else str(blocker),
-        next_state=next_state,
-        next_memory=next_memory,
-        receipt=receipt,
+        disposition="RETURN", terminal="COMPLETE", blocker=None,
+        next_state=final_state, next_memory=final_memory, receipt=receipt,
     )
 
 
