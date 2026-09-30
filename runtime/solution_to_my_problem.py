@@ -18,6 +18,7 @@ class Problem:
     protected: Tuple[str, ...]
     constraints: Tuple[str, ...] = ()
     evidence: Tuple[str, ...] = ()
+    protected_prose: Tuple[str, ...] = ()
 
 
 @dataclass(frozen=True)
@@ -63,7 +64,7 @@ def _receipt_valid_for(problem: Problem, candidate: Candidate, receipt: Solution
         and receipt.execution_stage == "CONSUMED"
         and _covers(problem.generators, receipt.observed_attacks)
         and _covers(problem.required_effects, receipt.observed_effects)
-        and _covers(problem.protected, receipt.observed_preservations)
+        and _covers(tuple(problem.protected)+tuple(problem.protected_prose), receipt.observed_preservations)
         and not receipt.observed_violations
         and receipt.verification_status == "PASS"
         and receipt.closure_status == "CLOSED"
@@ -75,7 +76,7 @@ def _proposal_relevant(problem: Problem, candidate: Candidate) -> bool:
     return (
         _covers(problem.generators, candidate.proposed_attacks)
         and _covers(problem.required_effects, candidate.proposed_effects)
-        and _covers(problem.protected, candidate.proposed_preservations)
+        and _covers(tuple(problem.protected)+tuple(problem.protected_prose), candidate.proposed_preservations)
     )
 
 
