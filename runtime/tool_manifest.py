@@ -224,6 +224,10 @@ PROJECT_MANAGER_BINDINGS=GENERIC_BINDINGS+(
     ProtectedBinding("PROJECTMANAGER_TRANSFERCORE_EVIDENCE_ONLY","CROSS","runtime/project_manager.py","tests/test_project_manager.py"),
     ProtectedBinding("PROJECTMANAGER_PREPROJECT_ADMISSION_GATE","PRE","runtime/project_manager.py","tests/test_project_manager.py"),
     ProtectedBinding("PROJECTMANAGER_MANDATORY_MANAGEMENT_SPINE","PRE","runtime/project_manager_management_spine.py","tests/test_project_manager_management_spine.py"),
+    ProtectedBinding("PROJECTMANAGER_FAILURE_PREVENTION_ENVELOPE","PRE","runtime/project_manager_integrity.py","tests/test_project_manager_failure_immunity.py"),
+    ProtectedBinding("PROJECTMANAGER_TRANSFORM_IMPACT_VERIFICATION_GATE","INTRA","runtime/project_manager.py","tests/test_project_manager_failure_immunity.py"),
+    ProtectedBinding("PROJECTMANAGER_NO_FALSE_CLOSE_WITH_FRONTIER","POST","runtime/project_manager.py","tests/test_project_manager_failure_immunity.py"),
+    ProtectedBinding("PROJECTMANAGER_HISTORICAL_FAILURE_HOLDOUT_GATE","CROSS","projects/project-manager/FAILURE_PREVENTION_MATRIX.md","tests/test_project_manager_failure_immunity.py"),
 )
 
 MT_BINDINGS=GENERIC_BINDINGS+(
