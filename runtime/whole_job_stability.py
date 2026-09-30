@@ -114,6 +114,10 @@ def run_whole_job_stability(
             raise RuntimeError("WHOLE_JOB_STABILITY_EVIDENCE_REQUIRED")
         state_patch=_mapping(row.get("state_patch"),"state_patch")
         memory_patch=_mapping(row.get("memory_patch"),"memory_patch")
+        state_changed=any(
+            key not in z or z.get(key)!=value
+            for key,value in state_patch.items()
+        )
         owned=bool(row.get("owned_work_remaining",False))
         material=owned or any(bool(row.get(k)) for k in MATERIAL_KEYS)
         challenge_id=str(row.get("challenge_id") or f"fresh:{index}")
@@ -148,6 +152,15 @@ def run_whole_job_stability(
             z["parent_return_continuation"]=True
             return WholeJobStabilityResult(
                 "CONTINUE","CONTINUE",None,z,m,tuple(receipts)
+            )
+
+        if state_changed:
+            z["terminal"]="OPEN"
+            z["admitted_continuation"]=False
+            z["parent_return_continuation"]=False
+            return WholeJobStabilityResult(
+                "RETURN","OPEN","FRESH_REOBSERVATION_UNTYPED_STATE_DELTA",
+                z,m,tuple(receipts)
             )
 
         if status not in {"STABLE","NO_GAIN","CLOSED_RELATIVE"}:
