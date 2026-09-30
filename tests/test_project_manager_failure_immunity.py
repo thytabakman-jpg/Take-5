@@ -221,3 +221,15 @@ def test_failure_matrix_names_every_control_and_root_invariant():
     text=(ROOT/"projects"/"project-manager"/"FAILURE_PREVENTION_MATRIX.md").read_text()
     for item in FAILURE_CONTROL_IDS+ROOT_INVARIANT_IDS:
         assert item in text
+
+
+def test_every_checked_in_managed_project_state_carries_failure_envelope():
+    paths=sorted((ROOT/"projects").glob("*/PROJECT_STATE.json"))
+    assert paths
+    failures=[]
+    for path in paths:
+        project=json.loads(path.read_text())
+        result=assess_project_integrity(project)
+        if result.status!="CURRENT":
+            failures.append((str(path.relative_to(ROOT)),result.status))
+    assert failures==[]
