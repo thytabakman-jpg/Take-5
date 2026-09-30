@@ -112,3 +112,19 @@ def test_plan_cache_does_not_cache_tool_execution_results():
     second_mt=[row for row in second["results"] if row["tool_id"]=="MT"][0]
     assert first_mt["result"]["call"]==1
     assert second_mt["result"]["call"]==2
+
+
+
+def test_atomic_factor_stays_open_without_explicit_target_bound_input():
+    out=run_tool_conductor({})
+    c01=[row for row in out["results"] if row["tool_id"]=="C01"][0]
+    assert c01["status"]=="OPEN"
+    assert c01["result"]["reason"]=="TARGET_BOUND_INPUT_REQUIRED"
+
+
+def test_atomic_factor_executes_when_explicit_target_bound_input_is_supplied():
+    out=run_tool_conductor({"capability_inputs":{"C01":{}}})
+    c01=[row for row in out["results"] if row["tool_id"]=="C01"][0]
+    assert c01["status"] in {"EXECUTED","OPEN","BLOCKED"}
+    assert c01["result"].get("reason")!="TARGET_BOUND_INPUT_REQUIRED"
+    assert c01["configured_plan"]["invocation_profile"]=="FULL_CONFIGURED_HF2_V1"
