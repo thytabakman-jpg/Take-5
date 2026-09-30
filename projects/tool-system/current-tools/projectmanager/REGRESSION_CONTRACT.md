@@ -35,3 +35,19 @@ A valid package keeps all of these true:
 - every factor uses D36_C, 792 question projections, 144 cognitive projections, and HF002
 - failure of a mandatory factor prevents native ProjectManager assessment
 - the exhaustive 93-tool campaign remains a separate verification surface
+
+
+## Known-failure immunity invariants
+
+- all 17 failure-control ids are represented
+- all five root invariants are represented
+- CURRENT controls require owner, durable evidence, and regression tests
+- NOT_APPLICABLE requires owner, durable evidence, and explicit reason
+- missing, stale, open, blocked, pending, unknown, unverified, or invalid controls fail OPEN
+- conflicted controls fail CONFLICT
+- missing/open/invalid controls generate bounded remediation work
+- TARGET_TRANSFORM requires explicit authority, impact map, and regression verification
+- an executable frontier prevents CLOSED_RELATIVE
+- an OPEN/BLOCKED/STALE/PENDING/UNKNOWN/UNVERIFIED/CONFLICT project coordinate prevents CLOSED_RELATIVE
+- ProjectManager self-management satisfies the same envelope
+- the exhaustive ICC128/ToolConductor campaign remains a promotion gate
