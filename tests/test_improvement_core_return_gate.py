@@ -19,6 +19,15 @@ def _context(**extra):
     return out
 
 
+def _fresh_stable(state,memory,context):
+    return {
+        "status":"NO_GAIN",
+        "owned_work_remaining":False,
+        "evidence":[f"fresh:{context['challenge_index']}"],
+        "challenge_id":f"fresh-{context['challenge_index']}",
+    }
+
+
 def test_continue_reopens_parent_and_forces_live_continuation():
     def verifier(state,memory,context):
         return {
@@ -37,6 +46,7 @@ def test_continue_reopens_parent_and_forces_live_continuation():
         memory={},
         context=_context(),
         verifier=verifier,
+        fresh_reobserve=_fresh_stable,
     )
     assert out.disposition=="CONTINUE"
     assert out.next_state["terminal"]=="CONTINUE"
@@ -44,6 +54,51 @@ def test_continue_reopens_parent_and_forces_live_continuation():
     assert out.next_state["parent_return_continuation"] is True
     assert out.next_state.get("live_continuation") is not True
     assert out.next_state["next_job"]=="b"
+
+
+def test_fresh_reobservation_can_force_continue_before_return_verifier():
+    verifier_called=[]
+    def verifier(state,memory,context):
+        verifier_called.append(True)
+        return {
+            "disposition":"RETURN","terminal":"COMPLETE",
+            "goal_closed":True,"owned_work_remaining":False,
+            "consequence_closed":True,"evidence":["unit:closed"],
+        }
+    def fresh(state,memory,context):
+        return {
+            "status":"STABLE",
+            "material_search_delta":True,
+            "owned_work_remaining":True,
+            "state_patch":{"next_job":"rerun-mt"},
+            "evidence":["fresh:found-work"],
+            "challenge_id":"fresh-discovery",
+        }
+
+    out=evaluate_parent_return(
+        candidate_status="COMPLETE",candidate_blocker=None,
+        state={"terminal":"COMPLETE"},memory={},
+        context=_context(),verifier=verifier,fresh_reobserve=fresh,
+    )
+    assert out.disposition=="CONTINUE"
+    assert out.next_state["next_job"]=="rerun-mt"
+    assert verifier_called==[True]
+
+
+def test_complete_requires_fresh_reobservation_binding():
+    def verifier(state,memory,context):
+        return {
+            "disposition":"RETURN","terminal":"COMPLETE",
+            "goal_closed":True,"owned_work_remaining":False,
+            "consequence_closed":True,"evidence":["unit:closed"],
+        }
+    out=evaluate_parent_return(
+        candidate_status="COMPLETE",candidate_blocker=None,
+        state={"terminal":"COMPLETE"},memory={},
+        context=_context(),verifier=verifier,fresh_reobserve=None,
+    )
+    assert out.terminal=="OPEN"
+    assert out.blocker=="FRESH_WHOLE_JOB_REOBSERVATION_REQUIRED"
 
 
 def test_complete_requires_goal_closure():
@@ -60,7 +115,7 @@ def test_complete_requires_goal_closure():
         evaluate_parent_return(
             candidate_status="COMPLETE",candidate_blocker=None,
             state={"terminal":"COMPLETE"},memory={},
-            context=_context(),verifier=verifier,
+            context=_context(),verifier=verifier,fresh_reobserve=_fresh_stable,
         )
 
 
@@ -78,7 +133,7 @@ def test_return_rejects_owned_work():
         evaluate_parent_return(
             candidate_status="COMPLETE",candidate_blocker=None,
             state={"terminal":"COMPLETE"},memory={},
-            context=_context(),verifier=verifier,
+            context=_context(),verifier=verifier,fresh_reobserve=_fresh_stable,
         )
 
 
@@ -96,7 +151,7 @@ def test_return_requires_consequence_closure_and_evidence():
         evaluate_parent_return(
             candidate_status="COMPLETE",candidate_blocker=None,
             state={"terminal":"COMPLETE"},memory={},
-            context=_context(),verifier=verifier,
+            context=_context(),verifier=verifier,fresh_reobserve=_fresh_stable,
         )
 
 
@@ -118,17 +173,16 @@ def test_noncomplete_return_requires_typed_blocker():
         )
 
 
-def test_missing_verifier_fails_open_not_complete():
+def test_missing_verifier_fails_open_after_fresh_stability():
     out=evaluate_parent_return(
         candidate_status="COMPLETE",candidate_blocker=None,
         state={"terminal":"COMPLETE"},memory={},
-        context=_context(),verifier=None,
+        context=_context(),verifier=None,fresh_reobserve=_fresh_stable,
     )
     assert out.terminal=="OPEN"
     assert out.blocker=="PARENT_RETURN_GATE_REQUIRED"
     assert out.next_state["terminal"]=="OPEN"
     assert out.next_state["admitted_continuation"] is False
-
 
 
 def test_open_candidate_cannot_be_upgraded_to_complete():
@@ -174,7 +228,7 @@ def test_complete_rejects_unclosed_authoritative_formal_claim():
         evaluate_parent_return(
             candidate_status="COMPLETE",candidate_blocker=None,
             state=state,memory={},
-            context=_context(),verifier=verifier,
+            context=_context(),verifier=verifier,fresh_reobserve=_fresh_stable,
         )
 
 
@@ -199,10 +253,12 @@ def test_complete_accepts_closed_authoritative_formal_claim():
     out=evaluate_parent_return(
         candidate_status="COMPLETE",candidate_blocker=None,
         state=state,memory={},
-        context=_context(),verifier=verifier,
+        context=_context(),verifier=verifier,fresh_reobserve=_fresh_stable,
     )
     assert out.terminal=="COMPLETE"
     assert out.receipt["authoritative_formal_claim_residuals"]==()
+    assert out.receipt["whole_job_stability"]["terminal"]=="COMPLETE"
+    assert len(out.receipt["whole_job_stability"]["receipts"])==2
 
 
 def test_formal_math_job_cannot_complete_without_any_formal_claim_receipt():
@@ -223,5 +279,5 @@ def test_formal_math_job_cannot_complete_without_any_formal_claim_receipt():
             candidate_status="COMPLETE",candidate_blocker=None,
             state={"terminal":"COMPLETE"},memory={},
             context=_context(formal_claim_receipt_required=True),
-            verifier=verifier,
+            verifier=verifier,fresh_reobserve=_fresh_stable,
         )
