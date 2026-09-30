@@ -27,3 +27,8 @@ what communications and handoffs exist
 Any ProjectManager change is first a proposed delta to this project.
 Implementation success is evidence.
 Canonical promotion remains subject to Take-5 repository governance and validation.
+
+
+The self-instance also carries the same 17 known-failure controls and five root
+invariants required of managed project packages. Missing or stale self-controls fail
+OPEN; ProjectManager cannot exempt itself from its own failure-prevention envelope.

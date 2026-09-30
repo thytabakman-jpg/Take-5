@@ -25,7 +25,7 @@ Status: CURRENT
 | verification and acceptance | VERIFICATION.md |
 | communications and information flow | COMMUNICATIONS.md |
 | cross-system handoffs | HANDOFFS.md |
-| local control loop | CONTROLLER.md |
+| local control loop | CONTROLLER.md |\n| known-failure prevention semantics | FAILURE_PREVENTION_MATRIX.md |
 | self-management rule | SELF_MANAGEMENT.md |
 | research basis | PROJECT_MANAGEMENT_BASIS.md |
 | coverage evidence | coverage/*.md |

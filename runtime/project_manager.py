@@ -14,6 +14,8 @@ from hashlib import sha256
 import json
 from typing import Any, Iterable, Mapping
 
+from project_manager_integrity import assess_project_integrity
+
 
 CORE_COORDINATES=(
     "identity",
@@ -81,7 +83,7 @@ class WorkPackage:
     status:str="OPEN"
 
     def structurally_complete(self)->bool:
-        return bool(
+        base=bool(
             self.work_id
             and self.target_coordinate
             and self.target_object
@@ -89,6 +91,11 @@ class WorkPackage:
             and self.effect_class in EFFECT_CLASSES
             and self.success
         )
+        if not base:
+            return False
+        if self.effect_class=="TARGET_TRANSFORM" and not self.tests:
+            return False
+        return True
 
     def effect_licensed(self)->bool:
         if self.effect_class=="EVIDENCE_ONLY":
@@ -331,6 +338,20 @@ def validate_project_package(project:Mapping[str,Any])->tuple[
     return missing,tuple(gaps),tuple(conflicts),tuple(package_conflicts)
 
 
+def _coordinate_state_blockers(project:Mapping[str,Any])->tuple[str,...]:
+    coordinates=project.get("coordinates",{})
+    blockers=[]
+    bad={"OPEN","BLOCKED","STALE","PENDING","UNKNOWN","UNVERIFIED","CONFLICT"}
+    if isinstance(coordinates,Mapping):
+        for coordinate,value in coordinates.items():
+            if not isinstance(value,Mapping):
+                continue
+            status=str(value.get("status","")).strip().upper()
+            if status in bad:
+                blockers.append(f"COORDINATE_STATE:{coordinate}:{status}")
+    return tuple(blockers)
+
+
 def executable_frontier(
     work:Iterable[WorkPackage],
     *,
@@ -400,19 +421,33 @@ def route_event(
             owners.append(found[0])
 
     status="READY"
+    reasons=["ROUTE_TO_CANONICAL_OWNER_AND_IMPACT_MAP"]
     if unresolved:
         status="OPEN"
+        reasons.append("AUTHORITY_GAP")
     if conflicts:
         status="CONFLICT"
+        reasons.append("AUTHORITY_CONFLICT")
 
     operation=event.operation_class.upper()
+    impact_tuple=tuple(dict.fromkeys(str(x) for x in impact_coordinates if str(x)))
+    tests_tuple=tuple(str(x) for x in tests if str(x))
     if operation not in RECOVERY_OPERATIONS|TRANSFORM_OPERATIONS:
         status="OPEN"
+        reasons.append("OPERATION_CLASS_OPEN")
     if event.effect_class not in EFFECT_CLASSES:
         status="OPEN"
+        reasons.append("EFFECT_CLASS_OPEN")
     if event.effect_class=="TARGET_TRANSFORM":
         if operation not in TRANSFORM_OPERATIONS or not event.authority_ref:
             status="OPEN"
+            reasons.append("TRANSFORM_AUTHORITY_REQUIRED")
+        if not impact_tuple:
+            status="OPEN"
+            reasons.append("IMPACT_MAP_REQUIRED")
+        if not tests_tuple:
+            status="OPEN"
+            reasons.append("REGRESSION_VERIFICATION_REQUIRED")
 
     return ProjectDelta(
         event_id=event.event_id,
@@ -420,10 +455,10 @@ def route_event(
         affected_coordinates=tuple(event.affected_coordinates),
         precondition_fingerprint=project_fingerprint(project),
         request=event.request,
-        reason="ROUTE_TO_CANONICAL_OWNER_AND_IMPACT_MAP",
+        reason="|".join(reasons),
         dependencies=tuple(str(x) for x in project.get("active_dependencies",())),
-        impact_coordinates=tuple(dict.fromkeys(str(x) for x in impact_coordinates)),
-        tests=tuple(str(x) for x in tests),
+        impact_coordinates=impact_tuple,
+        tests=tests_tuple,
         authority_ref=event.authority_ref,
         effect_class=event.effect_class,
         status=status,
@@ -440,7 +475,29 @@ def assess_project(
     tests:Iterable[str]=(),
 )->ProjectAssessment:
     missing,gaps,authority_conflicts,package_conflicts=validate_project_package(project)
-    frontier,blocked=executable_frontier(work,completed=completed_work)
+    integrity=assess_project_integrity(project)
+    integrity_work=tuple(
+        WorkPackage(
+            work_id=item.work_id,
+            target_coordinate=item.target_coordinate,
+            target_object=item.target_object,
+            operation_class="AUDIT",
+            effect_class="EVIDENCE_ONLY",
+            success=item.success,
+            tests=("project-manager-failure-immunity",),
+            status="OPEN",
+        )
+        for item in integrity.remediation
+    )
+    frontier,blocked=executable_frontier(
+        tuple(work)+integrity_work,
+        completed=completed_work,
+    )
+    blocked=tuple(blocked)+_coordinate_state_blockers(project)
+    if integrity.status=="OPEN":
+        blocked=blocked+("PROJECT_INTEGRITY_ENVELOPE_OPEN",)
+    if integrity.status=="CONFLICT":
+        package_conflicts=tuple(package_conflicts)+("PROJECT_INTEGRITY_ENVELOPE_CONFLICT",)
     delta=(
         route_event(project,event,impact_coordinates=impact_coordinates,tests=tests)
         if event is not None else None
@@ -449,11 +506,26 @@ def assess_project(
     status="CLOSED_RELATIVE"
     if authority_conflicts or package_conflicts or (delta and delta.status=="CONFLICT"):
         status="CONFLICT"
-    elif missing or gaps or blocked or (delta and delta.status=="OPEN"):
+    elif (
+        missing
+        or gaps
+        or blocked
+        or frontier
+        or (delta and delta.status in {"OPEN","READY"})
+    ):
         status="OPEN"
 
-    reentry=bool(frontier or (delta and delta.status=="READY"))
+    reentry=bool(
+        frontier
+        or integrity.status!="CURRENT"
+        or (delta and delta.status=="READY")
+    )
     evidence=tuple(str(x) for x in project.get("evidence_refs",()) if str(x))
+    evidence=evidence+(
+        f"PROJECT_INTEGRITY:{integrity.status}",
+        f"PROJECT_INTEGRITY_CONTROLS:{len(integrity.missing_controls)+len(integrity.open_controls)+len(integrity.invalid_controls)}",
+        f"PROJECT_INTEGRITY_ROOTS:{len(integrity.missing_root_invariants)+len(integrity.open_root_invariants)+len(integrity.invalid_root_invariants)}",
+    )
 
     return ProjectAssessment(
         project_id=str(project["project_id"]),
@@ -549,7 +621,7 @@ def project_manager_adapter(current:Any,plan:Any)->dict[str,Any]:
                     "trc_terminal":True,
                     "evidence":(
                         "runtime/project_manager_management_spine.py",
-                        "architecture/PROJECT_MANAGER_FULL_TOOL_MATH_003_2026-09-27.md",
+                        "architecture/PROJECT_MANAGER_FULL_TOOL_MATH_004_2026-09-30.md",
                     ),
                 }
             assessment=assess_project_definition(candidate_obj)
@@ -598,7 +670,7 @@ def project_manager_adapter(current:Any,plan:Any)->dict[str,Any]:
             "hf1_disposition":"STABLE",
             "evidence":(
                 "runtime/project_manager.py",
-                "architecture/PROJECT_MANAGER_FULL_TOOL_MATH_003_2026-09-27.md",
+                "architecture/PROJECT_MANAGER_FULL_TOOL_MATH_004_2026-09-30.md",
             ),
             "related_objects":("ImprovementCore","ProjectDefinitionCandidate"),
             "dependency_footprint":tuple(DEFINITION_COORDINATES),
@@ -630,7 +702,7 @@ def project_manager_adapter(current:Any,plan:Any)->dict[str,Any]:
             "trc_terminal":True,
             "evidence":(
                 "runtime/project_manager_management_spine.py",
-                "architecture/PROJECT_MANAGER_FULL_TOOL_MATH_003_2026-09-27.md",
+                "architecture/PROJECT_MANAGER_FULL_TOOL_MATH_004_2026-09-30.md",
             ),
         }
 
@@ -650,8 +722,10 @@ def project_manager_adapter(current:Any,plan:Any)->dict[str,Any]:
         impact_coordinates=current.get("impact_coordinates",()),
         tests=current.get("tests",()),
     )
+    integrity=assess_project_integrity(project)
     result={
         "management_spine":asdict(spine),
+        "known_failure_integrity":asdict(integrity),
         "assessment":asdict(assessment),
         "improvementcore_handoff":asdict(improvementcore_handoff(assessment)),
     }
@@ -667,7 +741,7 @@ def project_manager_adapter(current:Any,plan:Any)->dict[str,Any]:
         "hf1_disposition":"STABLE",
         "evidence":(
             "runtime/project_manager.py",
-            "architecture/PROJECT_MANAGER_FULL_TOOL_MATH_003_2026-09-27.md",
+            "architecture/PROJECT_MANAGER_FULL_TOOL_MATH_004_2026-09-30.md",
         ),
         "related_objects":("ImprovementCore","TransferCore"),
         "dependency_footprint":tuple(CORE_COORDINATES),

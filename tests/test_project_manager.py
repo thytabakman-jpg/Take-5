@@ -17,15 +17,36 @@ from project_manager import (
 )
 from tool_manifest import manifest_for,reconstructs
 from tool_run_registry import CONFIGURED_RUNS
+from project_manager_integrity import FAILURE_CONTROL_IDS, ROOT_INVARIANT_IDS
 
 
 def package(project_id="project-manager"):
     coordinates={c:{"status":"CURRENT"} for c in CORE_COORDINATES}
     authority={c:f"{c.upper()}.md" for c in CORE_COORDINATES}
+    failure_controls={
+        c:{
+            "status":"CURRENT",
+            "owner":"FAILURE_PREVENTION_MATRIX.md",
+            "evidence":("failure-history",c),
+            "tests":("failure-immunity-regression",),
+        }
+        for c in FAILURE_CONTROL_IDS
+    }
+    root_invariants={
+        c:{
+            "status":"CURRENT",
+            "owner":"CONTROLLER.md",
+            "evidence":("failure-history",c),
+            "tests":("failure-immunity-regression",),
+        }
+        for c in ROOT_INVARIANT_IDS
+    }
     return {
         "project_id":project_id,
         "coordinates":coordinates,
         "authority_registry":authority,
+        "failure_controls":failure_controls,
+        "root_invariants":root_invariants,
         "evidence_refs":("projects/project-manager/EVIDENCE.md",),
     }
 

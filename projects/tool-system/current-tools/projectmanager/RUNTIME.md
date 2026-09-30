@@ -19,3 +19,15 @@ runtime/project_manager.py distinguishes ProjectDefinitionCandidate from Managed
 A candidate can reach EXPLORATION_OPEN, DEFINITION_READY, or PROMOTION_READY.
 The observer adapter never creates a full project package.
 A candidate and a managed project cannot be bound simultaneously as one state.
+
+
+## Failure-immunity runtime
+
+Known-failure integrity:
+runtime/project_manager_integrity.py
+
+Managed-project orchestration:
+runtime/project_manager.py
+
+The integrity layer converts the 17 historical failure clusters and five root
+generators into fail-closed project obligations and bounded remediation work.

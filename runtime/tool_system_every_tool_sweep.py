@@ -24,6 +24,7 @@ from current_portfolio_identity import audit_current_portfolio_identity
 from full_invocation_portfolio import audit_full_invocation_portfolio
 from portable_tool_conductor import run_tool_conductor
 from project_manager import CORE_COORDINATES, assess_project
+from project_manager_integrity import FAILURE_CONTROL_IDS, ROOT_INVARIANT_IDS
 from protected_transition_portfolio import audit_protected_transition_portfolio
 from system_audit import run_audit, audit_audits
 from historical_replay_audit import audit_historical_replays
@@ -279,10 +280,37 @@ def actual_project_manager_input()->dict[str,Any]:
         if (PROJECT_ROOT/file_name).is_file():
             coordinates[coordinate]={"status":"CURRENT","owner":file_name}
             authority[coordinate]=file_name
+    failure_controls={
+        control:{
+            "status":"CURRENT",
+            "owner":"projects/tool-system/REGRESSION_CONTRACT.md",
+            "evidence":(
+                "projects/tool-system/AUTHORITY_REGISTRY.md",
+                "projects/tool-system/CURRENT_STATE.md",
+                "projects/tool-system/REGRESSION_CONTRACT.md",
+            ),
+            "tests":("tests/test_tool_system_every_tool_sweep.py",),
+        }
+        for control in FAILURE_CONTROL_IDS
+    }
+    root_invariants={
+        root:{
+            "status":"CURRENT",
+            "owner":"projects/tool-system/REGRESSION_CONTRACT.md",
+            "evidence":(
+                "integration/CURRENT_TOOL_PROJECT_ORGANIZATION.md",
+                "projects/tool-system/REGRESSION_CONTRACT.md",
+            ),
+            "tests":("tests/test_tool_system_every_tool_sweep.py",),
+        }
+        for root in ROOT_INVARIANT_IDS
+    }
     return {
         "project_id":"take5-tool-system",
         "coordinates":coordinates,
         "authority_registry":authority,
+        "failure_controls":failure_controls,
+        "root_invariants":root_invariants,
         "evidence_refs":(
             "integration/CURRENT_TOOL_PROJECT_ORGANIZATION.md",
             "projects/tool-system/BACKFILL_LEDGER.md",

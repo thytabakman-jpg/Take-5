@@ -36,3 +36,16 @@ PROJECTMANAGER_MANDATORY_MANAGEMENT_SPINE
 
 It requires every normal ProjectManager assessment to be preceded by full configured
 ASSERT, GOAL_PRE, MT, PD, PDAudit, GOAL_POST, CurrentnessAudit, and QuestionWorthAsking execution.
+
+
+## Failure-immunity protection
+
+Candidate live manifest adds:
+
+- PROJECTMANAGER_FAILURE_PREVENTION_ENVELOPE
+- PROJECTMANAGER_TRANSFORM_IMPACT_VERIFICATION_GATE
+- PROJECTMANAGER_NO_FALSE_CLOSE_WITH_FRONTIER
+- PROJECTMANAGER_HISTORICAL_FAILURE_HOLDOUT_GATE
+
+These protections bind the cross-project failure history to executable
+ProjectManager closure semantics rather than leaving it as a lessons-only artifact.

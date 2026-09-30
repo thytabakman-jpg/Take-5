@@ -52,3 +52,16 @@ to make the folder look complete.
 - PR Take-5 validation: 36350713639 SUCCESS
 - post-merge every-tool sweep: 36350803983 SUCCESS
 - post-merge Take-5 validation: 36350803988 SUCCESS
+
+
+## Failure-immunity current extension
+
+- architecture/PROJECT_MANAGER_FULL_TOOL_MATH_004_2026-09-30.md
+- projects/project-manager/FAILURE_PREVENTION_MATRIX.md
+- runtime/project_manager_integrity.py
+- runtime/project_manager.py
+- tests/test_project_manager_failure_immunity.py
+- projects/project-manager/tool-runs/FAILURE_IMMUNITY_ICC_RTC_TOOLCONDUCTOR_001.md
+
+The cross-project failure-history evidence originates in Take-2:
+audits/PROJECT_MANAGEMENT_FAILURE_HISTORY_READONLY_2026-09-30.md.

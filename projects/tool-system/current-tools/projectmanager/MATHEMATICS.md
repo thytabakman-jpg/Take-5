@@ -28,3 +28,13 @@ Current candidate FullMath:
 
 FullMath 003 preserves FullMath 002's pre-project admission object and adds the mandatory
 ordinary-run management spine.
+
+
+## Failure-immunity successor
+
+Current candidate FullMath:
+- architecture/PROJECT_MANAGER_FULL_TOOL_MATH_004_2026-09-30.md
+
+FullMath 004 preserves FullMath 003 and adds the 17-cluster failure-prevention
+envelope, five root invariants, transform impact/verification preflight, and the
+no-false-close frontier correction.
