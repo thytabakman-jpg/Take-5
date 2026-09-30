@@ -478,6 +478,12 @@ FOUR_TOOL_RECOVERY_BINDINGS={
             "runtime/architecture_analysis.py",
             "tests/test_prose_transition_layers.py",
         ),
+        ProtectedBinding(
+            "ARCHITECTURE_UNIT_JOB_PURITY_GATE",
+            "INTRA",
+            "runtime/architecture_analysis.py",
+            "tests/test_prose_transition_layers.py",
+        ),
     ),
     "PD":GENERIC_BINDINGS+(
         ProtectedBinding(
@@ -561,6 +567,12 @@ PROSE_BINDINGS=GENERIC_BINDINGS+(
         "runtime/prose.py",
         "tests/test_prose.py",
     ),
+    ProtectedBinding(
+        "PROSE_READER_LOAD_GATE",
+        "INTRA",
+        "runtime/prose.py",
+        "tests/test_prose.py",
+    ),
 )
 
 OVERRIDES={
@@ -584,12 +596,12 @@ OVERRIDES={
     ),
     "Architecture":ToolManifest(
         tool_id="Architecture",
-        native_semantics="contract-relative AA_K(A) architecture analysis and successor frontier",
+        native_semantics="contract-relative AA_K(A) architecture analysis and successor frontier with protected unit-job purity",
         geometry_policy="D36_C",
         closure_contract="TRC_PLUS_TYPED_OPEN",
         reentry_contract="HF002_THEN_HF001",
         bindings=FOUR_TOOL_RECOVERY_BINDINGS["Architecture"],
-        lineage_contract="architecture/FOUR_TOOL_STRONG_REALITY_RECOVERY_162_2026-09-27.md",
+        lineage_contract="architecture/PROSE_ARCHITECTURE_READER_LOAD_MATHEMATICS_004_2026-09-30.md",
     ),
     "PD":ToolManifest(
         tool_id="PD",
@@ -637,12 +649,12 @@ OVERRIDES={
     ),
     "Prose":ToolManifest(
         tool_id="Prose",
-        native_semantics="protected reader-facing prose acceptance under frozen contract with semantic-strength-no-inflation receipts",
+        native_semantics="protected reader-facing prose acceptance under frozen contract with semantic-strength-no-inflation and reader-load receipts",
         geometry_policy="D36_C",
         closure_contract="PROSE_PASS_OR_TYPED_REPAIR_OPEN_BLOCKED_PLUS_TRC",
         reentry_contract="HF002_THEN_HF001",
         bindings=PROSE_BINDINGS,
-        lineage_contract="architecture/PROSE_RAISE_CEILING_MATHEMATICS_003_2026-09-30.md",
+        lineage_contract="architecture/PROSE_ARCHITECTURE_READER_LOAD_MATHEMATICS_004_2026-09-30.md",
     ),
     "MT":ToolManifest(
         tool_id="MT",
