@@ -78,10 +78,28 @@ Host-ingress PR #159 validation before final documentation delta:
 - Capability Preservation run 36300397054: SUCCESS.
 
 The active repository path now covers:
-Jane continuity -> ICC128 state-relative selection -> execution/reselection -> exact recovery gate -> minimal response selection.
+Jane continuity -> ICC128 question generation -> mandatory ToolConductor consultation -> work generation -> state-relative selection -> execution/reselection -> exact recovery gate -> minimal response selection.
 
 ## External boundary
 
 Repository code cannot force a ChatGPT host to display a separate ICC128 UI identity or green presence dot and cannot universally intercept a host that bypasses Take-5.
 
 Do not claim that external host state from repository evidence alone.
+
+
+## Mandatory ToolConductor consultation — 2026-09-30
+
+Current ICC128 now consults the complete registered ToolConductor repertoire on every
+controller iteration after G_Q and before G_W / selection:
+
+G_Q -> ToolConductor -> G_W -> S -> E -> A -> U -> G_Q.
+
+The traversal must account for every registered factor exactly once. Individual
+factor-level OPEN/BLOCKED dispositions remain evidence. Incomplete conductor coverage
+fails the ICC iteration rather than silently selecting from a partial repertoire.
+
+The active ICC128 adapter is not forwarded into the nested conductor environment, which
+prevents recursive self-spawn.
+
+Contract:
+architecture/CONTROLLER_TOOL_CONDUCTOR_MANDATORY_CONSULTATION_005_2026-09-30.md
