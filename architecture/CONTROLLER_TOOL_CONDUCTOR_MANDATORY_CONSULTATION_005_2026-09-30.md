@@ -201,3 +201,30 @@ Only plan-construction cost changes.
 
 The cache must not cache factor outputs or controller packets. Tool execution remains fresh on
 every consultation.
+
+
+## Target-bound execution requirement
+
+A recovered executable program is not the same thing as a licensed meaningful invocation.
+
+For atomic capability C_i, let d_i be its target-bound domain input.
+
+Execute(C_i,x)
+is licensed only when
+d_i(x) is explicitly present.
+
+When d_i(x) is absent, ToolConductor emits:
+
+OPEN(C_i, TARGET_BOUND_INPUT_REQUIRED).
+
+This remains one exact factor disposition and preserves exhaustive coverage. It avoids the
+invalid behavior of executing C01-C49 against an invented empty object merely because their
+code entrypoints are self-contained.
+
+Self-contained realization means the program implementation has no missing callable
+environment. It does not mean every semantic target admits an empty-input invocation.
+
+This distinction is result-sensitive and performance-relevant: mandatory controller
+consultation can expose the complete repertoire without performing meaningless empty-target
+tool executions. When the controller supplies explicit capability_inputs[C_i], the factor
+still crosses the full configured invocation profile and actually executes.
