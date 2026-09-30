@@ -1,7 +1,7 @@
 import sys
 sys.path.insert(0,"runtime")
 
-from goal import GoalCandidate, GoalObject, recover_goal
+from goal import GoalCandidate, GoalObject, GoalMTReceipt, recover_goal, recover_goal_configured
 from portable_tool_conductor import compilation_witness
 from tool_manifest import manifest_for
 from tool_run_registry import CONFIGURED_RUNS, PROTECTED_BEHAVIORS
@@ -83,6 +83,24 @@ def test_goal_has_explicit_manifest_and_native_compilation_witness():
     assert CONFIGURED_RUNS["GOAL"].complete()
 
     witness=compilation_witness("GOAL")
-    assert witness.entrypoint=="goal.recover_goal"
+    assert witness.entrypoint=="goal.recover_goal_configured"
     assert witness.status=="PROGRAM_WITH_ENVIRONMENT"
-    assert witness.required_environment==("goal_candidates",)
+    assert witness.required_environment==("goal_candidates","goal_mt_receipt")
+
+
+def test_configured_goal_fails_open_without_robust_mt_receipt():
+    out=recover_goal_configured((_candidate(),),None)
+    assert out.status=="OPEN"
+    assert out.blocker=="MT_PREREQUISITE_REQUIRED"
+
+
+def test_configured_goal_accepts_open_mt_receipt_and_preserves_witness():
+    receipt=GoalMTReceipt(
+        status="OPEN",
+        evidence=("mt:black-box-gate-ran",),
+        open_objects=("TERM:HARD",),
+    )
+    out=recover_goal_configured((_candidate(),),receipt)
+    assert out.status=="CLOSED_RELATIVE"
+    assert "MT_PREFLIGHT:OPEN" in out.evidence
+    assert "mt:black-box-gate-ran" in out.evidence
