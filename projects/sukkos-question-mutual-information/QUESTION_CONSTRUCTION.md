@@ -5,7 +5,7 @@ Status: BACKEND LOCKED AS HUMAN TECHNOLOGY + LANGUAGE SCAFFOLD
 
 Target-directed operation
 1 What am I trying to find out? Name target X.
-2 What distinction/clue Y would change what I know about X?
+2 What relevant distinction or clue Y would change what I know about X?
 3 Build a question that can reveal Y.
 4 Use the answer to update X.
 
@@ -15,4 +15,4 @@ Example: Where + do + you + live?
 
 Boundary: not universal. Subject-WH questions can omit auxiliary inversion, e.g. "Who called?"
 
-Design reason: target supplies direction; grammar supplies buildable parts.
+Design reason: target supplies direction; relevance to the target filters useful distinctions; grammar supplies buildable parts.
