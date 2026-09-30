@@ -1,8 +1,8 @@
 # Current Tool Package Index
 
 Status: GENERATED CURRENT INVENTORY
-Date: 2026-09-27
-Current configured tools: 93
+Date: 2026-09-30
+Current configured tools: 94
 
 - [C01](current-tools/c01/README.md)
 - [C02](current-tools/c02/README.md)
@@ -81,6 +81,7 @@ Current configured tools: 93
 - [ASSERT](current-tools/assert/README.md)
 - [GOAL](current-tools/goal/README.md)
 - [SolutionToMyProblem](current-tools/solutiontomyproblem/README.md)
+- [Prose](current-tools/prose/README.md)
 - [DesiredJane](current-tools/desiredjane/README.md)
 - [QuestionWorthAsking](current-tools/questionworthasking/README.md)
 - [LambdaMath](current-tools/lambdamath/README.md)
