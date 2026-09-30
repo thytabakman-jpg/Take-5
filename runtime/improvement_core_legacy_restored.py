@@ -285,7 +285,11 @@ def run_improvement_core_legacy_restored(
     if status=="RELATIVE_CLOSE":
         status="COMPLETE"
     elif status=="RETURN_REENTER":
-        status="OPEN"; blocker="HF002_RETURN_REENTER"
+        # HF1 upstream invalidation is a recurrence instruction, not a failure.
+        # Preserve it for the parent loop instead of collapsing it to OPEN.
+        status="CONTINUE"; blocker=None
+        final_state["admitted_continuation"]=True
+        final_state["parent_return_continuation"]=True
     elif status=="RESOURCE_STOP":
         status="OPEN"; blocker="HF002_RESOURCE_STOP"
     elif status in {"OPEN","BLOCKED","CONFLICT"}:
