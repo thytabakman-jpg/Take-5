@@ -64,7 +64,19 @@ def run_case(case):
 
     def generate_work(questions,state,memory):
         phase=phase_for(state)
-        return [] if phase is None else [dict(x) for x in phase["work_items"]]
+        if phase is None:
+            return []
+        # This holdout replays semantic evidence; it does not mutate target
+        # reality. Bind the replay jobs explicitly to the current execution
+        # admission contract rather than letting a legacy fixture fail open
+        # merely because it predates operation/effect typing.
+        work=[]
+        for row in phase["work_items"]:
+            item=dict(row)
+            item.setdefault("operation_class","VERIFY")
+            item.setdefault("execution_effect_class","EVIDENCE_ONLY")
+            work.append(item)
+        return work
 
     def execute_work(selected,state,memory):
         phase=phase_for(state)
@@ -170,6 +182,7 @@ def run_case(case):
         "status":out.status,
         "blocker":out.blocker,
         "hf2_status":out.hf2_status,
+        "hf2_trace":out.hf2_trace,
         "entry_receipt":out.entry_receipt,
         "selected":selected,
         "expected_selected":expected,

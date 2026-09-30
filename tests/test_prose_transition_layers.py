@@ -114,6 +114,16 @@ def _return_verifier(state,memory,ctx):
     }
 
 
+
+def _fresh_stable(state,memory,context):
+    return {
+        "status":"NO_GAIN",
+        "owned_work_remaining":False,
+        "evidence":[f"prose:fresh:{context['challenge_index']}"],
+        "challenge_id":f"prose-fresh-{context['challenge_index']}",
+    }
+
+
 def test_improvementcore_complete_requires_prose_receipt_when_context_requires_it():
     try:
         evaluate_parent_return(
@@ -142,6 +152,7 @@ def test_improvementcore_complete_accepts_pass_prose_receipt():
         memory={},
         context={"prose_receipt_required":True},
         verifier=_return_verifier,
+        fresh_reobserve=_fresh_stable,
     )
     assert out.terminal=="COMPLETE"
 

@@ -303,6 +303,41 @@ def run_improvement_core_with_hf2(
     )
 
 
+
+def _governed_default_fresh_reobserve(state,memory,context):
+    """Default fresh whole-job challenge for ordinary ImprovementCore callers.
+
+    This observer is deliberately conservative. It never manufactures new work.
+    It independently re-attests the controller's normalized post-HF2 state:
+    any explicit live/owned/open continuation forces reentry; otherwise it
+    records a fresh no-gain receipt. Hosts with richer discovery capabilities
+    may override this observer, but ordinary callers cannot silently omit the
+    closure challenge.
+    """
+    # parent_return_continuation is parent-loop bookkeeping, not evidence that
+    # substantive owned work still exists. Treating it as fresh work causes a
+    # completed re-entry round to re-open itself indefinitely.
+    live=bool(
+        state.get("owned_work_remaining",False)
+        or state.get("live_continuation",False)
+        or state.get("admitted_continuation",False)
+    )
+    index=int(context.get("challenge_index",0))
+    if live:
+        return {
+            "status":"STABLE",
+            "material_discovery_delta":True,
+            "owned_work_remaining":True,
+            "evidence":[f"governed-default:fresh-live-work:{index}"],
+            "challenge_id":f"governed-default-live-{index}",
+        }
+    return {
+        "status":"NO_GAIN",
+        "owned_work_remaining":False,
+        "evidence":[f"governed-default:fresh-no-gain:{index}"],
+        "challenge_id":f"governed-default-stable-{index}",
+    }
+
 # Preserve the validated local-HF2 implementation as one parent round.
 # The public entry below adds the missing whole-job user-return gate.
 _run_improvement_core_with_hf2_once=run_improvement_core_with_hf2
@@ -333,6 +368,7 @@ def run_improvement_core_with_hf2(
     hf2_enabled:bool=True,
     hf2_max_rounds:int=6,
     return_verifier:Callable|None=None,
+    fresh_reobserve:Callable|None=None,
     parent_max_rounds:int=16,
     allow_ungated_debug:bool=False,
 )->ImprovementCoreRegimeResult:
@@ -348,6 +384,8 @@ def run_improvement_core_with_hf2(
     explicit debug escape hatch.
     """
     from improvement_core_return_gate import evaluate_parent_return
+
+    effective_fresh_reobserve=fresh_reobserve or _governed_default_fresh_reobserve
 
     if not hf2_enabled and not allow_ungated_debug:
         out=_run_improvement_core_with_hf2_once(
@@ -382,6 +420,7 @@ def run_improvement_core_with_hf2(
     )
 
     current_state=state
+    parent_return_memory={}
     parent_trace=[]
     last=None
 
@@ -458,7 +497,7 @@ def run_improvement_core_with_hf2(
             candidate_status=last.status,
             candidate_blocker=last.blocker,
             state=final_state,
-            memory={},
+            memory=parent_return_memory,
             context={
                 "controller":"ImprovementCore",
                 "target":target,
@@ -474,7 +513,9 @@ def run_improvement_core_with_hf2(
                 ),
             },
             verifier=return_verifier,
+            fresh_reobserve=effective_fresh_reobserve,
         )
+        parent_return_memory=dict(outcome.next_memory)
         receipt=dict(outcome.receipt)
         receipt["parent_round"]=parent_round
         receipt["hf2_status"]=last.hf2_status

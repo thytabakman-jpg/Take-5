@@ -251,13 +251,15 @@ def run_improvement_core_legacy_restored(
 
     def hf1_classify(before,after,delta):
         status=str(after.get("terminal","CONTINUE"))
-        if status in {"OPEN","BLOCKED","CONFLICT"}:
-            return {"disposition":status}
         if after.get("upstream_invalidated"):
             return {
                 "disposition":"REENTER",
                 "targets":after.get("upstream_reentry_targets",()),
             }
+        if status=="COMPLETE":
+            return {"disposition":"STABLE"}
+        if status in {"OPEN","BLOCKED","CONFLICT"}:
+            return {"disposition":status}
         return {"disposition":"STABLE"}
 
     hf2=HF002RecursiveContinuation(
@@ -267,6 +269,8 @@ def run_improvement_core_legacy_restored(
         hf1_classify=hf1_classify,
         live_local=lambda current,hf_memory:bool(
             current.get("hf2_live_local",False)
+            or current.get("admitted_continuation",False)
+            or current.get("parent_return_continuation",False)
         ),
         local_close=lambda current,hf_memory:str(
             current.get("terminal","CONTINUE")
@@ -283,7 +287,11 @@ def run_improvement_core_legacy_restored(
     if status=="RELATIVE_CLOSE":
         status="COMPLETE"
     elif status=="RETURN_REENTER":
-        status="OPEN"; blocker="HF002_RETURN_REENTER"
+        # HF1 upstream invalidation is a recurrence instruction, not a failure.
+        # Preserve it for the parent loop instead of collapsing it to OPEN.
+        status="CONTINUE"; blocker=None
+        final_state["admitted_continuation"]=True
+        final_state["parent_return_continuation"]=True
     elif status=="RESOURCE_STOP":
         status="OPEN"; blocker="HF002_RESOURCE_STOP"
     elif status in {"OPEN","BLOCKED","CONFLICT"}:
@@ -339,6 +347,7 @@ def run_improvement_core_legacy_restored(
     hf2_max_rounds:int=6,
     max_iterations:int=32,
     return_verifier:Callable|None=None,
+    fresh_reobserve:Callable|None=None,
     parent_max_rounds:int=16,
     allow_ungated_debug:bool=False,
 )->LegacyRestoredResult:
@@ -352,6 +361,9 @@ def run_improvement_core_legacy_restored(
     from dataclasses import replace as _replace
     from improvement_core_return_gate import evaluate_parent_return
     from formal_claim_admission import request_requires_formal_claim_receipt
+    from improvement_core_hf2_default import _governed_default_fresh_reobserve
+
+    effective_fresh_reobserve=fresh_reobserve or _governed_default_fresh_reobserve
 
     if not hf2_enabled and not allow_ungated_debug:
         out=_run_improvement_core_legacy_restored_once(
@@ -382,6 +394,7 @@ def run_improvement_core_legacy_restored(
     current_state=dict(state)
     current_memory=dict(memory or {})
     parent_trace=[]
+    parent_return_memory={}
     last=None
 
     for parent_round in range(int(parent_max_rounds)):
@@ -447,7 +460,7 @@ def run_improvement_core_legacy_restored(
             candidate_status=last.status,
             candidate_blocker=last.blocker,
             state=last.state,
-            memory=last.memory,
+            memory=parent_return_memory,
             context={
                 "controller":"ImprovementCore-Legacy-Restored",
                 "target":target,
@@ -464,7 +477,9 @@ def run_improvement_core_legacy_restored(
                 ),
             },
             verifier=return_verifier,
+            fresh_reobserve=effective_fresh_reobserve,
         )
+        parent_return_memory=dict(outcome.next_memory)
         receipt=dict(outcome.receipt)
         receipt["parent_round"]=parent_round
         receipt["hf2_status"]=last.hf2_status

@@ -19,6 +19,15 @@ def _return_done(state,memory,context):
     }
 
 
+def _fresh_stable(state,memory,context):
+    return {
+        "status":"NO_GAIN",
+        "owned_work_remaining":False,
+        "evidence":[f"test:fresh:{context['challenge_index']}"],
+        "challenge_id":f"test-fresh-{context['challenge_index']}",
+    }
+
+
 
 def _handlers(counter, *, reenter_upstream=False, material=True):
     handlers={}
@@ -78,6 +87,7 @@ def test_bare_improvementcore_reapplies_under_hf2_until_second_pass_has_no_new_s
         state={},
         handlers=_handlers(calls),
         return_verifier=_return_done,
+        fresh_reobserve=_fresh_stable,
     )
     assert resolution.entrypoint.endswith("run_improvement_core_with_hf2")
     assert out.status=="COMPLETE"
@@ -99,6 +109,7 @@ def test_hf2_requires_material_witness_not_state_change_alone():
         state={},
         handlers=_handlers(calls,material=False),
         return_verifier=_return_done,
+        fresh_reobserve=_fresh_stable,
     )
     assert out.status=="COMPLETE"
     assert out.hf2_status=="RELATIVE_CLOSE"
@@ -116,6 +127,7 @@ def test_hf1_upstream_reentry_escapes_local_hf2_and_returns_parent_open():
         state={},
         handlers=_handlers(calls,reenter_upstream=True),
         return_verifier=_return_done,
+        fresh_reobserve=_fresh_stable,
     )
     assert out.status=="OPEN"
     assert out.blocker=="HF002_RETURN_REENTER"
@@ -189,6 +201,7 @@ def test_parent_return_gate_reenters_full_improvementcore_after_meaningful_step(
         state={},
         handlers=_handlers(calls),
         return_verifier=verify_return,
+        fresh_reobserve=_fresh_stable,
         parent_max_rounds=4,
     )
 
@@ -211,7 +224,121 @@ def test_user_facing_improvementcore_without_parent_return_verifier_fails_open()
         basis="current",
         state={},
         handlers=_handlers(calls),
+        fresh_reobserve=_fresh_stable,
     )
     assert out.status=="OPEN"
     assert out.blocker=="PARENT_RETURN_GATE_REQUIRED"
     assert len(out.parent_return_trace)==1
+
+
+def test_user_facing_improvementcore_without_host_fresh_reobserver_uses_governed_default():
+    calls={"execute":0}
+    _,out=dispatch_improvement_core(
+        "ImproveCore, solve this fully",
+        target="problem",
+        job="solve",
+        basis="current",
+        state={},
+        handlers=_handlers(calls),
+        return_verifier=_return_done,
+    )
+    assert out.status=="COMPLETE"
+    stability=out.parent_return_trace[-1]["whole_job_stability"]
+    assert stability["terminal"]=="COMPLETE"
+    assert len(stability["receipts"])==2
+    assert all(
+        row["challenge_id"].startswith("governed-default-stable-")
+        for row in stability["receipts"]
+    )
+
+
+def test_fresh_whole_job_discovery_reenters_parent_then_requires_two_stable_reruns():
+    calls={"execute":0,"fresh":0}
+
+    def fresh(state,memory,context):
+        calls["fresh"]+=1
+        if calls["fresh"]==1:
+            return {
+                "status":"STABLE",
+                "material_search_delta":True,
+                "owned_work_remaining":True,
+                "state_patch":{
+                    "fresh_discovery_consumed":True,
+                    "question_frontier":["new-question-from-fresh-overview"],
+                },
+                "evidence":["test:fresh-overview-found-new-work"],
+                "challenge_id":"fresh-overview-material",
+            }
+        return {
+            "status":"NO_GAIN",
+            "owned_work_remaining":False,
+            "evidence":[f"test:fresh-rerun-no-gain:{calls['fresh']}"],
+            "challenge_id":f"fresh-stable-{calls['fresh']}",
+        }
+
+    _,out=dispatch_improvement_core(
+        "ImproveCore, finish this so a fresh rerun finds nothing new",
+        target="problem",
+        job="reach fresh-rerun fixed point",
+        basis="current",
+        state={},
+        handlers=_handlers(calls),
+        return_verifier=_return_done,
+        fresh_reobserve=fresh,
+        parent_max_rounds=4,
+    )
+
+    assert out.status=="COMPLETE"
+    assert out.result.state["fresh_discovery_consumed"] is True
+    assert calls["fresh"]==3
+    assert len(out.parent_return_trace)==2
+    assert out.parent_return_trace[0]["disposition"]=="CONTINUE"
+    assert out.parent_return_trace[0]["reason"]=="FRESH_WHOLE_JOB_DELTA"
+    stability=out.parent_return_trace[1]["whole_job_stability"]
+    assert stability["terminal"]=="COMPLETE"
+    assert len(stability["receipts"])==2
+    assert all(not row["material"] for row in stability["receipts"])
+
+def test_parent_reentry_preserves_fresh_challenge_memory_across_rounds():
+    calls={"execute":0,"fresh":0}
+    seen_memories=[]
+
+    def fresh(state,memory,context):
+        calls["fresh"]+=1
+        seen_memories.append(dict(memory))
+        if calls["fresh"]==1:
+            return {
+                "status":"STABLE",
+                "material_discovery_delta":True,
+                "owned_work_remaining":True,
+                "state_patch":{"fresh_memory_seeded":True},
+                "memory_patch":{"fresh_seen":"round-0"},
+                "evidence":["test:fresh-memory-seeded"],
+                "challenge_id":"fresh-memory-material",
+            }
+        assert memory.get("fresh_seen")=="round-0"
+        return {
+            "status":"NO_GAIN",
+            "owned_work_remaining":False,
+            "evidence":[f"test:fresh-memory-stable:{calls['fresh']}"],
+            "challenge_id":f"fresh-memory-stable-{calls['fresh']}",
+        }
+
+    _,out=dispatch_improvement_core(
+        "ImproveCore, improve and remember what the fresh challenge learned",
+        target="ImprovementCore",
+        job="improve without forgetting prior fresh-discovery evidence",
+        basis="current",
+        state={},
+        handlers=_handlers(calls),
+        return_verifier=_return_done,
+        fresh_reobserve=fresh,
+        parent_max_rounds=4,
+    )
+
+    assert out.status=="COMPLETE"
+    assert calls["fresh"]==3
+    assert seen_memories[0]=={}
+    assert seen_memories[1].get("fresh_seen")=="round-0"
+    assert seen_memories[2].get("fresh_seen")=="round-0"
+
