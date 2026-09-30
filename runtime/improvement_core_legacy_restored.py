@@ -388,6 +388,7 @@ def run_improvement_core_legacy_restored(
     current_state=dict(state)
     current_memory=dict(memory or {})
     parent_trace=[]
+    parent_return_memory={}
     last=None
 
     for parent_round in range(int(parent_max_rounds)):
@@ -453,7 +454,7 @@ def run_improvement_core_legacy_restored(
             candidate_status=last.status,
             candidate_blocker=last.blocker,
             state=last.state,
-            memory=last.memory,
+            memory=parent_return_memory,
             context={
                 "controller":"ImprovementCore-Legacy-Restored",
                 "target":target,
@@ -472,6 +473,7 @@ def run_improvement_core_legacy_restored(
             verifier=return_verifier,
             fresh_reobserve=effective_fresh_reobserve,
         )
+        parent_return_memory=dict(outcome.next_memory)
         receipt=dict(outcome.receipt)
         receipt["parent_round"]=parent_round
         receipt["hf2_status"]=last.hf2_status
