@@ -506,7 +506,13 @@ def assess_project(
     status="CLOSED_RELATIVE"
     if authority_conflicts or package_conflicts or (delta and delta.status=="CONFLICT"):
         status="CONFLICT"
-    elif missing or gaps or blocked or frontier or (delta and delta.status=="OPEN"):
+    elif (
+        missing
+        or gaps
+        or blocked
+        or frontier
+        or (delta and delta.status in {"OPEN","READY"})
+    ):
         status="OPEN"
 
     reentry=bool(
