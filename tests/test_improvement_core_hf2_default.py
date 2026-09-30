@@ -292,3 +292,47 @@ def test_fresh_whole_job_discovery_reenters_parent_then_requires_two_stable_reru
     assert stability["terminal"]=="COMPLETE"
     assert len(stability["receipts"])==2
     assert all(not row["material"] for row in stability["receipts"])
+
+def test_parent_reentry_preserves_fresh_challenge_memory_across_rounds():
+    calls={"execute":0,"fresh":0}
+    seen_memories=[]
+
+    def fresh(state,memory,context):
+        calls["fresh"]+=1
+        seen_memories.append(dict(memory))
+        if calls["fresh"]==1:
+            return {
+                "status":"STABLE",
+                "material_discovery_delta":True,
+                "owned_work_remaining":True,
+                "state_patch":{"fresh_memory_seeded":True},
+                "memory_patch":{"fresh_seen":"round-0"},
+                "evidence":["test:fresh-memory-seeded"],
+                "challenge_id":"fresh-memory-material",
+            }
+        assert memory.get("fresh_seen")=="round-0"
+        return {
+            "status":"NO_GAIN",
+            "owned_work_remaining":False,
+            "evidence":[f"test:fresh-memory-stable:{calls['fresh']}"],
+            "challenge_id":f"fresh-memory-stable-{calls['fresh']}",
+        }
+
+    _,out=dispatch_improvement_core(
+        "ImproveCore, improve and remember what the fresh challenge learned",
+        target="ImprovementCore",
+        job="improve without forgetting prior fresh-discovery evidence",
+        basis="current",
+        state={},
+        handlers=_handlers(calls),
+        return_verifier=_return_done,
+        fresh_reobserve=fresh,
+        parent_max_rounds=4,
+    )
+
+    assert out.status=="COMPLETE"
+    assert calls["fresh"]==3
+    assert seen_memories[0]=={}
+    assert seen_memories[1].get("fresh_seen")=="round-0"
+    assert seen_memories[2].get("fresh_seen")=="round-0"
+
