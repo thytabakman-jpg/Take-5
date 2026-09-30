@@ -5,6 +5,12 @@ Status: IMPLEMENTED ON REPAIR BRANCH / VALIDATION PENDING
 Branch: fix/controller-tool-conductor-mandatory-consultation-20260930
 Math basis: architecture/CONTROLLER_TOOL_CONDUCTOR_MANDATORY_CONSULTATION_005_2026-09-30.md
 
+## Regime identity
+
+This repair promotes current ImprovementCore from regime 091 to regime 092 because mandatory
+ToolConductor consultation changes the controller's protected stage semantics. Regime 091
+remains the historical default-HF2 promotion point.
+
 ## Defect
 
 ToolConductor was real, registered, and executable, but current ImprovementCore and ICC128
