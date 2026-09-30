@@ -18,22 +18,31 @@ FIRST_MENTION_PERSON_DATES="FIRST_MENTION_PERSON_DATES"
 NUMERIC_YEAR_DATES_ONLY="NUMERIC_YEAR_DATES_ONLY"
 ORDERED_ANCHORS="ORDERED_ANCHORS"
 READER_LOAD="READER_LOAD"
+QUESTION_TERMINATES_PARAGRAPH="QUESTION_TERMINATES_PARAGRAPH"
+JEWISH_LEXICAL_FORMS="JEWISH_LEXICAL_FORMS"
 SUPPORTED_CONSTRAINTS=frozenset({
     AFFIRMATIVE_FIRST,
     FIRST_MENTION_PERSON_DATES,
     NUMERIC_YEAR_DATES_ONLY,
     ORDERED_ANCHORS,
     READER_LOAD,
+    QUESTION_TERMINATES_PARAGRAPH,
+    JEWISH_LEXICAL_FORMS,
 })
 
 
 @dataclass(frozen=True)
 class ProseContract:
     contract_id:str
-    constraints:tuple[str,...]=(AFFIRMATIVE_FIRST,NUMERIC_YEAR_DATES_ONLY)
+    constraints:tuple[str,...]=(
+        AFFIRMATIVE_FIRST,
+        NUMERIC_YEAR_DATES_ONLY,
+        QUESTION_TERMINATES_PARAGRAPH,
+    )
     allowed_negative_spans:tuple[str,...]=()
     person_dates:tuple[tuple[str,str],...]=()
     ordered_anchors:tuple[str,...]=()
+    jewish_lexicon:tuple[tuple[str,tuple[str,...]],...]=()
 
 
 @dataclass(frozen=True)
@@ -256,6 +265,123 @@ def audit_ordered_anchors(text:str, contract:ProseContract)->tuple[ProseViolatio
     return tuple(violations)
 
 
+
+_TRAILING_QUESTION_DECORATION=re.compile(
+    r"(?:\s*(?:<sup\\b[^>]*>.*?</sup>|\\[\\^[^\\]]+\\]|\\[(?:\\d+(?:\\s*[-,;]\\s*\\d+)*)\\]))+\\s*$",
+    re.IGNORECASE|re.DOTALL,
+)
+
+
+def _paragraph_spans(text:str):
+    value=str(text or "")
+    cursor=0
+    for match in re.finditer(r"\n[ \t]*\n+",value):
+        start,end=cursor,match.start()
+        raw=value[start:end]
+        if raw.strip():
+            left=len(raw)-len(raw.lstrip())
+            right=len(raw.rstrip())
+            yield start+left,start+right,value[start+left:start+right]
+        cursor=match.end()
+    raw=value[cursor:]
+    if raw.strip():
+        left=len(raw)-len(raw.lstrip())
+        right=len(raw.rstrip())
+        yield cursor+left,cursor+right,value[cursor+left:cursor+right]
+
+
+def _semantic_question_text(paragraph:str)->str:
+    value=str(paragraph or "").strip()
+    previous=None
+    while value!=previous:
+        previous=value
+        value=_TRAILING_QUESTION_DECORATION.sub("",value).rstrip()
+    return value
+
+
+def audit_question_termination(text:str)->tuple[ProseViolation,...]:
+    violations=[]
+    for start,end,paragraph in _paragraph_spans(text):
+        semantic=_semantic_question_text(paragraph)
+        question_positions=[i for i,ch in enumerate(semantic) if ch=="?"]
+        if not question_positions:
+            continue
+        valid=(len(question_positions)==1 and semantic.rstrip().endswith("?"))
+        if valid:
+            continue
+        violations.append(ProseViolation(
+            constraint_id=QUESTION_TERMINATES_PARAGRAPH,
+            code="QUESTION_BURIED_IN_PARAGRAPH",
+            start=start,
+            end=end,
+            excerpt=paragraph[:220],
+        ))
+    return tuple(violations)
+
+
+def _normalize_jewish_lexicon(contract:ProseContract):
+    raw_entries=tuple(contract.jewish_lexicon or ())
+    if not raw_entries:
+        return (),("JEWISH_LEXICON_REQUIRED",)
+
+    entries=[]
+    alias_owner={}
+    residuals=[]
+    for raw in raw_entries:
+        if not isinstance(raw,(tuple,list)) or len(raw)!=2:
+            residuals.append("JEWISH_LEXICON_INVALID_ENTRY")
+            continue
+        canonical=str(raw[0] or "").strip()
+        aliases_raw=raw[1]
+        if not canonical:
+            residuals.append("JEWISH_LEXICON_CANONICAL_REQUIRED")
+            continue
+        if isinstance(aliases_raw,str):
+            aliases=(aliases_raw,)
+        else:
+            try:
+                aliases=tuple(str(x).strip() for x in aliases_raw if str(x).strip())
+            except TypeError:
+                residuals.append(f"JEWISH_LEXICON_ALIASES_INVALID:{canonical}")
+                continue
+
+        clean=[]
+        for alias in aliases:
+            if alias==canonical:
+                continue
+            owner=alias_owner.get(alias)
+            if owner is not None and owner!=canonical:
+                residuals.append(
+                    f"JEWISH_LEXICON_CONFLICT:{alias}:{owner}:{canonical}"
+                )
+                continue
+            alias_owner[alias]=canonical
+            clean.append(alias)
+        entries.append((canonical,tuple(dict.fromkeys(clean))))
+
+    return tuple(entries),tuple(dict.fromkeys(residuals))
+
+
+def audit_jewish_lexical_forms(
+    text:str,
+    entries,
+)->tuple[ProseViolation,...]:
+    value=str(text or "")
+    violations=[]
+    for canonical,aliases in entries:
+        for alias in aliases:
+            pattern=re.compile(r"(?<!\\w)"+re.escape(alias)+r"(?!\\w)")
+            for match in pattern.finditer(value):
+                violations.append(ProseViolation(
+                    constraint_id=JEWISH_LEXICAL_FORMS,
+                    code="JEWISH_TERM_NONCANONICAL",
+                    start=match.start(),
+                    end=match.end(),
+                    excerpt=f"{match.group(0)} -> {canonical}",
+                ))
+    return tuple(sorted(violations,key=lambda x:(x.start,x.end,x.excerpt)))
+
+
 def assess_prose(
     text:str,
     contract:ProseContract,
@@ -279,6 +405,13 @@ def assess_prose(
             residuals=residuals+("ORDERED_ANCHORS_REQUIRED",)
         else:
             violations=violations+audit_ordered_anchors(text,contract)
+    if QUESTION_TERMINATES_PARAGRAPH in requested:
+        violations=violations+audit_question_termination(text)
+    if JEWISH_LEXICAL_FORMS in requested:
+        entries,lexical_residuals=_normalize_jewish_lexicon(contract)
+        residuals=residuals+lexical_residuals
+        if not lexical_residuals:
+            violations=violations+audit_jewish_lexical_forms(text,entries)
 
     if unsupported:
         return ProseAssessment(
