@@ -58,6 +58,38 @@ def _unclosed_authoritative_formal_claims(state:Mapping[str,Any])->tuple[str,...
     return tuple(residuals)
 
 
+def _prose_receipts_present(state:Mapping[str,Any])->bool:
+    raw=state.get("prose_transition_receipts",None)
+    if raw is None:
+        return False
+    if isinstance(raw,Mapping):
+        return True
+    if isinstance(raw,(list,tuple)):
+        return bool(raw)
+    return False
+
+
+def _unclosed_prose_receipts(state:Mapping[str,Any])->tuple[str,...]:
+    raw=state.get("prose_transition_receipts",())
+    if isinstance(raw,Mapping):
+        raw=(raw,)
+    if not isinstance(raw,(list,tuple)):
+        return ("INVALID_PROSE_TRANSITION_RECEIPTS",)
+    residuals=[]
+    for i,row in enumerate(raw):
+        if not isinstance(row,Mapping):
+            residuals.append(f"INVALID_PROSE_RECEIPT:{i}")
+            continue
+        contract_id=str(row.get("contract_id") or i)
+        status=str(row.get("status","")).upper()
+        evidence=tuple(str(x) for x in row.get("evidence",()) if str(x))
+        if status!="PASS":
+            residuals.append(f"PROSE_RECEIPT_NOT_PASS:{contract_id}:{status or 'MISSING'}")
+        if not evidence:
+            residuals.append(f"PROSE_RECEIPT_EVIDENCE_MISSING:{contract_id}")
+    return tuple(residuals)
+
+
 @dataclass(frozen=True)
 class ParentReturnOutcome:
     disposition:str
@@ -143,6 +175,9 @@ def evaluate_parent_return(
     formal_claims_present=_authoritative_formal_claims_present(proposed_state)
     formal_claim_residuals=_unclosed_authoritative_formal_claims(proposed_state)
     formal_claim_receipt_required=bool(ctx.get("formal_claim_receipt_required",False))
+    prose_receipt_required=bool(ctx.get("prose_receipt_required",False))
+    prose_receipts_present=_prose_receipts_present(proposed_state)
+    prose_receipt_residuals=_unclosed_prose_receipts(proposed_state)
 
     receipt={
         "gate":"PARENT_RETURN_GATE",
@@ -159,6 +194,9 @@ def evaluate_parent_return(
         "formal_claim_receipt_required":formal_claim_receipt_required,
         "authoritative_formal_claims_present":formal_claims_present,
         "authoritative_formal_claim_residuals":formal_claim_residuals,
+        "prose_receipt_required":prose_receipt_required,
+        "prose_transition_receipts_present":prose_receipts_present,
+        "prose_transition_receipt_residuals":prose_receipt_residuals,
     }
 
     if disposition=="CONTINUE":
@@ -204,6 +242,14 @@ def evaluate_parent_return(
     if terminal=="COMPLETE" and formal_claim_residuals:
         raise RuntimeError(
             "IC_PARENT_RETURN_GATE_COMPLETE_WITH_UNCLOSED_AUTHORITATIVE_FORMAL_CLAIM"
+        )
+    if terminal=="COMPLETE" and prose_receipt_required and not prose_receipts_present:
+        raise RuntimeError(
+            "IC_PARENT_RETURN_GATE_COMPLETE_WITHOUT_PROSE_RECEIPT"
+        )
+    if terminal=="COMPLETE" and prose_receipt_residuals:
+        raise RuntimeError(
+            "IC_PARENT_RETURN_GATE_COMPLETE_WITH_UNCLOSED_PROSE_RECEIPT"
         )
 
     blocker=decision.get("blocker") or candidate_blocker
