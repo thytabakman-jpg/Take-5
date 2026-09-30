@@ -785,6 +785,24 @@ def _run_named_native(tool_id:str, packet:dict[str,Any])->Any:
         )
         return solve(problem,(candidate,),(receipt,))
 
+    if tool_id=="Prose":
+        from prose import ProseContract,ProseEvidence,assess_prose
+        evidence=ProseEvidence(
+            semantic_preservation="PASS",
+            earned_claim_strength="PASS",
+            no_unsupported_inflation="PASS",
+            evidence=(
+                "pm-all-tools:semantic",
+                "pm-all-tools:strength",
+                "pm-all-tools:no-inflation",
+            ),
+        )
+        return assess_prose(
+            "ProjectManager preserves the protected prose contract.",
+            ProseContract("pm-all-tools"),
+            evidence,
+        )
+
     if tool_id=="CapabilityFoundry":
         foundry=CapabilityFoundry()
         candidate=CapabilitySpec(
