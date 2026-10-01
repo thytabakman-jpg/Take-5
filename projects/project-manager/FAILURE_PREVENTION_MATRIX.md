@@ -96,6 +96,28 @@ TARGET_TRANSFORM is not READY unless all are present:
 An empty impact map is not an implicit claim of no impact. A caller may record an
 explicit no-additional-impact disposition, but it must be represented.
 
+## Transaction enforcement
+
+The transform preflight now feeds one mandatory admitted mutation path.
+
+ProjectStateTransaction recursively computes the affected cone, requires a typed disposition for every affected object, verifies Currentness, runs Tool Run Closure, rechecks the bound head, and authorizes one CommitOnce.
+
+The following failure controls therefore have executable witnesses in runtime/project_state_transaction.py:
+
+state_currentness
+
+change_propagation
+
+concurrency_promotion
+
+human_orchestration
+
+The mandatory_transition_path root invariant also has a native commit gate rather than a documentation-only rule.
+
+A changed head returns REBASE_REQUIRED with an affected-cone recomputation.
+
+Explicit OPEN or BLOCKED residue remains visible and routes forward instead of requiring the user to discover stale surfaces manually.
+
 ## Closure gate
 
 ProjectManager may emit CLOSED_RELATIVE only when:

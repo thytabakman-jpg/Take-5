@@ -200,3 +200,36 @@ V52 full Take-5 validation passes.
 
 Status:
 OPEN until promotion evidence is recorded.
+
+
+## Project state transaction verification
+
+V53 recursive dependency traversal produces the complete affected cone.
+
+V54 every affected object requires one typed disposition.
+
+V55 missing affected-object disposition fails OPEN.
+
+V56 CURRENT on a changed basis requires represented delta plus reverified currentness.
+
+V57 explicit OPEN and BLOCKED affected objects remain accounted and routed.
+
+V58 Tool Run Closure accounts the entire affected cone before commit.
+
+V59 one typed PROJECT_STATE_TRANSACTION_COMMIT_ONCE authorization is emitted.
+
+V60 stale base before execution returns REBASE_REQUIRED.
+
+V61 head drift before commit recomputes the affected cone and returns REBASE_REQUIRED.
+
+V62 successful material commit forces ICC128 reselection.
+
+V63 explicit unresolved residue becomes an ImprovementCore evidence-only handoff frontier.
+
+V64 ProjectManager READY delta can mutate only through project_manager_commit_transaction with a matching project precondition fingerprint.
+
+Status:
+
+IMPLEMENTED ON fix/project-state-transaction-20261001.
+
+Repository validation, capability preservation, and configured-tool portfolio verification remain pending on the branch head.

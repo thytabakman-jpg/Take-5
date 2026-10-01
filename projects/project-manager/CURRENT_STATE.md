@@ -88,3 +88,21 @@ architecture/PROJECT_MANAGER_FULL_TOOL_MATH_004_2026-09-30.md
 
 Promotion remains OPEN until branch validation, capability preservation, every-tool
 sweep, and ProjectManager failure-immunity tests pass on the same head.
+
+
+## Project state transaction extension
+
+Status: IMPLEMENTED ON BRANCH / VALIDATION PENDING
+
+Branch:
+fix/project-state-transaction-20261001
+
+Contract:
+architecture/PROJECT_STATE_TRANSACTION_CONTRACT_005_2026-10-01.md
+
+Runtime:
+runtime/project_state_transaction.py
+
+The extension converts admitted project mutation into one affected-cone transaction with CurrentnessAudit, Tool Run Closure, stable-head checking, CommitOnce, ICC128 reselection, and ImprovementCore routing for explicit unresolved residue.
+
+Canonical activation requires branch validation and merge under GITHUB_GOVERNANCE.md.

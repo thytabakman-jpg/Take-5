@@ -23,3 +23,7 @@ ISO 21502 project-management guidance.
 NASA technical planning, configuration, data, risk, and decision-analysis guidance.
 
 Evidence does not self-authorize admission.
+
+architecture/PROJECT_STATE_TRANSACTION_CONTRACT_005_2026-10-01.md
+runtime/project_state_transaction.py
+tests/test_project_state_transaction.py

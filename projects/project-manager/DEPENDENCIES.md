@@ -21,3 +21,12 @@ D11 Ordinary ProjectManager invocation depends on the mandatory management spine
 D12 The spine depends on current configured identities for ASSERT, GOAL, MT, PD, PDAudit,
 CurrentnessAudit, and QuestionWorthAsking.
 D13 Specialized tools remain adaptive dependencies rather than unconditional ordinary-run factors.
+
+
+D14 Every admitted ProjectManager mutation depends on runtime/project_state_transaction.py.
+
+D15 ProjectStateTransaction depends on CurrentnessAudit, Tool Run Closure, state_commit authorization, the project dependency graph, and rho128 ICC128 reselection.
+
+D16 Commit authorization depends on a stable bound head. Head drift forces affected-cone recomputation and REBASE_REQUIRED.
+
+D17 Explicit OPEN or BLOCKED affected residue routes to ImprovementCore as evidence-only continuation work.
