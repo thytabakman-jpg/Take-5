@@ -24,8 +24,10 @@
 - architecture/PROSE_QUESTION_TERMINATION_JEWISH_LEXICON_MATHEMATICS_005_2026-09-30.md
 - runtime/prose.py
 - runtime/mathematical_color_gate.py
+- runtime/adaptive_response_selector.py
 - tests/test_prose.py
 - tests/test_mathematical_color_gate.py
+- tests/test_adaptive_response_selector.py
 - tests/test_prose_transition_layers.py
 
 ## Rule
