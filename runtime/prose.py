@@ -134,6 +134,17 @@ _AFFIRMATIVE_PREFIX_PREDICATE=re.compile(
 )
 
 
+def _affirmative_precedes_in_paragraph(text:str, position:int)->bool:
+    """Return whether an affirmative predicate appears earlier in this paragraph."""
+    value=str(text or "")
+    position=max(0,min(int(position),len(value)))
+    prefix=value[:position]
+    boundaries=tuple(re.finditer(r"\n[ \t]*\n+",prefix))
+    paragraph_start=boundaries[-1].end() if boundaries else 0
+    local_prefix=value[paragraph_start:position]
+    return bool(_AFFIRMATIVE_PREFIX_PREDICATE.search(local_prefix))
+
+
 def _leading_sentence_spans(text:str):
     """Yield the first sentence of each paragraph with absolute offsets."""
     value=str(text or "")
@@ -230,6 +241,8 @@ def audit_affirmative_first(text:str, contract:ProseContract)->tuple[ProseViolat
         for match in pattern.finditer(value):
             excerpt=match.group(0).strip()
             if not excerpt or _allowed(value,match.start(),match.end(),contract):
+                continue
+            if _affirmative_precedes_in_paragraph(value,match.start()):
                 continue
             key=(match.start(),match.end(),code)
             if key in seen:
