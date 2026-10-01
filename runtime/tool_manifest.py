@@ -595,6 +595,12 @@ PROSE_BINDINGS=GENERIC_BINDINGS+(
         "runtime/prose.py",
         "tests/test_prose.py",
     ),
+    ProtectedBinding(
+        "PROSE_FINAL_RESPONSE_AFFIRMATIVE_FIRST_GATE",
+        "POST",
+        "runtime/mathematical_color_gate.py",
+        "tests/test_mathematical_color_gate.py",
+    ),
 )
 
 OVERRIDES={
