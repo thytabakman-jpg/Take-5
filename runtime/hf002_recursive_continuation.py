@@ -117,7 +117,7 @@ class HF002RecursiveContinuation:
                 dirty=True
                 self.trace.append(HF2Round(
                     i,x,raw,normalized,delta,hf1,normalized,
-                    "REAPPLY_CLEAN_VERIFY"
+                    "REAPPLY_C"
                 ))
                 x=normalized
                 continue
