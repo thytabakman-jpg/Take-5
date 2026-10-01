@@ -45,3 +45,22 @@ PromotionReady requires explicit USER approval.
 Only a later separately admitted PROMOTE transition can create the full project package.
 
 A tool output, automated controller, or newer artifact cannot substitute for that approval.
+
+
+## Project state transaction gate
+
+Every READY ProjectDelta uses project_manager_commit_transaction.
+
+The transaction binds the base version, computes the full transitive affected cone, and requires one typed disposition for every affected object.
+
+Allowed accounted dispositions are CURRENT, SUPERSEDED, OPEN, and BLOCKED.
+
+CURRENT with a changed basis requires an explicit delta plus reverified currentness.
+
+The transaction runs Tool Run Closure across the affected cone and authorizes exactly one PROJECT_STATE_TRANSACTION_COMMIT_ONCE after complete accounting.
+
+A base or head mismatch recomputes the affected cone against the latest supplied dependency graph and returns REBASE_REQUIRED.
+
+Every successful material commit forces ICC128 reselection.
+
+Explicit OPEN and BLOCKED residue is routed to ImprovementCore as evidence-only work and remains subject to the same admission path for later mutation.
