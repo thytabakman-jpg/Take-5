@@ -77,7 +77,7 @@ def test_conductor_factor_can_recur_under_hf2_without_duplicate_factor_dispositi
             "status":"EXECUTED",
             "execution_truth":"SEMANTICALLY_APPLIED",
             "result":{"round":n},
-            "material_delta":True,
+            "material_delta":n<2,
             "hf2_live_local":n<2,
         }
 
@@ -90,3 +90,4 @@ def test_conductor_factor_can_recur_under_hf2_without_duplicate_factor_dispositi
     assert mt[0]["recurrence"]["status"]=="RELATIVE_CLOSE"
     assert mt[0]["recurrence"]["rounds"]==2
     assert mt[0]["recurrence"]["call_count"]==2
+    assert mt[0]["recurrence"]["trace"][-1]["disposition"]=="RELATIVE_CLOSE"

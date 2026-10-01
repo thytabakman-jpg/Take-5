@@ -99,6 +99,14 @@ def _delta_from_raw(tool_id:str,raw:dict[str,Any])->dict[str,Any]:
         delta["invalidating_evidence"]=True
     if raw.get("certified_no_gain"):
         delta["certified_no_gain"]=True
+
+    # Domain-aware tools may expose the affected cone without coupling HF002
+    # to manuscript-specific hierarchy. Any unresolved affected frontier is
+    # carried into the generic recurrence engine and blocks closure.
+    if "hf2_affected_frontier" in raw:
+        delta["affected_frontier"]=raw.get("hf2_affected_frontier")
+    if "hf2_scope_deltas" in raw:
+        delta["scope_deltas"]=raw.get("hf2_scope_deltas")
     return delta
 
 
