@@ -578,6 +578,12 @@ PROSE_BINDINGS=GENERIC_BINDINGS+(
         "tests/test_prose.py",
     ),
     ProtectedBinding(
+        "PROSE_PLAIN_LANGUAGE_GATE",
+        "INTRA",
+        "runtime/prose.py",
+        "tests/test_prose.py",
+    ),
+    ProtectedBinding(
         "PROSE_QUESTION_TERMINATION_GATE",
         "INTRA",
         "runtime/prose.py",
@@ -665,12 +671,12 @@ OVERRIDES={
     ),
     "Prose":ToolManifest(
         tool_id="Prose",
-        native_semantics="protected reader-facing prose acceptance under frozen contract with semantic-strength-no-inflation and reader-load receipts",
+        native_semantics="protected reader-facing prose acceptance under frozen contract with semantic-strength-no-inflation, reader-load, and plain-language receipts",
         geometry_policy="D36_C",
         closure_contract="PROSE_PASS_OR_TYPED_REPAIR_OPEN_BLOCKED_PLUS_TRC",
         reentry_contract="HF002_THEN_HF001",
         bindings=PROSE_BINDINGS,
-        lineage_contract="architecture/PROSE_ARCHITECTURE_READER_LOAD_MATHEMATICS_004_2026-09-30.md",
+        lineage_contract="architecture/PROSE_PLAIN_LANGUAGE_RTC_MATHEMATICS_005_2026-10-01.md",
     ),
     "MT":ToolManifest(
         tool_id="MT",
@@ -857,7 +863,7 @@ _DEDICATED_NATIVE={
         "runtime/solution_to_my_problem.py",
     ),
     "Prose":(
-        "protected prose contract audit with semantic-strength-no-inflation acceptance receipts",
+        "protected prose contract audit with semantic-strength-no-inflation and plain-language acceptance receipts",
         "runtime/prose.py",
     ),
     "DesiredJane":(
