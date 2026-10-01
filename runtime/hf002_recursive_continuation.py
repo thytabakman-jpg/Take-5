@@ -87,10 +87,25 @@ class HF002RecursiveContinuation:
 
             material=self._material(delta)
             live=bool(self.live_local(normalized,m))
-            if material and live:
+
+            # A material successor cannot certify its own fixed point.  Always
+            # reapply the same capability to the changed normalized successor.
+            # The next round must independently produce a non-material result
+            # before RELATIVE_CLOSE is available.  This closes the historical
+            # "second run finds something new" gap even when the producer has
+            # already marked its local frontier inactive.
+            if material:
                 self.trace.append(HF2Round(i,x,raw,normalized,delta,hf1,normalized,"REAPPLY_C"))
                 x=normalized
                 continue
+
+            if live:
+                self.trace.append(HF2Round(i,x,raw,normalized,delta,hf1,normalized,"OPEN"))
+                return {
+                    "status":"OPEN","state":normalized,"memory":m,
+                    "trace":[asdict(t) for t in self.trace],
+                    "open":["LIVE_LOCAL_FRONTIER_WITHOUT_MATERIAL_PROGRESS"],
+                }
 
             if self.local_close(normalized,m):
                 self.trace.append(HF2Round(i,x,raw,normalized,delta,hf1,normalized,"RELATIVE_CLOSE"))
