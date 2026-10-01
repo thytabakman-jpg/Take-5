@@ -18,6 +18,7 @@ FIRST_MENTION_PERSON_DATES="FIRST_MENTION_PERSON_DATES"
 NUMERIC_YEAR_DATES_ONLY="NUMERIC_YEAR_DATES_ONLY"
 ORDERED_ANCHORS="ORDERED_ANCHORS"
 READER_LOAD="READER_LOAD"
+PLAIN_LANGUAGE="PLAIN_LANGUAGE"
 QUESTION_TERMINATES_PARAGRAPH="QUESTION_TERMINATES_PARAGRAPH"
 JEWISH_LEXICAL_FORMS="JEWISH_LEXICAL_FORMS"
 SUPPORTED_CONSTRAINTS=frozenset({
@@ -26,6 +27,7 @@ SUPPORTED_CONSTRAINTS=frozenset({
     NUMERIC_YEAR_DATES_ONLY,
     ORDERED_ANCHORS,
     READER_LOAD,
+    PLAIN_LANGUAGE,
     QUESTION_TERMINATES_PARAGRAPH,
     JEWISH_LEXICAL_FORMS,
 })
@@ -38,6 +40,7 @@ class ProseContract:
         AFFIRMATIVE_FIRST,
         NUMERIC_YEAR_DATES_ONLY,
         QUESTION_TERMINATES_PARAGRAPH,
+        PLAIN_LANGUAGE,
     )
     allowed_negative_spans:tuple[str,...]=()
     person_dates:tuple[tuple[str,str],...]=()
@@ -53,6 +56,8 @@ class ProseEvidence:
     evidence:tuple[str,...]=()
     reader_load:str="OPEN"
     reader_load_evidence:tuple[str,...]=()
+    plain_language:str="OPEN"
+    plain_language_evidence:tuple[str,...]=()
 
 
 @dataclass(frozen=True)
@@ -454,17 +459,48 @@ def assess_prose(
             elif not reader_load_evidence:
                 residuals=residuals+("READER_LOAD_EVIDENCE_REQUIRED",)
 
+    plain_language_evidence=()
+    if PLAIN_LANGUAGE in requested:
+        if evidence is None:
+            residuals=residuals+("PLAIN_LANGUAGE_RECEIPT_REQUIRED",)
+        else:
+            plain_language_status=str(evidence.plain_language or "OPEN").upper()
+            plain_language_evidence=tuple(
+                str(x) for x in evidence.plain_language_evidence if str(x)
+            )
+            if plain_language_status=="BLOCKED":
+                return ProseAssessment(
+                    "BLOCKED",contract.contract_id,violations,(),
+                    residuals+("PLAIN_LANGUAGE:BLOCKED",),
+                    tuple(evidence.evidence)+reader_load_evidence+plain_language_evidence,
+                )
+            if plain_language_status in {"FAIL","REPAIR_REQUIRED"}:
+                violations=violations+(ProseViolation(
+                    constraint_id=PLAIN_LANGUAGE,
+                    code="PLAIN_LANGUAGE_REPAIR_REQUIRED",
+                    start=0,
+                    end=min(len(str(text or "")),220),
+                    excerpt=(
+                        "; ".join(plain_language_evidence)
+                        or str(text or "")[:220]
+                    ),
+                ),)
+            elif plain_language_status!="PASS":
+                residuals=residuals+(f"PLAIN_LANGUAGE:{plain_language_status}",)
+            elif not plain_language_evidence:
+                residuals=residuals+("PLAIN_LANGUAGE_EVIDENCE_REQUIRED",)
+
     if violations:
         return ProseAssessment(
             "REPAIR_REQUIRED",contract.contract_id,violations,(),
             residuals+("PROTECTED_PROSE_CONSTRAINT_VIOLATED",),
-            tuple(evidence.evidence)+reader_load_evidence if evidence is not None else (),
+            tuple(evidence.evidence)+reader_load_evidence+plain_language_evidence if evidence is not None else (),
         )
 
     if residuals:
         return ProseAssessment(
             "OPEN",contract.contract_id,(),(),residuals,
-            tuple(evidence.evidence)+reader_load_evidence if evidence is not None else (),
+            tuple(evidence.evidence)+reader_load_evidence+plain_language_evidence if evidence is not None else (),
         )
 
     if evidence is None:
@@ -498,7 +534,8 @@ def assess_prose(
         )
 
     return ProseAssessment(
-        "PASS",contract.contract_id,(),(),(),tuple(evidence.evidence),
+        "PASS",contract.contract_id,(),(),(),
+        tuple(evidence.evidence)+reader_load_evidence+plain_language_evidence,
     )
 
 
