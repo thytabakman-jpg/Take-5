@@ -9,7 +9,7 @@ def test_hf2_reapplies_same_capability_to_changed_successor():
         return {"execution_truth":"FULL_MATCH","n":n,"finding":"x" if n==1 else "y"}
     def norm(raw,state,memory):
         nxt={**state,"n":raw["n"],"finding":raw["finding"]}
-        return nxt,{"material_result_delta":True}
+        return nxt,{"material_result_delta":nxt["n"]<2}
     runner=HF002RecursiveContinuation(
         cap,norm,
         lambda pre,post,delta:{"terminal":True},
@@ -90,7 +90,7 @@ def test_root_cause_chat_fixture_finds_protected_transition_integrity_generator(
     )
     assert out.status=="RELATIVE_CLOSE"
     assert out.root_candidates==("PROTECTED_TRANSITION_INTEGRITY_FAILURE",)
-    assert out.rounds==2
+    assert out.rounds==3
     assert out.parent_handoff["controller"]=="ImprovementCore"
     assert out.parent_handoff["action"]=="ADMIT_ROOT_CAUSE_AND_REPLAN"
 
