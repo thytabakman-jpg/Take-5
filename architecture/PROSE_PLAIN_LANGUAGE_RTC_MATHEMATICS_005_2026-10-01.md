@@ -70,6 +70,8 @@ OPEN means the comparison has not been evidenced.
 
 BLOCKED preserves a typed blocker.
 
+Because this is a general prose rule rather than a project-specific option, PLAIN_LANGUAGE is part of the default ProseContract. A caller can still construct a narrower explicit contract when a task intentionally audits only selected coordinates.
+
 The runtime does not ban long words, impose a readability-score threshold, or
 replace technical vocabulary automatically. Those mechanisms can reward
 inaccuracy and therefore fail the preserved-job test.
