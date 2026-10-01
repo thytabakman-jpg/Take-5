@@ -46,7 +46,7 @@ def test_direct_command_executes_through_same_hf2_bridge():
             "execution_truth":"SEMANTICALLY_APPLIED",
             "state":{**current,"round":n},
             "result":{"round":n},
-            "material_delta":True,
+            "material_delta":n<2,
             "hf2_live_local":n<2,
             "evidence":[f"mt-round:{n}"],
         }
