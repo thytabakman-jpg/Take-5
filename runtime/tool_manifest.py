@@ -676,7 +676,7 @@ OVERRIDES={
         closure_contract="PROSE_PASS_OR_TYPED_REPAIR_OPEN_BLOCKED_PLUS_TRC",
         reentry_contract="HF002_THEN_HF001",
         bindings=PROSE_BINDINGS,
-        lineage_contract="architecture/PROSE_PLAIN_LANGUAGE_RTC_MATHEMATICS_005_2026-10-01.md",
+        lineage_contract="architecture/PROSE_PLAIN_LANGUAGE_RTC36_HF2_MATHEMATICS_006_2026-10-01.md",
     ),
     "MT":ToolManifest(
         tool_id="MT",

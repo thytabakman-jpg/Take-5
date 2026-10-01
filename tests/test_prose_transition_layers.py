@@ -175,6 +175,10 @@ def test_final_emission_blocks_negative_first_prose():
         earned_claim_strength="PASS",
         no_unsupported_inflation="PASS",
         evidence=("semantic","strength","inflation"),
+        plain_language="PASS",
+        plain_language_evidence=(
+            "the fixture is already ordinary wording; no simpler equivalent is material",
+        ),
     )
     try:
         execute_protected_transition(
@@ -194,7 +198,9 @@ def test_final_emission_blocks_negative_first_prose():
             prose_evidence=evidence,
         )
     except ToolExecutionBlocked as exc:
-        assert "PROSE_NOT_ADMISSIBLE" in str(exc)
+        message=str(exc)
+        assert "PROSE_NOT_ADMISSIBLE" in message
+        assert "NOT_MERELY" in message
     else:
         raise AssertionError("negative-first prose escaped final emission gate")
 
