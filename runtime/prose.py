@@ -119,10 +119,10 @@ _NEGATIVE_FIRST_PATTERNS=(
 )
 
 _LEADING_NEGATION_PATTERN=re.compile(
-    r"\\b(?:not|never|no|without|cannot|can't|doesn't|does\\s+not|isn't|is\\s+not|"
-    r"aren't|are\\s+not|wasn't|was\\s+not|weren't|were\\s+not|hasn't|has\\s+not|"
-    r"haven't|have\\s+not|hadn't|had\\s+not|won't|will\\s+not|wouldn't|would\\s+not|"
-    r"couldn't|could\\s+not|didn't|did\\s+not|don't|do\\s+not)\\b",
+    r"\b(?:not|never|no|without|cannot|can't|doesn't|does\s+not|isn't|is\s+not|"
+    r"aren't|are\s+not|wasn't|was\s+not|weren't|were\s+not|hasn't|has\s+not|"
+    r"haven't|have\s+not|hadn't|had\s+not|won't|will\s+not|wouldn't|would\s+not|"
+    r"couldn't|could\s+not|didn't|did\s+not|don't|do\s+not)\b",
     re.IGNORECASE,
 )
 
@@ -131,8 +131,8 @@ def _leading_sentence_spans(text:str):
     """Yield the first sentence of each paragraph with absolute offsets."""
     value=str(text or "")
     cursor=0
-    paragraph_break=re.compile(r"\\n[ \\t]*\\n+")
-    sentence_end=re.compile(r"[.!?](?:[\\\"'”’\\)\\]]*)?(?=\\s|$)")
+    paragraph_break=re.compile(r"\n[ \t]*\n+")
+    sentence_end=re.compile(r"[.!?](?:[\"'”’\)\]]*)?(?=\s|$)")
     for boundary in tuple(paragraph_break.finditer(value))+(None,):
         stop=boundary.start() if boundary is not None else len(value)
         raw=value[cursor:stop]
