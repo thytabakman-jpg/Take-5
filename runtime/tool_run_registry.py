@@ -12,7 +12,7 @@ MATERIAL_TOOLS=tuple([f"C{i:02d}" for i in range(1,50)]+[
 "ImprovementCore","ProjectManager","ICC128","MT","MTA","Architecture","PD","PDAudit","GDOS","Discriminator","Reconciler",
 "DelegatedExecutor","HF001","HF002","RootCause","TRC","RTC","BiasPerturbation","CurrentnessAudit",
 "CapabilityFoundry","EmergentAdmission","HistoricalReconstruction","ZeroRequest","MultiObject","Diagnosis",
-"ASSERT","GOAL","SolutionToMyProblem","Prose","DesiredJane","QuestionWorthAsking","LambdaMath","SemanticResolutionPipeline","ToolConductor"
+"ASSERT","GOAL","SolutionToMyProblem","Prose","DesiredJane","QuestionWorthAsking","LambdaMath","SemanticResolutionPipeline","RecursiveCompiler","ToolConductor"
 ]+list(LEARNING_TOOLS))
 
 ASSERT_LAYERS=("ASSERT_LAYER_1","ASSERT_LAYER_2")
@@ -123,6 +123,15 @@ PROTECTED_BEHAVIORS={
         "GOAL_ROBUST_MT_PREREQUISITE",
         "GOAL_FULL_TOOL_IDENTITY",
     ),
+    "RecursiveCompiler":(
+        "RECURSIVE_COMPILER_CURRENT_FULL_36_ONLY",
+        "RECURSIVE_COMPILER_OBSERVER_FOCUSED_OBSERVER",
+        "RECURSIVE_COMPILER_ADAPTIVE_HIERARCHY",
+        "RECURSIVE_COMPILER_BOTTOM_UP_RECONCILIATION",
+        "RECURSIVE_COMPILER_HF2_BOUNDARY_RECURRENCE",
+        "RECURSIVE_COMPILER_NO_36_PROFILE_DOWNGRADE",
+        "RECURSIVE_COMPILER_LOCAL_CLOSE_NOT_GLOBAL_CLOSE",
+    ),
     "MultiObject":(
         "MO_FROZEN_OBJECT_IDENTITY",
         "MO_REQUIRED_PAIR_COVERAGE",
@@ -143,7 +152,7 @@ def _spec(tool):
         tool in {
             "ImprovementCore","ProjectManager","ICC128","MT","MTA","Architecture","PD","PDAudit","GDOS","RootCause","RTC",
             "CurrentnessAudit","MultiObject","Diagnosis","ASSERT","GOAL","SolutionToMyProblem","Prose","DesiredJane",
-            "QuestionWorthAsking","LambdaMath","SemanticResolutionPipeline","ToolConductor"
+            "QuestionWorthAsking","LambdaMath","SemanticResolutionPipeline","RecursiveCompiler","ToolConductor"
         }
         or tool in LEARNING_TOOLS
     )
