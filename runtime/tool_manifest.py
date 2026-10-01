@@ -255,6 +255,12 @@ HF002_BINDINGS=GENERIC_BINDINGS+(
         "runtime/hf002_recursive_continuation.py",
         "tests/test_root_cause_hf2.py",
     ),
+    ProtectedBinding(
+        "HF002_CLEAN_SUCCESSOR_FIXED_POINT",
+        "POST",
+        "runtime/hf002_recursive_continuation.py",
+        "tests/test_root_cause_hf2.py",
+    ),
 )
 
 ROOT_CAUSE_BINDINGS=GENERIC_BINDINGS+(
@@ -341,6 +347,39 @@ GOAL_BINDINGS=GENERIC_BINDINGS+(
         "PRE",
         "architecture/GOAL_FULL_TOOL_MATH_002_2026-09-30.md",
         "tests/test_goal_fullmath_identity.py",
+    ),
+)
+
+RECURSIVE_COMPILER_BINDINGS=GENERIC_BINDINGS+(
+    ProtectedBinding(
+        "RECURSIVE_COMPILER_GLOBAL_CLOSE_REQUIRES_ALL_LEVEL_GATES",
+        "POST",
+        "runtime/recursive_compiler.py",
+        "tests/test_recursive_compiler.py",
+    ),
+    ProtectedBinding(
+        "RECURSIVE_COMPILER_PROTECTED_DELTA_LINEAGE",
+        "INTRA",
+        "runtime/recursive_compiler.py",
+        "tests/test_recursive_compiler.py",
+    ),
+    ProtectedBinding(
+        "RECURSIVE_COMPILER_AFFECTED_CONE_INVALIDATION",
+        "INTRA",
+        "runtime/recursive_compiler.py",
+        "tests/test_recursive_compiler.py",
+    ),
+    ProtectedBinding(
+        "RECURSIVE_COMPILER_PROTECTED_HIERARCHY_CONSTRAINTS_REQUIRED",
+        "INTRA",
+        "runtime/recursive_compiler.py",
+        "tests/test_recursive_compiler.py",
+    ),
+    ProtectedBinding(
+        "RECURSIVE_COMPILER_HF2_ZERO_NEW_DELTA_FIXED_POINT",
+        "POST",
+        "runtime/recursive_compiler.py",
+        "tests/test_recursive_compiler.py",
     ),
 )
 
@@ -738,6 +777,14 @@ OVERRIDES={
         reentry_contract="HF001",
         bindings=GOAL_BINDINGS,
         lineage_contract="architecture/GOAL_FULL_TOOL_MATH_002_2026-09-30.md",
+    ),
+    "RecursiveCompiler":ToolManifest(
+        tool_id="RecursiveCompiler",
+        native_semantics="hierarchical compile with protected constraints, delta lineage, affected-cone invalidation, bottom-up reconciliation, and zero-new-delta fixed-point closure",
+        geometry_policy="D36_C",
+        closure_contract="GLOBAL_ALL_LEVEL_GATES_PLUS_HF002_CLEAN_SUCCESSOR_FIXED_POINT",
+        reentry_contract="HF002_ON_EVERY_MATERIAL_SUCCESSOR_THEN_PARENT_RECONCILIATION",
+        bindings=RECURSIVE_COMPILER_BINDINGS,
     ),
     "MultiObject":ToolManifest(
         tool_id="MultiObject",
