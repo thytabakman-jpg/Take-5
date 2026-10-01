@@ -6,6 +6,7 @@ from recursive_compiler import (
     affected_cone,
     evaluate_global_closure,
     hf2_fixed_point_witness,
+    validate_execution_profile,
 )
 
 
@@ -126,3 +127,28 @@ def test_hf2_material_last_pass_cannot_self_certify_fixed_point():
 
 def test_hf2_clean_last_pass_is_required_even_after_reentry():
     assert hf2_fixed_point_witness(_trace())
+
+
+def test_recursive_compiler_requires_full_36_observer_focused_observer_profile():
+    validate_execution_profile(
+        cell_count=36,
+        mode_trace=("OBSERVER","FOCUSED","OBSERVER"),
+    )
+
+
+def test_recursive_compiler_rejects_profile_downgrade():
+    import pytest
+    with pytest.raises(RuntimeError,match="RECURSIVE_COMPILER_36D_DOWNGRADE"):
+        validate_execution_profile(
+            cell_count=12,
+            mode_trace=("OBSERVER","FOCUSED","OBSERVER"),
+        )
+
+
+def test_recursive_compiler_rejects_missing_observer_return():
+    import pytest
+    with pytest.raises(RuntimeError,match="RECURSIVE_COMPILER_MODE_SEQUENCE_INVALID"):
+        validate_execution_profile(
+            cell_count=36,
+            mode_trace=("OBSERVER","FOCUSED"),
+        )
