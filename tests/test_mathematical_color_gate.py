@@ -1,5 +1,6 @@
 import pytest
 
+from prose import AFFIRMATIVE_FIRST, ProseContract
 from tool_run_registry import MATERIAL_TOOLS
 
 from mathematical_color_gate import (
@@ -171,6 +172,29 @@ def test_response_boundary_rejects_plain_registered_formal_label():
 def test_response_boundary_accepts_typed_colored_formal_label():
     verify_assistant_response(
         r"The current \color{red}{\operatorname{IMPROVECORE}} is unresolved."
+    )
+
+
+def test_response_boundary_rejects_negative_first_prose():
+    with pytest.raises(
+        ColorInvariantViolation,
+        match="NEGATIVE_FIRST_PROSE_AT_RESPONSE_BOUNDARY",
+    ):
+        verify_assistant_response(
+            "Saying Tanach is not univocal does not, by itself, mean it is not divine. "
+            "Different books can still carry divine inspiration."
+        )
+
+
+def test_response_boundary_allows_explicit_load_bearing_negation():
+    text="The tradition does not guarantee correctness on the disputed matter."
+    verify_assistant_response(
+        text,
+        prose_contract=ProseContract(
+            "load-bearing-negation",
+            constraints=(AFFIRMATIVE_FIRST,),
+            allowed_negative_spans=(text,),
+        ),
     )
 
 
