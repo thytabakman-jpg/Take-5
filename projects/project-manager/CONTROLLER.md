@@ -156,6 +156,27 @@ P_(t+1) = Update(P_t, admitted Delta_t)
 19. Reenter on any material delta, holdout, conflict, blocker, regression, or changed governing goal.
 20. Close only under the closure rule.
 
+## Mandatory project state transaction
+
+Every READY ProjectDelta crosses one admitted mutation path:
+
+Freeze base
+-> compute recursive affected cone
+-> disposition every affected object
+-> CurrentnessAudit
+-> Tool Run Closure
+-> verify full affected-cone accounting
+-> recheck head
+-> CommitOnce
+-> ICC128 reselection
+-> ImprovementCore handoff for explicit OPEN or BLOCKED residue.
+
+The runtime owner is runtime/project_state_transaction.py.
+
+A material change cannot become project truth through a file-local edit, direct state update, or ProjectManager observer run.
+
+A head change before commit returns REBASE_REQUIRED and recomputes the affected cone on the latest supplied dependency graph.
+
 ## Execution and admission invariant
 
 A transition is executable only when both operation and effect are licensed.
