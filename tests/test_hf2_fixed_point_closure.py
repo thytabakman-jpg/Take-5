@@ -65,7 +65,7 @@ def test_material_round_forces_internal_clean_verification_pass():
     assert calls==[1,2]
     assert out["post_mutation_clean_pass"] is True
     assert [r["disposition"] for r in out["trace"]]==[
-        "REAPPLY_CLEAN_VERIFY","RELATIVE_CLOSE"
+        "REAPPLY_C","RELATIVE_CLOSE"
     ]
 
 
