@@ -54,6 +54,21 @@ def _material(delta:Mapping[str,Any])->bool:
     return any(bool(delta.get(k)) for k in _MATERIAL_KEYS)
 
 
+def validate_execution_profile(
+    *,
+    cell_count:int,
+    mode_trace:Iterable[str],
+)->None:
+    """Fail closed on 36D downgrade or observer/focused/observer drift."""
+    if int(cell_count)!=36:
+        raise RuntimeError(f"RECURSIVE_COMPILER_36D_DOWNGRADE:{cell_count}")
+    modes=tuple(str(x).upper() for x in mode_trace)
+    if modes!=("OBSERVER","FOCUSED","OBSERVER"):
+        raise RuntimeError(
+            "RECURSIVE_COMPILER_MODE_SEQUENCE_INVALID:"+",".join(modes)
+        )
+
+
 def hf2_fixed_point_witness(trace:Iterable[Mapping[str,Any]])->bool:
     """Require a terminal clean pass over the final successor state."""
     rounds=tuple(trace)
