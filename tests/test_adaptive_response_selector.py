@@ -1,7 +1,9 @@
 from adaptive_response_selector import ResponseCandidate, ResponseState, choose, update_rejection
 
-def c(cid, fmt="math-only", exact=True, complete=True, unsupported=0, drift=0, extra=0):
-    return ResponseCandidate(cid,"target-equation",fmt,exact,complete,unsupported,drift,extra)
+def c(cid, fmt="math-only", exact=True, complete=True, unsupported=0, drift=0, extra=0, affirmative=True):
+    return ResponseCandidate(
+        cid,"target-equation",fmt,exact,complete,unsupported,drift,extra,affirmative
+    )
 
 def test_shortest_admissible_wins():
     z=ResponseState("target-equation","math-only")
@@ -23,3 +25,11 @@ def test_rejection_memory_blocks_repeat():
 def test_rejected_format_blocks_repackaged_failure():
     z=update_rejection(ResponseState("target-equation","math-only"),format_id="math-only")
     assert choose((c("renamed"),),z)==()
+
+def test_negative_first_candidate_is_inadmissible():
+    z=ResponseState("target-equation","math-only")
+    assert choose((c("negative-first",affirmative=False),),z)==()
+
+def test_affirmative_first_candidate_remains_admissible():
+    z=ResponseState("target-equation","math-only")
+    assert tuple(x.candidate_id for x in choose((c("affirmative"),),z))==("affirmative",)
