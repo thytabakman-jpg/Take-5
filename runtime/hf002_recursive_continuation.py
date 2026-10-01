@@ -1,8 +1,8 @@
 """HF-002 generic capability-level recursive continuation substrate.
 
 HF2 reapplies the same configured capability to its changed normalized successor
-while a material local delta and live local frontier remain under a stable
-upstream basis. It owns local recurrence, not global episode selection.
+until a clean post-mutation verification pass establishes a relative fixed
+point. It owns local recurrence, not global episode selection.
 """
 from __future__ import annotations
 from dataclasses import dataclass, asdict, field
@@ -43,9 +43,30 @@ class HF002RecursiveContinuation:
             or delta.get("changed_representation")
         )
 
+    @staticmethod
+    def _affected_frontier_open(delta:dict[str,Any])->bool:
+        frontier=delta.get("affected_frontier")
+        if isinstance(frontier,dict):
+            if any(bool(v) for v in frontier.values()):
+                return True
+        elif isinstance(frontier,(tuple,list,set,frozenset)):
+            if bool(frontier):
+                return True
+        elif frontier:
+            return True
+
+        scope_deltas=delta.get("scope_deltas")
+        if isinstance(scope_deltas,dict):
+            if any(bool(v) for v in scope_deltas.values()):
+                return True
+        elif scope_deltas:
+            return True
+        return False
+
     def run(self,state:dict[str,Any],memory:dict[str,Any])->dict[str,Any]:
         x=dict(state); m=dict(memory)
         seen_failed=set(m.get("hf2_failed_equivalence",[]))
+        dirty=False
 
         for i in range(self.max_rounds):
             raw=self.run_capability(x,m)
@@ -87,16 +108,46 @@ class HF002RecursiveContinuation:
 
             material=self._material(delta)
             live=bool(self.live_local(normalized,m))
-            if material and live:
-                self.trace.append(HF2Round(i,x,raw,normalized,delta,hf1,normalized,"REAPPLY_C"))
+            affected_open=self._affected_frontier_open(delta)
+
+            # Fixed-point invariant: a material change can never be the final
+            # round. Re-run the same configured capability on its successor so
+            # closure is established only by a clean post-mutation pass.
+            if material:
+                dirty=True
+                self.trace.append(HF2Round(
+                    i,x,raw,normalized,delta,hf1,normalized,
+                    "REAPPLY_CLEAN_VERIFY"
+                ))
                 x=normalized
                 continue
+
+            # A clean round can discharge DIRTY only when every represented
+            # affected frontier is closed. Live work or unresolved affected
+            # scope remains OPEN rather than being converted into false close.
+            if affected_open:
+                self.trace.append(HF2Round(i,x,raw,normalized,delta,hf1,normalized,"OPEN"))
+                return {
+                    "status":"OPEN","state":normalized,"memory":m,
+                    "trace":[asdict(t) for t in self.trace],
+                    "open":["AFFECTED_FRONTIER_NOT_CLOSED"],
+                }
+
+            if live:
+                self.trace.append(HF2Round(i,x,raw,normalized,delta,hf1,normalized,"OPEN"))
+                return {
+                    "status":"OPEN","state":normalized,"memory":m,
+                    "trace":[asdict(t) for t in self.trace],
+                    "open":["LOCAL_FRONTIER_NOT_CLOSED"],
+                }
 
             if self.local_close(normalized,m):
                 self.trace.append(HF2Round(i,x,raw,normalized,delta,hf1,normalized,"RELATIVE_CLOSE"))
                 return {
                     "status":"RELATIVE_CLOSE","state":normalized,"memory":m,
                     "trace":[asdict(t) for t in self.trace],
+                    "clean_verification":True,
+                    "post_mutation_clean_pass":bool(dirty),
                 }
 
             self.trace.append(HF2Round(i,x,raw,normalized,delta,hf1,normalized,"OPEN"))
@@ -109,4 +160,5 @@ class HF002RecursiveContinuation:
         return {
             "status":"RESOURCE_STOP","state":x,"memory":m,
             "trace":[asdict(t) for t in self.trace],
+            "open":["FIXED_POINT_NOT_REACHED_WITHIN_MAX_ROUNDS"],
         }
