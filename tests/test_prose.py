@@ -29,6 +29,56 @@ def test_exact_canonical_authority_regression_is_rejected():
     assert any(v.code=="NOT_MERELY" for v in out.violations)
 
 
+def test_tanach_negative_first_regression_is_rejected():
+    text=(
+        "Saying Tanach is not univocal does not, by itself, mean it is not divine. "
+        "You can believe that different books contain different perspectives while "
+        "still believing they were written with divine inspiration."
+    )
+    out=assess_prose(text,ProseContract("tanach-regression"),PASS_EVIDENCE)
+    assert out.status=="REPAIR_REQUIRED"
+    assert any(v.code=="NEGATIVE_PARAGRAPH_OPEN" for v in out.violations)
+
+
+def test_tanach_affirmative_first_repair_passes():
+    text=(
+        "Tanach can contain different perspectives while remaining divinely inspired. "
+        "The relevant question is what divine inspiration guarantees about factual accuracy."
+    )
+    out=require_prose_admissible(text,ProseContract("tanach-repair"),PASS_EVIDENCE)
+    assert out.status=="PASS"
+
+
+def test_affirmative_clause_before_later_negation_passes():
+    text=(
+        "Tanach contains diverse perspectives and is not univocal in a simple sense. "
+        "The question is what kind of unity the text claims."
+    )
+    out=require_prose_admissible(
+        text,
+        ProseContract("affirmative-prefix-before-negation"),
+        PASS_EVIDENCE,
+    )
+    assert out.status=="PASS"
+
+
+def test_negative_first_hostile_matrix_is_rejected():
+    cases=(
+        "This is not a minor difference. The claim changes materially.",
+        "The source does not merely qualify the claim. It rejects the premise.",
+        "Without that bridge, the conclusion cannot follow. The argument needs another premise.",
+        "No ordinary report guarantees infallibility. The source remains evidential.",
+    )
+    for index,text in enumerate(cases):
+        out=assess_prose(
+            text,
+            ProseContract(f"negative-first-matrix-{index}"),
+            PASS_EVIDENCE,
+        )
+        assert out.status=="REPAIR_REQUIRED", text
+        assert any(v.constraint_id==AFFIRMATIVE_FIRST for v in out.violations), text
+
+
 def test_affirmative_first_repair_passes_with_semantic_receipts():
     text="Ramban directly attacks that supporting generalization."
     out=require_prose_admissible(text,ProseContract("canon"),PASS_EVIDENCE)

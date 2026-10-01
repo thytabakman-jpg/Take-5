@@ -20,6 +20,7 @@ from formal_object_registry import (
     aliases_by_length,
     canonical_formal_label as _canonical_formal_label,
 )
+from prose import AFFIRMATIVE_FIRST, ProseContract, audit_affirmative_first
 
 
 class MathStatus(str, Enum):
@@ -246,12 +247,27 @@ def verify_rendered_output(rendered: str) -> None:
         raise ColorInvariantViolation("STATUS_FALLBACK_FORBIDDEN")
 
 
-def verify_assistant_response(rendered: str) -> None:
-    """Reject any live formal-system identity that escapes typed color."""
+def verify_assistant_response(
+    rendered: str,
+    *,
+    prose_contract: ProseContract | None = None,
+) -> None:
+    """Reject untyped formal identity and negative-first prose at final emission."""
     verify_rendered_output(rendered)
     masked = COLORED_FORMAL_LABEL_PATTERN.sub("", rendered)
     if FORMAL_OBJECT_PATTERN.search(masked):
         raise ColorInvariantViolation("UNTYPED_FORMAL_LABEL_AT_RESPONSE_BOUNDARY")
+
+    contract = prose_contract or ProseContract(
+        "assistant-response-boundary",
+        constraints=(AFFIRMATIVE_FIRST,),
+    )
+    violations = audit_affirmative_first(rendered, contract)
+    if violations:
+        first = violations[0]
+        raise ColorInvariantViolation(
+            f"NEGATIVE_FIRST_PROSE_AT_RESPONSE_BOUNDARY:{first.code}:{first.excerpt}"
+        )
 
 
 def _infer_authoritative_emission(parts: Sequence[Fragment]) -> bool:
@@ -268,6 +284,7 @@ def emit_user_visible(
     *,
     authoritative_claim: bool | None = None,
     formal_claim_receipt: Any | None = None,
+    prose_contract: ProseContract | None = None,
 ) -> str:
     parts = tuple(fragments)
     verify_fragments(parts)
@@ -294,5 +311,5 @@ def emit_user_visible(
         else:
             rendered.append(fragment.text)
     out = "".join(rendered)
-    verify_assistant_response(out)
+    verify_assistant_response(out, prose_contract=prose_contract)
     return out

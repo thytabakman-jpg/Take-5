@@ -19,10 +19,15 @@
 - architecture/PROSE_ARCHITECTURE_READER_LOAD_MATHEMATICS_004_2026-09-30.md
 - architecture/PROSE_RAISE_CEILING_MATHEMATICS_003_2026-09-30.md
 - architecture/PROSE_PROTECTED_TRANSITION_MATHEMATICS_001_2026-09-30.md
+- architecture/AFFIRMATIVE_FIRST_DEFENSE_IN_DEPTH_MATHEMATICS_001_2026-10-01.md
 - architecture/PROSE_FIRST_MENTION_PERSON_DATES_MATHEMATICS_002_2026-09-30.md
 - architecture/PROSE_QUESTION_TERMINATION_JEWISH_LEXICON_MATHEMATICS_005_2026-09-30.md
 - runtime/prose.py
+- runtime/mathematical_color_gate.py
+- runtime/adaptive_response_selector.py
 - tests/test_prose.py
+- tests/test_mathematical_color_gate.py
+- tests/test_adaptive_response_selector.py
 - tests/test_prose_transition_layers.py
 
 ## Rule

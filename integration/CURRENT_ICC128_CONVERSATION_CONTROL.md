@@ -33,6 +33,8 @@ Admissible responses must match requested artifact identity and requested format
 
 Among admissible responses, choose minimum extra output.
 
+AFFIRMATIVE_FIRST is also a hard admissibility coordinate. A response candidate marked negative-first is rejected before ranking, so brevity cannot outrank the protected prose order.
+
 User rejection updates durable episode state and forces reselection.
 
 ## Host ingress identity

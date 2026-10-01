@@ -118,6 +118,55 @@ _NEGATIVE_FIRST_PATTERNS=(
     ),
 )
 
+_LEADING_NEGATION_PATTERN=re.compile(
+    r"\b(?:not|never|no|without|cannot|can't|doesn't|does\s+not|isn't|is\s+not|"
+    r"aren't|are\s+not|wasn't|was\s+not|weren't|were\s+not|hasn't|has\s+not|"
+    r"haven't|have\s+not|hadn't|had\s+not|won't|will\s+not|wouldn't|would\s+not|"
+    r"couldn't|could\s+not|didn't|did\s+not|don't|do\s+not)\b",
+    re.IGNORECASE,
+)
+
+_AFFIRMATIVE_PREFIX_PREDICATE=re.compile(
+    r"\b(?:contains?|presents?|provides?|shows?|supports?|establishes?|carries?|"
+    r"includes?|allows?|creates?|gives?|makes?|holds?|states?|argues?|explains?|"
+    r"demonstrates?|requires?|entails?|means?|can|has|have|had|was|were|is|are)\b",
+    re.IGNORECASE,
+)
+
+
+def _affirmative_precedes_in_paragraph(text:str, position:int)->bool:
+    """Return whether an affirmative predicate appears earlier in this paragraph."""
+    value=str(text or "")
+    position=max(0,min(int(position),len(value)))
+    prefix=value[:position]
+    boundaries=tuple(re.finditer(r"\n[ \t]*\n+",prefix))
+    paragraph_start=boundaries[-1].end() if boundaries else 0
+    local_prefix=value[paragraph_start:position]
+    return bool(_AFFIRMATIVE_PREFIX_PREDICATE.search(local_prefix))
+
+
+def _leading_sentence_spans(text:str):
+    """Yield the first sentence of each paragraph with absolute offsets."""
+    value=str(text or "")
+    cursor=0
+    paragraph_break=re.compile(r"\n[ \t]*\n+")
+    sentence_end=re.compile(r"[.!?](?:[\"'”’\)\]]*)?(?=\s|$)")
+    for boundary in tuple(paragraph_break.finditer(value))+(None,):
+        stop=boundary.start() if boundary is not None else len(value)
+        raw=value[cursor:stop]
+        if raw.strip():
+            left=len(raw)-len(raw.lstrip())
+            paragraph=raw[left:]
+            match=sentence_end.search(paragraph)
+            rel_end=match.end() if match is not None else len(paragraph)
+            start=cursor+left
+            end=start+rel_end
+            yield start,end,value[start:end]
+        if boundary is None:
+            break
+        cursor=boundary.end()
+
+
 _CENTURY_LABEL_PATTERNS=(
     (
         "NUMERIC_CENTURY_LABEL",
@@ -193,6 +242,8 @@ def audit_affirmative_first(text:str, contract:ProseContract)->tuple[ProseViolat
             excerpt=match.group(0).strip()
             if not excerpt or _allowed(value,match.start(),match.end(),contract):
                 continue
+            if _affirmative_precedes_in_paragraph(value,match.start()):
+                continue
             key=(match.start(),match.end(),code)
             if key in seen:
                 continue
@@ -204,6 +255,33 @@ def audit_affirmative_first(text:str, contract:ProseContract)->tuple[ProseViolat
                 end=match.end(),
                 excerpt=excerpt,
             ))
+
+    # AFFIRMATIVE_FIRST is a reader-order rule, not only a small inventory of
+    # contrast idioms. A paragraph that opens by making the reader process a
+    # rejected proposition is negative-first even when the next sentence starts
+    # with an arbitrary subject (for example, "You can ..."). Load-bearing
+    # negation remains available through allowed_negative_spans.
+    for start,end,excerpt in _leading_sentence_spans(value):
+        negative_match=_LEADING_NEGATION_PATTERN.search(excerpt)
+        if negative_match is None:
+            continue
+        affirmative_prefix=excerpt[:negative_match.start()]
+        if _AFFIRMATIVE_PREFIX_PREDICATE.search(affirmative_prefix):
+            continue
+        if _allowed(value,start,end,contract):
+            continue
+        code="NEGATIVE_PARAGRAPH_OPEN"
+        key=(start,end,code)
+        if key in seen:
+            continue
+        seen.add(key)
+        violations.append(ProseViolation(
+            constraint_id=AFFIRMATIVE_FIRST,
+            code=code,
+            start=start,
+            end=end,
+            excerpt=excerpt.strip(),
+        ))
     return tuple(sorted(violations,key=lambda x:(x.start,x.end,x.code)))
 
 

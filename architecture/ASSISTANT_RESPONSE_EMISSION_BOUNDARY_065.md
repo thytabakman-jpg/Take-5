@@ -87,3 +87,11 @@ The registered identity basis is owned by runtime/formal_object_registry.py. Con
 
 Recovery anchor:
 integration/CURRENT_MATHEMATICAL_COLORING.md
+
+## Affirmative-first prose extension — 2026-10-01
+
+The final assistant-response boundary now protects reader-facing prose as well as formal-object coloring.
+
+Repository-controlled emission applies an independent AFFIRMATIVE_FIRST audit immediately before user-visible return. This is deliberately redundant with Prose execution so an omitted upstream Prose call cannot silently authorize a negative-first response.
+
+Load-bearing negation remains available only through an explicit Prose contract exemption. External hosts that bypass this response boundary remain typed EXTERNAL_HOST_OPEN rather than being represented as covered.
