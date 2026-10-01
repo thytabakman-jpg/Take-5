@@ -46,8 +46,9 @@ def _audit_controller_bridge()->tuple[int,tuple[str,...]]:
             checked+=1
             if out.status!="EXECUTED":
                 failures.append(f"{tool_id}:BRIDGE_STATUS:{out.status}")
-            if calls!=[(tool_id,36,True),(tool_id,36,True)]:
-                failures.append(f"{tool_id}:HF2_CLEAN_CONFIRMATION_NOT_EXECUTED")
+            expected_calls=[(tool_id,36,True)] if CONFIGURED_RUNS[tool_id].recurrence_engine=="SELF" else [(tool_id,36,True),(tool_id,36,True)]
+            if calls!=expected_calls:
+                failures.append(f"{tool_id}:RECURRENCE_CONFIRMATION_NOT_EXECUTED")
             outputs=tuple(out.state.get("configured_tool_outputs",())) if isinstance(out.state,dict) else ()
             if not outputs or outputs[-1].get("tool_id")!=tool_id:
                 failures.append(f"{tool_id}:RESULT_NOT_CONSUMED")
