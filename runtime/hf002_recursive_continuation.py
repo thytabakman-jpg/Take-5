@@ -41,6 +41,12 @@ class HF002RecursiveContinuation:
             or delta.get("negative_evidence")
             or delta.get("open_refinement")
             or delta.get("changed_representation")
+            or delta.get("material_relation_delta")
+            or delta.get("goal_gap_reduced")
+            or delta.get("execution_truth_strengthened")
+            or delta.get("resolved_open")
+            or delta.get("resolved_blocked")
+            or delta.get("resolved_conflict")
         )
 
     def run(self,state:dict[str,Any],memory:dict[str,Any])->dict[str,Any]:
