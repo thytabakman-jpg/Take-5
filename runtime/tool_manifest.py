@@ -601,6 +601,12 @@ PROSE_BINDINGS=GENERIC_BINDINGS+(
         "runtime/mathematical_color_gate.py",
         "tests/test_mathematical_color_gate.py",
     ),
+    ProtectedBinding(
+        "PROSE_RESPONSE_SELECTION_AFFIRMATIVE_FIRST_GATE",
+        "PRE",
+        "runtime/adaptive_response_selector.py",
+        "tests/test_adaptive_response_selector.py",
+    ),
 )
 
 OVERRIDES={
