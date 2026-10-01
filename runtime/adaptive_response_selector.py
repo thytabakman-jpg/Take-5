@@ -18,6 +18,7 @@ class ResponseCandidate:
     unsupported_claims: int
     abstraction_drift: int
     extra_tokens: int
+    affirmative_first: bool = True
 
 @dataclass(frozen=True)
 class ResponseState:
@@ -34,6 +35,7 @@ def admissible(c: ResponseCandidate, z: ResponseState) -> bool:
         and c.complete
         and c.unsupported_claims == 0
         and c.abstraction_drift == 0
+        and c.affirmative_first
         and c.candidate_id not in z.rejected_candidate_ids
         and c.format_id not in z.rejected_format_ids
     )
