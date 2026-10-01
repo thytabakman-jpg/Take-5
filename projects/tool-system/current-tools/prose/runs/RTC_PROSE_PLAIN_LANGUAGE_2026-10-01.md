@@ -1,6 +1,6 @@
 # RTC Prose Plain-Language Run — 2026-10-01
 
-Status: IMPLEMENTED / VALIDATION PENDING
+Status: VALIDATED / ADMITTED / CANONICAL
 Tool under improvement: Prose
 Improvement operator: RTC / C48 Raise Ceiling
 Math prerequisite:
@@ -86,8 +86,15 @@ Evidence semantics:
 The runtime does not use a forbidden-word list and does not use a readability
 score as a substitute for semantic comparison.
 
-## Validation target
+## Validation and admission
 
-- tests/test_prose.py
-- tests/test_explicit_native_manifests.py
-- repository validation workflow
+PR: #190
+Merge commit: 89f8f2f80b0ada1a408f3f0b6dd732f1d8e0242b
+
+Validated green before admission:
+- Take-5 Validation — success
+- Capability Preservation — success
+- Tool System Every-Tool Sweep — success
+
+Admission result:
+- merged to main through the governed branch -> PR -> validation -> merge path.
