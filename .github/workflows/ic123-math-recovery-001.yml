@@ -10,8 +10,8 @@ jobs:
   recover-math:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
         with:
           python-version: '3.12'
       - name: Install test dependency
@@ -36,7 +36,7 @@ jobs:
           PYTHONPATH: .:runtime
         run: python runtime/ic123_math_recovery_campaign.py
       - name: Upload campaign receipt
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ic123-math-recovery-001
           path: artifacts/improvecore/IC123_MATH_RECOVERY_RUN_001_2026-09-26.json
