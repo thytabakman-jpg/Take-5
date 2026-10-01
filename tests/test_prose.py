@@ -3,7 +3,7 @@ sys.path.insert(0,"runtime")
 
 from prose import (
     AFFIRMATIVE_FIRST,FIRST_MENTION_PERSON_DATES,NUMERIC_YEAR_DATES_ONLY,ORDERED_ANCHORS,
-    READER_LOAD,QUESTION_TERMINATES_PARAGRAPH,JEWISH_LEXICAL_FORMS,
+    READER_LOAD,PLAIN_LANGUAGE,QUESTION_TERMINATES_PARAGRAPH,JEWISH_LEXICAL_FORMS,
     ProseContract,ProseEvidence,
     assess_prose,require_prose_admissible,ProseAcceptanceError,
 )
@@ -14,6 +14,8 @@ PASS_EVIDENCE=ProseEvidence(
     earned_claim_strength="PASS",
     no_unsupported_inflation="PASS",
     evidence=("fixture:semantic","fixture:strength","fixture:no-inflation"),
+    plain_language="PASS",
+    plain_language_evidence=("no simpler known wording preserves less reader burden with equal precision",),
 )
 
 
@@ -420,3 +422,77 @@ def test_terminal_quoted_question_passes():
         PASS_EVIDENCE,
     )
     assert out.status=="PASS"
+
+
+
+def test_default_plain_language_gate_requires_receipt():
+    evidence=ProseEvidence(
+        semantic_preservation="PASS",
+        earned_claim_strength="PASS",
+        no_unsupported_inflation="PASS",
+        evidence=("fixture:semantic","fixture:strength","fixture:no-inflation"),
+    )
+    out=assess_prose(
+        "The paper states the claim clearly.",
+        ProseContract("plain-default"),
+        evidence,
+    )
+    assert out.status=="OPEN"
+    assert "PLAIN_LANGUAGE:OPEN" in out.residuals
+
+
+def test_plain_language_gate_flags_needlessly_academic_wording():
+    evidence=ProseEvidence(
+        semantic_preservation="PASS",
+        earned_claim_strength="PASS",
+        no_unsupported_inflation="PASS",
+        evidence=("fixture:semantic","fixture:strength","fixture:no-inflation"),
+        plain_language="REPAIR_REQUIRED",
+        plain_language_evidence=(
+            "use works instead of functions as where both preserve the intended meaning",
+        ),
+    )
+    out=assess_prose(
+        "The rule functions as the main test.",
+        ProseContract("plain-repair",constraints=(PLAIN_LANGUAGE,)),
+        evidence,
+    )
+    assert out.status=="REPAIR_REQUIRED"
+    assert any(v.code=="PLAIN_LANGUAGE_REPAIR_REQUIRED" for v in out.violations)
+
+
+def test_plain_language_gate_allows_required_technical_terms():
+    evidence=ProseEvidence(
+        semantic_preservation="PASS",
+        earned_claim_strength="PASS",
+        no_unsupported_inflation="PASS",
+        evidence=("fixture:semantic","fixture:strength","fixture:no-inflation"),
+        plain_language="PASS",
+        plain_language_evidence=(
+            "semantic entailment is the required technical relation; simpler substitutes lose precision",
+        ),
+    )
+    out=require_prose_admissible(
+        "Semantic entailment requires truth preservation across the relevant models.",
+        ProseContract("plain-technical",constraints=(PLAIN_LANGUAGE,)),
+        evidence,
+    )
+    assert out.status=="PASS"
+
+
+def test_plain_language_cannot_override_failed_semantic_preservation():
+    evidence=ProseEvidence(
+        semantic_preservation="FAIL",
+        earned_claim_strength="PASS",
+        no_unsupported_inflation="PASS",
+        evidence=("fixture:semantic-fail","fixture:strength","fixture:no-inflation"),
+        plain_language="PASS",
+        plain_language_evidence=("wording is simple",),
+    )
+    out=assess_prose(
+        "The claim is simple.",
+        ProseContract("plain-accuracy-priority",constraints=(PLAIN_LANGUAGE,)),
+        evidence,
+    )
+    assert out.status=="OPEN"
+    assert "SEMANTIC_PRESERVATION:FAIL" in out.residuals
