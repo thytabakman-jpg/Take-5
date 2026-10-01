@@ -3,24 +3,29 @@ from root_cause import RootCandidate,run_root_cause_hf2
 from root_cause_managed import run_root_cause_child
 
 
-def test_hf2_reapplies_same_capability_to_changed_successor():
+def test_hf2_reapplies_same_capability_to_changed_successor_and_requires_clean_pass():
+    calls={"n":0}
     def cap(state,memory):
-        n=state.get("n",0)+1
-        return {"execution_truth":"FULL_MATCH","n":n,"finding":"x" if n==1 else "y"}
+        calls["n"]+=1
+        if calls["n"]==1:
+            return {"execution_truth":"FULL_MATCH","n":1,"finding":"x"}
+        return {"execution_truth":"FULL_MATCH","n":state.get("n",0),"finding":state.get("finding")}
     def norm(raw,state,memory):
         nxt={**state,"n":raw["n"],"finding":raw["finding"]}
-        return nxt,{"material_result_delta":True}
+        return nxt,{"material_result_delta":nxt!=state}
     runner=HF002RecursiveContinuation(
         cap,norm,
         lambda pre,post,delta:{"terminal":True},
         lambda pre,post,delta:{"disposition":"STABLE"},
-        lambda state,memory:state.get("n",0)<2,
-        lambda state,memory:state.get("n",0)>=2,
+        lambda state,memory:False,
+        lambda state,memory:state.get("n",0)>=1,
     )
     out=runner.run({"n":0},{})
     assert out["status"]=="RELATIVE_CLOSE"
     assert len(out["trace"])==2
     assert out["trace"][0]["disposition"]=="REAPPLY_C"
+    assert out["trace"][1]["disposition"]=="RELATIVE_CLOSE"
+    assert out["trace"][1]["delta"]["material_result_delta"] is False
 
 
 def chat_candidates():
