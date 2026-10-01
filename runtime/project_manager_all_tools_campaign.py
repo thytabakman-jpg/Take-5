@@ -47,7 +47,7 @@ PHASES=(
         "STRUCTURAL_RECONSTRUCTION_OBSERVATION",
         (
             "MTA","Architecture","PD","PDAudit","GDOS","Discriminator","MultiObject",
-            "MT","SemanticResolutionPipeline",
+            "MT","SemanticResolutionPipeline","RecursiveCompiler",
             "C07","C08","C09","C10","C11","C12","C13",
         ),
     ),
