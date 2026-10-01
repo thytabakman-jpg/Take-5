@@ -352,6 +352,54 @@ GOAL_BINDINGS=GENERIC_BINDINGS+(
 
 RECURSIVE_COMPILER_BINDINGS=GENERIC_BINDINGS+(
     ProtectedBinding(
+        "RECURSIVE_COMPILER_CURRENT_FULL_36_ONLY",
+        "PRE",
+        "runtime/recursive_compiler.py",
+        "tests/test_recursive_compiler.py",
+    ),
+    ProtectedBinding(
+        "RECURSIVE_COMPILER_OBSERVER_FOCUSED_OBSERVER",
+        "PRE",
+        "runtime/recursive_compiler.py",
+        "tests/test_recursive_compiler.py",
+    ),
+    ProtectedBinding(
+        "RECURSIVE_COMPILER_ADAPTIVE_HIERARCHY",
+        "INTRA",
+        "runtime/recursive_compiler.py",
+        "tests/test_recursive_compiler.py",
+    ),
+    ProtectedBinding(
+        "RECURSIVE_COMPILER_BOTTOM_UP_RECONCILIATION",
+        "INTRA",
+        "runtime/recursive_compiler.py",
+        "tests/test_recursive_compiler.py",
+    ),
+    ProtectedBinding(
+        "RECURSIVE_COMPILER_HF2_BOUNDARY_RECURRENCE",
+        "POST",
+        "runtime/recursive_compiler.py",
+        "tests/test_recursive_compiler.py",
+    ),
+    ProtectedBinding(
+        "RECURSIVE_COMPILER_NO_36_PROFILE_DOWNGRADE",
+        "CROSS",
+        "runtime/recursive_compiler.py",
+        "tests/test_recursive_compiler.py",
+    ),
+    ProtectedBinding(
+        "RECURSIVE_COMPILER_PROTECTED_HIERARCHY_CONSTRAINTS_REQUIRED",
+        "INTRA",
+        "runtime/recursive_compiler.py",
+        "tests/test_recursive_compiler.py",
+    ),
+    ProtectedBinding(
+        "RECURSIVE_COMPILER_FAIL_CLOSED_ON_CONSTRAINT_ORDER_CONFLICT",
+        "INTRA",
+        "runtime/recursive_compiler.py",
+        "tests/test_recursive_compiler.py",
+    ),
+    ProtectedBinding(
         "RECURSIVE_COMPILER_GLOBAL_CLOSE_REQUIRES_ALL_LEVEL_GATES",
         "POST",
         "runtime/recursive_compiler.py",
@@ -370,13 +418,13 @@ RECURSIVE_COMPILER_BINDINGS=GENERIC_BINDINGS+(
         "tests/test_recursive_compiler.py",
     ),
     ProtectedBinding(
-        "RECURSIVE_COMPILER_PROTECTED_HIERARCHY_CONSTRAINTS_REQUIRED",
-        "INTRA",
+        "RECURSIVE_COMPILER_HF2_ZERO_NEW_DELTA_FIXED_POINT",
+        "POST",
         "runtime/recursive_compiler.py",
         "tests/test_recursive_compiler.py",
     ),
     ProtectedBinding(
-        "RECURSIVE_COMPILER_HF2_ZERO_NEW_DELTA_FIXED_POINT",
+        "RECURSIVE_COMPILER_LOCAL_CLOSE_NOT_GLOBAL_CLOSE",
         "POST",
         "runtime/recursive_compiler.py",
         "tests/test_recursive_compiler.py",
