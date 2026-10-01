@@ -48,7 +48,7 @@ def test_mt_fresh_direct_invocation_satisfies_sigma_four_gate_classifier():
             "execution_truth":"SEMANTICALLY_APPLIED",
             "state":{**current,"round":n},
             "result":{"round":n},
-            "material_delta":True,
+            "material_delta":n<3,
             "hf2_live_local":n<2,
             "evidence":[f"fresh-mt-round:{n}"],
         }
@@ -79,8 +79,8 @@ def test_mt_fresh_direct_invocation_satisfies_sigma_four_gate_classifier():
         ),
         execution.recurrence_engine=="HF002",
         execution.recurrence_status=="RELATIVE_CLOSE",
-        execution.recurrence_rounds==2,
-        calls==[(1,"MT",36,True),(2,"MT",36,True)],
+        execution.recurrence_rounds==3,
+        calls==[(1,"MT",36,True),(2,"MT",36,True),(3,"MT",36,True)],
     ))
 
     sigma=int(delta and omega and phi and xi)
