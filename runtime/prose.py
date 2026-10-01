@@ -126,6 +126,13 @@ _LEADING_NEGATION_PATTERN=re.compile(
     re.IGNORECASE,
 )
 
+_AFFIRMATIVE_PREFIX_PREDICATE=re.compile(
+    r"\b(?:contains?|presents?|provides?|shows?|supports?|establishes?|carries?|"
+    r"includes?|allows?|creates?|gives?|makes?|holds?|states?|argues?|explains?|"
+    r"demonstrates?|requires?|entails?|means?|can|has|have|had|was|were|is|are)\b",
+    re.IGNORECASE,
+)
+
 
 def _leading_sentence_spans(text:str):
     """Yield the first sentence of each paragraph with absolute offsets."""
@@ -242,7 +249,11 @@ def audit_affirmative_first(text:str, contract:ProseContract)->tuple[ProseViolat
     # with an arbitrary subject (for example, "You can ..."). Load-bearing
     # negation remains available through allowed_negative_spans.
     for start,end,excerpt in _leading_sentence_spans(value):
-        if not _LEADING_NEGATION_PATTERN.search(excerpt):
+        negative_match=_LEADING_NEGATION_PATTERN.search(excerpt)
+        if negative_match is None:
+            continue
+        affirmative_prefix=excerpt[:negative_match.start()]
+        if _AFFIRMATIVE_PREFIX_PREDICATE.search(affirmative_prefix):
             continue
         if _allowed(value,start,end,contract):
             continue
