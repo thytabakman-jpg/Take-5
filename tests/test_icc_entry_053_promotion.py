@@ -84,6 +84,7 @@ def test_canonical_run_icc_has_no_arbitrary_parent_controller_injection():
     assert "ic_fn" not in params
     assert "icc128_adapter" not in params
     assert "controller_bindings" in params
+    assert "goal_project_fn" not in params
     assert "ic_fn" in inspect.signature(run_icc_debug_injected).parameters
 
 
@@ -97,7 +98,6 @@ def test_canonical_run_icc_constructs_and_executes_current_icc128_controller():
         goal_observer_fn=_goal_observer,
         observe_fn=lambda s,b:s,
         formalize_fn=lambda o,b:{"m":"fixed"},
-        goal_project_fn=lambda m,b:"governing",
         packetize_fn=lambda m,g,s,b:{
             "type":"system",
             "scope":"canonical",

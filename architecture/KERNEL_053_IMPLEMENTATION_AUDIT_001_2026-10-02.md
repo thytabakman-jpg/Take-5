@@ -1,15 +1,16 @@
 # Kernel 053 Implementation Audit 001
 
 Date: 2026-10-02
-Status: NON-AUTHORITATIVE PROTOTYPE AUDIT
-Branch: kernel-053-implementation-prototype
+Status: PROMOTED CURRENT IMPLEMENTATION AUDIT
+Branch: main
 Parent design: architecture/KERNEL_MATH_CONTRACT_053.yaml
-Draft PR: #198
+PR #198: MERGED
 
 ## Scope
 
-This audit records implementation evidence for the non-authoritative Kernel 053
-prototype. It does not promote the prototype or alter current KERNEL.yaml authority.
+This audit records the implementation and promotion evidence for Kernel 053.
+PR #198 promoted the validated canonical ICC128 control path to main at commit
+b5bd2ba25bdde8c947a70e9d234b7a41f9dde563.
 
 ## Reuse-first implementation
 
@@ -195,3 +196,32 @@ Pre-promotion-patch validation at commit c6383a170f58cc2a98c9b19430d1da8a74d8b73
 - ImproveCore Legacy Semantic Holdouts 132: PASS
 
 The promotion patch requires the same validation surfaces to pass again before merge.
+
+
+## Final currentness reconciliation
+
+PR #198 merged to main:
+- merge commit: b5bd2ba25bdde8c947a70e9d234b7a41f9dde563
+- canonical selection owner: ICC128
+- ImprovementCore controller scope: delegated improvement episode
+- arbitrary parent-controller injection: debug-only, noncanonical
+- bootstrap GOAL: captured as G_ext and projected internally; no caller-supplied GoalProject on canonical run_icc
+- TARGET_TRANSFORM: fails closed until a typed Commit_sigma execution adapter exists
+- current D_exec baseline: Take5InlineBackend
+- optional DBOS adapter remains behind D_exec
+
+Promotion-patch validation on the tested head:
+- Take-5 Validation: PASS
+- Capability Preservation: PASS
+- Tool System Every-Tool Sweep: PASS
+- Kernel 053 Durable Backend Bakeoff: PASS
+- ImproveCore Legacy Restoration 130: PASS
+- ImproveCore Legacy Semantic Holdouts 132: PASS
+
+The older prototype failure counts above are retained as historical evidence of the repair sequence.
+They no longer describe current repository status.
+
+Current conclusion:
+PROMOTED_CURRENT within Take-5.
+
+External universal host interception remains EXTERNAL_NOT_OWNED and is not implied by this promotion.

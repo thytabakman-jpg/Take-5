@@ -1,7 +1,8 @@
-"""Non-authoritative canonical-shape ICC128 entry candidate for Kernel 053.
+"""Guarded ICC128 entry substrate retained from the Kernel 053 candidate lineage.
 
-Unlike the current run_icc surface, this entry does not accept an arbitrary ic_fn.
-The ICC128 episode adapter is bound internally.
+The canonical caller constructs ICC128 internally. This substrate enforces the
+ICC128 binding, anchors the operational goal to the admitted bootstrap GOAL
+receipt, and guards Packetize against substantive selection.
 """
 from __future__ import annotations
 
@@ -25,7 +26,6 @@ def run_icc_053_candidate(
     goal_observer_fn:Callable,
     observe_fn:Callable,
     formalize_fn:Callable,
-    goal_project_fn:Callable,
     packetize_fn:Callable,
     icc128_adapter:Callable,
     closure_fn:Callable,
@@ -48,13 +48,25 @@ def run_icc_053_candidate(
             "ICC128_CONTROLLER_BINDING_REQUIRED",
         )
 
+    governing_goal_holder={}
+
     def bootstrap_fn(state,bound):
-        return run_icc_bootstrap(
+        receipt=run_icc_bootstrap(
             deepcopy(state),
             bound,
             assert_observer_fn=assert_observer_fn,
             goal_observer_fn=goal_observer_fn,
         )
+        governing_goal_holder["goal"]=deepcopy(receipt.goal_receipt.result)
+        return receipt
+
+    def project_governing_goal(math,bound):
+        if "goal" not in governing_goal_holder:
+            raise RuntimeError("GOVERNING_GOAL_BOOTSTRAP_REQUIRED")
+        return {
+            "governing_goal":deepcopy(governing_goal_holder["goal"]),
+            "frozen_basis":deepcopy(math),
+        }
 
     def guarded_packetize(math,goal,state,bound):
         try:
@@ -75,7 +87,7 @@ def run_icc_053_candidate(
         bootstrap_fn=bootstrap_fn,
         observe_fn=observe_fn,
         formalize_fn=formalize_fn,
-        goal_fn=goal_project_fn,
+        goal_fn=project_governing_goal,
         architect_fn=guarded_packetize,
         ic_fn=icc128_adapter,
         closure_fn=closure_fn,
