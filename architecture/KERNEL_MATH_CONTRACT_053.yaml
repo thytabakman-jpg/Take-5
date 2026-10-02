@@ -1,4 +1,4 @@
-schema_version: 1.0
+schema_version: 1.1
 artifact: KERNEL_MATH_CONTRACT_053
 date: 2026-10-02
 status: DRAFT_SUCCESSOR_MATH_CANDIDATE
@@ -143,7 +143,14 @@ predecessor_section_disposition:
     disposition: PRESERVED_AS_CONTINUITY_CURRENTNESS_SUPERVISOR
   take_two_recovered_behavior:
     disposition: PRESERVED
-  preserved_open_research:
+  alignment_candidate:
+    disposition: PRESERVED_BY_REFERENCE_AS_OPEN_RESEARCH
+  change_protocol:
+    disposition: PRESERVED_AND_STRENGTHENED_BY_RECURSIVE_INVALIDATION
+  open_questions:
+    disposition: EXPLICITLY_REDISPOSITIONED_BELOW
+
+preserved_open_research:
   alignment_candidate_052:
     source: architecture/KERNEL_MATH_CONTRACT_052.yaml::alignment_candidate
     status: OPEN_PRESERVED_BY_REFERENCE
@@ -825,6 +832,12 @@ audit_history:
       - vendor_candidate_names_still_leaked_into_the_math_contract_after_backend_abstraction
       - ConfiguredInvoke_symbol_name_did_not_match_ConfiguredInvoke_D_equation
     disposition: REVISED_IN_SCHEMA_1_0
+  - pass: CLEAN_SUCCESSOR_REENTRY_10
+    material_delta: true
+    findings:
+      - preserved_open_research_was_accidentally_nested_under_predecessor_section_disposition
+      - predecessor_alignment_change_protocol_and_open_question_dispositions_were_displaced
+    disposition: REVISED_IN_SCHEMA_1_1
 
 recursive_validation_plan:
   required_before_implementation: true
