@@ -279,7 +279,6 @@ def test_candidate_entry_blocks_old_controller_binding_and_runs_with_icc128_bind
         goal_observer_fn=_goal_observer,
         observe_fn=lambda s,b:s,
         formalize_fn=lambda o,b:{"m":"fixed"},
-        goal_project_fn=lambda m,b:"projected-goal",
         packetize_fn=lambda m,g,s,b:{
             "type":"system",
             "scope":"candidate",
@@ -313,7 +312,6 @@ def test_candidate_entry_rejects_packetize_attempt_to_select():
         goal_observer_fn=_goal_observer,
         observe_fn=lambda s,b:s,
         formalize_fn=lambda o,b:{"m":"fixed"},
-        goal_project_fn=lambda m,b:"projected-goal",
         packetize_fn=lambda m,g,s,b:{
             "selected_tools":["PD"],
             "obligations":[],
