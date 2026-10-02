@@ -39,7 +39,9 @@ def _audit_controller_bridge()->tuple[int,tuple[str,...]]:
                     "status":"EXECUTED",
                     "execution_truth":"IMPLEMENTATION_EXECUTED",
                     "result":{"bridge_witness":_tool_id},
-                    "material_delta":True,
+                    # This is a route/reachability witness, not a semantic
+                    # change to the target tool or controller state.
+                    "material_delta":False,
                     "evidence":("repertoire-reachability:synthetic-adapter",),
                 }
             out=execute_bound_tools(state,bindings,{tool_id:witness_adapter})

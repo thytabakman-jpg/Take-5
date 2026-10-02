@@ -398,12 +398,19 @@ def run_improvement_core_legacy_restored(
     last=None
 
     for parent_round in range(int(parent_max_rounds)):
+        # parent_return_continuation is an edge-level reentry instruction.  Once
+        # this parent loop consumes it by starting the next complete round, it
+        # must not leak into the child/local HF2 liveness predicate.
+        round_state=dict(current_state)
+        if round_state.get("parent_return_continuation"):
+            round_state["parent_return_continuation"]=False
+
         last=_run_improvement_core_legacy_restored_once(
             user_text,
             target=target,
             job=job,
             basis=basis,
-            state=current_state,
+            state=round_state,
             memory=current_memory,
             generate_questions=generate_questions,
             generate_work=generate_work,

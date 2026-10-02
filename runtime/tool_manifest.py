@@ -134,14 +134,20 @@ ICC128_BINDINGS=GENERIC_BINDINGS+(
         "runtime/adaptive_response_selector.py",
         "tests/test_adaptive_response_selector.py",
     ),
+    ProtectedBinding(
+        "ICC128_CANONICAL_TOP_LEVEL_SUBSTANTIVE_OWNERSHIP",
+        "CROSS",
+        "runtime/icc_entry.py",
+        "tests/test_icc_entry_053_promotion.py",
+    ),
 )
 
 IMPROVEMENT_CORE_BINDINGS=GENERIC_BINDINGS+(
     ProtectedBinding(
-        "IMPROVEMENTCORE_CONTROLLER_OWNERSHIP",
+        "IMPROVEMENTCORE_DELEGATED_EPISODE_CONTROLLER_OWNERSHIP",
         "PRE",
         "runtime/improvement_core_manager.py",
-        "tests/test_improvement_core_manager.py",
+        "tests/test_icc_entry_053_promotion.py",
     ),
     ProtectedBinding(
         "IMPROVEMENTCORE_OBSERVER_FIRST_MODE",

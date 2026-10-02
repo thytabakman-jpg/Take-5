@@ -76,9 +76,9 @@ def test_conductor_factor_can_recur_under_hf2_without_duplicate_factor_dispositi
         return {
             "status":"EXECUTED",
             "execution_truth":"SEMANTICALLY_APPLIED",
-            "result":{"round":n},
-            "material_delta":True,
-            "hf2_live_local":n<2,
+            "result":{"round":1},
+            "material_delta":n==1,
+            "hf2_live_local":n==1,
         }
 
     out=run_tool_conductor({},adapters={"MT":mt_adapter})

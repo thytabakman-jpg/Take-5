@@ -41,16 +41,16 @@ def test_mt_fresh_direct_invocation_satisfies_sigma_four_gate_classifier():
     # Phi — an actual configured realization is available and executes.
     calls=[]
     def mt_adapter(current,plan):
-        n=int(current.get("round",0))+1
-        calls.append((n,plan.tool_id,len(plan.cells),plan.wrapper_required))
+        call_no=len(calls)+1
+        calls.append((call_no,plan.tool_id,len(plan.cells),plan.wrapper_required))
         return {
             "status":"EXECUTED",
             "execution_truth":"SEMANTICALLY_APPLIED",
-            "state":{**current,"round":n},
-            "result":{"round":n},
-            "material_delta":True,
-            "hf2_live_local":n<2,
-            "evidence":[f"fresh-mt-round:{n}"],
+            "state":{**current,"round":1},
+            "result":{"round":1},
+            "material_delta":call_no==1,
+            "hf2_live_local":call_no==1,
+            "evidence":["fresh-mt-round:1"],
         }
 
     out=execute_direct_tool_commands(

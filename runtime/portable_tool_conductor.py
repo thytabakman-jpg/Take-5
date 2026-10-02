@@ -114,6 +114,10 @@ NATIVE_ENTRYPOINTS: dict[str, tuple[str, tuple[str, ...]]] = {
         "semantic_resolution_pipeline.plan_black_box_resolution",
         ("semantic_resolution_workers",),
     ),
+    "RecursiveCompiler": (
+        "recursive_compiler.evaluate_global_closure",
+        ("compiler_nodes","edge_receipts","constraint_receipts","delta_hashes","hf2_trace"),
+    ),
 }
 
 

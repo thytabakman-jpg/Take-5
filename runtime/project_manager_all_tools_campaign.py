@@ -47,7 +47,7 @@ PHASES=(
         "STRUCTURAL_RECONSTRUCTION_OBSERVATION",
         (
             "MTA","Architecture","PD","PDAudit","GDOS","Discriminator","MultiObject",
-            "MT","SemanticResolutionPipeline",
+            "MT","SemanticResolutionPipeline","RecursiveCompiler",
             "C07","C08","C09","C10","C11","C12","C13",
         ),
     ),
@@ -715,6 +715,30 @@ def _run_named_native(tool_id:str, packet:dict[str,Any])->Any:
             "TransferCore",
             ("CURRENT_FULL_MATH_IDENTITY_UNRECOVERED",)
             if packet["transfercore_open"] else (),
+        )
+
+    if tool_id=="RecursiveCompiler":
+        from recursive_compiler import CompilerNode,evaluate_global_closure
+        root=CompilerNode(
+            "whole","WHOLE",None,
+            gates={"observer":True,"focused":True,"final_observer":True},
+            protected_constraints=("NO_DOWNGRADE",),
+        )
+        child=CompilerNode(
+            "section","SECTION","whole",
+            gates={"observer":True,"focused":True,"final_observer":True},
+            protected_constraints=("NO_DOWNGRADE",),
+        )
+        return evaluate_global_closure(
+            nodes=(root,child),
+            edge_receipts={("whole","section"):True},
+            constraint_receipts={
+                ("whole","NO_DOWNGRADE"):True,
+                ("section","NO_DOWNGRADE"):True,
+            },
+            admitted_delta_hashes={},
+            realized_delta_hashes={},
+            hf2_trace=({"disposition":"RELATIVE_CLOSE","delta":{}},),
         )
 
     if tool_id=="BiasPerturbation":
