@@ -246,7 +246,6 @@ def test_candidate_entry_blocks_old_controller_binding_and_runs_with_icc128_bind
         goal_observer_fn=_goal_observer,
         observe_fn=lambda s,b:s,
         formalize_fn=lambda o,b:{"m":"fixed"},
-        goal_project_fn=lambda m,b:"projected-goal",
         packetize_fn=lambda m,g,s,b:{
             "type":"system",
             "scope":"candidate",
@@ -269,6 +268,7 @@ def test_candidate_entry_blocks_old_controller_binding_and_runs_with_icc128_bind
         job="finish-kernel-053",
         basis="candidate",
     )
+    seen_goals=[]
     out=run_icc_053_candidate(
         binding,
         {"answer":1},
@@ -277,14 +277,15 @@ def test_candidate_entry_blocks_old_controller_binding_and_runs_with_icc128_bind
         goal_observer_fn=_goal_observer,
         observe_fn=lambda s,b:s,
         formalize_fn=lambda o,b:{"m":"fixed"},
-        goal_project_fn=lambda m,b:"projected-goal",
-        packetize_fn=lambda m,g,s,b:{
-            "type":"system",
-            "scope":"candidate",
-            "selectors":[],
-            "open":[],
-            "obligations":[],
-        },
+        packetize_fn=lambda m,g,s,b:(
+            seen_goals.append(g) or {
+                "type":"system",
+                "scope":"candidate",
+                "selectors":[],
+                "open":[],
+                "obligations":[],
+            }
+        ),
         icc128_adapter=adapter,
         closure_fn=lambda p,i,a:Closure(dict(p),Cert("CLOSED")),
         update_fn=lambda p,c:c.state,
@@ -293,6 +294,7 @@ def test_candidate_entry_blocks_old_controller_binding_and_runs_with_icc128_bind
     )
     assert out.status=="CLOSED_RELATIVE"
     assert len(out.rounds)==1
+    assert seen_goals[0]["governing_goal"]=={"goal":"governing"}
 
 
 def test_candidate_entry_rejects_packetize_attempt_to_select():
@@ -310,7 +312,6 @@ def test_candidate_entry_rejects_packetize_attempt_to_select():
         goal_observer_fn=_goal_observer,
         observe_fn=lambda s,b:s,
         formalize_fn=lambda o,b:{"m":"fixed"},
-        goal_project_fn=lambda m,b:"projected-goal",
         packetize_fn=lambda m,g,s,b:{
             "selected_tools":["PD"],
             "obligations":[],
@@ -323,3 +324,39 @@ def test_candidate_entry_rejects_packetize_attempt_to_select():
     )
     assert out.status=="BLOCKED"
     assert "PACKETIZE_SUBSTANTIVE_SELECTION_FORBIDDEN:selected_tools" in out.blocker
+
+
+def test_target_transform_is_blocked_until_typed_commit_executor_exists():
+    calls=[]
+    def gq(z,m):
+        return [{"id":"q-transform"}]
+    def gw(q,z,m):
+        return [{
+            "id":"w-transform",
+            "jobs":(),
+            "operation_class":"TRANSFORM",
+            "effect_class":"TARGET_TRANSFORM",
+            "object_specification":{
+                "object_id":"target-x",
+                "basis_id":"basis-x",
+                "identification_status":"IDENTIFIED",
+                "required_coordinates":["content"],
+                "resolved_coordinates":["content"],
+                "open_coordinates":[],
+                "invariant_coordinates":[],
+            },
+        }]
+    adapter=ICC128EpisodeAdapter(
+        generate_questions=gq,
+        generate_work=gw,
+        admit_results=lambda r,z,m:{},
+        update_state=lambda z,m,d:(
+            {**z,"terminal":"CONTINUE","admitted_continuation":True},
+            dict(m),
+        ),
+        generic_execute=lambda item,z,m:calls.append(item) or {"status":"EXECUTED"},
+    )
+    out=adapter(_packet())
+    assert out.status=="BLOCKED"
+    assert calls==[]
+    assert out.results[0]["blocker"]=="KERNEL053_TARGET_TRANSFORM_COMMIT_ADAPTER_REQUIRED"

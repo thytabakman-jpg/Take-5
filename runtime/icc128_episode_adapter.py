@@ -224,6 +224,14 @@ class ICC128EpisodeAdapter:
                     "execution_admission":admission.__dict__,
                     "work_id":_work_id(item),
                 }
+            if admission.effect_class=="TARGET_TRANSFORM":
+                return {
+                    "status":"BLOCKED",
+                    "execution_truth":"NOT_EXECUTED",
+                    "blocker":"KERNEL053_TARGET_TRANSFORM_COMMIT_ADAPTER_REQUIRED",
+                    "execution_admission":admission.__dict__,
+                    "work_id":_work_id(item),
+                }
             if self.generic_execute is None:
                 return {
                     "status":"OPEN",
@@ -293,6 +301,25 @@ class ICC128EpisodeAdapter:
                 delta["child_deltas"]=tuple(child_deltas)
             if any(bool(x.get("material_delta")) for x in results if isinstance(x,Mapping)):
                 delta["material_result_delta"]=True
+            statuses={
+                str(x.get("status"))
+                for x in results
+                if isinstance(x,Mapping)
+            }
+            if "BLOCKED" in statuses:
+                delta["terminal"]="BLOCKED"
+            elif "CONFLICT" in statuses:
+                delta["terminal"]="CONFLICT"
+            elif "OPEN" in statuses:
+                delta["terminal"]="OPEN"
+            if delta.get("terminal") in NON_SUCCESS:
+                blockers=tuple(
+                    str(x.get("blocker"))
+                    for x in results
+                    if isinstance(x,Mapping) and x.get("blocker")
+                )
+                if blockers:
+                    delta["execution_blocker"]=blockers[0]
             if any(str(x.get("status"))=="OPEN" for x in results if isinstance(x,Mapping)):
                 delta["new_OPEN"]=True
             if any(str(x.get("status"))=="BLOCKED" for x in results if isinstance(x,Mapping)):
@@ -303,13 +330,27 @@ class ICC128EpisodeAdapter:
                 delta["rho_reselection_required"]=True
             return delta
 
+        def update(current,mem,delta):
+            next_state,next_memory=self.update_state(
+                dict(current),dict(mem),dict(delta)
+            )
+            next_state=dict(next_state)
+            next_memory=dict(next_memory)
+            terminal=str(delta.get("terminal",""))
+            if terminal in NON_SUCCESS:
+                next_state["terminal"]=terminal
+                next_state["admitted_continuation"]=False
+            if delta.get("rho_reselection_required"):
+                next_memory["rho_reselection_required"]=True
+            return next_state,next_memory
+
         controller=ICC128Controller(
             gq=self.generate_questions,
             gw=self.generate_work,
             select=select,
             execute=execute,
             admit=admit,
-            update=self.update_state,
+            update=update,
             dcc=self.discovery_closure,
             max_iterations=self.max_iterations,
         )

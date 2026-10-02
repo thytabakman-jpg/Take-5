@@ -1,4 +1,4 @@
-schema_version: 1.6
+schema_version: 1.7
 artifact: KERNEL_MATH_CONTRACT_053
 date: 2026-10-02
 status: VALIDATED_SUCCESSOR_CONTRACT
@@ -483,7 +483,7 @@ state_role_classes:
 
 state_commit_family:
   equation: "Commit_sigma(<z_sigma, delta, beta, receipts>) -> <z'_sigma, commit_receipt> OR OPEN/BLOCKED"
-  current_coverage_status: PARTIAL_REQUIRES_RECONCILIATION
+  current_coverage_status: EVIDENCE_ONLY_PATH_COVERED_TARGET_TRANSFORM_FAILS_CLOSED
   successor_requirement: "Every authoritative or persistent protected state species has a typed commit path before 053 implementation closure."
   state_roles:
     - SYSTEM_CONTROL
@@ -595,12 +595,12 @@ packetization:
     Packetize may carry dependencies, constraints, authority, candidate evidence, and OPEN
     coordinates. It may not create question_frontier, work_frontier, selected_work, or
     selected_tools, and it may not select the top-level substantive continuation reserved to rho_128.
-  current_runtime_mapping_candidate: runtime/math_first_wrapper.py::architect_fn
-  current_boundary_status: CONFIRMED_ENFORCEMENT_GAP
+  current_runtime_mapping: runtime/kernel053_packetize.py::validate_packetize_output
+  current_boundary_status: ENFORCED_ON_CANONICAL_ICC_PATH
   implementation_rule: >
-    Current architect_fn permits arbitrary packet content and does not prove non-selection.
-    The successor must enforce Packetize as a non-selecting projection. Any result-sensitive
-    substantive selection behavior moves to C.
+    Canonical ICC Packetize is validated before the wrapper admits the packet. Active
+    question/work frontiers and selected work/tools are rejected. Substantive selection
+    remains inside C.
 
 goal_and_bootstrap:
   bootstrap:
@@ -619,9 +619,12 @@ goal_and_bootstrap:
   round_projection:
     symbol: GoalProject
     equation: "g_n = GoalProject(G_ext,mbar_n,beta)"
+    current_runtime_mapping: runtime/icc_entry_053_candidate.py::project_governing_goal
     role: >
       Project the already-admitted governing goal into the current frozen observation basis.
-      GoalProject is not a second GOAL invocation and cannot create, rank, or replace governing goals.
+      The canonical path captures G_ext directly from the configured bootstrap GOAL receipt.
+      GoalProject is internal and cannot be supplied by the caller, create a second GOAL,
+      rank competing goals, or replace G_ext.
     conflict_rule: >
       A material conflict between G_ext and the current frozen basis returns upstream for GOAL
       reentry rather than silently changing G_ext inside the wrapper.
@@ -915,6 +918,17 @@ audit_history:
       - full_repository_validation_green_before_promotion_patch
     disposition: VALIDATED_PENDING_FINAL_POST_PROMOTION_CI
 
+  - pass: POST_MERGE_CURRENTNESS_17
+    material_delta: false
+    currentness_delta: true
+    basis_commit: b5bd2ba25bdde8c947a70e9d234b7a41f9dde563
+    findings:
+      - canonical_ICC128_promotion_merged_to_main
+      - bootstrap_GOAL_now_anchors_internal_GoalProject
+      - TARGET_TRANSFORM_fails_closed_until_typed_commit_executor_exists
+      - promotion_metadata_reconciled_to_current_main_state
+    disposition: CURRENT_VALIDATED_SUCCESSOR
+
 recursive_validation_plan:
   required_before_implementation: true
   profile:
@@ -1028,64 +1042,42 @@ open_questions:
     Universal external host interception remains EXTERNAL_NOT_OWNED.
 
 implementation_start_gate:
-  status: DESIGN_FIXED_POINT_REACHED_REPOSITORY_NATIVE_RECEIPT_OPEN
+  status: SATISFIED_AND_CONSUMED
   purpose: >
-    Permit non-authoritative implementation work only after the successor mathematics
-    itself reaches a clean zero-new-design-delta observer fixed point.
-  required:
-    - successor_math_whole_pass
-    - section_pass
-    - line_pass
-    - second_whole_observer_pass
-    - protected_behavior_preservation_pass
-    - predecessor_section_coverage_pass
-    - symbol_uniqueness_pass
-    - zero_new_design_delta_fixed_point
-  current_design_evidence:
+    Historical build-start gate. The design fixed point was reached, the prototype was
+    built on an isolated branch, and repository-native configured execution was later verified.
+  evidence:
     model_side_zero_new_design_delta: true
-    repository_native_full_configured_profile_receipt: OPEN
-    prototype_start_authorized_by_design_fixed_point: true
-  when_passed:
-    permits:
-      - create_non_authoritative_runtime_prototype_on_isolated_branch
-      - create_tests_and_holdouts
-      - create_D_exec_adapter_prototypes
-    still_forbids:
-      - edit_main_KERNEL_yaml
-      - production_promotion
-      - retire_052
-      - claim_current_runtime_successor
-
+    repository_native_full_configured_profile_receipt: VERIFIED
+    prototype_branch: kernel-053-implementation-prototype
+    merged_promotion_commit: b5bd2ba25bdde8c947a70e9d234b7a41f9dde563
 promotion_gate:
-  status: VALIDATED_PENDING_CANONICAL_MERGE
+  status: PROMOTED_CURRENT
   purpose: >
-    Holdouts that depend on successor runtime code are promotion requirements, not
-    prerequisites for creating that code.
-  required_after_prototype_exists:
-    - repository_native_full_configured_profile_receipt
-    - controller_ownership_holdout
-    - no_arbitrary_ic_fn_holdout
-    - improvementcore_delegation_holdout
-    - controller_vs_target_state_holdout
-    - governing_goal_projection_holdout
-    - packetization_no_selection_holdout
-    - wrapper_no_question_or_work_generation_holdout
-    - canonical_icc128_adapter_reuse_holdout
-    - improvementcore_typed_child_return_holdout
-    - durable_backend_controller_noninterference_holdout
-    - configured_hf2_runtime_nesting_holdout
-    - local_vs_global_closure_holdout
-    - currentness_reconciliation
-    - repository_vs_turn_execution_holdout
-    - governed_state_product_commit_holdout
-    - protected_transition_integrity_pass
-    - zero_new_runtime_delta_fixed_point
-  when_passed:
-    permits_candidate_review_for:
-      - KERNEL_yaml_successor_alignment
-      - current_runtime_promotion
-      - 053_promotion
-      - 052_retirement_decision
+    Record the validated transition from successor candidate to current canonical ICC128
+    control path inside Take-5.
+  merge_commit: b5bd2ba25bdde8c947a70e9d234b7a41f9dde563
+  validation:
+    repository_native_full_configured_profile_receipt: PASS
+    controller_ownership_holdout: PASS
+    no_arbitrary_ic_fn_holdout: PASS
+    improvementcore_delegation_holdout: PASS
+    controller_vs_target_state_holdout: PASS
+    governing_goal_projection_holdout: PASS
+    packetization_no_selection_holdout: PASS
+    wrapper_no_question_or_work_generation_holdout: PASS
+    canonical_icc128_adapter_reuse_holdout: PASS
+    improvementcore_typed_child_return_holdout: PASS
+    durable_backend_controller_noninterference_holdout: PASS
+    configured_hf2_runtime_nesting_holdout: PASS
+    local_vs_global_closure_holdout: PASS
+    currentness_reconciliation: PASS
+    repository_vs_turn_execution_holdout: PASS
+    governed_state_product_commit_holdout: PASS_EVIDENCE_ONLY_WITH_TARGET_TRANSFORM_BLOCKED
+    protected_transition_integrity_pass: PASS
+    zero_new_runtime_delta_fixed_point: PASS
+  external_boundary:
+    universal_external_host_interception: EXTERNAL_NOT_OWNED
 
 change_protocol:
   - "Preserve 052 unchanged."

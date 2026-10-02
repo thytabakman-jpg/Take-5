@@ -1,6 +1,6 @@
 # Current ICC128 Conversation Control
 
-Date: 2026-09-27
+Date: 2026-10-02
 Status: VALIDATED CURRENT REPOSITORY STATE
 
 ## Current controller
@@ -8,9 +8,16 @@ Status: VALIDATED CURRENT REPOSITORY STATE
 ICC128 is again a registered current configured tool in Take-5.
 
 Active runtime:
+- runtime/icc_entry.py
+- runtime/icc128_entry_binding.py
+- runtime/icc_entry_053_candidate.py
+- runtime/icc128_episode_adapter.py
 - runtime/icc128_autonomous_controller.py
 - runtime/icc128_semantic_generator_adapter.py
 - runtime/rho128_policy.py
+- runtime/kernel053_packetize.py
+- runtime/kernel053_child_result.py
+- runtime/kernel053_durable_execution.py
 
 The frozen ICC128 Legacy snapshot remains separate and unchanged.
 
@@ -87,3 +94,37 @@ Jane continuity -> ICC128 state-relative selection -> execution/reselection -> e
 Repository code cannot force a ChatGPT host to display a separate ICC128 UI identity or green presence dot and cannot universally intercept a host that bypasses Take-5.
 
 Do not claim that external host state from repository evidence alone.
+
+
+## Kernel 053 canonical promotion
+
+On 2026-10-02, PR #198 promoted the Kernel 053 ICC128 control path to main.
+
+Current merge commit:
+- b5bd2ba25bdde8c947a70e9d234b7a41f9dde563
+
+Canonical control ownership:
+- ICC128 owns top-level substantive question/work selection and continuation.
+- ImprovementCore owns controller decisions only inside an ICC128-delegated improvement episode.
+- Jane owns continuity/currentness supervision and does not select substantive work.
+- D_exec owns durability/execution infrastructure and does not own rho_128 selection.
+
+Canonical run_icc:
+- constructs ICC128 internally from typed ICC128RuntimeBindings;
+- accepts no arbitrary ic_fn or caller-supplied parent controller;
+- anchors its operational goal to the configured bootstrap GOAL receipt;
+- applies Packetize as a non-selecting evidence/dependency boundary;
+- blocks TARGET_TRANSFORM until a typed Commit_sigma execution adapter exists.
+
+The former arbitrary injected-controller wrapper survives only as:
+- runtime/icc_entry.py::run_icc_debug_injected
+
+That debug surface is not evidence of canonical repository-backed ICC128 execution.
+
+Promotion validation:
+- Take-5 Validation: PASS
+- Capability Preservation: PASS
+- Tool System Every-Tool Sweep: PASS
+- Kernel 053 Durable Backend Bakeoff: PASS
+- ImproveCore Legacy Restoration 130: PASS
+- ImproveCore Legacy Semantic Holdouts 132: PASS
