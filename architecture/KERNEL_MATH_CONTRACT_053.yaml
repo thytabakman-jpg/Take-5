@@ -125,18 +125,7 @@ predecessor_section_disposition:
     disposition: REPLACED_WITH_TYPED_CONTROLLER_AND_GOVERNANCE_FACTORS
   kernel:
     disposition: REFACTORED_INTO_COMMON_EFFECT_CONTRACT_PLUS_TYPED_GLOBAL_OWNERS
-  episode_closure:
-  symbol: TRC_episode
-  role: >
-    Verify basis-relative controller-episode closure after C_episode returns.
-    TRC_episode may return CLOSED_RELATIVE, OPEN, BLOCKED, or CONFLICT and may signal
-    upstream reentry. It does not select substantive work and does not replace C terminality.
-  closure_requirement: >
-    A user-visible terminal result requires both controller terminality and episode closure
-    under the same frozen basis, with no live reentry trigger.
-  no_local_to_global_rule: "Local child or capability closure does not imply controller-episode closure."
-
-wrapper:
+  wrapper:
     disposition: REPLACED_WITH_CONTROLLER_PARAMETERIZED_WRAPPER
   improvement_core:
     disposition: RETYPED_AS_DELEGATED_IMPROVEMENT_SUBCONTROLLER
@@ -453,6 +442,17 @@ governed_execution:
     ReturnReceipts:
       rule: "All success and non-success dispositions return to C for A_C and U_C."
 
+episode_closure:
+  symbol: TRC_episode
+  role: >
+    Verify basis-relative controller-episode closure after C_episode returns.
+    TRC_episode may return CLOSED_RELATIVE, OPEN, BLOCKED, or CONFLICT and may signal
+    upstream reentry. It does not select substantive work and does not replace C terminality.
+  closure_requirement: >
+    A user-visible terminal result requires both controller terminality and episode closure
+    under the same frozen basis, with no live reentry trigger.
+  no_local_to_global_rule: "Local child or capability closure does not imply controller-episode closure."
+
 wrapper:
   equation: "W_beta(C) = Sync_J o TRC_episode o C_episode o Packetize o GoalProject o Freeze o Phi o O_beta"
   interpretation: >
@@ -663,6 +663,12 @@ audit_history:
       - authoritative_and_episode_local_state_classes_needed_explicit_separation
       - ImprovementCore_controller_ownership_needed_scope_typing
     disposition: REVISED_IN_SCHEMA_0_5
+  - pass: WHOLE_OBSERVER_2
+    material_delta: true
+    findings:
+      - duplicate_top_level_wrapper_key_created_by_revision
+      - predecessor_section_disposition_indentation_was_corrupted
+    disposition: REPAIRED_BEFORE_CLOSURE
 
 recursive_validation_plan:
   required_before_implementation: true
