@@ -516,3 +516,221 @@ DBOS
 
 The exact backend choice should be made after adding deployment and operational
 constraints to the architecture basis.
+
+
+## Reentry continuation after initial report
+
+The first version of this report stopped before the recursive sequence itself had
+reached a clean successor pass. The subsequent passes are part of the same audit.
+
+### Reentry 3 — configured HF2/runtime nesting
+
+Material delta: YES.
+
+Recovered:
+- current Take-5 executes the runtime adapter inside configured HF2:
+  HF002[Adapter_T(Plan(T),x)];
+- ConfiguredHF2 and Runtime are therefore not two serial semantic stages;
+- C_episode was an unnecessary undefined alias for C;
+- D_exec can host durable controller execution/replay without becoming the
+  substantive controller.
+
+053 was revised accordingly.
+
+### Reentry 4 — contract versus implementation evidence
+
+Material delta: YES.
+
+Recovered:
+- detailed Temporal/DBOS/Restate/LangGraph/Pydantic AI comparison belongs in this
+  audit report rather than in the mathematical identity of 053;
+- D_exec belongs in 053 only as a typed replaceable infrastructure role;
+- D_exec required its own explicit non-selection ownership boundary.
+
+053 was revised accordingly.
+
+### Reentry 5 — unit-job purity
+
+Material delta: YES.
+
+Recovered:
+- copying the full 052 alignment/Lambda research object into 053 created a second
+  mathematical job;
+- the alignment research is now preserved by reference as OPEN research rather
+  than duplicated in the successor kernel/control contract.
+
+### Reentry 6 — YAML tree integrity
+
+Material delta: YES.
+
+Recovered:
+- preserved_open_research was accidentally nested under predecessor dispositions;
+- displaced predecessor dispositions were restored.
+
+### Reentry 7 — build gate versus promotion gate
+
+Material delta: YES.
+
+Recovered:
+- requiring runtime holdouts before runtime code may be prototyped is circular;
+- design fixed point and implementation validation are separate transitions;
+- wrapper observation/formalization/GoalProject/Packetize needed a hard boundary
+  from ICC128 G_Q/G_W.
+
+Successor semantic ownership is now:
+
+O_beta / Phi / Freeze / GoalProject / Packetize
+-> evidence/context only
+
+G_Q
+-> first live question-frontier generation
+
+G_W
+-> first work-frontier generation
+
+rho_128
+-> top-level substantive selection.
+
+### Reentry 8 — invisible token and recursive coverage
+
+Material delta: YES.
+
+Recovered:
+- two zero-width characters had entered a KERNEL.yaml prohibition token;
+- new implementation/promotion gates required explicit recursive section coverage;
+- design_boundary_resolution also required explicit recursive coverage.
+
+These were repaired.
+
+## Final clean successor observer pass
+
+Target schema: 1.4 design semantics, with the final audit receipt subsequently
+recorded in the artifact.
+
+Material design delta: NO.
+
+Checks:
+- duplicate top-level YAML keys: none;
+- zero-width token drift: none;
+- all fourteen inherited 052 invariants mapped;
+- all major 052 sections dispositioned;
+- all load-bearing symbols recovered;
+- all recursive section targets covered;
+- ICC128 remains the one current top-level substantive controller binding;
+- ImprovementCore remains a delegated improvement subcontroller;
+- Jane remains continuity/currentness supervisor;
+- Packetize is non-selecting;
+- G_Q is first question generator;
+- G_W is first work generator;
+- rho_128 is substantive selector;
+- child result returns are typed deltas rather than arbitrary parent-state patches;
+- configured HF2 wraps the actual runtime adapter;
+- D_exec remains infrastructure, not semantic controller;
+- external vendor evidence remains outside the mathematical identity;
+- repository currentness remains distinct from per-turn execution;
+- OPEN/BLOCKED/CONFLICT and external-host boundary remain preserved.
+
+Disposition:
+
+ZERO_NEW_DESIGN_DELTA relative to the current evidence basis.
+
+This is a model-side design fixed point. A repository-native
+FULL_CONFIGURED_HF2_V1 execution receipt is still OPEN and is not manufactured
+by this report.
+
+## Updated Architecture result
+
+The strongest current architecture is:
+
+S = <K, W_beta, C, J, T, Gamma>
+
+with:
+
+C_current = ICC128
+
+ImprovementCore in T_controller subseteq T
+
+and a replaceable durable infrastructure coordinate:
+
+D_exec in Gamma.
+
+The controller path is:
+
+frozen evidence/context
+-> ICC128 G_Q
+-> ICC128 G_W
+-> rho_128
+-> GovernedExec
+-> A_C
+-> U_C
+-> G_Q reentry.
+
+Target-state effects cross Commit_sigma.
+Controller-state updates remain inside U_C.
+Child controller state does not directly mutate parent controller state.
+
+## Updated external-reuse recommendation
+
+Do not build a second generic workflow engine inside ICC128.
+
+Keep the custom semantic/controller layer:
+- ICC128;
+- G_Q/G_W;
+- rho_128;
+- A_C/U_C;
+- typed 053 receipts and authority boundaries.
+
+Reuse mature infrastructure behind D_exec for generic durability, replay,
+scheduling, retries, and child lifecycle.
+
+The external evidence leaves two nondominated implementation candidates:
+
+### Temporal
+
+Best fit when explicit long-running parent/child workflow semantics, durable
+event history, replay, and independent child lifecycle are result-sensitive.
+
+Natural mapping:
+- ICC128 -> parent Workflow;
+- ImprovementCore -> Child Workflow;
+- nondeterministic model/API/tool work -> Activities;
+- 053 receipts -> explicit domain receipts plus Temporal execution history.
+
+### DBOS
+
+Best fit when Python-local simplicity and durable workflow/transaction semantics
+are more result-sensitive than a separate workflow-service architecture.
+
+Natural mapping:
+- ICC128 -> durable workflow;
+- external work -> steps;
+- database effects -> transaction/datasource steps when applicable.
+
+The backend choice remains OPEN until deployment, persistence, latency,
+operational burden, and lifecycle requirements are supplied.
+
+Restate remains relevant when keyed single-writer durable state becomes dominant.
+
+LangGraph remains useful as a comparison for supervisor/subgraph state boundaries
+and persistence, but its Supervisor should not become the canonical parent
+controller because that would duplicate ICC128 selection.
+
+Pydantic AI contributes the useful architectural pattern of pluggable durability
+backends without requiring its agent loop to replace ICC128.
+
+## Final audit status
+
+053 mathematical design:
+RELATIVE CLOSE / MODEL-SIDE ZERO-NEW-DESIGN-DELTA.
+
+Repository-native configured execution receipt:
+OPEN.
+
+Runtime successor implementation:
+NOT STARTED.
+
+Production promotion:
+BLOCKED.
+
+052:
+PRESERVED UNCHANGED.
