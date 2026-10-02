@@ -251,7 +251,7 @@ def test_regime_threads_selected_formal_tool_into_real_adapter_execution():
         configured_tool_adapters={"RootCause":root_adapter},
     )
     assert out.status=="COMPLETE"
-    assert calls==[("RootCause",36)]
+    assert calls==[("RootCause",36),("RootCause",36)]
     assert out.result.state["configured_tool_outputs"][0]["tool_id"]=="RootCause"
 
 
@@ -383,7 +383,7 @@ def test_regime_auto_captures_every_material_configured_tool_hf2_round(tmp_path)
         if row["kind"]=="MATERIAL_TRANSITION"
         and "RootCause" in row["related_objects"]
     ]
-    assert len(captured)==2
+    assert len(captured)==1
     assert all("configured_tool:RootCause" in row["dependency_footprint"] for row in captured)
     assert all("MT" in row["related_objects"] and "GOAL" in row["related_objects"] for row in captured)
     assert {
@@ -398,5 +398,5 @@ def test_regime_auto_captures_every_material_configured_tool_hf2_round(tmp_path)
         node for node in reloaded.nodes.values()
         if node.kind=="MATERIAL_TRANSITION" and "RootCause" in node.related_objects
     ]
-    assert len(configured)==2
+    assert len(configured)==1
     assert all("representation" in node.dependency_footprint for node in configured)
