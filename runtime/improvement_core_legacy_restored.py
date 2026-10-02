@@ -242,6 +242,8 @@ def run_improvement_core_legacy_restored(
         after_clean={k:v for k,v in after.items() if k!="_legacy_restored_memory"}
         changed=_fingerprint(before_clean)!=_fingerprint(after_clean)
         material=changed and bool(raw.get("trace_count",0))
+        if not material:
+            after["hf2_live_local"]=False
         delta={
             "material_result_delta":material,
             "route_equivalence":"LegacyRestored:"+_fingerprint(after_clean),
