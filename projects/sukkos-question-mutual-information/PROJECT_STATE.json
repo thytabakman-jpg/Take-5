@@ -1,0 +1,43 @@
+{
+  "project_id": "sukkos-question-mutual-information",
+  "status": "BACKEND_LOCKED_RELATIVE",
+  "goal_status": "CLOSED_RELATIVE",
+  "frontend_status": "OPEN_BY_DESIGN",
+  "coordinates": {
+    "identity": "CURRENT",
+    "charter": "CURRENT",
+    "goal": "LOCKED_RELATIVE",
+    "scope": "CURRENT",
+    "authority": "CURRENT",
+    "stakeholders": "CURRENT",
+    "deliverables": "CURRENT",
+    "schedule": "CURRENT",
+    "resources": "CURRENT",
+    "dependencies": "CURRENT",
+    "interfaces": "CURRENT",
+    "raid": "CURRENT",
+    "questions": "CURRENT",
+    "evidence": "CURRENT",
+    "decisions": "CURRENT",
+    "lessons": "CURRENT",
+    "changes": "CURRENT",
+    "lifecycle": "CURRENT",
+    "verification": "PASS",
+    "communications": "CURRENT",
+    "handoffs": "CURRENT"
+  },
+  "domain": {
+    "mathematical_core": "LOCKED_RELATIVE",
+    "question_construction": "LOCKED_RELATIVE",
+    "source_lock": "LOCKED_RELATIVE",
+    "four_page_architecture": "LOCKED_RELATIVE",
+    "activity_model": "LOCKED_RELATIVE",
+    "emotional_arc": "DIRECTION_LOCKED",
+    "backend": "LOCKED_RELATIVE",
+    "exact_copy": "OPEN_BY_DESIGN",
+    "visual_master": "NOT_CREATED",
+    "render": "NOT_STARTED"
+  },
+  "sibling_project": "sukkos-question-entropy",
+  "shared_mutation_authority": false
+}
