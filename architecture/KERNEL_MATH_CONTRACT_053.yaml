@@ -1,4 +1,4 @@
-schema_version: 1.2
+schema_version: 1.3
 artifact: KERNEL_MATH_CONTRACT_053
 date: 2026-10-02
 status: DRAFT_SUCCESSOR_MATH_CANDIDATE
@@ -863,6 +863,12 @@ audit_history:
       - implementation_gate_was_circular_because_runtime_holdouts_were_required_before_runtime_prototype_creation
       - wrapper_vs_GQ_GW_generation_boundary_was_still_open
     disposition: REVISED_IN_SCHEMA_1_2
+  - pass: LINE_CLEANUP_REENTRY_12
+    material_delta: true
+    findings:
+      - invisible_zero_width_characters_were_embedded_in_a_Kernel_yaml_prohibition_token
+      - new_implementation_and_promotion_gates_were_not_yet_in_recursive_section_coverage
+    disposition: REVISED_IN_SCHEMA_1_3
 
 recursive_validation_plan:
   required_before_implementation: true
@@ -903,6 +909,8 @@ recursive_validation_plan:
         - improvement_core
         - jane
         - preservation_map_052
+        - implementation_start_gate
+        - promotion_gate
     - level: LINE
       rule: >
         Every load-bearing equation, role assignment, prohibition, owner, status,
@@ -993,7 +1001,7 @@ implementation_start_gate:
       - create_tests_and_holdouts
       - create_D_exec_adapter_prototypes
     still_forbids:
-      - edit_main_K​​ERNEL_yaml
+      - edit_main_KERNEL_yaml
       - production_promotion
       - retire_052
       - claim_current_runtime_successor
