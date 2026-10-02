@@ -59,15 +59,15 @@ def test_protected_transition_reapplies_execute_edge_under_hf2_when_local_fronti
     calls=[]
 
     def execute(value,plan):
-        n=int(value.get("round",0))+1
-        calls.append(n)
+        call_no=len(calls)+1
+        calls.append(call_no)
         return (
-            {"result":f"root-{n}"},
-            f"execution:root:{n}",
+            {"result":"root-1"},
+            f"execution:root:{call_no}",
             {
-                "next_payload":{"round":n},
-                "material_delta":True,
-                "hf2_live_local":n<2,
+                "next_payload":{"round":1},
+                "material_delta":call_no==1,
+                "hf2_live_local":call_no==1,
             },
         )
 

@@ -251,7 +251,7 @@ def test_regime_threads_selected_formal_tool_into_real_adapter_execution():
         configured_tool_adapters={"RootCause":root_adapter},
     )
     assert out.status=="COMPLETE"
-    assert calls==[("RootCause",36)]
+    assert calls==[("RootCause",36),("RootCause",36)]
     assert out.result.state["configured_tool_outputs"][0]["tool_id"]=="RootCause"
 
 
@@ -352,14 +352,20 @@ def test_regime_auto_captures_every_material_configured_tool_hf2_round(tmp_path)
     handlers["SELECT"]=select_tool
 
     def root_adapter(state,plan):
-        n=int(state.get("configured_round",0))+1
+        current_round=int(state.get("configured_round",0))
+        if current_round<2:
+            n=current_round+1
+            material=True
+        else:
+            n=current_round
+            material=False
         return {
             "status":"EXECUTED",
             "execution_truth":"IMPLEMENTATION_EXECUTED",
             "state":{**state,"configured_round":n},
             "result":{"round":n,"finding":f"finding-{n}"},
             "evidence":[f"configured-root-round-{n}"],
-            "material_delta":True,
+            "material_delta":material,
             "related_objects":["MT","GOAL"],
             "dependency_footprint":["representation"],
             "affected_objects":[f"future-state-{n}"],

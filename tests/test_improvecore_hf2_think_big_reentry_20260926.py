@@ -16,15 +16,15 @@ from tool_run_registry import CONFIGURED_RUNS
 def probes():
     pti_calls=[]
     def exec_root(value,plan):
-        n=int(value.get("round",0))+1
-        pti_calls.append(n)
+        call_no=len(pti_calls)+1
+        pti_calls.append(call_no)
         return (
-            {"root":n},
-            f"pti:{n}",
+            {"root":1},
+            f"pti:{call_no}",
             {
-                "next_payload":{"round":n},
-                "material_delta":True,
-                "hf2_live_local":n<2,
+                "next_payload":{"round":1},
+                "material_delta":call_no==1,
+                "hf2_live_local":call_no==1,
             },
         )
     pti=execute_protected_transition(
@@ -40,14 +40,14 @@ def probes():
 
     conductor_calls=[]
     def mt_adapter(packet):
-        n=len(conductor_calls)+1
-        conductor_calls.append(n)
+        call_no=len(conductor_calls)+1
+        conductor_calls.append(call_no)
         return {
             "status":"EXECUTED",
             "execution_truth":"SEMANTICALLY_APPLIED",
-            "result":{"round":n},
-            "material_delta":True,
-            "hf2_live_local":n<2,
+            "result":{"round":1},
+            "material_delta":call_no==1,
+            "hf2_live_local":call_no==1,
         }
     tc=run_tool_conductor({},adapters={"MT":mt_adapter})
     mt=next(row for row in tc["results"] if row["tool_id"]=="MT")

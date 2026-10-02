@@ -113,14 +113,14 @@ def test_external_gap_survives_candidate_completion():
     assert out.blocker=="EXTERNAL_ACQUISITION_GAP"
 
 
-def test_outer_hf2_reapplies_same_capability_when_local_frontier_live():
+def test_outer_hf2_requires_clean_successor_pass_after_material_completion():
     calls={"updates":0}
     def update(state,memory,delta):
         calls["updates"]+=1
         s=dict(state)
         s["terminal"]="COMPLETE"
         s["admitted_continuation"]=False
-        s["hf2_live_local"]=calls["updates"]==1
+        s["hf2_live_local"]=False
         return s,dict(memory)
 
     out=run_improvement_core_legacy_restored(
