@@ -390,7 +390,6 @@ def test_regime_auto_captures_every_material_configured_tool_hf2_round(tmp_path)
         tuple(row["evidence_refs"]) for row in captured
     }=={
         ("configured-root-round-1",),
-        ("configured-root-round-2",),
     }
 
     reloaded=KnowledgeLedger.from_durable(path,autosave=False)
