@@ -28,5 +28,12 @@ jobs:
         run: python -m pip install --disable-pip-version-check -r requirements-dev.txt
       - name: Install pinned DBOS bakeoff dependency
         run: python -m pip install --disable-pip-version-check 'dbos[aiosqlite]==3.1.0'
-      - name: Run Kernel 053 ownership and DBOS durability holdouts
-        run: PYTHONPATH=runtime:. pytest -q tests/test_kernel053_candidate.py tests/test_kernel053_dbos_bakeoff.py
+      - name: Run Kernel 053 ownership, configured-execution, and DBOS durability holdouts
+        run: PYTHONPATH=runtime:. pytest -q tests/test_kernel053_candidate.py tests/test_kernel053_promotion_receipt.py tests/test_kernel053_dbos_bakeoff.py
+      - name: Emit repository-native ICC128 configured execution receipt
+        run: PYTHONPATH=runtime:. python runtime/kernel053_promotion_receipt.py --json-out runtime/state/kernel053-repository-execution-receipt.json
+      - name: Upload Kernel 053 repository execution receipt
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: kernel053-repository-execution-receipt
+          path: runtime/state/kernel053-repository-execution-receipt.json
