@@ -160,7 +160,7 @@ def test_selected_formal_tool_crosses_configured_execution_bridge():
             "status":"EXECUTED",
             "execution_truth":"IMPLEMENTATION_EXECUTED",
             "result":{"root":"SEAM"},
-            "material_delta":True,
+            "material_delta":len(tool_calls)==1,
         }
 
     out=run_ic028(
