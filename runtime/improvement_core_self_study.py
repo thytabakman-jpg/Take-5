@@ -288,7 +288,10 @@ def configured_tool_adapters():
     tool result is returned into controller state and consumed by later stages.
     """
 
+    adapter_calls={"CurrentnessAudit":0,"RootCause":0,"QuestionWorthAsking":0,"ASSERT":0}
+
     def currentness_adapter(state,plan):
+        adapter_calls["CurrentnessAudit"]+=1
         result=assess(
             component="ImproveCore formal-tool execution path",
             built_basis="regime-088:configured-plan-only",
@@ -310,10 +313,11 @@ def configured_tool_adapters():
                 f"configured-plan:{plan.tool_id}:{len(plan.cells)}",
                 "native:currentness_audit.assess",
             ),
-            "material_delta":True,
+            "material_delta":adapter_calls["CurrentnessAudit"]==1,
         }
 
     def root_cause_adapter(state,plan):
+        adapter_calls["RootCause"]+=1
         failure_class={
             "formal_tool_selected_without_native_execution",
             "generic_execute_callback_substitutes_for_tool_runtime",
@@ -359,10 +363,11 @@ def configured_tool_adapters():
                 f"configured-plan:{plan.tool_id}:{len(plan.cells)}",
                 "native:root_cause.run_root_cause_hf2",
             ),
-            "material_delta":True,
+            "material_delta":adapter_calls["RootCause"]==1,
         }
 
     def question_adapter(state,plan):
+        adapter_calls["QuestionWorthAsking"]+=1
         questions=(
             QuestionCandidate(
                 "q-execution",
@@ -389,10 +394,11 @@ def configured_tool_adapters():
                 f"configured-plan:{plan.tool_id}:{len(plan.cells)}",
                 "native:question_worth_asking.select_question",
             ),
-            "material_delta":True,
+            "material_delta":adapter_calls["QuestionWorthAsking"]==1,
         }
 
     def assert_adapter(state,plan):
+        adapter_calls["ASSERT"]+=1
         def assert_stage(x):
             return replace(x,assertions=(
                 "selected registered formal tool requires configured adapter execution",
@@ -440,7 +446,7 @@ def configured_tool_adapters():
                 f"configured-plan:{plan.tool_id}:{len(plan.cells)}",
                 "native:assert_compound.run_to_fixed_point",
             ),
-            "material_delta":True,
+            "material_delta":adapter_calls["ASSERT"]==1,
         }
 
     return {
