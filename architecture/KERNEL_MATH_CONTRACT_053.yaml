@@ -1,4 +1,4 @@
-schema_version: 1.1
+schema_version: 1.2
 artifact: KERNEL_MATH_CONTRACT_053
 date: 2026-10-02
 status: DRAFT_SUCCESSOR_MATH_CANDIDATE
@@ -227,6 +227,24 @@ design_boundary_resolution:
       The canonical adapter binds runtime/icc128_autonomous_controller.py directly rather
       than activating the frozen Legacy snapshot. Canonical run_icc must bind this adapter
       internally and must not accept arbitrary parent-controller ic_fn injection.
+  wrapper_to_icc128_semantic_boundary:
+    status: DESIGN_RESOLVED_IMPLEMENTATION_OPEN
+    law: >
+      O_beta, Phi, Freeze, GoalProject, and Packetize may recover, formalize, freeze,
+      project, and package evidence. They may not generate the live question frontier
+      or work frontier.
+    first_question_generation_owner: G_Q
+    first_work_generation_owner: G_W
+    consequences:
+      - Packetize may carry unresolved coordinates and candidate evidence but not question_frontier
+      - Packetize may carry capability metadata but not work_frontier
+      - G_Q consumes the frozen packet plus Z_C and MI to generate live questions
+      - G_W consumes Q_t plus controller state and capability basis to generate candidate work
+      - rho_128 alone owns top-level substantive selection
+    implementation_holdout: >
+      Inject wrapper/Packetize outputs containing question_frontier, work_frontier,
+      selected_work, or selected_tools and require canonical ICC binding to reject them.
+
   improvementcore_return_to_icc128:
     status: DESIGN_RESOLVED_IMPLEMENTATION_OPEN
     reuse_source:
@@ -575,7 +593,8 @@ packetization:
     and the current governing-goal projection.
   prohibition: >
     Packetize may carry dependencies, constraints, authority, candidate evidence, and OPEN
-    coordinates. It may not select the top-level substantive continuation reserved to rho_128.
+    coordinates. It may not create question_frontier, work_frontier, selected_work, or
+    selected_tools, and it may not select the top-level substantive continuation reserved to rho_128.
   current_runtime_mapping_candidate: runtime/math_first_wrapper.py::architect_fn
   current_boundary_status: CONFIRMED_ENFORCEMENT_GAP
   implementation_rule: >
@@ -838,6 +857,12 @@ audit_history:
       - preserved_open_research_was_accidentally_nested_under_predecessor_section_disposition
       - predecessor_alignment_change_protocol_and_open_question_dispositions_were_displaced
     disposition: REVISED_IN_SCHEMA_1_1
+  - pass: RECURSIVE_GOAL_GATE_REENTRY_11
+    material_delta: true
+    findings:
+      - implementation_gate_was_circular_because_runtime_holdouts_were_required_before_runtime_prototype_creation
+      - wrapper_vs_GQ_GW_generation_boundary_was_still_open
+    disposition: REVISED_IN_SCHEMA_1_2
 
 recursive_validation_plan:
   required_before_implementation: true
@@ -911,6 +936,9 @@ protected_constraints:
   - GUARDS_CONSTRAIN_NOT_SELECT
   - GOVERNING_GOAL_PROJECTION_DOES_NOT_CREATE_SECOND_GOAL
   - PACKETIZATION_DOES_NOT_SELECT
+  - WRAPPER_DOES_NOT_GENERATE_QUESTION_OR_WORK_FRONTIERS
+  - GQ_FIRST_QUESTION_GENERATION_OWNER
+  - GW_FIRST_WORK_GENERATION_OWNER
   - SYMBOL_ROLE_UNIQUENESS
   - PREDECESSOR_SECTION_DISPOSITION_COMPLETE
   - EXTERNAL_BACKEND_EVIDENCE_SEPARATE_FROM_MATH_IDENTITY
@@ -936,9 +964,6 @@ protected_constraints:
 
 open_questions:
   - >
-    Exact relationship between wrapper observation/formalization/GoalProject/Packetize and
-    ICC128 G_Q/G_W semantic generation; duplicate semantic work remains to be minimized.
-  - >
     Select the initial D_exec backend after deployment burden, persistence target, and
     operational environment are admitted as result-sensitive constraints.
   - >
@@ -948,37 +973,60 @@ open_questions:
   - >
     Universal external host interception remains EXTERNAL_NOT_OWNED.
 
-implementation_gate:
-  status: BLOCKED_PENDING_RECURSIVE_VALIDATION
-  required_before_runtime_change:
+implementation_start_gate:
+  status: BLOCKED_UNTIL_CLEAN_DESIGN_FIXED_POINT
+  purpose: >
+    Permit non-authoritative implementation work only after the successor mathematics
+    itself reaches a clean zero-new-design-delta observer fixed point.
+  required:
     - successor_math_whole_pass
     - section_pass
     - line_pass
     - second_whole_observer_pass
     - protected_behavior_preservation_pass
+    - predecessor_section_coverage_pass
+    - symbol_uniqueness_pass
+    - zero_new_design_delta_fixed_point
+  when_passed:
+    permits:
+      - create_non_authoritative_runtime_prototype_on_isolated_branch
+      - create_tests_and_holdouts
+      - create_D_exec_adapter_prototypes
+    still_forbids:
+      - edit_main_K​​ERNEL_yaml
+      - production_promotion
+      - retire_052
+      - claim_current_runtime_successor
+
+promotion_gate:
+  status: BLOCKED_UNTIL_IMPLEMENTATION_VALIDATED
+  purpose: >
+    Holdouts that depend on successor runtime code are promotion requirements, not
+    prerequisites for creating that code.
+  required_after_prototype_exists:
     - controller_ownership_holdout
     - no_arbitrary_ic_fn_holdout
     - improvementcore_delegation_holdout
     - controller_vs_target_state_holdout
     - governing_goal_projection_holdout
     - packetization_no_selection_holdout
+    - wrapper_no_question_or_work_generation_holdout
     - canonical_icc128_adapter_reuse_holdout
     - improvementcore_typed_child_return_holdout
     - durable_backend_controller_noninterference_holdout
     - configured_hf2_runtime_nesting_holdout
-    - predecessor_section_coverage_holdout
-    - symbol_uniqueness_holdout
     - local_vs_global_closure_holdout
     - currentness_reconciliation
     - repository_vs_turn_execution_holdout
     - governed_state_product_commit_holdout
-    - zero_new_delta_fixed_point
-  prohibited_until_gate_passes:
-    - edit_KERNEL_yaml
-    - edit_runtime_icc_entry
-    - edit_runtime_math_first_wrapper
-    - promote_053
-    - retire_052
+    - protected_transition_integrity_pass
+    - zero_new_runtime_delta_fixed_point
+  when_passed:
+    permits_candidate_review_for:
+      - KERNEL_yaml_successor_alignment
+      - current_runtime_promotion
+      - 053_promotion
+      - 052_retirement_decision
 
 change_protocol:
   - "Preserve 052 unchanged."
