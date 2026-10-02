@@ -693,6 +693,23 @@ audit_history:
       - K_trans_overstated_execution_receipt_requirements_for_every_effect_class
       - supervisory_state_needed_explicit_protected_derived_typing
     disposition: REVISED_IN_SCHEMA_0_6
+  - pass: FINAL_WHOLE_OBSERVER_4
+    material_delta: false
+    basis_commit: bff2e7e0dfd5772344f405ff23a4cca82a6ccf79
+    goal_disposition: RELATIVE_CLOSE
+    assert_disposition: NO_NEW_INTERNAL_CONTRADICTION_FOUND
+    pd_disposition: NO_NEW_RESULT_SENSITIVE_COORDINATE_FOUND
+    architecture_disposition: COHERENT_CANDIDATE_WITH_TYPED_OPEN_IMPLEMENTATION_BOUNDARIES
+    currentness_disposition: BASIS_STABLE
+    recursive_compiler_disposition: OPEN
+    recursive_compiler_open_reasons:
+      - architect_fn_selection_boundary_not_yet_runtime_audited
+      - exact_ICC128_wrapper_adapter_not_yet_specified
+      - exact_ImprovementCore_return_receipt_path_not_yet_specified
+      - K_minimality_remains_open
+      - full_state_commit_species_coverage_remains_open
+      - universal_external_host_interception_is_external_not_owned
+    disposition: ZERO_NEW_ARTIFACT_DELTA_RELATIVE_TO_CURRENT_DESIGN_BASIS
 
 recursive_validation_plan:
   required_before_implementation: true
