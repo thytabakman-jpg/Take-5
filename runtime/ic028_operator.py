@@ -16,6 +16,10 @@ from improvement_core_tool_bridge import (
     execute_bound_tools,
 )
 from specification_before_transformation import assess_selected_state
+from controller_tool_conductor import (
+    attach_consultation,
+    consult_registered_repertoire,
+)
 
 @dataclass
 class OperatorReceipt:
@@ -32,7 +36,7 @@ class OperatorResult:
 
 GOAL_DIRECTED_STAGES=(
     "RECOVER_GOAL","CURIOSITY_PD","FORMALIZE","PLAN_ORDER","OBSERVE",
-    "OBJECTIFY","GENERATE_WORK","SELECT","BIND","EXECUTE","ADMIT",
+    "OBJECTIFY","TOOL_CONDUCTOR","GENERATE_WORK","SELECT","BIND","EXECUTE","ADMIT",
     "RECONCILE","PROPAGATE_AFFECTED_CONE","PERSIST","VERIFY","COMPLETE"
 )
 
@@ -51,7 +55,8 @@ def stages_for(entry_contract):
 def run_ic028(lease:ControllerLease,state:Any,handlers:dict[str,Callable], *,
               entry_contract=None,jane_update:Callable|None=None,
               controller_decide:Callable|None=None,max_rounds:int=8,
-              configured_tool_adapters:dict[str,Callable]|None=None):
+              configured_tool_adapters:dict[str,Callable]|None=None,
+              tool_conductor_adapters:dict[str,Callable]|None=None):
     if entry_contract is None:
         return OperatorResult(state,[],False,"ENTRY_CONTRACT_REQUIRED")
     if lease.controller!=entry_contract.controller:
@@ -72,6 +77,28 @@ def run_ic028(lease:ControllerLease,state:Any,handlers:dict[str,Callable], *,
         last_delta=None
         bound_tools=()
         for stage in stage_plan:
+            if stage=="TOOL_CONDUCTOR":
+                packet=current if isinstance(current,dict) else {"value":current}
+                consultation=consult_registered_repertoire(
+                    packet,
+                    active_controller="ImprovementCore",
+                    adapters=tool_conductor_adapters,
+                )
+                current=attach_consultation(current,consultation)
+                receipts.append(OperatorReceipt(
+                    "TOOL_CONDUCTOR",
+                    consultation.status,
+                    consultation,
+                ))
+                if not consultation.coverage_complete:
+                    return OperatorResult(
+                        current,
+                        receipts,
+                        False,
+                        consultation.blocker or "TOOL_CONDUCTOR_COVERAGE_OPEN",
+                    )
+                continue
+
             if stage=="EXECUTE" and bound_tools:
                 batch=execute_bound_tools(current,bound_tools,configured_tool_adapters)
                 current=batch.state

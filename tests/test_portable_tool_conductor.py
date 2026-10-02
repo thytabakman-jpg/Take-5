@@ -1,5 +1,6 @@
 from portable_tool_conductor import (
     compile_repertoire,
+    consult_tool_conductor,
     compilation_witness,
     portability_closed,
     portability_open_set,
@@ -90,3 +91,19 @@ def test_conductor_factor_can_recur_under_hf2_without_duplicate_factor_dispositi
     assert mt[0]["recurrence"]["status"]=="RELATIVE_CLOSE"
     assert mt[0]["recurrence"]["rounds"]==2
     assert mt[0]["recurrence"]["call_count"]==2
+
+
+def test_consultation_covers_registry_without_executing_tools():
+    calls=[]
+    def mt_adapter(packet):
+        calls.append("executed")
+        return {"status":"EXECUTED"}
+
+    out=consult_tool_conductor({},adapters={"MT":mt_adapter})
+    assert calls==[]
+    assert out["consultation_only"] is True
+    assert out["tool_count"]==len(MATERIAL_TOOLS)
+    assert tuple(row["tool_id"] for row in out["results"])==tuple(MATERIAL_TOOLS)
+    mt=[row for row in out["results"] if row["tool_id"]=="MT"][0]
+    assert mt["status"]=="AVAILABLE_BOUND"
+    assert mt["recurrence"] is None

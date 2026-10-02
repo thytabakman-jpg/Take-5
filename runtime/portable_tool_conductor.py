@@ -14,6 +14,7 @@ semantics or bindings are OPEN/BLOCKED, never silently substituted.
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass
+from functools import lru_cache
 from typing import Any, Callable, Mapping
 
 from capability_runtime import execute_capability
@@ -196,8 +197,13 @@ def portability_closed() -> bool:
 
 
 
+@lru_cache(maxsize=None)
+def _configured_plan(tool_id: str):
+    return build_tool_execution_plan(CONFIGURED_RUNS[tool_id])
+
+
 def _plan_payload(tool_id: str) -> dict[str, Any]:
-    plan=build_tool_execution_plan(CONFIGURED_RUNS[tool_id])
+    plan=_configured_plan(tool_id)
     return {
         "tool_id":plan.tool_id,
         "mode":plan.mode,
@@ -217,7 +223,7 @@ def _run_configured_factor(
     packet: Mapping[str, Any],
     adapter: Callable[[Mapping[str, Any], Any], Any],
 ) -> dict[str, Any]:
-    plan=build_tool_execution_plan(CONFIGURED_RUNS[tool_id])
+    plan=_configured_plan(tool_id)
     try:
         recurrence=execute_configured_with_hf2(
             tool_id=tool_id,
@@ -271,6 +277,96 @@ def _run_learning(tool_id: str, packet: Mapping[str, Any]) -> dict[str, Any]:
         "status": "EXECUTED" if status == "ACCEPT" else "OPEN",
         "result": raw,
         "witness": compilation_witness(tool_id).payload(),
+    }
+
+
+
+def _consultation_plan_payload(tool_id: str) -> dict[str, Any]:
+    """Compact configured identity for pre-selection consultation.
+
+    Consultation must expose the complete registered repertoire, but it does not
+    execute every tool. Actual tool execution remains downstream of selection.
+    """
+    spec=CONFIGURED_RUNS[tool_id]
+    return {
+        "tool_id":tool_id,
+        "recursive":bool(spec.recursive),
+        "closure_required":bool(spec.closure_required),
+        "reentry_required":bool(spec.reentry_required),
+        "external_challenge":spec.external_challenge,
+        "required_layers":tuple(spec.required_layers),
+        "recurrence_engine":spec.recurrence_engine,
+        "protected_behaviors":tuple(spec.protected_behaviors),
+    }
+
+
+@lru_cache(maxsize=1)
+def _consultation_witnesses() -> tuple[CompilationWitness, ...]:
+    return compile_repertoire()
+
+
+def consult_tool_conductor(
+    packet: Mapping[str, Any],
+    *,
+    adapters: Mapping[str, Callable[[Mapping[str, Any]], Any]] | None = None,
+) -> dict[str, Any]:
+    """Consult every registered factor without executing the repertoire.
+
+    This is the controller pre-selection surface. It gives downstream work
+    generation exact registry coverage, recovered runtime identity, configured
+    invocation identity, and binding availability. Execution happens only after
+    a tool is selected, which prevents consultation from multiplying runtime.
+    """
+    adapters=dict(adapters or {})
+    results=[]
+    for witness in _consultation_witnesses():
+        tool_id=witness.tool_id
+        bound=tool_id in adapters
+        if tool_id=="ToolConductor":
+            status="CONSULTED_SELF_WITNESS"
+            reason="ANTI_RECURSIVE_SELF_WITNESS"
+        elif bound:
+            status="AVAILABLE_BOUND"
+            reason="HOST_ADAPTER_BOUND"
+        elif witness.self_contained:
+            status="AVAILABLE_SELF_CONTAINED"
+            reason="SELF_CONTAINED_RUNTIME_RECOVERED"
+        elif witness.entrypoint:
+            status="OPEN"
+            reason="ENVIRONMENT_OR_ADAPTER_REQUIRED"
+        else:
+            status="BLOCKED"
+            reason="NATIVE_PROGRAM_UNRECOVERED"
+        results.append({
+            "tool_id":tool_id,
+            "status":status,
+            "result":{
+                "reason":reason,
+                "adapter_bound":bound,
+                "entrypoint":witness.entrypoint,
+                "required_environment":witness.required_environment,
+            },
+            "witness":witness.payload(),
+            "configured_plan":_consultation_plan_payload(tool_id),
+            "recurrence":None,
+            "consultation_only":True,
+        })
+
+    seen=tuple(row["tool_id"] for row in results)
+    if seen!=tuple(MATERIAL_TOOLS):
+        raise RuntimeError("TOOL_CONDUCTOR_CONSULTATION_COVERAGE_MISMATCH")
+    open_tools=tuple(
+        row["tool_id"] for row in results
+        if row["status"] in {"OPEN","BLOCKED","CONFLICT"}
+    )
+    return {
+        "status":"COMPLETE" if not open_tools else "OPEN",
+        "tool_count":len(results),
+        "results":tuple(results),
+        "open_tools":open_tools,
+        "consultation_only":True,
+        "portability_closed":portability_closed(),
+        "portability_open_set":portability_open_set(),
     }
 
 
