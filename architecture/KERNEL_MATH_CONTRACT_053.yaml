@@ -1,4 +1,4 @@
-schema_version: 0.7
+schema_version: 0.8
 artifact: KERNEL_MATH_CONTRACT_053
 date: 2026-10-02
 status: DRAFT_SUCCESSOR_MATH_CANDIDATE
@@ -82,7 +82,8 @@ symbol_table:
   T: typed capability basis
   T_controller: delegated-controller subset of T
   Gamma: typed governance environment
-  D_exec: pluggable durable execution backend role inside Gamma
+  D_exec: pluggable durable execution and replay backend role inside Gamma
+  ConfiguredInvoke: configured HF2 invocation whose adapter executes through D_exec
   Z_C: controller state
   MI: controller memory
   z_sigma: governed target state of species sigma
@@ -566,17 +567,20 @@ external_reuse_frontier:
     Backend choice remains basis-relative until deployment/operational burden is admitted
     as a result-sensitive constraint.
   abstraction:
-    equation: "D_exec : SelectedWork x Z_G x Gamma -> GovernedExecutionReceipts"
+    equation: "D_exec : <ControllerEpisode, SelectedWork, Z_G, Gamma> -> DurableRuntimeServices"
     law: >
-      D_exec is a replaceable execution backend. It may provide scheduling, durability,
-      retries, replay, child-workflow lifecycle, and execution history. It may not own
-      rho_128, governing-goal selection, authority expansion, or target-state admission.
+      D_exec is a replaceable infrastructure backend. It may host deterministic controller
+      replay/checkpointing and provide scheduling, durability, retries, child-workflow lifecycle,
+      runtime adapters, and execution history. Hosting C does not transfer rho_128 or substantive
+      selection ownership to D_exec. It may not own governing-goal selection, authority expansion,
+      or target-state admission.
 
 governed_execution:
   backend_role: D_exec
   branch_equations:
-    evidence_only: "GovernedExec(w) = ReturnReceipts o Verify o Runtime o ConfiguredHF2 o Bind o EffectGate o SpecGate, when Effect(w)=EVIDENCE_ONLY"
-    target_transform: "GovernedExec(w) = ReturnReceipts o Commit_sigma o Verify o Runtime o ConfiguredHF2 o Bind o EffectGate o SpecGate, when Effect(w)=TARGET_TRANSFORM and TransformLicensed(w)"
+    evidence_only: "GovernedExec(w) = ReturnReceipts o Verify o ConfiguredInvoke_D o Bind o EffectGate o SpecGate, when Effect(w)=EVIDENCE_ONLY"
+    target_transform: "GovernedExec(w) = ReturnReceipts o Commit_sigma o Verify o ConfiguredInvoke_D o Bind o EffectGate o SpecGate, when Effect(w)=TARGET_TRANSFORM and TransformLicensed(w)"
+  configured_invoke_equation: "ConfiguredInvoke_D(T,x) = HF002[RuntimeAdapter_D,T(Plan(T),x)] for T != HF002; HF002 uses SELF recurrence."
   interpretation: >
     GovernedExec is a service used by C. It does not choose the substantive work package.
     The optional Commit_sigma step is required exactly when selected work carries a licensed
@@ -588,11 +592,13 @@ governed_execution:
       rule: "Effect class must be EVIDENCE_ONLY or licensed TARGET_TRANSFORM."
     Bind:
       rule: "Bind the exact current selected capability identity and environment."
-    ConfiguredHF2:
+    ConfiguredInvoke_D:
       profile: FULL_CONFIGURED_HF2_V1
-    Runtime:
-      rule: "Selected, bound, dispatched, started, executed, captured, and consumed remain distinct."
+      rule: >
+        Configured recurrence wraps the actual runtime adapter. Runtime is not a second
+        sequential semantic stage after HF2.
       backend: "D_exec or current Take-5 runtime while D_exec remains unbound"
+      execution_truth: "Selected, bound, dispatched, started, executed, captured, and consumed remain distinct."
     Verify:
       rule: "Required semantic/effect/closure verification produces typed receipts."
     Commit_sigma:
@@ -603,7 +609,7 @@ governed_execution:
 episode_closure:
   symbol: TRC_episode
   role: >
-    Verify basis-relative controller-episode closure after C_episode returns.
+    Verify basis-relative controller-episode closure after C returns.
     TRC_episode may return CLOSED_RELATIVE, OPEN, BLOCKED, or CONFLICT and may signal
     upstream reentry. It does not select substantive work and does not replace C terminality.
   closure_requirement: >
@@ -612,7 +618,7 @@ episode_closure:
   no_local_to_global_rule: "Local child or capability closure does not imply controller-episode closure."
 
 wrapper:
-  equation: "W_beta(C) = Sync_J o TRC_episode o C_episode o Packetize o GoalProject o Freeze o Phi o O_beta"
+  equation: "W_beta(C) = Sync_J o TRC_episode o C o Packetize o GoalProject o Freeze o Phi o O_beta"
   interpretation: >
     W_beta is parameterized by a substantive controller role. The canonical ICC binding
     supplies ICC128. The wrapper owns ordering, frozen-math integrity, packet construction,
@@ -625,7 +631,7 @@ wrapper:
     - "mbar_n = Freeze(m_n)"
     - "g_n = GoalProject(G_ext,mbar_n,beta)"
     - "p_n = Packetize(mbar_n,g_n,Z_G_n,beta)"
-    - "controller_result_n = C_episode(p_n,Z_C_n,MI_n,Z_G_n;T,Gamma)"
+    - "controller_result_n = C(p_n,Z_C_n,MI_n,Z_G_n;T,Gamma)"
     - "episode_closure_n = TRC_episode(controller_result_n,Z_G_n,beta)"
     - "j_(n+1) = Sync_J(j_n,Delta_supervisory_n) when supervisory_relevant(Delta_supervisory_n)"
   controller_identity_gate:
@@ -879,6 +885,13 @@ audit_history:
       - LangGraph_supervisor_would_duplicate_top_level_controller_ownership
       - durable_backend_should_be_a_replaceable_Gamma_coordinate_not_a_new_controller
     disposition: REVISED_IN_SCHEMA_0_7
+  - pass: FULL_PROFILE_REENTRY_7
+    material_delta: true
+    findings:
+      - ConfiguredHF2_and_Runtime_were_drawn_as_sequential_stages_even_though_runtime_adapter_executes_inside_HF2
+      - C_episode_was_an_undefined_alias_for_C
+      - D_exec_needed_to_support_durable_controller_hosting_without_semantic_controller_ownership
+    disposition: REVISED_IN_SCHEMA_0_8
 
 recursive_validation_plan:
   required_before_implementation: true
@@ -963,6 +976,7 @@ protected_constraints:
   - SPECIFICATION_BEFORE_TRANSFORMATION
   - FULL_CONFIGURED_HF2_INVOCATION
   - DURABLE_BACKEND_DOES_NOT_OWN_SUBSTANTIVE_SELECTION
+  - CONFIGURED_HF2_WRAPS_RUNTIME_ADAPTER_NO_DOUBLE_RUNTIME_STAGE
   - DELEGATED_CHILD_RESULT_RETURNS_AS_TYPED_DELTA_NOT_PARENT_STATE_PATCH
   - PROTECTED_TRANSITION_INTEGRITY
   - TYPED_STATE_COMMIT
@@ -1004,6 +1018,7 @@ implementation_gate:
     - canonical_icc128_adapter_reuse_holdout
     - improvementcore_typed_child_return_holdout
     - durable_backend_controller_noninterference_holdout
+    - configured_hf2_runtime_nesting_holdout
     - predecessor_section_coverage_holdout
     - symbol_uniqueness_holdout
     - local_vs_global_closure_holdout
