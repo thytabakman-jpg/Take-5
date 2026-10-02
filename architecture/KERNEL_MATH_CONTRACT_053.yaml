@@ -1,4 +1,4 @@
-schema_version: 0.3
+schema_version: 0.4
 artifact: KERNEL_MATH_CONTRACT_053
 date: 2026-10-02
 status: DRAFT_SUCCESSOR_MATH_CANDIDATE
@@ -87,7 +87,7 @@ state_domains:
   governed_target_state:
     symbol: z_sigma
     meaning: authoritative or persistent state of state species sigma
-    mutation_owner: C_sigma
+    mutation_owner: Commit_sigma
     authority: STATE_SPECIFIC_COMMIT
   supervisory_state:
     symbol: j
@@ -96,12 +96,13 @@ state_domains:
     authority: SUPERVISORY
   separation_law: >
     U_C may update Z_C and MI after admitted controller evidence. U_C does not itself
-    commit governed target state z_sigma. Material target effects require C_sigma.
+    commit governed target state z_sigma. Material target effects require Commit_sigma.
 
 current_binding:
   controller_role:
     equation: "C_current = ICC128"
-    status: CURRENT_BINDING_CANDIDATE
+    repository_basis_status: CURRENT_CONTROLLER_CLAIM
+    successor_enforcement_status: CANDIDATE_TO_ENFORCE
     evidence:
       - integration/CURRENT_ICC128_CONVERSATION_CONTROL.md
       - runtime/icc128_autonomous_controller.py
@@ -299,7 +300,9 @@ typed_global_owners:
       - substantive action selection
 
 state_commit_family:
-  equation: "C_sigma(<z_sigma, delta, beta, receipts>) -> <z'_sigma, commit_receipt> OR OPEN/BLOCKED"
+  equation: "Commit_sigma(<z_sigma, delta, beta, receipts>) -> <z'_sigma, commit_receipt> OR OPEN/BLOCKED"
+  current_coverage_status: PARTIAL_REQUIRES_RECONCILIATION
+  successor_requirement: "Every authoritative or persistent protected state species has a typed commit path before 053 implementation closure."
   state_roles:
     - SYSTEM_CONTROL
     - RESULT
@@ -337,7 +340,7 @@ governed_execution:
       rule: "All success and non-success dispositions return to C for A_C and U_C."
 
 wrapper:
-  equation: "W_beta(C) = Sync_J o TRC_episode o C_episode o A_packet o G_round o Freeze o Phi o O_beta"
+  equation: "W_beta(C) = Sync_J o TRC_episode o C_episode o Packetize o GoalProject o Freeze o Phi o O_beta"
   interpretation: >
     W_beta is parameterized by a substantive controller role. The canonical ICC binding
     supplies ICC128. The wrapper owns ordering, frozen-math integrity, packet construction,
@@ -348,9 +351,9 @@ wrapper:
     - "o_n = O_beta(z_n)"
     - "m_n = Phi(o_n,beta)"
     - "mbar_n = Freeze(m_n)"
-    - "g_round_n = G_round(mbar_n,beta)"
-    - "a_n = A_packet(mbar_n,g_round_n,z_n,beta)"
-    - "controller_result_n = C_episode(a_n,Z_C_n,MI_n,z_n;T,Gamma)"
+    - "g_n = GoalProject(G_ext,mbar_n,beta)"
+    - "p_n = Packetize(mbar_n,g_n,z_n,beta)"
+    - "controller_result_n = C_episode(p_n,Z_C_n,MI_n,z_n;T,Gamma)"
     - "episode_closure_n = TRC_episode(controller_result_n,z_n,beta)"
     - "j_(n+1) = Sync_J(j_n,Delta_supervisory_n) when supervisory_relevant(Delta_supervisory_n)"
   controller_identity_gate:
@@ -361,38 +364,43 @@ wrapper:
       - controller_entry_receipt
       - controller_execution_receipt
 
-packet_architecture:
-  symbol: A_packet
+packetization:
+  symbol: Packetize
   role: >
-    Construct the typed packet and dependency context supplied to C from frozen observation
-    and goal state.
+    Construct the typed evidence/dependency packet supplied to C from frozen observation
+    and the current governing-goal projection.
   prohibition: >
-    A_packet may formalize dependencies, constraints, authority, and candidate information.
-    It may not make the top-level substantive continuation selection reserved to rho_128.
+    Packetize may carry dependencies, constraints, authority, candidate evidence, and OPEN
+    coordinates. It may not select the top-level substantive continuation reserved to rho_128.
+  current_runtime_mapping_candidate: runtime/math_first_wrapper.py::architect_fn
   unresolved_boundary: >
     Current architect_fn behavior must be audited for result-sensitive decisions before
-    implementation of this successor.
+    implementation. Any such selection behavior must move to C or be explicitly typed as
+    a non-selection transformation.
 
 goal_and_bootstrap:
   bootstrap:
     equation: "B_ICC = ASSERT_observer -> GOAL_configured[ValidMTPreflight]"
     role: >
-      Establish admissible asserted state and governing goal evidence before substantive
-      ICC controller work.
+      Recover and admit governing goal G_ext before substantive ICC controller work.
     required:
       - configured ASSERT observer execution
       - robust MT preflight for configured GOAL
       - configured GOAL observer execution
       - result capture and consumption
-  round_goal:
-    symbol: G_round
-    status: ROLE_REQUIRES_EXPLICIT_RECONCILIATION
-    rule: >
-      The per-round operational-goal function must be typed separately from the bootstrap
-      governing GOAL unless a successor proves they are the same object.
-  open_question: >
-    Determine whether bootstrap GOAL and G_round are distinct necessary roles, two views
-    over one goal object, or an accidental duplicate introduced by wrapper evolution.
+  governing_goal:
+    symbol: G_ext
+    owner: GOAL_configured
+    law: "G_ext may change only through governed upstream GOAL reentry."
+  round_projection:
+    symbol: GoalProject
+    equation: "g_n = GoalProject(G_ext,mbar_n,beta)"
+    role: >
+      Project the already-admitted governing goal into the current frozen observation basis.
+      GoalProject is not a second GOAL invocation and cannot create, rank, or replace governing goals.
+    conflict_rule: >
+      A material conflict between G_ext and the current frozen basis returns upstream for GOAL
+      reentry rather than silently changing G_ext inside the wrapper.
 
 configured_tool_execution:
   profile: FULL_CONFIGURED_HF2_V1
@@ -516,6 +524,15 @@ audit_history:
       - T_controller_was_used_without_definition
       - Gamma_needed_typed_coordinates_to_avoid_residual_bucket_semantics
     disposition: REVISED_IN_SCHEMA_0_3
+  - pass: SECTION_OBSERVER_1
+    material_delta: true
+    findings:
+      - controller_symbol_C_collided_with_commit_gate_symbol_C_sigma
+      - G_round_looked_like_a_second_governing_GOAL
+      - A_packet_overloaded_architect_and_admission_notation
+      - current_controller_claim_and_successor_enforcement_status_needed_separation
+      - state_commit_family_current_coverage_needed_to_remain_explicitly_open
+    disposition: REVISED_IN_SCHEMA_0_4
 
 recursive_validation_plan:
   required_before_implementation: true
@@ -540,7 +557,7 @@ recursive_validation_plan:
         - state_commit_family
         - governed_execution
         - wrapper
-        - packet_architecture
+        - packetization
         - goal_and_bootstrap
         - configured_tool_execution
         - specification_before_transformation
@@ -581,6 +598,9 @@ protected_constraints:
   - JANE_CONTINUITY_NOT_SUBSTANTIVE_SELECTION
   - CONTROLLER_LINEAGE_NOT_KERNEL_LINEAGE
   - GUARDS_CONSTRAIN_NOT_SELECT
+  - GOVERNING_GOAL_PROJECTION_DOES_NOT_CREATE_SECOND_GOAL
+  - PACKETIZATION_DOES_NOT_SELECT
+  - SYMBOL_ROLE_UNIQUENESS
   - OPEN_BLOCKED_CONFLICT_PRESERVATION
   - AUTHORITY_NON_EXPANSION
   - EXECUTION_TRUTH
@@ -595,10 +615,8 @@ protected_constraints:
 
 open_questions:
   - >
-    Exact relationship between bootstrap GOAL and per-round G_round.
-  - >
-    Exact relationship between wrapper observation/formalization/A_packet and ICC128
-    G_Q/G_W semantic generation; duplicate substantive selection is forbidden.
+    Exact relationship between wrapper observation/formalization/GoalProject/Packetize and
+    ICC128 G_Q/G_W semantic generation; duplicate substantive selection is forbidden.
   - >
     Whether current architect_fn performs result-sensitive substantive decisions that belong to C.
   - >
@@ -625,6 +643,8 @@ implementation_gate:
     - no_arbitrary_ic_fn_holdout
     - improvementcore_delegation_holdout
     - controller_vs_target_state_holdout
+    - governing_goal_projection_holdout
+    - packetization_no_selection_holdout
     - currentness_reconciliation
     - zero_new_delta_fixed_point
   prohibited_until_gate_passes:
