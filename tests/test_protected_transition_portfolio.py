@@ -66,7 +66,7 @@ def test_protected_transition_reapplies_execute_edge_under_hf2_when_local_fronti
             f"execution:root:{n}",
             {
                 "next_payload":{"round":n},
-                "material_delta":True,
+                "material_delta":n<2,
                 "hf2_live_local":n<2,
             },
         )
