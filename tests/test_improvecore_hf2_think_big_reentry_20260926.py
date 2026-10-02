@@ -23,7 +23,7 @@ def probes():
             f"pti:{n}",
             {
                 "next_payload":{"round":n},
-                "material_delta":True,
+                "material_delta":n<2,
                 "hf2_live_local":n<2,
             },
         )
@@ -46,7 +46,7 @@ def probes():
             "status":"EXECUTED",
             "execution_truth":"SEMANTICALLY_APPLIED",
             "result":{"round":n},
-            "material_delta":True,
+            "material_delta":n<2,
             "hf2_live_local":n<2,
         }
     tc=run_tool_conductor({},adapters={"MT":mt_adapter})

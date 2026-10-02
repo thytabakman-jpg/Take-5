@@ -39,15 +39,16 @@ def _audit_controller_bridge()->tuple[int,tuple[str,...]]:
                     "status":"EXECUTED",
                     "execution_truth":"IMPLEMENTATION_EXECUTED",
                     "result":{"bridge_witness":_tool_id},
-                    "material_delta":True,
+                    "material_delta":len(calls)==1,
                     "evidence":("repertoire-reachability:synthetic-adapter",),
                 }
             out=execute_bound_tools(state,bindings,{tool_id:witness_adapter})
             checked+=1
             if out.status!="EXECUTED":
                 failures.append(f"{tool_id}:BRIDGE_STATUS:{out.status}")
-            if calls!=[(tool_id,36,True)]:
-                failures.append(f"{tool_id}:ADAPTER_NOT_ACTUALLY_INVOKED")
+            expected_calls=[(tool_id,36,True)] if CONFIGURED_RUNS[tool_id].recurrence_engine=="SELF" else [(tool_id,36,True),(tool_id,36,True)]
+            if calls!=expected_calls:
+                failures.append(f"{tool_id}:RECURRENCE_CONFIRMATION_NOT_EXECUTED")
             outputs=tuple(out.state.get("configured_tool_outputs",())) if isinstance(out.state,dict) else ()
             if not outputs or outputs[-1].get("tool_id")!=tool_id:
                 failures.append(f"{tool_id}:RESULT_NOT_CONSUMED")

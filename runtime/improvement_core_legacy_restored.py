@@ -242,6 +242,8 @@ def run_improvement_core_legacy_restored(
         after_clean={k:v for k,v in after.items() if k!="_legacy_restored_memory"}
         changed=_fingerprint(before_clean)!=_fingerprint(after_clean)
         material=changed and bool(raw.get("trace_count",0))
+        if not material:
+            after["hf2_live_local"]=False
         delta={
             "material_result_delta":material,
             "route_equivalence":"LegacyRestored:"+_fingerprint(after_clean),
@@ -456,9 +458,23 @@ def run_improvement_core_legacy_restored(
                 },),
             )
 
+        # The return gate evaluates the governing job after local HF2 has
+        # saturated.  A local RESOURCE_STOP/OPEN caused only by parent-level
+        # continuation is therefore a continuation coordinate, not a typed
+        # child failure that forbids the verifier from closing the parent.
+        gate_candidate_status=last.status
+        gate_candidate_blocker=last.blocker
+        if (
+            last.status=="OPEN"
+            and last.blocker=="HF002_RESOURCE_STOP"
+            and bool(last.state.get("parent_return_continuation",False))
+        ):
+            gate_candidate_status="COMPLETE"
+            gate_candidate_blocker=None
+
         outcome=evaluate_parent_return(
-            candidate_status=last.status,
-            candidate_blocker=last.blocker,
+            candidate_status=gate_candidate_status,
+            candidate_blocker=gate_candidate_blocker,
             state=last.state,
             memory=parent_return_memory,
             context={

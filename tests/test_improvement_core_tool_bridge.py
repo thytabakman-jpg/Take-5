@@ -34,17 +34,17 @@ def test_bound_tools_are_actually_invoked_and_outputs_are_consumed():
             "execution_truth":"IMPLEMENTATION_EXECUTED",
             "result":{"root":"TOOL_SELECTION_EXECUTION_SEAM"},
             "evidence":["native:root-cause"],
-            "material_delta":True,
+            "material_delta":len(calls)==1,
         }
 
     out=execute_bound_tools(state,bindings,{"RootCause":root_adapter})
     assert out.status=="EXECUTED"
     assert out.blocker is None
-    assert calls==[("RootCause",36,True)]
+    assert calls==[("RootCause",36,True),("RootCause",36,True)]
     assert out.executions[0].execution_truth=="IMPLEMENTATION_EXECUTED"
     assert out.executions[0].recurrence_engine=="HF002"
     assert out.executions[0].recurrence_status=="RELATIVE_CLOSE"
-    assert out.executions[0].recurrence_rounds==1
+    assert out.executions[0].recurrence_rounds==2
     assert out.state["configured_tool_outputs"][0]["result"]["root"]=="TOOL_SELECTION_EXECUTION_SEAM"
     assert out.state["configured_tool_outputs"][0]["material_delta"] is True
     assert out.state["configured_tool_outputs"][0]["recurrence"]["engine"]=="HF002"
@@ -77,15 +77,15 @@ def test_hf2_reapplies_same_bound_tool_when_adapter_exposes_live_local_frontier(
             "state":{**current,"round":n},
             "result":{"round":n},
             "evidence":[f"native:round:{n}"],
-            "material_delta":True,
+            "material_delta":n<3,
             "hf2_live_local":n<2,
         }
 
     out=execute_bound_tools(state,bindings,{"RootCause":root_adapter})
     assert out.status=="EXECUTED"
-    assert calls==[1,2]
+    assert calls==[1,2,3]
     assert out.executions[0].recurrence_engine=="HF002"
     assert out.executions[0].recurrence_status=="RELATIVE_CLOSE"
-    assert out.executions[0].recurrence_rounds==2
+    assert out.executions[0].recurrence_rounds==3
     trace=out.state["configured_tool_outputs"][0]["recurrence"]["trace"]
-    assert [row["disposition"] for row in trace]==["REAPPLY_C","RELATIVE_CLOSE"]
+    assert [row["disposition"] for row in trace]==["REAPPLY_C","REAPPLY_C","RELATIVE_CLOSE"]

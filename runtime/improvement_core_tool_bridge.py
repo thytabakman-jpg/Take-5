@@ -257,7 +257,24 @@ def execute_bound_tools(
             state=current,
             adapter=adapter,
         )
-        raw=recurrence.last_raw
+        raw=dict(recurrence.last_raw)
+        # Preserve whether any recurrence round made material progress.  The
+        # terminal zero-delta witness proves closure; it does not erase the
+        # material work performed earlier in the same configured execution.
+        recurrence_material=any(
+            bool((row.get("delta") or {}).get(key))
+            for row in recurrence.trace
+            for key in (
+                "material_result_delta","material_search_delta",
+                "material_discovery_delta","negative_evidence",
+                "open_refinement","changed_representation",
+                "material_relation_delta","goal_gap_reduced",
+                "execution_truth_strengthened","resolved_open",
+                "resolved_blocked","resolved_conflict",
+            )
+        )
+        if recurrence_material:
+            raw["material_delta"]=True
         current,execution=_normalize_adapter_result(
             raw,
             recurrence.state,

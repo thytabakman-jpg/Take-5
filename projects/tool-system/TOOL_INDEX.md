@@ -2,7 +2,7 @@
 
 Status: GENERATED CURRENT INVENTORY
 Date: 2026-09-30
-Current configured tools: 94
+Current configured tools: 95
 
 - [C01](current-tools/c01/README.md)
 - [C02](current-tools/c02/README.md)
@@ -86,6 +86,7 @@ Current configured tools: 94
 - [QuestionWorthAsking](current-tools/questionworthasking/README.md)
 - [LambdaMath](current-tools/lambdamath/README.md)
 - [SemanticResolutionPipeline](current-tools/semanticresolutionpipeline/README.md)
+- [RecursiveCompiler](current-tools/recursivecompiler/README.md)
 - [ToolConductor](current-tools/toolconductor/README.md)
 - [L-D6](current-tools/l-d6/README.md)
 - [L-D8](current-tools/l-d8/README.md)

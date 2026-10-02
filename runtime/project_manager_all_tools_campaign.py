@@ -47,7 +47,7 @@ PHASES=(
         "STRUCTURAL_RECONSTRUCTION_OBSERVATION",
         (
             "MTA","Architecture","PD","PDAudit","GDOS","Discriminator","MultiObject",
-            "MT","SemanticResolutionPipeline",
+            "MT","SemanticResolutionPipeline","RecursiveCompiler",
             "C07","C08","C09","C10","C11","C12","C13",
         ),
     ),
@@ -715,6 +715,32 @@ def _run_named_native(tool_id:str, packet:dict[str,Any])->Any:
             "TransferCore",
             ("CURRENT_FULL_MATH_IDENTITY_UNRECOVERED",)
             if packet["transfercore_open"] else (),
+        )
+
+    if tool_id=="RecursiveCompiler":
+        from recursive_compiler import CompilerNode,evaluate_global_closure
+        node=CompilerNode(
+            "project-manager-campaign-root",
+            "SYSTEM",
+            gates={
+                "full36":True,
+                "observer_focused_observer":True,
+                "reconciled":True,
+            },
+            protected_constraints=("NO_SILENT_OVERWRITE",),
+        )
+        return evaluate_global_closure(
+            nodes=(node,),
+            edge_receipts={},
+            constraint_receipts={
+                ("project-manager-campaign-root","NO_SILENT_OVERWRITE"):True,
+            },
+            admitted_delta_hashes={},
+            realized_delta_hashes={},
+            hf2_trace=({
+                "disposition":"RELATIVE_CLOSE",
+                "delta":{"material_result_delta":False},
+            },),
         )
 
     if tool_id=="BiasPerturbation":

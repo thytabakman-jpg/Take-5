@@ -73,6 +73,7 @@ from desired_jane import DesireEvidence, recover_desired_jane
 from question_worth_asking import QuestionCandidate, select_question
 from lambda_math import EntryState, reconstruct as reconstruct_lambda
 from semantic_resolution_pipeline import plan_black_box_resolution
+from recursive_compiler import CompilerNode, evaluate_global_closure
 
 
 ROOT=Path(__file__).resolve().parents[1]
@@ -885,6 +886,28 @@ def _semantic_pipeline_adapter(packet:dict[str,Any])->dict[str,Any]:
     return _dev_executed(out,evidence="native:SemanticResolutionPipeline")
 
 
+def _recursive_compiler_adapter(packet:dict[str,Any])->dict[str,Any]:
+    node=CompilerNode(
+        "tool-system-root",
+        "SYSTEM",
+        gates={"full36":True,"observer_focused_observer":True,"reconciled":True},
+        protected_constraints=("NO_SILENT_OVERWRITE",),
+    )
+    trace=({
+        "disposition":"RELATIVE_CLOSE",
+        "delta":{"material_result_delta":False},
+    },)
+    out=evaluate_global_closure(
+        nodes=(node,),
+        edge_receipts={},
+        constraint_receipts={("tool-system-root","NO_SILENT_OVERWRITE"):True},
+        admitted_delta_hashes={},
+        realized_delta_hashes={},
+        hf2_trace=trace,
+    )
+    return _dev_executed(out,evidence="native:RecursiveCompiler")
+
+
 def development_adapters(summary:dict[str,Any])->dict[str,Any]:
     return {
         "ProjectManager":project_manager_adapter,
@@ -920,6 +943,7 @@ def development_adapters(summary:dict[str,Any])->dict[str,Any]:
         "QuestionWorthAsking":_question_adapter,
         "LambdaMath":_lambda_adapter,
         "SemanticResolutionPipeline":_semantic_pipeline_adapter,
+        "RecursiveCompiler":_recursive_compiler_adapter,
     }
 
 

@@ -160,7 +160,7 @@ def test_selected_formal_tool_crosses_configured_execution_bridge():
             "status":"EXECUTED",
             "execution_truth":"IMPLEMENTATION_EXECUTED",
             "result":{"root":"SEAM"},
-            "material_delta":True,
+            "material_delta":len(tool_calls)==1,
         }
 
     out=run_ic028(
@@ -171,7 +171,7 @@ def test_selected_formal_tool_crosses_configured_execution_bridge():
         configured_tool_adapters={"RootCause":root_adapter},
     )
     assert out.terminal
-    assert tool_calls==[("RootCause",36,True)]
+    assert tool_calls==[("RootCause",36,True),("RootCause",36,True)]
     assert any(r.stage=="CONFIGURED_TOOL_BIND" and r.status=="BOUND" for r in out.receipts)
     assert any(r.stage=="CONFIGURED_TOOL_EXECUTE" and r.status=="EXECUTED" for r in out.receipts)
     assert out.state["configured_tool_outputs"][0]["tool_id"]=="RootCause"
