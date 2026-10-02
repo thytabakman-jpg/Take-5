@@ -1,0 +1,535 @@
+schema_version: 0.2
+artifact: KERNEL_MATH_CONTRACT_053
+date: 2026-10-02
+status: DRAFT_SUCCESSOR_MATH_CANDIDATE
+runtime_effect: NONE
+implementation_authority: false
+parent:
+  artifact: architecture/KERNEL_MATH_CONTRACT_052.yaml
+  disposition: PRESERVE_UNCHANGED_AS_HISTORICAL_MATH
+basis:
+  repository: thytabakman-jpg/Take-5
+  ref: main
+  observed_commit: bff2e7e0dfd5772344f405ff23a4cca82a6ccf79
+  predecessor_contract: architecture/KERNEL_MATH_CONTRACT_052.yaml
+  current_controller_evidence:
+    - integration/CURRENT_ICC128_CONVERSATION_CONTROL.md
+    - runtime/icc128_autonomous_controller.py
+    - runtime/rho128_policy.py
+    - runtime/jane_icc128_bridge.py
+  current_system_evidence:
+    - KERNEL.yaml
+    - architecture/FULL_CONFIGURED_TOOL_INVOCATION_121.md
+    - architecture/SPECIFICATION_BEFORE_TRANSFORMATION_INVARIANT_134.md
+    - integration/CURRENT_PROTECTED_TRANSITION_INTEGRITY.md
+    - runtime/state_commit.py
+    - runtime/tool_run_registry.py
+    - runtime/tool_manifest.py
+
+design_job:
+  statement: >
+    Define a successor system mathematics that preserves the protected behavior of 052,
+    assigns substantive controller ownership explicitly, separates controller identity
+    from kernel identity, and incorporates the later current protections without
+    implementing or promoting the successor.
+  success_condition: >
+    Every protected behavior inherited from 052 has an explicit owner and preservation
+    witness path; top-level substantive selection has exactly one current owner; guards
+    constrain that owner without silently selecting in its place; OPEN, BLOCKED,
+    CONFLICT, provenance, authority, execution truth, reentry, and currentness remain
+    typed; unresolved placement questions remain explicit.
+  non_goals:
+    - runtime mutation
+    - KERNEL.yaml mutation
+    - promotion to production authority
+    - deletion or rewriting of 052
+    - mutation of frozen ICC128 Legacy snapshots
+    - claim of universal external host interception
+
+system_factorization:
+  equation: "S = <K, W_beta, C, J, T, Gamma>"
+  terms:
+    K: common protected effect contract
+    W_beta: orchestration wrapper under bound entry beta
+    C: substantive controller role
+    J: continuity and currentness supervisor
+    T: typed capability and delegated-controller basis
+    Gamma: authority, ingress, specification, execution, verification, commit, provenance, and currentness governance environment
+  anti_loss_rule: "change(one factor) != silently_redefine(other factors)"
+  controller_lineage_rule: "controller_lineage != kernel_lineage"
+
+current_binding:
+  controller_role:
+    equation: "C_current = ICC128"
+    status: CURRENT_BINDING_CANDIDATE
+    evidence:
+      - integration/CURRENT_ICC128_CONVERSATION_CONTROL.md
+      - runtime/icc128_autonomous_controller.py
+      - runtime/rho128_policy.py
+  continuity_role:
+    equation: "J_current = Jane"
+    restriction: "Jane supervises continuity/currentness and does not own substantive action selection."
+  improvement_core_role:
+    equation: "ImprovementCore in T_C"
+    interpretation: >
+      ImprovementCore is an ICC128-selectable delegated controller for improvement
+      subepisodes. It retains controller ownership inside the delegated improvement
+      episode without owning the top-level ICC continuation frontier.
+  binding_invariant: >
+    Canonical repository-backed ICC execution may not substitute another substantive
+    parent controller for C_current without an explicit successor contract, authority
+    transition, preservation analysis, and currentness update.
+
+controller_contract:
+  role_equation: "C : <Z, MI, Q, W, T, Gamma> -> <SelectedWork, ContinuationDisposition>"
+  current_loop: "G_Q -> G_W -> rho_128 -> E -> A -> U -> G_Q"
+  current_owner: ICC128
+  responsibilities:
+    - generate or admit the live question frontier
+    - generate or admit candidate work for live questions
+    - select the nondominated continuation package under rho_128
+    - delegate selected work through governed capability binding
+    - consume admitted results
+    - update controller state and memory
+    - reselect after material result, search, representation, authority, capability, or failure deltas
+    - determine substantive continuation versus typed terminal state
+  prohibited_substitution:
+    - host_selected_parent_controller
+    - wrapper_selected_parent_controller
+    - jane_selected_substantive_work
+    - improvementcore_as_implicit_top_level_controller
+    - arbitrary_ic_fn_on_canonical_icc_path
+  guard_law: "Guards constrain C; guards do not choose in place of C."
+
+kernel_common:
+  equation: "K = K_ref AND K_auth AND K_trans AND K_admit AND K_status AND K_prov"
+  interpretation: >
+    K is the common protected effect contract shared by protected state species.
+    Globally mandatory behavior may live outside K when another typed owner preserves
+    it non-bypassably.
+  laws:
+    K_ref:
+      law: >
+        Protected referent, job, basis/currentness, and state-species identity remain
+        stable for a governed effect.
+      lineage:
+        - I_entry
+        - I_identity
+    K_auth:
+      law: >
+        Effect authority is explicit, non-expanding, and cannot be manufactured by
+        evidence, selection, semantic success, local success, or child execution.
+      lineage:
+        - I_authority
+        - I_promotion
+    K_trans:
+      law: >
+        A material effect is a typed transition with bound baseline, target/effect,
+        expected or actual delta identity, and required execution/verification evidence.
+      lineage:
+        - I_transition
+        - I_execution
+    K_admit:
+      law: >
+        Authoritative or persistent update requires an admissible typed disposition.
+        Proposed, selected, planned, or merely semantic output cannot directly commit.
+      lineage:
+        - I_admission
+    K_status:
+      law: >
+        OPEN, BLOCKED, CONFLICT, supported INCOMPARABLE, and plural unresolved states
+        remain non-success until a licensed transition resolves them.
+      lineage:
+        - I_open
+        - I_closure
+    K_prov:
+      law: >
+        Material committed deltas retain enough evidence, provenance, version, and
+        dependency identity for lineage reconstruction, currentness, and reentry.
+      lineage:
+        - I_lineage
+        - I_reentry
+
+typed_global_owners:
+  entry_interface:
+    owns:
+      - bound entry beta
+      - target/job identity binding
+      - host ingress receipt validation
+    inherited:
+      - I_entry
+      - part_of_I_identity
+  architecture_constitution:
+    owns:
+      - distinctions_do_not_imply_surfaces
+      - strict_gain_for_new_operating_surfaces
+      - protected_behavior_preservation_under_successor_change
+    inherited:
+      - I_surface
+  observer:
+    owns:
+      - nonmutating observation
+      - observer_first evidence acquisition
+    inherited:
+      - I_observe
+  wrapper:
+    owns:
+      - ordering
+      - frozen-math integrity
+      - controller packet construction
+      - wrapper-relative recurrence boundary
+    inherited:
+      - I_freeze
+  controller:
+    owner: C
+    owns:
+      - substantive work selection
+      - continuation
+      - cross_capability replanning
+      - result_sensitive reselection
+      - controller terminality
+    inherited:
+      - I_reentry
+      - controller_side_of_I_closure
+  interface:
+    owns:
+      - selected capability binding
+      - configured invocation plan construction
+  runtime:
+    owns:
+      - dispatch
+      - start
+      - execution
+      - capture
+      - consumption evidence
+    inherited:
+      - execution_mechanics_of_I_execution
+  verification:
+    owns:
+      - closure verification
+      - effect verification
+      - protected transition verification
+    inherited:
+      - verification_side_of_I_closure
+  state:
+    owns:
+      - typed state-specific commit gates
+      - receipt persistence
+      - lineage storage
+    inherited:
+      - I_admission
+      - I_lineage
+  authority_currentness:
+    owns:
+      - currentness admission
+      - promotion authority
+      - no_self_promotion
+      - formal authoritative emission
+    inherited:
+      - I_authority
+      - I_promotion
+  jane:
+    owns:
+      - continuity reconstruction
+      - currentness supervision
+      - supervisory sync after admitted relevant delta
+    prohibited:
+      - substantive action selection
+
+state_commit_family:
+  equation: "C_sigma(<z_sigma, delta, beta, receipts>) -> <z'_sigma, commit_receipt> OR OPEN/BLOCKED"
+  state_roles:
+    - SYSTEM_CONTROL
+    - RESULT
+    - LINEAGE
+    - RESEARCH_CONTROL
+    - SUPERVISORY
+  common_requirement: "Every protected commit satisfies K."
+  rule: >
+    One abstract update role does not imply one physical store or one universal
+    mutation function. State species may use distinct commit gates while sharing
+    the common protected effect contract.
+
+wrapper:
+  equation: "W_beta(C) = Sync_J o Commit_sigma o Verify o Admit o C o A o G_round o Freeze o Phi o O_beta"
+  interpretation: >
+    W_beta is parameterized by a substantive controller role. The canonical ICC
+    binding supplies ICC128. The wrapper owns ordering and guards; C owns substantive
+    continuation selection.
+  round:
+    - "o_n = O_beta(z_n)"
+    - "m_n = Phi(o_n,beta)"
+    - "mbar_n = Freeze(m_n)"
+    - "g_round_n = G_round(mbar_n,beta)"
+    - "a_n = A(mbar_n,g_round_n,z_n,beta)"
+    - "y_n = C(a_n,z_n,MI_n;T,Gamma)"
+    - "v_n = Verify(z_n,y_n,beta,Gamma)"
+    - "c_n = Admit(v_n,beta,Gamma)"
+    - "z_(n+1) = Commit_sigma(z_n,c_n,beta,receipts_n)"
+    - "j_(n+1) = Sync_J(j_n,Delta z_n) when supervisory_relevant(Delta z_n)"
+    - "C reenters when admitted material continuation remains"
+  controller_identity_gate:
+    canonical_icc_requirement: "ControllerIdentity(C) = ICC128"
+    failure: BLOCKED
+    required_evidence:
+      - current_controller_registration
+      - controller_entry_receipt
+      - controller_execution_receipt
+
+goal_and_bootstrap:
+  bootstrap:
+    equation: "B_ICC = ASSERT_observer -> GOAL_configured[ValidMTPreflight]"
+    role: >
+      Establish admissible asserted state and governing goal evidence before
+      substantive ICC controller work.
+    required:
+      - configured ASSERT observer execution
+      - robust MT preflight for configured GOAL
+      - configured GOAL observer execution
+      - result capture and consumption
+  round_goal:
+    symbol: G_round
+    status: ROLE_REQUIRES_EXPLICIT_RECONCILIATION
+    rule: >
+      The per-round operational-goal function must be typed separately from the
+      bootstrap governing GOAL unless a successor proves they are the same object.
+  open_question: >
+    Determine whether bootstrap GOAL and G_round are distinct necessary roles,
+    two views over one goal object, or an accidental duplicate introduced by
+    wrapper evolution.
+
+configured_tool_execution:
+  profile: FULL_CONFIGURED_HF2_V1
+  law: >
+    A selected registered tool is not executed by naming, planning, semantic
+    reasoning, or direct native invocation. It must cross configured binding,
+    complete plan construction, configured HF2 recurrence, result capture,
+    consumption, closure, and reentry.
+  recurrence:
+    ordinary_tool: HF002
+    HF002: SELF
+  missing_adapter: OPEN
+  incomplete_identity: BLOCKED
+
+specification_before_transformation:
+  law: >
+    Observe, discover, recover, formalize, compare, audit, verify, diagnose, and
+    reconstruct may operate on OPEN objects. A material object transformation
+    requires transformation-relative specification adequacy before execution.
+  effect_classes:
+    - EVIDENCE_ONLY
+    - TARGET_TRANSFORM
+  unknown_effect_class: OPEN
+  transformation_without_specification: OPEN
+
+protected_transition_integrity:
+  coordinates:
+    - canonical_identity
+    - configured_dispatch
+    - execution
+    - result_consumption
+    - state_update
+    - reentry
+    - user_visible_boundary
+  law: >
+    A protected behavior is operationally preserved only when every required
+    coordinate has a witness. Manifest presence or execution alone is insufficient.
+
+host_ingress:
+  law: >
+    ICC prefix expresses routing intent only. Repository-backed ICC identity requires
+    exact-request host ingress admission, canonical repository/ref/commit evidence,
+    bound entry, protected bootstrap, current ICC128 registration, and repository-backed
+    controller execution.
+  universal_external_host_interception: EXTERNAL_NOT_OWNED
+
+currentness:
+  law: >
+    CURRENT is evidence-sensitive and basis-relative. A historical status label,
+    file location, timestamp, or preserved runtime does not by itself establish
+    current authority.
+  current_controller_claim:
+    object: ICC128
+    requires:
+      - registration
+      - runtime realization
+      - controller binding
+      - execution receipt
+      - preservation of protected controller behavior
+  stale_basis_rule: >
+    Any successor-changing material delta to controller, wrapper, kernel, state commit,
+    tool invocation, authority, or host ingress reopens the affected dependency cone.
+
+improvement_core:
+  role: DELEGATED_IMPROVEMENT_SUBCONTROLLER
+  top_level_icc_owner: false
+  retained_behaviors:
+    - observer_first_mode
+    - recursive_parent_control_inside_delegated_episode
+    - configured_tool_execution
+    - HF002_local_recurrence
+    - durable_negative_learning
+    - durable_knowledge_capture
+    - strict_progress
+    - external_acquisition
+    - plural_frontier_preservation
+    - result_sensitive_replanning_inside_delegated_episode
+  boundary_rule: >
+    ImprovementCore may select child work inside an ICC128-selected improvement
+    subepisode. Completion of that subepisode returns an admitted result to ICC128,
+    which owns the next top-level substantive continuation decision.
+
+jane:
+  role: CONTINUITY_CURRENTNESS_SUPERVISOR
+  top_level_substantive_selection_owner: false
+  handoff: "READY Jane continuity -> explicit ICC128 Z and MI"
+  missing_continuity: OPEN
+
+take_two_recovered_behavior:
+  status: PROTECTED
+  retained:
+    - distinctions_do_not_imply_surfaces
+    - typed_authorized_transitions
+    - observation_before_causal_commitment
+    - views_before_new_registries
+    - strict_gain_for_new_surfaces
+    - behavior_not_file_migration
+    - small_verified_evolution
+    - OPEN_preservation
+
+preservation_map_052:
+  I_entry: entry_interface_plus_K_ref
+  I_identity: K_ref
+  I_surface: architecture_constitution
+  I_transition: K_trans
+  I_authority: K_auth_plus_authority_currentness
+  I_observe: observer
+  I_freeze: wrapper
+  I_execution: K_trans_plus_interface_runtime_receipts
+  I_admission: K_admit_plus_state_commit_family
+  I_open: K_status
+  I_closure: K_status_plus_verification_plus_controller
+  I_lineage: K_prov_plus_state
+  I_reentry: K_prov_plus_controller_currentness
+  I_promotion: K_auth_plus_authority_currentness
+
+recursive_validation_plan:
+  required_before_implementation: true
+  profile:
+    geometry: D36_C
+    mode_sequence:
+      - OBSERVER
+      - FOCUSED
+      - OBSERVER
+    recurrence: HF002_ZERO_NEW_DELTA_FIXED_POINT
+  hierarchy:
+    - level: WHOLE
+      target: KERNEL_MATH_CONTRACT_053
+    - level: SECTION
+      targets:
+        - system_factorization
+        - current_binding
+        - controller_contract
+        - kernel_common
+        - typed_global_owners
+        - state_commit_family
+        - wrapper
+        - goal_and_bootstrap
+        - configured_tool_execution
+        - specification_before_transformation
+        - protected_transition_integrity
+        - host_ingress
+        - currentness
+        - improvement_core
+        - jane
+        - preservation_map_052
+    - level: LINE
+      rule: >
+        Every load-bearing equation, role assignment, prohibition, owner, status,
+        and preservation mapping receives an explicit gate disposition.
+  tools_to_run_repeatedly:
+    - ASSERT
+    - MT
+    - GOAL
+    - PD
+    - PDAudit
+    - Architecture
+    - RootCause
+    - Diagnosis
+    - CurrentnessAudit
+    - RTC
+    - MultiObject
+    - QuestionWorthAsking
+    - RecursiveCompiler
+  closure_rule: >
+    Implementation remains blocked until the final observer pass produces no new
+    material delta, every protected constraint is reconciled through the hierarchy,
+    every admitted delta is represented in the successor, and no stale node remains.
+
+protected_constraints:
+  - ICC128_TOP_LEVEL_SUBSTANTIVE_SELECTION
+  - IMPROVEMENTCORE_DELEGATED_SUBCONTROLLER_ONLY
+  - JANE_CONTINUITY_NOT_SUBSTANTIVE_SELECTION
+  - CONTROLLER_LINEAGE_NOT_KERNEL_LINEAGE
+  - GUARDS_CONSTRAIN_NOT_SELECT
+  - OPEN_BLOCKED_CONFLICT_PRESERVATION
+  - AUTHORITY_NON_EXPANSION
+  - EXECUTION_TRUTH
+  - SPECIFICATION_BEFORE_TRANSFORMATION
+  - FULL_CONFIGURED_HF2_INVOCATION
+  - PROTECTED_TRANSITION_INTEGRITY
+  - TYPED_STATE_COMMIT
+  - CURRENTNESS_EVIDENCE_REQUIRED
+  - HOST_INGRESS_TRUTH
+  - TAKE_TWO_SURFACE_MINIMALITY
+  - PRESERVE_052_PROTECTED_BEHAVIOR
+
+open_questions:
+  - >
+    Exact relationship between bootstrap GOAL and per-round G_round.
+  - >
+    Exact relationship between wrapper observation/formalization/Architect and
+    ICC128 G_Q/G_W semantic generation; duplicate substantive selection is forbidden.
+  - >
+    Whether A is purely packet architecture/formalization or currently contains
+    result-sensitive substantive decisions that belong to C.
+  - >
+    Exact adapter that binds W_beta(C) to ICC128 without arbitrary controller injection.
+  - >
+    Exact admission path by which an ImprovementCore subepisode result returns to
+    ICC128 state and memory before top-level reselection.
+  - >
+    Whether K_common is the smallest useful common protected effect contract remains OPEN.
+  - >
+    Whether all protected state species are fully covered by the current state commit family remains OPEN.
+  - >
+    Universal external host interception remains EXTERNAL_NOT_OWNED.
+
+implementation_gate:
+  status: BLOCKED_PENDING_RECURSIVE_VALIDATION
+  required_before_runtime_change:
+    - successor_math_whole_pass
+    - section_pass
+    - line_pass
+    - second_whole_observer_pass
+    - protected_behavior_preservation_pass
+    - controller_ownership_holdout
+    - no_arbitrary_ic_fn_holdout
+    - improvementcore_delegation_holdout
+    - currentness_reconciliation
+    - zero_new_delta_fixed_point
+  prohibited_until_gate_passes:
+    - edit_KERNE​​L_yaml
+    - edit_runtime_icc_entry
+    - edit_runtime_math_first_wrapper
+    - promote_053
+    - retire_052
+
+change_protocol:
+  - "Preserve 052 unchanged."
+  - "Record every material 053 delta before implementation."
+  - "A line-level change invalidates its affected section and whole-file closure."
+  - "A section-level change invalidates whole-file closure."
+  - "Material external evidence invalidates every dependent node."
+  - "No local pass implies global closure."
+  - "The final accepted state requires a clean successor observer pass with zero new material delta."
