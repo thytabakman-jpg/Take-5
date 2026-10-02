@@ -36,7 +36,7 @@ Controller:
 - IC-028
 
 Current regime version:
-- 091
+- 092
 
 Current invocation path:
 
@@ -49,6 +49,9 @@ user phrase
 -> [typed BOUND_ZIP output] exact binding -> archive expansion -> artifact_intake -> obligations
 -> runtime/improvement_core_manager.py
 -> runtime/ic028_operator.py
+-> after OBJECTIFY: runtime/controller_tool_conductor.py
+-> exhaustive ToolConductor registered-repertoire consultation
+-> GENERATE_WORK / SELECT consume the conductor receipt
 -> [after explicit SELECT] runtime/specification_before_transformation.py
 -> [when selected work is recovery-class, or a transformation has a PASS specification receipt] continue
 -> [when SELECT names a registered formal tool] runtime/improvement_core_tool_bridge.py
@@ -177,6 +180,9 @@ architecture/IMPROVEMENT_CORE_ACTIVATION_083.md
 58. every declared ZIP member is accounted for, while binary/encrypted/unreadable members remain explicit unresolved evidence rather than disappearing.
 59. typed BOUND_ZIP external-acquisition outputs execute exact binding, archive expansion, artifact intake, and work lifting before controller stages.
 60. bound-ZIP processing failures convert the external acquisition to OPEN_GAP, preventing false controller closure; raw archive bytes and generator callables are not persisted in controller evidence.
+61. before GENERATE_WORK and SELECT, current ImprovementCore performs a real ToolConductor traversal over the exact registered repertoire.
+62. conductor coverage is complete only when every registered factor has exactly one typed disposition; factor-level OPEN/BLOCKED remains evidence rather than false controller failure.
+63. the active ImprovementCore adapter is suppressed inside the nested conductor call so mandatory consultation cannot recursively spawn the same active controller.
 
 ## Cross-repository lineage
 
@@ -357,7 +363,7 @@ Open-world global maximality/minimality is not a licensed completion claim. Curr
 
 ## Default HF2 local recurrence
 
-Regime 091 promotes the previously validated explicit HF2[ImprovementCore] campaign composition
+Regime 091 historically promoted the previously validated explicit HF2[ImprovementCore] campaign composition
 into the normal user-facing invocation path.
 
 Canonical user-facing entry:
@@ -740,3 +746,45 @@ This complements Specification-Before-Transformation. The earlier gate asks
 whether an object is recovered enough to change. This gate asks whether a
 reconstruction is recovered, current, authority-bound, dependency-closed, and
 type-correct enough to be emitted as the claimed authoritative mathematics.
+
+
+## Mandatory ToolConductor consultation — 2026-09-30
+
+Current IC-028 ordering now contains a repository-owned ToolConductor stage:
+
+OBJECTIFY
+-> TOOL_CONDUCTOR
+-> GENERATE_WORK
+-> SELECT.
+
+The exact contract is:
+architecture/CONTROLLER_TOOL_CONDUCTOR_MANDATORY_CONSULTATION_005_2026-09-30.md
+
+Runtime:
+runtime/controller_tool_conductor.py
+
+The consultation uses the real portable ToolConductor product operator. It does not
+treat factor-level OPEN/BLOCKED as traversal failure. Instead, the complete disposition
+vector is attached to controller state before work generation and selection.
+
+
+## Regime 092 mandatory ToolConductor promotion — 2026-09-30
+
+Regime 092 changes the current IC-028 operating path by making exhaustive ToolConductor
+consultation mandatory after OBJECTIFY and before GENERATE_WORK / SELECT.
+
+This is a controller identity change, not a documentation-only revision. Regime 091 remains
+the historical point at which default local HF2 recurrence entered the normal user-facing path.
+
+Regime 092 preserves that HF2 behavior and adds:
+- exact registered-repertoire conductor coverage before work selection;
+- factor-level OPEN/BLOCKED preservation as evidence;
+- active-controller anti-recursion;
+- pass-scoped conductor receipts excluded from HF2 semantic-delta detection;
+- separation between consultation-safe conductor adapters and later selected-tool execution
+  adapters, preserving Specification-Before-Transformation.
+
+Mathematical contract:
+architecture/CONTROLLER_TOOL_CONDUCTOR_MANDATORY_CONSULTATION_005_2026-09-30.md
+
+Validation evidence is recorded in the corresponding repair artifact after PR validation.

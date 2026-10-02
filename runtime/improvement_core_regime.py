@@ -30,7 +30,7 @@ from improvement_core_external_acquisition import (
     merge_external_outputs,
 )
 
-REGIME_VERSION="091"
+REGIME_VERSION="092"
 
 @dataclass(frozen=True)
 class ImprovementCoreRegime:
@@ -39,6 +39,7 @@ class ImprovementCoreRegime:
     learning_memory:str
     external_acquisition:str
     configured_tool_bridge:str
+    tool_conductor_consultation:str
     canonical_progress:str
     durable_learning:str
     knowledge_ledger:str
@@ -73,6 +74,7 @@ CURRENT_REGIME=ImprovementCoreRegime(
     learning_memory="runtime.improvement_core_learning_memory.LearningMemory",
     external_acquisition="runtime.improvement_core_external_acquisition.acquire_external",
     configured_tool_bridge="runtime.improvement_core_tool_bridge.execute_bound_tools",
+    tool_conductor_consultation="runtime.controller_tool_conductor.consult_registered_repertoire",
     canonical_progress="runtime.improvement_core_progress_relation.strict_progress",
     durable_learning="integration/IMPROVEMENT_CORE_DURABLE_LEARNING_110.json",
     knowledge_ledger="integration/IMPROVEMENT_CORE_KNOWLEDGE_LEDGER_113.json",
