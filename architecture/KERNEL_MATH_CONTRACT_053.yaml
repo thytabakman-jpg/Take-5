@@ -1,4 +1,4 @@
-schema_version: 1.3
+schema_version: 1.4
 artifact: KERNEL_MATH_CONTRACT_053
 date: 2026-10-02
 status: DRAFT_SUCCESSOR_MATH_CANDIDATE
@@ -869,6 +869,11 @@ audit_history:
       - invisible_zero_width_characters_were_embedded_in_a_Kernel_yaml_prohibition_token
       - new_implementation_and_promotion_gates_were_not_yet_in_recursive_section_coverage
     disposition: REVISED_IN_SCHEMA_1_3
+  - pass: RECURSIVE_COVERAGE_REENTRY_13
+    material_delta: true
+    findings:
+      - design_boundary_resolution_was_not_in_recursive_section_coverage
+    disposition: REVISED_IN_SCHEMA_1_4
 
 recursive_validation_plan:
   required_before_implementation: true
@@ -890,6 +895,7 @@ recursive_validation_plan:
         - preserved_open_research
         - predecessor_open_question_disposition
         - current_binding
+        - design_boundary_resolution
         - controller_contract
         - kernel_common
         - typed_global_owners
