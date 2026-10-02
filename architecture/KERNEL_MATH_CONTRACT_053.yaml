@@ -1,4 +1,4 @@
-schema_version: 0.9
+schema_version: 1.0
 artifact: KERNEL_MATH_CONTRACT_053
 date: 2026-10-02
 status: DRAFT_SUCCESSOR_MATH_CANDIDATE
@@ -84,7 +84,7 @@ symbol_table:
   T_controller: delegated-controller subset of T
   Gamma: typed governance environment
   D_exec: pluggable durable execution and replay backend role inside Gamma
-  ConfiguredInvoke: configured HF2 invocation whose adapter executes through D_exec
+  ConfiguredInvoke_D: configured HF2 invocation whose adapter executes through D_exec
   Z_C: controller state
   MI: controller memory
   z_sigma: governed target state of species sigma
@@ -143,39 +143,15 @@ predecessor_section_disposition:
     disposition: PRESERVED_AS_CONTINUITY_CURRENTNESS_SUPERVISOR
   take_two_recovered_behavior:
     disposition: PRESERVED
-  alignment_candidate:
-    disposition: PRESERVED_AS_OPEN_ALIGNMENT_CANDIDATE_WITH_SYMBOL_REPAIR
-  change_protocol:
-    disposition: PRESERVED_AND_STRENGTHENED_BY_RECURSIVE_INVALIDATION
-  open_questions:
-    disposition: EXPLICITLY_REDISPOSITIONED_BELOW
-
-alignment_candidate:
-  status: CANDIDATE_NOT_IMPLEMENTED
-  purpose: >
-    Preserve 052's entry-alignment research while preventing its historical constraint
-    symbol C from colliding with 053's controller symbol C.
-  entry_state:
-    equation: "theta = <G_ext, Target, M, P, S, F>"
-    coordinates:
-      G_ext: external admitted governing goal
-      Target: target or referent
-      M: controller, mode, and autonomy coordinates
-      P: protected constraints and process invariants
-      S: relevant state and baseline
-      F: finish or completion predicate
-  candidate_set:
-    equation: "Cand(u,z,j,beta) = {theta | Consistent(theta,u,z,j,beta)}"
-  result_sensitive_ambiguity:
-    equation: "Amb_H(Cand) = {d | exists theta1,theta2 in Cand: theta1[d] != theta2[d] AND ResultSensitive(d)}"
-  gate:
-    law: "Proceed without clarification iff Amb_H(Cand)=empty."
-  learning:
-    law: "Learn from coordinate delta between inferred and user-corrected theta, not from surface wording alone."
-  placement:
-    rule: >
-      Alignment may constrain interpretation and packetization but may not weaken K,
-      replace G_ext without governed GOAL reentry, or select substantive work in place of C.
+  preserved_open_research:
+  alignment_candidate_052:
+    source: architecture/KERNEL_MATH_CONTRACT_052.yaml::alignment_candidate
+    status: OPEN_PRESERVED_BY_REFERENCE
+    governing_effect_on_053: NONE_UNLESS_REOPENED_BY_RESULT_SENSITIVE_EVIDENCE
+    preservation_rule: >
+      The 052 alignment/Lambda research remains recoverable and may later become a
+      dependency of 053, but it is not duplicated as a second mathematical job inside
+      the successor kernel/control contract.
 
 predecessor_open_question_disposition:
   I_transition_placement:
@@ -499,11 +475,9 @@ state_commit_family:
 
 durable_execution_backend:
   symbol: D_exec
-  selection_status: OPEN_BASIS_RELATIVE
+  current_realization: TAKE5_RUNTIME
+  successor_external_backend_selection: OPEN_BASIS_RELATIVE
   evidence_report: architecture/KERNEL_MATH_CONTRACT_053_FULL_PROFILE_AUDIT_001_2026-10-02.md
-  current_nondominated_evidence_frontier:
-    - TEMPORAL_BACKEND
-    - DBOS_BACKEND
   law: >
     Reuse mature generic durability/orchestration infrastructure when it preserves
     053 controller ownership and typed boundaries. Backend identity is implementation
@@ -844,6 +818,13 @@ audit_history:
       - D_exec_had_no_explicit_typed_global_owner
       - branch_specific_Commit_sigma_semantics_were_described_as_optional
     disposition: REVISED_IN_SCHEMA_0_9
+  - pass: ARCHITECTURE_UNIT_JOB_REENTRY_9
+    material_delta: true
+    findings:
+      - full_alignment_Lambda_research_was_a_second_job_inside_the_successor_contract
+      - vendor_candidate_names_still_leaked_into_the_math_contract_after_backend_abstraction
+      - ConfiguredInvoke_symbol_name_did_not_match_ConfiguredInvoke_D_equation
+    disposition: REVISED_IN_SCHEMA_1_0
 
 recursive_validation_plan:
   required_before_implementation: true
@@ -862,7 +843,7 @@ recursive_validation_plan:
         - system_factorization
         - state_domains
         - predecessor_section_disposition
-        - alignment_candidate
+        - preserved_open_research
         - predecessor_open_question_disposition
         - current_binding
         - controller_contract
@@ -920,7 +901,7 @@ protected_constraints:
   - SYMBOL_ROLE_UNIQUENESS
   - PREDECESSOR_SECTION_DISPOSITION_COMPLETE
   - EXTERNAL_BACKEND_EVIDENCE_SEPARATE_FROM_MATH_IDENTITY
-  - ALIGNMENT_CANDIDATE_PRESERVED_WITHOUT_CONTROLLER_SYMBOL_COLLISION
+  - ALIGNMENT_CANDIDATE_PRESERVED_BY_REFERENCE_WITHOUT_SECOND_JOB
   - EPISODE_LOCAL_STATE_NOT_AUTHORITATIVE_BY_ACCIDENT
   - LOCAL_CLOSURE_NOT_GLOBAL_CLOSURE
   - OPEN_BLOCKED_CONFLICT_PRESERVATION
