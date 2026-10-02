@@ -1,4 +1,4 @@
-schema_version: 0.5
+schema_version: 0.6
 artifact: KERNEL_MATH_CONTRACT_053
 date: 2026-10-02
 status: DRAFT_SUCCESSOR_MATH_CANDIDATE
@@ -84,6 +84,8 @@ symbol_table:
   Z_C: controller state
   MI: controller memory
   z_sigma: governed target state of species sigma
+  Sigma_state: index set of governed target-state species
+  Z_G: governed target-state product across Sigma_state
   Commit_sigma: typed state-specific authoritative commit gate
   G_ext: admitted governing goal
   GoalProject: projection of G_ext into the current frozen observation basis
@@ -96,6 +98,10 @@ symbol_table:
   symbol_uniqueness_rule: "One load-bearing symbol has one role within 053; overloaded historical symbols are renamed before reuse."
 
 state_domains:
+  governed_state_product:
+    equation: "Z_G = product_{sigma in Sigma_state} z_sigma"
+    meaning: read-visible governed target-state family for the current controller episode
+    mutation_rule: "Z_G changes only through one or more admitted Commit_sigma transitions."
   controller_state:
     symbol: Z_C
     meaning: ICC128 governing problem and continuation state
@@ -206,13 +212,13 @@ current_binding:
     transition, preservation analysis, and currentness update.
 
 controller_contract:
-  role_equation: "C : <Z_C, MI, z_sigma, T, Gamma> -> <Z_C', MI', ControllerDisposition, Receipts>"
+  role_equation: "C : <Z_C, MI, Z_G, T, Gamma> -> <Z_C', MI', ControllerDisposition, Receipts>"
   current_owner: ICC128
   current_cycle:
     - "Q_t = G_Q(Z_C_t, MI_t, Evidence_t)"
     - "W_t = G_W(Q_t, Z_C_t, MI_t, T)"
     - "S_t = rho_128(Q_t, W_t, Z_C_t, MI_t, Gamma)"
-    - "R_t = GovernedExec(S_t, z_sigma_t, Gamma)"
+    - "R_t = GovernedExec(S_t, Z_G_t, Gamma)"
     - "D_t = A_C(R_t, Z_C_t, MI_t)"
     - "<Z_C_(t+1), MI_(t+1)> = U_C(Z_C_t, MI_t, D_t)"
     - "Reenter G_Q when admitted substantive continuation remains"
@@ -234,7 +240,7 @@ controller_contract:
     - reselect after material result, search, representation, authority, capability, or failure deltas
     - determine substantive continuation versus typed terminal state
   target_mutation_prohibition: >
-    C, G_Q, G_W, rho_128, A_C, and U_C do not directly mutate z_sigma.
+    C, G_Q, G_W, rho_128, A_C, and U_C do not directly mutate Z_G or any z_sigma.
     Target mutation occurs only through the state-specific governed execution/commit path.
   prohibited_substitution:
     - host_selected_parent_controller
@@ -268,7 +274,8 @@ kernel_common:
     K_trans:
       law: >
         A material effect is a typed transition with bound baseline, target/effect,
-        expected or actual delta identity, and required execution/verification evidence.
+        expected or actual delta identity, and applicable execution and verification
+        evidence required by its effect class.
       lineage:
         - I_transition
         - I_execution
@@ -381,18 +388,18 @@ typed_global_owners:
       - substantive action selection
 
 state_role_classes:
-  authoritative_or_persistent:
-    commit_requirement: "Must cross Commit_sigma and satisfy K."
+  protected_commit_roles:
+    commit_requirement: "Must cross Commit_sigma and satisfy K when materially updated."
     roles:
-      - SYSTEM_CONTROL
-      - RESULT
-      - LINEAGE
-      - RESEARCH_CONTROL
-      - SUPERVISORY
+      SYSTEM_CONTROL: authoritative_control
+      RESULT: authoritative_result
+      LINEAGE: persistent_lineage
+      RESEARCH_CONTROL: persistent_research_control
+      SUPERVISORY: protected_supervisory_derived_state
   non_authoritative_or_episode_local:
     commit_requirement: >
       May update under its typed owner without masquerading as authoritative target state.
-      Promotion into authoritative/persistent state requires Commit_sigma.
+      Promotion into a protected commit role requires Commit_sigma.
     roles:
       - CONTROLLER_INTERNAL
       - EPISODE_WORKING
@@ -462,13 +469,13 @@ wrapper:
     Target-state execution and commit occur through GovernedExec inside the controller episode,
     not as a second outer admission/update pass.
   round:
-    - "o_n = O_beta(z_n)"
+    - "o_n = O_beta(Z_G_n)"
     - "m_n = Phi(o_n,beta)"
     - "mbar_n = Freeze(m_n)"
     - "g_n = GoalProject(G_ext,mbar_n,beta)"
-    - "p_n = Packetize(mbar_n,g_n,z_n,beta)"
-    - "controller_result_n = C_episode(p_n,Z_C_n,MI_n,z_n;T,Gamma)"
-    - "episode_closure_n = TRC_episode(controller_result_n,z_n,beta)"
+    - "p_n = Packetize(mbar_n,g_n,Z_G_n,beta)"
+    - "controller_result_n = C_episode(p_n,Z_C_n,MI_n,Z_G_n;T,Gamma)"
+    - "episode_closure_n = TRC_episode(controller_result_n,Z_G_n,beta)"
     - "j_(n+1) = Sync_J(j_n,Delta_supervisory_n) when supervisory_relevant(Delta_supervisory_n)"
   controller_identity_gate:
     canonical_icc_requirement: "ControllerIdentity(C) = ICC128"
@@ -569,14 +576,23 @@ currentness:
   law: >
     CURRENT is evidence-sensitive and basis-relative. A historical status label, file location,
     timestamp, or preserved runtime does not by itself establish current authority.
-  current_controller_claim:
+  repository_current_controller_claim:
     object: ICC128
     requires:
-      - registration
-      - runtime realization
-      - controller binding
-      - execution receipt
+      - current registration
+      - current runtime realization
+      - currentness evidence
       - preservation of protected controller behavior
+  per_turn_controller_execution_claim:
+    object: ICC128
+    requires:
+      - repository_current_controller_claim
+      - controller binding for the exact episode
+      - controller execution receipt
+      - host ingress receipt when the claim is made through an external hosted ICC surface
+  distinction_rule: >
+    Repository currentness of ICC128 does not prove that ICC128 executed a particular turn.
+    A per-turn execution receipt does not by itself establish repository currentness.
   stale_basis_rule: >
     Any successor-changing material delta to controller, wrapper, kernel, state commit,
     tool invocation, authority, or host ingress reopens the affected dependency cone.
@@ -669,6 +685,14 @@ audit_history:
       - duplicate_top_level_wrapper_key_created_by_revision
       - predecessor_section_disposition_indentation_was_corrupted
     disposition: REPAIRED_BEFORE_CLOSURE
+  - pass: WHOLE_OBSERVER_3
+    material_delta: true
+    findings:
+      - repository_current_controller_identity_was_conflated_with_per_turn_execution
+      - generic_wrapper_state_symbol_z_n_was_not_reconciled_with_typed_state_species
+      - K_trans_overstated_execution_receipt_requirements_for_every_effect_class
+      - supervisory_state_needed_explicit_protected_derived_typing
+    disposition: REVISED_IN_SCHEMA_0_6
 
 recursive_validation_plan:
   required_before_implementation: true
@@ -754,6 +778,8 @@ protected_constraints:
   - PROTECTED_TRANSITION_INTEGRITY
   - TYPED_STATE_COMMIT
   - CURRENTNESS_EVIDENCE_REQUIRED
+  - REPOSITORY_CURRENTNESS_DISTINCT_FROM_PER_TURN_EXECUTION
+  - GOVERNED_STATE_PRODUCT_ONLY_CHANGES_THROUGH_TYPED_COMMITS
   - HOST_INGRESS_TRUTH
   - TAKE_TWO_SURFACE_MINIMALITY
   - PRESERVE_052_PROTECTED_BEHAVIOR
@@ -794,6 +820,8 @@ implementation_gate:
     - symbol_uniqueness_holdout
     - local_vs_global_closure_holdout
     - currentness_reconciliation
+    - repository_vs_turn_execution_holdout
+    - governed_state_product_commit_holdout
     - zero_new_delta_fixed_point
   prohibited_until_gate_passes:
     - edit_KERNEL_yaml
