@@ -174,3 +174,24 @@ The next work is promotion-specific:
 3. prove local child closure cannot become parent/global closure;
 4. reconcile the candidate with canonical entry/currentness surfaces;
 5. rerun recursive validation to zero new runtime delta.
+
+
+## Canonical promotion patch
+
+Promotion-stage changes:
+- runtime/icc_entry.py now constructs ICC128 internally from typed ICC128RuntimeBindings;
+- canonical run_icc has no ic_fn or arbitrary icc128_adapter parameter;
+- the previous injected-controller wrapper survives only as run_icc_debug_injected;
+- KERNEL.yaml binds substantive selection ownership to ICC128;
+- ICC128 protected identity now includes canonical top-level substantive ownership;
+- ImprovementCore protected controller ownership is explicitly scoped to delegated improvement episodes.
+
+Pre-promotion-patch validation at commit c6383a170f58cc2a98c9b19430d1da8a74d8b73d:
+- Take-5 Validation: PASS
+- Capability Preservation: PASS
+- Tool System Every-Tool Sweep: PASS
+- Kernel 053 Durable Backend Bakeoff: PASS
+- ImproveCore Legacy Restoration 130: PASS
+- ImproveCore Legacy Semantic Holdouts 132: PASS
+
+The promotion patch requires the same validation surfaces to pass again before merge.

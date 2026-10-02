@@ -4,7 +4,7 @@ status: SUCCESSOR_CANDIDATE
 target_status: REPLACEMENT
 production_authority: none
 legacy_authority: thytabakman-jpg/Reaserch
-architecture_status: UNFROZEN
+architecture_status: KERNEL_053_VALIDATED
 
 governing_principles:
   - mathematical_color_state_survives_user_visible_emission
@@ -37,6 +37,19 @@ candidate_layers:
 historical_configuration:
   pd_in_epistemic_kernel: benchmark_candidate
   icc_above_kernel: benchmark_candidate
+
+current_control_topology:
+  math_contract: architecture/KERNEL_MATH_CONTRACT_053.yaml
+  substantive_controller_role: C
+  substantive_controller_current_binding: ICC128
+  delegated_improvement_controller: ImprovementCore
+  continuity_currentness_supervisor: Jane
+  durable_execution_role: D_exec
+  controller_state: Z_C
+  controller_memory: MI
+  governed_target_state: Z_G
+  protected_commit_family: Commit_sigma
+  rule: guards_constrain_controller_but_do_not_select_in_its_place
 
 placement_rule: >
   Place or factor each live component independently. Admit foundational kernel semantics only
@@ -134,7 +147,7 @@ capability_coverage_obligation:
     - BLOCKED
     - OPEN
   kernel_does_not_select_capabilities: true
-  selection_owner: CONTROLLER
+  selection_owner: ICC128
   binding_owner: INTERFACE
   execution_owner: RUNTIME
   receipt_owner: STATE

@@ -60,3 +60,17 @@ def test_generic_tool_manifest_still_has_common_wrapper_contracts():
         "REENTRY_REQUIRED",
         "OPEN_PRESERVATION",
     } <= m.behavior_ids()
+
+
+def test_icc128_manifest_reconstructs_canonical_top_level_controller_ownership():
+    required=("ICC128_CANONICAL_TOP_LEVEL_SUBSTANTIVE_OWNERSHIP",)
+    m=manifest_for("ICC128")
+    assert m.complete()
+    assert set(required)<=m.behavior_ids()
+    assert reconstructs("ICC128",required)
+
+
+def test_improvementcore_manifest_scopes_controller_ownership_to_delegated_episode():
+    m=manifest_for("ImprovementCore")
+    assert "IMPROVEMENTCORE_DELEGATED_EPISODE_CONTROLLER_OWNERSHIP" in m.behavior_ids()
+    assert "IMPROVEMENTCORE_CONTROLLER_OWNERSHIP" not in m.behavior_ids()

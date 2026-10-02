@@ -1,9 +1,9 @@
-schema_version: 1.5
+schema_version: 1.6
 artifact: KERNEL_MATH_CONTRACT_053
 date: 2026-10-02
-status: DRAFT_SUCCESSOR_MATH_CANDIDATE
-runtime_effect: NONE
-implementation_authority: false
+status: VALIDATED_SUCCESSOR_CONTRACT
+runtime_effect: CANONICAL_WHEN_BOUND_BY_RUNTIME_ICC_ENTRY
+implementation_authority: true
 parent:
   artifact: architecture/KERNEL_MATH_CONTRACT_052.yaml
   disposition: PRESERVE_UNCHANGED_AS_HISTORICAL_MATH
@@ -904,6 +904,17 @@ audit_history:
     disposition: REVISED_IN_SCHEMA_1_5
 
 
+  - pass: CANONICAL_PROMOTION_PATCH_16
+    material_delta: true
+    findings:
+      - canonical_run_icc_now_constructs_ICC128_internally_from_typed_environment_bindings
+      - arbitrary_parent_controller_injection_moved_to_explicit_debug_only_surface
+      - KERNEL_selection_owner_bound_to_ICC128
+      - ImprovementCore_controller_ownership_scoped_to_delegated_improvement_episode
+      - repository_native_FULL_CONFIGURED_HF2_V1_and_PTI_receipt_verified
+      - full_repository_validation_green_before_promotion_patch
+    disposition: VALIDATED_PENDING_FINAL_POST_PROMOTION_CI
+
 recursive_validation_plan:
   required_before_implementation: true
   profile:
@@ -1046,7 +1057,7 @@ implementation_start_gate:
       - claim_current_runtime_successor
 
 promotion_gate:
-  status: BLOCKED_UNTIL_IMPLEMENTATION_VALIDATED
+  status: VALIDATED_PENDING_CANONICAL_MERGE
   purpose: >
     Holdouts that depend on successor runtime code are promotion requirements, not
     prerequisites for creating that code.
