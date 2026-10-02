@@ -11,8 +11,9 @@ second HF002 instance would be a category error.
 """
 from __future__ import annotations
 
-from dataclasses import dataclass
-from typing import Any, Callable
+from dataclasses import dataclass, asdict, is_dataclass
+import json
+from typing import Any, Callable, Mapping
 
 from hf002_recursive_continuation import HF002RecursiveContinuation
 
@@ -73,6 +74,41 @@ def _raw_mapping(raw:Any)->dict[str,Any]:
             f"CONFIGURED_HF2_EXECUTION_TRUTH_INVALID:{truth}"
         )
     return out
+
+
+def _canonical(value:Any)->Any:
+    if is_dataclass(value):
+        return _canonical(asdict(value))
+    if isinstance(value,Mapping):
+        return {str(k):_canonical(v) for k,v in sorted(value.items(),key=lambda kv:str(kv[0]))}
+    if isinstance(value,(list,tuple)):
+        return [_canonical(v) for v in value]
+    if isinstance(value,(set,frozenset)):
+        return sorted((_canonical(v) for v in value),key=repr)
+    if isinstance(value,(str,int,float,bool)) or value is None:
+        return value
+    return {"__repr__":repr(value),"__type__":type(value).__qualname__}
+
+
+def _semantic_signature(raw:dict[str,Any],current:Any)->str:
+    """Fingerprint the admitted semantic payload, excluding recurrence-control flags.
+
+    Configured repository tools are evidence-oriented.  When a clean successor pass
+    returns the same semantic evidence/state as the prior pass, the wrapper must
+    normalize that repeated evidence to no-new-material-delta rather than spin to
+    RESOURCE_STOP because an older adapter blindly repeats material_delta=True.
+    """
+    payload={
+        "state":raw.get("state",current),
+        "result":raw.get("result"),
+        "evidence":raw.get("evidence",()),
+        "related_objects":raw.get("related_objects",()),
+        "dependency_footprint":raw.get("dependency_footprint",()),
+        "affected_objects":raw.get("affected_objects",()),
+        "status":raw.get("status","EXECUTED"),
+        "execution_truth":raw.get("execution_truth",""),
+    }
+    return json.dumps(_canonical(payload),sort_keys=True,separators=(",",":"),ensure_ascii=False)
 
 
 def _delta_from_raw(tool_id:str,raw:dict[str,Any])->dict[str,Any]:
@@ -154,7 +190,7 @@ def execute_configured_with_hf2(
             f"CONFIGURED_HF2_ENGINE_INVALID:{tool_id}:{recurrence_engine}"
         )
 
-    holder={"raw":None,"calls":0}
+    holder={"raw":None,"calls":0,"previous_signature":None}
 
     def run_capability(current,memory):
         raw=_raw_mapping(adapter(current,plan))
@@ -164,7 +200,27 @@ def execute_configured_with_hf2(
 
     def admit_normalize(raw,current,memory):
         normalized=raw.get("state",current)
-        return normalized,_delta_from_raw(str(tool_id),raw)
+        delta=_delta_from_raw(str(tool_id),raw)
+        supplied=raw.get("hf2_delta")
+        explicit_material=(
+            isinstance(supplied,dict)
+            and any(bool(supplied.get(k)) for k in (
+                "material_result_delta","material_search_delta","material_discovery_delta",
+                "negative_evidence","open_refinement","changed_representation",
+                "material_relation_delta","goal_gap_reduced","execution_truth_strengthened",
+                "resolved_open","resolved_blocked","resolved_conflict",
+            ))
+        )
+        signature=_semantic_signature(raw,current)
+        if (
+            not explicit_material
+            and bool(raw.get("material_delta",False))
+            and holder["previous_signature"]==signature
+        ):
+            delta["material_result_delta"]=False
+            delta["clean_successor_duplicate_evidence"]=True
+        holder["previous_signature"]=signature
+        return normalized,delta
 
     def trc_verify(before,after,delta):
         raw=holder["raw"] or {}

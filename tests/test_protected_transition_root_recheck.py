@@ -7,4 +7,4 @@ def test_post_pti_recheck_moves_remaining_root_to_host_boundary():
     root=out["root_result"]
     assert root.status=="RELATIVE_CLOSE"
     assert root.root_candidates==("HOST_INTEGRATION_BYPASS",)
-    assert root.rounds==2
+    assert root.rounds==3

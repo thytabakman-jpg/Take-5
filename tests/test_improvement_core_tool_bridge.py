@@ -40,11 +40,11 @@ def test_bound_tools_are_actually_invoked_and_outputs_are_consumed():
     out=execute_bound_tools(state,bindings,{"RootCause":root_adapter})
     assert out.status=="EXECUTED"
     assert out.blocker is None
-    assert calls==[("RootCause",36,True)]
+    assert calls==[("RootCause",36,True),("RootCause",36,True)]
     assert out.executions[0].execution_truth=="IMPLEMENTATION_EXECUTED"
     assert out.executions[0].recurrence_engine=="HF002"
     assert out.executions[0].recurrence_status=="RELATIVE_CLOSE"
-    assert out.executions[0].recurrence_rounds==1
+    assert out.executions[0].recurrence_rounds==2
     assert out.state["configured_tool_outputs"][0]["result"]["root"]=="TOOL_SELECTION_EXECUTION_SEAM"
     assert out.state["configured_tool_outputs"][0]["material_delta"] is True
     assert out.state["configured_tool_outputs"][0]["recurrence"]["engine"]=="HF002"
@@ -69,16 +69,18 @@ def test_hf2_reapplies_same_bound_tool_when_adapter_exposes_live_local_frontier(
     calls=[]
 
     def root_adapter(current,plan):
-        n=int(current.get("round",0))+1
-        calls.append(n)
+        call_no=len(calls)+1
+        calls.append(call_no)
+        # Round 1 changes the normalized successor. Round 2 is the required clean
+        # pass over that successor and therefore returns the same semantic state.
         return {
             "status":"EXECUTED",
             "execution_truth":"IMPLEMENTATION_EXECUTED",
-            "state":{**current,"round":n},
-            "result":{"round":n},
-            "evidence":[f"native:round:{n}"],
-            "material_delta":True,
-            "hf2_live_local":n<2,
+            "state":{**current,"round":1},
+            "result":{"round":1},
+            "evidence":["native:round:1"],
+            "material_delta":call_no==1,
+            "hf2_live_local":call_no==1,
         }
 
     out=execute_bound_tools(state,bindings,{"RootCause":root_adapter})
