@@ -238,7 +238,7 @@ def test_regime_threads_selected_formal_tool_into_real_adapter_execution():
         return {
             "status":"EXECUTED",
             "result":{"root":"TOOL_SELECTION_EXECUTION_SEAM"},
-            "material_delta":True,
+            "material_delta":len(calls)==1,
         }
 
     out=run_improvement_core_regime(
@@ -359,7 +359,7 @@ def test_regime_auto_captures_every_material_configured_tool_hf2_round(tmp_path)
             "state":{**state,"configured_round":n},
             "result":{"round":n,"finding":f"finding-{n}"},
             "evidence":[f"configured-root-round-{n}"],
-            "material_delta":True,
+            "material_delta":n<2,
             "related_objects":["MT","GOAL"],
             "dependency_footprint":["representation"],
             "affected_objects":[f"future-state-{n}"],
