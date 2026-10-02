@@ -1,4 +1,4 @@
-schema_version: 0.8
+schema_version: 0.9
 artifact: KERNEL_MATH_CONTRACT_053
 date: 2026-10-02
 status: DRAFT_SUCCESSOR_MATH_CANDIDATE
@@ -26,6 +26,7 @@ basis:
     - runtime/state_commit.py
     - runtime/tool_run_registry.py
     - runtime/tool_manifest.py
+    - architecture/KERNEL_MATH_CONTRACT_053_FULL_PROFILE_AUDIT_001_2026-10-02.md
 
 design_job:
   statement: >
@@ -415,6 +416,18 @@ typed_global_owners:
       - consumption evidence
     inherited:
       - execution_mechanics_of_I_execution
+  durability_infrastructure:
+    owner: D_exec
+    owns:
+      - durable scheduling
+      - replay and checkpoint support
+      - child-workflow or equivalent lifecycle
+      - runtime adapter hosting
+      - durable execution history
+    prohibited:
+      - substantive work selection
+      - authority expansion
+      - direct protected target-state commit outside Commit_sigma
   verification:
     owns:
       - effect verification
@@ -484,97 +497,29 @@ state_commit_family:
     the common protected effect contract.
 
 
-external_reuse_frontier:
-  status: ARCHITECTURE_BENCHMARKED_CANDIDATE_FRONTIER
-  governing_rule: >
-    Reuse mature generic orchestration and durability machinery when it preserves 053
-    controller ownership and typed boundaries. Do not replace ICC128 semantic selection
-    merely because an external framework supplies a supervisor abstraction.
-  candidates:
-    Temporal:
-      role_fit: PRIMARY_DURABLE_EXECUTION_CANDIDATE
-      reusable_semantics:
-        - parent workflow owns orchestration
-        - child workflows have independent identity and event history
-        - activities isolate non-deterministic external work
-        - child completion returns to parent workflow
-        - replay reconstructs workflow state from event history
-      proposed_mapping:
-        ICC128: parent_workflow
-        ImprovementCore: child_workflow
-        configured_tools: activities_or_child_workflows_by_job_type
-        semantic_GQ_GW_model_calls: activities
-        rho_128: deterministic_parent_workflow_logic
-        receipts: explicit_053_receipts_plus_temporal_event_history
-      source:
-        - https://docs.temporal.io/child-workflows
-        - https://docs.temporal.io/workflow-definition
-        - https://docs.temporal.io/tasks
-    DBOS:
-      role_fit: LIGHTWEIGHT_DURABLE_EXECUTION_CANDIDATE
-      reusable_semantics:
-        - Python workflows resume from completed steps
-        - completed steps are not re-executed
-        - database transactions can commit exactly once
-        - workflow checkpoints provide recovery
-      proposed_mapping:
-        ICC128: durable_workflow
-        governed_external_work: steps
-        Commit_sigma_database_effects: transactional_steps_where_applicable
-      source:
-        - https://docs.dbos.dev/python/tutorials/workflow-tutorial
-        - https://docs.dbos.dev/python/tutorials/transaction-tutorial
-    Restate:
-      role_fit: STATEFUL_ENTITY_AND_WORKFLOW_CANDIDATE
-      reusable_semantics:
-        - virtual objects provide single-writer keyed state
-        - workflows provide isolated state and exactly-once workflow identity
-      proposed_mapping:
-        protected_state_species: virtual_objects_where_keyed_single_writer_is_useful
-        controller_episode: workflow
-      source:
-        - https://docs.restate.dev/concepts/services/
-    LangGraph:
-      role_fit: REFERENCE_NOT_TOP_LEVEL_CONTROLLER
-      reusable_semantics:
-        - hierarchical supervisor pattern
-        - checkpointed thread state
-        - separate long-term store
-        - explicit parent/subgraph state-boundary concerns
-      non_adoption_reason: >
-        Its supervisor would duplicate ICC128 substantive selection if installed as the
-        canonical parent controller. Its persistence/subgraph lessons remain useful.
-      source:
-        - https://langchain-ai.github.io/langgraphjs/reference/modules/langgraph-supervisor.html
-        - https://langchain-ai.github.io/langgraphjs/how-tos/persistence-postgres/
-    PydanticAI:
-      role_fit: PLUGGABLE_DURABILITY_DESIGN_REFERENCE
-      reusable_semantics:
-        - durability attached as a capability without replacing agent semantics
-        - multiple durable engines behind a stable backend surface
-      proposed_use: >
-        Reuse the backend-abstraction pattern, or the integration itself only where the
-        semantic model layer is already a Pydantic AI agent. Do not introduce its agent
-        loop as a second top-level controller.
-      source:
-        - https://github.com/pydantic/pydantic-ai/blob/main/docs/durable_execution/overview.md
-  current_frontier:
+durable_execution_backend:
+  symbol: D_exec
+  selection_status: OPEN_BASIS_RELATIVE
+  evidence_report: architecture/KERNEL_MATH_CONTRACT_053_FULL_PROFILE_AUDIT_001_2026-10-02.md
+  current_nondominated_evidence_frontier:
     - TEMPORAL_BACKEND
     - DBOS_BACKEND
-  dominance_status: >
-    Temporal dominates on explicit parent/child workflow semantics and durable event history.
-    DBOS dominates on Python-local simplicity and transactional checkpoint integration.
-    Backend choice remains basis-relative until deployment/operational burden is admitted
-    as a result-sensitive constraint.
+  law: >
+    Reuse mature generic durability/orchestration infrastructure when it preserves
+    053 controller ownership and typed boundaries. Backend identity is implementation
+    evidence, not part of the mathematical identity of C, K, or W_beta.
   abstraction:
     equation: "D_exec : <ControllerEpisode, SelectedWork, Z_G, Gamma> -> DurableRuntimeServices"
-    law: >
-      D_exec is a replaceable infrastructure backend. It may host deterministic controller
-      replay/checkpointing and provide scheduling, durability, retries, child-workflow lifecycle,
-      runtime adapters, and execution history. Hosting C does not transfer rho_128 or substantive
-      selection ownership to D_exec. It may not own governing-goal selection, authority expansion,
-      or target-state admission.
-
+    invariants:
+      - D_exec may host deterministic replay/checkpointing without owning rho_128
+      - D_exec may schedule and execute selected work without selecting that work
+      - D_exec may record execution history without granting authority
+      - D_exec may not commit protected target state except through Commit_sigma
+      - D_exec may not replace G_ext or GOAL
+      - backend replacement must preserve execution receipts and protected behavior
+  selection_rule: >
+    Choose a concrete backend only after deployment, persistence, latency, operational
+    burden, and lifecycle requirements are admitted as result-sensitive constraints.
 governed_execution:
   backend_role: D_exec
   branch_equations:
@@ -583,7 +528,7 @@ governed_execution:
   configured_invoke_equation: "ConfiguredInvoke_D(T,x) = HF002[RuntimeAdapter_D,T(Plan(T),x)] for T != HF002; HF002 uses SELF recurrence."
   interpretation: >
     GovernedExec is a service used by C. It does not choose the substantive work package.
-    The optional Commit_sigma step is required exactly when selected work carries a licensed
+    The Commit_sigma branch is required exactly when selected work carries a licensed
     material target-state effect; evidence-only work returns evidence without target commit.
   stages:
     SpecGate:
@@ -892,6 +837,13 @@ audit_history:
       - C_episode_was_an_undefined_alias_for_C
       - D_exec_needed_to_support_durable_controller_hosting_without_semantic_controller_ownership
     disposition: REVISED_IN_SCHEMA_0_8
+  - pass: RECURSIVE_GOAL_REENTRY_8
+    material_delta: true
+    findings:
+      - vendor_specific_backend_research_was_overembedded_in_the_math_contract
+      - D_exec_had_no_explicit_typed_global_owner
+      - branch_specific_Commit_sigma_semantics_were_described_as_optional
+    disposition: REVISED_IN_SCHEMA_0_9
 
 recursive_validation_plan:
   required_before_implementation: true
@@ -918,7 +870,7 @@ recursive_validation_plan:
         - typed_global_owners
         - state_role_classes
         - state_commit_family
-        - external_reuse_frontier
+        - durable_execution_backend
         - governed_execution
         - episode_closure
         - wrapper
@@ -967,6 +919,7 @@ protected_constraints:
   - PACKETIZATION_DOES_NOT_SELECT
   - SYMBOL_ROLE_UNIQUENESS
   - PREDECESSOR_SECTION_DISPOSITION_COMPLETE
+  - EXTERNAL_BACKEND_EVIDENCE_SEPARATE_FROM_MATH_IDENTITY
   - ALIGNMENT_CANDIDATE_PRESERVED_WITHOUT_CONTROLLER_SYMBOL_COLLISION
   - EPISODE_LOCAL_STATE_NOT_AUTHORITATIVE_BY_ACCIDENT
   - LOCAL_CLOSURE_NOT_GLOBAL_CLOSURE
