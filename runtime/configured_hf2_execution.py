@@ -192,7 +192,10 @@ def execute_configured_with_hf2(
             return False
         if "hf2_local_close" in raw:
             return bool(raw["hf2_local_close"])
-        return not bool(raw.get("hf2_live_local",False))
+        # A zero-delta successor is the independent fixed-point witness.
+        # A stale producer-side live flag from the preceding material round
+        # cannot keep the recurrence open after that witness is observed.
+        return True
 
     engine=HF002RecursiveContinuation(
         run_capability=run_capability,
