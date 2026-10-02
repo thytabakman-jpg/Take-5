@@ -1,4 +1,4 @@
-schema_version: 0.4
+schema_version: 0.5
 artifact: KERNEL_MATH_CONTRACT_053
 date: 2026-10-02
 status: DRAFT_SUCCESSOR_MATH_CANDIDATE
@@ -73,6 +73,28 @@ system_factorization:
     Gamma is a typed product of governance services, not an untyped residual bucket.
     Each coordinate has an owner and may not perform substantive controller selection.
 
+symbol_table:
+  K: common protected effect contract
+  W_beta: bound orchestration wrapper
+  C: substantive controller role
+  J: continuity/currentness supervisor
+  T: typed capability basis
+  T_controller: delegated-controller subset of T
+  Gamma: typed governance environment
+  Z_C: controller state
+  MI: controller memory
+  z_sigma: governed target state of species sigma
+  Commit_sigma: typed state-specific authoritative commit gate
+  G_ext: admitted governing goal
+  GoalProject: projection of G_ext into the current frozen observation basis
+  Packetize: evidence/dependency packet construction with no substantive selection authority
+  A_C: controller evidence reconciliation
+  U_C: controller-state and controller-memory update
+  TRC_episode: controller-episode closure verifier
+  O_beta: nonmutating observation under bound entry beta
+  Phi: observation formalization
+  symbol_uniqueness_rule: "One load-bearing symbol has one role within 053; overloaded historical symbols are renamed before reuse."
+
 state_domains:
   controller_state:
     symbol: Z_C
@@ -97,6 +119,76 @@ state_domains:
   separation_law: >
     U_C may update Z_C and MI after admitted controller evidence. U_C does not itself
     commit governed target state z_sigma. Material target effects require Commit_sigma.
+
+predecessor_section_disposition:
+  system_factorization:
+    disposition: REPLACED_WITH_TYPED_CONTROLLER_AND_GOVERNANCE_FACTORS
+  kernel:
+    disposition: REFACTORED_INTO_COMMON_EFFECT_CONTRACT_PLUS_TYPED_GLOBAL_OWNERS
+  episode_closure:
+  symbol: TRC_episode
+  role: >
+    Verify basis-relative controller-episode closure after C_episode returns.
+    TRC_episode may return CLOSED_RELATIVE, OPEN, BLOCKED, or CONFLICT and may signal
+    upstream reentry. It does not select substantive work and does not replace C terminality.
+  closure_requirement: >
+    A user-visible terminal result requires both controller terminality and episode closure
+    under the same frozen basis, with no live reentry trigger.
+  no_local_to_global_rule: "Local child or capability closure does not imply controller-episode closure."
+
+wrapper:
+    disposition: REPLACED_WITH_CONTROLLER_PARAMETERIZED_WRAPPER
+  improvement_core:
+    disposition: RETYPED_AS_DELEGATED_IMPROVEMENT_SUBCONTROLLER
+  jane:
+    disposition: PRESERVED_AS_CONTINUITY_CURRENTNESS_SUPERVISOR
+  take_two_recovered_behavior:
+    disposition: PRESERVED
+  alignment_candidate:
+    disposition: PRESERVED_AS_OPEN_ALIGNMENT_CANDIDATE_WITH_SYMBOL_REPAIR
+  change_protocol:
+    disposition: PRESERVED_AND_STRENGTHENED_BY_RECURSIVE_INVALIDATION
+  open_questions:
+    disposition: EXPLICITLY_REDISPOSITIONED_BELOW
+
+alignment_candidate:
+  status: CANDIDATE_NOT_IMPLEMENTED
+  purpose: >
+    Preserve 052's entry-alignment research while preventing its historical constraint
+    symbol C from colliding with 053's controller symbol C.
+  entry_state:
+    equation: "theta = <G_ext, Target, M, P, S, F>"
+    coordinates:
+      G_ext: external admitted governing goal
+      Target: target or referent
+      M: controller, mode, and autonomy coordinates
+      P: protected constraints and process invariants
+      S: relevant state and baseline
+      F: finish or completion predicate
+  candidate_set:
+    equation: "Cand(u,z,j,beta) = {theta | Consistent(theta,u,z,j,beta)}"
+  result_sensitive_ambiguity:
+    equation: "Amb_H(Cand) = {d | exists theta1,theta2 in Cand: theta1[d] != theta2[d] AND ResultSensitive(d)}"
+  gate:
+    law: "Proceed without clarification iff Amb_H(Cand)=empty."
+  learning:
+    law: "Learn from coordinate delta between inferred and user-corrected theta, not from surface wording alone."
+  placement:
+    rule: >
+      Alignment may constrain interpretation and packetization but may not weaken K,
+      replace G_ext without governed GOAL reentry, or select substantive work in place of C.
+
+predecessor_open_question_disposition:
+  I_transition_placement:
+    disposition: RESOLVED_AS_K_TRANS_IN_SUCCESSOR_CANDIDATE
+    reopen_condition: "counterexample showing K_trans can move without weakening a protected commit"
+  I_surface_enforcement:
+    disposition: ARCHITECTURE_CONSTITUTION_OWNER_SELECTED_RUNTIME_ENFORCEMENT_STILL_OPEN
+  Lambda_implementation:
+    disposition: OPEN
+    note: "Alignment candidate is preserved without claiming an exact Lambda implementation."
+  matched_alignment_corpus:
+    disposition: OPEN
 
 current_binding:
   controller_role:
@@ -299,6 +391,26 @@ typed_global_owners:
     prohibited:
       - substantive action selection
 
+state_role_classes:
+  authoritative_or_persistent:
+    commit_requirement: "Must cross Commit_sigma and satisfy K."
+    roles:
+      - SYSTEM_CONTROL
+      - RESULT
+      - LINEAGE
+      - RESEARCH_CONTROL
+      - SUPERVISORY
+  non_authoritative_or_episode_local:
+    commit_requirement: >
+      May update under its typed owner without masquerading as authoritative target state.
+      Promotion into authoritative/persistent state requires Commit_sigma.
+    roles:
+      - CONTROLLER_INTERNAL
+      - EPISODE_WORKING
+      - VALIDATION_DERIVED
+      - PROJECT_LOCAL
+      - OPEN_STATE_ROLE
+
 state_commit_family:
   equation: "Commit_sigma(<z_sigma, delta, beta, receipts>) -> <z'_sigma, commit_receipt> OR OPEN/BLOCKED"
   current_coverage_status: PARTIAL_REQUIRES_RECONCILIATION
@@ -316,7 +428,9 @@ state_commit_family:
     the common protected effect contract.
 
 governed_execution:
-  equation: "GovernedExec = ReturnReceipts o Commit_sigma? o Verify o Runtime o ConfiguredHF2 o Bind o EffectGate o SpecGate"
+  branch_equations:
+    evidence_only: "GovernedExec(w) = ReturnReceipts o Verify o Runtime o ConfiguredHF2 o Bind o EffectGate o SpecGate, when Effect(w)=EVIDENCE_ONLY"
+    target_transform: "GovernedExec(w) = ReturnReceipts o Commit_sigma o Verify o Runtime o ConfiguredHF2 o Bind o EffectGate o SpecGate, when Effect(w)=TARGET_TRANSFORM and TransformLicensed(w)"
   interpretation: >
     GovernedExec is a service used by C. It does not choose the substantive work package.
     The optional Commit_sigma step is required exactly when selected work carries a licensed
@@ -404,6 +518,11 @@ goal_and_bootstrap:
 
 configured_tool_execution:
   profile: FULL_CONFIGURED_HF2_V1
+  current_default_effect: EVIDENCE_ONLY
+  effect_rule: >
+    The current configured repository-tool contract is observer/evidence-oriented.
+    A future configured TARGET_TRANSFORM path requires explicit effect authority and may
+    not be inferred from current tool registration alone.
   law: >
     A selected registered tool is not executed by naming, planning, semantic reasoning,
     or direct native invocation. It must cross configured binding, complete plan construction,
@@ -465,6 +584,7 @@ currentness:
 improvement_core:
   role: DELEGATED_IMPROVEMENT_SUBCONTROLLER
   top_level_icc_owner: false
+  protected_controller_ownership_scope: DELEGATED_IMPROVEMENT_EPISODE_ONLY
   retained_behaviors:
     - observer_first_mode
     - recursive_parent_control_inside_delegated_episode
@@ -533,6 +653,16 @@ audit_history:
       - current_controller_claim_and_successor_enforcement_status_needed_separation
       - state_commit_family_current_coverage_needed_to_remain_explicitly_open
     disposition: REVISED_IN_SCHEMA_0_4
+  - pass: LINE_OBSERVER_1
+    material_delta: true
+    findings:
+      - GovernedExec_optional_commit_notation_was_formally_ambiguous
+      - TRC_episode_was_referenced_without_a_typed_role
+      - predecessor_alignment_candidate_had_not_been_dispositioned
+      - historical_alignment_constraint_symbol_C_collided_with_controller_C
+      - authoritative_and_episode_local_state_classes_needed_explicit_separation
+      - ImprovementCore_controller_ownership_needed_scope_typing
+    disposition: REVISED_IN_SCHEMA_0_5
 
 recursive_validation_plan:
   required_before_implementation: true
@@ -550,12 +680,17 @@ recursive_validation_plan:
       targets:
         - system_factorization
         - state_domains
+        - predecessor_section_disposition
+        - alignment_candidate
+        - predecessor_open_question_disposition
         - current_binding
         - controller_contract
         - kernel_common
         - typed_global_owners
+        - state_role_classes
         - state_commit_family
         - governed_execution
+        - episode_closure
         - wrapper
         - packetization
         - goal_and_bootstrap
@@ -601,6 +736,10 @@ protected_constraints:
   - GOVERNING_GOAL_PROJECTION_DOES_NOT_CREATE_SECOND_GOAL
   - PACKETIZATION_DOES_NOT_SELECT
   - SYMBOL_ROLE_UNIQUENESS
+  - PREDECESSOR_SECTION_DISPOSITION_COMPLETE
+  - ALIGNMENT_CANDIDATE_PRESERVED_WITHOUT_CONTROLLER_SYMBOL_COLLISION
+  - EPISODE_LOCAL_STATE_NOT_AUTHORITATIVE_BY_ACCIDENT
+  - LOCAL_CLOSURE_NOT_GLOBAL_CLOSURE
   - OPEN_BLOCKED_CONFLICT_PRESERVATION
   - AUTHORITY_NON_EXPANSION
   - EXECUTION_TRUTH
@@ -645,6 +784,9 @@ implementation_gate:
     - controller_vs_target_state_holdout
     - governing_goal_projection_holdout
     - packetization_no_selection_holdout
+    - predecessor_section_coverage_holdout
+    - symbol_uniqueness_holdout
+    - local_vs_global_closure_holdout
     - currentness_reconciliation
     - zero_new_delta_fixed_point
   prohibited_until_gate_passes:
