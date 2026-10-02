@@ -246,15 +246,13 @@ def test_candidate_entry_blocks_old_controller_binding_and_runs_with_icc128_bind
         goal_observer_fn=_goal_observer,
         observe_fn=lambda s,b:s,
         formalize_fn=lambda o,b:{"m":"fixed"},
-        packetize_fn=lambda m,g,s,b:(
-            seen_goals.append(g) or {
-                "type":"system",
-                "scope":"candidate",
-                "selectors":[],
-                "open":[],
-                "obligations":[],
-            }
-        ),
+        packetize_fn=lambda m,g,s,b:{
+            "type":"system",
+            "scope":"candidate",
+            "selectors":[],
+            "open":[],
+            "obligations":[],
+        },
         icc128_adapter=adapter,
         closure_fn=lambda p,i,a:Closure(dict(p),Cert("CLOSED")),
         update_fn=lambda p,c:c.state,
@@ -279,13 +277,15 @@ def test_candidate_entry_blocks_old_controller_binding_and_runs_with_icc128_bind
         goal_observer_fn=_goal_observer,
         observe_fn=lambda s,b:s,
         formalize_fn=lambda o,b:{"m":"fixed"},
-        packetize_fn=lambda m,g,s,b:{
-            "type":"system",
-            "scope":"candidate",
-            "selectors":[],
-            "open":[],
-            "obligations":[],
-        },
+        packetize_fn=lambda m,g,s,b:(
+            seen_goals.append(g) or {
+                "type":"system",
+                "scope":"candidate",
+                "selectors":[],
+                "open":[],
+                "obligations":[],
+            }
+        ),
         icc128_adapter=adapter,
         closure_fn=lambda p,i,a:Closure(dict(p),Cert("CLOSED")),
         update_fn=lambda p,c:c.state,
