@@ -1,4 +1,4 @@
-schema_version: 0.2
+schema_version: 0.3
 artifact: KERNEL_MATH_CONTRACT_053
 date: 2026-10-02
 status: DRAFT_SUCCESSOR_MATH_CANDIDATE
@@ -7,6 +7,7 @@ implementation_authority: false
 parent:
   artifact: architecture/KERNEL_MATH_CONTRACT_052.yaml
   disposition: PRESERVE_UNCHANGED_AS_HISTORICAL_MATH
+
 basis:
   repository: thytabakman-jpg/Take-5
   ref: main
@@ -30,14 +31,15 @@ design_job:
   statement: >
     Define a successor system mathematics that preserves the protected behavior of 052,
     assigns substantive controller ownership explicitly, separates controller identity
-    from kernel identity, and incorporates the later current protections without
-    implementing or promoting the successor.
+    from kernel identity, distinguishes controller state from governed target state,
+    and incorporates later current protections without implementing or promoting the successor.
   success_condition: >
     Every protected behavior inherited from 052 has an explicit owner and preservation
-    witness path; top-level substantive selection has exactly one current owner; guards
-    constrain that owner without silently selecting in its place; OPEN, BLOCKED,
-    CONFLICT, provenance, authority, execution truth, reentry, and currentness remain
-    typed; unresolved placement questions remain explicit.
+    path; top-level substantive selection has exactly one current owner; guards constrain
+    that owner without selecting in its place; controller-state update is distinguished
+    from authoritative target-state commit; OPEN, BLOCKED, CONFLICT, provenance, authority,
+    execution truth, reentry, and currentness remain typed; unresolved placement questions
+    remain explicit.
   non_goals:
     - runtime mutation
     - KERNEL.yaml mutation
@@ -53,10 +55,48 @@ system_factorization:
     W_beta: orchestration wrapper under bound entry beta
     C: substantive controller role
     J: continuity and currentness supervisor
-    T: typed capability and delegated-controller basis
-    Gamma: authority, ingress, specification, execution, verification, commit, provenance, and currentness governance environment
+    T: typed capability basis
+    Gamma: typed governance environment
+  gamma_coordinates:
+    - authority
+    - host_ingress
+    - specification
+    - configured_binding
+    - execution_truth
+    - verification
+    - state_commit
+    - provenance
+    - currentness
   anti_loss_rule: "change(one factor) != silently_redefine(other factors)"
   controller_lineage_rule: "controller_lineage != kernel_lineage"
+  gamma_rule: >
+    Gamma is a typed product of governance services, not an untyped residual bucket.
+    Each coordinate has an owner and may not perform substantive controller selection.
+
+state_domains:
+  controller_state:
+    symbol: Z_C
+    meaning: ICC128 governing problem and continuation state
+    mutation_owner: C
+    authority: CONTROLLER_INTERNAL
+  controller_memory:
+    symbol: MI
+    meaning: per-object controller memory, rejection/failure memory, mathematical/status memory
+    mutation_owner: C
+    authority: CONTROLLER_INTERNAL
+  governed_target_state:
+    symbol: z_sigma
+    meaning: authoritative or persistent state of state species sigma
+    mutation_owner: C_sigma
+    authority: STATE_SPECIFIC_COMMIT
+  supervisory_state:
+    symbol: j
+    meaning: Jane continuity/currentness supervisory state
+    mutation_owner: J
+    authority: SUPERVISORY
+  separation_law: >
+    U_C may update Z_C and MI after admitted controller evidence. U_C does not itself
+    commit governed target state z_sigma. Material target effects require C_sigma.
 
 current_binding:
   controller_role:
@@ -69,8 +109,11 @@ current_binding:
   continuity_role:
     equation: "J_current = Jane"
     restriction: "Jane supervises continuity/currentness and does not own substantive action selection."
+  delegated_controller_basis:
+    symbol: T_controller
+    relation: "T_controller subseteq T"
   improvement_core_role:
-    equation: "ImprovementCore in T_C"
+    equation: "ImprovementCore in T_controller"
     interpretation: >
       ImprovementCore is an ICC128-selectable delegated controller for improvement
       subepisodes. It retains controller ownership inside the delegated improvement
@@ -81,18 +124,36 @@ current_binding:
     transition, preservation analysis, and currentness update.
 
 controller_contract:
-  role_equation: "C : <Z, MI, Q, W, T, Gamma> -> <SelectedWork, ContinuationDisposition>"
-  current_loop: "G_Q -> G_W -> rho_128 -> E -> A -> U -> G_Q"
+  role_equation: "C : <Z_C, MI, z_sigma, T, Gamma> -> <Z_C', MI', ControllerDisposition, Receipts>"
   current_owner: ICC128
+  current_cycle:
+    - "Q_t = G_Q(Z_C_t, MI_t, Evidence_t)"
+    - "W_t = G_W(Q_t, Z_C_t, MI_t, T)"
+    - "S_t = rho_128(Q_t, W_t, Z_C_t, MI_t, Gamma)"
+    - "R_t = GovernedExec(S_t, z_sigma_t, Gamma)"
+    - "D_t = A_C(R_t, Z_C_t, MI_t)"
+    - "<Z_C_(t+1), MI_(t+1)> = U_C(Z_C_t, MI_t, D_t)"
+    - "Reenter G_Q when admitted substantive continuation remains"
+  operator_types:
+    G_Q: QUESTION_GENERATION
+    G_W: WORK_GENERATION
+    rho_128: SUBSTANTIVE_SELECTION
+    GovernedExec: GOVERNED_EXECUTION_SERVICE
+    A_C: CONTROLLER_EVIDENCE_RECONCILIATION
+    U_C: CONTROLLER_STATE_MEMORY_UPDATE
   responsibilities:
     - generate or admit the live question frontier
     - generate or admit candidate work for live questions
     - select the nondominated continuation package under rho_128
-    - delegate selected work through governed capability binding
-    - consume admitted results
-    - update controller state and memory
+    - request governed execution of selected work
+    - consume execution, verification, commit, OPEN, BLOCKED, and CONFLICT receipts
+    - reconcile returned evidence into controller state
+    - update Z_C and MI
     - reselect after material result, search, representation, authority, capability, or failure deltas
     - determine substantive continuation versus typed terminal state
+  target_mutation_prohibition: >
+    C, G_Q, G_W, rho_128, A_C, and U_C do not directly mutate z_sigma.
+    Target mutation occurs only through the state-specific governed execution/commit path.
   prohibited_substitution:
     - host_selected_parent_controller
     - wrapper_selected_parent_controller
@@ -177,7 +238,7 @@ typed_global_owners:
       - ordering
       - frozen-math integrity
       - controller packet construction
-      - wrapper-relative recurrence boundary
+      - episode closure/reentry envelope
     inherited:
       - I_freeze
   controller:
@@ -188,6 +249,7 @@ typed_global_owners:
       - cross_capability replanning
       - result_sensitive reselection
       - controller terminality
+      - Z_C_and_MI_update
     inherited:
       - I_reentry
       - controller_side_of_I_closure
@@ -206,15 +268,15 @@ typed_global_owners:
       - execution_mechanics_of_I_execution
   verification:
     owns:
-      - closure verification
       - effect verification
+      - episode closure verification
       - protected transition verification
     inherited:
       - verification_side_of_I_closure
   state:
     owns:
       - typed state-specific commit gates
-      - receipt persistence
+      - commit receipt persistence
       - lineage storage
     inherited:
       - I_admission
@@ -250,24 +312,47 @@ state_commit_family:
     mutation function. State species may use distinct commit gates while sharing
     the common protected effect contract.
 
-wrapper:
-  equation: "W_beta(C) = Sync_J o Commit_sigma o Verify o Admit o C o A o G_round o Freeze o Phi o O_beta"
+governed_execution:
+  equation: "GovernedExec = ReturnReceipts o Commit_sigma? o Verify o Runtime o ConfiguredHF2 o Bind o EffectGate o SpecGate"
   interpretation: >
-    W_beta is parameterized by a substantive controller role. The canonical ICC
-    binding supplies ICC128. The wrapper owns ordering and guards; C owns substantive
-    continuation selection.
+    GovernedExec is a service used by C. It does not choose the substantive work package.
+    The optional Commit_sigma step is required exactly when selected work carries a licensed
+    material target-state effect; evidence-only work returns evidence without target commit.
+  stages:
+    SpecGate:
+      rule: "Transformation-relative specification adequacy is required for target transformation."
+    EffectGate:
+      rule: "Effect class must be EVIDENCE_ONLY or licensed TARGET_TRANSFORM."
+    Bind:
+      rule: "Bind the exact current selected capability identity and environment."
+    ConfiguredHF2:
+      profile: FULL_CONFIGURED_HF2_V1
+    Runtime:
+      rule: "Selected, bound, dispatched, started, executed, captured, and consumed remain distinct."
+    Verify:
+      rule: "Required semantic/effect/closure verification produces typed receipts."
+    Commit_sigma:
+      rule: "Only licensed material target effects cross the typed state-specific commit gate."
+    ReturnReceipts:
+      rule: "All success and non-success dispositions return to C for A_C and U_C."
+
+wrapper:
+  equation: "W_beta(C) = Sync_J o TRC_episode o C_episode o A_packet o G_round o Freeze o Phi o O_beta"
+  interpretation: >
+    W_beta is parameterized by a substantive controller role. The canonical ICC binding
+    supplies ICC128. The wrapper owns ordering, frozen-math integrity, packet construction,
+    episode closure, and supervisory synchronization. C owns substantive continuation selection.
+    Target-state execution and commit occur through GovernedExec inside the controller episode,
+    not as a second outer admission/update pass.
   round:
     - "o_n = O_beta(z_n)"
     - "m_n = Phi(o_n,beta)"
     - "mbar_n = Freeze(m_n)"
     - "g_round_n = G_round(mbar_n,beta)"
-    - "a_n = A(mbar_n,g_round_n,z_n,beta)"
-    - "y_n = C(a_n,z_n,MI_n;T,Gamma)"
-    - "v_n = Verify(z_n,y_n,beta,Gamma)"
-    - "c_n = Admit(v_n,beta,Gamma)"
-    - "z_(n+1) = Commit_sigma(z_n,c_n,beta,receipts_n)"
-    - "j_(n+1) = Sync_J(j_n,Delta z_n) when supervisory_relevant(Delta z_n)"
-    - "C reenters when admitted material continuation remains"
+    - "a_n = A_packet(mbar_n,g_round_n,z_n,beta)"
+    - "controller_result_n = C_episode(a_n,Z_C_n,MI_n,z_n;T,Gamma)"
+    - "episode_closure_n = TRC_episode(controller_result_n,z_n,beta)"
+    - "j_(n+1) = Sync_J(j_n,Delta_supervisory_n) when supervisory_relevant(Delta_supervisory_n)"
   controller_identity_gate:
     canonical_icc_requirement: "ControllerIdentity(C) = ICC128"
     failure: BLOCKED
@@ -276,12 +361,24 @@ wrapper:
       - controller_entry_receipt
       - controller_execution_receipt
 
+packet_architecture:
+  symbol: A_packet
+  role: >
+    Construct the typed packet and dependency context supplied to C from frozen observation
+    and goal state.
+  prohibition: >
+    A_packet may formalize dependencies, constraints, authority, and candidate information.
+    It may not make the top-level substantive continuation selection reserved to rho_128.
+  unresolved_boundary: >
+    Current architect_fn behavior must be audited for result-sensitive decisions before
+    implementation of this successor.
+
 goal_and_bootstrap:
   bootstrap:
     equation: "B_ICC = ASSERT_observer -> GOAL_configured[ValidMTPreflight]"
     role: >
-      Establish admissible asserted state and governing goal evidence before
-      substantive ICC controller work.
+      Establish admissible asserted state and governing goal evidence before substantive
+      ICC controller work.
     required:
       - configured ASSERT observer execution
       - robust MT preflight for configured GOAL
@@ -291,20 +388,18 @@ goal_and_bootstrap:
     symbol: G_round
     status: ROLE_REQUIRES_EXPLICIT_RECONCILIATION
     rule: >
-      The per-round operational-goal function must be typed separately from the
-      bootstrap governing GOAL unless a successor proves they are the same object.
+      The per-round operational-goal function must be typed separately from the bootstrap
+      governing GOAL unless a successor proves they are the same object.
   open_question: >
-    Determine whether bootstrap GOAL and G_round are distinct necessary roles,
-    two views over one goal object, or an accidental duplicate introduced by
-    wrapper evolution.
+    Determine whether bootstrap GOAL and G_round are distinct necessary roles, two views
+    over one goal object, or an accidental duplicate introduced by wrapper evolution.
 
 configured_tool_execution:
   profile: FULL_CONFIGURED_HF2_V1
   law: >
-    A selected registered tool is not executed by naming, planning, semantic
-    reasoning, or direct native invocation. It must cross configured binding,
-    complete plan construction, configured HF2 recurrence, result capture,
-    consumption, closure, and reentry.
+    A selected registered tool is not executed by naming, planning, semantic reasoning,
+    or direct native invocation. It must cross configured binding, complete plan construction,
+    configured HF2 recurrence, result capture, consumption, closure, and reentry.
   recurrence:
     ordinary_tool: HF002
     HF002: SELF
@@ -313,9 +408,9 @@ configured_tool_execution:
 
 specification_before_transformation:
   law: >
-    Observe, discover, recover, formalize, compare, audit, verify, diagnose, and
-    reconstruct may operate on OPEN objects. A material object transformation
-    requires transformation-relative specification adequacy before execution.
+    Observe, discover, recover, formalize, compare, audit, verify, diagnose, and reconstruct
+    may operate on OPEN objects. A material object transformation requires transformation-relative
+    specification adequacy before execution.
   effect_classes:
     - EVIDENCE_ONLY
     - TARGET_TRANSFORM
@@ -332,8 +427,8 @@ protected_transition_integrity:
     - reentry
     - user_visible_boundary
   law: >
-    A protected behavior is operationally preserved only when every required
-    coordinate has a witness. Manifest presence or execution alone is insufficient.
+    A protected behavior is operationally preserved only when every required coordinate has
+    a witness. Manifest presence or execution alone is insufficient.
 
 host_ingress:
   law: >
@@ -345,9 +440,8 @@ host_ingress:
 
 currentness:
   law: >
-    CURRENT is evidence-sensitive and basis-relative. A historical status label,
-    file location, timestamp, or preserved runtime does not by itself establish
-    current authority.
+    CURRENT is evidence-sensitive and basis-relative. A historical status label, file location,
+    timestamp, or preserved runtime does not by itself establish current authority.
   current_controller_claim:
     object: ICC128
     requires:
@@ -375,14 +469,14 @@ improvement_core:
     - plural_frontier_preservation
     - result_sensitive_replanning_inside_delegated_episode
   boundary_rule: >
-    ImprovementCore may select child work inside an ICC128-selected improvement
-    subepisode. Completion of that subepisode returns an admitted result to ICC128,
-    which owns the next top-level substantive continuation decision.
+    ImprovementCore may select child work inside an ICC128-selected improvement subepisode.
+    Completion of that subepisode returns governed receipts/results to ICC128, which owns the
+    next top-level substantive continuation decision.
 
 jane:
   role: CONTINUITY_CURRENTNESS_SUPERVISOR
   top_level_substantive_selection_owner: false
-  handoff: "READY Jane continuity -> explicit ICC128 Z and MI"
+  handoff: "READY Jane continuity -> explicit ICC128 Z_C and MI"
   missing_continuity: OPEN
 
 take_two_recovered_behavior:
@@ -413,6 +507,16 @@ preservation_map_052:
   I_reentry: K_prov_plus_controller_currentness
   I_promotion: K_auth_plus_authority_currentness
 
+audit_history:
+  - pass: INITIAL_WHOLE_OBSERVER
+    material_delta: true
+    findings:
+      - controller_internal_admit_update_was_conflated_with_target_state_admission_commit
+      - controller_role_codomain_omitted_Z_C_and_MI_successor_state
+      - T_controller_was_used_without_definition
+      - Gamma_needed_typed_coordinates_to_avoid_residual_bucket_semantics
+    disposition: REVISED_IN_SCHEMA_0_3
+
 recursive_validation_plan:
   required_before_implementation: true
   profile:
@@ -428,12 +532,15 @@ recursive_validation_plan:
     - level: SECTION
       targets:
         - system_factorization
+        - state_domains
         - current_binding
         - controller_contract
         - kernel_common
         - typed_global_owners
         - state_commit_family
+        - governed_execution
         - wrapper
+        - packet_architecture
         - goal_and_bootstrap
         - configured_tool_execution
         - specification_before_transformation
@@ -468,6 +575,8 @@ recursive_validation_plan:
 
 protected_constraints:
   - ICC128_TOP_LEVEL_SUBSTANTIVE_SELECTION
+  - CONTROLLER_STATE_DISTINCT_FROM_TARGET_STATE
+  - TARGET_MUTATION_ONLY_THROUGH_TYPED_COMMIT
   - IMPROVEMENTCORE_DELEGATED_SUBCONTROLLER_ONLY
   - JANE_CONTINUITY_NOT_SUBSTANTIVE_SELECTION
   - CONTROLLER_LINEAGE_NOT_KERNEL_LINEAGE
@@ -488,18 +597,17 @@ open_questions:
   - >
     Exact relationship between bootstrap GOAL and per-round G_round.
   - >
-    Exact relationship between wrapper observation/formalization/Architect and
-    ICC128 G_Q/G_W semantic generation; duplicate substantive selection is forbidden.
+    Exact relationship between wrapper observation/formalization/A_packet and ICC128
+    G_Q/G_W semantic generation; duplicate substantive selection is forbidden.
   - >
-    Whether A is purely packet architecture/formalization or currently contains
-    result-sensitive substantive decisions that belong to C.
+    Whether current architect_fn performs result-sensitive substantive decisions that belong to C.
   - >
     Exact adapter that binds W_beta(C) to ICC128 without arbitrary controller injection.
   - >
-    Exact admission path by which an ImprovementCore subepisode result returns to
-    ICC128 state and memory before top-level reselection.
+    Exact receipt path by which an ImprovementCore subepisode result returns to ICC128
+    Z_C and MI before top-level reselection.
   - >
-    Whether K_common is the smallest useful common protected effect contract remains OPEN.
+    Whether K is the smallest useful common protected effect contract remains OPEN.
   - >
     Whether all protected state species are fully covered by the current state commit family remains OPEN.
   - >
@@ -516,10 +624,11 @@ implementation_gate:
     - controller_ownership_holdout
     - no_arbitrary_ic_fn_holdout
     - improvementcore_delegation_holdout
+    - controller_vs_target_state_holdout
     - currentness_reconciliation
     - zero_new_delta_fixed_point
   prohibited_until_gate_passes:
-    - edit_KERNE​​L_yaml
+    - edit_KERNEL_yaml
     - edit_runtime_icc_entry
     - edit_runtime_math_first_wrapper
     - promote_053
