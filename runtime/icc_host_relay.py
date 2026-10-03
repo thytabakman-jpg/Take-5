@@ -106,6 +106,29 @@ def _extract_icc_response(state: Any) -> str | None:
     return value
 
 
+def _blocked_result(
+    request: ICCRelayRequest,
+    input_sha: str,
+    runtime_status: str,
+    blocker: str,
+    state: Any,
+    *,
+    host_fallback_used: bool = False,
+) -> ICCRelayResult:
+    receipt = ICCRelayReceipt(
+        request.request_id,
+        "ICC128",
+        ICC_RELAY_BASIS,
+        input_sha,
+        None,
+        runtime_status,
+        "BLOCKED",
+        blocker,
+        host_fallback_used,
+    )
+    return ICCRelayResult("BLOCKED", None, receipt, state)
+
+
 def relay_icc128(
     request: ICCRelayRequest,
     *,
@@ -117,6 +140,10 @@ def relay_icc128(
 
     The relay itself never generates candidate goals, questions, work, tool
     results, or prose. Those remain inside the canonical ICC runtime bindings.
+
+    The user-visible response must already exist in the ICC128 controller result
+    before closure/update callbacks can project it back to the host. This makes a
+    host-injected answer detectable and fail-closed.
     """
     if not isinstance(request, ICCRelayRequest):
         raise TypeError("ICC_RELAY_REQUEST_REQUIRED")
@@ -144,6 +171,16 @@ def relay_icc128(
         "host_fallback_used": False,
     }
 
+    authored = {"seen": False, "response": None}
+
+    def closure_with_authorship(previous, icc_result, packet):
+        controller_state = getattr(icc_result, "state", None)
+        response = _extract_icc_response(controller_state)
+        if response is not None:
+            authored["seen"] = True
+            authored["response"] = response
+        return bindings.closure_fn(previous, icc_result, packet)
+
     out = run_icc(
         binding,
         initial_state,
@@ -154,7 +191,7 @@ def relay_icc128(
         observe_fn=bindings.observe_fn,
         formalize_fn=bindings.formalize_fn,
         packetize_fn=bindings.packetize_fn,
-        closure_fn=bindings.closure_fn,
+        closure_fn=closure_with_authorship,
         update_fn=bindings.update_fn,
         jane_update_fn=bindings.jane_update_fn,
         result_fn=bindings.result_fn,
@@ -169,18 +206,14 @@ def relay_icc128(
     state = out.state
 
     if isinstance(state, Mapping) and bool(state.get("host_fallback_used", False)):
-        receipt = ICCRelayReceipt(
-            request.request_id,
-            "ICC128",
-            ICC_RELAY_BASIS,
+        return _blocked_result(
+            request,
             input_sha,
-            None,
             runtime_status,
-            "BLOCKED",
             "ICC_RELAY_HOST_FALLBACK_FORBIDDEN",
-            True,
+            state,
+            host_fallback_used=True,
         )
-        return ICCRelayResult("BLOCKED", None, receipt, state)
 
     response = _extract_icc_response(state)
     closed = runtime_status in {"COMPLETE", "CLOSED", "CLOSED_RELATIVE", "RELATIVE_CLOSE"}
@@ -200,19 +233,23 @@ def relay_icc128(
         )
         return ICCRelayResult(status, None, receipt, state)
 
-    if response is None:
-        receipt = ICCRelayReceipt(
-            request.request_id,
-            "ICC128",
-            ICC_RELAY_BASIS,
+    if not authored["seen"]:
+        return _blocked_result(
+            request,
             input_sha,
-            None,
             runtime_status,
-            "OPEN",
-            "ICC_RELAY_ICC_RESPONSE_REQUIRED",
-            False,
+            "ICC_RELAY_RESPONSE_NOT_AUTHORED_BY_ICC",
+            state,
         )
-        return ICCRelayResult("OPEN", None, receipt, state)
+
+    if response != authored["response"]:
+        return _blocked_result(
+            request,
+            input_sha,
+            runtime_status,
+            "ICC_RELAY_RESPONSE_MUTATED_AFTER_ICC",
+            state,
+        )
 
     receipt = ICCRelayReceipt(
         request.request_id,
