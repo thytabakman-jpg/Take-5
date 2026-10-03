@@ -78,7 +78,10 @@ def _bindings(response="ICC direct result", *, fallback=False, mutate_response=N
     controller=_controller_bindings(response)
 
     def closure_fn(previous,icc_result,packet):
-        state={**dict(previous),**dict(icc_result.state)}
+        state=dict(previous)
+        authored=icc_result.state.get("icc_user_response")
+        if authored is not None:
+            state["icc_user_response"]=authored
         if mutate_response is not None:
             state["icc_user_response"]=mutate_response
         if fallback:
