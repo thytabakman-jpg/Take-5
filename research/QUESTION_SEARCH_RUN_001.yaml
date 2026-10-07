@@ -59,8 +59,9 @@ question_families:
     math: "Ground(G)=Orphan_J(G) union Ghost_J(G) union GroundingConflict_J(G)"
   Q12:
     name: Current Check
-    question: Which representation/version/basis is current and authoritative now?
-    math: "Current(x) iff Delta_J(BuiltBasis(x),LatestAdmittedBasis(x))=empty and AuthorityCurrent(x)"
+    question: Which immutable generation is the current authorized realization of this continuing object?
+    math: "Current(g,x) iff SameObject(g,x) and ImmutableGeneration(g) and PointerResolvesTo(x,g) and Delta_J(BuiltBasis(g),LatestAdmittedBasis(SameObject(g)))=empty and AuthorityCurrent(g)"
+    identity_rule: "Mutable labels such as CURRENT/latest are pointers only; they cannot establish object or generation identity."
   Q13:
     name: Type Check
     question: What admissible type does this task or object have?
@@ -79,8 +80,10 @@ question_families:
     math: "Rel(X)={r in R_B(X) : LicensedRelation_J(r,X)}"
   Q17:
     name: Novelty Check
-    question: What is genuinely new, uncovered, or omitted relative to the represented frontier?
-    math: "Novel(X)=Candidate_J(X) \\ Cl_J(KnownFrontier)"
+    question: Which candidate claims remain unmatched or non-routine at their own object level relative to the represented frontier?
+    math: "Novel_l(X)={c in Candidate_{J,l}(X) : no k in KnownFrontier_l with Equivalent_J(c,k) or RoutineDerivable_J(c,KnownFrontier_l)}"
+    comparison_unit: "same typed object level l"
+    cross_level_rule: "Prior overlap at l' != l records provenance or inherited capability; it does not establish nonnovelty at l."
   Q18:
     name: Verify Math
     question: Which claims or candidates survive the required attacks and preservation tests?
@@ -229,9 +232,9 @@ named_tools:
   IMPROVEMENT_CORE: {classification: CONTROLLER_NO_NEW_ATOM}
 
 novel_frontier_n01_n10:
-  N01_CAPABILITY_GAP_MINER: {atoms: [Q17,Q22], lineage: MERGE_WITH_COVERAGE_DISCOVERY_FAMILIES}
+  N01_CAPABILITY_GAP_MINER: {atoms: [Q22], lineage: COVERAGE_DISCOVERY_FAMILY}
   N02_TOOL_SYNTHESIZER: {classification: GENERATOR_NO_NEW_ATOM}
-  N03_CANDIDATE_UNIVERSE_AUDITOR: {atoms: [Q17]}
+  N03_CANDIDATE_UNIVERSE_AUDITOR: {atoms: [Q22]}
   N04_BASIS_CHANGE_REVALIDATOR: {atoms: [Q15,Q18], classification: COMPOSITE_NO_NEW_ATOM}
   N05_RUNTIME_BINDER: {classification: EXECUTION_NO_NEW_ATOM}
   N06_SELECTOR_CALIBRATOR: {atoms: [Q07,Q18], classification: SPECIALIZED_OPTIMIZATION_COMPOSITE}
