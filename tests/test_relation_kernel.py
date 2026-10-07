@@ -9,6 +9,7 @@ from relation_kernel import (
     admit_relation,
     empty_fiber_status,
     higher_order_reduction_status,
+    current_relation_basis,
 )
 
 def basis(*,complete=False):
@@ -53,3 +54,24 @@ def test_higher_order_relation_not_pairwise_reduced_without_rule():
         higher_arity_relation_present=True,
         licensed_reconstruction_rule_present=False,
     )=="OPEN"
+
+
+def test_provenance_does_not_become_structure():
+    provenance=(RelationEvidence("p1","DISCOVERY_ORDER","history"),)
+    structural=RelationCandidate(
+        "DEPENDS_ON",("later","earlier"),("OBJECT","OBJECT"),provenance
+    )
+    decision=admit_relation(structural,current_relation_basis())
+    assert decision.status==RelationStatus.REJECTED
+    assert decision.reason=="STRUCTURAL_RELATION_REQUIRES_STRUCTURAL_GROUNDS"
+
+    precedes=RelationCandidate(
+        "PRECEDES",("earlier","later"),("OBJECT","OBJECT"),provenance
+    )
+    assert admit_relation(precedes,current_relation_basis()).status==RelationStatus.LICENSED
+
+    origin=RelationCandidate(
+        "ORIGINATED_FROM",("hume","rebt-is-ought"),("OBJECT","OBJECT"),
+        (RelationEvidence("p2","PROVENANCE","project-history"),),
+    )
+    assert admit_relation(origin,current_relation_basis()).status==RelationStatus.LICENSED
