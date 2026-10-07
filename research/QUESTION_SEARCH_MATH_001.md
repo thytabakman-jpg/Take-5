@@ -26,6 +26,29 @@ For historical tool state h, Atom(h) returns the smallest set of result-sensitiv
 objects whose answers reconstruct h's epistemic output. Execution, persistence, authority,
 binding, routing and state mutation are not question atoms.
 
+## Semantic admission prerequisite
+
+Before `Atom(h)`, admit every load-bearing primitive whose type, scope, identity, or relation
+can change the answer space or resolution condition. A represented label is not yet an admitted
+semantic object. When a primitive remains result-sensitive and unresolved, preserve
+`TERM_TYPE_OPEN` and do not freeze the representation as the question target.
+
+This changes the operation order from:
+
+represented object -> semantic admission -> atomize -> optimize/audit.
+
+## Novelty relation
+
+Novelty is typed by object level. For candidate level `l`:
+
+`Novel_l(X) = { c in Candidate_{J,l}(X) : no k in KnownFrontier_l with Equivalent_J(c,k)
+or RoutineDerivable_J(c,KnownFrontier_l) }`.
+
+Prior-art overlap at another level is provenance or inherited capability evidence. It does not
+subtract the candidate at level `l`. Known primitives or lemmas do not by themselves establish
+nonnovelty of a non-routine theorem, synthesis, architecture, application, or research program
+that uses them.
+
 ## Projection normalization
 
 Let L36 = Scope6 × ModeFace6.
