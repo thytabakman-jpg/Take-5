@@ -132,7 +132,7 @@ Source family:
 - exact-target execution-envelope changes
 - full-SHA strengthening
 
-Disposition: **OPEN — probable STRICT_GAIN candidate**
+Disposition: **STRICT_GAIN_CANDIDATE — implemented on PR #201, validation pending**
 
 Take-5 has strong currentness controls and exact configured-tool identity, including `runtime/currentness_audit.py` and `runtime/current_portfolio_identity.py`.
 
@@ -140,8 +140,12 @@ This pass did not find an equivalent generic rule requiring every repository-awa
 
 The Reaserch implementation is unvalidated on its own PR because GitHub Actions did not receive a runner. It is therefore evidence of a potentially strict gain, not yet an admitted Take-5 implementation.
 
-Next test:
-adapt the invariant to Take-5 architecture and replay wrong-version / moving-selector cases.
+Take-5-native candidate:
+- `runtime/exact_target_identity.py`
+- `tests/test_exact_target_identity.py`
+- `architecture/EXACT_TARGET_REPORT_LINEAGE_CANDIDATE_201_2026-10-06.md`
+
+The candidate requires full Git commit identity and can reject a target whose repository conflicts with the canonical repository. Admission remains OPEN until exact-head validation passes.
 
 ### F. Report persistence and report-to-target lineage
 
@@ -150,7 +154,7 @@ Source family:
 - `runtime/output_capture_release_gate.py`
 - report-required persistence and exact report-target checks
 
-Disposition: **OPEN — probable STRICT_GAIN candidate**
+Disposition: **STRICT_GAIN_CANDIDATE — implemented on PR #201, validation pending**
 
 Take-5 Execution Claim Integrity proves causal execution levels, but that is a different coordinate from proving that a required durable report exists and is bound to the same immutable target that was executed.
 
@@ -164,8 +168,12 @@ run identity
 + owner-routing disposition
 + persistence receipt.
 
-Next test:
-compose this candidate with existing Take-5 ECI, PTI, Tool Run Closure, and parent-return controls without creating a parallel closure system.
+Take-5-native candidate:
+- `runtime/report_lineage.py`
+- `tests/test_report_lineage.py`
+- report-lineage integration at the existing `runtime/improvement_core_return_gate.py`
+
+The implementation composes with Execution Claim Integrity and the parent-return gate rather than creating a second closure controller. Admission remains OPEN until exact-head validation passes.
 
 ### G. Derived system-defect federation and source-generation currentness
 
@@ -264,5 +272,7 @@ After every material PR #332 family receives a durable Take-5 disposition, the s
 - repository authority: RESOLVED
 - duplicate/subsumed families: CLASSIFIED
 - probable strict-gain families: OPEN FOR TAKE-5 VALIDATION
-- transfer implementation: NOT YET ADMITTED
-- Take-5 canonical state: UNCHANGED
+- strict-gain candidate implementation: STAGED ON PR #201
+- strict-gain validation: OPEN
+- transfer admission: NOT YET ADMITTED
+- Take-5 canonical main state: UNCHANGED
