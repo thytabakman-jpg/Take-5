@@ -10,8 +10,9 @@ DECOUPLED / COUPLED
 
 Legacy initial_mode remains as a compatibility projection used for stage order.
 """
-from dataclasses import dataclass
+from dataclasses import dataclass, asdict
 from controller_lease import ControllerLease
+from repository_authority import resolve_repository_authority, RepositoryAuthorityError
 
 ICC_CONTROLLER = "IC-028"
 MODE_GOAL_DIRECTED = "GOAL_DIRECTED"
@@ -61,6 +62,7 @@ class EntryContract:
     receipt:str
     raw_request:str
     mode_basis:str
+    repository_authority:dict|None=None
 
 @dataclass(frozen=True)
 class EntryBinding:
@@ -126,10 +128,23 @@ def resolve_mode_profile(user_text, explicit_mode=None, observer_risk=None):
 
 def bind_entry_contract(user_text, *, target, job, basis, authority=frozenset(),
                         boundary=None, explicit_mode=None, observer_risk=None,
-                        episode_id="chat"):
+                        episode_id="chat", repository=None, repository_operation="READ"):
     controller=resolve_controller(user_text)
     profile=resolve_mode_profile(user_text,explicit_mode,observer_risk)
     mode=_legacy_mode(profile)
+    repo_receipt=None
+    if repository is not None:
+        repo_decision=resolve_repository_authority(
+            str(repository),
+            operation=str(repository_operation),
+        )
+        repo_receipt=asdict(repo_decision)
+        if repo_decision.status!="PASS":
+            raise RepositoryAuthorityError(
+                f"ENTRY_REPOSITORY_AUTHORITY_{repo_decision.status}:"
+                f"{repo_decision.blocker}:requested={repo_decision.requested_repository}:"
+                f"canonical={repo_decision.canonical_repository}"
+            )
     receipt=f"{episode_id}:ENTRY_BOUND:{controller}:{profile.mode_id}"
     contract=EntryContract(
         frozen_target=str(target),
@@ -141,6 +156,7 @@ def bind_entry_contract(user_text, *, target, job, basis, authority=frozenset(),
         receipt=receipt,
         raw_request=str(user_text),
         mode_basis=profile.basis,
+        repository_authority=repo_receipt,
     )
     lease=ControllerLease(
         episode_id=str(episode_id),
