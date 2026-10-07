@@ -90,10 +90,15 @@ CURRENT_RELATION_VOCABULARY={
     "AUTHORIZES":RelationType("AUTHORIZES",2,("OBJECT","OBJECT"),True),
     "PART_OF":RelationType("PART_OF",2,("OBJECT","OBJECT"),True),
     "PRECEDES":RelationType("PRECEDES",2,("OBJECT","OBJECT"),True),
+    "ORIGINATED_FROM":RelationType("ORIGINATED_FROM",2,("OBJECT","OBJECT"),True),
+    "DISCOVERED_THROUGH":RelationType("DISCOVERED_THROUGH",2,("OBJECT","OBJECT"),True),
     "CONFLICTS_WITH":RelationType("CONFLICTS_WITH",2,("OBJECT","OBJECT"),False),
     "EQUIVALENT_TO":RelationType("EQUIVALENT_TO",2,("OBJECT","OBJECT"),False),
     "JOINT_EFFECT":RelationType("JOINT_EFFECT",3,("OBJECT","OBJECT","OBJECT"),False),
 }
+
+STRUCTURAL_RELATIONS={"DEPENDS_ON","DERIVES_FROM","PART_OF"}
+PROVENANCE_ONLY_GROUNDS={"PROVENANCE","TEMPORAL","HISTORICAL_ORDER","DISCOVERY_ORDER","STORAGE","CONTAINER"}
 
 
 def current_relation_basis(*,coverage_complete_for_claim=False)->RelationBasis:
@@ -131,6 +136,13 @@ def admit_relation(candidate:RelationCandidate,basis:RelationBasis)->RelationAdm
 
     if any(not e.evidence_id or not e.provenance for e in candidate.evidence):
         return RelationAdmission(RelationStatus.OPEN,"EVIDENCE_PROVENANCE_OPEN")
+
+    grounds={str(e.grounds_type).strip().upper() for e in candidate.evidence if str(e.grounds_type).strip()}
+    if candidate.relation_id in STRUCTURAL_RELATIONS and grounds and grounds <= PROVENANCE_ONLY_GROUNDS:
+        return RelationAdmission(
+            RelationStatus.REJECTED,
+            "STRUCTURAL_RELATION_REQUIRES_STRUCTURAL_GROUNDS",
+        )
 
     return RelationAdmission(RelationStatus.LICENSED,"LICENSED_UNDER_DECLARED_BASIS")
 
