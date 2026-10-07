@@ -8,6 +8,33 @@ authorization:
   date: 2026-09-24
   scope: migrate_successor_and_make_it_go_to_without_destroying_legacy
 current_repository: thytabakman-jpg/Take-5
+repository_roles:
+  thytabakman-jpg/Take-5:
+    role: CANONICAL_WORKING
+    canonical_effect: true
+    mutation_policy: BRANCH_PR_VALIDATE_ADMIT_MERGE
+  thytabakman-jpg/Reaserch:
+    role: LEGACY_ROLLBACK_PROVENANCE
+    canonical_effect: false
+    mutation_policy: EVIDENCE_ONLY_UNLESS_EXPLICIT_RECONCILIATION_TO_CURRENT
+  thytabakman-jpg/Take-2:
+    role: LINEAGE_NONCANONICAL
+    canonical_effect: false
+    mutation_policy: EXPERIMENTAL_OR_EVIDENCE_ONLY
+  thytabakman-jpg/Take-3:
+    role: LINEAGE_NONCANONICAL
+    canonical_effect: false
+    mutation_policy: EXPERIMENTAL_OR_EVIDENCE_ONLY
+  thytabakman-jpg/Take-4:
+    role: LINEAGE_NONCANONICAL
+    canonical_effect: false
+    mutation_policy: EXPERIMENTAL_OR_EVIDENCE_ONLY
+repository_entry_gate:
+  runtime: runtime/repository_authority.py
+  rule: >-
+    Repository-aware mutation resolves this authority state before work begins.
+    Only the current canonical working repository may receive canonical-effect mutation.
+    Legacy or lineage repositories may supply evidence but cannot regain authority by recency.
 legacy_baseline:
   repository: thytabakman-jpg/Reaserch
   disposition: preserved_intact_read_only_rollback_and_provenance
@@ -59,4 +86,5 @@ drift_control:
   status: RECONCILED_DECLARED_DRIFT_SET
   authority_rule: post_cutover_legacy_writes_do_not_regain_canonical_authority
   reconciliation_record: integration/REASERCH_POST_CUTOVER_RECONCILIATION_FINAL_002_2026-09-25.md
-  transfer_rule: exact_source_plus_target_effect_plus_validation_before_admission\n  future_reopen_rule: only_new_material_post_cutover_evidence_reopens_its_affected_cone
+  transfer_rule: exact_source_plus_target_effect_plus_validation_before_admission
+  future_reopen_rule: only_new_material_post_cutover_evidence_reopens_its_affected_cone
