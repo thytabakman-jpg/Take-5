@@ -5,6 +5,12 @@
 **Role and audience:** Historical Root Cause investigation findings for system maintainers and investigators; preserve its original declared scope, authority, and status.  
 **Goal:** Surface what the investigation established, explain the causal chain and evidence, and keep rivals, failures, limitations, and open obligations traceable.
 
+## Contents
+
+- [Failure A](#failure-a)
+- [Failure B](#failure-b)
+- [Shared root](#shared-root)
+
 ## Principal finding and limits
 
 Two incidents conflated candidate/currentness evidence with governing obligations and conflated an intention to execute with actual execution. The shared failure is the admission, activation, and closure boundary; the two incident chains and their distinct repairs remain separate.
