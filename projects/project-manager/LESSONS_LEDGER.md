@@ -2,6 +2,8 @@
 
 Status: APPEND-ONLY
 
+**Historical evidence lookup (conditional, not a new lesson or project authority):** When resuming a project with a concretely relevant repeated defect, first recover the project's own current accepted artifacts, decisions and obligations. The [Root Cause question-first evidence index](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/improvement-core/research/consolidations/ROOT_CAUSE_ROLLING_DISCOVERY_KNOWLEDGE.md) can then supply rival hypotheses, unsuccessful approaches and exact original-source references. Keep its outputs evidence-only, review private/source currentness boundaries, and use the existing lessons/decisions/handoff authority for any admitted new project learning. The [native RootCause lookup](../../runtime/root_cause_knowledge_lookup.py) is opt-in; this paragraph does not claim ProjectManager has executable automatic knowledge binding.
+
 ## L001 Know the object before improving it
 
 A tool name, runtime file, wrapper, or role description is not full identity.
