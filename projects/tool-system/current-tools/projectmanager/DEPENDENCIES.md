@@ -1,5 +1,14 @@
 # Dependencies: ProjectManager
 
+## Table of contents
+
+- [Canonical dependencies](#canonical-dependencies)
+- [Shared runtime/identity dependencies](#shared-runtimeidentity-dependencies)
+- [Rule](#rule)
+- [Pre-project admission dependencies](#pre-project-admission-dependencies)
+- [Mandatory spine dependencies](#mandatory-spine-dependencies)
+- [Failure-immunity and live ownership dependencies](#failure-immunity-and-live-ownership-dependencies)
+
 ## Canonical dependencies
 
 - runtime/tool_run_registry.py
