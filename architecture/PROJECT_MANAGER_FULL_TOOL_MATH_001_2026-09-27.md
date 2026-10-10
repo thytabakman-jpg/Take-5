@@ -1,7 +1,13 @@
 # ProjectManager Full Tool Mathematics 001
 
 Date: 2026-09-27
-Status: CURRENT / VALIDATED / MERGED
+Status: ACCEPTED FOUNDATIONAL LAYER / ORIGINAL PR 164 MERGED
+Status at original promotion: CURRENT / VALIDATED / MERGED
+Lineage: PR 164 merged as 4d8477dd79e45292e9f8f736721b97eedb23f054.
+Later additive layers: 002 (admission), 003 (management spine), 004 (failure immunity).
+This historical foundational object remains valid as a layer, not the sole
+live configured identity. Resolve current implementation through the
+ProjectManager controller and runtime/tool_manifest.py, not its filename suffix.
 Canonical target: thytabakman-jpg/Take-5
 Project self-instance: projects/project-manager/
 
