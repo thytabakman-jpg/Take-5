@@ -22,7 +22,7 @@ ICC means Jane + the validated math-first wrapper + Improvement Core / IC-028 + 
 1. `architecture/ICC128_HOST_RELAY_001_2026-10-03.md` + `runtime/icc_host_relay.py` — fail-closed transport-only host relay that requires an ICC128-authored response and blocks host fallback or post-ICC mutation.
 1. `integration/CURRENT_TOOL_PROJECT_ORGANIZATION.md` — current anti-loss organization for all live tools and recovered ICC/IC variants; per-object packages, 36-cell coverage, append-only evidence, and overwrite regression guards.
 1. `integration/CURRENT_TOOL_REALITY.md` — fail-closed strong whole-portfolio tool-reality gate; separates configured identity from explicit manifest identity and native realization.
-1. `integration/CURRENT_IMPROVEMENT_CORE.md` — current ImprovementCore recovery authority and regime-090 runtime path.
+1. `integration/CURRENT_IMPROVEMENT_CORE.md` — current ImprovementCore recovery authority and live runtime path (resolve the current regime in that file).
 1. `integration/ICC_SHUTDOWN_HANDOFF_2026-09-25.md` — historical shutdown handoff retained for provenance; it is not the current resume authority.
 1. `architecture/KERNEL_MATH_CONTRACT_052.yaml` — review-only exact factorization of K, W_beta, IC, Jane, typed tools, Take Two recovered laws, and the candidate alignment operator.
 1. `architecture/KERNEL_MATH_CONTRACT_052.md` — readable companion to the kernel math contract.
