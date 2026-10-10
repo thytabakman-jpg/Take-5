@@ -81,7 +81,7 @@ jobs:
         run: |
           # Retain the exact full-suite exit status without emitting unbounded logs.
           test_status=0
-          PYTHONPATH=runtime:. pytest -q tests > take5-pytest.log 2>&1 || test_status=$?
+          PYTHONPATH=runtime:. pytest --tb=short -q tests > take5-pytest.log 2>&1 || test_status=$?
           echo "pytest_exit_status=$test_status"
           echo "pytest_log_bytes=$(wc -c < take5-pytest.log)"
           echo "--- Last 64 KiB of pytest output ---"
