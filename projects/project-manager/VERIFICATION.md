@@ -2,6 +2,15 @@
 
 Status: CURRENT
 
+## Table of contents
+
+- [Validation receipts](#validation-receipts)
+- [Exhaustive all-tools HF2 campaign](#exhaustive-all-tools-hf2-campaign)
+- [Canonical exhaustive campaign closure](#canonical-exhaustive-campaign-closure)
+- [Pre-project gate verification](#pre-project-gate-verification)
+- [Mandatory management spine verification](#mandatory-management-spine-verification)
+- [Failure-immunity verification](#failure-immunity-verification)
+
 Required evidence before canonical promotion
 
 V1 ProjectManager is in CONFIGURED_RUNS.
