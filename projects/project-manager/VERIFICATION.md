@@ -227,6 +227,34 @@ OPEN until promotion evidence is recorded.
 
 **Batch acceptance:** B1 count reconciled; B2 no additional clearly licensed P0/P1 documentation repair identified at first-pass depth; B3 is **not closed** because the JSON format route remains blocked. P1–P4 apply only to the enumerated document campaign, not the entire ProjectManager runtime or cross-repository portfolio. Practical benefit is repaired table rendering, corrected status routing, and faster access to essential controls; runtime effect is unclaimed.
 
+### Connected dependencies outside this Level 1 document scope
+
+These are named connections, **not** 140-file PASS credits. The seven runtime Python files and seven test Python files require code/consumer validation, not an invented Markdown/YAML disposition; the six other Take-5 files are project-use examples or workstream/context records. The Reaserch governors are separately owned integrations; the Take-2 source is historical evidence. Versioned dump mirrors are not additional current objects.
+
+- `Take-5/candidates/sukkos-question-gap/PROJECT_MANAGER_RUN_001.md`
+- `Take-5/integration/IMPROVECORE_CAPABILITY_RECOVERY_WORKSTREAM_100.yaml`
+- `Take-5/integration/IMPROVEMENT_CORE_CONCURRENCY_WORKSTREAM_084.yaml`
+- `Take-5/projects/icc118-favored-variant-recovery/PROJECT_MANAGER_DECISION_001.md`
+- `Take-5/projects/icc118-favored-variant-recovery/PROJECT_MANAGER_RUN_001.md`
+- `Take-5/projects/sukkos-question-booklet/PROJECT_MANAGEMENT_BASIS.md`
+- `Take-5/runtime/current_portfolio_identity.py`
+- `Take-5/runtime/full_invocation_portfolio.py`
+- `Take-5/runtime/project_manager.py`
+- `Take-5/runtime/project_manager_all_tools_campaign.py`
+- `Take-5/runtime/project_manager_integrity.py`
+- `Take-5/runtime/project_manager_management_spine.py`
+- `Take-5/runtime/protected_transition_portfolio.py`
+- `Take-5/tests/test_current_portfolio_identity.py`
+- `Take-5/tests/test_full_invocation_portfolio.py`
+- `Take-5/tests/test_project_manager.py`
+- `Take-5/tests/test_project_manager_all_tools_campaign.py`
+- `Take-5/tests/test_project_manager_failure_immunity.py`
+- `Take-5/tests/test_project_manager_management_spine.py`
+- `Take-5/tests/test_protected_transition_portfolio.py`
+- `Reaserch/PROJECT_MANAGEMENT.md`
+- `Reaserch/projects/education-packets/PROJECT_MANAGEMENT.md`
+- `Take-2/audits/PROJECT_MANAGEMENT_FAILURE_HISTORY_READONLY_2026-09-30.md`
+
 | Path | Triage blob (12 char prefix) | Document role | D01–D18 / F1–F8 | Disposition | Specific type/role witness |
 |---|---|---|---|---|---|
 | `architecture/PROJECT_MANAGER_ALL_TOOLS_HF2_CAMPAIGN_001_2026-09-27.md` | `ea7ca35e47be` | MATH/CAMPAIGN | `PPPPPPPPPPPPPPPPPP` / `PPPPPPPP` | REPAIRED_VERIFIED | Dated result/version identity preserved; no promotion by recency |
