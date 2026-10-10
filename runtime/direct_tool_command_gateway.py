@@ -42,7 +42,7 @@ def _known_command_pattern():
     aliases=aliases_by_length()
     labels="|".join(re.escape(alias) for alias in aliases)
     return re.compile(
-        rf"\b(?:run|use|execute|apply|call)\s+(?:the\s+)?(?P<label>{labels})(?=\b|$)",
+        rf"\b(?:run|use|execute|apply|call)\s+(?:(?:the|a)\s+)?(?P<label>{labels})(?=\b|$)",
         flags=re.IGNORECASE,
     )
 
@@ -50,7 +50,7 @@ def _known_command_pattern():
 KNOWN_COMMAND_PATTERN=_known_command_pattern()
 
 FORMALISH_TOKEN_PATTERN=re.compile(
-    r"\b(?:run|use|execute|apply|call)\s+(?:the\s+)?(?P<label>[A-Za-z][A-Za-z0-9_-]*)",
+    r"\b(?:run|use|execute|apply|call)\s+(?:(?:the|a)\s+)?(?P<label>[A-Za-z][A-Za-z0-9_-]*)",
     flags=re.IGNORECASE,
 )
 
