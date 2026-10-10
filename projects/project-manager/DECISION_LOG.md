@@ -19,6 +19,7 @@ Status: APPEND-ONLY
 - [D013](#d013)
 - [D014](#d014)
 - [D015](#d015)
+- [D016](#d016)
 
 ## D001
 
@@ -193,3 +194,19 @@ Keep the 93-tool campaign and specialized tools outside the mandatory ordinary-r
 Reason
 The system already learned that exhaustive tool-smashing is inferior to question-dependent routing.
 The mandatory spine contains the always-relevant management factors; additional tools remain adaptive.
+
+## D016
+
+Date: 2026-10-10
+
+Decision
+Keep actual merged ProjectManager failure-immunity capability distinct from its
+unfinished exact-coverage verification and independently authenticated commit path.
+
+Reason
+PR 187, its green native regression/CI witnesses, and live runtime/manifest
+establish admitted capability, but an observer-generated USER: reference or
+fingerprint cannot independently authorize a mutation. The every-tool development
+sweep does not alone certify the exact full ICC128/RTC/ToolConductor semantic
+campaign. The specific open gates remain in OPEN_QUESTIONS.md Q4/Q5,
+VERIFICATION.md V50, and CHANGE_CONTROL.md. No prior decision is revoked.
