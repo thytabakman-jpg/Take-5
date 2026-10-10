@@ -1,4 +1,23 @@
-# MT on "Rout Cause" and Current Chat 088
+# RootCause Requires a Stable Upstream Generator Rather Than an Arbitrary Cause
+
+<a id="mt-on-rout-cause-and-current-chat-088"></a>
+**Historical report title:** MT on "Rout Cause" and Current Chat 088  
+**Role and audience:** Historical Root Cause investigation findings for system maintainers and investigators; preserve its original declared scope, authority, and status.  
+**Goal:** Surface what the investigation established, explain the causal chain and evidence, and keep rivals, failures, limitations, and open obligations traceable.
+
+## Principal finding and limits
+
+The MT reconstruction found that spelling variants are nonmaterial while weakening 'root' to 'a cause' or replacing the smallest stable upstream generator with an earliest event is material. Its proposed architecture remains a build input, not an audit of a production runtime.
+
+## Contents
+
+- [Frozen job](#frozen-job)
+- [MT on the phrase](#mt-on-the-phrase)
+- [MT on the current chat](#mt-on-the-current-chat)
+- [Recovered desired RootCause behavior](#recovered-desired-rootcause-behavior)
+- [Main whole-chat result candidate](#main-whole-chat-result-candidate)
+- [Architecture consequence](#architecture-consequence)
+
 
 Date: 2026-09-26
 Status: SEMANTIC MT RECONSTRUCTION / BUILD INPUT
