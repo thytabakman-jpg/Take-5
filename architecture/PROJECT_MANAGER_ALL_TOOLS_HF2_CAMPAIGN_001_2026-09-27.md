@@ -238,3 +238,19 @@ ImprovementCore consumed the combined result;
 TRC closed local consequences;
 no local project-control finding remains;
 surviving external OPEN state is explicit and non-authorizing.
+
+## Historical scope and later verification boundary (Level 2, 2026-10-10)
+
+This is the dependency-aware 93-tool campaign plan accepted with PR 167 on
+2026-09-27 (merge `47df0f452f323502b601563b4b9fd5b00ac827e5`).
+Its specific historical relative-closure result is recorded in
+`projects/project-manager/tool-runs/ALL_TOOLS_HF2_CANONICAL_001.md`.
+The campaign start-time repertoire and mathematics are deliberately preserved;
+it would be incorrect to rewrite them to match a different future registry.
+
+The later PR 187 failure-immunity upgrade introduced a distinct exact semantic
+ICC128/RTC/ToolConductor promotion-coverage question. A successful configured
+sweep that uses synthetic route witnesses or development fixtures does not,
+without further evidence, close this stronger question (verification V50).
+Neither this historical result nor a new triage report authorizes a present
+project mutation or overwrites the live manifest or current tool controller.
