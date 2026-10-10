@@ -192,3 +192,29 @@ def test_private_source_not_hidden_after_many_public_references(tmp_path):
     assert any(r["anchor"] == "g11" and
                r["access"] == "PRIVATE_LIBRARY_ORIGINAL_UNVERIFIED"
                for r in case["source_refs"])
+
+
+def test_one_word_and_its_stem_do_not_create_a_false_historical_match(tmp_path):
+    root = _fixture(tmp_path)
+    path = root / BASE / "ARTIFACT_AUTHORITY_AND_FIDELITY.md"
+    path.write_text(
+        "# Unrelated example\n## Unrelated conditions\n"
+        "This historical source contains unrelated issues only. "
+        "[D3](evidence/EXECUTION_AND_CLOSURE_SOURCES.md#d3)\n",
+        encoding="utf-8",
+    )
+    # Previously "unrelated" and the generated "unrelat" stem counted as
+    # two hits, even though the query supplied only one relevant word.
+    assert consult_root_cause_knowledge(
+        observed_failure=["an unrelated recipe for pumpkin bread"],
+        research_root=root,
+    )["status"] == "NO_MATCH"
+    assert consult_root_cause_knowledge(
+        observed_failure=["unrelated"], research_root=root,
+    )["status"] == "NO_MATCH"
+    # Rejecting one-word collisions must not lose a genuine multi-word case.
+    retained = consult_root_cause_knowledge(
+        observed_failure=["premature parent campaign closure"], research_root=root,
+    )
+    assert retained["status"] == "CANDIDATES"
+    assert retained["candidates"][0]["subject"] == "WORK_FRONTIER_AND_CLOSURE.md"
