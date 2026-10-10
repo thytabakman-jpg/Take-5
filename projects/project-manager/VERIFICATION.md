@@ -10,7 +10,7 @@ Status: CURRENT
 - [Pre-project gate verification](#pre-project-gate-verification)
 - [Mandatory management spine verification](#mandatory-management-spine-verification)
 - [Failure-immunity verification](#failure-immunity-verification)
-- [ProjectManager Level 2 — selected ten files (2026-10-10)](#projectmanager-level-2--selected-ten-files-2026-10-10)
+- [ProjectManager Level 2 — selected ten files (2026-10-10)](#projectmanager-level-2-selected-ten-files-2026-10-10)
 - [ProjectManager Level 1 document triage (2026-10-10)](#projectmanager-level-1-document-triage-2026-10-10)
 
 Required evidence before canonical promotion
@@ -249,7 +249,7 @@ more-specific verification obligation.
 | `../tool-system/current-tools/projectmanager/PROTECTED_BEHAVIORS.md` | `12920e5f3376` → `bd91741fb7ff`; `684d27f2` | Represent live protected manifest without duplicating owner | PR173/187 current routing; four manifest behavior IDs confirmed |
 | `../tool-system/current-tools/projectmanager/SOURCE_MAP.md` | `9df63fe1009f` → `6b328a239baf`; `fe4f0e4d` | Recover current proof/runtime sources; reject candidate-only locator | PR187 promotion evidence added; live paths and lineage preserved |
 
-**Native verification boundary:** On main head 2a4edaf739b042617749ec262471c666cdc0d487, Tool System Every-Tool Sweep 38091471012 was SUCCESS; Take-5 Validation 38091471038 was IN_PROGRESS when checked. This receipt adds a new commit, so those runs do not certify its post-write head. The sweep explicitly uses synthetic witnesses and development fixtures for some tools; V50's exact full ICC128/RTC/ToolConductor semantic campaign witness remains OPEN. The current runtime observer produces a precondition fingerprint, but production commit-side compare-and-swap/reopen enforcement was not demonstrated here. No invented test pass is credited.
+**Native verification boundary:** On main head 2a4edaf739b042617749ec262471c666cdc0d487, Tool System Every-Tool Sweep 38091471012 was SUCCESS; Take-5 Validation 38091471038 later completed SUCCESS on that same head. This receipt adds a new commit, so those runs do not certify its post-write head. The sweep explicitly uses synthetic witnesses and development fixtures for some tools; V50's exact full ICC128/RTC/ToolConductor semantic campaign witness remains OPEN. The current runtime observer produces a precondition fingerprint, but production commit-side compare-and-swap/reopen enforcement was not demonstrated here. No invented test pass is credited.
 
 **Disposition:** Ten of ten selected sources repaired and post-write read back. No new version-numbered living file. Overall Level 2 status LEVEL_INCOMPLETE because current-head native validation and the specific V50 and commit-side precondition enforcement evidence are not closed. The 140-file Level 1 record below remains historical and separate. No Level 3 or system-wide corpus sweep was performed.
 
