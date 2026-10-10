@@ -118,6 +118,12 @@ This is a testable current hypothesis, not an eternal ontology.
 9. runtime/tool_run_registry.py
 10. tests/test_root_cause_hf2.py
 
+## Optional historical RootCause consultation (read-only)
+
+After the **current** failure class has been frozen independently, `runtime/root_cause_managed.py` accepts optional `research_root=<local Reaserch checkout>`. It reads ten [Root Cause question-first knowledge subjects](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/improvement-core/research/consolidations/ROOT_CAUSE_ROLLING_DISCOVERY_KNOWLEDGE.md) through `runtime/root_cause_knowledge_lookup.py`; the return adds `historical_knowledge` with plural candidates, exact subject/content fingerprints and original-source references. Default callers without `research_root` retain the previous result contract. Missing/inaccessible sources and no matches are typed, not invented. Historical evidence does **not** enter the RootCause score vector, certify cause, override the frozen basis or grant ImprovementCore repair authority. Library G11/G12 originals are not copied or marked independently verified.
+
+Regression fixture: `tests/test_root_cause_knowledge_lookup.py`. A committed test file alone is not an executed native-test receipt. Consumer access requires a deliberately supplied readable checkout; universal host binding remains OPEN.
+
 ## Anti-loss rule
 
 A successor may not reduce RootCause to:
