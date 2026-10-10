@@ -34,8 +34,40 @@ def test_mandatory_management_spine_is_exact_and_goal_brackets_structural_pass()
     assert MANDATORY_MANAGEMENT_SPINE==EXPECTED
 
 
+def _binding(subject):
+    return {
+        "subject_id":subject["candidate_id"],
+        "object_identity":"fixture:candidate:"+subject["candidate_id"],
+        "built_generation":"fixture:exact-state-1",
+        "latest_generation":"fixture:exact-state-1",
+        "identity_verified":True,
+    }
+
+
+def test_missing_source_currentness_cannot_finish_management_spine():
+    candidate=_candidate()
+    out=run_management_spine({"candidate":candidate,"basis":"test-main"})
+    assert out.status=="OPEN"
+    assert out.blocker=="MANAGEMENT_SPINE_CURRENTNESS_OPEN"
+
+
+def test_wrong_source_identity_cannot_finish_management_spine():
+    candidate=_candidate()
+    binding=_binding(candidate)
+    binding["subject_id"]="different-candidate"
+    out=run_management_spine({
+        "candidate":candidate,"basis":"test-main","currentness_binding":binding,
+    })
+    assert out.status=="OPEN"
+    assert out.blocker=="MANAGEMENT_SPINE_CURRENTNESS_OPEN"
+
+
 def test_every_spine_factor_runs_full_configured_hf2():
-    out=run_management_spine({"candidate":_candidate(),"basis":"test-main"})
+    candidate=_candidate()
+    out=run_management_spine({
+        "candidate":candidate,"basis":"test-main",
+        "currentness_binding":_binding(candidate),
+    })
     assert out.status=="CLOSED_RELATIVE"
     assert tuple((r.stage_id,r.tool_id) for r in out.receipts)==EXPECTED
     assert all(r.cell_count==36 for r in out.receipts)
@@ -46,7 +78,11 @@ def test_every_spine_factor_runs_full_configured_hf2():
 
 
 def test_normal_projectmanager_candidate_run_contains_spine_and_preserves_open():
-    out=project_manager_adapter({"candidate":_candidate(),"basis":"test-main"},None)
+    candidate=_candidate()
+    out=project_manager_adapter({
+        "candidate":candidate,"basis":"test-main",
+        "currentness_binding":_binding(candidate),
+    },None)
     assert out["status"]=="OPEN"
     result=out["result"]
     assert result["definition_assessment"]["status"]=="EXPLORATION_OPEN"

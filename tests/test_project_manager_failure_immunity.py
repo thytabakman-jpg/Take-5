@@ -202,7 +202,17 @@ def test_open_coordinate_state_prevents_false_closure():
 
 def test_direct_adapter_exposes_known_failure_integrity():
     p=package()
-    out=project_manager_adapter({"project":p,"basis":"failure-immunity"},None)
+    out=project_manager_adapter({
+        "project":p,
+        "basis":"failure-immunity",
+        "currentness_binding":{
+            "subject_id":p["project_id"],
+            "object_identity":"fixture:project:"+p["project_id"],
+            "built_generation":"fixture:exact-state-1",
+            "latest_generation":"fixture:exact-state-1",
+            "identity_verified":True,
+        },
+    },None)
     assert out["status"]=="EXECUTED"
     integrity=out["result"]["known_failure_integrity"]
     assert integrity["status"]=="CURRENT"
