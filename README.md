@@ -2,6 +2,8 @@
 
 **Repository goal:** Provide the canonical working entry, authority boundaries, and navigation for the Take-5 controller stack while preserving Reaserch as rollback/provenance.
 
+**This README's job:** Orient readers to the working repository, the authoritative migration and change-control sources, current architecture entrypoints, and validation routes. It is a navigation surface, not an independent promotion or runtime authority.
+
 Take-5 is the canonical working successor to `thytabakman-jpg/Reaserch`.
 
 Status: CANONICAL_WORKING
@@ -9,6 +11,14 @@ Migration stage: MIGRATED_WORKING
 Production/working authority: Take-5
 Rollback/provenance baseline: Reaserch, preserved intact
 Promotion authorization: user authorized 2026-09-24
+
+## Contents
+
+- [ICC](#icc)
+- [Start here](#start-here)
+- [Authority rule](#authority-rule)
+- [Current architecture](#current-architecture)
+- [GitHub operating boundary](#github-operating-boundary)
 
 ## ICC
 
@@ -18,6 +28,8 @@ ICC means Jane + the validated math-first wrapper + Improvement Core / IC-028 + 
 
 ## Start here
 
+1. `MIGRATION_STATE.yaml` — authoritative current repository/migration selection, rollback and post-cutover drift rules; resolve live scope before using older candidate statements.
+1. `GITHUB_GOVERNANCE.md` — admission, branch, validation and merge rules for consequential canonical changes.
 1. `architecture/PROJECT_MANAGER_FULL_TOOL_MATH_001_2026-09-27.md` + `runtime/project_manager.py` — reusable authority-bound ProjectManager tool; its first managed project is itself under `projects/project-manager/`.
 1. `architecture/ICC128_HOST_RELAY_001_2026-10-03.md` + `runtime/icc_host_relay.py` — fail-closed transport-only host relay that requires an ICC128-authored response and blocks host fallback or post-ICC mutation.
 1. `integration/CURRENT_TOOL_PROJECT_ORGANIZATION.md` — current anti-loss organization for all live tools and recovered ICC/IC variants; per-object packages, 36-cell coverage, append-only evidence, and overwrite regression guards.
@@ -37,7 +49,6 @@ ICC means Jane + the validated math-first wrapper + Improvement Core / IC-028 + 
 1. `runtime/math_first_selector.py` — exact least-cost sufficient-cover selector, opt-in from IC.
 1. `runtime/jane_relevance.py` — typed Jane supervisory-relevance predicate.
 1. `architecture/CANONICAL_FOUNDATION_034.md` — current foundation and the two distinct 36-cell structures.
-1. `MIGRATION_STATE.yaml` — authority, provenance, rollback, and open validation state.
 1. `runtime/system_loop.py` and `runtime/improvement_core.py` — lifecycle and adaptive controller.
 1. `architecture/LEARNING_OPERATOR_TOOLKIT_035.md` and `runtime/learning_operator_tools.py` — typed mathematical definitions for the selectable learning/processing lenses.
 1. `architecture/ASSERT_COMPOUND_CONTRACT_055.md` + `runtime/assert_compound.py` — current compound ASSERT fixed-point contract and executable orchestration shell.
