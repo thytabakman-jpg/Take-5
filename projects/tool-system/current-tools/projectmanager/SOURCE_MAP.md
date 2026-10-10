@@ -65,3 +65,10 @@ to make the folder look complete.
 
 The cross-project failure-history evidence originates in Take-2:
 audits/PROJECT_MANAGEMENT_FAILURE_HISTORY_READONLY_2026-09-30.md.
+
+## Failure-immunity promotion and currentness
+
+- PR 187 merged on 2026-09-30: `caadd8d8a41904bec9e0e0b0507af476969aade0`.
+- Pre-merge head `abe1b00de58f50dfe521f70f3592b25d2c63abde`: Capability Preservation `36743965936`, Tool System Every-Tool Sweep `36743966227`, Take-5 Validation `36743965967` — all SUCCESS.
+- Post-merge same-commit Tool System Every-Tool Sweep `36744250411` and Take-5 Validation `36744250406` — SUCCESS.
+- The filename `PROJECT_MANAGER_FULL_TOOL_MATH_004_2026-09-30.md` remains a historically identified mathematical successor, not a selector by highest version number. For live authority, resolve `runtime/tool_manifest.py`, `runtime/tool_run_registry.py` and `runtime/project_manager.py` against the current branch.
