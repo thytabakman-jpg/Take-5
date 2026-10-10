@@ -5,6 +5,31 @@ Status: PROMOTED CURRENT / REGIME 090
 Canonical comparison base: Take-5 regime 089
 Evidence basis: current Take-5 math spine, recovered Reaserch lineage, ZIP-study evidence, four-month conversation reconstruction, whole-chat RootCause/MT captures
 
+## Contents
+
+- [1. Governing correction](#1-governing-correction)
+- [2. Improvement claims are indexed](#2-improvement-claims-are-indexed)
+- [3. Controller state](#3-controller-state)
+- [4. Continuation equivalence](#4-continuation-equivalence)
+- [5. Action generation and admission](#5-action-generation-and-admission)
+- [6. Policy remains set-valued](#6-policy-remains-set-valued)
+- [7. Typed transition and admission](#7-typed-transition-and-admission)
+- [8. Protected regression](#8-protected-regression)
+- [9. Effect witnesses](#9-effect-witnesses)
+- [10. Canonical strict progress relation](#10-canonical-strict-progress-relation)
+- [11. Certified no-gain](#11-certified-no-gain)
+- [12. Semantic cycle blocking](#12-semantic-cycle-blocking)
+- [13. Local and global recurrence](#13-local-and-global-recurrence)
+- [14. Coverage-indexed terminality](#14-coverage-indexed-terminality)
+- [15. Fixed-basis anti-repeat theorem](#15-fixed-basis-anti-repeat-theorem)
+- [16. Self-improvement admission](#16-self-improvement-admission)
+- [17. ImprovementCore algebra](#17-improvementcore-algebra)
+- [18. Why this explains the conversation failures](#18-why-this-explains-the-conversation-failures)
+- [19. Candidate controller](#19-candidate-controller)
+- [20. Open coordinates](#20-open-coordinates)
+- [21. Promotion rule](#21-promotion-rule)
+- [Longitudinal comparison companion](#longitudinal-comparison-companion)
+
 ## 1. Governing correction
 
 Current ImprovementCore already has:
