@@ -27,6 +27,7 @@ branch
 
 Direct writes to `main` are a governance defect.
 
+GitHub server-side branch protection is the preferred enforcement boundary. Until that repository setting is enabled, this file and the governance regression tests provide an internal guard but do not replace server enforcement.
 
 ### Protected-core Level 1 triage gate
 
@@ -62,9 +63,6 @@ remains uncertain, leave the original intact and record a precise deferred
 disposition in the existing triage workstream. Do not claim that unresolved
 mandatory checks passed. This Level 1 safeguard does **not** prohibit later
 explicitly authorized Level 2/3 substantive work.
-
-
-GitHub server-side branch protection is the preferred enforcement boundary. Until that repository setting is enabled, this file and the governance regression tests provide an internal guard but do not replace server enforcement.
 
 ## Admission invariant
 
