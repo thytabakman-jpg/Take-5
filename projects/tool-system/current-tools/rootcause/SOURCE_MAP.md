@@ -21,7 +21,7 @@
 - `tests/test_root_cause_knowledge_lookup.py` — match, near-miss, private/no-access, no-match and non-interference tests
 - [Reaserch question-first Root Cause knowledge entry](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/improvement-core/research/consolidations/ROOT_CAUSE_ROLLING_DISCOVERY_KNOWLEDGE.md) — discover original investigations without adopting their claims as current authority
 
-The external research checkout is an optional historical source, not a source of canonical tool identity, executable repair permissions or causal ranking. No default payload change occurs without an explicit `research_root` binding.
+The external research checkout is an optional historical source, not a source of canonical tool identity, executable repair permissions or causal ranking. No default payload change occurs without an explicit `research_root` binding. Approved consumers can invoke `python runtime/root_cause_knowledge_lookup.py --research-root /path/to/Reaserch "current observed failure"` and parse candidate/NO_MATCH/NO_ACCESS JSON. `record_verified_root_cause_outcome(...)` is an explicitly invoked post-repair connector to existing material or negative-learning memory, with required owner admission and verified current evidence; it is not a globally installed event hook.
 
 ## Rule
 
