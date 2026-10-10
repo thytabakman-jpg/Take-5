@@ -2,8 +2,8 @@
 
 <a id="rootcause-run-on-current-chat-089"></a>
 **Historical report title:** RootCause Run on Current Chat 089  
-**Role and audience:** Historical Root Cause investigation findings for system maintainers and investigators; preserve its original declared scope, authority, and status.  
-**Goal:** Surface what the investigation established, explain the causal chain and evidence, and keep rivals, failures, limitations, and open obligations traceable.
+**Role and reader:** Historical bounded executable RootCause/HF2 result for ImprovementCore parent-controller maintainers and future causal challengers, not a universal root-cause law.  
+**Goal:** Retain the frozen six-symptom chat packet, rival candidates and HF2 trace selecting protected-transition integrity, the documented validation run, and the precise parent handoff and packet-relative reopening boundary.
 
 ## Principal finding and limits
 
