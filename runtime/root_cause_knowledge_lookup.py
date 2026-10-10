@@ -173,7 +173,7 @@ def record_verified_root_cause_outcome(
     refs = tuple(str(x) for x in verification_refs if str(x).strip())
     basis_id, source_episode, route_id = (str(x).strip() for x in
                                           (basis_id, source_episode, route_id))
-    if not owner_admitted:
+    if owner_admitted is not True:
         return {"status": "NOT_ADMITTED", "written": False}
     if not (refs and basis_id and source_episode and route_id):
         return {"status": "BLOCKED", "reason": "VERIFIED_CURRENT_EVIDENCE_REQUIRED",
