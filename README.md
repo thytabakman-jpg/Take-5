@@ -1,5 +1,7 @@
 # Take-5
 
+**Repository goal:** Provide the canonical working entry, authority boundaries, and navigation for the Take-5 controller stack while preserving Reaserch as rollback/provenance.
+
 Take-5 is the canonical working successor to `thytabakman-jpg/Reaserch`.
 
 Status: CANONICAL_WORKING
