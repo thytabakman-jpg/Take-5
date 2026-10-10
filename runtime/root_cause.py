@@ -75,6 +75,7 @@ def root_admissible(candidate:RootCandidate,recurrence:frozenset[str])->bool:
         recurrence <= candidate.explains
         and candidate.survives_representation_change
         and candidate.removal_breaks_recurrence
+        and bool(candidate.evidence)
         and not candidate.counterevidence
         and not candidate.unresolved
     )
@@ -126,6 +127,8 @@ def run_root_cause_hf2(
             if not c.removal_breaks_recurrence:
                 unresolved.append(f"{c.candidate_id}:COUNTERFACTUAL_REMOVAL")
             unresolved.extend(f"{c.candidate_id}:{u}" for u in sorted(c.unresolved))
+            if not c.evidence:
+                unresolved.append(f"{c.candidate_id}:CAUSAL_EVIDENCE_MISSING")
             if c.counterevidence:
                 unresolved.append(f"{c.candidate_id}:COUNTEREVIDENCE")
 
