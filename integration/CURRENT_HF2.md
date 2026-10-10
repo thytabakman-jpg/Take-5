@@ -24,11 +24,7 @@ C(x_t)
 -> normalized x_(t+1)
 -> same C(x_(t+1))
 
-only while:
-
-MaterialLocal_t
-and Live_C(t+1)
-and UpstreamStable_t.
+when a material successor is observed, reapply C at least once even if the producer reports the local frontier inactive. Relative closure requires an independently clean successor pass, a valid local closure condition, and no upstream reentry. The live frontier remains relevant to deciding OPEN versus closure after a non-material pass.
 
 HF2 owns same-capability local recurrence.
 
