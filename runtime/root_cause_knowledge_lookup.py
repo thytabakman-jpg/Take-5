@@ -72,8 +72,14 @@ def consult_root_cause_knowledge(
     if not base.is_dir() or any(not (base / name).is_file() for name in SUBJECTS):
         return {"status": "NO_ACCESS", "reason": "RESEARCH_SOURCE_INCOMPLETE",
                 "candidates": []}
-    query = _words(" ".join(observed))
-    if len(query) < 2:
+    observed_text = " ".join(observed).lower().replace("_", " ").replace("-", " ")
+    query = _words(observed_text)
+    # Stems of the same observed word are not independent evidence of relevance.
+    query_families = [
+        forms for forms in (_words(word) for word in set(WORDS.findall(observed_text)))
+        if forms
+    ]
+    if len(query_families) < 2:
         return {"status": "NO_MATCH", "reason": "INSUFFICIENT_DISTINCTIVE_QUERY",
                 "candidates": []}
     candidates = []
@@ -86,8 +92,9 @@ def consult_root_cause_knowledge(
                                 if line.startswith("## "))
             # Keywords in the finding's body are necessary; headings alone
             # cannot be treated as evidence for a diagnosis.
-            matches = query & _words(content)
-            if len(matches) < 2:
+            subject_terms = _words(content)
+            matches = query & subject_terms
+            if sum(bool(forms & subject_terms) for forms in query_families) < 2:
                 continue
             score = len(matches) + 2 * len(query & _words(title + " " + headings))
             refs = list(dict.fromkeys(
