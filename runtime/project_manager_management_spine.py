@@ -221,17 +221,31 @@ def _pd_stage(kind:str,subject:Mapping[str,Any],audit:bool=False):
     )
 
 
-def _currentness_stage(kind:str,subject:Mapping[str,Any],basis:str):
+def _currentness_stage(kind:str,subject:Mapping[str,Any],basis:str,current:Mapping[str,Any]):
+    """Require caller-supplied source identity; a matching basis label is insufficient."""
+    declared=current.get("currentness_binding")
+    binding=declared if isinstance(declared,Mapping) else {}
+    subject_id=str(subject.get("candidate_id") or subject.get("project_id") or "")
+    bound_id=str(binding.get("subject_id") or "")
+    matched=bool(subject_id) and bound_id==subject_id
+    # The source binding is evidence supplied by the caller, not manufactured
+    # from the project name, a reused basis label, or this stage's own output.
+    verified=matched and binding.get("identity_verified") is True
     return assess_currentness(
         component=f"ProjectManager:{kind}",
+        object_identity=str(binding.get("object_identity") or "") if matched else "",
+        built_generation=str(binding.get("built_generation") or "") if matched else "",
+        latest_generation=str(binding.get("latest_generation") or "") if matched else "",
+        identity_verified=verified,
         built_basis=basis,
         latest_basis=basis,
         protected=("goal","authority","open_preservation","admission_boundary"),
         delta=(),
         behavior_preserved=True,
         local_patch_available=True,
-        evidence=("project-manager-management-spine",),
-        reverified=True,
+        evidence=("project-manager-management-spine",)
+                 + (("currentness_binding:subject_matched",) if matched else ()),
+        reverified=verified,
     )
 
 
@@ -270,7 +284,7 @@ def _native(stage_id:str,tool_id:str,current:Mapping[str,Any]):
     if stage_id=="PDAUDIT":
         return _pd_stage(kind,subject,True)
     if stage_id=="CURRENTNESS":
-        return _currentness_stage(kind,subject,basis)
+        return _currentness_stage(kind,subject,basis,current)
     if stage_id=="QUESTION_WORTH":
         return _question_worth_stage(kind,subject)
     raise KeyError(stage_id)
