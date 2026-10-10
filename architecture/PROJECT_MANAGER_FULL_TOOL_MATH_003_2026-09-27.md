@@ -1,7 +1,12 @@
 # ProjectManager Full Tool Mathematics 003
 
 Date: 2026-09-27
-Status: CURRENT / VALIDATED / MERGED
+Status: ACCEPTED MANAGEMENT-SPINE LAYER / ORIGINAL PR 173 MERGED
+Status at original promotion: CURRENT / VALIDATED / MERGED
+Lineage: PR 173 merged as 225d4edb956bb29de3e3eb0433f0c9ada84feb11.
+Later additive layer: 004 (failure-immunity), accepted through PR 187.
+This file remains an accepted distinct mathematical layer, not the sole
+current configured controller or a newer-filename authority selector.
 Supersedes for current run orchestration:
 PROJECT_MANAGER_FULL_TOOL_MATH_002_2026-09-27.md
 
