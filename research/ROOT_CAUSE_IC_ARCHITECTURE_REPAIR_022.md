@@ -2,8 +2,8 @@
 
 <a id="root-cause--improvement-core-architecture-repair-022"></a>
 **Historical report title:** Root Cause + Improvement Core Architecture Repair 022  
-**Role and audience:** Historical Root Cause investigation findings for system maintainers and investigators; preserve its original declared scope, authority, and status.  
-**Goal:** Surface what the investigation established, explain the causal chain and evidence, and keep rivals, failures, limitations, and open obligations traceable.
+**Role and reader:** Historical Take-5 architecture/currentness diagnosis and nonproduction repair record for ImprovementCore, runtime and migration maintainers.  
+**Goal:** Preserve how an Architecture basis change invalidated component-level currentness assumptions, distinguish the newer system identity and entry modes, retain the recorded reflexive architecture-first correction, and leave migration/readiness promotion contingent on revalidation.
 
 ## Principal finding and limits
 
