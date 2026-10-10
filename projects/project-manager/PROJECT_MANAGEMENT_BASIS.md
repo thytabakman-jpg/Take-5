@@ -3,6 +3,14 @@
 Status: CURRENT EVIDENCE BASIS
 Date checked: 2026-09-27
 
+## Table of contents
+
+- [Internal basis](#internal-basis)
+- [External research](#external-research)
+- [Synthesis](#synthesis)
+- [Cross-project failure-history basis](#cross-project-failure-history-basis-2026-09-30)
+- [Currentness and operational evidence crosswalk](#currentness-and-operational-evidence-crosswalk-2026-10-10-level-2)
+
 ## Internal basis
 
 The Sukkos question-booklet project demonstrated a working separation among charter,
