@@ -1,4 +1,25 @@
-# Improvement Core x Kernel Tool-Use Root Cause 001
+# Capability Compression Lost the Executable Selection and Dispatch Layer
+
+<a id="improvement-core-x-kernel-tool-use-root-cause-001"></a>
+**Historical report title:** Improvement Core x Kernel Tool-Use Root Cause 001  
+**Role and audience:** Historical Root Cause investigation findings for system maintainers and investigators; preserve its original declared scope, authority, and status.  
+**Goal:** Surface what the investigation established, explain the causal chain and evidence, and keep rivals, failures, limitations, and open obligations traceable.
+
+## Principal finding and limits
+
+The recurrent missing behavior is the transition from a live bottleneck to capability coverage, selection, invocation, receipt, delta, and reselection. Registry metadata and general instructions did not create that executable dispatch obligation. The source labels this a nonproduction repair basis.
+
+## Contents
+
+- [Symptom](#symptom)
+- [Root-cause chain](#root-cause-chain)
+- [Minimal repair](#minimal-repair)
+- [Required controller transition](#required-controller-transition)
+- [Kernel relation](#kernel-relation)
+- [Important distinction](#important-distinction)
+- [Current executable gap](#current-executable-gap)
+- [Root disposition](#root-disposition)
+
 
 Date: 2026-09-24
 Status: ROOT-CAUSE FINDING / NONPRODUCTION REPAIR BASIS
