@@ -1,4 +1,34 @@
-# MTA + Root-Cause Campaign 038 — Post-Migration Whole Response
+# Post-Migration Root Findings Exposed WorkItem/Geometry and Material-Delta Type Errors
+
+<a id="mta--root-cause-campaign-038--post-migration-whole-response"></a>
+**Historical report title:** MTA + Root-Cause Campaign 038 — Post-Migration Whole Response  
+**Role and audience:** Historical Root Cause investigation findings for system maintainers and investigators; preserve its original declared scope, authority, and status.  
+**Goal:** Surface what the investigation established, explain the causal chain and evidence, and keep rivals, failures, limitations, and open obligations traceable.
+
+## Principal finding and limits
+
+The campaign identified controller-coordinate versus WorkItem conflation and an underdefined material-delta/reentry predicate, alongside additional subsystem-specific findings. It reports an executed working result, not independently certified global closure.
+
+## Contents
+
+- [Frozen job](#frozen-job)
+- [WorkItem and 6x6](#workitem-and-6x6)
+- [Mathematical breakdown / term location](#mathematical-breakdown--term-location)
+- [MaterialDelta](#materialdelta)
+- [Infinite improvement](#infinite-improvement)
+- [Old warehouses](#old-warehouses)
+- [Jewish Holiday Booklet correction](#jewish-holiday-booklet-correction)
+- [Delegation Officer](#delegation-officer)
+- [Priority equation](#priority-equation)
+- [BindingTopology](#bindingtopology)
+- [External research blindness](#external-research-blindness)
+- [PD and 36](#pd-and-36)
+- [MTA on the term PD](#mta-on-the-term-pd)
+- [High-information PD x 36 cells](#high-information-pd-x-36-cells)
+- [Overall root](#overall-root)
+- [Executed changes](#executed-changes)
+- [Next generated work](#next-generated-work)
+
 
 Date 2026-09-24
 Status EXECUTED WORKING RESULT
