@@ -106,3 +106,69 @@ def test_native_root_cause_remains_independent_of_historical_candidates(tmp_path
     assert prior.result["root_candidates"] == consulted.result["root_candidates"] == ()
     assert prior.result["parent_handoff"] == consulted.result["parent_handoff"]
     assert consulted.result["historical_knowledge"]["status"] == "CANDIDATES"
+
+
+def test_command_interface_is_data_only_and_fails_closed(tmp_path, capsys):
+    from root_cause_knowledge_lookup import main
+    root = _fixture(tmp_path)
+    assert main(["--research-root", str(root), "premature parent campaign closure"]) == 0
+    data = capsys.readouterr().out
+    assert '"status": "CANDIDATES"' in data
+    assert '"admission": "NOT_ADMITTED"' in data
+    assert main(["--research-root", str(root / "absent"), "parent closure"]) == 2
+    assert '"status": "NO_ACCESS"' in capsys.readouterr().out
+
+
+def test_verified_outcome_capture_uses_existing_ledgers_and_guardrails():
+    from types import SimpleNamespace
+    from root_cause_knowledge_lookup import record_verified_root_cause_outcome
+
+    class MaterialLedger:
+        def __init__(self):
+            self.events = []
+        def record(self, **event):
+            self.events.append(event)
+            return SimpleNamespace(knowledge_id="K-CHECK")
+
+    class NegativeMemory:
+        def __init__(self):
+            self.events = []
+        def record(self, **event):
+            self.events.append(event)
+
+    material, negative = MaterialLedger(), NegativeMemory()
+    context = dict(
+        owner_admitted=True,
+        verification_refs=["current-effect-receipt"],
+        source_episode="ep1",
+        basis_id="frozen-basis",
+        route_id="repair-case",
+        consultation={"candidates": [{"subject": "WORK_FRONTIER_AND_CLOSURE.md"}]},
+        dependency_footprint=["owner"],
+    )
+    assert record_verified_root_cause_outcome(
+        **{**context, "owner_admitted": False}, outcome="VERIFIED_GAIN",
+        knowledge_ledger=material,
+    )["written"] is False
+    assert record_verified_root_cause_outcome(
+        **{**context, "verification_refs": []}, outcome="VERIFIED_GAIN",
+        knowledge_ledger=material,
+    )["written"] is False
+    assert not material.events
+    gain = record_verified_root_cause_outcome(
+        **context, outcome="VERIFIED_GAIN", knowledge_ledger=material,
+    )
+    assert gain["knowledge_id"] == "K-CHECK"
+    assert material.events[0]["disposition"] == "CAPTURED"
+    assert material.events[0]["metadata"]["consulted_subjects"] == (
+        "WORK_FRONTIER_AND_CLOSURE.md",
+    )
+    loss = record_verified_root_cause_outcome(
+        **context, outcome="FAILED", negative_learning_memory=negative,
+    )
+    assert loss["status"] == "NEGATIVE_ROUTE_RECORDED"
+    assert negative.events[0]["disposition"] == "FAILED"
+    assert record_verified_root_cause_outcome(
+        **context, outcome="OPEN", negative_learning_memory=negative,
+    )["written"] is False
+    assert len(material.events) == len(negative.events) == 1
