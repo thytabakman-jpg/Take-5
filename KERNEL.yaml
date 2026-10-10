@@ -1,4 +1,6 @@
 # Kernel source contract — human orientation (comments only; YAML data unchanged).
+# Document type: executable structured kernel declaration with a non-operative header.
+# Reader: runtime implementers, authority reviewers, migration maintainers.
 # Document goal: Specify the intended protected transition, authority, identity,
 # provenance, currentness, admission, and execution boundaries of the Take-5
 # kernel candidate, so consumers can bind and verify them without inventing
