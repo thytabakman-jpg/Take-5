@@ -52,6 +52,16 @@ Reaserch remains available as frozen historical evidence and rollback state. It 
 
 A later discovery can rebase this system through currentness/admission and validation. Migration is reversible and repeatable.
 
+## Cross-system Hume research navigation (historical evidence; review before admission)
+
+The Hume research corpus is still navigated through the separately scoped Reaserch records, while **Take-5 remains the canonical working system**. These are three **research responsibilities**, not three competing theorem authorities:
+
+- **Hume project goals, source-formal mathematics and proof owners:** [Hume research project entry](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/rebt-is-ought/PROJECT_PAGE.md), [current bundle](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/rebt-is-ought/HUME_CURRENT_BUNDLE.yaml), and [formal authority map](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/rebt-is-ought/formal/HUME_FORMAL_AUTHORITY_MAP.yaml). Resolve goal and currentness there before interpreting a theorem or changing Hume publication state.
+- **Shared mathematical Atlas and project-to-project transfer:** [federated Atlas](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/core-system-mathematics/RESEARCH_MATHEMATICAL_ATLAS_CURRENT.md), [typed project bindings](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/core-system-mathematics/RESEARCH_MATHEMATICAL_PROJECT_BINDINGS_CURRENT.yaml), and [Hume Atlas-to-Law interface](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/rebt-is-ought/formal/HUME_ATLAS_TO_BARRIER_LAW_INTERFACE_v001.md). Shared mathematical shapes or family labels do not prove source identity or cross-logic transfer.
+- **Historical audit discoveries, repaired navigation and original evidence:** [question-first Hume knowledge index](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/rebt-is-ought/reconciliation/knowledge/README.md) and [325-file Level 1 status tracker](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/rebt-is-ought/reconciliation/HUME_L1_325_BATCH_TRACKER_CURRENT.md). Historical audit reuse requires claim-specific proof, version, source and repair-status checks.
+
+For the current question of how later Barrier-Defeat work relates to the previously developed law, see Take-5's [non-authoritative cross-chat integration inbox](integration/CROSS_CHAT_INTEGRATION_INBOX_2026-09-25.md#2026-10-10-hume-research-three-location-and-audit-repair-authority-reconciliation--capture-only) **after the pending change is reviewed/admitted**. This navigation does not itself migrate, validate or promote any post-cutover Reaserch research; use [migration state](MIGRATION_STATE.yaml) and [governance](GITHUB_GOVERNANCE.md).
+
 ## Current architecture
 
 The controller uses the 36-cell Scope × ModeFace lattice for coverage and false-closure control.
