@@ -1,7 +1,7 @@
 # ProjectManager Failure Prevention Matrix
 
 Date: 2026-09-30
-Status: CANDIDATE / FAILURE-HISTORY-BOUND
+Status: CURRENT / MERGED PR 187; the PM004 candidate designation below is historical
 
 ## Table of contents
 
@@ -14,6 +14,14 @@ Status: CANDIDATE / FAILURE-HISTORY-BOUND
 
 Source audit:
 thytabakman-jpg/Take-2/audits/PROJECT_MANAGEMENT_FAILURE_HISTORY_READONLY_2026-09-30.md
+
+Promotion evidence: PR 187 merged 2026-09-30 as
+`caadd8d8a41904bec9e0e0b0507af476969aade0`. Same-head PR validation,
+every-tool sweep and capability preservation passed on head
+`abe1b00de58f50dfe521f70f3592b25d2c63abde`; post-merge validation
+`36744250406` and sweep `36744250411` passed on the merge commit.
+The strict-gain criterion below describes the original promotion test,
+not a presently pending candidate.
 
 ## Governing rule
 
