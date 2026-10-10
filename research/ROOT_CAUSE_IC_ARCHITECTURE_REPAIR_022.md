@@ -1,4 +1,27 @@
-# Root Cause + Improvement Core Architecture Repair 022
+# Component Currentness Missed Changes to Its Own Architecture Basis
+
+<a id="root-cause--improvement-core-architecture-repair-022"></a>
+**Historical report title:** Root Cause + Improvement Core Architecture Repair 022  
+**Role and audience:** Historical Root Cause investigation findings for system maintainers and investigators; preserve its original declared scope, authority, and status.  
+**Goal:** Surface what the investigation established, explain the causal chain and evidence, and keep rivals, failures, limitations, and open obligations traceable.
+
+## Principal finding and limits
+
+The earlier currentness mechanism audited Architecture as an ordinary component rather than a reflexive basis of all components. Thus component-local 'current' claims did not entail system-currentness under a newer architecture basis. This was a nonproduction diagnosis/repair record with no migration authority.
+
+## Contents
+
+- [Root cause target](#root-cause-target)
+- [Root cause chain](#root-cause-chain)
+- [Latest system identity](#latest-system-identity)
+- [Two entry modes](#two-entry-modes)
+- [Closure correction](#closure-correction)
+- [History correction](#history-correction)
+- [Improvement Core repair](#improvement-core-repair)
+- [Currentness repair](#currentness-repair)
+- [Implemented](#implemented)
+- [Consequence for prior readiness](#consequence-for-prior-readiness)
+
 
 Date 2026-09-24
 Scope Take-5 nonproduction
