@@ -44,6 +44,8 @@ lost, downgraded, compressed, ambiguously invoked, or partially reconstructed.
 
 Use repository evidence before chat memory when the repository contains the current object.
 
+**Prior RootCause evidence (conditional):** For a real recurring defect or repair-selection problem, freeze the present failure and current authority before consulting [Reaserch's question-first historical Root Cause knowledge](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/improvement-core/research/consolidations/ROOT_CAUSE_ROLLING_DISCOVERY_KNOWLEDGE.md). The [RootCause child adapter](../runtime/root_cause_managed.py) supports an opt-in read-only local-checkout query; candidates/negative results may inform the parent's rival tests but cannot become accepted repair decisions or current state by retrieval alone. The existing `runtime/improvement_core_knowledge_ledger.py` and separate durable negative-learning memory remain the **only** admitted learning destinations for their respective event types. No new authoritative knowledge ledger or automatic write-back is added. Native end-to-end outcome/capture tests remain OPEN.
+
 ## Governing instruction
 
 When ImproveCore is invoked on a repair/recovery problem:
