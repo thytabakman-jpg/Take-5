@@ -82,6 +82,8 @@ def chat_candidates():
             }),
             survives_representation_change=True,
             removal_breaks_recurrence=True,
+            causal_test_evidence=frozenset({"SELECTIVE_INTERVENTION_RECEIPT"}),
+            rival_discrimination_evidence=frozenset({"RIVAL_COUNTEREXAMPLE_RECEIPT"}),
         ),
     )
 
@@ -132,3 +134,18 @@ def test_root_cause_preserves_open_when_no_candidate_passes_rootness():
     )
     assert out.status=="OPEN"
     assert out.unresolved
+
+
+def test_root_admission_rejects_unsubstantiated_flags():
+    from root_cause import root_admissible
+    candidate=RootCandidate(
+        "UNSUPPORTED", "ROOT_GENERATOR", frozenset({"failure"}),
+        evidence=frozenset({"assertion"}),
+        survives_representation_change=True,
+        removal_breaks_recurrence=True,
+    )
+    assert not root_admissible(candidate,frozenset({"failure"}))
+    out=run_root_cause_hf2(failure_class={"failure"},candidates=(candidate,),basis_id="negative")
+    assert out.status=="OPEN"
+    assert "UNSUPPORTED:CAUSAL_TEST_EVIDENCE_MISSING" in out.unresolved
+    assert "UNSUPPORTED:RIVAL_DISCRIMINATION_EVIDENCE_MISSING" in out.unresolved
