@@ -12,6 +12,7 @@ Status: CURRENT
 - [Failure-immunity verification](#failure-immunity-verification)
 - [ProjectManager Level 2 — selected ten files (2026-10-10)](#projectmanager-level-2-selected-ten-files-2026-10-10)
 - [ProjectManager Level 2 batch two — ten governing files (2026-10-10)](#projectmanager-level-2-batch-two-ten-governing-files-2026-10-10)
+- [ProjectManager Level 2 batch three — final 21 files (2026-10-10)](#projectmanager-level-2-batch-three-final-21-files-2026-10-10)
 - [ProjectManager Level 1 document triage (2026-10-10)](#projectmanager-level-1-document-triage-2026-10-10)
 
 Required evidence before canonical promotion
@@ -278,6 +279,42 @@ more-specific verification obligation.
 **Native validation evidence and open limits:** Source-repair commit aabf401bc1865e2ef82103d373de777f279e4c36 follows seven scoped changes. Earlier every-tool sweep 38092498123 succeeded at source commit 7ce1f9eb94659d3b3d4c231c9933883182242b6b; Take-5 validation 38092498098 subsequently completed SUCCESS on that same source commit. Do not count those as a full test pass on a later commit. V50 exact semantic ICC128/RTC/ToolConductor coverage is OPEN. Independent, commit-side genuine user-approval and stale-fingerprint authorization remain unverified by the observer runtime and need the separate write-owner gate. This receipt generates a further documentation commit, likewise not pre-validated.
 
 **Disposition:** 10 selected = 7 REPAIRED_VERIFIED + 3 PASSED_UNCHANGED + 0 BLOCKED_SOURCE_REPAIR + 0 UNPROCESSED. Level 2 whole-system certificate remains LEVEL_INCOMPLETE because the named native verification/commit-side evidence gates are not closed; direct document triage and repairs for the selected ten are completed. Now 20 of the recommended 41 unique documents have received Level 2 examination; 21 are not yet examined. Historical 140-file Level 1 census remains preserved.
+
+## ProjectManager Level 2 batch three — final 21 files (2026-10-10)
+
+Scope: The remaining 21 of the risk-selected 41 Level 2 files. Governing method: Reaserch/projects/improvement-core/FIRST_PASS_DOCUMENT_TRIAGE.md Level 2. Independently derived jobs from the ProjectManager governing GOAL, charter and real owner/consumer relationships, not historical audit goals. Rival tests rejected redefining current math by greatest suffix, merging goal/charter ownership, treating USER: tokens or READY/fingerprint as authorized committed writes, equating green synthetic-route CI with full semantic ICC128/RTC/ToolConductor coverage, and mistaking 72 coverage evidence placeholders for runtime authority.
+
+Consumers inspected: runtime/project_manager.py; runtime/project_manager_integrity.py; runtime/project_manager_management_spine.py; runtime/tool_manifest.py; runtime/tool_run_registry.py; current ProjectManager charter/GOAL, owner registries, change control and JSON projection; current package manifest; dedicated ProjectManager regression test files. PR164, PR167, PR170, PR173 and PR187 all confirmed merged with matching historical claims. Static readback of 21 files, TOC/anchor consistency, source references and all 72 individual evidence cells completed. This does not claim full execution of every native/semantic test.
+
+| Selected path | Before to current source SHA prefix | Disposition | Functional result or positive no-change evidence |
+|---|---|---|---|
+| `projects/project-manager/DECISION_LOG.md` | `5bedb7c6bfc0` → `4b8288e6e6ad` | REPAIRED_VERIFIED | Preserved D001-D015; indexed D016 reconciles PR187 actual merge versus Q4/Q5 missing authority/semantic witnesses |
+| `projects/project-manager/DEPENDENCIES.md` | `d72d5259ae80` → `730118e72e77` | REPAIRED_VERIFIED | Added D14-D19 actual integrity, user-approved commit, currentness and separate V50 dependency gates; live consumers inspected |
+| `projects/project-manager/EVIDENCE.md` | `387f50af6cef` → `0efbdba14928` | REPAIRED_VERIFIED | Added current runtime/test/verification recovery index; original historically dated evidence references preserved and resolvable |
+| `projects/project-manager/INTERFACES.md` | `d36e9648fb97` → `41c1b8dd48d2` | REPAIRED_VERIFIED | Separated syntactic USER: token, actual persist authorization, known-failure assessment and exact campaign evidence |
+| `projects/project-manager/LESSONS_LEDGER.md` | `51e6d9c37657` → `6762ad9ec0e1` | REPAIRED_VERIFIED | Retained L001-L017 and indexed new L018 real authorization and L019 full-semantic coverage negative learning |
+| `projects/project-manager/OPEN_QUESTIONS.md` | `c7f985f99a1f` → `6c044dde1729` | REPAIRED_VERIFIED | Added precisely owned Q4 genuine user approval/stale commit witness and Q5 direct semantic V50 witness with resume conditions |
+| `projects/project-manager/PROJECT_MANAGEMENT_BASIS.md` | `68230cf967e9` → `68230cf967e9` | PASSED_UNCHANGED | Positive adequacy: actual dated 2026-09-27 research/Sukkos basis and 2026-09-30 failure input; reject restamping old studies as a current-day recheck |
+| `projects/project-manager/RAID.md` | `71f50d09d444` → `83f0ec368993` | REPAIRED_VERIFIED | Added R8-R10 concrete approval, stale-state and synthetic-witness risks with controls and Q4/Q5 owner references |
+| `projects/project-manager/SELF_MANAGEMENT.md` | `8eced98f6e36` → `1790564e8d6d` | REPAIRED_VERIFIED | Clarified nonauthoritative 21+17+5 self-projection, native test owner and independent Q4/V50 admission requirements |
+| `projects/project-manager/WBS.md` | `c84fbcbb9a61` → `e60275e954f5` | REPAIRED_VERIFIED | Added typed accepted deliverables 6-8 for pre-project, management spine and integrity, preserving WBS/schedule ownership |
+| `projects/tool-system/current-tools/projectmanager/CHANGE_CONTROL.md` | `eca0b360cc1b` → `f5078dbbe06a` | REPAIRED_VERIFIED | Added actual reader/owner, effect, regression, precondition and separately admitted write gate; observer READY remains nonexecuted |
+| `projects/tool-system/current-tools/projectmanager/DEPENDENCIES.md` | `77da037e1183` → `83f3aa4c4188` | REPAIRED_VERIFIED | Added missing PR187 runtime, integrity, JSON, tests, exact V50 owner and manifest currentness dependencies |
+| `projects/tool-system/current-tools/projectmanager/HANDOFF_SURFACE.md` | `96c12509f273` → `9db94e176fc1` | REPAIRED_VERIFIED | Corrected actual work payload and candidate/Transfer evidence-only transitions, preserving distinct two 36-cell geometries |
+| `architecture/PROJECT_MANAGER_ALL_TOOLS_HF2_CAMPAIGN_001_2026-09-27.md` | `ea7ca35e47be` → `ea7ca35e47be` | PASSED_UNCHANGED | Positive adequacy: historical PR167 93-tool campaign protocol already closes only its dated goal and honors registered HF002 SELF exception |
+| `architecture/PROJECT_MANAGER_FULL_TOOL_MATH_001_2026-09-27.md` | `cc09a6b0dcdf` → `7222c273f496` | REPAIRED_VERIFIED | Marked accepted PR164 foundational layer, not sole latest math selector; preserved all original equations and TOC |
+| `architecture/PROJECT_MANAGER_FULL_TOOL_MATH_002_2026-09-27.md` | `6fa5e66c173e` → `1aa152461503` | REPAIRED_VERIFIED | Marked accepted PR170 admission layer; retained earlier core, candidate math, receipts and later layer references |
+| `architecture/PROJECT_MANAGER_FULL_TOOL_MATH_003_2026-09-27.md` | `6843ea0c3af8` → `728bccad18e5` | REPAIRED_VERIFIED | Marked accepted PR173 spine layer with added PR187 successor, keeping original adaptive-routing mathematics |
+| `projects/project-manager/tool-runs/ALL_TOOLS_HF2_CANONICAL_001.md` | `32cdcde2d4e7` → `32cdcde2d4e7` | PASSED_UNCHANGED | Positive adequacy: original PR167 receipt binds old two-pass 93-tool work, 937-test validation and external TransferCore OPEN |
+| `projects/project-manager/tool-runs/IMPROVEMENTCORE_MANDATORY_SPINE_001.md` | `094f8865a557` → `094f8865a557` | PASSED_UNCHANGED | Positive adequacy: exact accepted PR173 spine run, original Sukkos test context and related validation receipts correctly historical |
+| `projects/project-manager/coverage/README.md` | `7bab29b036a1` → `4e46d27f8b18` | REPAIRED_VERIFIED | Read all 36 self-project cells; unique 01-36 bootstrap shells, Authority none; documented no semantic admission from topology |
+| `projects/tool-system/current-tools/projectmanager/coverage/README.md` | `830cc16cab8b` → `e791b02ee0f5` | REPAIRED_VERIFIED | Read all 36 package cells; unique 01-36 AUDIT_EVIDENCE_ONLY, OPEN, no findings admitted; clarified positive package health versus missing findings |
+
+Batch account B1/B2/B3: 21 = 17 REPAIRED_VERIFIED + 4 PASSED_UNCHANGED + 0 BLOCKED_SOURCE_REPAIR + 0 UNPROCESSED. Across all three Level 2 waves, 41 distinct files have been examined: first 10 = 10 repaired; second 10 = 7 repaired + 3 unchanged; third 21 = 17 repaired + 4 unchanged. Campaign total **41 = 34 repaired source files + 7 positive no-change files**. The 140-file original inventory still has 77 self-project, 58 current configured package and 5 historical mathematics/campaign paths. No duplicate version-suffixed living documents were created.
+
+Native CI: The final non-ledger source-edit head `1f9ad3cb8669fc4630a1f78db8fc01101707097b` passed Tool System Every-Tool Sweep run `38092977646`; Take-5 Validation run `38092977649` was IN_PROGRESS at evidence collection, not then credited as PASS. This ledger commit is a newer head and any additional CI must be read against that exact head. The 72 directly read coverage cells are evidence-only (self bootstrap 36; package OPEN findings 36), not newly completed individual Level 2 files.
+
+Terminal scope status: **41/41 selected document Level 2 examinations and authorized source repairs performed**, with direct source readbacks and explicit positive no-change witnesses. **Integration/executable Level 2 certification remains LEVEL_INCOMPLETE** for the separately owned Q4 authorized user approval and stale-fingerprint commit checks, the Q5/V50 exact full semantic ICC128/RTC/ToolConductor evidence, and any required same-head CI not yet witnessed. No file-only audit is permitted to invent those runtime observations. Historical campaign receipts remain preserved and distinct from current tool authority.
 
 ## ProjectManager Level 1 document triage (2026-10-10)
 
