@@ -5,6 +5,23 @@ Status: CURRENT / VALIDATED / REPOSITORY-GOVERNED CLOSED_RELATIVE
 Controller: ImprovementCore
 Canonical repository: thytabakman-jpg/Take-5
 
+## Contents
+
+- [Problem](#problem)
+- [Repair](#repair)
+  - [Explicit knowledge events](#explicit-knowledge-events)
+  - [Recursive material transitions](#recursive-material-transitions)
+  - [Configured-tool material rounds](#configured-tool-material-rounds)
+- [Knowledge object](#knowledge-object)
+- [Anti-loss law](#anti-loss-law)
+- [Authority law](#authority-law)
+- [Integration law](#integration-law)
+- [Distinction from durable negative learning](#distinction-from-durable-negative-learning)
+- [Scope boundary](#scope-boundary)
+- [Validation requirements](#validation-requirements)
+- [Result](#result)
+- [Validation evidence](#validation-evidence)
+
 ## Problem
 
 The system had several anti-loss mechanisms:
