@@ -4,6 +4,8 @@ Date: 2026-09-26
 Status: IMPLEMENTED / VALIDATED / MERGED
 Target regime: 090
 
+**Document goal:** Preserve the diagnosed source of repeated no-gain routes, the implemented anti-repeat mechanism, and the bounded validation evidence needed to recover that protection.
+
 ## Root defect
 
 The repeated regression loop was not one missing tool. Three already-built protections were separated:
