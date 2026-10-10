@@ -4,6 +4,8 @@ Date: 2026-09-27
 Status: CURRENT / FAIL-CLOSED
 Canonical repository: thytabakman-jpg/Take-5
 
+**Document goal:** State the evidence-bound finite registered-tool closure claim, the recovery basis behind it, and its explicit external host boundary.
+
 ## Governing distinction
 
 Take-5 keeps four reality layers distinct:
