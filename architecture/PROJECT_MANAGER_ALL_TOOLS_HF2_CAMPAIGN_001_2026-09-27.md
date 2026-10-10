@@ -1,9 +1,28 @@
 # ProjectManager Exhaustive HF2 Campaign 001
 
 Date: 2026-09-27
-Status: ACTIVE CAMPAIGN
+Status: HISTORICAL CAMPAIGN PLAN / CLOSED_RELATIVE (PR 167)
 Target: current canonical ProjectManager
 Repertoire: every current registered Take-5 tool
+
+## Table of contents
+
+- [Governing job](#governing-job)
+- [Repertoire](#repertoire)
+- [Order](#order)
+  - [Phase 1 identity, goal, currentness, and freeze](#phase-1-identity-goal-currentness-and-freeze)
+  - [Phase 2 structural reconstruction and observation](#phase-2-structural-reconstruction-and-observation)
+  - [Phase 3 independent learning lenses](#phase-3-independent-learning-lenses)
+  - [Phase 4 attack and diagnosis](#phase-4-attack-and-diagnosis)
+  - [Phase 5 candidate and solution generation](#phase-5-candidate-and-solution-generation)
+  - [Phase 6 bounded repair and architecture change](#phase-6-bounded-repair-and-architecture-change)
+  - [Phase 7 routing and nondominated successor control](#phase-7-routing-and-nondominated-successor-control)
+  - [Phase 8 propagation and transfer safety](#phase-8-propagation-and-transfer-safety)
+  - [Phase 9 verification](#phase-9-verification)
+  - [Phase 10 autonomous consumption and closure](#phase-10-autonomous-consumption-and-closure)
+- [Execution invariant](#execution-invariant)
+- [Result interpretation](#result-interpretation)
+- [Reentry](#reentry)
 
 ## Governing job
 
