@@ -2,8 +2,8 @@
 
 <a id="jane-campaign-039--exhaustive-term-mta-root-cause-lab-program-and-interface-alignment"></a>
 **Historical report title:** Jane Campaign 039 — Exhaustive Term MTA, Root Cause, Lab Program, and Interface Alignment  
-**Role and audience:** Historical Root Cause investigation findings for system maintainers and investigators; preserve its original declared scope, authority, and status.  
-**Goal:** Surface what the investigation established, explain the causal chain and evidence, and keep rivals, failures, limitations, and open obligations traceable.
+**Role and audience:** Historical multi-tool Take-5 research/control campaign for controller, work-frontier and PD/36-lab maintainers; JANE is an interface role, not a new semantic authority.  
+**Goal:** Preserve discovery-to-owned-executable-work propagation findings alongside the actual MTA/PD/geometry/three-lab results; distinguish the accomplished reachable frontier from the ten remaining explicitly OPEN obligations.
 
 ## Principal finding and limits
 
