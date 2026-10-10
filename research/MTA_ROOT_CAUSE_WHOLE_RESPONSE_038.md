@@ -1,4 +1,14 @@
-# Post-Migration Root Findings Exposed WorkItem/Geometry and Material-Delta Type Errors
+# Post-Migration Findings Exposed WorkItem/Geometry and Material-Delta Type Errors
+
+<a id="post-migration-root-findings-exposed-workitemgeometry-and-material-delta-type-errors"></a>
+**Historical report title:** Post-Migration Root Findings Exposed WorkItem/Geometry and Material-Delta Type Errors  
+**Role and audience:** Historical Root Cause findings report for investigators and system maintainers; retain its original scope, status and authority.  
+**Goal:** Expose the causal results and evidence, preserve rivals, qualifications, and unresolved obligations, and make the diagnostic body navigable.
+
+## Principal finding and limits
+
+The campaign identified controller-coordinate versus WorkItem conflation and an underdefined material-delta/reentry predicate alongside subsystem-specific results. Its original status is **executed working result**, not certified global closure.
+
 
 <a id="mta--root-cause-campaign-038--post-migration-whole-response"></a>
 **Historical report title:** MTA + Root-Cause Campaign 038 — Post-Migration Whole Response  
