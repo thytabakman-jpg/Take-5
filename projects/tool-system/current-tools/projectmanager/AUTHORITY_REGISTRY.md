@@ -6,7 +6,7 @@ Status: CURRENT PACKAGE ROUTING
 |---|---|
 | package identity/status routing | this package |
 | current configured-tool identity | runtime/tool_run_registry.py |
-| current ProjectManager mathematical identity | architecture/PROJECT_MANAGER_FULL_TOOL_MATH_002_2026-09-27.md |
+| current ProjectManager semantic controller | projects/project-manager/CONTROLLER.md; SOURCE_MAP.md resolves current runtime/manifest and typed mathematical lineage |
 | current pre-project admission semantics | projects/project-manager/DEFINITION_GATE.md |
 | current protected tool identity | runtime/tool_manifest.py |
 | current executable realization | runtime/project_manager.py via runtime/tool_manifest.py and runtime/portable_tool_conductor.py |
