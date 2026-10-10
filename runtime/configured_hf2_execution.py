@@ -201,6 +201,9 @@ def execute_configured_with_hf2(
     def admit_normalize(raw,current,memory):
         normalized=raw.get("state",current)
         delta=_delta_from_raw(str(tool_id),raw)
+        # Independently observed state changes override a producer-supplied false delta.
+        if normalized != current:
+            delta["material_result_delta"]=True
         supplied=raw.get("hf2_delta")
         explicit_material=(
             isinstance(supplied,dict)
@@ -216,6 +219,7 @@ def execute_configured_with_hf2(
             not explicit_material
             and bool(raw.get("material_delta",False))
             and holder["previous_signature"]==signature
+            and normalized == current
         ):
             delta["material_result_delta"]=False
             delta["clean_successor_duplicate_evidence"]=True
