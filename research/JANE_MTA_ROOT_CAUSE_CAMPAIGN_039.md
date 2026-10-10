@@ -1,4 +1,32 @@
-# Jane Campaign 039 — Exhaustive Term MTA, Root Cause, Lab Program, and Interface Alignment
+# Discovery-to-Endogenous-Work Propagation Remained Incomplete in Take-5
+
+<a id="jane-campaign-039--exhaustive-term-mta-root-cause-lab-program-and-interface-alignment"></a>
+**Historical report title:** Jane Campaign 039 — Exhaustive Term MTA, Root Cause, Lab Program, and Interface Alignment  
+**Role and audience:** Historical Root Cause investigation findings for system maintainers and investigators; preserve its original declared scope, authority, and status.  
+**Goal:** Surface what the investigation established, explain the causal chain and evidence, and keep rivals, failures, limitations, and open obligations traceable.
+
+## Principal finding and limits
+
+The principal root identified is incomplete propagation from discovered system obligations into owned, selected, executed, verified, and persisted work. The broader MTA campaign records other findings and remains OPEN on ten explicit obligations despite completion through its reachable frontier.
+
+## Contents
+
+- [Identity](#identity)
+- [Root cause of this conversation being necessary](#root-cause-of-this-conversation-being-necessary)
+- [Tool-use bias root cause](#tool-use-bias-root-cause)
+- [Term-MTA protocol](#term-mta-protocol)
+- [MTA of current PD expression](#mta-of-current-pd-expression)
+- [PD ownership result](#pd-ownership-result)
+- [PD x 36 experimental matrix](#pd-x-36-experimental-matrix)
+- [Three-lab program](#three-lab-program)
+- [Folder-dump tool recovered as a behavior, not yet exact historical implementation](#folder-dump-tool-recovered-as-a-behavior-not-yet-exact-historical-implementation)
+- [Human-facing / Jane-facing alignment](#human-facing--jane-facing-alignment)
+- [Current issue reconciliation](#current-issue-reconciliation)
+- [Duplicate/organization scan](#duplicateorganization-scan)
+- [Naming](#naming)
+- [What remains genuinely unsolved](#what-remains-genuinely-unsolved)
+- [Completion truth](#completion-truth)
+
 
 Date 2026-09-24
 Status ACTIVE / EXECUTED THROUGH CURRENT REACHABLE FRONTIER
