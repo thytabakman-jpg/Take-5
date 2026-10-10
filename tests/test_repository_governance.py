@@ -37,6 +37,17 @@ def test_migration_drift_control_has_separate_usable_fields():
     assert not any("\\n  future_reopen_rule:" in line for line in fields)
 
 
+
+def test_readme_navigation_exposes_active_kernel_math_before_review_only_ancestor():
+    readme = (ROOT / "README.md").read_text()
+    current = "architecture/KERNEL_MATH_CONTRACT_053.yaml"
+    historical = "architecture/KERNEL_MATH_CONTRACT_052.yaml"
+    assert readme.count(current) == 1
+    assert readme.index(current) < readme.index(historical)
+    assert (ROOT / current).is_file()
+    assert (ROOT / historical).is_file()
+
+
 def test_workflow_has_explicit_read_permissions():
     text = WORKFLOW.read_text()
     prefix = text.split("\njobs:", 1)[0]
