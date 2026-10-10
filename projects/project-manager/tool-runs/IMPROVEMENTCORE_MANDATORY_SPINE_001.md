@@ -1,7 +1,8 @@
 # ImprovementCore ProjectManager Mandatory Spine 001
 
 Date: 2026-09-27
-Status: CURRENT / VALIDATED / MERGED
+Status: HISTORICAL PR 173 IMPLEMENTATION RECEIPT / VALIDATED / MERGED
+Status at original issuance: CURRENT / VALIDATED / MERGED
 
 ## Problem
 
