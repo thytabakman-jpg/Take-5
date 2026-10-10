@@ -1,7 +1,8 @@
 # ProjectManager all-tools HF2 canonical closure
 
 Date: 2026-09-27
-Status: CURRENT / CLOSED_RELATIVE / MERGED
+Status: HISTORICAL 2026-09-27 CAMPAIGN / CLOSED_RELATIVE / MERGED PR 167
+Status at original execution: CURRENT / CLOSED_RELATIVE / MERGED
 
 Campaign:
 architecture/PROJECT_MANAGER_ALL_TOOLS_HF2_CAMPAIGN_001_2026-09-27.md
