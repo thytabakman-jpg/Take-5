@@ -74,3 +74,33 @@ def test_missing_direct_command_adapter_preserves_open():
 def test_unregistered_formal_command_fails_closed_instead_of_substitution():
     with pytest.raises(DirectToolCommandBlocked,match="DIRECT_TOOL_NOT_REGISTERED"):
         direct_tool_ids("run ICC123")
+
+
+def test_direct_tool_none_adapter_cannot_claim_full_execution():
+    out=execute_direct_tool_commands(
+        "run MT",
+        adapters={"MT":lambda state,plan:None},
+    )
+    assert out.status=="OPEN"
+    assert out.blocker=="CONFIGURED_TOOL_HF2_OPEN:MT"
+    assert out.state["direct_tool_command_status"]=="OPEN"
+    assert out.executions[0].execution_truth=="OPEN"
+
+
+def test_direct_tool_empty_full_match_cannot_claim_full_execution():
+    out=execute_direct_tool_commands(
+        "run MT",
+        adapters={"MT":lambda state,plan:{
+            "status":"FULL_MATCH",
+            "execution_truth":"FULL_MATCH",
+            "native_receipts":(),
+            "cell_receipts":(),
+            "question_receipts":(),
+            "cognitive_receipts":(),
+            "material_delta":False,
+        }},
+    )
+    assert out.status=="OPEN"
+    assert out.blocker=="CONFIGURED_TOOL_HF2_OPEN:MT"
+    assert out.state["direct_tool_command_status"]=="OPEN"
+    assert out.executions[0].execution_truth=="OPEN"
