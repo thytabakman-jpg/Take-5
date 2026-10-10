@@ -5,6 +5,8 @@ Status: CURRENT / VALIDATED / REPOSITORY-GOVERNED CLOSED_RELATIVE
 Controller: ImprovementCore
 Canonical repository: thytabakman-jpg/Take-5
 
+**Document goal:** Explain the runtime-to-ledger path for admitted material discoveries, with provenance, dependencies, integration limits, and validation evidence.
+
 ## Contents
 
 - [Problem](#problem)
