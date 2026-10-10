@@ -1,5 +1,9 @@
 # Take-5 Successor Charter
 
+**Document goal:** Preserve the founding research and migration objective, protected rules, and admission criteria without misrepresenting historical startup conditions as current operational authority.
+
+**Document type:** Founding charter / historical baseline. **Audience:** Maintainers evaluating Take-5 lineage and authority. **Currentness:** The pre-promotion wording below is historical. [MIGRATION_STATE.yaml](MIGRATION_STATE.yaml) currently declares `CANONICAL_WORKING`, while [KERNEL.yaml](KERNEL.yaml) retains `production_authority: none`. Their scope/precedence and actual consumers remain **OPEN** pending evidence; this note neither promotes nor demotes either source. Read current state and runtime consumers before acting on the original authority sentence.
+
 ## Governing goal
 Create a system that can accept a governing research goal and autonomously advance it over time while preserving and accumulating verified knowledge and capabilities, detecting and repairing failures in its research process, improving that process when doing so advances the governing goal, and eventually earning replacement of Reaserch.
 
