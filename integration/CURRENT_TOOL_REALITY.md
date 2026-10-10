@@ -6,6 +6,17 @@ Canonical repository: thytabakman-jpg/Take-5
 
 **Document goal:** State the evidence-bound finite registered-tool closure claim, the recovery basis behind it, and its explicit external host boundary.
 
+## Contents
+
+- [Governing distinction](#governing-distinction)
+- [Current result](#current-result)
+- [Four-tool recovery delta](#four-tool-recovery-delta)
+- [Validation evidence](#validation-evidence)
+- [Historical frontier](#historical-frontier)
+- [GOAL and MultiObject](#goal-and-multiobject)
+- [Recovery rule](#recovery-rule)
+- [External boundary](#external-boundary)
+
 ## Governing distinction
 
 Take-5 keeps four reality layers distinct:
