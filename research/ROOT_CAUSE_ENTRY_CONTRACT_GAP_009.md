@@ -1,4 +1,27 @@
-# Root Cause — Observation-Mode Entry Error + ICC Conversation Friction 009
+# Observer-First Ordering and ICC Entry Were Not Enforced by Mode Selection
+
+<a id="root-cause--observation-mode-entry-error--icc-conversation-friction-009"></a>
+**Historical report title:** Root Cause — Observation-Mode Entry Error + ICC Conversation Friction 009  
+**Role and audience:** Historical Root Cause investigation findings for system maintainers and investigators; preserve its original declared scope, authority, and status.  
+**Goal:** Surface what the investigation established, explain the causal chain and evidence, and keep rivals, failures, limitations, and open obligations traceable.
+
+## Principal finding and limits
+
+Observer-first mode could be named without controlling stage order, while controller invocation created repeat conversational entry friction. The report is **explicitly superseded** by `research/ROOT_CAUSE_OBSERVER_MODE_POST_REPAIR_011.md`; preserve the historical failure evidence and rival hypotheses.
+
+## Contents
+
+- [D0 frozen failures](#d0-frozen-failures)
+- [D1 evidence](#d1-evidence)
+- [D2 localization](#d2-localization)
+- [D3 live rivals](#d3-live-rivals)
+- [D4 shared root generator](#d4-shared-root-generator)
+- [D5 causal roles](#d5-causal-roles)
+- [D6 counterfactual challenge](#d6-counterfactual-challenge)
+- [D7 repair targets](#d7-repair-targets)
+- [D8 disposition](#d8-disposition)
+- [Compact root equation](#compact-root-equation)
+
 
 Date: 2026-09-25
 Controller: current semantic IC-028 / Diagnosis protocol
