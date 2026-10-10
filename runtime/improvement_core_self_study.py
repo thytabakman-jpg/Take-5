@@ -343,7 +343,9 @@ def configured_tool_adapters():
                     "PLAN_ONLY_REACHABILITY_AUDIT",
                 }),
                 survives_representation_change=True,
-                removal_breaks_recurrence=True,
+                # Hypothesis only: no executed removal/rival-discrimination proof in this study.
+                removal_breaks_recurrence=False,
+                unresolved=frozenset({"COUNTERFACTUAL_REMOVAL_UNTESTED"}),
             ),
         )
         result=run_root_cause_hf2(
