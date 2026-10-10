@@ -6,8 +6,8 @@ Status: CURRENT
 |---|---|
 | identity and project purpose | PROJECT_CHARTER.md |
 | pre-project definition and promotion barrier | DEFINITION_GATE.md |
-| governing goal and success | GOAL.md |
-| scope and boundaries | PROJECT_CHARTER.md |
+| governing goal and target constraints | GOAL.md |
+| project-charter success evidence and scope boundaries (subordinate to the governing goal) | PROJECT_CHARTER.md |
 | authority and ownership | AUTHORITY_REGISTRY.md |
 | stakeholders and roles | COMMUNICATIONS.md |
 | deliverable decomposition | WBS.md |
