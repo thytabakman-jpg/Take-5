@@ -2,6 +2,16 @@
 
 Date: 2026-09-30
 Status: CANDIDATE / FAILURE-HISTORY-BOUND
+
+## Table of contents
+
+- [Governing rule](#governing-rule)
+- [Seventeen failure-control classes](#seventeen-failure-control-classes)
+- [Five root invariants](#five-root-invariants)
+- [Transform preflight](#transform-preflight)
+- [Closure gate](#closure-gate)
+- [Raise-the-Ceiling criterion](#raise-the-ceiling-criterion)
+
 Source audit:
 thytabakman-jpg/Take-2/audits/PROJECT_MANAGEMENT_FAILURE_HISTORY_READONLY_2026-09-30.md
 
