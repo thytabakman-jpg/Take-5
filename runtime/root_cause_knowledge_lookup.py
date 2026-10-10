@@ -125,3 +125,26 @@ def consult_root_cause_knowledge(
         "decision_owner": "CURRENT_DIAGNOSIS_AND_REPAIR_AUTHORITY",
         "required_next_step": "CHECK_ORIGINAL_AND_RIVALS_AGAINST_CURRENT_FAILURE",
     }
+
+
+def main(argv: list[str] | None = None) -> int:
+    """CLI for governed callers; stdout is data, not a repair decision."""
+    import argparse
+    import json
+
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--research-root", required=True, type=Path)
+    parser.add_argument("--limit", type=int, default=3)
+    parser.add_argument("observed_failure", nargs="+")
+    args = parser.parse_args(argv)
+    out = consult_root_cause_knowledge(
+        observed_failure=args.observed_failure,
+        research_root=args.research_root,
+        limit=args.limit,
+    )
+    print(json.dumps(out, indent=2, sort_keys=True))
+    return 2 if out["status"] == "NO_ACCESS" else 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
