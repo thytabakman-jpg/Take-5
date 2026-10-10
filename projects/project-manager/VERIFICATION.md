@@ -10,6 +10,7 @@ Status: CURRENT
 - [Pre-project gate verification](#pre-project-gate-verification)
 - [Mandatory management spine verification](#mandatory-management-spine-verification)
 - [Failure-immunity verification](#failure-immunity-verification)
+- [ProjectManager Level 2 — selected ten files (2026-10-10)](#projectmanager-level-2--selected-ten-files-2026-10-10)
 - [ProjectManager Level 1 document triage (2026-10-10)](#projectmanager-level-1-document-triage-2026-10-10)
 
 Required evidence before canonical promotion
@@ -224,6 +225,33 @@ fixtures for some tools, so its green result alone does not establish every
 required full semantic ICC128 / RTC / ToolConductor pass on ProjectManager.
 The upgrade's **promotion state is MERGED**, distinct from this remaining
 more-specific verification obligation.
+
+## ProjectManager Level 2 — selected ten files (2026-10-10)
+
+**Scope and authority:** Ten significant Markdown files within the self-managed ProjectManager and its current-tool package. The current Reaserch Level 2 procedure governed source, jobs, consumers, competing designs, direct repair and tests. GOAL.md, PROJECT_CHARTER.md, CONTROLLER.md, manifest, runtime, integrity module, self-project JSON, workflow results and tests were consulted as controlling/consumer evidence, not silently added to the selected ten.
+
+**Independent goal/job and rival tests:** A working ProjectManager must route current authority, protect the difference between proposed and admitted work, prevent known failures from falsely closing a project, preserve mathematical lineage, and make operational status recoverable. Compared alternatives included retaining version 002 as the current selector, promoting candidate status by recency, allowing authority-only transforms, merging GOAL and charter success into one mutable owner, and inferring full semantic validation solely from a green sweep. Each loses a necessary source, authority, execution, or verification distinction. The least-invasive adequate choice was owner-local source repair without altering the goal, mathematics, executable code, or historical evidence.
+
+**Grounding:** PR 187 merged on 2026-09-30 as caadd8d8a41904bec9e0e0b0507af476969aade0. The PR head abe1b00de58f50dfe521f70f3592b25d2c63abde passed Capability Preservation 36743965936, Tool System Every-Tool Sweep 36743966227, and Take-5 Validation 36743965967. Merge-commit sweep 36744250411 and validation 36744250406 passed. Live runtime includes the impact/regression OPEN gates and fingerprint generation; manifest includes the four failure-prevention bindings; matrix lists all 17 runtime controls and five root invariants. Selected TOC anchors and referenced authority sources were statically inspected.
+
+**Ten source repairs:** All ten source modifications were committed directly and the exact new source content read back. The receipts below give the independent job, rejected structural shortcut, implemented repair and corroborating consumer.
+
+| Source (self-project unless otherwise stated) | Blob before → after; change commit | Job and rival rejected | Repair / functional witness |
+|---|---|---|---|
+| `AUTHORITY_REGISTRY.md` | `605a4d434a2d` → `45876f39c2a0`; `db201649` | Own distinct goal and charter criteria; reject one overloaded success owner | GOAL normative target and charter success evidence separated; JSON owner paths preserved |
+| `CHANGE_CONTROL.md` | `a68887b25b2a` → `2859a3b0e9dc`; `a8ade75b` | Own bounded change readiness; reject authority-only transform | Impact/tests, READY≠admitted, fingerprint limits stated; runtime route_event checked |
+| `CURRENT_STATE.md` | `357c56394202` → `5c635434b296`; `9a0f4be7` | Represent actually promoted self-project; reject stale candidate projection | PR187 merged status and exact checks; external TransferCore remains OPEN |
+| `FAILURE_PREVENTION_MATRIX.md` | `87a6fbe052a1` → `1379b044db71`; `7ce9f782` | Prevent false closure; reject historical candidate label as live status | Merged 187 recorded; 17 runtime controls and five root invariants matched |
+| `VERIFICATION.md` | `848c577d3566` → `a108f84e479c`; `e19e66fe` | Separate proof and action results; reject all-PASS inference from a merge | PR187 pass evidence admitted; V50 exact-coverage OPEN; TOC prominence corrected |
+| `../tool-system/current-tools/projectmanager/AUTHORITY_REGISTRY.md` | `fb81e622eae1` → `438d2300a027`; `2a4edaf7` | Route current mathematical authority; reject highest-suffix/version-002 selector | Stable CONTROLLER/SOURCE_MAP references replace stale 002; paths exist |
+| `../tool-system/current-tools/projectmanager/CURRENT_STATE.md` | `596028828489` → `db336c30b1ea`; `7320dfac` | Represent package status; reject candidate state after merge | PR187 merged and exact test receipts; does not take authority from runtime |
+| `../tool-system/current-tools/projectmanager/MATHEMATICS.md` | `67acd8acd889` → `64648075ea52`; `54a07482` | Preserve typed mathematics lineage; reject flattening into new version selector | 003/004 accepted extensions; historical sources and runtime map retained |
+| `../tool-system/current-tools/projectmanager/PROTECTED_BEHAVIORS.md` | `12920e5f3376` → `bd91741fb7ff`; `684d27f2` | Represent live protected manifest without duplicating owner | PR173/187 current routing; four manifest behavior IDs confirmed |
+| `../tool-system/current-tools/projectmanager/SOURCE_MAP.md` | `9df63fe1009f` → `6b328a239baf`; `fe4f0e4d` | Recover current proof/runtime sources; reject candidate-only locator | PR187 promotion evidence added; live paths and lineage preserved |
+
+**Native verification boundary:** On main head 2a4edaf739b042617749ec262471c666cdc0d487, Tool System Every-Tool Sweep 38091471012 was SUCCESS; Take-5 Validation 38091471038 was IN_PROGRESS when checked. This receipt adds a new commit, so those runs do not certify its post-write head. The sweep explicitly uses synthetic witnesses and development fixtures for some tools; V50's exact full ICC128/RTC/ToolConductor semantic campaign witness remains OPEN. The current runtime observer produces a precondition fingerprint, but production commit-side compare-and-swap/reopen enforcement was not demonstrated here. No invented test pass is credited.
+
+**Disposition:** Ten of ten selected sources repaired and post-write read back. No new version-numbered living file. Overall Level 2 status LEVEL_INCOMPLETE because current-head native validation and the specific V50 and commit-side precondition enforcement evidence are not closed. The 140-file Level 1 record below remains historical and separate. No Level 3 or system-wide corpus sweep was performed.
 
 ## ProjectManager Level 1 document triage (2026-10-10)
 
