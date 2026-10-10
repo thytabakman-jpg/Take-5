@@ -27,6 +27,43 @@ branch
 
 Direct writes to `main` are a governance defect.
 
+
+### Protected-core Level 1 triage gate
+
+This is a stricter **mutation gate**, not a replacement for the existing Level 1
+document checks and process acceptance. For kernel, controller, authority,
+migration, admission, execution, state, and other load-bearing core surfaces,
+apply the complete applicable D01–D18 and A/F/B/P checks of the established
+first-pass triage procedure, while keeping the file **unchanged by default**.
+Risk follows the actual consumer and effect, not the filename or format.
+
+Before proposing a change, bind the exact source blob, applicable authority,
+known live consumers, and protected behavior. Distinguish founding intent,
+present authorized responsibility, observed implementation, and future target.
+None independently authorizes rewriting another. A historical goal, a recently
+observed behavior, or a clearer proposed architecture is not a replacement
+authority. An unresolved discrepancy stays explicit; Level 1 does not resolve
+it by selecting whichever wording appears most current.
+
+Authorize a Level 1 core edit only for a **specific established defect** with a
+uniquely supported correction, identified owner, and affirmative non-interference
+evidence for all relevant known consumers. A link, heading, status, YAML field,
+TOC anchor, and explanatory note can all be load-bearing: never assume they
+are cosmetic. Preserve deliberately historical references, unknown consumers,
+all information and meaningful dependencies. Do not remove, relocate, retitle,
+or reconcile material merely to fit an inferred goal.
+
+Use the existing branch -> PR -> validation -> admission path; compare the
+accepted before-state with the proposed change, test affected references and
+native consumers, and reread the saved blob. Syntax-only success, a documented
+plan, an unmerged PR, or a passing test that omits the affected behavior is
+not proof of a completed repair. If authority, consumer impact, or validation
+remains uncertain, leave the original intact and record a precise deferred
+disposition in the existing triage workstream. Do not claim that unresolved
+mandatory checks passed. This Level 1 safeguard does **not** prohibit later
+explicitly authorized Level 2/3 substantive work.
+
+
 GitHub server-side branch protection is the preferred enforcement boundary. Until that repository setting is enabled, this file and the governance regression tests provide an internal guard but do not replace server enforcement.
 
 ## Admission invariant
