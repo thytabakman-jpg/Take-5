@@ -1,3 +1,16 @@
+# Kernel source contract — human orientation (comments only; YAML data unchanged).
+# Document goal: Specify the intended protected transition, authority, identity,
+# provenance, currentness, admission, and execution boundaries of the Take-5
+# kernel candidate, so consumers can bind and verify them without inventing
+# authority, overwriting protected behavior, or treating documentation as execution.
+# Source basis: architecture/CANONICAL_FOUNDATION_034.md and
+# architecture/KERNEL_MATH_CONTRACT_053.yaml. These are governing context,
+# not proof that each listed invariant is enforced by the running host.
+# Status scope OPEN: the candidate/authority declarations below and the
+# repository-level CANONICAL_WORKING claim in MIGRATION_STATE.yaml have not
+# been reconciled against actual consumers; do not change authority by inference.
+# Format rule: these lines are non-operative comments for human readers;
+# all machine-consumed keys, values and field order are preserved.
 schema_version: 0.1
 system: take_5
 status: SUCCESSOR_CANDIDATE
