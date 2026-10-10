@@ -4,6 +4,7 @@ Status: CURRENT
 
 ## Table of contents
 
+- [ProjectManager Level 1 document triage (2026-10-10)](#projectmanager-level-1-document-triage-2026-10-10)
 - [Validation receipts](#validation-receipts)
 - [Exhaustive all-tools HF2 campaign](#exhaustive-all-tools-hf2-campaign)
 - [Canonical exhaustive campaign closure](#canonical-exhaustive-campaign-closure)
@@ -210,7 +211,7 @@ V52 full Take-5 validation passes.
 Status:
 OPEN until promotion evidence is recorded.
 
-## ProjectManager Level 1 document triage — 2026-10-10
+## ProjectManager Level 1 document triage (2026-10-10)
 
 **Scope:** `Take-5/main`, the 77 self-project files, 58 current-tool package files, and five related mathematical/campaign documents. **Snapshot tree:** `239cb28ef6413013ef83ed6fe852632f315aacf1`. This is a document-first pass using `Reaserch/projects/improvement-core/FIRST_PASS_DOCUMENT_TRIAGE.md` (18 document checks D01–D18 and F1–F8); it is **not** an executable runtime certification, Level 2, or a claim that every external dependent file is included.
 
