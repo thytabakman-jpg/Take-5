@@ -11,6 +11,7 @@ Status: CURRENT
 - [Mandatory management spine verification](#mandatory-management-spine-verification)
 - [Failure-immunity verification](#failure-immunity-verification)
 - [ProjectManager Level 2 — selected ten files (2026-10-10)](#projectmanager-level-2-selected-ten-files-2026-10-10)
+- [ProjectManager Level 2 batch two — ten governing files (2026-10-10)](#projectmanager-level-2-batch-two--ten-governing-files-2026-10-10)
 - [ProjectManager Level 1 document triage (2026-10-10)](#projectmanager-level-1-document-triage-2026-10-10)
 
 Required evidence before canonical promotion
@@ -252,6 +253,31 @@ more-specific verification obligation.
 **Native verification boundary:** On main head 2a4edaf739b042617749ec262471c666cdc0d487, Tool System Every-Tool Sweep 38091471012 was SUCCESS; Take-5 Validation 38091471038 later completed SUCCESS on that same head. This receipt adds a new commit, so those runs do not certify its post-write head. The sweep explicitly uses synthetic witnesses and development fixtures for some tools; V50's exact full ICC128/RTC/ToolConductor semantic campaign witness remains OPEN. The current runtime observer produces a precondition fingerprint, but production commit-side compare-and-swap/reopen enforcement was not demonstrated here. No invented test pass is credited.
 
 **Disposition:** Ten of ten selected sources repaired and post-write read back. No new version-numbered living file. Overall Level 2 status LEVEL_INCOMPLETE because current-head native validation and the specific V50 and commit-side precondition enforcement evidence are not closed. The 140-file Level 1 record below remains historical and separate. No Level 3 or system-wide corpus sweep was performed.
+
+## ProjectManager Level 2 batch two — ten governing files (2026-10-10)
+
+**Scope and method:** Exactly ten selected files. Level 2 adds independent goal/job derivation, competing structure, actual reader/consumer checks, source repair or a positive no-change witness, preservation, and validation. The source of procedure is Reaserch/projects/improvement-core/FIRST_PASS_DOCUMENT_TRIAGE.md. Governing GOAL and charter, registries, native assessment and handoff implementations, integrity module, mandatory spine, manifest and focused tests were checked; no runtime code or historical research was silently changed.
+
+**Competing alternatives rejected:** highest numbered mathematics file as live selector; merging goal with charter; treating syntactic USER: references, READY or a fingerprint as actual authorizations; making a green development-configuration sweep stand for full ICC128/RTC/ToolConductor semantics; promoting all 72 coverage shells to full Level 2 by default. These would blur authority, execution truth or result scope.
+
+| Selected source (basename, unique within selected ten) | After blob | Outcome | Necessity, consumer, alternative and repair/adequacy evidence |
+|---|---|---|---|
+| CONTROLLER.md | `5ba66e49ab7` | REPAIRED_VERIFIED | Lifecycle now includes PROMOTION_READY and separate PROMOTE; consumer assess_project_definition and route_event compared; rejecting a USER: token as independent admission evidence |
+| GOAL.md | `38993ba74177` | REPAIRED_VERIFIED | Retained exact G clauses and separated governing goal from PR173/187 milestone metadata; registry and charter roles checked |
+| PROJECT_CHARTER.md | `297d75da3315` | PASSED_UNCHANGED | Purpose, scope, non-goals and success evidence remain a distinct owner from GOAL; merging them would create competing mutable truth |
+| DEFINITION_GATE.md | `3702f74fc177` | REPAIRED_VERIFIED | USER: prefix validation identified as syntax-only; genuine approval and separate PROMOTE transaction retained; native assessor inspected |
+| PROJECT_STATE.json | `070af8e57fe4` | PASSED_UNCHANGED | JSON parsed; 21 coordinates and registry owner matches, 17 controls, 5 roots; owner/evidence/test paths exist; native self-instance tests inspected, not locally executed |
+| PROJECT_MANAGER_FULL_TOOL_MATH_004_2026-09-30.md | `b9fe34e11616` | REPAIRED_VERIFIED | Corrected historic candidate status to merged PR187 while preserving all equations and prior mathematical lineage; no rename by suffix |
+| MANIFEST.md | `e96bb6ac2342` | PASSED_UNCHANGED | All 20 required package files and exactly 36 coverage cells exist; no duplicated or missing coverage file; manifest routes rather than owns runtime semantics |
+| REGRESSION_CONTRACT.md | `932437fe1e1e` | REPAIRED_VERIFIED | Added negative consumer tests for real authorization, stale fingerprints, actual work payload, project-state JSON and synthetic sweep limitations |
+| HANDOFFS.md | `996b3c404a2b` | REPAIRED_VERIFIED | Corrected runtime key to work; candidate, ImprovementCore, TransferCore and domain handoffs remain evidence-only, not admitted writes |
+| FAILURE_IMMUNITY_ICC_RTC_TOOLCONDUCTOR_001.md | `0a64ecde687b` | REPAIRED_VERIFIED | Preserved historical campaign, added exact PR187 merge checks and distinguished green CI from V50 exact semantic coverage |
+
+**Consumer verification:** Inspected runtime/project_manager.py (definition admission, route_event, improvementcore_handoff, transfer_evidence_candidate, adapter), runtime/project_manager_integrity.py, runtime/project_manager_management_spine.py, live manifest/registry and ProjectManager tests. Project-state JSON, 20 required package files and 36 distinct coverage cells were checked against main tree. Sixteen controller TOC links and ten mathematics-004 TOC links resolve to real headings. Seven source repairs were committed using prior-blob checks and read back from GitHub; no-change witnesses are specific, not checklist-only.
+
+**Native validation evidence and open limits:** Source-repair commit aabf401bc1865e2ef82103d373de777f279e4c36 follows seven scoped changes. Earlier every-tool sweep 38092498123 succeeded at source commit 7ce1f9eb94659d3b3d4c231c9933883182242b6b; Take-5 validation 38092498098 was IN_PROGRESS when observed. Do not count those as a full test pass on a later commit. V50 exact semantic ICC128/RTC/ToolConductor coverage is OPEN. Independent, commit-side genuine user-approval and stale-fingerprint authorization remain unverified by the observer runtime and need the separate write-owner gate. This receipt generates a further documentation commit, likewise not pre-validated.
+
+**Disposition:** 10 selected = 7 REPAIRED_VERIFIED + 3 PASSED_UNCHANGED + 0 BLOCKED_SOURCE_REPAIR + 0 UNPROCESSED. Level 2 whole-system certificate remains LEVEL_INCOMPLETE because the named native verification/commit-side evidence gates are not closed; direct document triage and repairs for the selected ten are completed. Now 20 of the recommended 41 unique documents have received Level 2 examination; 21 are not yet examined. Historical 140-file Level 1 census remains preserved.
 
 ## ProjectManager Level 1 document triage (2026-10-10)
 
