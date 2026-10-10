@@ -5,6 +5,19 @@ Status: CANDIDATE / RAISE-THE-CEILING SUCCESSOR
 Supersedes on promotion:
 architecture/PROJECT_MANAGER_FULL_TOOL_MATH_003_2026-09-27.md
 
+## Table of contents
+
+- [Governing problem](#governing-problem)
+- [Preserved object](#preserved-object)
+- [Failure-prevention extension](#failure-prevention-extension)
+- [Remediation frontier](#remediation-frontier)
+- [Transform gate](#transform-gate)
+- [State-currentness gate](#state-currentness-gate)
+- [Frontier closure correction](#frontier-closure-correction)
+- [Five root invariants](#five-root-invariants)
+- [Raise-the-Ceiling strict-gain test](#raise-the-ceiling-strict-gain-test)
+- [Operational guarantee](#operational-guarantee)
+
 ## Governing problem
 
 PM003 can correctly manage a well-formed project, but the cross-project failure
