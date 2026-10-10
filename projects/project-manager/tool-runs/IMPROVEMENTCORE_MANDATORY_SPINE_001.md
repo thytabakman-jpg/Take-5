@@ -67,3 +67,18 @@ Take-5 Validation 36350713639 SUCCESS.
 Post-merge:
 Every-Tool Sweep 36350803983 SUCCESS.
 Take-5 Validation 36350803988 SUCCESS.
+
+## Historical receipt and live-consumer boundary (Level 2, 2026-10-10)
+
+PR 173 merged the eight-stage ordinary-run spine as
+`225d4edb956bb29de3e3eb0433f0c9ada84feb11`. The initial
+Sukkos structured-gap `EXPLORATION_OPEN` observation and the original
+CI run IDs above describe that specific historical check; they do not
+claim an up-to-date Sukkos state or automatically grant project authority.
+
+The present stage order and configured identities resolve from
+`runtime/project_manager_management_spine.py`, `runtime/tool_run_registry.py`,
+`runtime/tool_manifest.py` and their regression tests. This receipt remains
+execution/provenance evidence only. Exact failure-immunity campaign coverage
+is a later, separate V50 question; this original PR 173 pass alone cannot
+close it or certify the current repository head.
