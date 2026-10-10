@@ -148,3 +148,70 @@ def main(argv: list[str] | None = None) -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
+
+
+def record_verified_root_cause_outcome(
+    *,
+    owner_admitted: bool,
+    verification_refs: Iterable[str],
+    outcome: str,
+    source_episode: str,
+    basis_id: str,
+    route_id: str,
+    consultation: dict,
+    dependency_footprint: Iterable[str] = (),
+    knowledge_ledger=None,
+    negative_learning_memory=None,
+) -> dict:
+    """Explicit post-repair capture into existing owners, never during lookup.
+
+    The caller owns permission, actual target-effect verification and basis
+    currentness. This function rejects incomplete receipts before any writes;
+    it never promotes historical source claims into repair authority.
+    """
+    refs = tuple(str(x) for x in verification_refs if str(x).strip())
+    basis_id, source_episode, route_id = (str(x).strip() for x in
+                                          (basis_id, source_episode, route_id))
+    if not owner_admitted:
+        return {"status": "NOT_ADMITTED", "written": False}
+    if not (refs and basis_id and source_episode and route_id):
+        return {"status": "BLOCKED", "reason": "VERIFIED_CURRENT_EVIDENCE_REQUIRED",
+                "written": False}
+    if outcome not in {"VERIFIED_GAIN", "NO_GAIN", "FAILED", "REJECTED", "CYCLE_NO_GAIN"}:
+        return {"status": "BLOCKED", "reason": "OUTCOME_DISPOSITION_NOT_SUPPORTED",
+                "written": False}
+    prior = tuple(x.get("subject", "") for x in consultation.get("candidates", ())
+                  if isinstance(x, dict) and x.get("subject"))
+    footprint = tuple(str(x) for x in dependency_footprint if str(x))
+    if outcome == "VERIFIED_GAIN":
+        if knowledge_ledger is None:
+            return {"status": "BLOCKED", "reason": "MATERIAL_LEDGER_NOT_BOUND",
+                    "written": False}
+        node = knowledge_ledger.record(
+            kind="MATERIAL_TRANSITION",
+            statement="Verified RootCause repair outcome for route " + route_id,
+            basis_id=basis_id,
+            source_episode=source_episode,
+            source_route=route_id,
+            disposition="CAPTURED",
+            dependency_footprint=footprint,
+            evidence_refs=refs,
+            metadata={"outcome": outcome, "consulted_subjects": prior,
+                      "target_effect_verified": True},
+        )
+        return {"status": "CAPTURED", "written": True,
+                "destination": "EXISTING_MATERIAL_KNOWLEDGE_LEDGER",
+                "knowledge_id": node.knowledge_id}
+    if negative_learning_memory is None:
+        return {"status": "BLOCKED", "reason": "NEGATIVE_MEMORY_NOT_BOUND",
+                "written": False}
+    negative_learning_memory.record(
+        route_id=route_id,
+        basis_id=basis_id,
+        disposition=outcome,
+        dependency_footprint=frozenset(footprint),
+        evidence={"verification_refs": refs, "source_episode": source_episode,
+                  "consulted_subjects": prior, "target_effect_verified": True},
+    )
+    return {"status": "NEGATIVE_ROUTE_RECORDED", "written": True,
+            "destination": "EXISTING_DURABLE_NEGATIVE_LEARNING_MEMORY"}
