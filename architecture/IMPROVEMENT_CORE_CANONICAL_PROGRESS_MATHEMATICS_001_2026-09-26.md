@@ -5,6 +5,8 @@ Status: PROMOTED CURRENT / REGIME 090
 Canonical comparison base: Take-5 regime 089
 Evidence basis: current Take-5 math spine, recovered Reaserch lineage, ZIP-study evidence, four-month conversation reconstruction, whole-chat RootCause/MT captures
 
+**Document goal:** Specify the canonical, basis-indexed strict-progress relation governing ImprovementCore recurrence, no-gain admission, and defensible closure claims; retain its open mathematical coordinates.
+
 ## Contents
 
 - [1. Governing correction](#1-governing-correction)
