@@ -1,9 +1,14 @@
 # ProjectManager Full Tool Mathematics 004
 
 Date: 2026-09-30
-Status: CANDIDATE / RAISE-THE-CEILING SUCCESSOR
-Supersedes on promotion:
+Status: ACCEPTED EXTENSION / MERGED IN PR 187 (2026-09-30)
+Historical stage: CANDIDATE / RAISE-THE-CEILING SUCCESSOR before promotion
+Extends the accepted orchestration layer:
 architecture/PROJECT_MANAGER_FULL_TOOL_MATH_003_2026-09-27.md
+Promotion: PR 187 merged as caadd8d8a41904bec9e0e0b0507af476969aade0.
+The mathematics, earlier protection layers, and original candidate-stage tests
+below remain historical research objects; actual live behavior is governed by
+the current runtime, manifest and validation evidence.
 
 ## Table of contents
 
