@@ -8,8 +8,25 @@ IDENTITY=dict(
 )
 
 def test_no_delta_keeps_component_when_identity_is_verified():
-    r=assess(component="x",built_basis="v2",latest_basis="v2",**IDENTITY)
+    same_generation={**IDENTITY,"latest_generation":IDENTITY["built_generation"]}
+    r=assess(component="x",built_basis="v2",latest_basis="v2",**same_generation)
     assert r.status==Currentness.CURRENT and r.action=="KEEP"
+    assert audit_complete([r])
+
+
+def test_no_delta_does_not_hide_a_changed_immutable_generation():
+    r=assess(component="x",built_basis="v2",latest_basis="v2",**IDENTITY)
+    assert r.status==Currentness.OPEN
+    assert r.action=="RECONCILE_GENERATION_DELTA"
+    assert not audit_complete([r])
+
+
+def test_forged_current_receipt_with_generation_mismatch_cannot_close():
+    from dataclasses import replace
+    same_generation={**IDENTITY,"latest_generation":IDENTITY["built_generation"]}
+    r=assess(component="x",built_basis="v2",latest_basis="v2",**same_generation)
+    forged=replace(r,latest_generation="git:other",status=Currentness.CURRENT)
+    assert not audit_complete([forged])
 
 def test_mutable_labels_do_not_establish_currentness_without_immutable_identity():
     r=assess(component="x",built_basis="CURRENT",latest_basis="CURRENT")
