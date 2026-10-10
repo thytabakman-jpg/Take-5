@@ -1,4 +1,24 @@
-# GitHub Root Cause + PD Repair
+# Six Generators Behind GitHub Drift, Migration Confusion, and CI Runner Failure
+
+<a id="github-root-cause--pd-repair"></a>
+**Historical report title:** GitHub Root Cause + PD Repair  
+**Role and audience:** Historical Root Cause investigation findings for system maintainers and investigators; preserve its original declared scope, authority, and status.  
+**Goal:** Surface what the investigation established, explain the causal chain and evidence, and keep rivals, failures, limitations, and open obligations traceable.
+
+## Principal finding and limits
+
+The apparent twenty GitHub mistakes reduce to six recurring generator classes, including weak admission/currentness, governance, supply-chain and automation boundaries. Runner assignment failed before any validator step; billing/quota exhaustion is a **leading account-dependent explanation**, not confirmed account evidence.
+
+## Contents
+
+- [Observer result](#observer-result)
+- [Root-cause relation](#root-cause-relation)
+- [PD / AuditCore](#pd--auditcore)
+- [ImprovementCore](#improvementcore)
+- [TransferCore](#transfercore)
+- [Tool Run Closure](#tool-run-closure)
+- [HF reentry](#hf-reentry)
+
 
 Date: 2026-09-25
 Status: implementation packet
