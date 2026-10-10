@@ -107,9 +107,10 @@ def consult_root_cause_knowledge(
                      "access": "PRIVATE_LIBRARY_ORIGINAL_UNVERIFIED"
                      if Path(name).name == "LIBRARY_ROOT_CAUSE_SOURCE_REGISTER.md"
                      else "HISTORICAL_ARCHIVE_NOT_REVALIDATED"}
-                    for name, sid in refs[:12]
+                    for name, sid in refs
                 ],
                 "effect": "READ_ONLY_CANDIDATE_NOT_CAUSAL_ADMISSION",
+                "reference_scope": "ALL_SUBJECT_REFERENCES_NOT_CASE_ADMITTED",
             })
     except (OSError, UnicodeError):
         return {"status": "NO_ACCESS", "reason": "RESEARCH_SOURCE_UNREADABLE",
