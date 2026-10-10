@@ -1,6 +1,12 @@
 # Goal
 
-Status: CURRENT / MANDATORY SPINE VALIDATED AND MERGED (PR 173)
+Status: CURRENT / GOVERNING GOAL
+
+Provenance: the mandatory management-spine extension merged in PR 173; the
+failure-prevention extension merged in PR 187. Those are implementation
+milestones, not replacements of the governing goal below. Currentness of
+runtime and its exact verification remains owned by the configured tool
+registry, runtime, and the project verification records.
 
 G = <X,T,I,Sigma>
 
