@@ -24,6 +24,7 @@ ICC means Jane + the validated math-first wrapper + Improvement Core / IC-028 + 
 1. `integration/CURRENT_TOOL_REALITY.md` — fail-closed strong whole-portfolio tool-reality gate; separates configured identity from explicit manifest identity and native realization.
 1. `integration/CURRENT_IMPROVEMENT_CORE.md` — current ImprovementCore recovery authority and regime-090 runtime path.
 1. `integration/ICC_SHUTDOWN_HANDOFF_2026-09-25.md` — historical shutdown handoff retained for provenance; it is not the current resume authority.
+1. `architecture/KERNEL_MATH_CONTRACT_053.yaml` — current validated successor contract; authoritative for runtime use only when selected by the bound runtime ICC entry, per its declared status. Do not treat a filename or this README as sufficient binding.
 1. `architecture/KERNEL_MATH_CONTRACT_052.yaml` — review-only exact factorization of K, W_beta, IC, Jane, typed tools, Take Two recovered laws, and the candidate alignment operator.
 1. `architecture/KERNEL_MATH_CONTRACT_052.md` — readable companion to the kernel math contract.
 1. `architecture/LEARNING_TOOL_ADMISSION_DECISION_040.md` — implemented/validated typed admission of D6/D8 and learning lenses into IC only when their runtime inputs exist.
