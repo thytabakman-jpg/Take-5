@@ -32,7 +32,7 @@ COMMON = frozenset({
     "what", "where", "which", "without", "under", "after", "before",
     "have", "does", "need", "that", "their", "ours", "your", "were",
 })
-CITATION = re.compile(r"\]\((evidence/[A-Za-z0-9_./-]+\.md)#([a-h]\d{1,2})\)", re.I)
+CITATION = re.compile(r"\]\((evidence/[A-Za-z0-9_./-]+\.md)#([a-hs]\d{1,2})\)", re.I)
 WORDS = re.compile(r"[a-z][a-z0-9]+", re.I)
 
 
@@ -113,6 +113,8 @@ def consult_root_cause_knowledge(
                     {"path": str(BASE / name), "anchor": sid,
                      "access": "PRIVATE_LIBRARY_ORIGINAL_UNVERIFIED"
                      if Path(name).name == "LIBRARY_ROOT_CAUSE_SOURCE_REGISTER.md"
+                     else "SUPPLEMENTARY_REGISTER_PIN_NOT_REVALIDATED"
+                     if Path(name).name == "ADDITIONAL_ROOT_CAUSE_SOURCE_REGISTER.md"
                      else "HISTORICAL_ARCHIVE_NOT_REVALIDATED"}
                     for name, sid in refs
                 ],
