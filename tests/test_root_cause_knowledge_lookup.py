@@ -218,3 +218,28 @@ def test_one_word_and_its_stem_do_not_create_a_false_historical_match(tmp_path):
     )
     assert retained["status"] == "CANDIDATES"
     assert retained["candidates"][0]["subject"] == "WORK_FRONTIER_AND_CLOSURE.md"
+
+
+def test_supplementary_source_register_is_retrievable_without_promoting_history(tmp_path):
+    root = _fixture(tmp_path)
+    subject = root / BASE / "CONTINUATION_AND_LIVENESS.md"
+    subject.write_text(
+        "# Continuation and liveness\n"
+        "## Causal event transport needs correspondence and independent swaps\n"
+        "The experiment with causal event transport found protected continuation "
+        "refinement and independence tests remain OPEN. "
+        "[S04](evidence/ADDITIONAL_ROOT_CAUSE_SOURCE_REGISTER.md#s04)\n",
+        encoding="utf-8",
+    )
+    result = consult_root_cause_knowledge(
+        observed_failure=["causal event transport independence"], research_root=root
+    )
+    assert result["status"] == "CANDIDATES"
+    record = next(x for x in result["candidates"]
+                  if x["subject"] == "CONTINUATION_AND_LIVENESS.md")
+    assert record["source_refs"] == [{
+        "path": str(BASE / "evidence/ADDITIONAL_ROOT_CAUSE_SOURCE_REGISTER.md"),
+        "anchor": "s04",
+        "access": "SUPPLEMENTARY_REGISTER_PIN_NOT_REVALIDATED",
+    }]
+    assert result["admission"] == "NOT_ADMITTED"
