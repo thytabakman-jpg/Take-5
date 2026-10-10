@@ -32,6 +32,8 @@ class RootCandidate:
     survives_representation_change:bool=False
     removal_breaks_recurrence:bool=False
     unresolved:frozenset[str]=frozenset()
+    causal_test_evidence:frozenset[str]=frozenset()
+    rival_discrimination_evidence:frozenset[str]=frozenset()
 
     def root_score_vector(self, recurrence_class:frozenset[str])->tuple:
         return (
@@ -76,6 +78,8 @@ def root_admissible(candidate:RootCandidate,recurrence:frozenset[str])->bool:
         and candidate.survives_representation_change
         and candidate.removal_breaks_recurrence
         and bool(candidate.evidence)
+        and bool(candidate.causal_test_evidence)
+        and bool(candidate.rival_discrimination_evidence)
         and not candidate.counterevidence
         and not candidate.unresolved
     )
@@ -129,6 +133,10 @@ def run_root_cause_hf2(
             unresolved.extend(f"{c.candidate_id}:{u}" for u in sorted(c.unresolved))
             if not c.evidence:
                 unresolved.append(f"{c.candidate_id}:CAUSAL_EVIDENCE_MISSING")
+            if not c.causal_test_evidence:
+                unresolved.append(f"{c.candidate_id}:CAUSAL_TEST_EVIDENCE_MISSING")
+            if not c.rival_discrimination_evidence:
+                unresolved.append(f"{c.candidate_id}:RIVAL_DISCRIMINATION_EVIDENCE_MISSING")
             if c.counterevidence:
                 unresolved.append(f"{c.candidate_id}:COUNTEREVIDENCE")
 
