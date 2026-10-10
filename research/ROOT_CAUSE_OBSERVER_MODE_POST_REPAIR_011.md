@@ -1,4 +1,26 @@
-# Root Cause in Observer Mode — Post-Repair 011
+# Observer-First Entry and Ordering Repaired While Full TRC Equivalence Remains Open
+
+<a id="root-cause-in-observer-mode--post-repair-011"></a>
+**Historical report title:** Root Cause in Observer Mode — Post-Repair 011  
+**Role and audience:** Historical Root Cause investigation findings for system maintainers and investigators; preserve its original declared scope, authority, and status.  
+**Goal:** Surface what the investigation established, explain the causal chain and evidence, and keep rivals, failures, limitations, and open obligations traceable.
+
+## Principal finding and limits
+
+Entry binding, observer ordering, and controller latching were reported implemented/tested; full canonical TRC runtime equivalence remained OPEN. This is a post-repair diagnosis, not proof that every HF001/TRC component is natively realized.
+
+## Contents
+
+- [ICC rewritten prompt](#icc-rewritten-prompt)
+- [Entry contract](#entry-contract)
+- [Frozen observer returns](#frozen-observer-returns)
+- [Reconciled observation](#reconciled-observation)
+- [Root-cause diagnosis](#root-cause-diagnosis)
+- [Causal discrimination](#causal-discrimination)
+- [Current law](#current-law)
+- [Validation](#validation)
+- [Disposition](#disposition)
+
 
 Date: 2026-09-25
 Controller: ICC / current semantic IC-028
