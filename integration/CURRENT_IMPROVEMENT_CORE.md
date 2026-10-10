@@ -4,6 +4,39 @@ Date: 2026-09-26
 Status: CURRENT RECOVERY AUTHORITY
 Canonical repository: thytabakman-jpg/Take-5
 
+## Contents
+
+- [Purpose](#purpose)
+- [Governing instruction](#governing-instruction)
+- [Current identity](#current-identity)
+- [What is actually active now](#what-is-actually-active-now)
+- [Protected current behavior](#protected-current-behavior)
+- [Cross-repository lineage](#cross-repository-lineage)
+- [Specification-before-transformation current invariant](#specification-before-transformation-current-invariant)
+- [Mode-aware execution](#mode-aware-execution)
+- [Recovered mathematical spine](#recovered-mathematical-spine)
+- [Current mathematical organization](#current-mathematical-organization)
+- [Recovery load order](#recovery-load-order)
+- [Default HF2 local recurrence](#default-hf2-local-recurrence)
+- [Function-first configured identity experiment](#function-first-configured-identity-experiment)
+- [Durable material knowledge capture](#durable-material-knowledge-capture)
+- [Active Legacy restoration objective](#active-legacy-restoration-objective)
+- [Legacy-restored repository entrypoint](#legacy-restored-repository-entrypoint)
+- [Related current recovery anchors](#related-current-recovery-anchors)
+- [Machine verification](#machine-verification)
+- [Historical validated recovery evidence](#historical-validated-recovery-evidence)
+- [Zero-request entry](#zero-request-entry)
+- [External acquisition](#external-acquisition)
+- [Current-basis closure and reentry](#current-basis-closure-and-reentry)
+- [Anti-loss rule](#anti-loss-rule)
+- [Host boundary](#host-boundary)
+- [Search aliases](#search-aliases)
+- [Regime 090 anti-repeat repair](#regime-090-anti-repeat-repair)
+- [Regime 091 promotion evidence](#regime-091-promotion-evidence)
+- [Greenfield successor program — Take-6 — 2026-09-26](#greenfield-successor-program--take-6--2026-09-26)
+- [Parent user-return closure](#parent-user-return-closure)
+- [Authority-before-formal-emission return gate](#authority-before-formal-emission-return-gate)
+
 ## Purpose
 
 This is the first recovery surface for ImprovementCore when the controller appears
