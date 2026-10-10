@@ -105,7 +105,7 @@ def consult_root_cause_knowledge(
                 "source_refs": [
                     {"path": str(BASE / name), "anchor": sid,
                      "access": "PRIVATE_LIBRARY_ORIGINAL_UNVERIFIED"
-                     if name == "LIBRARY_ROOT_CAUSE_SOURCE_REGISTER.md"
+                     if Path(name).name == "LIBRARY_ROOT_CAUSE_SOURCE_REGISTER.md"
                      else "HISTORICAL_ARCHIVE_NOT_REVALIDATED"}
                     for name, sid in refs[:12]
                 ],
