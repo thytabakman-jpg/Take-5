@@ -172,3 +172,23 @@ def test_verified_outcome_capture_uses_existing_ledgers_and_guardrails():
         **context, outcome="OPEN", negative_learning_memory=negative,
     )["written"] is False
     assert len(material.events) == len(negative.events) == 1
+
+
+def test_private_source_not_hidden_after_many_public_references(tmp_path):
+    root = _fixture(tmp_path)
+    path = root / BASE / "CAUSAL_INFERENCE_AND_ROOTNESS.md"
+    original = path.read_text(encoding="utf-8")
+    noisy = " ".join(
+        f"[F{i}](evidence/ARTIFACT_AND_AUTHORING_SOURCES.md#f{i})"
+        for i in range(1, 16)
+    )
+    path.write_text(original.replace("[G11](", noisy + " [G11]("), encoding="utf-8")
+    result = consult_root_cause_knowledge(
+        observed_failure=["private Library original access"], research_root=root
+    )
+    case = next(x for x in result["candidates"]
+                if x["subject"] == "CAUSAL_INFERENCE_AND_ROOTNESS.md")
+    assert case["reference_scope"] == "ALL_SUBJECT_REFERENCES_NOT_CASE_ADMITTED"
+    assert any(r["anchor"] == "g11" and
+               r["access"] == "PRIVATE_LIBRARY_ORIGINAL_UNVERIFIED"
+               for r in case["source_refs"])
