@@ -50,4 +50,18 @@ A valid package keeps all of these true:
 - an executable frontier prevents CLOSED_RELATIVE
 - an OPEN/BLOCKED/STALE/PENDING/UNKNOWN/UNVERIFIED/CONFLICT project coordinate prevents CLOSED_RELATIVE
 - ProjectManager self-management satisfies the same envelope
-- the exhaustive ICC128/ToolConductor campaign remains a promotion gate
+- the exhaustive ICC128/ToolConductor campaign remains a promotion gate for subsequent changes to the admitted tool identity
+
+## Required negative and consumer checks
+
+- current runtime and manifest, not the largest mathematics filename suffix, determine the live capability
+- a syntactically USER:-prefixed approval is not proof of independently admitted user authorization or a completed PROMOTE write
+- a target transform with missing impact map or missing regression verification stays OPEN
+- a READY proposal and fingerprint remain observer output until the separate commit authority validates the unchanged precondition and admits the write
+- ImprovementCore handoffs serialize the frontier as `work`, preserve `authority=NONE` and `effect_class=EVIDENCE_ONLY`, and do not directly persist project mutations
+- TransferCore evidence candidates never grant authority by themselves
+- the self-project input projection carries exactly 21 owned coordinates, 17 failure controls and five root invariants, with its owners and referenced files resolvable
+
+## Evidence boundary
+
+PR 187 merged on 2026-09-30, with green capability-preservation, every-tool sweep and repository-validation workflows recorded in SOURCE_MAP.md. Those historical runs do not verify a later repository head. The every-tool sweep includes synthetic route witnesses and development fixtures; a green sweep is not by itself a direct semantic ICC128/RTC/ToolConductor campaign receipt. Track that stronger claim independently through the verification owner rather than silently promoting it.
