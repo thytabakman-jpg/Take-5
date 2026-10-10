@@ -77,7 +77,16 @@ jobs:
       - name: Install pinned development dependencies
         run: python -m pip install --disable-pip-version-check -r requirements-dev.txt
       - name: Run Take-5 test suite
-        run: PYTHONPATH=runtime:. pytest -q tests
+        shell: bash
+        run: |
+          # Retain the exact full-suite exit status without emitting unbounded logs.
+          test_status=0
+          PYTHONPATH=runtime:. pytest -q tests > take5-pytest.log 2>&1 || test_status=$?
+          echo "pytest_exit_status=$test_status"
+          echo "pytest_log_bytes=$(wc -c < take5-pytest.log)"
+          echo "--- Last 64 KiB of pytest output ---"
+          tail -c 65536 take5-pytest.log
+          exit "$test_status"
       - name: Run canonical whole-system audit
         run: PYTHONPATH=runtime:. python3 runtime/system_audit.py
       - name: Run closed-loop fixture
