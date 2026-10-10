@@ -204,3 +204,70 @@ def test_selected_formal_tool_without_adapter_fails_open():
     assert not out.terminal
     assert out.blocker=="CONFIGURED_TOOL_ADAPTER_REQUIRED:RootCause"
     assert any(r.stage=="CONFIGURED_TOOL_EXECUTE" and r.status=="OPEN" for r in out.receipts)
+
+
+def _run_empty_configured_tool(adapter):
+    """Exercise the actual IC-028 selected-tool bridge, not a copied HF2 stub."""
+    binding=begin_turn(
+        "Run ICC",
+        target="object",
+        job="j",
+        basis="b",
+        episode_id="tool-bridge-empty-success",
+    )
+    handlers=_handlers_for(GOAL_DIRECTED_STAGES,[])
+    select_original=handlers["SELECT"]
+    def select_root_cause(state):
+        output=select_original(state)
+        output["state"]={**output["state"],"selected_tool":"RootCause"}
+        return output
+    handlers["SELECT"]=select_root_cause
+    return run_ic028(
+        binding.lease,
+        {},
+        handlers,
+        entry_contract=binding.contract,
+        configured_tool_adapters={"RootCause":adapter},
+    )
+
+
+def test_none_configured_tool_result_cannot_certify_execution():
+    out=_run_empty_configured_tool(lambda state,plan:None)
+    assert not out.terminal
+    assert out.blocker=="CONFIGURED_TOOL_HF2_OPEN:RootCause"
+    assert any(
+        receipt.stage=="CONFIGURED_TOOL_EXECUTE" and receipt.status=="OPEN"
+        for receipt in out.receipts
+    )
+
+
+def test_empty_full_match_receipt_cannot_certify_execution():
+    out=_run_empty_configured_tool(lambda state,plan:{
+        "status":"FULL_MATCH",
+        "execution_truth":"FULL_MATCH",
+        "native_receipts":(),
+        "cell_receipts":(),
+        "question_receipts":(),
+        "cognitive_receipts":(),
+        "material_delta":False,
+    })
+    assert not out.terminal
+    assert out.blocker=="CONFIGURED_TOOL_HF2_OPEN:RootCause"
+    assert any(
+        receipt.stage=="CONFIGURED_TOOL_EXECUTE" and receipt.status=="OPEN"
+        for receipt in out.receipts
+    )
+
+
+def test_configured_full_match_with_native_result_remains_eligible():
+    out=_run_empty_configured_tool(lambda state,plan:{
+        "status":"FULL_MATCH",
+        "execution_truth":"FULL_MATCH",
+        "result":{"root":"evidenced"},
+        "material_delta":False,
+    })
+    assert out.terminal
+    assert any(
+        receipt.stage=="CONFIGURED_TOOL_EXECUTE" and receipt.status=="EXECUTED"
+        for receipt in out.receipts
+    )
