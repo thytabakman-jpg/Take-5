@@ -7,6 +7,8 @@ global terminality.
 from __future__ import annotations
 from dataclasses import asdict
 from typing import Iterable
+from pathlib import Path
+from root_cause_knowledge_lookup import consult_root_cause_knowledge
 
 from root_cause import RootCandidate, run_root_cause_hf2
 from improvement_core_recursive_manager import ChildReturn
@@ -19,9 +21,15 @@ def run_root_cause_child(
     failure_class:Iterable[str],
     candidates:Iterable[RootCandidate],
     basis_id:str,
+    research_root:str|Path|None=None,
 )->ChildReturn:
+    # The caller freezes the live failure independently before any historical lookup.
+    observed_failure=tuple(failure_class)
+    historical=(consult_root_cause_knowledge(
+        observed_failure=observed_failure, research_root=research_root,
+    ) if research_root is not None else None)
     result=run_root_cause_hf2(
-        failure_class=failure_class,
+        failure_class=observed_failure,
         candidates=candidates,
         basis_id=basis_id,
     )
@@ -44,6 +52,7 @@ def run_root_cause_child(
             "rounds":result.rounds,
             "parent_handoff":result.parent_handoff,
             "trace":result.trace,
+            **({"historical_knowledge":historical} if historical is not None else {}),
         },
         basis_id=basis_id,
     )
