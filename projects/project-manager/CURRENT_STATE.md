@@ -65,7 +65,7 @@ MANDATORY_SPINE_POST_MERGE_VALIDATION: PASS_RUN_36350803988
 
 ## Failure-immunity extension
 
-Status: CANDIDATE ON BRANCH / PROMOTION REQUIRES FULL VALIDATION
+Status: CURRENT / VALIDATED / MERGED_PR_187
 
 Source:
 Take-2 audits/PROJECT_MANAGEMENT_FAILURE_HISTORY_READONLY_2026-09-30.md
@@ -86,5 +86,12 @@ Added candidate controls:
 Candidate mathematics:
 architecture/PROJECT_MANAGER_FULL_TOOL_MATH_004_2026-09-30.md
 
-Promotion remains OPEN until branch validation, capability preservation, every-tool
-sweep, and ProjectManager failure-immunity tests pass on the same head.
+Promotion evidence: PR 187 merged as caadd8d8a41904bec9e0e0b0507af476969aade0 on 2026-09-30.
+Same-head pre-merge Capability Preservation 36743965936 SUCCESS,
+Tool System Every-Tool Sweep 36743966227 SUCCESS, and Take-5 Validation 36743965967 SUCCESS.
+Post-merge Take-5 Validation 36744250406 SUCCESS and Tool System Every-Tool Sweep
+36744250411 SUCCESS. These receipts validate the 2026-09-30 merge basis;
+they are not fresh validation of subsequent document edits or proof of every
+semantic property beyond their executed checks.
+No candidate status from this historical phase overrides the current merged runtime.
+TransferCore full identity remains separately OPEN.
