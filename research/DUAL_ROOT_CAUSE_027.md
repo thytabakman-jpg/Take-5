@@ -1,4 +1,14 @@
-# Dual Root Cause 027
+# Premature Candidate Promotion and Observation-to-Action Handoff Share an Admission Boundary Failure
+
+<a id="dual-root-cause-027"></a>
+**Historical report title:** Dual Root Cause 027  
+**Role and audience:** Historical Root Cause investigation findings for system maintainers and investigators; preserve its original declared scope, authority, and status.  
+**Goal:** Surface what the investigation established, explain the causal chain and evidence, and keep rivals, failures, limitations, and open obligations traceable.
+
+## Principal finding and limits
+
+Two incidents conflated candidate/currentness evidence with governing obligations and conflated an intention to execute with actual execution. The shared failure is the admission, activation, and closure boundary; the two incident chains and their distinct repairs remain separate.
+
 
 Date 2026-09-24
 Scope migration go/no-go episode plus subsequent execution failure
