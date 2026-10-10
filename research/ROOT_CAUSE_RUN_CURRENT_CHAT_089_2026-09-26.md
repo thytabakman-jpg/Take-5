@@ -1,4 +1,24 @@
-# RootCause Run on Current Chat 089
+# Protected-Transition Integrity Failure Selected as Current-Chat Root
+
+<a id="rootcause-run-on-current-chat-089"></a>
+**Historical report title:** RootCause Run on Current Chat 089  
+**Role and audience:** Historical Root Cause investigation findings for system maintainers and investigators; preserve its original declared scope, authority, and status.  
+**Goal:** Surface what the investigation established, explain the causal chain and evidence, and keep rivals, failures, limitations, and open obligations traceable.
+
+## Principal finding and limits
+
+The executable RootCause/HF2 run selected a protected-transition integrity failure over narrower alternatives across a frozen six-symptom recurrence packet. It is a validated **packet-relative** result, not a universal cause of future failures.
+
+## Contents
+
+- [Input basis](#input-basis)
+- [Frozen recurring failure class](#frozen-recurring-failure-class)
+- [Rival candidates](#rival-candidates)
+- [HF2 trace](#hf2-trace)
+- [Root result](#root-result)
+- [Parent handoff](#parent-handoff)
+- [Scope](#scope)
+
 
 Date: 2026-09-26
 Status: VALIDATED EXECUTABLE RUN
