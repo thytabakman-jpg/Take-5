@@ -23,6 +23,7 @@ Repertoire: every current registered Take-5 tool
 - [Execution invariant](#execution-invariant)
 - [Result interpretation](#result-interpretation)
 - [Reentry](#reentry)
+- [Historical scope and later verification boundary (Level 2, 2026-10-10)](#historical-scope-and-later-verification-boundary-level-2-2026-10-10)
 
 ## Governing job
 
