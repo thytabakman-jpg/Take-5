@@ -2,8 +2,8 @@
 
 <a id="root-cause-in-observer-mode--post-repair-011"></a>
 **Historical report title:** Root Cause in Observer Mode — Post-Repair 011  
-**Role and audience:** Historical Root Cause investigation findings for system maintainers and investigators; preserve its original declared scope, authority, and status.  
-**Goal:** Surface what the investigation established, explain the causal chain and evidence, and keep rivals, failures, limitations, and open obligations traceable.
+**Role and reader:** Historical RootCause observer-entry post-repair audit for ICC/Jane entry, observer-stage and TRC runtime maintainers.  
+**Goal:** Distinguish reported implemented and tested entry-binding/observer-ordering repairs from still-OPEN canonical TRC/HF001 runtime equivalence; preserve the initial observer trace, rival discrimination, original validation receipt and qualified disposition.
 
 ## Principal finding and limits
 
