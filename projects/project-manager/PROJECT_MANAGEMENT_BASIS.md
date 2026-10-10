@@ -62,3 +62,25 @@ holdouts.
 
 The operational generalization is encoded in FAILURE_PREVENTION_MATRIX.md rather
 than treating the audit as narrative-only learning.
+
+## Currentness and operational evidence crosswalk (2026-10-10 Level 2)
+
+The sources above explain the design choices; they are not themselves live
+executable identity or proof of full semantic regression coverage. Preserve
+the original 2026-09-27 external research date and the 2026-09-30
+cross-project audit attribution. The original external research links have
+not been freshly reverified by this document triage.
+
+To test a present operational claim, use the current configured owners
+`runtime/tool_run_registry.py`, `runtime/tool_manifest.py`, and
+`runtime/project_manager.py`, the native integrity implementation in
+`runtime/project_manager_integrity.py`, the self-managed owner files and
+`projects/project-manager/VERIFICATION.md`. Accepted mathematical layers
+001–004 are additive provenance, not competing live identity selectors.
+
+A passing historical regression or development-fixture sweep substantiates
+its actual source head and executed tests only. Real user-authorized
+commit-side admission and stale precondition checks remain separately OPEN
+in `projects/project-manager/OPEN_QUESTIONS.md` Q4; exact direct
+ICC128/RTC/ToolConductor coverage is OPEN as Q5 / verification V50.
+These OPEN evidence boundaries do not undo already merged project controls.
