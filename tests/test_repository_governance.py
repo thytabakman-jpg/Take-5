@@ -26,6 +26,17 @@ def test_canonical_repository_is_take5():
     assert "disposition: preserved_intact_read_only_rollback_and_provenance" in migration
 
 
+
+def test_migration_drift_control_has_separate_usable_fields():
+    """Prevent escaped-newline corruption from hiding a migration control."""
+    migration = (ROOT / "MIGRATION_STATE.yaml").read_text()
+    drift = migration.split("\\ndrift_control:\\n", 1)[1]
+    fields = drift.splitlines()
+    assert any(line.startswith("  transfer_rule: ") for line in fields)
+    assert any(line.startswith("  future_reopen_rule: ") for line in fields)
+    assert not any("\\n  future_reopen_rule:" in line for line in fields)
+
+
 def test_workflow_has_explicit_read_permissions():
     text = WORKFLOW.read_text()
     prefix = text.split("\njobs:", 1)[0]
