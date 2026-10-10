@@ -3,6 +3,25 @@
 Status: CURRENT / CANONICAL
 Date: 2026-09-28
 
+## Table of contents
+
+- [Canonical job](#canonical-job)
+- [Mathematical object](#mathematical-object)
+- [Project state](#project-state)
+- [Responsibilities](#responsibilities)
+- [Mandatory management spine](#mandatory-management-spine)
+- [Native control loop](#native-control-loop)
+- [Execution and admission invariant](#execution-and-admission-invariant)
+- [Anti loss invariants](#anti-loss-invariants)
+- [Candidate to project lifecycle](#candidate-to-project-lifecycle)
+- [Tool boundary](#tool-boundary)
+- [Closure and fixed point](#closure-and-fixed-point)
+- [Compressed identity](#compressed-identity)
+- [Failure-prevention envelope](#failure-prevention-envelope)
+- [Transform preflight](#transform-preflight)
+- [Closure correction](#closure-correction)
+- [Historical-failure guarantee](#historical-failure-guarantee)
+
 ## Canonical job
 
 ProjectManager keeps the entire project mathematically coherent and moving from its current state toward its governing goal while preserving authority, dependencies, evidence, decisions, accepted work, and explicit unresolved residue.
