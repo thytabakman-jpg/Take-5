@@ -4,13 +4,13 @@ Status: CURRENT
 
 ## Table of contents
 
-- [ProjectManager Level 1 document triage (2026-10-10)](#projectmanager-level-1-document-triage-2026-10-10)
 - [Validation receipts](#validation-receipts)
 - [Exhaustive all-tools HF2 campaign](#exhaustive-all-tools-hf2-campaign)
 - [Canonical exhaustive campaign closure](#canonical-exhaustive-campaign-closure)
 - [Pre-project gate verification](#pre-project-gate-verification)
 - [Mandatory management spine verification](#mandatory-management-spine-verification)
 - [Failure-immunity verification](#failure-immunity-verification)
+- [ProjectManager Level 1 document triage (2026-10-10)](#projectmanager-level-1-document-triage-2026-10-10)
 
 Required evidence before canonical promotion
 
@@ -209,7 +209,21 @@ V51 capability preservation passes.
 V52 full Take-5 validation passes.
 
 Status:
-OPEN until promotion evidence is recorded.
+PR 187 was merged on 2026-09-30 as `caadd8d8a41904bec9e0e0b0507af476969aade0`.
+V34–V49 and V51–V52 have historical implementation and regression support from
+same-head PR tests and green preservation/validation workflows:
+Capability Preservation `36743965936`, Tool System Every-Tool Sweep
+`36743966227`, and Take-5 Validation `36743965967`. Post-merge
+Tool System Every-Tool Sweep `36744250411` and Take-5 Validation
+`36744250406` passed on the merge commit. These are historical tests of that
+exact source, not retests of the latest main branch or proof of every claim by
+name.
+V50 remains **OPEN for separate exact-coverage evidence**: the available
+every-tool sweep employs synthetic configured-route witnesses and development
+fixtures for some tools, so its green result alone does not establish every
+required full semantic ICC128 / RTC / ToolConductor pass on ProjectManager.
+The upgrade's **promotion state is MERGED**, distinct from this remaining
+more-specific verification obligation.
 
 ## ProjectManager Level 1 document triage (2026-10-10)
 
