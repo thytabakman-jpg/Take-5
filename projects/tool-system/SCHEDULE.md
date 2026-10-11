@@ -3,6 +3,8 @@
 Status: CURRENT
 Schedule type: EVENT-DRIVEN
 
+**Execution boundary:** This is a milestone and change-trigger sequence, not a clock-based job schedule. It does not register a recurring GitHub Actions, external host, or ChatGPT Task trigger. Actual execution and completion require the responsible runner/owner plus its own evidence; this document alone does not prove a job fired or that work was completed.
+
 ## Milestones
 
 1. Inventory change detected
