@@ -16,3 +16,8 @@
 ## Rule
 
 A dependency change reopens the affected cone. Unaffected package state remains protected.
+
+## MultiObject native dependency edges
+
+- [Native relation-discovery executor](../../../../runtime/multiobject.py)
+- [Full-tool mathematical identity](../../../../architecture/MULTIOBJECT_FULL_TOOL_MATH_001_2026-09-27.md)

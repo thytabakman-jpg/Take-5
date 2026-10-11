@@ -121,10 +121,13 @@ def test_multiobject_package_has_direct_runtime_math_and_legacy_lineage_routes()
     math=page("MATHEMATICS.md")
     runtime=page("RUNTIME.md")
     sources=page("SOURCE_MAP.md")
+    deps=page("DEPENDENCIES.md")
     assert "| MultiObject native execution | runtime/multiobject.py |" in authority
     assert "| current invocation routing | runtime/portable_tool_conductor.py |" in authority
     assert "MULTIOBJECT_FULL_TOOL_MATH_001_2026-09-27.md" in math
     assert "multiobject_provider" in runtime
+    assert "[Native relation-discovery executor](../../../../runtime/multiobject.py)" in deps
+    assert "[Full-tool mathematical identity](../../../../architecture/MULTIOBJECT_FULL_TOOL_MATH_001_2026-09-27.md)" in deps
     assert "runtime/multiobject.py" in runtime
     assert "492bf7da82ac346c1a17ab0acc2405adf17ae5c1" in sources
     assert "MULTI_OBJECT_CONNECTOR_PROTOCOL.md" in sources
