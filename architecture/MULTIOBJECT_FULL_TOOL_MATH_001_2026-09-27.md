@@ -28,8 +28,8 @@ FullMath_(J,K)(MultiObject)
 <N_MO,W_MO,G_MO,P_MO,L_MO>.
 ```
 
-This package recovers the current MultiObject identity before any Take-5 native
-runtime realization. It specializes:
+This package records the recovered MultiObject identity that governed the later
+Take-5 native orchestration implementation. It specializes:
 
 architecture/FULL_TOOL_MATHEMATICAL_IDENTITY_CONTRACT_002_2026-09-26.md
 
@@ -446,8 +446,8 @@ wrapper/controller rather than hidden native state.
 
 ## 7. Run specification target
 
-A future Take-5 native realization must preserve the current configured run
-contract:
+The configured execution route and any future native successor must preserve
+the current configured run contract:
 
 ```
 tool_id = MultiObject
@@ -460,8 +460,8 @@ recurrence_engine = HF002
 invocation_profile = FULL_CONFIGURED_HF2_V1.
 ```
 
-The native runtime may require an explicit semantic relation-analysis provider.
-A missing provider must produce OPEN rather than generic host substitution.
+The native runtime requires an explicit semantic relation-analysis provider.
+A missing provider produces OPEN rather than generic host substitution.
 
 ## 8. Specification-before-transformation boundary
 
@@ -522,8 +522,9 @@ FullMath_(J,K)(MultiObject)
 <N_MO,W_MO,G_MO,P_MO,L_MO>
 ```
 
-is recovered sufficiently to specify a behavior-preserving native runtime
-realization.
+is recovered sufficiently to govern the admitted native orchestration
+implementation. Domain-level execution still requires a provider and its own
+evidence; the recovered mathematical identity is not itself a run receipt.
 
 Identity recovery:
 CLOSED_RELATIVE.
