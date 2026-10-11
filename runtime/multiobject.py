@@ -14,8 +14,9 @@ must return route-isolation receipts; missing semantic machinery fails OPEN.
 """
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass
 from itertools import combinations
+import json
 from typing import Any, Iterable, Protocol
 
 
@@ -102,6 +103,7 @@ class MultiObjectResult:
     blocker:str|None
     evidence:tuple[str,...]
     material_delta:bool
+    recurrence_signature:tuple[str,...]=()
 
     @property
     def execution_truth(self)->str:
@@ -546,26 +548,14 @@ def run_multiobject(
     )
     status,blocker=_terminal_from_state(state)
 
-    signature=tuple(sorted(
-        [
-            f"PAIR:{r.route_id}:{r.status}:"+",".join(f.finding_id for f in r.findings)
-            for r in pair_routes
-        ]
-        +[
-            "JOINT:"+joint.status+":"+",".join(f.finding_id for f in joint.findings),
-            "SYNTH:"+synthesis.status+":"+",".join(f.finding_id for f in synthesis.findings),
-        ]
-        +[
-            "RESID:"+x.finding_id+":"+x.status for x in residuals
-        ]
-        +[
-            "VIEW:"+r.route_id+":"+r.status+":"+",".join(f.finding_id for f in r.findings)
-            for r in view_results
-        ]
-        +[
-            "RECON:"+x.finding_id+":"+x.status for x in reconciliation
-        ]
-    ))
+    # A finding ID is a locator, not a content hash. Include semantic types,
+    # evidence, grounds, object packets and all typed route/judgment fields so a
+    # same-ID changed result cannot be mistaken for an HF002 fixed point.
+    # The versioned signature prevents accidental equivalence to the historical
+    # identifier-only recurrence signatures.
+    signature=("MO_SIG_V2:"+json.dumps(
+        asdict(state),sort_keys=True,separators=(",",":"),
+    ),)
     material_delta=previous_signature is None or signature!=tuple(previous_signature)
 
     return MultiObjectResult(
@@ -574,4 +564,5 @@ def run_multiobject(
         blocker,
         tuple(dict.fromkeys(evidence)),
         material_delta,
+        signature,
     )
