@@ -257,8 +257,8 @@ truth, fix the routing before editing either one.
     if spec.current_tool and spec.object_id=="MultiObject":
         body=body.replace(
             "| current executable realization | runtime/portable_tool_conductor.py |",
-            "| current invocation routing | runtime/portable_tool_conductor.py |\\n"
-            "| MultiObject native execution | runtime/multiobject.py |\\n"
+            "| current invocation routing | runtime/portable_tool_conductor.py |\n"
+            "| MultiObject native execution | runtime/multiobject.py |\n"
             "| full mathematical identity | architecture/MULTIOBJECT_FULL_TOOL_MATH_001_2026-09-27.md |",
         )
     return body
