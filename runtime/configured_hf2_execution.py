@@ -86,8 +86,17 @@ def _raw_mapping(raw:Any)->dict[str,Any]:
     # FULL_MATCH is a result claim, not proof supplied by the execution plan.
     # Reject wholly empty success receipts, while preserving valid tool-native
     # results and the existing evidence/coverage representations.
+    # Explicit, valid scalar results such as False and 0 are real tool outputs,
+    # not missing execution receipts. Empty collections or None are not proof.
+    def has_witness(value:Any)->bool:
+        if value is None:
+            return False
+        if isinstance(value,(Mapping,list,tuple,set,frozenset,str,bytes)):
+            return bool(value)
+        return True
+
     if (status=="FULL_MATCH" or truth=="FULL_MATCH") and not any(
-        out.get(key) for key in (
+        has_witness(out.get(key)) for key in (
             "result","state","evidence","native_receipts","cell_receipts",
             "question_receipts","cognitive_receipts",
         )
