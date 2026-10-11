@@ -13,27 +13,19 @@ The system will not treat the growing tool inventory as the control architecture
 
 The control spine is:
 
-[
-Q_0
-	o
-operatorname{Observe}_{wide}
-	o
-operatorname{Formalize}
-	o
-operatorname{FreezeMath}
-	o
-operatorname{Goal}
-	o
-operatorname{Architect}
-	o
-operatorname{SelectTools}
-	o
-operatorname{Execute}
-	o
-operatorname{TRC}
-	o
-operatorname{HF1/Reentry}.
-]
+$$
+\begin{aligned}
+Q_0 &\to \operatorname{Observe}_{\mathrm{wide}}
+\to \operatorname{Formalize}
+\to \operatorname{FreezeMath}\\
+&\to \operatorname{Goal}
+\to \operatorname{Architect}
+\to \operatorname{SelectTools}
+\to \operatorname{Execute}\\
+&\to \operatorname{TRC}
+\to \operatorname{HF1/Reentry}.
+\end{aligned}
+$$
 
 The wide observation phase is allowed to use broad coverage. Execution is selected only after the mathematical object and its obligations are fixed.
 
@@ -62,26 +54,26 @@ Repeated failures recur when the system:
 
 D4 remains the existing big-question/core transform and is not redefined here.
 
-[
-D_4:mathcal X	omathcal X.
-]
+$$
+D_4:\mathcal X\to\mathcal X.
+$$
 
 D6 and D8 are selectable wrappers, not new global controllers:
 
-[
-oxed{D_6=Gammacirc D_4circSigma}
-]
+$$
+\boxed{D_6=\Gamma\circ D_4\circ\Sigma}
+$$
 
-[
-oxed{D_8=PicircGammacirc D_4circOmegacircSigma}
-]
+$$
+\boxed{D_8=\Pi\circ\Gamma\circ D_4\circ\Omega\circ\Sigma}
+$$
 
 with
 
-- (Sigma): Sense
-- (Omega): Orient
-- (Gamma): Ground
-- (Pi): Prune
+- \(\Sigma\): Sense
+- \(\Omega\): Orient
+- \(\Gamma\): Ground
+- \(\Pi\): Prune
 
 They are used only when their added operators are result-sensitive for the current mathematical object.
 
@@ -108,62 +100,45 @@ They help determine **where/how to inspect**, not what mathematical answer is tr
 
 ## Formal tool-selection rule
 
-Let the frozen mathematical representation for question (q) be (m_q).
+Let the frozen mathematical representation for question \(q\) be \(m_q\).
 
 Let the unresolved obligations induced by that representation be
 
-[
-mathcal O(m_q)={o_1,dots,o_n}.
-]
+$$
+\mathcal O(m_q)=\{o_1,\dots,o_n\}.
+$$
 
-For each tool (T_i), define a contract
+For each tool \(T_i\), define a contract
 
-[
-T_i=
-langle
-operatorname{In}_i,
-operatorname{Out}_i,
-A_i,
-C_i,
-c_i
-angle
-]
+$$
+T_i=\langle\operatorname{In}_i,\operatorname{Out}_i,A_i,C_i,c_i\rangle
+$$
 
 where:
 
-- (operatorname{In}_i) is the required input type;
-- (operatorname{Out}_i) is the output type;
-- (A_i(m_q)in{0,1}) is the applicability predicate;
-- (C_i(m_q)subseteqmathcal O(m_q)) is the obligation set the tool can address;
-- (c_i(m_q)ge0) is execution cost.
+- \(\operatorname{In}_i\) is the required input type;
+- \(\operatorname{Out}_i\) is the output type;
+- \(A_i(m_q)\in\{0,1\}\) is the applicability predicate;
+- \(C_i(m_q)\subseteq\mathcal O(m_q)\) is the obligation set the tool can address;
+- \(c_i(m_q)\ge 0\) is execution cost.
 
 The admissible tool set is
 
-[
-mathcal T_q=
-{T_i:A_i(m_q)=1}.
-]
+$$
+\mathcal T_q=\{T_i:A_i(m_q)=1\}.
+$$
 
 The execution package is chosen by
 
-[
-oxed{
-P^*(m_q)
-in
-argmin_{Psubseteqmathcal T_q}
-sum_{T_iin P}c_i(m_q)
-}
-]
+$$
+\boxed{P^*(m_q)\in\operatorname*{arg\,min}_{P\subseteq\mathcal T_q}\sum_{T_i\in P}c_i(m_q)}
+$$
 
 subject to
 
-[
-oxed{
-igcup_{T_iin P} C_i(m_q)
-supseteq
-mathcal O_{mathrm{exec}}(m_q)
-}
-]
+$$
+\boxed{\bigcup_{T_i\in P} C_i(m_q)\supseteq\mathcal O_{\mathrm{exec}}(m_q)}
+$$
 
 and all type, authority, provenance, and protected-behavior constraints.
 
@@ -177,40 +152,27 @@ Wide observation and minimal execution are not contradictory.
 
 Observation may traverse a broad coverage surface to discover hidden coordinates:
 
-[
-m_q
-=
-operatorname{FreezeMath}
-ig(
-operatorname{Observe}_{wide}(Q_0)
-ig).
-]
+$$
+m_q=\operatorname{FreezeMath}\big(\operatorname{Observe}_{\mathrm{wide}}(Q_0)\big).
+$$
 
 After the object is frozen, tool selection contracts to the smallest package that can change the live result.
 
-[
+$$
 P^*=P^*(m_q).
-]
+$$
 
 Material deltas trigger reobservation and reselection:
 
-[
-Delta m
-eq0
-Rightarrow
-operatorname{Observe}
-	o
-operatorname{Formalize}
-	o
-operatorname{SelectTools}
-	ext{ again}.
-]
+$$
+\Delta m\neq0\Rightarrow\operatorname{Observe}\to\operatorname{Formalize}\to\operatorname{SelectTools}\text{ again}.
+$$
 
 ## Canonical invariant
 
-[
-oxed{	ext{MATH BEFORE GOAL; GOAL BEFORE ARCHITECTURE; ARCHITECTURE BEFORE TOOL EXECUTION.}}
-]
+$$
+\boxed{\text{MATH BEFORE GOAL; GOAL BEFORE ARCHITECTURE; ARCHITECTURE BEFORE TOOL EXECUTION.}}
+$$
 
 Tool names, repository recency, or prior success never substitute for applicability to the frozen mathematical object.
 
