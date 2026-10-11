@@ -627,10 +627,10 @@ Automatic discovery of every external-host capability remains outside the reposi
 
 ## Current-basis closure and reentry
 
-The nine OPEN coordinates carried by regime 087 have been dispositioned in:
+The nine OPEN coordinates carried by regime 087 were dispositioned in the historical closure basis:
 architecture/IMPROVEMENT_CORE_FRONTIER_CLOSURE_106.md.
 
-Current-basis dispositions:
+**Regime-087/106 historical-basis dispositions (not a fresh October 2026 status check):**
 - relation generator basis: SPECIFIED for the current admitted basis;
 - relation admission mathematics: SPECIFIED_AND_EXECUTABLE;
 - universal host interception: EXTERNAL_NOT_OWNED;
@@ -639,7 +639,10 @@ Current-basis dispositions:
 - unlike autonomy holdouts: CLOSED_RELATIVE;
 - cheap-route versus broad-attack calibration: IMPLEMENTED_CURRENT_POLICY;
 - open-world global maximality/minimality: REJECTED_AS_COMPLETION_CRITERION;
-- declared configured-identity audit: CLOSED_RELATIVE;\n- strong whole-portfolio tool reality: OPEN under `runtime/tool_reality_audit.py` until explicit manifest identity and recovered native execution also close.
+- declared configured-identity audit: CLOSED_RELATIVE;
+- strong whole-portfolio tool reality: OPEN under `runtime/tool_reality_audit.py` until explicit manifest identity and recovered native execution also close.
+
+**Present-state lookup:** For the later finite registered-repertoire evidence and its exact current-registry limitations, consult [CURRENT_TOOL_REALITY.md](CURRENT_TOOL_REALITY.md). Its guarded `CLOSED_RELATIVE` statement must be evaluated on its current source and tested registry basis; the historical OPEN coordinate above is not a competing live status.
 
 This is not open-world completeness. A material new relation generator, historical witness, host integration, configured tool/protected behavior, holdout failure, or representation/candidate-universe change reopens only the affected dependency cone.
 
