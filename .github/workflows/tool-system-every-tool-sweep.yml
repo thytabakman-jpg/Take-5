@@ -4,14 +4,26 @@ on:
     branches: [main]
     paths:
       - 'runtime/tool_system_every_tool_sweep.py'
+      - 'runtime/tool_run_registry.py'
+      - 'runtime/tool_manifest.py'
+      - 'runtime/portable_tool_conductor.py'
+      - 'runtime/goal.py'
       - 'tests/test_tool_system_every_tool_sweep.py'
+      - 'tests/test_goal.py'
+      - 'tests/test_goal_fullmath_identity.py'
       - 'projects/tool-system/**'
       - '.github/workflows/tool-system-every-tool-sweep.yml'
   push:
     branches: [main]
     paths:
       - 'runtime/tool_system_every_tool_sweep.py'
+      - 'runtime/tool_run_registry.py'
+      - 'runtime/tool_manifest.py'
+      - 'runtime/portable_tool_conductor.py'
+      - 'runtime/goal.py'
       - 'tests/test_tool_system_every_tool_sweep.py'
+      - 'tests/test_goal.py'
+      - 'tests/test_goal_fullmath_identity.py'
       - 'projects/tool-system/**'
       - '.github/workflows/tool-system-every-tool-sweep.yml'
   workflow_dispatch:
