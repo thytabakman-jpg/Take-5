@@ -71,6 +71,8 @@ Admission also requires explicit evidence-receipt identifiers for repository
 verification, currentness verification, entry binding, the complete ASSERT then
 GOAL observer bootstrap, and current ICC128 registration.
 
+**Evidence boundary for host ingress:** `runtime/icc_host_ingress.py::admit_icc_host_ingress` checks canonical repository/ref labels, a minimally shaped commit SHA, and nonempty evidence-receipt identifiers, then binds those supplied values into an ingress receipt. It does **not** independently authenticate the submitted identifiers, validate their provenance, or prove that the underlying ASSERT and GOAL runs occurred. The separate `runtime/icc_bootstrap.py::run_icc_bootstrap` checks order and execution/capture/consumption flags on supplied tool receipts; those flags alone do not establish independent host execution evidence. A syntactically admitted ingress receipt is not sufficient for an externally verified current-run or host-identity claim. Preserve the distinction between trusted source/execution verification and mere receipt presence; report missing independent proof as OPEN.
+
 Hosted ICC emission requires the same receipt and projects the formal ICC128 and
 Take-5 identities through the mathematical color gate.
 
