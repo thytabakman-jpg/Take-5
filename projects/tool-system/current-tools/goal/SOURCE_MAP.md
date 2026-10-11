@@ -22,6 +22,9 @@ goals remain governed by their own source authority and approval rules.
 - [`runtime/tool_run_registry.py`](../../../../runtime/tool_run_registry.py)
 - [`runtime/tool_manifest.py`](../../../../runtime/tool_manifest.py)
 - [`runtime/portable_tool_conductor.py`](../../../../runtime/portable_tool_conductor.py)
+- [`runtime/mt_semantic_return_gate.py`](../../../../runtime/mt_semantic_return_gate.py) — required robust-MT preflight source, not an execution witness.
+- [`runtime/configured_hf2_execution.py`](../../../../runtime/configured_hf2_execution.py) — downstream consumer if configured HF2 is selected.
+- [`runtime/hf002_recursive_continuation.py`](../../../../runtime/hf002_recursive_continuation.py) — downstream HF2 recurrence implementation.
 - [`integration/CURRENT_TOOL_REALITY.md`](../../../../integration/CURRENT_TOOL_REALITY.md)
 
 ## Shared current authorities
