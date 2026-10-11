@@ -26,7 +26,7 @@ Take-5 keeps four reality layers distinct:
 3. a canonical manifest explicitly reconstructs tool-specific protected behavior;
 4. a native executable realization is recovered.
 
-A strong current finite-repertoire claim closes only when all four layers agree.
+These are four distinct capability claims, but the current `runtime/tool_reality_audit.py` emits **three** check coordinates: configured identity, explicit tool-specific manifest, and native entrypoint recovery. It does not report an independently executed configured-plan check or end-to-end consumer execution. A four-layer execution-capability claim therefore requires separate plan and consumer evidence; a three-coordinate strong-reality PASS alone does not establish those additional properties.
 
 Canonical executable audit:
 
@@ -48,9 +48,9 @@ Native executable realization:
 
 CLOSED_RELATIVE.
 
-Therefore current finite registered-repertoire strong tool reality:
+Therefore finite registered-repertoire tool reality **on the 2026-09-27 PR #162 audit basis only**:
 
-CLOSED_RELATIVE.
+CLOSED_RELATIVE (historical checked basis; not recertification of the expanded current registry).
 
 This is a finite, repository-owned, current-basis claim.  It is not a claim of
 universal host interception, self-contained execution for every environment, or
