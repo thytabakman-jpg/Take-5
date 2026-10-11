@@ -1,4 +1,6 @@
-from configured_hf2_execution import _raw_mapping
+from configured_hf2_execution import _raw_mapping, execute_configured_with_hf2
+from global_tool_execution import build_tool_execution_plan
+from tool_run_registry import CONFIGURED_RUNS
 
 
 def test_false_and_zero_outputs_count_as_real_hf2_full_match_results():
@@ -48,3 +50,35 @@ def test_failure_status_cannot_keep_success_execution_truth():
     })
     assert out["status"] == "BLOCKED"
     assert out["execution_truth"] == "BLOCKED"
+
+
+def test_multiobject_configured_hf2_reenters_same_id_changed_evidence():
+    """A changed relation with the same finding ID is not a clean successor."""
+    plan = build_tool_execution_plan(CONFIGURED_RUNS["MultiObject"])
+    seen = []
+
+    def adapter(current, bound_plan):
+        assert bound_plan.tool_id == "MultiObject"
+        seen.append(current)
+        # The first two outcomes share the same ID and status but differ in
+        # semantic evidence. The third repeats the second without new content.
+        evidence = "old" if len(seen) == 1 else "new"
+        return {
+            "status": "CLOSED_RELATIVE",
+            "execution_truth": "IMPLEMENTATION_EXECUTED",
+            "result": {"finding_id": "joint-1", "status": "JOINT_ONLY",
+                       "evidence": [evidence]},
+            "material_delta": True,
+            "evidence": ("native:MultiObject",),
+        }
+
+    out = execute_configured_with_hf2(
+        tool_id="MultiObject", plan=plan, state={"packet": {}}, adapter=adapter,
+    )
+    assert out.status == "RELATIVE_CLOSE"
+    assert out.call_count == 3
+    assert out.trace[0]["disposition"] == "REAPPLY_C"
+    assert out.trace[1]["disposition"] == "REAPPLY_C"
+    assert out.trace[2]["disposition"] == "RELATIVE_CLOSE"
+    assert out.trace[1]["delta"]["material_result_delta"] is True
+    assert out.trace[2]["delta"]["material_result_delta"] is False
