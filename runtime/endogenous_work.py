@@ -58,7 +58,7 @@ def generate_obligations(state,job=None,discover=None):
     return tuple(discover(state))
 
 def select_work(obligations):
-    eligible=tuple(o for o in obligations if o.material and o.licensed and o.reachable and o.status not in {WorkStatus.CLOSED,WorkStatus.BLOCKED})
+    eligible=tuple(o for o in obligations if o.material and o.licensed and o.reachable and o.status in {WorkStatus.CANDIDATE,WorkStatus.ACTIVE})
     return WorkSelection(eligible,eligible if len(eligible)>1 else ())
 
 def fresh_work(generated,discharged):
