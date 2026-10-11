@@ -160,24 +160,44 @@ def test_multiobject_has_explicit_manifest_and_environment_bound_native_witness(
 
 
 def test_multiobject_second_identical_run_has_no_material_delta_when_signature_reused():
-    provider=Provider()
-    first=run_multiobject(_objects(),provider)
-    signature=tuple(sorted(
-        [
-            f"PAIR:{r.route_id}:{r.status}:"+",".join(f.finding_id for f in r.findings)
-            for r in first.state.pair_routes
-        ]
-        +[
-            "JOINT:"+first.state.joint_route.status+":"+",".join(f.finding_id for f in first.state.joint_route.findings),
-            "SYNTH:"+first.state.pair_synthesis.status+":"+",".join(f.finding_id for f in first.state.pair_synthesis.findings),
-        ]
-        +["RESID:"+x.finding_id+":"+x.status for x in first.state.residuals]
-        +[
-            "VIEW:"+r.route_id+":"+r.status+":"+",".join(f.finding_id for f in r.findings)
-            for r in first.state.view_results
-        ]
-        +["RECON:"+x.finding_id+":"+x.status for x in first.state.reconciliation]
-    ))
-    second=run_multiobject(_objects(),Provider(),previous_signature=signature)
+    first=run_multiobject(_objects(),Provider())
+    assert first.recurrence_signature[0].startswith("MO_SIG_V2:")
+    second=run_multiobject(_objects(),Provider(),previous_signature=first.recurrence_signature)
     assert second.status=="CLOSED_RELATIVE"
     assert second.material_delta is False
+
+
+def test_multiobject_same_finding_id_with_changed_semantics_is_material():
+    class ChangedSemanticsProvider(Provider):
+        def joint(self,objects,*,route_id):
+            original=super().joint(objects,route_id=route_id)
+            f=original.findings[0]
+            changed=RelationFinding(f.finding_id,f.support,"REFINES",f.grounds,("new-evidence",))
+            return RouteResult(original.route_id,original.route_kind,original.support,
+                               (changed,),original.status,original.isolation_receipt)
+    first=run_multiobject(_objects(),Provider())
+    changed=run_multiobject(_objects(),ChangedSemanticsProvider(),
+                            previous_signature=first.recurrence_signature)
+    assert first.status=="CLOSED_RELATIVE"
+    assert changed.status=="CLOSED_RELATIVE"
+    assert changed.state.joint_route.findings[0].finding_id=="joint-1"
+    assert changed.material_delta is True
+    assert changed.recurrence_signature!=first.recurrence_signature
+
+
+def test_multiobject_changed_object_content_and_residual_grounds_are_material():
+    first=run_multiobject(_objects(),Provider())
+    objects=(FrozenObject("A","THEORY","domain-a","changed-target"),)+_objects()[1:]
+    changed_object=run_multiobject(objects,Provider(),
+        previous_signature=first.recurrence_signature)
+    assert changed_object.status=="CLOSED_RELATIVE"
+    assert changed_object.material_delta is True
+
+    class ChangedGrounds(Provider):
+        def challenge_reducibility(self,joint_route,pair_routes,pair_synthesis):
+            return (ResidualJudgment("joint-1","HIGHER_ORDER_RESIDUAL",
+                                     ("new-member-removal-proof",)),)
+    changed_ground=run_multiobject(_objects(),ChangedGrounds(),
+        previous_signature=first.recurrence_signature)
+    assert changed_ground.status=="CLOSED_RELATIVE"
+    assert changed_ground.material_delta is True
