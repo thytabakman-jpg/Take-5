@@ -65,15 +65,16 @@ Host-facing repository-backed ICC execution is now gated by:
 
 The prefix ICC expresses routing intent. It does not establish that ICC ran.
 
-A host may claim repository-backed ICC identity only with a HOST_INGRESS_ADMITTED
-receipt bound to the exact request and a concrete canonical Take-5/main commit.
+A host may claim repository-backed ICC identity only with a structurally admitted ingress receipt bound to the exact request and canonical Take-5/main commit **and** a fresh independently issued trusted attestation. The hosted gateway fails closed if the trusted verifier key is not configured, the attestation is absent or expired, or its signature does not match the exact receipt.
 Admission also requires explicit evidence-receipt identifiers for repository
 verification, currentness verification, entry binding, the complete ASSERT then
 GOAL observer bootstrap, and current ICC128 registration.
 
 **Evidence boundary for host ingress:** `runtime/icc_host_ingress.py::admit_icc_host_ingress` checks canonical repository/ref labels, a minimally shaped commit SHA, and nonempty evidence-receipt identifiers, then binds those supplied values into an ingress receipt. It does **not** independently authenticate the submitted identifiers, validate their provenance, or prove that the underlying ASSERT and GOAL runs occurred. The separate `runtime/icc_bootstrap.py::run_icc_bootstrap` checks order and execution/capture/consumption flags on supplied tool receipts; those flags alone do not establish independent host execution evidence. A syntactically admitted ingress receipt is not sufficient for an externally verified current-run or host-identity claim. Preserve the distinction between trusted source/execution verification and mere receipt presence; report missing independent proof as OPEN.
 
-Hosted ICC emission requires the same receipt and projects the formal ICC128 and
+**Current repair boundary:** The gateway now authenticates a time-limited HMAC attestation from a separately trusted verifier before executing ICC or displaying repository-backed identity. The trusted issuer must first verify real canonical source/currentness, ASSERT→GOAL results and controller execution; a valid MAC proves only that the configured issuer signed that exact receipt, not that the issuer performed those substantive checks. No signing authority is exposed through a user-facing ingress argument. Deployment with no trusted issuer/key remains fail-closed and cannot establish verified external-host execution. The attestation has a five-minute maximum validity, but this is not a single-use anti-replay guarantee.
+
+Hosted ICC emission requires both the structural receipt and trusted attestation and projects the formal ICC128 and
 Take-5 identities through the mathematical color gate.
 
 ## Historical recovery guard
