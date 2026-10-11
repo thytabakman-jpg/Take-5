@@ -204,3 +204,29 @@ def test_multiobject_changed_object_content_and_residual_grounds_are_material():
         previous_signature=first.recurrence_signature)
     assert changed_ground.status=="CLOSED_RELATIVE"
     assert changed_ground.material_delta is True
+
+
+def test_multiobject_level3_rejects_synthesis_reusing_independent_route_identity():
+    class AliasSynthesis(Provider):
+        def synthesize_pairs(self,pair_routes):
+            result=super().synthesize_pairs(pair_routes)
+            return RouteResult("JOINT:A,B,C",result.route_kind,result.support,
+                               result.findings,result.status,result.isolation_receipt)
+
+    out=run_multiobject(_objects(),AliasSynthesis())
+    assert out.status=="OPEN"
+    assert out.blocker=="MULTIOBJECT_SYNTHESIS_ROUTE_ID_COLLISION"
+
+
+def test_multiobject_level3_requires_discriminating_view_provenance():
+    for bad in (
+        ViewRequest("direction-ab","","A B".split(),"asymmetry"),
+        ViewRequest("direction-ab","DIRECTION",("A","B"),""),
+        ViewRequest("direction-ab","DIRECTION",(),"asymmetry"),
+    ):
+        class UnjustifiedView(Provider):
+            def triggered_views(self,*args):
+                return (bad,)
+        out=run_multiobject(_objects(),UnjustifiedView())
+        assert out.status=="OPEN"
+        assert out.blocker=="MULTIOBJECT_VIEW_PROVENANCE_REQUIRED"

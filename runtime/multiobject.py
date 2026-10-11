@@ -362,6 +362,12 @@ def run_multiobject(
     if blocker:
         state=MultiObjectState(frozen,joint,tuple(pair_routes),None,(),(),(),())
         return _open(frozen,blocker,state=state,evidence=evidence)
+    # Synthesis is a distinct route, not an alias for the independent joint
+    # route or an individual pair. Its name remains provider-defined, but it
+    # cannot reuse an existing route identity.
+    if synthesis.route_id in {joint.route_id, *(r.route_id for r in pair_routes)}:
+        state=MultiObjectState(frozen,joint,tuple(pair_routes),synthesis,(),(),(),())
+        return _open(frozen,"MULTIOBJECT_SYNTHESIS_ROUTE_ID_COLLISION",state=state,evidence=evidence)
     evidence.append(synthesis.isolation_receipt)
 
     try:
@@ -433,6 +439,15 @@ def run_multiobject(
             )
             return _open(frozen,"MULTIOBJECT_VIEW_REQUEST_INVALID",state=state,evidence=evidence)
         seen_views.add(request.view_id)
+        # A triggered view without a documented discriminator is not a
+        # licensed branch. Empty support, axis or reason cannot establish
+        # provenance, even if the provider later fabricates a VIEW receipt.
+        if not request.axis or not request.reason or not request.support:
+            state=MultiObjectState(
+                frozen,joint,tuple(pair_routes),synthesis,residuals,
+                view_requests,tuple(view_results),()
+            )
+            return _open(frozen,"MULTIOBJECT_VIEW_PROVENANCE_REQUIRED",state=state,evidence=evidence)
         if not set(request.support)<=set(object_ids):
             state=MultiObjectState(
                 frozen,joint,tuple(pair_routes),synthesis,residuals,
