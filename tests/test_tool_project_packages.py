@@ -116,6 +116,10 @@ def test_multiobject_package_has_direct_runtime_math_and_legacy_lineage_routes()
     assert "492bf7da82ac346c1a17ab0acc2405adf17ae5c1" in sources
     assert "MULTI_OBJECT_CONNECTOR_PROTOCOL.md" in sources
     assert "tests/test_multiobject_fullmath_identity.py" in sources
+    assert "[Configured tool registry](../../../../runtime/tool_run_registry.py)" in sources
+    assert "## Moving Reaserch source locations (navigation, not authority)" in sources
+    assert "blob/main/projects/pd/protocol/MULTI_OBJECT_CONNECTOR_PROTOCOL.md" in sources
+    assert "blob/492bf7da82ac346c1a17ab0acc2405adf17ae5c1" in sources
 
 def test_multiobject_batch2_coverage_and_streams_are_materialized_and_linked():
     spec=next(x for x in current_tool_specs() if x.object_id=="MultiObject")
