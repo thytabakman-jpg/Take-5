@@ -34,7 +34,7 @@ runtime/tool_reality_audit.py
 
 ## Current result
 
-**Currentness scope:** The `CLOSED_RELATIVE` results immediately below are the verified **2026-09-27 PR #162 registry basis**, not an independently rerun four-layer audit for the later 95-tool inventory. Treat the expanded current registry as `OPEN` for strong-reality certification until the native audit is executed on that exact basis; see the registry-currentness gate below. The historical result is preserved.
+**Currentness scope:** The `CLOSED_RELATIVE` results immediately below are the verified **2026-09-27 PR #162 registry basis**, not an independently rerun three-coordinate audit for the later 95-tool inventory. Treat the expanded current registry as `OPEN` for strong-reality certification until the native audit is executed on that exact basis; see the registry-currentness gate below. The historical result is preserved.
 
 Configured identity:
 
@@ -52,11 +52,11 @@ Therefore finite registered-repertoire tool reality **on the 2026-09-27 PR #162 
 
 CLOSED_RELATIVE (historical checked basis; not recertification of the expanded current registry).
 
-This is a finite, repository-owned, current-basis claim.  It is not a claim of
+This was a finite, repository-owned **historical-audit-basis** claim. It is not a claim of
 universal host interception, self-contained execution for every environment, or
 global mathematical completeness.
 
-**Registry-currentness gate (2026-10-11):** The 2026-09-27 PR #162 success below is exact historical evidence for its then-registered repertoire, **not** a fresh native strong-reality proof of every subsequently registered tool. [The tool-system owner](../projects/tool-system/CURRENT_STATE.md) now distinguishes **95 current tools** from the **93-tool PR #166 historical sweep**. The `CLOSED_RELATIVE` claim above is valid for a chosen current registry only when [`runtime/tool_reality_audit.py`](../runtime/tool_reality_audit.py) actually verifies all four layers on that same registry/currentness basis. The separate [every-tool sweep](../runtime/tool_system_every_tool_sweep.py) tests configured execution and development bindings; its PASS is useful additional evidence but does not by itself replace the strong-reality audit. If the fresh four-layer result is unavailable or changes, preserve the proven historical closure and report the expanded/current basis as `OPEN`, not automatically `CLOSED_RELATIVE`.
+**Registry-currentness gate (2026-10-11):** The 2026-09-27 PR #162 success below is exact historical evidence for its then-registered repertoire, **not** a fresh native strong-reality proof of every subsequently registered tool. [The tool-system owner](../projects/tool-system/CURRENT_STATE.md) now distinguishes **95 current tools** from the **93-tool PR #166 historical sweep**. A fresh `CLOSED_RELATIVE` **three-coordinate strong-reality** claim for a chosen current registry requires [`runtime/tool_reality_audit.py`](../runtime/tool_reality_audit.py) to verify configured identity, the explicit manifest and native entrypoint recovery on that same registry/currentness basis. Constructed configured-plan evidence and end-to-end consumer execution remain **separate** additional claims and must not be inferred from this audit. The separate [every-tool sweep](../runtime/tool_system_every_tool_sweep.py) tests configured execution and development bindings; its PASS is useful additional evidence but does not by itself replace the strong-reality audit. If a fresh three-coordinate result is unavailable or changes, preserve the proven historical closure and report the expanded/current basis as `OPEN`, not automatically `CLOSED_RELATIVE`. Even a fresh three-coordinate PASS does not certify the two separate plan/consumer properties.
 
 ## Four-tool recovery delta
 
