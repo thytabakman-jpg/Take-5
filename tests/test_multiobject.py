@@ -230,3 +230,27 @@ def test_multiobject_level3_requires_discriminating_view_provenance():
         out=run_multiobject(_objects(),UnjustifiedView())
         assert out.status=="OPEN"
         assert out.blocker=="MULTIOBJECT_VIEW_PROVENANCE_REQUIRED"
+
+
+def test_multiobject_level3_direct_and_conductor_success_paths_converge(monkeypatch):
+    """One native result retains its semantics under the configured HF2 entry path."""
+    from dataclasses import asdict
+    import portable_tool_conductor as conductor
+
+    direct=run_multiobject(_objects(),Provider())
+    assert direct.status=="CLOSED_RELATIVE"
+    monkeypatch.setattr(conductor,"MATERIAL_TOOLS",("MultiObject",))
+    through=conductor.run_tool_conductor({},adapters={
+        "MultiObject":lambda packet:run_multiobject(_objects(),Provider())
+    })
+    assert through["status"]=="COMPLETE"
+    assert through["open_tools"]==()
+    assert through["tool_count"]==1
+    row=through["results"][0]
+    assert row["status"]=="EXECUTED"
+    assert row["result"]["status"]=="CLOSED_RELATIVE"
+    assert row["result"]["state"]==asdict(direct.state)
+    assert row["result"]["recurrence_signature"]==direct.recurrence_signature
+    assert row["configured_plan"]["geometry"]=="D36_C"
+    assert row["recurrence"]["status"]=="RELATIVE_CLOSE"
+    assert row["recurrence"]["call_count"]==2
