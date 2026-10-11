@@ -3,6 +3,17 @@
 Date: 2026-10-02
 Status: VALIDATED CURRENT REPOSITORY STATE
 
+## Contents
+
+- [Current controller](#current-controller)
+- [Jane handoff](#jane-handoff)
+- [Conversation response selection](#conversation-response-selection)
+- [Host ingress identity](#host-ingress-identity)
+- [Historical recovery guard](#historical-recovery-guard)
+- [Validation](#validation)
+- [External boundary](#external-boundary)
+- [Kernel 053 canonical promotion](#kernel-053-canonical-promotion)
+
 ## Current controller
 
 ICC128 is again a registered current configured tool in Take-5.
