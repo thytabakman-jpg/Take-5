@@ -1,5 +1,14 @@
 # MultiObject — ten load-bearing sources — Level 2 functional triage
 
+## Current integrated status — 2026-10-10 America/Toronto
+
+**Integrated on `main`:** [PR #213](https://github.com/thytabakman-jpg/Take-5/pull/213), merge commit `cb3864d6174dd52620515c17231cb9dfa4f0b910`. The five repaired owning files (`runtime/multiobject.py`, `runtime/portable_tool_conductor.py`, `runtime/tool_manifest.py`, `runtime/tool_project_packages.py`, and this package's `SOURCE_MAP.md`) were verified by exact GitHub file-content readback on `main` after merge. Three native regression-test files also merged.
+
+**All three CI workflows passed against the PR head `011ebeb880b6802f88ed5efb5b38d8403afe8ae0`:** [Take-5 Validation](https://github.com/thytabakman-jpg/Take-5/actions/runs/38104239885), [Capability Preservation](https://github.com/thytabakman-jpg/Take-5/actions/runs/38104239927), and [Tool System Every-Tool Sweep](https://github.com/thytabakman-jpg/Take-5/actions/runs/38104239906). These are CI results for the tested head; exact merge-commit CI is not claimed here.
+
+**Durable result:** five source repairs merged and read back, five original targets deliberately unchanged, and original historical sources preserved. **Still OPEN:** potential false-negative material-delta detection when a finding retains its ID but changes semantic content; domain-provider adequacy and global mathematical completeness were never established by these tests. The original branch-staging notes below describe the state *before* this merge and are retained for provenance, not current execution status. The ten-file Level 2 does not establish every deeper mathematics or domain-provider obligation.
+
+
 **Recorded:** 2026-10-10, America/Toronto. **Status:** LEVEL_INCOMPLETE — source and consumer repairs staged on an isolated Take-5 branch; native regression execution and admission are outstanding. **Scope:** exactly the ten sources named below (six Take-5 and four Reaserch); three regression-test files are affected consumers, not extra intake targets.
 
 ## Authority and method
