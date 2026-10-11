@@ -97,8 +97,11 @@ class ProjectIntegrityAssessment:
 
 
 def _nonempty_sequence(value: Any) -> bool:
-    return isinstance(value, (list, tuple, set, frozenset)) and any(
-        str(x).strip() for x in value
+    # None, booleans and mappings are not evidence just because str() is nonempty.
+    return (
+        isinstance(value, (list, tuple, set, frozenset))
+        and bool(value)
+        and all(isinstance(x, str) and bool(x.strip()) for x in value)
     )
 
 
@@ -106,11 +109,14 @@ def _entry_state(entry: Any) -> tuple[str, str | None]:
     if not isinstance(entry, Mapping):
         return "INVALID", "ENTRY_MAPPING_REQUIRED"
 
-    status = str(entry.get("status", "")).strip().upper()
-    owner = str(entry.get("owner", "")).strip()
+    raw_status = entry.get("status", "")
+    raw_owner = entry.get("owner", "")
+    raw_reason = entry.get("reason", "")
+    status = raw_status.strip().upper() if isinstance(raw_status, str) else ""
+    owner = raw_owner.strip() if isinstance(raw_owner, str) else ""
     evidence = entry.get("evidence", ())
     tests = entry.get("tests", ())
-    reason = str(entry.get("reason", "")).strip()
+    reason = raw_reason.strip() if isinstance(raw_reason, str) else ""
 
     if status in CONFLICT_STATUSES:
         return "CONFLICT", None
