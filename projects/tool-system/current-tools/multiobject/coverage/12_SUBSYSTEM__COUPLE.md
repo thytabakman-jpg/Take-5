@@ -6,6 +6,9 @@ Scope: SUBSYSTEM
 Mode face: COUPLE
 Authority: AUDIT_EVIDENCE_ONLY
 Disposition: OPEN
+Purpose: Preserve only findings at this exact Scope x ModeFace coordinate; do not infer semantic closure from this page.
+Reader: MultiObject maintainers and audit reviewers.
+Index: [all 36 coverage cells](README.md)
 
 ## Findings
 
@@ -18,4 +21,4 @@ Disposition: OPEN
 ## Non-overwrite rule
 
 Add evidence here without replacing findings owned by another coverage cell.
-Canonical semantic changes route through AUTHORITY_REGISTRY.md and CHANGE_CONTROL.md.
+Canonical semantic changes route through the [authority registry](../AUTHORITY_REGISTRY.md) and [change control](../CHANGE_CONTROL.md).

@@ -490,16 +490,24 @@ Scope x ModeFace coverage pages.
 
 
 def render_stream(spec:ProjectObjectSpec,name:str)->str:
-    return f"""# {name}: {spec.display_name}
+    body=f"""# {name}: {spec.display_name}
 
 This directory is append-only.
 Create a new uniquely named record for each material entry.
 Do not replace an older record with a newer one.
 """
 
+    if spec.current_tool and spec.object_id=="MultiObject":
+        body += {
+            "Evidence": "\n## Use and authority\n\nReader: MultiObject maintainers and reviewers.\nPurpose: Keep immutable, source-attributed observations and triage evidence distinct from both current mathematics and actual execution receipts.\n\n- [Source and historical lineage](../SOURCE_MAP.md)\n- [Authority and admission](../AUTHORITY_REGISTRY.md)\n- [Change control](../CHANGE_CONTROL.md)\n\nA record here does not by itself establish a current protected behavior, runtime execution, or closed finding.\n",
+            "Run evidence": "\n## Use and authority\n\nReader: MultiObject operators and validators.\nPurpose: Retain run-specific inputs, invoked route, evidence, results, and limits only when an actual run or validation was performed.\n\n- [Executable route and provider boundary](../RUNTIME.md)\n- [Protected behavior routes](../PROTECTED_BEHAVIORS.md)\n- [Change control](../CHANGE_CONTROL.md)\n\nA plan, pending workflow, or generated file is not an executed-run receipt.\n",
+            "History": "\n## Use and authority\n\nReader: MultiObject maintainers and historians.\nPurpose: Preserve superseded package states and their provenance without making older versions current authorities.\n\n- [Current state projection](../CURRENT_STATE.md)\n- [Decision log](../DECISION_LOG.md)\n- [Lessons ledger](../LESSONS_LEDGER.md)\n- [Change control](../CHANGE_CONTROL.md)\n\nUse Git history for revisions of a living file; create a separate immutable record here only for independently necessary historical evidence.\n"
+        }.get(name, "")
+    return body
+
 
 def render_coverage_readme(spec:ProjectObjectSpec)->str:
-    return f"""# 36-cell coverage: {spec.display_name}
+    body=f"""# 36-cell coverage: {spec.display_name}
 
 Surface: Scope x ModeFace.
 Role: audit / discovery / regression evidence only.
@@ -509,9 +517,13 @@ Each cell owns findings for one coordinate. A finding becomes canonical only
 through the authority and change-control path.
 """
 
+    if spec.current_tool and spec.object_id=="MultiObject":
+        body += "\n## Use and ownership\n\nReader: MultiObject maintainers and audit reviewers.\nPurpose: Find the evidence-only Scope x ModeFace cells and preserve unresolved questions; no cell is a second mathematical authority.\n\n- [MultiObject authority registry](../AUTHORITY_REGISTRY.md)\n- [Change control](../CHANGE_CONTROL.md)\n- [Source map and provenance](../SOURCE_MAP.md)\n- [Separate directed handoff surface](../HANDOFF_SURFACE.md)\n\nA cell marked OPEN has no admitted cell-specific finding yet. It does **not** negate findings recorded in research, prove that no relation exists, or mark the native MultiObject runtime OPEN.\n\n## Coverage navigation\n\n### SYSTEM\n\n- [01 EXPAND](./01_SYSTEM__EXPAND.md)\n- [02 CONTRACT](./02_SYSTEM__CONTRACT.md)\n- [03 INWARD](./03_SYSTEM__INWARD.md)\n- [04 OUTWARD](./04_SYSTEM__OUTWARD.md)\n- [05 ISOLATE](./05_SYSTEM__ISOLATE.md)\n- [06 COUPLE](./06_SYSTEM__COUPLE.md)\n\n### SUBSYSTEM\n\n- [07 EXPAND](./07_SUBSYSTEM__EXPAND.md)\n- [08 CONTRACT](./08_SUBSYSTEM__CONTRACT.md)\n- [09 INWARD](./09_SUBSYSTEM__INWARD.md)\n- [10 OUTWARD](./10_SUBSYSTEM__OUTWARD.md)\n- [11 ISOLATE](./11_SUBSYSTEM__ISOLATE.md)\n- [12 COUPLE](./12_SUBSYSTEM__COUPLE.md)\n\n### COMPONENT\n\n- [13 EXPAND](./13_COMPONENT__EXPAND.md)\n- [14 CONTRACT](./14_COMPONENT__CONTRACT.md)\n- [15 INWARD](./15_COMPONENT__INWARD.md)\n- [16 OUTWARD](./16_COMPONENT__OUTWARD.md)\n- [17 ISOLATE](./17_COMPONENT__ISOLATE.md)\n- [18 COUPLE](./18_COMPONENT__COUPLE.md)\n\n### INTERFACE\n\n- [19 EXPAND](./19_INTERFACE__EXPAND.md)\n- [20 CONTRACT](./20_INTERFACE__CONTRACT.md)\n- [21 INWARD](./21_INTERFACE__INWARD.md)\n- [22 OUTWARD](./22_INTERFACE__OUTWARD.md)\n- [23 ISOLATE](./23_INTERFACE__ISOLATE.md)\n- [24 COUPLE](./24_INTERFACE__COUPLE.md)\n\n### BOUNDARY DECOMPOSITION\n\n- [25 EXPAND](./25_BOUNDARY_DECOMPOSITION__EXPAND.md)\n- [26 CONTRACT](./26_BOUNDARY_DECOMPOSITION__CONTRACT.md)\n- [27 INWARD](./27_BOUNDARY_DECOMPOSITION__INWARD.md)\n- [28 OUTWARD](./28_BOUNDARY_DECOMPOSITION__OUTWARD.md)\n- [29 ISOLATE](./29_BOUNDARY_DECOMPOSITION__ISOLATE.md)\n- [30 COUPLE](./30_BOUNDARY_DECOMPOSITION__COUPLE.md)\n\n### CROSS LAYER\n\n- [31 EXPAND](./31_CROSS_LAYER__EXPAND.md)\n- [32 CONTRACT](./32_CROSS_LAYER__CONTRACT.md)\n- [33 INWARD](./33_CROSS_LAYER__INWARD.md)\n- [34 OUTWARD](./34_CROSS_LAYER__OUTWARD.md)\n- [35 ISOLATE](./35_CROSS_LAYER__ISOLATE.md)\n- [36 COUPLE](./36_CROSS_LAYER__COUPLE.md)\n"
+    return body
+
 
 def render_coverage_cell(spec:ProjectObjectSpec,index:int,scope:Scope,face:ModeFace)->str:
-    return f"""# {spec.display_name}: {scope.value} x {face.value}
+    body=f"""# {spec.display_name}: {scope.value} x {face.value}
 
 Object ID: {spec.object_id}
 Coverage cell: {index:02d}/36
@@ -533,6 +545,11 @@ Disposition: OPEN
 Add evidence here without replacing findings owned by another coverage cell.
 Canonical semantic changes route through AUTHORITY_REGISTRY.md and CHANGE_CONTROL.md.
 """
+
+    if spec.current_tool and spec.object_id=="MultiObject":
+        body=body.replace("Disposition: OPEN\n\n## Findings", "Disposition: OPEN\nPurpose: Preserve only findings at this exact Scope x ModeFace coordinate; do not infer semantic closure from this page.\nReader: MultiObject maintainers and audit reviewers.\nIndex: [all 36 coverage cells](README.md)\n\n## Findings")
+        body=body.replace("Canonical semantic changes route through AUTHORITY_REGISTRY.md and CHANGE_CONTROL.md.", "Canonical semantic changes route through the [authority registry](../AUTHORITY_REGISTRY.md) and [change control](../CHANGE_CONTROL.md).")
+    return body
 
 
 def package_files(spec:ProjectObjectSpec)->dict[str,str]:

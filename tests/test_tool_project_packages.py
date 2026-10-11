@@ -117,3 +117,27 @@ def test_multiobject_package_has_direct_runtime_math_and_legacy_lineage_routes()
     assert "MULTI_OBJECT_CONNECTOR_PROTOCOL.md" in sources
     assert "tests/test_multiobject_fullmath_identity.py" in sources
 
+def test_multiobject_batch2_coverage_and_streams_are_materialized_and_linked():
+    spec=next(x for x in current_tool_specs() if x.object_id=="MultiObject")
+    files=package_files(spec)
+    root=Path(__file__).resolve().parents[1]/"projects/tool-system"
+    prefix="current-tools/multiobject/"
+    index=files[prefix+"coverage/README.md"]
+    for number,scope,mode in coverage_cells():
+        name=f"{number:02d}_{scope.value}__{mode.value}.md"
+        path=prefix+"coverage/"+name
+        expected=files[path]
+        assert f"({('./'+name)})" in index
+        assert "Disposition: OPEN" in expected
+        assert "- none admitted yet" in expected
+        assert "[all 36 coverage cells](README.md)" in expected
+        assert "[authority registry](../AUTHORITY_REGISTRY.md)" in expected
+        assert (root/path).read_text(encoding="utf-8")==expected
+    assert index.count("](./")==36
+    assert (root/(prefix+"coverage/README.md")).read_text(encoding="utf-8")==index
+    for directory in ("evidence","runs","history"):
+        path=prefix+directory+"/README.md"
+        expected=files[path]
+        assert "This directory is append-only." in expected
+        assert "[Change control](../CHANGE_CONTROL.md)" in expected
+        assert (root/path).read_text(encoding="utf-8")==expected
