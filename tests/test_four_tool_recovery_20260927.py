@@ -49,6 +49,28 @@ def test_architecture_native_contract_preserves_boundary_state():
     assert out["status"]=="OPEN"
 
 
+def test_architecture_mapping_boundaries_preserve_typed_status():
+    base={
+        "ArchClass":"typed","Violations":(),"LocalizationFamilies":(),
+        "DependencyState":(),"InteractionState":(),"TransformationFrontier":(),
+        "SuccessorFrontier":(),"Coverage":"bounded","OpenConflictBlocked":(),
+        "Provenance":("e",),
+    }
+    for boundary,expected in (
+        ({"status":"CONFLICT"},"CONFLICT"),
+        ({"status":"BLOCKED"},"BLOCKED"),
+        ({"state":"OPEN"},"OPEN"),
+        ({"CONFLICT":("e",)},"CONFLICT"),
+        (("CONFLICT","BLOCKED"),"CONFLICT"),
+        (("OPEN",),"OPEN"),
+        ((),"RELATIVE_CLOSE"),
+    ):
+        out=run_architecture_analysis(
+            {},{},analyze_architecture=lambda a,k,_b=boundary:dict(base,OpenConflictBlocked=_b),
+        )
+        assert out["status"]==expected,(boundary,out["status"],expected)
+
+
 def test_pd_minimal_sensitivity_and_representation_collapse_are_distinct():
     cases=((0,0),(1,0),(1,1))
     out=run_pd(
