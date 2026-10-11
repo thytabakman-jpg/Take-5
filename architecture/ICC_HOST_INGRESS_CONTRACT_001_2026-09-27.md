@@ -13,8 +13,7 @@ repository entry occurred.
 
 ## Invariant
 
-An external host may represent a response as repository-backed ICC only when it
-holds a valid host ingress receipt for the exact request.
+An external host may represent a response as repository-backed ICC only when it holds a structurally valid host ingress receipt for the exact request **and** a fresh authenticated attestation from a separately trusted verifier. The gateway fails closed when the verifier configuration or attestation is absent.
 
 The receipt requires all of the following:
 
@@ -35,7 +34,7 @@ Missing evidence fails closed.
 
 ICC prefix alone is intent, not execution.
 
-ICC identity claim = host ingress receipt + repository-backed controller execution.
+ICC identity claim = structural ingress receipt + trusted-verifier attestation of exact ingress + repository-backed controller execution.
 
 Without the receipt, an external host remains the host and cannot claim that ICC
 executed.
@@ -63,8 +62,9 @@ verification, currentness verification, entry binding, protected bootstrap, and
 current controller registration. Naked boolean assertions do not satisfy the
 host-ingress contract.
 
-These receipts remain host-supplied evidence. Take-5 does not claim access to
-private external-host state that the host does not expose.
+These receipts remain host-supplied evidence. Take-5 does not claim access to private external-host state that the host does not expose. The host gateway now requires a time-bounded HMAC attestation tied to the exact receipt and verified with a trusted deployment key, not supplied by the user request. A five-minute maximum lifetime limits stale-token use but does not enforce single-use replay prevention.
+
+**Issuer obligation:** The independent trusted verifier must validate the real canonical repository/currentness, entry, ASSERT→GOAL bootstrap, and controller execution before signing. The MAC authenticates the issuer's statement but cannot itself prove the issuer honored that obligation. No trusted issuer/key configured means `OPEN/BLOCKED`, not an invented execution witness. This contract cannot compel an unrelated host to cooperate.
 
 ## Boundary
 
