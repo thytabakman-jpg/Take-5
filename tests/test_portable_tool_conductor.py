@@ -142,3 +142,36 @@ def test_real_configured_hf2_conflict_keeps_conductor_open(monkeypatch):
     assert result["open_tools"] == ("GOAL",)
     assert result["results"][0]["status"] == "CONFLICT"
     assert result["results"][0]["recurrence"]["call_count"] == 1
+
+
+def test_conductor_portable_adapter_consumes_hf2_successor_packet(monkeypatch):
+    import portable_tool_conductor as conductor
+    monkeypatch.setattr(conductor,"MATERIAL_TOOLS",("MT",))
+    seen=[]
+
+    def mt_adapter(packet):
+        seen.append(packet["iteration"])
+        if packet["iteration"]==1:
+            return {
+                "status":"EXECUTED",
+                "execution_truth":"SEMANTICALLY_APPLIED",
+                "state":{"packet":{"iteration":2}},
+                "result":{"iteration":1},
+                "material_delta":True,
+            }
+        return {
+            "status":"EXECUTED",
+            "execution_truth":"SEMANTICALLY_APPLIED",
+            "state":{"packet":{"iteration":2}},
+            "result":{"iteration":2},
+            "material_delta":False,
+        }
+
+    out=conductor.run_tool_conductor({"iteration":1},adapters={"MT":mt_adapter})
+    assert seen==[1,2]
+    assert out["status"]=="COMPLETE"
+    row=out["results"][0]
+    assert row["status"]=="EXECUTED"
+    assert row["result"]=={"iteration":2}
+    assert row["recurrence"]["status"]=="RELATIVE_CLOSE"
+    assert row["recurrence"]["call_count"]==2

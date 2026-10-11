@@ -354,7 +354,12 @@ def run_tool_conductor(
         if adapter is not None:
             def portable_adapter(current,plan,_adapter=adapter):
                 try:
-                    out=_adapter(packet)
+                    # HF002 reenters the same tool on its admitted successor.
+                    # Passing the captured entry packet on every round silently
+                    # discards a provider-supplied next packet.
+                    next_packet=(current.get("packet",packet)
+                                 if isinstance(current,Mapping) else packet)
+                    out=_adapter(next_packet)
                     # Preserve typed native MultiObject closure instead of treating
                     # every non-dict adapter result as a successful execution.
                     if isinstance(out, MultiObjectResult):
