@@ -105,7 +105,13 @@ def run_architecture_analysis(
 
     boundary=result["OpenConflictBlocked"]
     if boundary:
-        labels={str(x).upper() for x in boundary} if isinstance(boundary,(list,tuple,set,frozenset)) else {str(boundary).upper()}
+        if isinstance(boundary,Mapping):
+            labels={str(boundary.get(k,"")).upper() for k in ("status","state","disposition")}
+            labels.update(str(k).upper() for k,v in boundary.items() if v and str(k).upper() in {"OPEN","BLOCKED","CONFLICT"})
+        elif isinstance(boundary,(list,tuple,set,frozenset)):
+            labels={str(x).upper() for x in boundary}
+        else:
+            labels={str(boundary).upper()}
         if "CONFLICT" in labels:
             status="CONFLICT"
         elif "BLOCKED" in labels:
