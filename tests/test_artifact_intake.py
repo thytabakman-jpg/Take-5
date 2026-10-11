@@ -214,3 +214,33 @@ def test_actual_boolean_true_preserves_admitted_candidate():
         "source_span": "line:1", "load_bearing": True,
         "executable_claim": True, "bound": True}]})
     assert candidate_admission(result.candidates[0], package_verifier=lambda oid: True) == Admission.ACCEPT
+
+
+@pytest.mark.parametrize("field", ["load_bearing", "executable_claim", "bound"])
+def test_dataclass_entry_cannot_bypass_mapping_boolean_gate(field):
+    from artifact_intake import ExtractedCandidate
+    fields = {"candidate_id": "c", "candidate_type": "RUNTIME_BINDING_OR_TRIGGER",
+              "source_artifact": "a", "source_span": "line:1",
+              "load_bearing": True, "executable_claim": True, "bound": False}
+    fields[field] = "false"
+    result = intake([ArtifactRecord("a", "x")],
+                    {"typed": lambda a: [ExtractedCandidate(**fields)]})
+    assert result.candidates == ()
+    assert result.unresolved_extraction == ("a:typed:TypeError",)
+    assert result.generator_receipts[0].status == "ERROR"
+
+
+@pytest.mark.parametrize("bound", [True, False])
+def test_dataclass_and_mapping_paths_agree_on_admission(bound):
+    from artifact_intake import ExtractedCandidate
+    common = dict(candidate_id="c", candidate_type="RUNTIME_BINDING_OR_TRIGGER",
+                  source_span="line:1", load_bearing=True, executable_claim=True, bound=bound)
+    obj = ExtractedCandidate(source_artifact="a", **common)
+    typed = intake([ArtifactRecord("a", "x")], {"g": lambda a: [obj]})
+    mapping = intake([ArtifactRecord("a", "x")], {"g": lambda a: [common]})
+    assert typed.unresolved_extraction == mapping.unresolved_extraction == ()
+    assert len(typed.candidates) == len(mapping.candidates) == 1
+    verify = lambda oid: True
+    assert candidate_admission(typed.candidates[0], package_verifier=verify) == candidate_admission(mapping.candidates[0], package_verifier=verify)
+    assert to_work_items(typed, package_verifier=verify)[0].licensed is False
+    assert to_work_items(mapping, package_verifier=verify)[0].licensed is False
