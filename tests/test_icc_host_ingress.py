@@ -75,3 +75,16 @@ def test_complete_external_evidence_admits_and_yields_receipt():
 def test_ingress_fails_closed_on_missing_or_wrong_evidence(field,value,error):
     with pytest.raises(ICCHostIngressBlocked,match=error):
         admit_icc_host_ingress("ICC, fix it.",_evidence(**{field:value}))
+
+
+def test_receipt_digest_distinguishes_delimiter_ambiguous_evidence():
+    a = admit_icc_host_ingress("ICC, fix it.",_evidence(
+        repository_verification_receipt="a|b",
+        currentness_verification_receipt="c",
+    ))
+    b = admit_icc_host_ingress("ICC, fix it.",_evidence(
+        repository_verification_receipt="a",
+        currentness_verification_receipt="b|c",
+    ))
+    assert a.evidence_digest != b.evidence_digest
+    assert a.receipt_id != b.receipt_id
