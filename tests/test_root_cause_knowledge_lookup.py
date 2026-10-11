@@ -243,3 +243,79 @@ def test_supplementary_source_register_is_retrievable_without_promoting_history(
         "access": "SUPPLEMENTARY_REGISTER_PIN_NOT_REVALIDATED",
     }]
     assert result["admission"] == "NOT_ADMITTED"
+
+
+def test_repair_regression_consultation_to_explicit_owner_admitted_learning(tmp_path):
+    # A representative S20 recurrence; this does not fabricate live host
+    # authorization or replace checking the current original and rivals.
+    from types import SimpleNamespace
+    from root_cause_knowledge_lookup import record_verified_root_cause_outcome
+    root = _fixture(tmp_path)
+    subject = root / BASE / "EXECUTION_AND_TRANSITION_INTEGRITY.md"
+    subject.write_text(
+        "# Execution and transition integrity\\n"
+        "## Repair campaign regression after protocol changes\\n"
+        "A repair campaign stopped during blocked-file continuation after repair "
+        "protocol changes. Old working source repairs must remain reachable; "
+        "a result requires native validator evidence and a durable work cursor. "
+        "[S20](evidence/ADDITIONAL_ROOT_CAUSE_SOURCE_REGISTER.md#s20)\\n",
+        encoding="utf-8",
+    )
+    consultation = consult_root_cause_knowledge(
+        observed_failure=["repair campaign regression blocked-file continuation"],
+        research_root=root,
+    )
+    assert consultation["status"] == "CANDIDATES"
+    assert consultation["admission"] == "NOT_ADMITTED"
+    case = next(row for row in consultation["candidates"]
+                if row["subject"] == "EXECUTION_AND_TRANSITION_INTEGRITY.md")
+    assert any(x["anchor"] == "s20" for x in case["source_refs"])
+
+    class Ledger:
+        def __init__(self):
+            self.events = []
+        def record(self, **event):
+            self.events.append(event)
+            return SimpleNamespace(knowledge_id="fixture-gain")
+
+    class Negative:
+        def __init__(self):
+            self.events = []
+        def record(self, **event):
+            self.events.append(event)
+
+    good, negative = Ledger(), Negative()
+    context = dict(
+        source_episode="synthetic-repair-episode",
+        basis_id="frozen-repair-failure",
+        route_id="repair-level3-blocked-continuation",
+        consultation=consultation,
+        verification_refs=["synthetic:verified-readback-and-validator"],
+        dependency_footprint=["repair-controller"],
+    )
+    denied = record_verified_root_cause_outcome(
+        **context, owner_admitted=False,
+        outcome="VERIFIED_GAIN", knowledge_ledger=good,
+    )
+    assert denied["written"] is False and not good.events
+    failed_evidence = record_verified_root_cause_outcome(
+        **{**context, "verification_refs": []},
+        owner_admitted=True, outcome="VERIFIED_GAIN", knowledge_ledger=good,
+    )
+    assert failed_evidence["written"] is False and not good.events
+    recorded = record_verified_root_cause_outcome(
+        **context, owner_admitted=True,
+        outcome="VERIFIED_GAIN", knowledge_ledger=good,
+    )
+    assert recorded["status"] == "CAPTURED"
+    assert good.events[0]["metadata"]["consulted_subjects"]
+    assert "EXECUTION_AND_TRANSITION_INTEGRITY.md" in (
+        good.events[0]["metadata"]["consulted_subjects"]
+    )
+    bad = record_verified_root_cause_outcome(
+        **context, owner_admitted=True, outcome="FAILED",
+        negative_learning_memory=negative,
+    )
+    assert bad["status"] == "NEGATIVE_ROUTE_RECORDED"
+    assert negative.events[0]["disposition"] == "FAILED"
+    assert len(good.events) == len(negative.events) == 1
