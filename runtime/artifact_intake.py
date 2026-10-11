@@ -125,7 +125,8 @@ def intake(
     receipts: list[GeneratorReceipt] = []
     candidates: list[ExtractedCandidate] = []
     unresolved: list[str] = []
-    seen: set[tuple[str, str, str]] = set()
+    seen: dict[tuple[str, str, str], ExtractedCandidate] = {}
+    conflicted: set[tuple[str, str, str]] = set()
 
     for artifact in artifacts:
         for generator_id, generator in sorted(generators.items()):
@@ -151,8 +152,18 @@ def intake(
             for c in produced:
                 key = (c.candidate_id, c.candidate_type, c.source_artifact)
                 if key not in seen:
-                    seen.add(key)
+                    seen[key] = c
                     candidates.append(c)
+                elif (
+                    c.load_bearing, c.known_equivalent, c.executable_claim, c.bound
+                ) != (
+                    seen[key].load_bearing, seen[key].known_equivalent,
+                    seen[key].executable_claim, seen[key].bound
+                ) and key not in conflicted:
+                    conflicted.add(key)
+                    unresolved.append(
+                        f"{c.source_artifact}:{c.candidate_id}:CONFLICTING_ADMISSION_COORDINATES"
+                    )
                 ids.append(c.candidate_id)
             receipts.append(
                 GeneratorReceipt(
@@ -167,7 +178,9 @@ def intake(
     return IntakeResult(
         traversal,
         tuple(receipts),
-        tuple(candidates),
+        tuple(c for c in candidates if (
+            c.candidate_id, c.candidate_type, c.source_artifact
+        ) not in conflicted),
         tuple(unresolved),
     )
 
