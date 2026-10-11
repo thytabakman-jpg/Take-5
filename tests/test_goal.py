@@ -129,3 +129,24 @@ def test_goal_package_runtime_pointer_uses_live_configured_entrypoint():
     assert configured.blocker=="MT_PREREQUISITE_REQUIRED"
     assert "does **not** establish" in pointer
     assert "goal_mt_receipt" in pointer
+
+
+def test_goal_current_package_is_not_a_witness_of_configured_execution():
+    """Registration CURRENT cannot convert missing MT evidence into run closure."""
+    state=Path("projects/tool-system/current-tools/goal/CURRENT_STATE.md").read_text(encoding="utf-8")
+    assert "Projection status: CURRENT" in state
+    assert "Object status: CURRENT" in state
+    assert "Species: CURRENT_CONFIGURED_TOOL" in state
+    assert "not an independently executed or closed GOAL episode" in state
+    assert "manifest_for(\"GOAL\").lineage_contract" in state
+    assert "compilation_witness(\"GOAL\").entrypoint" in state
+    assert "goal.recover_goal_configured" in state
+
+    assert manifest_for("GOAL").lineage_contract=="architecture/GOAL_FULL_TOOL_MATH_002_2026-09-30.md"
+    assert compilation_witness("GOAL").entrypoint=="goal.recover_goal_configured"
+
+    without_mt=recover_goal_configured((_candidate(),),None)
+    assert without_mt.status=="OPEN"
+    assert without_mt.blocker=="MT_PREREQUISITE_REQUIRED"
+    assert without_mt.active_goal is None
+    assert "even while this package stays `CURRENT`" in state
