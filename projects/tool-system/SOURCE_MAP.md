@@ -12,8 +12,8 @@
 
 ## Legacy provenance
 
-- thytabakman-jpg/Reaserch/projects/improvement-core/versions/
-- thytabakman-jpg/Reaserch/projects/improvement-core/
-- thytabakman-jpg/Reaserch/architecture/
+- [Reaserch ImprovementCore version provenance](https://github.com/thytabakman-jpg/Reaserch/tree/main/projects/improvement-core/versions)
+- [Reaserch ImprovementCore sources](https://github.com/thytabakman-jpg/Reaserch/tree/main/projects/improvement-core)
+- [Reaserch architectural provenance](https://github.com/thytabakman-jpg/Reaserch/tree/main/architecture)
 
 Legacy evidence is referenced, not copied into a new competing semantic authority.

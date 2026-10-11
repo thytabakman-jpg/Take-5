@@ -4,6 +4,8 @@ Status: CURRENT CANDIDATE
 Date: 2026-09-27
 Controller: ImprovementCore / ICC organizational migration
 
+Governing project goal: [GOAL.md](GOAL.md). This charter states scope and safeguards; it does not authorize a goal mutation.
+
 ## Purpose
 
 Organize the entire Take-5 tool and ICC ecosystem so every current tool and every

@@ -13,9 +13,9 @@ CI must detect:
 7. accidental promotion of a historical ICC variant into current configured-tool status;
 8. disappearance of explicit OPEN status from unrecovered variants;
 9. conflation of Scope x ModeFace with SourceScope x TargetScope;
-10. loss of current source pointers after a registry/manfest/runtime change.
+10. loss of current source pointers after a registry/manifest/runtime change.
 
 Primary executable guard:
 
-runtime/tool_project_packages.py
-tests/test_tool_project_packages.py
+[runtime/tool_project_packages.py](../../runtime/tool_project_packages.py)
+[tests/test_tool_project_packages.py](../../tests/test_tool_project_packages.py)
