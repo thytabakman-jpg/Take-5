@@ -165,6 +165,85 @@ def test_improvementcore_handoff_is_evidence_only_and_non_authorizing():
     assert handoff.work==(work,)
 
 
+def test_repair_outcome_consumer_keeps_verified_work_and_blocker_separate():
+    """Repair -> ProjectManager boundary, using the existing native API.
+
+    A verified child repair is evidence, not a project-closure certificate.
+    Its blocked sibling and an independent legal work item must stay visible.
+    """
+    project=package("repair-network-integration-fixture")
+    project["evidence_refs"]=(
+        "synthetic:repair-target-readback",
+        "synthetic:repair-blocker-native-validator-unavailable",
+    )
+    project["coordinates"]["verification"]={
+        "status":"BLOCKED",
+        "evidence_refs":("synthetic:repair-blocker-native-validator-unavailable",),
+    }
+    fixed=WorkPackage(
+        work_id="repair-verified-target",
+        target_coordinate="evidence",
+        target_object="projects/example/repaired.md",
+        operation_class="REPAIR",
+        effect_class="EVIDENCE_ONLY",
+        success="real source readback and native verification",
+        status="COMPLETE",
+    )
+    blocked=WorkPackage(
+        work_id="repair-native-validation-blocked",
+        target_coordinate="verification",
+        target_object="projects/example/blocked.yaml",
+        operation_class="REPAIR",
+        effect_class="EVIDENCE_ONLY",
+        success="native validator available or precise blocker retained",
+        status="BLOCKED",
+    )
+    independent=WorkPackage(
+        work_id="repair-independent-next",
+        target_coordinate="evidence",
+        target_object="projects/example/independent.md",
+        operation_class="REPAIR",
+        effect_class="EVIDENCE_ONLY",
+        success="independent source evidence admitted",
+    )
+    frozen=json.dumps(project,sort_keys=True)
+    assessment=assess_project(project,work=(fixed,blocked,independent),
+                              completed_work=("repair-verified-target",))
+    assert assessment.project_id=="repair-network-integration-fixture"
+    assert assessment.status=="OPEN"
+    assert assessment.reentry_required is True
+    assert "repair-native-validation-blocked:BLOCKED" in assessment.blocked_work
+    assert "COORDINATE_STATE:verification:BLOCKED" in assessment.blocked_work
+    assert tuple(w.work_id for w in assessment.executable_frontier)==(
+        "repair-independent-next",
+    )
+    assert "synthetic:repair-target-readback" in assessment.evidence
+    handoff=improvementcore_handoff(assessment)
+    assert handoff.project_id==assessment.project_id
+    assert handoff.project_fingerprint==assessment.fingerprint
+    assert handoff.effect_class=="EVIDENCE_ONLY"
+    assert handoff.authority=="NONE"
+    assert tuple(w.work_id for w in handoff.work)==("repair-independent-next",)
+    assert json.dumps(project,sort_keys=True)==frozen
+
+    # Adversarial: claiming all child work completed cannot erase a
+    # separately owned still-blocked project verification coordinate.
+    forged=assess_project(project,work=(fixed,blocked,independent),
+        completed_work=("repair-verified-target",
+                        "repair-native-validation-blocked",
+                        "repair-independent-next"))
+    assert forged.status=="OPEN"
+    assert "COORDINATE_STATE:verification:BLOCKED" in forged.blocked_work
+
+    # Conversely, after an authorized distinct state update has genuinely
+    # cleared the blocker, no fixture work need remain.
+    unblocked=package("repair-network-integration-fixture")
+    final=assess_project(unblocked,work=(fixed,),
+                         completed_work=("repair-verified-target",))
+    assert final.status=="CLOSED_RELATIVE"
+    assert handoff.authority=="NONE"  # Neither observation granted mutation.
+
+
 def test_transfercore_boundary_stays_evidence_only_while_identity_open():
     out=assess_project(package())
     transfer=transfer_evidence_candidate(
