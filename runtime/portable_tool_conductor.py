@@ -376,6 +376,9 @@ def run_tool_conductor(
                         raw.setdefault("result",out)
                         raw.setdefault("material_delta",False)
                         return raw
+                    if out is None or (isinstance(out,dict) and "status" in out):
+                        # Let configured HF2 handle missing results and reject invalid statuses.
+                        return out
                     return {
                         "status":"EXECUTED",
                         "execution_truth":"IMPLEMENTATION_EXECUTED",
