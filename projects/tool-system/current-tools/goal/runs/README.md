@@ -11,4 +11,6 @@ Recorded runs and repair receipts:
 - [Level 1 Batch 04](LEVEL1_BATCH04_2026-10-10.md) — 30-file runtime/integration/test repair and validation receipt
 - [Level 1 Batch 05](LEVEL1_BATCH05_2026-10-10.md) — 30-file cross-repository Goal links, historical, code and CI first-pass receipt
 
+This batch has a [post-receipt reconciliation](LEVEL1_BATCH05_POST_RECEIPT_RECONCILIATION_2026-10-10.md) documenting two additional safe source repairs and the restored protected Reaserch CI trigger.
+
 These historical records retain their recorded statuses even when later validation changes.
