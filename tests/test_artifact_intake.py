@@ -214,3 +214,34 @@ def test_actual_boolean_true_preserves_admitted_candidate():
         "source_span": "line:1", "load_bearing": True,
         "executable_claim": True, "bound": True}]})
     assert candidate_admission(result.candidates[0], package_verifier=lambda oid: True) == Admission.ACCEPT
+
+
+@pytest.mark.parametrize("conflict", [
+    {"load_bearing": False},
+    {"bound": False},
+    {"executable_claim": False},
+    {"known_equivalent": "existing-other"},
+])
+def test_conflicting_generators_cannot_pick_authority_by_sort_order(conflict):
+    first = {"candidate_id": "collision", "candidate_type": "RUNTIME_BINDING_OR_TRIGGER",
+             "source_span": "line:1", "load_bearing": True,
+             "executable_claim": True, "bound": True}
+    second = {**first, **conflict}
+    artifact = ArtifactRecord("evidence", "x")
+    result = intake([artifact], {"first": lambda a: [first], "second": lambda a: [second]})
+    assert result.candidates == ()
+    assert result.unresolved_extraction == (
+        "evidence:collision:CONFLICTING_ADMISSION_COORDINATES",
+    )
+    assert to_work_items(result, package_verifier=lambda oid: True) == ()
+    assert all(r.status == "COMPLETE" for r in result.generator_receipts)
+
+
+def test_consistent_duplicate_candidate_does_not_multiply_work():
+    record = {"candidate_id": "same", "candidate_type": "MECHANISM_OR_CAPABILITY",
+              "source_span": "line:1", "load_bearing": True}
+    result = intake([ArtifactRecord("evidence", "x")],
+                    {"a": lambda a: [record], "b": lambda a: [dict(record)]})
+    assert result.unresolved_extraction == ()
+    assert len(result.candidates) == 1
+    assert len(to_work_items(result)) == 1
