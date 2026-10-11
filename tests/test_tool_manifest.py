@@ -1,5 +1,14 @@
 from tool_manifest import manifest_for,reconstructs,require_reconstruction
 
+def test_multiobject_manifest_matches_residual_and_reentry_identity():
+    m=manifest_for("MultiObject")
+    assert m.complete()
+    assert {
+        "MO_HIGHER_ORDER_RESIDUAL_TYPING",
+        "MO_MATERIAL_DELTA_REENTRY",
+    } <= m.behavior_ids()
+
+
 def test_mt_manifest_reconstructs_black_box_gate():
     m=manifest_for("MT")
     assert m.complete()
