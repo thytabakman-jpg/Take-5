@@ -19,7 +19,7 @@ This package organizes the object without becoming a second semantic authority.
 7. [DEPENDENCIES.md](DEPENDENCIES.md)
 8. [OPEN_QUESTIONS.md](OPEN_QUESTIONS.md)
 9. [SOURCE_MAP.md](SOURCE_MAP.md)
-10. coverage/ only for coverage evidence
+10. [coverage/](coverage/README.md) only for coverage evidence
 
 ## Anti-loss rule
 
