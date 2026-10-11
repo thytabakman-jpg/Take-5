@@ -41,9 +41,7 @@ executed.
 
 ## Receipt
 
-The receipt binds repository, ref, commit, controller, and a digest of the
-request body. The visible banner projects the controller, canonical source
-commit, and receipt identifier.
+The receipt binds repository, ref, commit, controller, and a digest of the request body. Its five evidence identifiers are canonically serialized as a compact JSON array before hashing, preventing delimiter-injection aliases; receipt identity uses the V3 domain tag. Earlier V2 receipts are not authenticated under this new gate. The visible banner projects the controller, canonical source commit, and receipt identifier.
 
 ## Validation
 
