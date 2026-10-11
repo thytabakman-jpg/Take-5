@@ -253,12 +253,12 @@ def test_repair_regression_consultation_to_explicit_owner_admitted_learning(tmp_
     root = _fixture(tmp_path)
     subject = root / BASE / "EXECUTION_AND_TRANSITION_INTEGRITY.md"
     subject.write_text(
-        "# Execution and transition integrity\\n"
-        "## Repair campaign regression after protocol changes\\n"
+        "# Execution and transition integrity\n"
+        "## Repair campaign regression after protocol changes\n"
         "A repair campaign stopped during blocked-file continuation after repair "
         "protocol changes. Old working source repairs must remain reachable; "
         "a result requires native validator evidence and a durable work cursor. "
-        "[S20](evidence/ADDITIONAL_ROOT_CAUSE_SOURCE_REGISTER.md#s20)\\n",
+        "[S20](evidence/ADDITIONAL_ROOT_CAUSE_SOURCE_REGISTER.md#s20)\n",
         encoding="utf-8",
     )
     consultation = consult_root_cause_knowledge(
