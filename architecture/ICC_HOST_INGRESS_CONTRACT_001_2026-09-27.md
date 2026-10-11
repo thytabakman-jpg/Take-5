@@ -66,6 +66,8 @@ These receipts remain host-supplied evidence. Take-5 does not claim access to pr
 
 **Issuer obligation:** The independent trusted verifier must validate the real canonical repository/currentness, entry, ASSERT→GOAL bootstrap, and controller execution before signing. The MAC authenticates the issuer's statement but cannot itself prove the issuer honored that obligation. No trusted issuer/key configured means `OPEN/BLOCKED`, not an invented execution witness. This contract cannot compel an unrelated host to cooperate.
 
+**Attestation encoding:** A trusted issuer signs the UTF-8 encoding of ten newline-separated fields in this fixed order: `TAKE5_HOST_EXECUTION_VERIFIER_V1`, repository, ref, full commit SHA, controller ID, request digest, evidence digest, structural receipt ID, issued-at Unix seconds, expires-at Unix seconds. The signature is lowercase HMAC-SHA256 hex using the secret provisioned as `TAKE5_TRUSTED_ICC_INGRESS_KEY` in the trusted gateway/verifier environment (minimum 32 UTF-8 bytes). The attestation names the same issuer and receipt ID. The issued-to-expiry interval cannot exceed 300 seconds; a future skew of more than 30 seconds or any expired attestation is rejected. Do not place the secret in repository files, user-supplied arguments or emitted results.
+
 ## Boundary
 
 Repository code cannot force an unrelated host to call this module. Therefore
