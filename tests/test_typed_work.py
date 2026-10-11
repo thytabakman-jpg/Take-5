@@ -45,3 +45,17 @@ def test_activation_keeps_identity_and_is_idempotent_for_active_work():
     assert active.provenance == work.provenance
     assert active.relations == work.relations
     assert activate(active, "owner") == active
+
+
+from endogenous_work import select_work
+
+@pytest.mark.parametrize("status", [WorkStatus.PAUSED_OPEN, WorkStatus.BLOCKED, WorkStatus.CLOSED])
+def test_select_work_never_selects_paused_or_terminal_items(status):
+    work = WorkItem("paused", "deferred", authority=("owner",), status=status)
+    assert select_work([work]).selected == ()
+
+
+def test_select_work_retains_candidate_and_active():
+    candidate = WorkItem("candidate", "new task", status=WorkStatus.CANDIDATE)
+    active = WorkItem("active", "continuing task", status=WorkStatus.ACTIVE)
+    assert select_work([candidate, active]).selected == (candidate, active)
