@@ -127,6 +127,27 @@ def test_evidenced_root_is_not_removed_by_unverified_broader_rival():
     assert not root_admissible(unverified, failure)
 
 
+def test_duplicate_candidate_id_cannot_override_causal_evidence():
+    failures = frozenset({"failure"})
+    good = RootCandidate(
+        "SAME", "ROOT_GENERATOR", failures,
+        evidence=frozenset({"evidence"}),
+        causal_test_evidence=frozenset({"test"}),
+        rival_discrimination_evidence=frozenset({"rival"}),
+        survives_representation_change=True,
+        removal_breaks_recurrence=True,
+    )
+    bad = RootCandidate("SAME", "ROOT_GENERATOR", failures)
+    for ordered in ((good, bad), (bad, good)):
+        out = run_root_cause_hf2(
+            failure_class=failures, candidates=ordered, basis_id="duplicate",
+        )
+        assert out.status == "OPEN"
+        assert out.root_candidates == ()
+        assert "DUPLICATE_ROOT_CANDIDATE_ID" in out.unresolved
+        assert out.parent_handoff["action"] == "RECONCILE_CANDIDATE_IDENTITIES"
+
+
 def test_root_cause_is_local_child_not_global_completion():
     failures,candidates=chat_candidates()
     child=run_root_cause_child(
