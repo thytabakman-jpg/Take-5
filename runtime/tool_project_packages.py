@@ -353,7 +353,7 @@ This page routes authority. It does not duplicate editable protected behavior.
 
 
 def render_dependencies(spec:ProjectObjectSpec)->str:
-    return f"""# Dependencies: {spec.display_name}
+    body=f"""# Dependencies: {spec.display_name}
 
 ## Canonical dependencies
 
@@ -369,7 +369,9 @@ def render_dependencies(spec:ProjectObjectSpec)->str:
 
 A dependency change reopens the affected cone. Unaffected package state remains protected.
 """
-
+    if spec.current_tool and spec.object_id=="MultiObject":
+        body += "\n## MultiObject native dependency edges\n\n- [Native relation-discovery executor](../../../../runtime/multiobject.py)\n- [Full-tool mathematical identity](../../../../architecture/MULTIOBJECT_FULL_TOOL_MATH_001_2026-09-27.md)\n"
+    return body
 
 def render_source_map(spec:ProjectObjectSpec)->str:
     body=f"""# Source map: {spec.display_name}
