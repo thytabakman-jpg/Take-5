@@ -75,10 +75,18 @@ def consult_root_cause_knowledge(
     observed_text = " ".join(observed).lower().replace("_", " ").replace("-", " ")
     query = _words(observed_text)
     # Stems of the same observed word are not independent evidence of relevance.
-    query_families = [
-        forms for forms in (_words(word) for word in set(WORDS.findall(observed_text)))
-        if forms
-    ]
+    # Distinct spellings sharing a normalized stem are one conceptual observation.
+    # Otherwise "closure closures" can counterfeit the two-feature threshold.
+    query_families: list[set[str]] = []
+    for word in sorted(set(WORDS.findall(observed_text))):
+        forms = _words(word)
+        if not forms:
+            continue
+        overlapping = [i for i, family in enumerate(query_families)
+                       if forms & family]
+        for index in reversed(overlapping):
+            forms |= query_families.pop(index)
+        query_families.append(forms)
     if len(query_families) < 2:
         return {"status": "NO_MATCH", "reason": "INSUFFICIENT_DISTINCTIVE_QUERY",
                 "candidates": []}
