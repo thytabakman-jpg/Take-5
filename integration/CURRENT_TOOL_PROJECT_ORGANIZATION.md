@@ -4,14 +4,25 @@ Date: 2026-09-27
 Status: CURRENT / VALIDATED THROUGH PR #166
 Authority: projects/tool-system/
 
+**Inventory readback (2026-10-10, America/Toronto):** 95 current tool packages, 45 historical/variant packages, 140 packages total, and 5,040 coverage pages from the checked tree. The 93-tool PR #166 native sweep below remains an exact **historical** execution result; it is not evidence that its 92 native runs covered later-admitted tools. [Live index](../projects/tool-system/TOOL_INDEX.md) · [source ownership](../projects/tool-system/AUTHORITY_REGISTRY.md).
+
+## Contents
+
+- [Current organization](#current-organization)
+- [Anti-loss invariant](#anti-loss-invariant)
+- [Two 36-cell structures](#two-36-cell-structures)
+- [Exhaustive current-repertoire sweep](#exhaustive-current-repertoire-sweep)
+- [Regression enforcement](#regression-enforcement)
+- [Currentness](#currentness)
+
 ## Current organization
 
 The tool/ICC ecosystem uses a non-destructive project-package architecture.
 
-Current configured tools: 93.
+Current configured tools: 95.
 Recovered/historical/unresolved ICC/IC variants: 45.
-Total object packages: 138.
-Scope x ModeFace coverage pages: 4,968.
+Total object packages: 140.
+Scope x ModeFace coverage pages: 5,040.
 
 Every package separately owns package-local current state, authority routing,
 identity routing, source map, open questions, change control, regression contract,
@@ -47,7 +58,7 @@ These remain different typed surfaces.
 
 PR #166 adds an executable every-tool development sweep.
 
-For the current 93-tool repertoire:
+For the **PR #166-era 93-tool** repertoire (historical snapshot):
 - 92 registered tools executed through native/project-grounded development bindings;
 - ToolConductor supplied its required self-witness;
 - zero tools remained OPEN;

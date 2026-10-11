@@ -3,6 +3,8 @@
 Status: VALIDATED / ADMISSION VIA PR #166
 Date: 2026-09-27
 
+**Live inventory readback (2026-10-10, America/Toronto):** [current tool index](TOOL_INDEX.md) and the checked repository package tree contain **95 current tool packages**, **45 ICC/IC variant packages**, **140 packages total**, and **5,040 Scope × ModeFace coverage pages**. The PR #166 figures and validation statements below are the retained **2026-09-27 historical admission snapshot**, not today's inventory counts. A future inventory change must be resolved from the canonical registry and package validators rather than from this static paragraph.
+
 Architecture contract: DEFINED
 Non-destructive overlay rule: LOCKED
 Current-tool package generator: IMPLEMENTED
