@@ -44,6 +44,10 @@ class WorkSelection:
 def activate(work:WorkItem,authority_token:str):
     if not work.licensed or authority_token not in set(work.authority):
         raise PermissionError("activation requires licensed authority")
+    if not work.material or not work.reachable:
+        raise PermissionError("activation requires material, reachable work")
+    if work.status not in {WorkStatus.CANDIDATE, WorkStatus.ACTIVE}:
+        raise PermissionError("activation cannot bypass blocked, paused, or closed state")
     return WorkItem(**{**work.__dict__,"status":WorkStatus.ACTIVE})
 
 def generate_obligations(state,job=None,discover=None):
