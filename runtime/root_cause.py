@@ -98,11 +98,18 @@ def run_root_cause_hf2(
     max_rounds:int=8,
 )->RootCauseResult:
     recurrence=frozenset(failure_class)
-    original={c.candidate_id:c for c in candidates}
+    supplied=tuple(candidates)
+    original={c.candidate_id:c for c in supplied}
     if not recurrence:
         return RootCauseResult(
             "OPEN",(),(),("FAILURE_CLASS_UNFROZEN",),0,{},(),
             {"controller":"ImprovementCore","action":"RECONSTRUCT_FAILURE_CLASS"},
+        )
+    if len(original)!=len(supplied):
+        return RootCauseResult(
+            "OPEN",(),(),("DUPLICATE_ROOT_CANDIDATE_ID",),0,{},(),
+            {"controller":"ImprovementCore","action":"RECONCILE_CANDIDATE_IDENTITIES",
+             "basis_id":basis_id},
         )
     if not original:
         return RootCauseResult(
