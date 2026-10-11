@@ -125,3 +125,20 @@ def test_conductor_conflict_is_unresolved_even_when_only_tool(monkeypatch):
     assert result["status"] == "OPEN"
     assert result["open_tools"] == ("GOAL",)
     assert result["results"][0]["status"] == "CONFLICT"
+
+
+def test_real_configured_hf2_conflict_keeps_conductor_open(monkeypatch):
+    import portable_tool_conductor as conductor
+    monkeypatch.setattr(conductor, "MATERIAL_TOOLS", ("GOAL",))
+    result = conductor.run_tool_conductor(
+        {},
+        adapters={"GOAL": lambda packet: {
+            "status": "CONFLICT",
+            "execution_truth": "CONFLICT",
+            "result": {"blocker": "competing_authorities"},
+        }},
+    )
+    assert result["status"] == "OPEN"
+    assert result["open_tools"] == ("GOAL",)
+    assert result["results"][0]["status"] == "CONFLICT"
+    assert result["results"][0]["recurrence"]["call_count"] == 1
