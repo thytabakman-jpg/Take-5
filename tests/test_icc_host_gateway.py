@@ -102,7 +102,7 @@ def test_fabricated_receipt_cannot_emit_identity_without_attestation(monkeypatch
         emit_hosted_icc_result(_receipt(),(TextFragment("answer"),))
 
 
-@pytest.mark.parametrize("adversary",["wrong_key","wrong_receipt","expired","too_long","future","wrong_issuer"])
+@pytest.mark.parametrize("adversary",["wrong_key","wrong_receipt","expired","too_long","future","wrong_issuer","bad_signature_format"])
 def test_trusted_gate_rejects_forged_stale_or_cross_request_attestation(monkeypatch,adversary):
     receipt, attestation = _trusted(monkeypatch)
     if adversary == "wrong_key":
@@ -123,5 +123,7 @@ def test_trusted_gate_rejects_forged_stale_or_cross_request_attestation(monkeypa
         attestation = _attestation(receipt,issued_at=int(time.time())+200)
     elif adversary == "wrong_issuer":
         attestation = replace(attestation,issuer="UNTRUSTED")
+    elif adversary == "bad_signature_format":
+        attestation = replace(attestation,signature="��" * 64)
     with pytest.raises(ICCHostIngressBlocked,match="ICC_TRUSTED_ATTESTATION_"):
         emit_hosted_icc_result(receipt,(TextFragment("answer"),),trusted_attestation=attestation)
