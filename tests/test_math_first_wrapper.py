@@ -5,7 +5,7 @@ from dataclasses import dataclass
 
 from jane import begin_turn
 from jane_supervisor import JaneSupervisoryState
-from math_first_wrapper import run_math_first_wrapper
+from math_first_wrapper import run_math_first_wrapper, infer_delta
 from icc_bootstrap import ICCBootstrapReceipt, ToolRunReceipt
 from representation_discovery import DiscoveryDelta
 
@@ -245,3 +245,15 @@ def test_take_two_discovery_delta_reenters_without_world_state_change():
     assert out.rounds[0].reentry
     assert not out.rounds[1].discovery_material
     assert not out.rounds[1].reentry
+
+
+def test_mapping_delta_tracks_none_valued_additions_and_removals():
+    added = infer_delta({"stable": 1}, {"stable": 1, "new": None})
+    assert added.material
+    assert added.changed == ("new",)
+    removed = infer_delta({"stable": 1, "old": None}, {"stable": 1})
+    assert removed.material
+    assert removed.changed == ("old",)
+    unchanged = infer_delta({"same": None}, {"same": None})
+    assert not unchanged.material
+    assert unchanged.changed == ()
