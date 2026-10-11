@@ -414,7 +414,7 @@ def run_tool_conductor(
     if seen != tuple(MATERIAL_TOOLS):
         raise RuntimeError("TOOL_CONDUCTOR_COVERAGE_MISMATCH")
 
-    open_tools = tuple(r["tool_id"] for r in results if r["status"] in {"OPEN", "BLOCKED"})
+    open_tools = tuple(r["tool_id"] for r in results if r["status"] in {"OPEN", "BLOCKED", "CONFLICT"})
     return {
         "status": "COMPLETE" if not open_tools else "OPEN",
         "tool_count": len(results),
