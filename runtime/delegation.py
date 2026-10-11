@@ -1,4 +1,12 @@
-"""Bounded delegation with exact before/after output preservation."""
+"""Bounded in-process delegation with exact input/output receipt hashes.
+
+The receipt field ``reintegrated`` records that the worker result was paired with
+and returned alongside its receipt *within this function call*. It is not proof
+of a durable parent-state commit, downstream consumer admission, scheduler
+execution, or external reintegration. Those require independent evidence from
+the owning consumer or state-commit machinery. Runtime boolean behavior is
+preserved for compatibility with tests/test_delegation_lineage.py.
+"""
 from dataclasses import dataclass
 from hashlib import sha256
 import json
