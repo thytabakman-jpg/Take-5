@@ -24,6 +24,8 @@ Promotion authorization: user authorized 2026-09-24
 
 ICC is the user-facing name for the current integrated Take-5 stack. It does not create a second controller identity.
 
+**Executable controller identity:** The current canonical `runtime/icc_entry.py` binds ICC128. The component names in the following description are architectural lineage and supporting roles, not a second runtime controller selector. See [current ICC128 conversation control](integration/CURRENT_ICC128_CONVERSATION_CONTROL.md).
+
 ICC means Jane + the validated math-first wrapper + Improvement Core / IC-028 + Tool Run Closure + HF reentry + the typed IC tool system.
 
 ## Start here
