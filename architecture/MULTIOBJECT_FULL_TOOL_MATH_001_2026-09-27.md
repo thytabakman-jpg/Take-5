@@ -5,6 +5,19 @@ Status: RECOVERED CURRENT IDENTITY / NATIVE RUNTIME CLOSED_RELATIVE / DOMAIN PRO
 Canonical repository: thytabakman-jpg/Take-5
 Pinned legacy evidence basis: thytabakman-jpg/Reaserch@492bf7da82ac346c1a17ab0acc2405adf17ae5c1
 
+## Contents
+
+- [1. Governing identity](#1-governing-identity)
+- [2. Native semantics N_MO](#2-native-semantics-n_mo)
+- [3. Wrapper/execution identity W_MO](#3-wrapperexecution-identity-w_mo)
+- [4. Geometry identity G_MO](#4-geometry-identity-g_mo)
+- [5. Protected behavior identity P_MO](#5-protected-behavior-identity-p_mo)
+- [6. Lineage/currentness/reality identity L_MO](#6-lineagecurrentnessreality-identity-l_mo)
+- [7. Run specification target](#7-run-specification-target)
+- [8. Specification-before-transformation boundary](#8-specification-before-transformation-boundary)
+- [9. Portability and external boundary](#9-portability-and-external-boundary)
+- [10. Closure statement](#10-closure-statement)
+
 ## 1. Governing identity
 
 For protected job J and basis K:
