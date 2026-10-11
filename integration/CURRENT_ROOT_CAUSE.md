@@ -4,6 +4,22 @@ Date: 2026-09-26
 Status: CURRENT / VALIDATED / MERGED
 Canonical repository: thytabakman-jpg/Take-5
 
+## Contents
+
+- [Identity](#identity)
+- [Native job](#native-job)
+- [Current composition](#current-composition)
+- [Rootness selector](#rootness-selector)
+- [HF2 protected behavior](#hf2-protected-behavior)
+- [Whole-chat MT basis](#whole-chat-mt-basis)
+- [Current whole-chat test](#current-whole-chat-test)
+- [Recovery load order](#recovery-load-order)
+- [Optional historical RootCause consultation (read-only)](#optional-historical-rootcause-consultation-read-only)
+- [Anti-loss rule](#anti-loss-rule)
+- [OPEN](#open)
+- [First validated run](#first-validated-run)
+- [Post-repair recheck](#post-repair-recheck)
+
 ## Identity
 
 User names:
