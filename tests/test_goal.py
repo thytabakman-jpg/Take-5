@@ -1,4 +1,5 @@
 import sys
+from pathlib import Path
 sys.path.insert(0,"runtime")
 
 from goal import GoalCandidate, GoalObject, GoalMTReceipt, recover_goal, recover_goal_configured
@@ -104,3 +105,27 @@ def test_configured_goal_accepts_open_mt_receipt_and_preserves_witness():
     assert out.status=="CLOSED_RELATIVE"
     assert "MT_PREFLIGHT:OPEN" in out.evidence
     assert "mt:black-box-gate-ran" in out.evidence
+
+
+def test_goal_package_runtime_pointer_uses_live_configured_entrypoint():
+    """Prevent package routing from silently bypassing the robust-MT gate."""
+    pointer=Path("projects/tool-system/current-tools/goal/RUNTIME.md").read_text(encoding="utf-8")
+    source_map=Path("projects/tool-system/current-tools/goal/SOURCE_MAP.md").read_text(encoding="utf-8")
+
+    entrypoint=compilation_witness("GOAL").entrypoint
+    current_spec=manifest_for("GOAL").lineage_contract
+    assert entrypoint=="goal.recover_goal_configured"
+    assert f"`{entrypoint}`" in pointer
+    assert entrypoint in source_map
+    assert "manifest_for(\"GOAL\").lineage_contract" in pointer
+    assert f"](../../../../{current_spec})" in source_map
+
+    # A native success never substitutes for a configured success.
+    bare=recover_goal((_candidate(),))
+    configured=recover_goal_configured((_candidate(),),None)
+    assert bare.status=="CLOSED_RELATIVE"
+    assert configured.status=="OPEN"
+    assert configured.active_goal is None
+    assert configured.blocker=="MT_PREREQUISITE_REQUIRED"
+    assert "does **not** establish" in pointer
+    assert "goal_mt_receipt" in pointer
