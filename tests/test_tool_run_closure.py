@@ -104,3 +104,26 @@ def test_trc_consumer_unknown_blocks_false_close():
     )
     assert out.certificate.status=="OPEN"
     assert out.certificate.settled_count==0
+
+
+def test_trc_distinct_target_versions_are_not_subsumed():
+    """One referent with a new source generation remains a distinct consequence."""
+    out=run_tool_run_closure(
+        tool_result={"finding":"same-id"},
+        pre_state={},
+        post_state={},
+        harvest_fn=lambda r,p,s:(q("multiobject-report",version="sha-a"),
+                                 q("multiobject-report",version="sha-b")),
+        disposition_fn=lambda c,s:Disposition.CERTIFIED_NO_EFFECT,
+        realize_fn=lambda c,s:s,
+        verify_fn=lambda c,s:s,
+        consume_fn=lambda c,s:s,
+        harvest_basis="multiobject-source-generations",
+    )
+    assert out.certificate.status=="CLOSED"
+    assert out.certificate.accounted_count==2
+    assert out.certificate.settled_count==2
+    assert out.certificate.duplicate_subsumptions==()
+    assert {r.cid[4] for r in out.certificate.records}=={"sha-a","sha-b"}
+    # No proof of a globally exhaustive harvest can be inferred from local closure.
+    assert out.certificate.harvest_complete is False
