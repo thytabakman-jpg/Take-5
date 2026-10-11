@@ -108,6 +108,34 @@ def test_current_control_without_evidence_is_invalid_and_open():
     assert any(x.startswith("human_orchestration:") for x in out.invalid_controls)
 
 
+def test_nonstring_owner_or_evidence_cannot_satisfy_current_integrity():
+    for field, value in (
+        ("owner", None),
+        ("owner", {"name": "fictional"}),
+        ("evidence", [None]),
+        ("evidence", [False]),
+        ("evidence", ["valid", None]),
+        ("tests", [None]),
+        ("tests", ["valid", "  "]),
+    ):
+        p = package()
+        p["failure_controls"]["execution_truth"][field] = value
+        out = assess_project_integrity(p)
+        assert out.status == "OPEN", (field, value)
+        assert any(x.startswith("execution_truth:") for x in out.invalid_controls)
+
+
+def test_nonstring_not_applicable_reason_is_not_positive_proof():
+    p = package()
+    p["failure_controls"]["artifact_production"] = {
+        "status": "NOT_APPLICABLE",
+        "owner": "FAILURE_PREVENTION_MATRIX.md",
+        "evidence": ("no-produced-artifact",),
+        "reason": None,
+    }
+    assert assess_project_integrity(p).status == "OPEN"
+
+
 def test_not_applicable_requires_explicit_reason_and_evidence():
     p=package()
     p["failure_controls"]["artifact_production"]={
