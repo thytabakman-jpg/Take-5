@@ -11,14 +11,15 @@ Contract:
     -> bound entry contract
     -> complete ASSERT->GOAL bootstrap evidence
     -> ICC128 registered-controller evidence
-    -> HOST_INGRESS_ADMITTED receipt
+    -> HOST_INGRESS_ADMITTED structural receipt
+    -> separate trusted issuer attestation for hosted execution/identity
 
 The host must carry explicit evidence-receipt identifiers rather than naked
 boolean assertions. This module still cannot verify an unrelated host's private
 state; it fails closed when the host cannot present the required receipts.
 
-Without the final ingress receipt, the host may answer as itself, but it may not
-represent the answer as a repository-backed ICC execution.
+Without a separately authenticated attestation, a structural receipt is only
+bookkeeping. The hosted gateway blocks repository-backed ICC execution/identity.
 """
 from __future__ import annotations
 
