@@ -281,3 +281,111 @@ def test_formal_math_job_cannot_complete_without_any_formal_claim_receipt():
             context=_context(formal_claim_receipt_required=True),
             verifier=verifier,fresh_reobserve=_fresh_stable,
         )
+
+
+def _valid_report_lineage_receipt():
+    sha="0123456789abcdef0123456789abcdef01234567"
+    target={
+        "repository":"thytabakman-jpg/Take-5",
+        "object_id":"PROJECT:X:MANUSCRIPT",
+        "selector_role":"resolved_from_current_pointer",
+        "immutable_kind":"git_commit",
+        "frozen_ref":sha,
+        "authority_status":"canonical_working",
+    }
+    return {
+        "run_id":"RUN:REPORT:1",
+        "target_identity":target,
+        "report_target_identity":target,
+        "execution_claim":{
+            "object_id":"RUN:REPORT:1",
+            "claim_id":"execution",
+            "claimed_level":"EXECUTED",
+            "evidence":{
+                "identity":"id",
+                "plan":"plan",
+                "dispatch":"dispatch",
+                "execution":"execution",
+            },
+        },
+        "report_locator":"reports/run-1.md",
+        "report_content_identity":"sha256:"+"a"*64,
+        "report_persisted":True,
+        "report_read_back_verified":True,
+        "owner_routing_status":"ROUTED",
+        "affected_state_disposition":"UPDATED",
+    }
+
+
+def test_report_bearing_complete_requires_report_lineage_receipt():
+    def verifier(state,memory,context):
+        return {
+            "disposition":"RETURN","terminal":"COMPLETE",
+            "goal_closed":True,"owned_work_remaining":False,
+            "consequence_closed":True,"evidence":["unit:report-required"],
+        }
+    with pytest.raises(
+        RuntimeError,
+        match="COMPLETE_WITHOUT_REPORT_LINEAGE_RECEIPT",
+    ):
+        evaluate_parent_return(
+            candidate_status="COMPLETE",candidate_blocker=None,
+            state={"terminal":"COMPLETE"},memory={},
+            context=_context(
+                report_lineage_receipt_required=True,
+                canonical_repository="thytabakman-jpg/Take-5",
+            ),
+            verifier=verifier,fresh_reobserve=_fresh_stable,
+        )
+
+
+def test_wrong_target_report_lineage_blocks_complete():
+    def verifier(state,memory,context):
+        return {
+            "disposition":"RETURN","terminal":"COMPLETE",
+            "goal_closed":True,"owned_work_remaining":False,
+            "consequence_closed":True,"evidence":["unit:wrong-target"],
+        }
+    receipt=_valid_report_lineage_receipt()
+    receipt["report_target_identity"]={
+        **receipt["report_target_identity"],
+        "frozen_ref":"fedcba9876543210fedcba9876543210fedcba98",
+    }
+    with pytest.raises(
+        RuntimeError,
+        match="COMPLETE_WITH_UNCLOSED_REPORT_LINEAGE",
+    ):
+        evaluate_parent_return(
+            candidate_status="COMPLETE",candidate_blocker=None,
+            state={"terminal":"COMPLETE","report_lineage_receipts":[receipt]},
+            memory={},
+            context=_context(
+                report_lineage_receipt_required=True,
+                canonical_repository="thytabakman-jpg/Take-5",
+            ),
+            verifier=verifier,fresh_reobserve=_fresh_stable,
+        )
+
+
+def test_verified_report_lineage_allows_existing_complete_path():
+    def verifier(state,memory,context):
+        return {
+            "disposition":"RETURN","terminal":"COMPLETE",
+            "goal_closed":True,"owned_work_remaining":False,
+            "consequence_closed":True,"evidence":["unit:report-lineage-pass"],
+        }
+    out=evaluate_parent_return(
+        candidate_status="COMPLETE",candidate_blocker=None,
+        state={
+            "terminal":"COMPLETE",
+            "report_lineage_receipts":[_valid_report_lineage_receipt()],
+        },
+        memory={},
+        context=_context(
+            report_lineage_receipt_required=True,
+            canonical_repository="thytabakman-jpg/Take-5",
+        ),
+        verifier=verifier,fresh_reobserve=_fresh_stable,
+    )
+    assert out.terminal=="COMPLETE"
+    assert out.receipt["report_lineage_residuals"]==()

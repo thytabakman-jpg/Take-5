@@ -17,6 +17,7 @@ from dataclasses import dataclass, asdict
 from typing import Any, Callable, Mapping
 
 from whole_job_stability import run_whole_job_stability, receipt_dict as stability_receipt_dict
+from report_lineage import assess_report_lineage
 
 RETURNABLE={"COMPLETE","OPEN","BLOCKED","CONFLICT"}
 DISPOSITIONS={"RETURN","CONTINUE"}
@@ -89,6 +90,41 @@ def _unclosed_prose_receipts(state:Mapping[str,Any])->tuple[str,...]:
             residuals.append(f"PROSE_RECEIPT_NOT_PASS:{contract_id}:{status or 'MISSING'}")
         if not evidence:
             residuals.append(f"PROSE_RECEIPT_EVIDENCE_MISSING:{contract_id}")
+    return tuple(residuals)
+
+
+def _report_lineage_receipts_present(state:Mapping[str,Any])->bool:
+    raw=state.get("report_lineage_receipts",None)
+    if raw is None:
+        return False
+    if isinstance(raw,Mapping):
+        return True
+    if isinstance(raw,(list,tuple)):
+        return bool(raw)
+    return False
+
+
+def _unclosed_report_lineage_receipts(
+    state:Mapping[str,Any],
+    *,
+    expected_repository:str|None=None,
+)->tuple[str,...]:
+    raw=state.get("report_lineage_receipts",())
+    if isinstance(raw,Mapping):
+        raw=(raw,)
+    if not isinstance(raw,(list,tuple)):
+        return ("INVALID_REPORT_LINEAGE_RECEIPTS",)
+    residuals=[]
+    for i,row in enumerate(raw):
+        if not isinstance(row,Mapping):
+            residuals.append(f"INVALID_REPORT_LINEAGE_RECEIPT:{i}")
+            continue
+        out=assess_report_lineage(row,expected_repository=expected_repository)
+        if out.status!="PASS":
+            run_id=str(row.get("run_id") or i)
+            residuals.append(f"REPORT_LINEAGE_NOT_PASS:{run_id}:{out.status}")
+            residuals.extend(f"REPORT_LINEAGE_MISSING:{run_id}:{x}" for x in out.missing)
+            residuals.extend(f"REPORT_LINEAGE_CONFLICT:{run_id}:{x}" for x in out.conflicts)
     return tuple(residuals)
 
 
@@ -183,6 +219,12 @@ def evaluate_parent_return(
     prose_receipt_required=bool(ctx.get("prose_receipt_required",False))
     prose_receipts_present=_prose_receipts_present(proposed_state)
     prose_receipt_residuals=_unclosed_prose_receipts(proposed_state)
+    report_lineage_receipt_required=bool(ctx.get("report_lineage_receipt_required",False))
+    report_lineage_receipts_present=_report_lineage_receipts_present(proposed_state)
+    report_lineage_residuals=_unclosed_report_lineage_receipts(
+        proposed_state,
+        expected_repository=ctx.get("canonical_repository"),
+    )
 
     receipt={
         "gate":"PARENT_RETURN_GATE",
@@ -202,6 +244,9 @@ def evaluate_parent_return(
         "prose_receipt_required":prose_receipt_required,
         "prose_transition_receipts_present":prose_receipts_present,
         "prose_transition_receipt_residuals":prose_receipt_residuals,
+        "report_lineage_receipt_required":report_lineage_receipt_required,
+        "report_lineage_receipts_present":report_lineage_receipts_present,
+        "report_lineage_residuals":report_lineage_residuals,
     }
 
     if disposition=="CONTINUE":
@@ -255,6 +300,14 @@ def evaluate_parent_return(
     if terminal=="COMPLETE" and prose_receipt_residuals:
         raise RuntimeError(
             "IC_PARENT_RETURN_GATE_COMPLETE_WITH_UNCLOSED_PROSE_RECEIPT"
+        )
+    if terminal=="COMPLETE" and report_lineage_receipt_required and not report_lineage_receipts_present:
+        raise RuntimeError(
+            "IC_PARENT_RETURN_GATE_COMPLETE_WITHOUT_REPORT_LINEAGE_RECEIPT"
+        )
+    if terminal=="COMPLETE" and report_lineage_residuals:
+        raise RuntimeError(
+            "IC_PARENT_RETURN_GATE_COMPLETE_WITH_UNCLOSED_REPORT_LINEAGE"
         )
 
     blocker=decision.get("blocker") or candidate_blocker
