@@ -54,6 +54,8 @@ This is a finite, repository-owned, current-basis claim.  It is not a claim of
 universal host interception, self-contained execution for every environment, or
 global mathematical completeness.
 
+**Registry-currentness gate (2026-10-11):** The 2026-09-27 PR #162 success below is exact historical evidence for its then-registered repertoire, **not** a fresh native strong-reality proof of every subsequently registered tool. [The tool-system owner](../projects/tool-system/CURRENT_STATE.md) now distinguishes **95 current tools** from the **93-tool PR #166 historical sweep**. The `CLOSED_RELATIVE` claim above is valid for a chosen current registry only when [`runtime/tool_reality_audit.py`](../runtime/tool_reality_audit.py) actually verifies all four layers on that same registry/currentness basis. The separate [every-tool sweep](../runtime/tool_system_every_tool_sweep.py) tests configured execution and development bindings; its PASS is useful additional evidence but does not by itself replace the strong-reality audit. If the fresh four-layer result is unavailable or changes, preserve the proven historical closure and report the expanded/current basis as `OPEN`, not automatically `CLOSED_RELATIVE`.
+
 ## Four-tool recovery delta
 
 PR #162 closes the exact residual left by PR #161:
