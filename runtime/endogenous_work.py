@@ -69,8 +69,11 @@ def closure_status(generated,discharged,open_coordinates=(),blocked=False):
     if blocked:
         return WorkStatus.BLOCKED
     remaining=fresh_work(generated,discharged)
-    if remaining:
+    # A stored but non-runnable obligation prevents closure, yet is not ACTIVE.
+    if any(w.status in {WorkStatus.CANDIDATE, WorkStatus.ACTIVE} for w in remaining):
         return WorkStatus.ACTIVE
-    if open_coordinates:
+    if any(w.status == WorkStatus.BLOCKED for w in remaining):
+        return WorkStatus.BLOCKED
+    if remaining or open_coordinates:
         return WorkStatus.PAUSED_OPEN
     return WorkStatus.CLOSED
