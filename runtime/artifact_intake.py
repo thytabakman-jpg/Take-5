@@ -75,6 +75,16 @@ class IntakeResult:
         return bool(self.traversal) and all(r.complete for r in self.traversal)
 
 
+def _bool_coordinate(value: Mapping[str, Any], key: str, default: bool | None) -> bool | None:
+    """Do not convert textual 'false' into an authorization-bearing True."""
+    if key not in value:
+        return default
+    given = value[key]
+    if not isinstance(given, bool):
+        raise TypeError(f"{key} must be a boolean")
+    return given
+
+
 def _normalize_candidate(value: Any, artifact: ArtifactRecord) -> ExtractedCandidate:
     if isinstance(value, ExtractedCandidate):
         return value
@@ -85,10 +95,10 @@ def _normalize_candidate(value: Any, artifact: ArtifactRecord) -> ExtractedCandi
         candidate_type=str(value.get("candidate_type", "")),
         source_artifact=str(value.get("source_artifact", artifact.artifact_id)),
         source_span=str(value.get("source_span", "")),
-        load_bearing=(None if "load_bearing" not in value else bool(value.get("load_bearing"))),
+        load_bearing=_bool_coordinate(value, "load_bearing", None),
         known_equivalent=value.get("known_equivalent"),
-        executable_claim=bool(value.get("executable_claim", False)),
-        bound=bool(value.get("bound", False)),
+        executable_claim=_bool_coordinate(value, "executable_claim", False),
+        bound=_bool_coordinate(value, "bound", False),
         provenance=tuple(value.get("provenance", artifact.provenance)),
         affected=tuple(value.get("affected", ())),
     )
