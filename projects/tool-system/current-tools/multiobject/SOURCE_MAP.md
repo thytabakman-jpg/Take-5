@@ -26,6 +26,12 @@ to make the folder look complete.
 - [Native regression tests](../../../../tests/test_multiobject.py)
 - [Mathematical identity regression tests](../../../../tests/test_multiobject_fullmath_identity.py)
 
+## Repair and regression evidence
+
+- [Ten-source Level 1 triage receipt](evidence/level1-ten-loadbearing-source-triage.md) — accepted source baselines; not Level 2 certification.
+- [Ten-source Level 2 triage ledger](evidence/level2-ten-loadbearing-source-triage.md) — functional findings, repairs, and remaining verification gates.
+- [Portable conductor regression tests](../../../../tests/test_portable_tool_conductor.py) — configured adapter and typed MultiObject result checks.
+
 ## Pinned historical mathematical and protocol lineage
 
 The full mathematical identity pins the historical evidence basis to `thytabakman-jpg/Reaserch@492bf7da82ac346c1a17ab0acc2405adf17ae5c1`. These links preserve the input lineage; they do not confer current Take-5 execution authority.
