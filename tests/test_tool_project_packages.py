@@ -41,6 +41,19 @@ def test_coverage_surface_is_scope_x_modeface_and_distinct_from_handoff_surface(
     assert "SourceScope x TargetScope" not in sample
 
 
+def test_delegatedexecutor_generated_coverage_index_matches_committed_source():
+    spec=next(s for s in current_tool_specs() if s.object_id=="DelegatedExecutor")
+    generated=package_files(spec)["current-tools/delegatedexecutor/coverage/README.md"]
+    repo_root=Path(__file__).resolve().parents[1]
+    committed=(repo_root/"projects/tool-system/current-tools/delegatedexecutor/coverage/README.md").read_text(encoding="utf-8")
+    assert generated==committed
+    for index,scope,face in coverage_cells():
+        name=f"{index:02d}_{scope.value}__{face.value}.md"
+        assert generated.count(f"(./{name})")==1
+    assert generated.count("](./")==36
+    assert "evidence for one Scope x ModeFace coordinate" in generated
+
+
 def test_materializer_refuses_to_overwrite_changed_existing_content(tmp_path:Path):
     spec=current_tool_specs()[0]
     materialize_package(tmp_path,spec)
