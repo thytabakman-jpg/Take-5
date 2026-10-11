@@ -35,18 +35,47 @@ def validate_root_cause_recovery():
     )):
         failures.append("ROOT_CAUSE_MANIFEST_DRIFT")
 
+    # An executable synthetic intervention demonstrates each positive witness.
+    # This verifies the RootCause proof gate, not a real-world causal attribution.
+    def synthetic_failure(*,root_present:bool,rival_present:bool)->bool:
+        return root_present
+
+    with_root=synthetic_failure(root_present=True,rival_present=False)
+    without_root=synthetic_failure(root_present=False,rival_present=False)
+    with_rival_only=synthetic_failure(root_present=False,rival_present=True)
+    with_both=synthetic_failure(root_present=True,rival_present=True)
+    fixture_valid=(with_root and with_both and not without_root and not with_rival_only)
     root=RootCandidate(
         "R","ROOT_GENERATOR",frozenset({"A"}),
-        survives_representation_change=True,
-        removal_breaks_recurrence=True,
+        evidence=frozenset({"synthetic:failure_with_R","synthetic:no_failure_without_R"})
+                 if fixture_valid else frozenset(),
+        survives_representation_change=bool(with_root and with_both),
+        removal_breaks_recurrence=bool(with_root and not without_root),
+        causal_test_evidence=frozenset({"synthetic:removal_stops_failure"})
+                            if fixture_valid else frozenset(),
+        rival_discrimination_evidence=frozenset({"synthetic:rival_only_no_failure"})
+                                     if fixture_valid else frozenset(),
     )
     out=run_root_cause_hf2(
         failure_class={"A"},
         candidates=(root,),
-        basis_id="recovery",
+        basis_id="recovery-synthetic-controlled",
     )
-    if out.status!="RELATIVE_CLOSE" or out.root_candidates!=("R",):
+    if not fixture_valid or out.status!="RELATIVE_CLOSE" or out.root_candidates!=("R",):
         failures.append("ROOT_CAUSE_RUNTIME_DRIFT")
+
+    # An otherwise identical root with unobserved causal/rival tests must not close.
+    unwitnessed=RootCandidate(
+        "UNTESTED","ROOT_GENERATOR",frozenset({"A"}),
+        evidence=frozenset({"reported_only"}),
+        survives_representation_change=True,
+        removal_breaks_recurrence=True,
+    )
+    negative=run_root_cause_hf2(
+        failure_class={"A"},candidates=(unwitnessed,),basis_id="recovery-negative",
+    )
+    if negative.status=="RELATIVE_CLOSE" or negative.root_candidates:
+        failures.append("ROOT_CAUSE_UNWITNESSED_PROMOTION")
 
     return {
         "status":"PASS" if not failures else "FAIL",

@@ -252,7 +252,16 @@ def test_explicit_user_approval_crosses_only_the_promotion_barrier():
 def test_project_manager_adapter_manages_candidate_without_creating_project():
     from project_manager import project_manager_adapter
     candidate=definition_candidate()
-    raw=project_manager_adapter({"candidate":candidate},None)
+    raw=project_manager_adapter({
+        "candidate":candidate,
+        "currentness_binding":{
+            "subject_id":candidate.candidate_id,
+            "object_identity":"fixture:candidate:"+candidate.candidate_id,
+            "built_generation":"fixture:exact-state-1",
+            "latest_generation":"fixture:exact-state-1",
+            "identity_verified":True,
+        },
+    },None)
     assert raw["status"]=="EXECUTED"
     result=raw["result"]
     assert result["definition_assessment"]["status"]=="DEFINITION_READY"

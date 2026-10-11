@@ -1,4 +1,26 @@
-# ImprovementCore Premature Return and HF2 Audit 139
+# Local HF2 Closure Was Mistaken for Permission to Return Before the Parent Job Ended
+
+<a id="improvementcore-premature-return-and-hf2-audit-139"></a>
+**Historical report title:** ImprovementCore Premature Return and HF2 Audit 139  
+**Document type:** Dated Root Cause implementation audit; historical branch-level claims, not proof of present host-wide behavior  
+**Audience:** ImprovementCore parent-controller, HF2, and runtime-gate maintainers  
+**Goal:** Expose the parent-return gating defect, its recorded implementation, and the distinction between local closure and governing job completion  
+**Source status:** Dated original; historical evidence, claimed repairs and unresolved boundaries retained without asserting current operational authority.  
+
+## Principal finding and evidential limits
+
+The diagnosed mechanism was a **missing independent parent-return gate**. The report states that semantic-provider COMPLETE and HF2 relative close could terminate a user-visible interaction while parent-owned work remained. It records an added `ParentReturnGate` and caller integration **on the inspected branch**; this Level 1 edit does **not** revalidate the runtime or host-wide effect.
+
+## Contents
+
+- [User-reported failure](#user-reported-failure)
+- [Evidence audit](#evidence-audit)
+- [HF2 audit](#hf2-audit)
+- [Live code defect found](#live-code-defect-found)
+- [Systemic repair](#systemic-repair)
+- [New invariant](#new-invariant)
+- [Expected behavioral consequence](#expected-behavioral-consequence)
+
 
 Date: 2026-09-26
 Status: ROOT DEFECT IDENTIFIED / SYSTEMIC REPAIR IMPLEMENTED ON BRANCH

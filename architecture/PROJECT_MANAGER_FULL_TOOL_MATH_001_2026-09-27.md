@@ -1,9 +1,38 @@
 # ProjectManager Full Tool Mathematics 001
 
 Date: 2026-09-27
-Status: CURRENT / VALIDATED / MERGED
+Status: ACCEPTED FOUNDATIONAL LAYER / ORIGINAL PR 164 MERGED
+Status at original promotion: CURRENT / VALIDATED / MERGED
+Lineage: PR 164 merged as 4d8477dd79e45292e9f8f736721b97eedb23f054.
+Later additive layers: 002 (admission), 003 (management spine), 004 (failure immunity).
+This historical foundational object remains valid as a layer, not the sole
+live configured identity. Resolve current implementation through the
+ProjectManager controller and runtime/tool_manifest.py, not its filename suffix.
 Canonical target: thytabakman-jpg/Take-5
 Project self-instance: projects/project-manager/
+
+## Table of contents
+
+- [1 Job](#1-job)
+- [2 Governing question](#2-governing-question)
+- [3 Native project state](#3-native-project-state)
+- [4 Tool object type](#4-tool-object-type)
+- [5 Observer run and commit separation](#5-observer-run-and-commit-separation)
+- [6 Event and delta](#6-event-and-delta)
+- [7 Work package](#7-work-package)
+- [8 Authority invariant](#8-authority-invariant)
+- [9 Decomposition invariant](#9-decomposition-invariant)
+- [10 Locality and impact](#10-locality-and-impact)
+- [11 Full tool identity](#11-full-tool-identity)
+- [12 Geometry](#12-geometry)
+- [13 Protected behaviors](#13-protected-behaviors)
+- [14 Closure](#14-closure)
+- [15 Self-management](#15-self-management)
+- [16 ImprovementCore relation](#16-improvementcore-relation)
+- [17 TransferCore relation](#17-transfercore-relation)
+- [18 Requested bootstrap sequence](#18-requested-bootstrap-sequence)
+- [19 Full configured invocation](#19-full-configured-invocation)
+- [20 Nonclaims](#20-nonclaims)
 
 ## 1 Job
 

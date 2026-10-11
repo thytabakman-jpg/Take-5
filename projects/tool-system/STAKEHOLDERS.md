@@ -16,4 +16,4 @@ Status: CURRENT
 ## Rule
 
 Stakeholder interest does not imply mutation authority. Authority remains
-object-specific and is routed by AUTHORITY_REGISTRY.md.
+object-specific and is routed by [AUTHORITY_REGISTRY.md](AUTHORITY_REGISTRY.md).

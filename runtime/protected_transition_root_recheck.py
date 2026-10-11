@@ -31,8 +31,10 @@ def run_post_pti_root_recheck():
             frozenset(residual),
             evidence=frozenset({"TAKE5_PTI_PORTFOLIO_PASS","HOST_BOUNDARY_DECLARED_OPEN"}),
             upstream_of=frozenset({"HOST_REASONING_SUBSTITUTES_FOR_CONTROLLER"}),
+            # Internal PTI tests do not test removal of an external host bypass.
             survives_representation_change=True,
-            removal_breaks_recurrence=True,
+            removal_breaks_recurrence=False,
+            unresolved=frozenset({"EXTERNAL_HOST_REMOVAL_TEST_NOT_OBSERVED"}),
         ),
     )
     root=run_root_cause_hf2(

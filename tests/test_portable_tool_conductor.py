@@ -6,6 +6,22 @@ from portable_tool_conductor import (
     run_tool_conductor,
 )
 from tool_run_registry import MATERIAL_TOOLS
+from multiobject import FrozenObject, run_multiobject
+
+
+def test_multiobject_typed_open_is_not_promoted_to_executed_by_conductor():
+    objects=(
+        FrozenObject("A","THEORY","a","x"),
+        FrozenObject("B","RULE","b","y"),
+        FrozenObject("C","LAW","c","z"),
+    )
+    out=run_tool_conductor({},adapters={
+        "MultiObject":lambda packet:run_multiobject(objects,None)
+    })
+    mo=next(row for row in out["results"] if row["tool_id"]=="MultiObject")
+    assert mo["status"]=="OPEN"
+    assert mo["result"]["blocker"]=="MULTIOBJECT_PROVIDER_REQUIRED"
+    assert mo["result"]["material_delta"] is False
 
 
 def test_every_registered_tool_has_compilation_witness():

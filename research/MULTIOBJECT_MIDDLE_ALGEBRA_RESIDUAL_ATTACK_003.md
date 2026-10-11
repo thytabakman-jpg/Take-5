@@ -12,6 +12,24 @@ O={DIFFERENTIATE,RELATE,RECONSTRUCT,STRENGTHEN}
 Test rule:
 A residual is architecture-relevant only when protected joint behavior cannot be reconstructed from candidate factors under licensed composition.
 
+**Document purpose and audience:** Preserve a basis-relative experimental attack on candidate middle-algebra interactions for formal-tool researchers and maintainers. This is research evidence only, not a current MultiObject runtime or mathematical authority.
+
+## Contents
+
+- [MO1 DIFFERENTIATE x REPRESENTATION](#mo1-differentiate-x-representation)
+- [MO2 RELATE x ARITY](#mo2-relate-x-arity)
+- [MO3 RECONSTRUCT x PROVENANCE/CURRENTNESS](#mo3-reconstruct-x-provenancecurrentness)
+- [MO4 STRENGTHEN x PRESERVATION x STRICT GAIN](#mo4-strengthen-x-preservation-x-strict-gain)
+- [MO5 GENERATION x ADMISSION](#mo5-generation-x-admission)
+- [MO6 ROUTING x FAILURE MEMORY x CLOSURE](#mo6-routing-x-failure-memory-x-closure)
+- [MO7 UPDATE x CONCURRENCY](#mo7-update-x-concurrency)
+- [MO8 VERIFICATION x INFORMATION BARRIER](#mo8-verification-x-information-barrier)
+- [MO9 ARTIFACT REALITY x AUTHORITY](#mo9-artifact-reality-x-authority)
+- [MO10 ZERO-REQUEST x AUTHORITY](#mo10-zero-request-x-authority)
+- [Residual summary](#residual-summary)
+- [MTA of residuals](#mta-of-residuals)
+- [Next](#next)
+
 ## MO1 DIFFERENTIATE x REPRESENTATION
 
 Result: interaction survives, but no new primitive.

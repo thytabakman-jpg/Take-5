@@ -1,8 +1,9 @@
 # Runtime pointer: GOAL
 
 Current runtime realization is owned by:
-- runtime/portable_tool_conductor.py
-- current dedicated runtime modules referenced by runtime/tool_manifest.py
+- [runtime/portable_tool_conductor.py](../../../../runtime/portable_tool_conductor.py)
+- current dedicated runtime modules referenced by [runtime/tool_manifest.py](../../../../runtime/tool_manifest.py)
+- dedicated native GOAL implementation: [runtime/goal.py](../../../../runtime/goal.py)
 
 This package records organization and source routing only.
 

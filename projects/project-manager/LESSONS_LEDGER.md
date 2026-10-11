@@ -2,6 +2,30 @@
 
 Status: APPEND-ONLY
 
+## Record index
+
+- [L001 Know the object before improving it](#l001-know-the-object-before-improving-it)
+- [L002 Project truth needs explicit owners](#l002-project-truth-needs-explicit-owners)
+- [L003 One giant document causes overwrite](#l003-one-giant-document-causes-overwrite)
+- [L004 Coverage is evidence, not truth ownership](#l004-coverage-is-evidence-not-truth-ownership)
+- [L005 WBS is not schedule](#l005-wbs-is-not-schedule)
+- [L006 Tool result is evidence before admission](#l006-tool-result-is-evidence-before-admission)
+- [L007 Self-management needs no exemption](#l007-self-management-needs-no-exemption)
+- [L008 Safe transfer is target-authority preserving](#l008-safe-transfer-is-target-authority-preserving)
+- [L009 There was no durable state between idea and project](#l009-there-was-no-durable-state-between-idea-and-project)
+- [L010 Exploration and project construction are different effect classes](#l010-exploration-and-project-construction-are-different-effect-classes)
+- [L011 Project control needs mandatory epistemic bootstrap](#l011-project-control-needs-mandatory-epistemic-bootstrap)
+- [L012 Exhaustive verification is not ordinary orchestration](#l012-exhaustive-verification-is-not-ordinary-orchestration)
+- [L013 Lessons are not prevention](#l013-lessons-are-not-prevention)
+- [L014 Work remaining and project closure are incompatible](#l014-work-remaining-and-project-closure-are-incompatible)
+- [L015 Mutation requires consequence evidence](#l015-mutation-requires-consequence-evidence)
+- [L016 ProjectManager must manage malformed management state](#l016-projectmanager-must-manage-malformed-management-state)
+- [L017 Human memory is not a control plane](#l017-human-memory-is-not-a-control-plane)
+- [L018 Syntax-only approval is not admitted authority](#l018-syntax-only-approval-is-not-admitted-authority)
+- [L019 Route coverage is not exact semantic coverage](#l019-route-coverage-is-not-exact-semantic-coverage)
+
+**Historical evidence lookup (conditional, not a new lesson or project authority):** When resuming a project with a concretely relevant repeated defect, first recover the project's own current accepted artifacts, decisions and obligations. The [Root Cause question-first evidence index](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/improvement-core/research/consolidations/ROOT_CAUSE_ROLLING_DISCOVERY_KNOWLEDGE.md) can then supply rival hypotheses, unsuccessful approaches and exact original-source references. Keep its outputs evidence-only, review private/source currentness boundaries, and use the existing lessons/decisions/handoff authority for any admitted new project learning. The [native RootCause lookup](../../runtime/root_cause_knowledge_lookup.py) is opt-in; this paragraph does not claim ProjectManager has executable automatic knowledge binding.
+
 ## L001 Know the object before improving it
 
 A tool name, runtime file, wrapper, or role description is not full identity.
@@ -140,3 +164,26 @@ Protection
 human_orchestration and human_not_final_integration_layer are explicit closure controls.
 The user retains goal/authority/acceptance decisions without carrying routine system
 continuity.
+
+## L018 Syntax-only approval is not admitted authority
+
+Failure pattern
+An observer read a USER:-prefixed string and a project fingerprint, creating
+a tempting inference that a project promotion was genuinely authorized and
+protected against concurrent changes.
+
+Protection
+Definition and transform assessments remain proposals. The independent write
+owner must validate real user authorization and preconditions before any admitted
+PROMOTE or other target-state transition. See OPEN_QUESTIONS.md Q4.
+
+## L019 Route coverage is not exact semantic coverage
+
+Failure pattern
+A green full configured-route sweep or synthetic fixture was at risk of being
+reported as proof of full direct semantic ICC128 / RTC / ToolConductor execution.
+
+Protection
+Keep execution type, source head, semantic coverage and acceptance scope separate.
+The historical merged capability remains accepted while unproven exact campaign
+witnesses remain OPEN at VERIFICATION.md V50 and OPEN_QUESTIONS.md Q5.

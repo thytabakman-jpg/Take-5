@@ -24,9 +24,9 @@ Status: CURRENT
 
 ## Dependencies
 
-- tool_run_registry
-- tool_manifest
-- portable_tool_conductor
-- scope ontology
-- mode-face geometry
-- semantic-object package contract
+- [tool_run_registry](../../runtime/tool_run_registry.py)
+- [tool_manifest](../../runtime/tool_manifest.py)
+- [portable_tool_conductor](../../runtime/portable_tool_conductor.py)
+- [scope ontology](../../runtime/scope_ontology.py)
+- [mode-face geometry](../../runtime/run_geometry.py)
+- [semantic-object package contract](../../architecture/LOAD_BEARING_SEMANTIC_OBJECT_PACKAGE_CONTRACT_064.md)

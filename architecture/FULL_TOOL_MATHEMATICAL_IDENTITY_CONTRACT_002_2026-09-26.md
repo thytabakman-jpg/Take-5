@@ -7,6 +7,23 @@ Historical source:
 thytabakman-jpg/Reaserch@e4c76c595b44a35fd9efc02cde8979e656ef54e8
 projects/tool-lineage/FULL_TOOL_MATHEMATICAL_IDENTITY_CONTRACT_001_2026-09-26.md
 
+## Contents
+
+- [1 Governing identity](#1-governing-identity)
+- [2 Native semantics](#2-native-semantics)
+- [3 Wrapper/execution identity](#3-wrapperexecution-identity)
+- [4 Geometry identity](#4-geometry-identity)
+- [5 Protected behavior identity](#5-protected-behavior-identity)
+- [6 Lineage/currentness/reality identity](#6-lineagecurrentnessreality-identity)
+- [7 Run specification](#7-run-specification)
+- [8 Recovery criterion](#8-recovery-criterion)
+- [9 Portability extension](#9-portability-extension)
+- [10 Hidden-dependency rule](#10-hidden-dependency-rule)
+- [11 Tool creation, transformation, and successor gate](#11-tool-creation-transformation-and-successor-gate)
+- [12 HF002 coordinate](#12-hf002-coordinate)
+- [13 SHOW_ME_THE_MATH specialization](#13-show_me_the_math-specialization)
+- [14 Nonclaims](#14-nonclaims)
+
 ## 1 Governing identity
 
 For protected job J and basis K:

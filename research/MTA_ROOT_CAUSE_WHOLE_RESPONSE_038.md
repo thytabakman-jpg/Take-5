@@ -3,22 +3,12 @@
 <a id="mta--root-cause-campaign-038--post-migration-whole-response"></a>
 <a id="post-migration-root-findings-exposed-workitemgeometry-and-material-delta-type-errors"></a>
 **Historical report title:** MTA + Root-Cause Campaign 038 — Post-Migration Whole Response  
-**Role and audience:** Historical Root Cause findings report for investigators and system maintainers; retain its original scope, status and authority.  
-**Goal:** Expose the causal results and evidence, preserve rivals, qualifications, and unresolved obligations, and make the diagnostic body navigable.
+**Role and reader:** Historical post-migration MTA and RootCause findings record for Take-5 WorkItem/geometry/controller and reentry maintainers; not a live controller contract.  
+**Goal:** Preserve the distinct WorkItem/6×6 type confusion, material-delta/reentry underdefinition, subsystem evidence, recorded local changes and still-pending work, without promoting an executed working result to globally certified closure.
 
 ## Principal finding and limits
 
-The campaign identified controller-coordinate versus WorkItem conflation and an underdefined material-delta/reentry predicate alongside subsystem-specific results. Its original status is **executed working result**, not certified global closure.
-
-
-<a id="mta--root-cause-campaign-038--post-migration-whole-response"></a>
-**Historical report title:** MTA + Root-Cause Campaign 038 — Post-Migration Whole Response  
-**Role and audience:** Historical Root Cause investigation findings for system maintainers and investigators; preserve its original declared scope, authority, and status.  
-**Goal:** Surface what the investigation established, explain the causal chain and evidence, and keep rivals, failures, limitations, and open obligations traceable.
-
-## Principal finding and limits
-
-The campaign identified controller-coordinate versus WorkItem conflation and an underdefined material-delta/reentry predicate, alongside additional subsystem-specific findings. It reports an executed working result, not independently certified global closure.
+The campaign identified controller-coordinate versus WorkItem conflation and an underdefined material-delta/reentry predicate alongside subsidiary findings. Its recorded status is **executed working result**, not independently certified global closure. The originally duplicated report metadata and identical historical alias have been consolidated here; substantive audit evidence remains intact below.
 
 ## Contents
 

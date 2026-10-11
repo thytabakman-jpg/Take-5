@@ -3,6 +3,25 @@
 Status: CURRENT / CANONICAL
 Date: 2026-09-28
 
+## Table of contents
+
+- [Canonical job](#canonical-job)
+- [Mathematical object](#mathematical-object)
+- [Project state](#project-state)
+- [Responsibilities](#responsibilities)
+- [Mandatory management spine](#mandatory-management-spine)
+- [Native control loop](#native-control-loop)
+- [Execution and admission invariant](#execution-and-admission-invariant)
+- [Anti loss invariants](#anti-loss-invariants)
+- [Candidate to project lifecycle](#candidate-to-project-lifecycle)
+- [Tool boundary](#tool-boundary)
+- [Closure and fixed point](#closure-and-fixed-point)
+- [Compressed identity](#compressed-identity)
+- [Failure-prevention envelope](#failure-prevention-envelope)
+- [Transform preflight](#transform-preflight)
+- [Closure correction](#closure-correction)
+- [Historical-failure guarantee](#historical-failure-guarantee)
+
 ## Canonical job
 
 ProjectManager keeps the entire project mathematically coherent and moving from its current state toward its governing goal while preserving authority, dependencies, evidence, decisions, accepted work, and explicit unresolved residue.
@@ -196,12 +215,14 @@ Every material admitted change receives impact, verification, state, and evidenc
 ## Candidate to project lifecycle
 
 IDEA
--> EXPLORATION
+-> EXPLORATION_OPEN
 -> DEFINITION_READY
--> USER_APPROVAL
+-> explicit USER approval (recorded by a USER: reference, independently authorized)
+-> PROMOTION_READY
+-> separate admitted PROMOTE transition
 -> PROJECT
 
-Before promotion, exploratory material remains candidate evidence rather than authoritative full project state.
+Before promotion, exploratory material remains candidate evidence rather than authoritative full project state. The native definition assessor reports readiness but does not create a ManagedProject; the observer adapter reports results without writing an admitted project state. A USER:-prefixed reference is a syntactic guard, not standalone proof of authorization to commit a promotion.
 
 ## Tool boundary
 
@@ -267,7 +288,7 @@ TARGET_TRANSFORM requires all of:
 - precondition fingerprint.
 
 A clear requested edit is not enough to license mutation when its consequence cone
-and verification surface are unrepresented.
+and verification surface are unrepresented. The route_event function reports a proposal's readiness and records the project fingerprint; it does not itself execute a write or validate the fingerprint against a later commit head. Final admission and write-time precondition checks belong to the separately authorized commit owner.
 
 ## Closure correction
 

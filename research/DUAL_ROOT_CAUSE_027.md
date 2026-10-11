@@ -2,8 +2,8 @@
 
 <a id="dual-root-cause-027"></a>
 **Historical report title:** Dual Root Cause 027  
-**Role and audience:** Historical Root Cause investigation findings for system maintainers and investigators; preserve its original declared scope, authority, and status.  
-**Goal:** Surface what the investigation established, explain the causal chain and evidence, and keep rivals, failures, limitations, and open obligations traceable.
+**Role and audience:** Historical Take-5 migration and conversation-execution causal packet for admission/controller maintainers; the two incidents do not establish universal runtime enforcement.  
+**Goal:** Preserve the independent candidate-to-governing promotion failure and observation-to-action handoff failure, their distinct repairs, and the shared admission/activation boundary that links them without collapsing their evidence chains.
 
 ## Contents
 

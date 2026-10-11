@@ -219,9 +219,12 @@ def _validate_route(
     *,
     expected_kind:str,
     expected_support:tuple[str,...],
+    expected_route_id:str|None=None,
 )->str|None:
     if not isinstance(route,RouteResult):
         return "MULTIOBJECT_ROUTE_RESULT_REQUIRED"
+    if expected_route_id is not None and route.route_id!=expected_route_id:
+        return f"MULTIOBJECT_ROUTE_ID_MISMATCH:{route.route_id}"
     if route.route_kind!=expected_kind:
         return f"MULTIOBJECT_ROUTE_KIND_MISMATCH:{route.route_id}"
     if tuple(route.support)!=tuple(expected_support):
@@ -300,6 +303,7 @@ def run_multiobject(
         joint,
         expected_kind="FULL_JOINT",
         expected_support=object_ids,
+        expected_route_id="JOINT:"+",".join(object_ids),
     )
     if blocker:
         return _open(frozen,blocker)
@@ -319,7 +323,10 @@ def run_multiobject(
                 state=state,
                 evidence=evidence,
             )
-        blocker=_validate_route(route,expected_kind="PAIR",expected_support=support)
+        blocker=_validate_route(
+            route,expected_kind="PAIR",expected_support=support,
+            expected_route_id=route_id,
+        )
         if blocker:
             state=MultiObjectState(frozen,joint,tuple(pair_routes),None,(),(),(),())
             return _open(frozen,blocker,state=state,evidence=evidence)
@@ -452,6 +459,7 @@ def run_multiobject(
             route,
             expected_kind="VIEW",
             expected_support=tuple(request.support),
+            expected_route_id="VIEW:"+request.view_id,
         )
         if blocker:
             state=MultiObjectState(
@@ -510,7 +518,13 @@ def run_multiobject(
             )
         recon_by_id[row.finding_id]=row
 
+    # Positive pair findings must survive lower-order reconciliation.
+    # NO_LICENSED_RELATION stays recorded in the pair ledger.
     material_ids={f.finding_id for f in synthesis.findings}|joint_ids
+    material_ids.update(
+        f.finding_id for route in pair_routes for f in route.findings
+        if f.relation_type!="NO_LICENSED_RELATION"
+    )
     material_ids.update(
         f.finding_id for route in view_results for f in route.findings
     )

@@ -45,7 +45,7 @@ Post-merge Take-5 validation: 36350803988 SUCCESS
 
 ## Failure-immunity projection
 
-Status: CANDIDATE / PR 187
+Status: CURRENT / VALIDATED / MERGED_PR_187
 Known-failure controls: 17
 Root invariants: 5
 Protected behaviors:
@@ -53,9 +53,14 @@ Protected behaviors:
 - PROJECTMANAGER_TRANSFORM_IMPACT_VERIFICATION_GATE
 - PROJECTMANAGER_NO_FALSE_CLOSE_WITH_FRONTIER
 - PROJECTMANAGER_HISTORICAL_FAILURE_HOLDOUT_GATE
-Canonical candidate math: architecture/PROJECT_MANAGER_FULL_TOOL_MATH_004_2026-09-30.md
+Accepted extension math (historical filename): architecture/PROJECT_MANAGER_FULL_TOOL_MATH_004_2026-09-30.md
 Canonical runtime: runtime/project_manager.py + runtime/project_manager_integrity.py
 Regression witness: tests/test_project_manager_failure_immunity.py
 
-Promotion remains gated on same-head Capability Preservation, Tool System Every-Tool
-Sweep, and Take-5 Validation.
+Promotion completed in PR 187 on 2026-09-30: merge commit
+caadd8d8a41904bec9e0e0b0507af476969aade0.
+Same-head PR Capability Preservation 36743965936 SUCCESS,
+Tool System Every-Tool Sweep 36743966227 SUCCESS and Take-5 Validation
+36743965967 SUCCESS. Merge-commit verification: every-tool sweep
+36744250411 SUCCESS and Take-5 Validation 36744250406 SUCCESS.
+This is a status projection; live behavior remains owned by runtime and manifest.

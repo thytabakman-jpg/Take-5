@@ -1,4 +1,4 @@
-"""Canonical 36-cell ImproveCore controller coverage lattice: Scope x ModeFace."""
+"""Canonical 36-cell ImprovementCore controller coverage lattice: Scope x ModeFace."""
 from dataclasses import dataclass
 from scope_ontology import Scope
 from run_geometry import ModeFace,Mode
