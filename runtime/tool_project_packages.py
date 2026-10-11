@@ -228,7 +228,7 @@ stored in coverage/. See HANDOFF_SURFACE.md.
 
 
 def render_authority(spec:ProjectObjectSpec)->str:
-    return f"""# Authority registry: {spec.display_name}
+    body=f"""# Authority registry: {spec.display_name}
 
 Status: CURRENT PACKAGE ROUTING
 
@@ -254,6 +254,14 @@ external canonical source. When two locations appear to own the same mutable
 truth, fix the routing before editing either one.
 """
 
+    if spec.current_tool and spec.object_id=="MultiObject":
+        body=body.replace(
+            "| current executable realization | runtime/portable_tool_conductor.py |",
+            "| current invocation routing | runtime/portable_tool_conductor.py |\\n"
+            "| MultiObject native execution | runtime/multiobject.py |\\n"
+            "| full mathematical identity | architecture/MULTIOBJECT_FULL_TOOL_MATH_001_2026-09-27.md |",
+        )
+    return body
 
 def render_current(spec:ProjectObjectSpec)->str:
     return f"""# Current state: {spec.display_name}
@@ -289,7 +297,7 @@ shared numbering, or equal cardinality of structures.
 
 
 def render_math(spec:ProjectObjectSpec)->str:
-    return f"""# Mathematics pointer: {spec.display_name}
+    body=f"""# Mathematics pointer: {spec.display_name}
 
 ## Non-duplication rule
 
@@ -302,6 +310,9 @@ mathematics is not recovered.
 Do not copy the full mathematics here merely to make the package look complete.
 """
 
+    if spec.current_tool and spec.object_id=="MultiObject":
+        body += "\n## MultiObject mathematical identity\n\n- [Full mathematical identity](../../../../architecture/MULTIOBJECT_FULL_TOOL_MATH_001_2026-09-27.md)\n- [Protected-behavior manifest](../../../../runtime/tool_manifest.py)\n- [Pinned semantic and protocol provenance](SOURCE_MAP.md)\n\nThe two-role factorization is basis-relative; global minimality and completeness remain OPEN. This routing page does not replace the mathematical authority.\n"
+    return body
 
 def render_runtime(spec:ProjectObjectSpec)->str:
     if spec.current_tool:
@@ -312,7 +323,7 @@ def render_runtime(spec:ProjectObjectSpec)->str:
 This package records organization and source routing only."""
     else:
         body="This historical/ICC variant is not admitted into the current configured runtime by this package."
-    return f"""# Runtime pointer: {spec.display_name}
+    body=f"""# Runtime pointer: {spec.display_name}
 
 {body}
 
@@ -322,6 +333,9 @@ Package existence is not execution evidence. A plan, runtime entrypoint, run,
 receipt, and parent closure remain distinct objects.
 """
 
+    if spec.current_tool and spec.object_id=="MultiObject":
+        body += "\n## MultiObject executable route\n\n- [Native runtime implementation](../../../../runtime/multiobject.py) — `run_multiobject`\n- [Portable invocation conductor](../../../../runtime/portable_tool_conductor.py) — `multiobject.run_multiobject`\n- [Native runtime tests](../../../../tests/test_multiobject.py)\n\nDomain relation generation requires an explicit `multiobject_provider`. Absence of the provider cannot be reported as successful domain execution. This package remains an organizational projection.\n"
+    return body
 
 def render_behaviors(spec:ProjectObjectSpec)->str:
     return f"""# Protected behaviors: {spec.display_name}
@@ -358,7 +372,7 @@ A dependency change reopens the affected cone. Unaffected package state remains 
 
 
 def render_source_map(spec:ProjectObjectSpec)->str:
-    return f"""# Source map: {spec.display_name}
+    body=f"""# Source map: {spec.display_name}
 
 ## Direct sources
 
@@ -377,6 +391,9 @@ Pointers preserve provenance. This package does not copy legacy evidence merely
 to make the folder look complete.
 """
 
+    if spec.current_tool and spec.object_id=="MultiObject":
+        body += "\n## MultiObject-specific current implementation and identity\n\n- [Native orchestration](../../../../runtime/multiobject.py)\n- [Full mathematical identity](../../../../architecture/MULTIOBJECT_FULL_TOOL_MATH_001_2026-09-27.md)\n- [Native regression tests](../../../../tests/test_multiobject.py)\n- [Mathematical identity regression tests](../../../../tests/test_multiobject_fullmath_identity.py)\n\n## Pinned historical mathematical and protocol lineage\n\nThe full mathematical identity pins the historical evidence basis to `thytabakman-jpg/Reaserch@492bf7da82ac346c1a17ab0acc2405adf17ae5c1`. These links preserve the input lineage; they do not confer current Take-5 execution authority.\n\n- [Multi-Object v0.2 canonical mathematics](https://github.com/thytabakman-jpg/Reaserch/blob/492bf7da82ac346c1a17ab0acc2405adf17ae5c1/projects/core-system-mathematics/math/MULTI_OBJECT_V2_CANONICAL_MATHEMATICS_001_2026-09-24.md)\n- [Multi-Object Connector protocol](https://github.com/thytabakman-jpg/Reaserch/blob/492bf7da82ac346c1a17ab0acc2405adf17ae5c1/projects/pd/protocol/MULTI_OBJECT_CONNECTOR_PROTOCOL.md)\n- [Selected basis-relative semantic state](https://github.com/thytabakman-jpg/Reaserch/blob/492bf7da82ac346c1a17ab0acc2405adf17ae5c1/projects/improvement-core/tool-ecosystem/MULTIOBJECT_CURRENT_SEMANTIC_STATE_2026-09-26.md)\n- [Factorization candidate](https://github.com/thytabakman-jpg/Reaserch/blob/492bf7da82ac346c1a17ab0acc2405adf17ae5c1/projects/improvement-core/tool-ecosystem/MULTIOBJECT_CURRENT_BASIS_FACTORIZATION_002_2026-09-26.md)\n- [ProofCore semantic preservation receipt](https://github.com/thytabakman-jpg/Reaserch/blob/492bf7da82ac346c1a17ab0acc2405adf17ae5c1/projects/improvement-core/validation/MULTIOBJECT_TWO_ROLE_PROOFCORE_RECEIPT_001_2026-09-26.md)\n"
+    return body
 
 def render_open(spec:ProjectObjectSpec)->str:
     if spec.current_tool:
