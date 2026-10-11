@@ -40,6 +40,11 @@ class RootCandidate:
             recurrence_class <= self.explains,
             self.survives_representation_change,
             self.removal_breaks_recurrence,
+            # Pareto pruning must not let an unsupported broad candidate
+            # suppress a causally tested and rival-discriminated generator.
+            bool(self.evidence),
+            bool(self.causal_test_evidence),
+            bool(self.rival_discrimination_evidence),
             len(self.upstream_of),
             -len(self.counterevidence),
             -len(self.unresolved),
