@@ -39,14 +39,14 @@ jobs:
   run:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
         with:
           python-version: '3.12'
       - name: Run ImprovementCore with HF2 recurrence
         run: PYTHONPATH=runtime:. python3 runtime/improvement_core_legacy_restoration_campaign.py
       - name: Upload campaign receipt
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: improvecore-legacy-restoration-130
           path: runtime/state/improvecore-legacy-restoration-130/report.json

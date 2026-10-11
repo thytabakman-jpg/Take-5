@@ -20,14 +20,14 @@ jobs:
   self-study:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
         with:
           python-version: '3.12'
       - name: Run current ImproveCore self-study
         run: PYTHONPATH=runtime:. python3 runtime/improvement_core_self_study.py
       - name: Upload self-study receipt
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: improvecore-self-study-104
           path: runtime/state/improvecore-self-study-104/report.json

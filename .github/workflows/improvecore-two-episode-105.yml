@@ -16,14 +16,14 @@ jobs:
   run:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
         with:
           python-version: '3.12'
       - name: Run two independent ImproveCore episodes
         run: PYTHONPATH=runtime:. python3 runtime/improvecore_two_episode_105.py
       - name: Upload run receipt
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: improvecore-two-episode-105
           path: runtime/state/improvecore-two-episode-105/report.json
