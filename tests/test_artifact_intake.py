@@ -181,3 +181,36 @@ def test_separately_licensed_candidate_retains_execution_path():
                           "authority": ("owner",)})
     assert plan_delegation((licensed,)).assignments[0].work_id == candidate.work_id
     assert activate(licensed, "owner").status is WorkStatus.ACTIVE
+
+
+@pytest.mark.parametrize("coordinate", ["load_bearing", "executable_claim", "bound"])
+def test_text_false_never_becomes_true_in_intake(coordinate):
+    artifact = ArtifactRecord("a", "x")
+    def unsafe_generator(a):
+        return [{"candidate_id": "x", "candidate_type": "RUNTIME_BINDING_OR_TRIGGER",
+                 "source_span": "line:1", "load_bearing": True,
+                 "executable_claim": True, "bound": False,
+                 coordinate: "false"}]
+    result = intake([artifact], {"unsafe": unsafe_generator})
+    assert result.candidates == ()
+    assert result.unresolved_extraction == ("a:unsafe:TypeError",)
+    assert result.generator_receipts[0].status == "ERROR"
+    assert to_work_items(result) == ()
+
+
+def test_real_false_bound_is_preserved_and_not_executable():
+    result = intake([ArtifactRecord("a", "x")], {"safe": lambda a: [{
+        "candidate_id": "x", "candidate_type": "RUNTIME_BINDING_OR_TRIGGER",
+        "source_span": "line:1", "load_bearing": True,
+        "executable_claim": True, "bound": False}]})
+    assert len(result.candidates) == 1
+    assert result.candidates[0].bound is False
+    assert candidate_admission(result.candidates[0], package_verifier=lambda oid: True) == Admission.OPEN
+
+
+def test_actual_boolean_true_preserves_admitted_candidate():
+    result = intake([ArtifactRecord("a", "x")], {"safe": lambda a: [{
+        "candidate_id": "x", "candidate_type": "RUNTIME_BINDING_OR_TRIGGER",
+        "source_span": "line:1", "load_bearing": True,
+        "executable_claim": True, "bound": True}]})
+    assert candidate_admission(result.candidates[0], package_verifier=lambda oid: True) == Admission.ACCEPT
