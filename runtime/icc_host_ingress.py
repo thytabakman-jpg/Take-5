@@ -26,6 +26,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from hashlib import sha256
 import hmac
+import json
 import re
 import time
 
@@ -142,7 +143,7 @@ def require_trusted_icc_host_ingress(
     ):
         raise ICCHostIngressBlocked("ICC_TRUSTED_ATTESTATION_EXPIRED_OR_INVALID")
     expected = hmac.new(secret, _attestation_message(verified, attestation), sha256).hexdigest()
-    if not isinstance(attestation.signature, str) or not hmac.compare_digest(attestation.signature, expected):
+    if not isinstance(attestation.signature, str) or not re.fullmatch(r"[0-9a-f]{64}", attestation.signature) or not hmac.compare_digest(attestation.signature, expected):
         raise ICCHostIngressBlocked("ICC_TRUSTED_ATTESTATION_INVALID_SIGNATURE")
     return verified
 
@@ -211,13 +212,14 @@ def admit_icc_host_ingress(
 
     request_body = strip_icc_prefix(user_text)
     request_digest = _digest(request_body)
-    evidence_material = "|".join((
+    # Canonical tuple encoding avoids delimiter-injection aliases across receipts.
+    evidence_material = json.dumps((
         repository_receipt,
         currentness_receipt,
         entry_receipt,
         bootstrap_receipt,
         registration_receipt,
-    ))
+    ), ensure_ascii=False, separators=(",", ":"))
     evidence_digest = _digest(evidence_material)
     identity_material = "|".join((
         evidence.repository,
@@ -226,7 +228,7 @@ def admit_icc_host_ingress(
         evidence.controller_id,
         request_digest,
         evidence_digest,
-        "HOST_INGRESS_ADMITTED_V2",
+        "HOST_INGRESS_ADMITTED_V3",
     ))
     receipt_id = _digest(identity_material)
 
