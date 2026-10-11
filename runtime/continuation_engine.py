@@ -39,6 +39,9 @@ def run_continuation(handlers:dict[str,Callable], state:Any, *, max_rounds:int=8
                 material=material or bool(out.get("material_delta",False))
                 current=out.get("state",current)
                 if out.get("terminal"):
+                    if step != "REENTER":
+                        receipts.append(StepReceipt(step,"INVALID_TERMINAL",out))
+                        return ContinuationReceipt(receipts,False,f"EARLY_TERMINAL:{step}")
                     receipts.append(StepReceipt(step,status,out))
                     return ContinuationReceipt(receipts,True,None)
             elif out is not None:
