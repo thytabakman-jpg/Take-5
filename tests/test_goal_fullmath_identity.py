@@ -124,3 +124,24 @@ def test_goal_dependency_cone_includes_native_mt_and_hf2_execution():
     assert "robust-MT boundary" in text
     assert "HF2 wrapper" in text
     assert "not itself a witnessed full configured execution" in text
+
+
+def test_goal_regression_contract_guards_previous_hf2_repairs():
+    """Guard the live owner map so package repairs cannot silently lose core gates."""
+    contract=Path("projects/tool-system/current-tools/goal/REGRESSION_CONTRACT.md").read_text(encoding="utf-8")
+    base=Path("projects/tool-system/current-tools/goal")
+    assert "## GOAL-specific non-regression gates" in contract
+    assert manifest_for("GOAL").lineage_contract=="architecture/GOAL_FULL_TOOL_MATH_002_2026-09-30.md"
+    assert compilation_witness("GOAL").entrypoint=="goal.recover_goal_configured"
+    assert "manifest_for(\"GOAL\").lineage_contract" in contract
+    assert "compilation_witness(\"GOAL\").entrypoint" in contract
+    assert "MT_PREREQUISITE_REQUIRED" in contract
+    assert "Dependency and HF2 visibility" in contract
+    assert "Evidence-bound CURRENT" in contract
+    for filename in ("SOURCE_MAP.md","RUNTIME.md","DEPENDENCIES.md",
+                     "CURRENT_STATE.md","OPEN_QUESTIONS.md"):
+        assert f"]({filename})" in contract
+        assert (base/filename).is_file()
+    for filename in ("tests/test_goal.py","tests/test_goal_fullmath_identity.py"):
+        assert f"](../../../../{filename})" in contract
+        assert Path(filename).is_file()
