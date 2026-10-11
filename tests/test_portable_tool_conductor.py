@@ -106,3 +106,39 @@ def test_conductor_factor_can_recur_under_hf2_without_duplicate_factor_dispositi
     assert mt[0]["recurrence"]["status"]=="RELATIVE_CLOSE"
     assert mt[0]["recurrence"]["rounds"]==2
     assert mt[0]["recurrence"]["call_count"]==2
+
+
+def test_conductor_conflict_is_unresolved_even_when_only_tool(monkeypatch):
+    import portable_tool_conductor as conductor
+    monkeypatch.setattr(conductor, "MATERIAL_TOOLS", ("GOAL",))
+    monkeypatch.setattr(
+        conductor,
+        "_run_configured_factor",
+        lambda tool_id, packet, adapter: {
+            "tool_id": tool_id, "status": "CONFLICT",
+            "result": {"reason": "authority_collision"},
+        },
+    )
+    result = conductor.run_tool_conductor(
+        {}, adapters={"GOAL": lambda packet: {"status": "CONFLICT"}}
+    )
+    assert result["status"] == "OPEN"
+    assert result["open_tools"] == ("GOAL",)
+    assert result["results"][0]["status"] == "CONFLICT"
+
+
+def test_real_configured_hf2_conflict_keeps_conductor_open(monkeypatch):
+    import portable_tool_conductor as conductor
+    monkeypatch.setattr(conductor, "MATERIAL_TOOLS", ("GOAL",))
+    result = conductor.run_tool_conductor(
+        {},
+        adapters={"GOAL": lambda packet: {
+            "status": "CONFLICT",
+            "execution_truth": "CONFLICT",
+            "result": {"blocker": "competing_authorities"},
+        }},
+    )
+    assert result["status"] == "OPEN"
+    assert result["open_tools"] == ("GOAL",)
+    assert result["results"][0]["status"] == "CONFLICT"
+    assert result["results"][0]["recurrence"]["call_count"] == 1
