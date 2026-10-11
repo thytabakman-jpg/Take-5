@@ -44,6 +44,10 @@ class WorkSelection:
 def activate(work:WorkItem,authority_token:str):
     if not work.licensed or authority_token not in set(work.authority):
         raise PermissionError("activation requires licensed authority")
+    if not work.material or not work.reachable:
+        raise PermissionError("activation requires material, reachable work")
+    if work.status not in {WorkStatus.CANDIDATE, WorkStatus.ACTIVE}:
+        raise PermissionError("activation cannot bypass blocked, paused, or closed state")
     return WorkItem(**{**work.__dict__,"status":WorkStatus.ACTIVE})
 
 def generate_obligations(state,job=None,discover=None):
@@ -54,7 +58,7 @@ def generate_obligations(state,job=None,discover=None):
     return tuple(discover(state))
 
 def select_work(obligations):
-    eligible=tuple(o for o in obligations if o.material and o.licensed and o.reachable and o.status not in {WorkStatus.CLOSED,WorkStatus.BLOCKED})
+    eligible=tuple(o for o in obligations if o.material and o.licensed and o.reachable and o.status in {WorkStatus.CANDIDATE,WorkStatus.ACTIVE})
     return WorkSelection(eligible,eligible if len(eligible)>1 else ())
 
 def fresh_work(generated,discharged):

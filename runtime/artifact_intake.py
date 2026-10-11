@@ -186,7 +186,9 @@ def to_work_items(result: IntakeResult, package_verifier=None) -> tuple[WorkItem
                 work_id=f"artifact-intake:{c.candidate_id}",
                 obligation=f"{disposition.value}:{c.candidate_type}:{c.candidate_id}",
                 material=True,
-                licensed=True,
+                # Candidate discovery/admission does not grant execution authority.
+                # Separate owner-side licensing is required before selection.
+                licensed=False,
                 reachable=True,
                 kind=WorkKind.CANDIDATE,
                 status=WorkStatus.CANDIDATE,
