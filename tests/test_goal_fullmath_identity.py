@@ -101,3 +101,26 @@ def test_goal_open_question_preserves_only_unresolved_cross_repo_authority():
     assert "No admitted cross-repository equivalence, transfer" in question
     assert "If the concrete consumer's owner cannot be resolved" in question
     assert "Which contract governs each invocation remains" not in question
+
+
+def test_goal_dependency_cone_includes_native_mt_and_hf2_execution():
+    """The GOAL package must not omit active runtime owners from impact scans."""
+    text=Path("projects/tool-system/current-tools/goal/DEPENDENCIES.md").read_text(encoding="utf-8")
+    required=(
+        "runtime/tool_run_registry.py",
+        "runtime/tool_manifest.py",
+        "runtime/portable_tool_conductor.py",
+        "runtime/goal.py",
+        "runtime/mt_semantic_return_gate.py",
+        "runtime/configured_hf2_execution.py",
+        "runtime/hf002_recursive_continuation.py",
+    )
+    for path in required:
+        assert text.count(f"](../../../../{path})")==1
+        assert Path(path).is_file()
+
+    assert compilation_witness("GOAL").entrypoint=="goal.recover_goal_configured"
+    assert manifest_for("GOAL").lineage_contract==IDENTITY_PATH
+    assert "robust-MT boundary" in text
+    assert "HF2 wrapper" in text
+    assert "not itself a witnessed full configured execution" in text
