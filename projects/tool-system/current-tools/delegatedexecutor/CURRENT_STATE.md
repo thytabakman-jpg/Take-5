@@ -4,6 +4,8 @@ Projection status: CURRENT
 Object status: CURRENT
 Species: CURRENT_CONFIGURED_TOOL
 
+**Freshness boundary:** These CURRENT labels describe this package's recorded projection, not a live check of the registry, manifest, or executable realization. Resolve currentness at the owning [source map](SOURCE_MAP.md) and its exact runtime/registry sources before reporting a tool as operational. This projection has no source-blob pin or executed health receipt.
+
 ## Projection rule
 
 This file is a disposable current projection over retained authority and evidence.
