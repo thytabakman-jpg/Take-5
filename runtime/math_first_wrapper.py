@@ -106,7 +106,8 @@ def infer_delta(before: Any, after: Any) -> StateDelta:
         keys = sorted(set(before) | set(after), key=str)
         changed = tuple(
             str(k) for k in keys
-            if fingerprint(before.get(k)) != fingerprint(after.get(k))
+            if (k in before) != (k in after)
+            or fingerprint(before[k]) != fingerprint(after[k])
         )
     else:
         changed = () if before_fp == after_fp else ("STATE",)
