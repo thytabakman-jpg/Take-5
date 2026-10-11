@@ -6,7 +6,7 @@ from multiobject import (
     ViewRequest, ReconciledFinding, run_multiobject,
 )
 from portable_tool_conductor import compilation_witness
-from tool_manifest import manifest_for
+from tool_manifest import GENERIC_BINDINGS, manifest_for
 from tool_run_registry import CONFIGURED_RUNS, PROTECTED_BEHAVIORS
 
 
@@ -152,7 +152,7 @@ def test_multiobject_has_explicit_manifest_and_environment_bound_native_witness(
     assert protected <= set(manifest.behavior_ids())
     assert "MO_HIGHER_ORDER_RESIDUAL_TYPING" in protected
     assert "MO_MATERIAL_DELTA_REENTRY" in protected
-    assert protected == set(manifest.behavior_ids()) - {"PROTECTED_TRANSITION_INTEGRITY", "CONFIGURED_HF2_RECURRENCE", "FULL_CONFIGURED_INVOCATION_PROFILE"}
+    assert protected == set(manifest.behavior_ids()) - {b.behavior_id for b in GENERIC_BINDINGS}
     assert CONFIGURED_RUNS["MultiObject"].complete()
     assert manifest.lineage_contract=="architecture/MULTIOBJECT_FULL_TOOL_MATH_001_2026-09-27.md"
 
