@@ -34,6 +34,8 @@ runtime/tool_reality_audit.py
 
 ## Current result
 
+**Currentness scope:** The `CLOSED_RELATIVE` results immediately below are the verified **2026-09-27 PR #162 registry basis**, not an independently rerun four-layer audit for the later 95-tool inventory. Treat the expanded current registry as `OPEN` for strong-reality certification until the native audit is executed on that exact basis; see the registry-currentness gate below. The historical result is preserved.
+
 Configured identity:
 
 CLOSED_RELATIVE.
