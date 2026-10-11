@@ -49,6 +49,16 @@ class ConfiguredHF2ExecutionResult:
 
 
 def _raw_mapping(raw:Any)->dict[str,Any]:
+    # A missing adapter result is not an executed formal tool. Keep the
+    # configured route OPEN rather than manufacturing successful execution.
+    if raw is None:
+        return {
+            "status":"OPEN",
+            "execution_truth":"OPEN",
+            "result":None,
+            "material_delta":False,
+            "blocker":"CONFIGURED_HF2_ADAPTER_NO_RESULT",
+        }
     if isinstance(raw,dict):
         out=dict(raw)
     else:
@@ -72,6 +82,21 @@ def _raw_mapping(raw:Any)->dict[str,Any]:
     if truth not in VALID_EXECUTION_TRUTH:
         raise ConfiguredHF2ExecutionError(
             f"CONFIGURED_HF2_EXECUTION_TRUTH_INVALID:{truth}"
+        )
+    # FULL_MATCH is a result claim, not proof supplied by the execution plan.
+    # Reject wholly empty success receipts, while preserving valid tool-native
+    # results and the existing evidence/coverage representations.
+    if (status=="FULL_MATCH" or truth=="FULL_MATCH") and not any(
+        out.get(key) for key in (
+            "result","state","evidence","native_receipts","cell_receipts",
+            "question_receipts","cognitive_receipts",
+        )
+    ):
+        out.update(
+            status="OPEN",
+            execution_truth="OPEN",
+            material_delta=False,
+            blocker="CONFIGURED_HF2_FULL_MATCH_WITHOUT_EXECUTION_WITNESS",
         )
     return out
 
