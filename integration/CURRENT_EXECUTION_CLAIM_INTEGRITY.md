@@ -4,6 +4,16 @@ Date: 2026-09-26
 Status: CURRENT / VALIDATED / MERGED
 Canonical repository: thytabakman-jpg/Take-5
 
+## Contents
+
+- [Purpose](#purpose)
+- [Core law](#core-law)
+- [Current runtime](#current-runtime)
+- [Legacy integration](#legacy-integration)
+- [Origin](#origin)
+- [Validation](#validation)
+- [Boundaries](#boundaries)
+
 ## Purpose
 
 Protect execution claims made by repository artifacts that sit outside the configured-tool
@@ -43,11 +53,11 @@ ECI(r,l)=OPEN(Missing(r,l)).
 
 ## Current runtime
 
-runtime/execution_claim_integrity.py
+[runtime/execution_claim_integrity.py](../runtime/execution_claim_integrity.py)
 
 ## Legacy integration
 
-runtime/icc128_legacy_reporting.py
+[runtime/icc128_legacy_reporting.py](../runtime/icc128_legacy_reporting.py)
 
 A bare GitHub learning-report receipt now proves persistence only.
 
@@ -72,19 +82,19 @@ TAKE5_EXECUTION_CLAIM_ATTESTOR.
 ## Origin
 
 Full MT:
-artifacts/improvecore/MT_WHOLE_SYSTEM_HF2_CAMPAIGN_004_2026-09-26.md
+[artifacts/improvecore/MT_WHOLE_SYSTEM_HF2_CAMPAIGN_004_2026-09-26.md](../artifacts/improvecore/MT_WHOLE_SYSTEM_HF2_CAMPAIGN_004_2026-09-26.md)
 
 Observer ImprovementCore + HF2:
-artifacts/improvecore/IMPROVEMENTCORE_HF2_OBSERVER_CAMPAIGN_115_2026-09-26.md
+[artifacts/improvecore/IMPROVEMENTCORE_HF2_OBSERVER_CAMPAIGN_115_2026-09-26.md](../artifacts/improvecore/IMPROVEMENTCORE_HF2_OBSERVER_CAMPAIGN_115_2026-09-26.md)
 
 Think-big selection:
-artifacts/improvecore/IMPROVEMENTCORE_HF2_THINK_BIG_SELECTION_116_2026-09-26.md
+[artifacts/improvecore/IMPROVEMENTCORE_HF2_THINK_BIG_SELECTION_116_2026-09-26.md](../artifacts/improvecore/IMPROVEMENTCORE_HF2_THINK_BIG_SELECTION_116_2026-09-26.md)
 
 Implementation:
-architecture/EXECUTION_CLAIM_INTEGRITY_117.md
+[architecture/EXECUTION_CLAIM_INTEGRITY_117.md](../architecture/EXECUTION_CLAIM_INTEGRITY_117.md)
 
 Closure receipt:
-artifacts/improvecore/IMPROVEMENTCORE_HF2_THINK_BIG_FIX_CLOSURE_117_2026-09-26.md
+[artifacts/improvecore/IMPROVEMENTCORE_HF2_THINK_BIG_FIX_CLOSURE_117_2026-09-26.md](../artifacts/improvecore/IMPROVEMENTCORE_HF2_THINK_BIG_FIX_CLOSURE_117_2026-09-26.md)
 
 ## Validation
 
