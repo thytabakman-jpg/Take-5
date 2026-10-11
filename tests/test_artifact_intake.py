@@ -147,3 +147,37 @@ def test_candidate_cannot_self_assert_package_currentness():
     r = intake([artifact], {"g": g})
     assert candidate_admission(r.candidates[0]) == Admission.OPEN
     assert candidate_admission(r.candidates[0], package_verifier=lambda oid: True) == Admission.ACCEPT
+
+
+# Discovery and object admission create visible work, never execution license.
+import pytest
+from endogenous_work import activate, select_work, WorkStatus, WorkItem
+from delegation_officer import plan_delegation
+
+@pytest.mark.parametrize("verified", [False, True])
+def test_extracted_candidate_never_self_licenses(verified):
+    artifact = ArtifactRecord("evidence", "x")
+    def extract(a):
+        return [{"candidate_id": "candidate", "candidate_type": "MECHANISM_OR_CAPABILITY",
+                 "source_span": "line:1", "load_bearing": True}]
+    result = intake([artifact], {"extract": extract})
+    work, = to_work_items(result, package_verifier=(lambda _: verified))
+    assert work.obligation.startswith("ACCEPT:" if verified else "OPEN:")
+    assert work.status is WorkStatus.CANDIDATE
+    assert not work.licensed
+    assert select_work((work,)).selected == ()
+    assert plan_delegation((work,)).assignments == ()
+    with pytest.raises(PermissionError):
+        activate(work, "owner")
+
+
+def test_separately_licensed_candidate_retains_execution_path():
+    artifact = ArtifactRecord("evidence", "x")
+    result = intake([artifact], {"extract": lambda a: [{
+        "candidate_id": "candidate", "candidate_type": "MECHANISM_OR_CAPABILITY",
+        "source_span": "line:1", "load_bearing": True}]})
+    candidate, = to_work_items(result, package_verifier=lambda _: True)
+    licensed = WorkItem(**{**candidate.__dict__, "licensed": True,
+                          "authority": ("owner",)})
+    assert plan_delegation((licensed,)).assignments[0].work_id == candidate.work_id
+    assert activate(licensed, "owner").status is WorkStatus.ACTIVE
