@@ -83,3 +83,21 @@ def test_goal_source_map_resolves_one_live_spec_and_preserves_older_lineage():
     assert "GOAL_FULL_TOOL_MATH_001_2026-09-27.md" in text
     assert "Cross-repository GOAL provenance (discovery only; not configured-tool authority)" in text
     assert "If the manifest, configured entrypoint, and this source map disagree" in live
+
+
+def test_goal_open_question_preserves_only_unresolved_cross_repo_authority():
+    """An unresolved Reaserch transfer is not an unresolved Take-5 selector."""
+    question=Path("projects/tool-system/current-tools/goal/OPEN_QUESTIONS.md").read_text(encoding="utf-8")
+    source_map=Path("projects/tool-system/current-tools/goal/SOURCE_MAP.md").read_text(encoding="utf-8")
+    spec=manifest_for("GOAL").lineage_contract
+    entry=compilation_witness("GOAL").entrypoint
+
+    assert spec=="architecture/GOAL_FULL_TOOL_MATH_002_2026-09-30.md"
+    assert entry=="goal.recover_goal_configured"
+    assert spec in question and spec in source_map
+    assert entry in question and entry in source_map
+    assert "**Resolved for configured Take-5 GOAL invocations:**" in question
+    assert "**Still OPEN — cross-repository handoff/equivalence:**" in question
+    assert "No admitted cross-repository equivalence, transfer" in question
+    assert "If the concrete consumer's owner cannot be resolved" in question
+    assert "Which contract governs each invocation remains" not in question
