@@ -150,6 +150,9 @@ def test_multiobject_has_explicit_manifest_and_environment_bound_native_witness(
     protected=set(PROTECTED_BEHAVIORS["MultiObject"])
     manifest=manifest_for("MultiObject")
     assert protected <= set(manifest.behavior_ids())
+    assert "MO_HIGHER_ORDER_RESIDUAL_TYPING" in protected
+    assert "MO_MATERIAL_DELTA_REENTRY" in protected
+    assert protected == set(manifest.behavior_ids()) - {"PROTECTED_TRANSITION_INTEGRITY", "CONFIGURED_HF2_RECURRENCE", "FULL_CONFIGURED_INVOCATION_PROFILE"}
     assert CONFIGURED_RUNS["MultiObject"].complete()
     assert manifest.lineage_contract=="architecture/MULTIOBJECT_FULL_TOOL_MATH_001_2026-09-27.md"
 
