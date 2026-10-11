@@ -1,6 +1,6 @@
 # Change control: Architecture
 
-Delta = <request, owner, old_state, proposed_state, reason, dependencies, tests, decision, receipt>.
+`Delta = <request, owner, old_state, proposed_state, reason, dependencies, tests, decision, receipt>`.
 
 Change the smallest authority that owns the property.
 Do not clean-rebuild this package because one coordinate changed.
