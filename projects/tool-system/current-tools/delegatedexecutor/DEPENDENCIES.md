@@ -5,6 +5,7 @@
 - [runtime/tool_run_registry.py](../../../../runtime/tool_run_registry.py)
 - [runtime/tool_manifest.py](../../../../runtime/tool_manifest.py)
 - [runtime/portable_tool_conductor.py](../../../../runtime/portable_tool_conductor.py)
+- [runtime/delegation.py](../../../../runtime/delegation.py) — current DelegatedExecutor implementation
 - [integration/CURRENT_TOOL_REALITY.md](../../../../integration/CURRENT_TOOL_REALITY.md)
 
 ## Shared runtime/identity dependencies
