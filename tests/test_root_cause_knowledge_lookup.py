@@ -220,6 +220,19 @@ def test_one_word_and_its_stem_do_not_create_a_false_historical_match(tmp_path):
     assert retained["candidates"][0]["subject"] == "WORK_FRONTIER_AND_CLOSURE.md"
 
 
+def test_duplicate_inflection_families_cannot_fabricate_two_observations(tmp_path):
+    root = _fixture(tmp_path)
+    assert consult_root_cause_knowledge(
+        observed_failure=["closure closures"], research_root=root,
+    )["status"] == "NO_MATCH"
+    assert consult_root_cause_knowledge(
+        observed_failure=["closures closure closure"], research_root=root,
+    )["status"] == "NO_MATCH"
+    assert consult_root_cause_knowledge(
+        observed_failure=["premature parent campaign closure"], research_root=root,
+    )["status"] == "CANDIDATES"
+
+
 def test_supplementary_source_register_is_retrievable_without_promoting_history(tmp_path):
     root = _fixture(tmp_path)
     subject = root / BASE / "CONTINUATION_AND_LIVENESS.md"
