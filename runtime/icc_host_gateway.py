@@ -1,8 +1,10 @@
 """Canonical host-facing gateway into Take-5 ICC.
 
-External hosts use this surface after constructing a valid ICCHostIngressReceipt.
-It is intentionally thinner than icc_entry: host identity admission belongs here,
-while ICC execution semantics remain owned by icc_entry.run_icc.
+External hosts use this surface with a structural ingress receipt and a fresh
+attestation from a separately trusted verifier. The configured verification
+key is trusted deployment state, not caller input. Without both inputs hosted
+execution and repository-backed identity emission fail closed. ICC execution
+semantics remain owned by icc_entry.run_icc.
 """
 from __future__ import annotations
 
