@@ -13,3 +13,5 @@ Equal cardinality does not make these the same object.
 When GOAL has result-sensitive directed handoff semantics, those
 belong in the semantic-object package / directed-handoff authority, not in the
 Scope x ModeFace coverage pages.
+
+The project-level distinction is navigable through [TWO_36_SURFACES.md](../../TWO_36_SURFACES.md).
