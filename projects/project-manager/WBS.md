@@ -48,3 +48,26 @@ Model: deliverable-oriented
 5.4 pull request state
 5.5 merge
 5.6 current-state receipt update
+
+6 Pre-project definition gate (accepted extension)
+6.1 compact nine-coordinate candidate definition and durable exploration
+6.2 non-promoting definition readiness and separate USER approval guard
+6.3 actual owner-side promotion admission and current-state precondition evidence
+6.4 dedicated candidate and full-project regression witnesses
+
+7 Mandatory ordinary-run spine (accepted extension)
+7.1 ASSERT and GOAL_PRE recovery
+7.2 MT / PD / PDAudit discrimination and audit
+7.3 GOAL_POST, currentness and question selection
+7.4 native continuation and dedicated spine verification
+
+8 Known-failure controls (accepted extension)
+8.1 seventeen control classes and five root invariants
+8.2 remediation frontier, transform preflight and no-false-close checks
+8.3 self-project integrity and cross-project fixtures
+8.4 capability/validation and exact full-campaign semantic evidence
+
+The numbered groups are deliverable decomposition, not execution dates, present
+acceptance claims, or new mandatory ordinary-run tools. SCHEDULE.md owns temporal
+status and VERIFICATION.md owns actual witnessed results. Any unproven admission
+or campaign obligation stays typed OPEN in OPEN_QUESTIONS.md.

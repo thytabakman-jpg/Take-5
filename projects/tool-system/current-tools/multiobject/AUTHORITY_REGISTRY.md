@@ -7,7 +7,9 @@ Status: CURRENT PACKAGE ROUTING
 | package identity/status routing | this package |
 | current configured-tool identity | runtime/tool_run_registry.py |
 | current protected tool identity | runtime/tool_manifest.py |
-| current executable realization | runtime/portable_tool_conductor.py |
+| current invocation routing | runtime/portable_tool_conductor.py |
+| MultiObject native execution | runtime/multiobject.py |
+| full mathematical identity | architecture/MULTIOBJECT_FULL_TOOL_MATH_001_2026-09-27.md |
 | historical/lineage evidence | SOURCE_MAP.md pointers |
 | package current projection | CURRENT_STATE.md |
 | unresolved package questions | OPEN_QUESTIONS.md |

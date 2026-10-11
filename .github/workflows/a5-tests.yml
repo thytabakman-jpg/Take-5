@@ -40,6 +40,7 @@ on:
       - 'migration/**'
       - 'provenance/**'
       - 'research/**'
+      - 'projects/tool-system/**'
       - 'KERNEL.yaml'
       - 'MIGRATION_STATE.yaml'
       - 'ARCHITECTURE_CANDIDATE.yaml'

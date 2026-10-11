@@ -3,6 +3,17 @@
 Date: 2026-09-26
 Status: CURRENT / VALIDATED / MERGED
 
+## Contents
+
+- [Start here](#start-here)
+- [Required chain](#required-chain)
+- [Recovery commands](#recovery-commands)
+- [Anti-loss rule](#anti-loss-rule)
+- [Relationship to RootCause](#relationship-to-rootcause)
+- [OPEN](#open)
+- [Validated implementation evidence](#validated-implementation-evidence)
+- [Post-repair disposition](#post-repair-disposition)
+
 ## Start here
 
 This is the recovery surface for the root diagnosis:
@@ -10,20 +21,20 @@ This is the recovery surface for the root diagnosis:
 PROTECTED_TRANSITION_INTEGRITY_FAILURE.
 
 Current mathematics:
-architecture/PROTECTED_TRANSITION_INTEGRITY_090.md
+[architecture/PROTECTED_TRANSITION_INTEGRITY_090.md](../architecture/PROTECTED_TRANSITION_INTEGRITY_090.md)
 
 Core runtime:
-runtime/protected_transition_integrity.py
+[runtime/protected_transition_integrity.py](../runtime/protected_transition_integrity.py)
 
 Portfolio audit:
-runtime/protected_transition_portfolio.py
+[runtime/protected_transition_portfolio.py](../runtime/protected_transition_portfolio.py)
 
 Configured execution integration:
-runtime/global_tool_execution.py
+[runtime/global_tool_execution.py](../runtime/global_tool_execution.py)
 
 Generic configured identity:
-runtime/configured_run.py
-runtime/tool_manifest.py
+[runtime/configured_run.py](../runtime/configured_run.py)
+[runtime/tool_manifest.py](../runtime/tool_manifest.py)
 
 ## Required chain
 
@@ -41,12 +52,12 @@ A protected behavior is not operationally preserved until every required edge ha
 
 Run the tests:
 
-tests/test_protected_transition_integrity.py
-tests/test_protected_transition_portfolio.py
+[tests/test_protected_transition_integrity.py](../tests/test_protected_transition_integrity.py)
+[tests/test_protected_transition_portfolio.py](../tests/test_protected_transition_portfolio.py)
 
 Run portfolio audit:
 
-runtime/protected_transition_portfolio.py
+[runtime/protected_transition_portfolio.py](../runtime/protected_transition_portfolio.py)
 
 ## Anti-loss rule
 
@@ -65,10 +76,10 @@ RootCause run 089 diagnosed PTI failure as the smallest stable generator for the
 current chat recurrence class.
 
 RootCause:
-integration/CURRENT_ROOT_CAUSE.md
+[integration/CURRENT_ROOT_CAUSE.md](../integration/CURRENT_ROOT_CAUSE.md)
 
 Validated run:
-research/ROOT_CAUSE_RUN_CURRENT_CHAT_089_2026-09-26.md
+[research/ROOT_CAUSE_RUN_CURRENT_CHAT_089_2026-09-26.md](../research/ROOT_CAUSE_RUN_CURRENT_CHAT_089_2026-09-26.md)
 
 ## OPEN
 
@@ -96,5 +107,5 @@ Remaining external residual:
 HOST_INTEGRATION_BYPASS.
 
 Executable recheck:
-runtime/protected_transition_root_recheck.py
-tests/test_protected_transition_root_recheck.py
+[runtime/protected_transition_root_recheck.py](../runtime/protected_transition_root_recheck.py)
+[tests/test_protected_transition_root_recheck.py](../tests/test_protected_transition_root_recheck.py)

@@ -1,4 +1,23 @@
-# IC-026 Blocker Repair 001
+# Stale Workflow Observation Falsely Marked the IC-023 Fixture as Blocked
+
+<a id="ic-026-blocker-repair-001"></a>
+**Historical report title:** IC-026 Blocker Repair 001  
+**Document type:** Dated causal blocker-resolution finding; not an active workflow specification  
+**Audience:** IC-023/IC-024 campaign and Take-5 validation maintainers  
+**Goal:** Preserve the fresh workflow-run evidence that overturned the earlier blocker, the bounded fixture verification and the still-OPEN persistence condition  
+**Status/authority:** Historical findings, observations, and bounded repair claims only; no current runtime state inferred.  
+
+## Principal finding and limits
+
+The original Gate 004 BLOCKED conclusion was overturned by a subsequent successful Take-5 workflow run. The diagnosed generator was **stale observation and timing**, not absent runtime capability. The report only verified the fixture path; **cross-run persistent state remained OPEN**.
+
+## Contents
+
+- [IC-026 diagnosis](#ic-026-diagnosis)
+- [Direct evidence](#direct-evidence)
+- [Resolution](#resolution)
+- [IC-026 control consequence](#ic-026-control-consequence)
+
 
 Date: 2026-09-24
 Status: RESOLVED

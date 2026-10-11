@@ -1,9 +1,9 @@
 # Protected behaviors: GOAL
 
-Current protected behavior is owned by runtime/tool_manifest.py and its cited
+Current protected behavior is owned by [runtime/tool_manifest.py](../../../../runtime/tool_manifest.py) and its cited
 implementation/witness surfaces for current configured tools.
 
-Historical variants retain their protected-behavior evidence through SOURCE_MAP.md
+Historical variants retain their protected-behavior evidence through [SOURCE_MAP.md](SOURCE_MAP.md)
 without promotion into the live manifest.
 
 ## Rule

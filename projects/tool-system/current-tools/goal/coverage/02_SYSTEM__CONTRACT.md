@@ -18,4 +18,4 @@ Disposition: OPEN
 ## Non-overwrite rule
 
 Add evidence here without replacing findings owned by another coverage cell.
-Canonical semantic changes route through AUTHORITY_REGISTRY.md and CHANGE_CONTROL.md.
+Canonical semantic changes route through [AUTHORITY_REGISTRY.md](../AUTHORITY_REGISTRY.md) and [CHANGE_CONTROL.md](../CHANGE_CONTROL.md).

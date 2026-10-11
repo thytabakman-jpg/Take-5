@@ -21,6 +21,8 @@ This package organizes the object without becoming a second semantic authority.
 9. SOURCE_MAP.md
 10. coverage/ only for coverage evidence
 
+The complete package file inventory, including append-only receipts and the 36 coverage cells, is in [MANIFEST.md](MANIFEST.md). It is navigation, not additional semantic authority.
+
 ## Anti-loss rule
 
 Do not overwrite history, decisions, lessons, run evidence, or coverage-cell evidence.

@@ -481,6 +481,18 @@ MULTIOBJECT_BINDINGS=GENERIC_BINDINGS+(
         "tests/test_multiobject.py",
     ),
     ProtectedBinding(
+        "MO_HIGHER_ORDER_RESIDUAL_TYPING",
+        "INTRA",
+        "runtime/multiobject.py",
+        "tests/test_multiobject.py",
+    ),
+    ProtectedBinding(
+        "MO_MATERIAL_DELTA_REENTRY",
+        "POST",
+        "runtime/multiobject.py",
+        "tests/test_multiobject.py",
+    ),
+    ProtectedBinding(
         "MO_OPEN_CONFLICT_INCOMPARABILITY_PRESERVATION",
         "POST",
         "runtime/multiobject.py",

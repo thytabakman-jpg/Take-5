@@ -23,7 +23,7 @@ FullMath 002 adds the pre-project sum-type admission branch while preserving the
 
 ## Mandatory orchestration extension
 
-Current candidate FullMath:
+Accepted spine-extension mathematics (PR 173):
 - architecture/PROJECT_MANAGER_FULL_TOOL_MATH_003_2026-09-27.md
 
 FullMath 003 preserves FullMath 002's pre-project admission object and adds the mandatory
@@ -32,9 +32,13 @@ ordinary-run management spine.
 
 ## Failure-immunity successor
 
-Current candidate FullMath:
+Accepted failure-immunity extension mathematics (merged PR 187):
 - architecture/PROJECT_MANAGER_FULL_TOOL_MATH_004_2026-09-30.md
 
 FullMath 004 preserves FullMath 003 and adds the 17-cluster failure-prevention
 envelope, five root invariants, transform impact/verification preflight, and the
-no-false-close frontier correction.
+no-false-close frontier correction. PR 187 merged as
+`caadd8d8a41904bec9e0e0b0507af476969aade0` on 2026-09-30.
+These dated mathematical documents are distinct evolution evidence, not mutable
+currentness selectors; resolve live semantics via `SOURCE_MAP.md` and the actual
+runtime/manifest authorities.

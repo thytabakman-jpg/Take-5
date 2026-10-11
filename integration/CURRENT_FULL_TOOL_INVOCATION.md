@@ -4,6 +4,22 @@ Date: 2026-09-26
 Status: CURRENT / VALIDATED / MERGED
 Canonical repository: thytabakman-jpg/Take-5
 
+## Contents
+
+- [Purpose](#purpose)
+- [Core identity](#core-identity)
+- [Required configured coordinates](#required-configured-coordinates)
+- [Canonical execution surfaces](#canonical-execution-surfaces)
+- [Direct command contract](#direct-command-contract)
+- [Recurrence contract](#recurrence-contract)
+- [Protected reconstruction](#protected-reconstruction)
+- [Repository-owned route closure](#repository-owned-route-closure)
+- [ImprovementCore basis](#improvementcore-basis)
+- [Campaign evidence](#campaign-evidence)
+- [Validation evidence](#validation-evidence)
+- [Current disposition](#current-disposition)
+- [Boundary](#boundary)
+
 ## Purpose
 
 This is the current recovery surface for repository-owned invocation of registered formal tools.

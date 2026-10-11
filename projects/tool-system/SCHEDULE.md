@@ -25,5 +25,5 @@ Schedule type: EVENT-DRIVEN
 
 ## Separation
 
-WBS.md owns deliverable decomposition.
+[WBS.md](WBS.md) owns deliverable decomposition.
 This file owns temporal/event ordering and milestones.

@@ -3,6 +3,23 @@
 Date: 2026-09-26
 Status: TAKE-5 CURRENT / VALIDATED FOR PROMOTED USE
 
+## Contents
+
+- [Identity](#identity)
+- [Core law](#core-law)
+- [Division of labor](#division-of-labor)
+- [Terminal dispositions](#terminal-dispositions)
+- [Anti-loop](#anti-loop)
+- [Current use](#current-use)
+- [Lineage](#lineage)
+- [Current registered-repertoire promotion](#current-registered-repertoire-promotion)
+- [OPEN](#open)
+- [Take-5 promotion evidence](#take-5-promotion-evidence)
+- [ImprovementCore campaign composition](#improvementcore-campaign-composition)
+- [ImprovementCore default-promotion evidence](#improvementcore-default-promotion-evidence)
+- [Full configured invocation promotion evidence](#full-configured-invocation-promotion-evidence)
+- [Parent-return boundary](#parent-return-boundary)
+
 ## Identity
 
 Configured tool:

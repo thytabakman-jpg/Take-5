@@ -14,6 +14,7 @@ semantics or bindings are OPEN/BLOCKED, never silently substituted.
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass
+from multiobject import MultiObjectResult
 from typing import Any, Callable, Mapping
 
 from capability_runtime import execute_capability
@@ -354,6 +355,16 @@ def run_tool_conductor(
             def portable_adapter(current,plan,_adapter=adapter):
                 try:
                     out=_adapter(packet)
+                    # Preserve typed native MultiObject closure instead of treating
+                    # every non-dict adapter result as a successful execution.
+                    if isinstance(out, MultiObjectResult):
+                        return {
+                            "status":out.status,
+                            "execution_truth":out.execution_truth,
+                            "result":asdict(out),
+                            "material_delta":out.material_delta,
+                            "evidence":out.evidence,
+                        }
                     if (
                         isinstance(out,dict)
                         and str(out.get("status","")) in {

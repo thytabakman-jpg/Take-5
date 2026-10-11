@@ -1,7 +1,8 @@
 # ProjectManager all-tools HF2 canonical closure
 
 Date: 2026-09-27
-Status: CURRENT / CLOSED_RELATIVE / MERGED
+Status: HISTORICAL 2026-09-27 CAMPAIGN / CLOSED_RELATIVE / MERGED PR 167
+Status at original execution: CURRENT / CLOSED_RELATIVE / MERGED
 
 Campaign:
 architecture/PROJECT_MANAGER_ALL_TOOLS_HF2_CAMPAIGN_001_2026-09-27.md
@@ -49,3 +50,19 @@ CLOSED_RELATIVE.
 
 This receipt closes the semantic campaign. Any later administrative receipt update is not a
 new semantic campaign pass and does not create an infinite receipt-of-receipt obligation.
+
+## Historical receipt boundary (Level 2 cross-check, 2026-10-10)
+
+The original pass-one/pass-two account, exact 93-tool repertoire,
+PR 167 merge (`47df0f452f323502b601563b4b9fd5b00ac827e5`),
+and original 937-test validation statement are retained unchanged as
+source-head-specific historical evidence. `CLOSED_RELATIVE` here means
+relative closure of *this* 2026-09-27 campaign, not unrestricted
+closure of later failure-immunity verification or unrelated project work.
+
+PR 187 later merged separate failure-prevention controls. Its V50 direct
+semantic ICC128/RTC/ToolConductor coverage question remains OPEN in
+`projects/project-manager/VERIFICATION.md`; a synthetic configured-route
+sweep is not, by itself, equivalent evidence. `TransferCore` also remains
+separately evidence-only where its identity is unresolved. This note does
+not re-run, revoke or synthetically renew the historical campaign.

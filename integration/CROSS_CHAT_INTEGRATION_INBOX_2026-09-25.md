@@ -7,6 +7,18 @@ Promotion authority: NONE
 Implementation authority: NONE
 Major-change freeze: ACTIVE
 
+## Table of contents
+
+- [Governing instruction](#governing-instruction)
+- [Current repository anchor](#current-repository-anchor)
+- [Cross-chat recovery clusters](#cross-chat-recovery-clusters)
+- [Explicit freeze until integration completes](#explicit-freeze-until-integration-completes)
+- [Integration completion gate](#integration-completion-gate)
+- [Current chat capture: friend-facing successor](#current-chat-capture-friend-facing-successor)
+- [Final anti-loss rule](#final-anti-loss-rule)
+- [ICC-123 three-day recovery campaign — 2026-09-25](#icc-123-three-day-recovery-campaign--2026-09-25)
+- [ICC wrapper redesign capture — 2026-09-25 late session](#icc-wrapper-redesign-capture--2026-09-25-late-session)
+
 ## Governing instruction
 
 Do not make a major architecture, migration, promotion, deletion, cleanup, or new-repository move until the relevant cross-chat work has been integrated and reconciled.

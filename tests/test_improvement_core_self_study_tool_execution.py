@@ -22,7 +22,12 @@ def test_self_study_executes_and_consumes_powerful_configured_tools(tmp_path:Pat
     assert report["verification"]["all_configured_tools_full_36"] is True
 
     root=next(x for x in outputs if x["tool_id"]=="RootCause")
-    assert "TOOL_SELECTION_EXECUTION_SEAM_MISSING" in root["result"]["root_candidates"]
+    # Executing RootCause is not the same as proving its candidate root.
+    assert root["result"]["status"]=="OPEN"
+    assert root["result"]["root_candidates"]==()
+    assert "TOOL_SELECTION_EXECUTION_SEAM_MISSING:COUNTERFACTUAL_REMOVAL_UNTESTED" in root["result"]["unresolved"]
+    assert "TOOL_SELECTION_EXECUTION_SEAM_MISSING:CAUSAL_TEST_EVIDENCE_MISSING" in root["result"]["unresolved"]
+    assert "TOOL_SELECTION_EXECUTION_SEAM_MISSING:RIVAL_DISCRIMINATION_EVIDENCE_MISSING" in root["result"]["unresolved"]
 
     question=next(x for x in outputs if x["tool_id"]=="QuestionWorthAsking")
     assert question["result"]["selected"][0]["question_id"]=="q-execution"

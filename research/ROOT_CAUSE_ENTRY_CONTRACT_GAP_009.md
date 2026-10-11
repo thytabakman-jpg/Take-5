@@ -2,8 +2,8 @@
 
 <a id="root-cause--observation-mode-entry-error--icc-conversation-friction-009"></a>
 **Historical report title:** Root Cause — Observation-Mode Entry Error + ICC Conversation Friction 009  
-**Role and audience:** Historical Root Cause investigation findings for system maintainers and investigators; preserve its original declared scope, authority, and status.  
-**Goal:** Surface what the investigation established, explain the causal chain and evidence, and keep rivals, failures, limitations, and open obligations traceable.
+**Role and reader:** Superseded historical entry-contract diagnosis for RootCause/Jane/ICC controller maintainers, not the currently governing observer-mode implementation.  
+**Goal:** Recover the two linked failures of missing observer-first stage ordering and conversational controller-entry binding; preserve evidence, rivals, counterfactuals, the proposed EntryContract, and the explicit supersession by post-repair audit 011 without claiming this initial audit implemented the solution.
 
 ## Principal finding and limits
 

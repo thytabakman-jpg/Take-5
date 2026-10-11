@@ -51,9 +51,15 @@ IDEA
 
 DEFINITION_READY does not create a project.
 
-PROMOTION_READY requires an approval reference beginning with USER:.
+The native definition assessor treats an approval reference beginning with USER:
+as syntactically valid for PROMOTION_READY. This string-prefix check alone
+does not authenticate the person who approved the transition or admit a write.
 
-No tool, controller, automated run, or confidence score can manufacture that authority.
+No tool, controller, automated run, or confidence score grants real USER
+authority. The separately governed PROMOTE operation must verify actual user
+approval and its current preconditions before creating a project. This document
+describes that protected admission boundary; the observer assessment does not
+implement the downstream persistence transaction.
 
 ## Storage rule
 

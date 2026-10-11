@@ -91,3 +91,57 @@ def test_repository_materialization_is_complete():
     assert out["missing"]==()
     assert out["bad_coverage"]==()
     assert out["registry_parity"] is True
+
+
+def test_multiobject_package_has_direct_runtime_math_and_legacy_lineage_routes():
+    spec=next(x for x in current_tool_specs() if x.object_id=="MultiObject")
+    generated=package_files(spec)
+    root=Path(__file__).resolve().parents[1]/"projects/tool-system/current-tools/multiobject"
+
+    def page(name):
+        content=generated[f"current-tools/multiobject/{name}"]
+        # Materialized organizational pages must remain reproducible from the generator.
+        assert (root/name).read_text(encoding="utf-8")==content
+        return content
+
+    authority=page("AUTHORITY_REGISTRY.md")
+    math=page("MATHEMATICS.md")
+    runtime=page("RUNTIME.md")
+    sources=page("SOURCE_MAP.md")
+    assert "| MultiObject native execution | runtime/multiobject.py |" in authority
+    assert "| current invocation routing | runtime/portable_tool_conductor.py |" in authority
+    assert "MULTIOBJECT_FULL_TOOL_MATH_001_2026-09-27.md" in math
+    assert "multiobject_provider" in runtime
+    assert "runtime/multiobject.py" in runtime
+    assert "492bf7da82ac346c1a17ab0acc2405adf17ae5c1" in sources
+    assert "MULTI_OBJECT_CONNECTOR_PROTOCOL.md" in sources
+    assert "tests/test_multiobject_fullmath_identity.py" in sources
+    assert "[Configured tool registry](../../../../runtime/tool_run_registry.py)" in sources
+    assert "## Moving Reaserch source locations (navigation, not authority)" in sources
+    assert "blob/main/projects/pd/protocol/MULTI_OBJECT_CONNECTOR_PROTOCOL.md" in sources
+    assert "blob/492bf7da82ac346c1a17ab0acc2405adf17ae5c1" in sources
+
+def test_multiobject_batch2_coverage_and_streams_are_materialized_and_linked():
+    spec=next(x for x in current_tool_specs() if x.object_id=="MultiObject")
+    files=package_files(spec)
+    root=Path(__file__).resolve().parents[1]/"projects/tool-system"
+    prefix="current-tools/multiobject/"
+    index=files[prefix+"coverage/README.md"]
+    for number,scope,mode in coverage_cells():
+        name=f"{number:02d}_{scope.value}__{mode.value}.md"
+        path=prefix+"coverage/"+name
+        expected=files[path]
+        assert f"({('./'+name)})" in index
+        assert "Disposition: OPEN" in expected
+        assert "- none admitted yet" in expected
+        assert "[all 36 coverage cells](README.md)" in expected
+        assert "[authority registry](../AUTHORITY_REGISTRY.md)" in expected
+        assert (root/path).read_text(encoding="utf-8")==expected
+    assert index.count("](./")==36
+    assert (root/(prefix+"coverage/README.md")).read_text(encoding="utf-8")==index
+    for directory in ("evidence","runs","history"):
+        path=prefix+directory+"/README.md"
+        expected=files[path]
+        assert "This directory is append-only." in expected
+        assert "[Change control](../CHANGE_CONTROL.md)" in expected
+        assert (root/path).read_text(encoding="utf-8")==expected

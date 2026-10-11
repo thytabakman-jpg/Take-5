@@ -6,6 +6,27 @@ Canonical repository: thytabakman-jpg/Take-5
 Native runtime: runtime/goal.py
 Current native-recovery merge: PR #148 / 53b28a36d9998e4fe76f49b231695216fe419bdd
 
+## Contents
+
+- [1 Governing identity](#1-governing-identity)
+- [2 Native semantics N_GOAL](#2-native-semantics-n_goal)
+  - [Type](#type)
+  - [Domain](#domain)
+  - [Codomain](#codomain)
+  - [State](#state)
+  - [Admission](#admission)
+  - [Native transition graph](#native-transition-graph)
+  - [Observables](#observables)
+- [3 Wrapper/execution identity W_GOAL](#3-wrapperexecution-identity-w_goal)
+- [4 Geometry identity G_GOAL](#4-geometry-identity-g_goal)
+- [5 Protected behavior identity P_GOAL](#5-protected-behavior-identity-p_goal)
+- [6 Lineage/currentness/reality identity L_GOAL](#6-lineagecurrentnessreality-identity-l_goal)
+- [7 Current run specification](#7-current-run-specification)
+- [8 Portability and external boundary](#8-portability-and-external-boundary)
+- [9 Specification-before-transformation receipt](#9-specification-before-transformation-receipt)
+- [10 Historical process defect](#10-historical-process-defect)
+- [11 Closure statement](#11-closure-statement)
+
 ## 1 Governing identity
 
 For protected job J and basis K:

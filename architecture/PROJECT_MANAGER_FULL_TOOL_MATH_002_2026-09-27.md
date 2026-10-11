@@ -1,9 +1,29 @@
 # ProjectManager Full Tool Mathematics 002
 
 Date: 2026-09-27
-Status: CURRENT / VALIDATED / MERGED
+Status: ACCEPTED ADMISSION LAYER / ORIGINAL PR 170 MERGED
+Status at original promotion: CURRENT / VALIDATED / MERGED
+Lineage: PR 170 merged as 904f1336b4226b42e51a88630581a2f507ec2304.
+Later additive layers: 003 (management spine) and 004 (failure immunity).
+Supersession below applies specifically to the candidate-admission extension,
+not destruction of the earlier managed-project core. This dated mathematics
+file is not by itself a live identity selector; see the governing runtime/manifest.
 Supersedes for current admission work: PROJECT_MANAGER_FULL_TOOL_MATH_001_2026-09-27.md
 Canonical target: thytabakman-jpg/Take-5
+
+## Table of contents
+
+- [1 New result-sensitive problem](#1-new-result-sensitive-problem)
+- [2 Sum-type extension](#2-sum-type-extension)
+- [3 Readiness and promotion](#3-readiness-and-promotion)
+- [4 Promotion barrier](#4-promotion-barrier)
+- [5 Protected behavior](#5-protected-behavior)
+- [6 Requested tool sequence](#6-requested-tool-sequence)
+- [7 ImprovementCore result](#7-improvementcore-result)
+- [8 Nonclaims](#8-nonclaims)
+- [9 Validation target](#9-validation-target)
+- [10 Validation receipt](#10-validation-receipt)
+- [11 Canonical promotion](#11-canonical-promotion)
 
 ## 1 New result-sensitive problem
 
