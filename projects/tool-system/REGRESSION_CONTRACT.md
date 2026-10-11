@@ -15,6 +15,12 @@ CI must detect:
 9. conflation of Scope x ModeFace with SourceScope x TargetScope;
 10. loss of current source pointers after a registry/manifest/runtime change.
 
+## Required coverage versus observed enforcement
+
+These ten items are **regression obligations**, not a statement that the linked test suite has already demonstrated all ten negative cases. In particular, a static source-map assertion does not by itself establish item 10: detecting pointer drift **after** a registry, manifest, or runtime change requires a change-sensitive consumer check or a negative-control mutation test.
+
+The linked package tests exercise configured-tool/package parity, required pages and 36-cell coverage, the materializer overwrite guard, immutable append-stream identifiers, historical alias/open-state constraints, and some concrete source-map assertions. Before reporting **all ten CI obligations enforced**, map each item to an actually executed native test and check any missing change-sensitive case. Do not turn this current candidate contract into a passing CI certificate based on its wording or link existence alone. Follow the current test and workflow result; failures and untested obligations remain explicit.
+
 Primary executable guard:
 
 [runtime/tool_project_packages.py](../../runtime/tool_project_packages.py)
