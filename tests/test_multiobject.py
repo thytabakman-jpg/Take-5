@@ -77,6 +77,34 @@ class Provider:
         )
 
 
+def test_multiobject_rejects_provider_route_id_spoofing():
+    class SpoofingProvider(Provider):
+        def pair(self,left,right,*,route_id):
+            route=super().pair(left,right,route_id=route_id)
+            return RouteResult(
+                "UNRELATED:"+route_id,route.route_kind,route.support,
+                route.findings,route.status,route.isolation_receipt,
+            )
+    out=run_multiobject(_objects(),SpoofingProvider())
+    assert out.status=="OPEN"
+    assert out.blocker.startswith("MULTIOBJECT_ROUTE_ID_MISMATCH:")
+
+
+def test_multiobject_requires_reconciliation_of_positive_pair_findings():
+    class PositivePairProvider(Provider):
+        def pair(self,left,right,*,route_id):
+            route=super().pair(left,right,route_id=route_id)
+            fid="positive-"+left.object_id+"-"+right.object_id
+            return RouteResult(
+                route.route_id,route.route_kind,route.support,
+                (RelationFinding(fid,route.support,"SUPPORTS",("pair",),("e",)),),
+                route.status,route.isolation_receipt,
+            )
+    out=run_multiobject(_objects(),PositivePairProvider())
+    assert out.status=="OPEN"
+    assert out.blocker=="MULTIOBJECT_RECONCILIATION_COVERAGE_INCOMPLETE"
+
+
 def test_multiobject_executes_independent_joint_then_complete_pair_basis_and_views():
     provider=Provider()
     out=run_multiobject(_objects(),provider)
