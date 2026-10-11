@@ -8,6 +8,18 @@ Read current truth, route bounded deltas, never overwrite unrelated owners.
 ProjectManager -> configured tools
 Select or hand off bounded work. Tool output returns as evidence.
 
+ProjectManager <-> independently governed Repair systems
+The project work frontier may request a bounded repair or expose typed OPEN/BLOCKED
+repair debt, but ProjectManager coordinates rather than performs repairs.
+Reaserch's [Repair network boundary](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/improvement-core/REPAIR_MACHINERY_INVENTORY.md#shared-tool-network-boundaries-and-change-propagation)
+owns the discovered Repair interface, not a duplicate ProjectManager repair runtime.
+The repair owner retains target mutation, Level 1–4 evaluation, native checks and
+terminal repair evidence. On return, ProjectManager may consume the exact project
+identity, target/generation, status, evidence and unresolved dependencies as
+evidence-only input; project-state promotion still requires independent authority.
+A static cross-repository link is not a tested running bridge. Any such consumer
+binding remains OPEN until exercised and verified, including blocked-work reentry.
+
 ProjectManager -> ImprovementCore
 Emit project fingerprint plus executable evidence-only work frontier.
 ImprovementCore does not acquire project authority from the handoff.
