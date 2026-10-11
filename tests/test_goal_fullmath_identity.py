@@ -3,6 +3,7 @@ import sys
 sys.path.insert(0,"runtime")
 
 from specification_before_transformation import SpecificationPacket, assess_transformation
+from portable_tool_conductor import compilation_witness
 from tool_manifest import manifest_for
 from tool_run_registry import PROTECTED_BEHAVIORS
 
@@ -57,3 +58,28 @@ def test_artifact_preserves_post_hoc_process_defect_and_external_open_boundary()
     assert "before this dedicated" in text
     assert "arbitrary-prose" in text
     assert "OPEN" in text
+
+
+def test_goal_source_map_resolves_one_live_spec_and_preserves_older_lineage():
+    """Reject GOAL source-map regressions to a legacy or cross-repository selector."""
+    text=Path("projects/tool-system/current-tools/goal/SOURCE_MAP.md").read_text(encoding="utf-8")
+    live_heading="## Live GOAL binding"
+    assert text.count(live_heading)==1
+    live=text.split(live_heading,1)[1].split("\n## ",1)[0]
+    spec=manifest_for("GOAL").lineage_contract
+    entrypoint=compilation_witness("GOAL").entrypoint
+
+    # Follow the machine-selected current contract, not a manually selected date.
+    assert spec=="architecture/GOAL_FULL_TOOL_MATH_002_2026-09-30.md"
+    assert f"](../../../../{spec})" in live
+    assert f"`{entrypoint}`" in live
+    assert "manifest_for(\"GOAL\").lineage_contract" in live
+
+    # The predecessor and external semantic sources remain discoverable,
+    # but cannot masquerade as this configured-tool's live selector.
+    assert "GOAL_FULL_TOOL_MATH_001_2026-09-27.md" not in live
+    assert "Reaserch/blob/" not in live
+    assert "**Earlier historical basis, not an alternate current selector:**" in text
+    assert "GOAL_FULL_TOOL_MATH_001_2026-09-27.md" in text
+    assert "Cross-repository GOAL provenance (discovery only; not configured-tool authority)" in text
+    assert "If the manifest, configured entrypoint, and this source map disagree" in live
