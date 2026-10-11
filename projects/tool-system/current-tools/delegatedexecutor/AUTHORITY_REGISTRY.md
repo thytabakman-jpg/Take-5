@@ -7,7 +7,8 @@ Status: CURRENT PACKAGE ROUTING
 | package identity/status routing | this package |
 | current configured-tool identity | [runtime/tool_run_registry.py](../../../../runtime/tool_run_registry.py) |
 | current protected tool identity | [runtime/tool_manifest.py](../../../../runtime/tool_manifest.py) |
-| current executable realization | [runtime/portable_tool_conductor.py](../../../../runtime/portable_tool_conductor.py) |
+| current invocation routing | [runtime/portable_tool_conductor.py](../../../../runtime/portable_tool_conductor.py) |
+| current native delegated execution | [runtime/delegation.py](../../../../runtime/delegation.py) |
 | historical/lineage evidence | [SOURCE_MAP.md](SOURCE_MAP.md) pointers |
 | package current projection | [CURRENT_STATE.md](CURRENT_STATE.md) |
 | unresolved package questions | [OPEN_QUESTIONS.md](OPEN_QUESTIONS.md) |
