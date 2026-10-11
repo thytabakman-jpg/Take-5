@@ -104,6 +104,29 @@ def test_root_cause_chat_fixture_finds_protected_transition_integrity_generator(
     assert out.parent_handoff["action"]=="ADMIT_ROOT_CAUSE_AND_REPLAN"
 
 
+def test_evidenced_root_is_not_removed_by_unverified_broader_rival():
+    from root_cause import nondominated_candidates, root_admissible
+    failure = frozenset({"recurrence"})
+    proven = RootCandidate(
+        "PROVEN", "ROOT_GENERATOR", failure,
+        evidence=frozenset({"observed-effect"}),
+        causal_test_evidence=frozenset({"intervention"}),
+        rival_discrimination_evidence=frozenset({"rival-check"}),
+        survives_representation_change=True,
+        removal_breaks_recurrence=True,
+    )
+    unverified = RootCandidate(
+        "UNVERIFIED", "ROOT_GENERATOR", failure,
+        upstream_of=frozenset({"x", "y"}),
+        survives_representation_change=True,
+        removal_breaks_recurrence=True,
+    )
+    candidates = nondominated_candidates((proven, unverified), failure)
+    assert proven in candidates
+    assert root_admissible(proven, failure)
+    assert not root_admissible(unverified, failure)
+
+
 def test_root_cause_is_local_child_not_global_completion():
     failures,candidates=chat_candidates()
     child=run_root_cause_child(
