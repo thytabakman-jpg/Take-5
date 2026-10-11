@@ -7,5 +7,6 @@ Recorded runs and repair receipts:
 - [RTC GOAL run — 2026-09-30](RTC_GOAL_2026-09-30.md) — retained historical run record, not current-status certification
 - [Level 1 Batch 01](LEVEL1_BATCH01_2026-10-10.md) — 30-file structural repair receipt
 - [Level 1 Batch 02](LEVEL1_BATCH02_2026-10-10.md) — 30-file structural repair receipt and source validation
+- [Level 1 Batch 03](LEVEL1_BATCH03_2026-10-10.md) — 30-file management/Goal-test/integration structural repair receipt
 
 These historical records retain their recorded statuses even when later validation changes.
