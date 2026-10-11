@@ -521,6 +521,17 @@ through the authority and change-control path.
 
     if spec.current_tool and spec.object_id=="MultiObject":
         body += "\n## Use and ownership\n\nReader: MultiObject maintainers and audit reviewers.\nPurpose: Find the evidence-only Scope x ModeFace cells and preserve unresolved questions; no cell is a second mathematical authority.\n\n- [MultiObject authority registry](../AUTHORITY_REGISTRY.md)\n- [Change control](../CHANGE_CONTROL.md)\n- [Source map and provenance](../SOURCE_MAP.md)\n- [Separate directed handoff surface](../HANDOFF_SURFACE.md)\n\nA cell marked OPEN has no admitted cell-specific finding yet. It does **not** negate findings recorded in research, prove that no relation exists, or mark the native MultiObject runtime OPEN.\n\n## Coverage navigation\n\n### SYSTEM\n\n- [01 EXPAND](./01_SYSTEM__EXPAND.md)\n- [02 CONTRACT](./02_SYSTEM__CONTRACT.md)\n- [03 INWARD](./03_SYSTEM__INWARD.md)\n- [04 OUTWARD](./04_SYSTEM__OUTWARD.md)\n- [05 ISOLATE](./05_SYSTEM__ISOLATE.md)\n- [06 COUPLE](./06_SYSTEM__COUPLE.md)\n\n### SUBSYSTEM\n\n- [07 EXPAND](./07_SUBSYSTEM__EXPAND.md)\n- [08 CONTRACT](./08_SUBSYSTEM__CONTRACT.md)\n- [09 INWARD](./09_SUBSYSTEM__INWARD.md)\n- [10 OUTWARD](./10_SUBSYSTEM__OUTWARD.md)\n- [11 ISOLATE](./11_SUBSYSTEM__ISOLATE.md)\n- [12 COUPLE](./12_SUBSYSTEM__COUPLE.md)\n\n### COMPONENT\n\n- [13 EXPAND](./13_COMPONENT__EXPAND.md)\n- [14 CONTRACT](./14_COMPONENT__CONTRACT.md)\n- [15 INWARD](./15_COMPONENT__INWARD.md)\n- [16 OUTWARD](./16_COMPONENT__OUTWARD.md)\n- [17 ISOLATE](./17_COMPONENT__ISOLATE.md)\n- [18 COUPLE](./18_COMPONENT__COUPLE.md)\n\n### INTERFACE\n\n- [19 EXPAND](./19_INTERFACE__EXPAND.md)\n- [20 CONTRACT](./20_INTERFACE__CONTRACT.md)\n- [21 INWARD](./21_INTERFACE__INWARD.md)\n- [22 OUTWARD](./22_INTERFACE__OUTWARD.md)\n- [23 ISOLATE](./23_INTERFACE__ISOLATE.md)\n- [24 COUPLE](./24_INTERFACE__COUPLE.md)\n\n### BOUNDARY DECOMPOSITION\n\n- [25 EXPAND](./25_BOUNDARY_DECOMPOSITION__EXPAND.md)\n- [26 CONTRACT](./26_BOUNDARY_DECOMPOSITION__CONTRACT.md)\n- [27 INWARD](./27_BOUNDARY_DECOMPOSITION__INWARD.md)\n- [28 OUTWARD](./28_BOUNDARY_DECOMPOSITION__OUTWARD.md)\n- [29 ISOLATE](./29_BOUNDARY_DECOMPOSITION__ISOLATE.md)\n- [30 COUPLE](./30_BOUNDARY_DECOMPOSITION__COUPLE.md)\n\n### CROSS LAYER\n\n- [31 EXPAND](./31_CROSS_LAYER__EXPAND.md)\n- [32 CONTRACT](./32_CROSS_LAYER__CONTRACT.md)\n- [33 INWARD](./33_CROSS_LAYER__INWARD.md)\n- [34 OUTWARD](./34_CROSS_LAYER__OUTWARD.md)\n- [35 ISOLATE](./35_CROSS_LAYER__ISOLATE.md)\n- [36 COUPLE](./36_CROSS_LAYER__COUPLE.md)\n"
+    if spec.current_tool and spec.object_id=="DelegatedExecutor":
+        body += "\n## Coverage navigation\n\n"
+        previous_scope=None
+        for index,scope,face in coverage_cells():
+            if scope!=previous_scope:
+                if previous_scope is not None:
+                    body += "\n"
+                body += f"### {scope.value}\n\n"
+                previous_scope=scope
+            body += f"- [{index:02d} {face.value}](./{coverage_name(index,scope,face)})\n"
+        body += "\nEach linked page is evidence for one Scope x ModeFace coordinate, not an executable delegation job or a recurring schedule. `OPEN` on a coverage page does not by itself determine the native DelegatedExecutor runtime state.\n"
     return body
 
 
