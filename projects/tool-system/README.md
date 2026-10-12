@@ -7,6 +7,10 @@ Navigation reviewed: 2026-10-12, America/Toronto
 This project applies the project-organization and anti-loss lessons already used
 in the Sukkos Question Booklet project to the entire tool/ICC ecosystem.
 
+## Level 4 rule
+
+See [mandatory Level 4 contract](LEVEL4_CERTIFICATION_AND_REPAIR_CONTRACT.md) for claim validation, actual repair, reverification, and certification rules. Genuine OPEN questions are allowed; unresolved material certification defects are not.
+
 ## Core rule
 
 No single Markdown file owns the whole tool system.

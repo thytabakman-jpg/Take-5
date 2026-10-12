@@ -734,6 +734,10 @@ Current source-freeze result:
 - the frozen legacy ImprovementCore reference preserved separately;
 - the intended two external GitHub ZIP identities remain OPEN and are not guessed.
 
+## Level 4 claim and repair integrity
+
+The [cross-domain Level 4 contract](../projects/tool-system/LEVEL4_CERTIFICATION_AND_REPAIR_CONTRACT.md) requires evidence-backed accuracy for each material assertion, satisfaction of all applicable requirements, repair of actual defects and reverification before certification. Honest OPEN research questions may remain; certification defects may not. The [Level 4 receipt evaluator](../runtime/level4_certification.py) rejects silent factual-to-OPEN relabeling, unsupported statements, incomplete repairs or absent evidence. The [parent return gate](../runtime/improvement_core_return_gate.py) rejects COMPLETE for a selected Level 4 task when the explicit Level 4 selector flag is set **or a Level 4 request appears in parent context** and `state.level4_certification_packets` is absent or fails checks. This is receipt-integrity enforcement, not independent semantic proof verification; hosts must preserve an explicit request or selection flag and supply authenticated evidence.
+
 ## Parent user-return closure
 
 Canonical architecture:

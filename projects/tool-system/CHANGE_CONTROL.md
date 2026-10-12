@@ -10,6 +10,10 @@ After an admitted material change compute and inspect its affected package/depen
 Retain old evidence; supersede explicitly rather than rewriting historical records.
 A new current tool requires package creation in the same admitted change.
 
+## Level 4 certification
+
+Use [the cross-domain Level 4 contract](LEVEL4_CERTIFICATION_AND_REPAIR_CONTRACT.md). Establish the governing purpose and requirements, verify all material assertions and dependencies, repair actual defects in their authoritative nodes, and reverify before PASS. Genuine open research questions need not be answered. Unsupported factual assertions, unsatisfied requirements and unreverified repairs always block certification. Relabeling an asserted fact OPEN without verified accurate correction is not a repair.
+
 ## Exact owner and impact boundary
 
 1. Bind the requested change to its **current** owner: configured identity in [tool_run_registry.py](../../runtime/tool_run_registry.py), protected behavior in [tool_manifest.py](../../runtime/tool_manifest.py), native execution in [portable_tool_conductor.py](../../runtime/portable_tool_conductor.py), package template in [tool_project_packages.py](../../runtime/tool_project_packages.py), or derived [index](TOOL_INDEX.md) / [crosswalk](SOURCE_MAP.md). A navigation edit alone cannot activate a new runtime edge.
