@@ -607,7 +607,7 @@ def _admit_curated_source_map(spec:ProjectObjectSpec, existing:str)->None:
     evidence/provenance routes added by a package maintainer. This is scoped
     to active configured tools; historical variant source maps remain strict.
     """
-    prefix=f"# Source map: {spec.display_name}\\n"
+    prefix=f"# Source map: {spec.display_name}\n"
     if not existing.startswith(prefix):
         raise ToolProjectPackageCollision(f"{spec.object_id}: SOURCE_MAP_IDENTITY_MISMATCH")
     required=(
@@ -645,7 +645,7 @@ def materialize_package(base:Path,spec:ProjectObjectSpec)->tuple[Path,...]:
         path.parent.mkdir(parents=True,exist_ok=True)
         if path.exists():
             existing=path.read_text(encoding="utf-8")
-            if spec.current_tool and rel=="SOURCE_MAP.md" and spec.object_id!="MultiObject":
+            if spec.current_tool and rel.endswith("/SOURCE_MAP.md") and spec.object_id!="MultiObject":
                 _admit_curated_source_map(spec,existing)
                 continue
             if existing!=content:
