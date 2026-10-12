@@ -161,3 +161,98 @@ def test_multiobject_batch2_coverage_and_streams_are_materialized_and_linked():
         assert "This directory is append-only." in expected
         assert "[Change control](../CHANGE_CONTROL.md)" in expected
         assert (root/path).read_text(encoding="utf-8")==expected
+
+
+def _validate_registered_crosswalk(text:str)->tuple[tuple[str,str,str],...]:
+    """Validate the navigational map against exact current configured identities.
+
+    This checks names, links and taxonomy, not Reaserch semantics or external
+    configured-run equivalence.
+    """
+    import re
+    from tool_project_packages import package_relroot
+
+    start="| Take-5 package | Reaserch formal object or family | Relation | Reaserch source pointer |"
+    assert text.count(start)==1
+    table=text.split(start,1)[1].split("### Reaserch objects without an exact Take-5 package mapping",1)[0]
+    row_lines=[line for line in table.splitlines() if line.startswith("| [")]
+    pattern=re.compile(
+        r"^\| \[([^\]]+)\]\(current-tools/([^/]+)/README\.md\)"
+        r" \| .+ \| (NAMED_CROSS_REFERENCE|ALIAS_COLLISION_OPEN|CAPABILITY_FAMILY_ONLY|UNMAPPED)"
+        r" \| .+ \|$"
+    )
+    parsed=[]
+    for line in row_lines:
+        match=pattern.fullmatch(line)
+        assert match is not None, f"Malformed crosswalk row: {line}"
+        parsed.append(match.groups())
+    specs=current_tool_specs()
+    expected=[(spec.object_id,package_relroot(spec).split("/",1)[1]) for spec in specs]
+    assert [(name,slug) for name,slug,_ in parsed]==expected
+    assert len(parsed)==len({name for name,_,_ in parsed})==len(MATERIAL_TOOLS)
+    named={
+        "ImprovementCore","ICC128","MT","MTA","Architecture","PD","PDAudit",
+        "HF001","HF002","TRC","RTC","MultiObject","ASSERT","GOAL","ToolConductor",
+    }
+    for name,slug,relation in parsed:
+        required=(
+            "CAPABILITY_FAMILY_ONLY" if name.startswith("C") and
+            name[1:].isdigit() and 1<=int(name[1:])<=49 else
+            "ALIAS_COLLISION_OPEN" if name in {"RootCause","Diagnosis"} else
+            "NAMED_CROSS_REFERENCE" if name in named else "UNMAPPED"
+        )
+        assert relation==required, f"{name}: expected {required}, got {relation}"
+    assert len(named)==15
+    assert sum(relation=="NAMED_CROSS_REFERENCE" for _,_,relation in parsed)==15
+    assert sum(relation=="ALIAS_COLLISION_OPEN" for _,_,relation in parsed)==2
+    assert sum(relation=="CAPABILITY_FAMILY_ONLY" for _,_,relation in parsed)==49
+    assert sum(relation=="UNMAPPED" for _,_,relation in parsed)==29
+    assert "a navigable link" in text.lower()
+    assert "identity equivalence \`OPEN\`" in text or "equivalence \`OPEN\`" in text
+    return tuple(parsed)
+
+
+def test_cross_repository_crosswalk_has_exact_current_inventory_and_typed_routes():
+    root=Path(__file__).resolve().parents[1]
+    text=(root/"projects/tool-system/SOURCE_MAP.md").read_text(encoding="utf-8")
+    rows=_validate_registered_crosswalk(text)
+    for _,slug,_ in rows:
+        page=root/"projects/tool-system/current-tools"/slug/"SOURCE_MAP.md"
+        content=page.read_text(encoding="utf-8")
+        assert f"# Source map: " in content
+        assert "SOURCE_MAP.md#cross-repository-tool-package-navigation-derived-no-authority-transfer" in content
+        assert "runtime/tool_run_registry.py" in content
+    assert "ALIAS_COLLISION_OPEN" in text
+    assert "CAPABILITY_FAMILY_ONLY" in text
+
+
+def test_cross_repository_crosswalk_negative_controls_preserve_all_package_edges():
+    import pytest
+    root=Path(__file__).resolve().parents[1]
+    text=(root/"projects/tool-system/SOURCE_MAP.md").read_text(encoding="utf-8")
+    assert len(_validate_registered_crosswalk(text))==len(MATERIAL_TOOLS)
+    for broken in (
+        text.replace("| [C01](current-tools/c01/README.md)", "| [C01](current-tools/c02/README.md)",1),
+        text.replace("| [GOAL](current-tools/goal/README.md)", "| [GOAL](current-tools/pd/README.md)",1),
+        text.replace("| [C01](current-tools/c01/README.md)", "| [C01](current-tools/c01/README.md) | injected",1),
+        text.replace("ALIAS_COLLISION_OPEN", "NAMED_CROSS_REFERENCE",1),
+        text.replace("| [C49](current-tools/c49/README.md)", "| [C49-REMOVED](current-tools/c49/README.md)",1),
+    ):
+        with pytest.raises(AssertionError):
+            _validate_registered_crosswalk(broken)
+
+
+def test_source_map_navigation_appendices_do_not_disable_create_only_collision(tmp_path:Path):
+    spec=current_tool_specs()[0]
+    materialize_package(tmp_path,spec)
+    target=tmp_path/"projects/tool-system/current-tools/c01/SOURCE_MAP.md"
+    original=target.read_text(encoding="utf-8")
+    augmented=original+"\n## Additional human navigation\n\n- informational link\n"
+    target.write_text(augmented,encoding="utf-8")
+    try:
+        materialize_package(tmp_path,spec)
+    except ToolProjectPackageCollision:
+        pass
+    else:
+        raise AssertionError("Create-only materializer silently accepted a divergent source-map")
+    assert target.read_text(encoding="utf-8")==augmented
