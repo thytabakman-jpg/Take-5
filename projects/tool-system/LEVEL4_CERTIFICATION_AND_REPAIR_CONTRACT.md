@@ -56,7 +56,7 @@ A configured Level 4 job can supply a `level4_certification_packet` containing:
 
 The [receipt validator](../../runtime/level4_certification.py) derives PASS or INCOMPLETE from those fields. It rejects omitted proof/check references, unresolved defects, unsupported assertions, a missing baseline for OPEN-question classification, and unverified factual-to-OPEN relabeling. It cannot verify the *truth* of a proof merely from a self-reported field; specialist/source inspection and actual execution remain mandatory. A structural validator PASS alone is **not** an independent specialist Level 4 certificate.
 
-When the configured parent return receives `context.level4_certification_required = true`, the [parent gate](../../runtime/improvement_core_return_gate.py) must re-evaluate `state.level4_certification_packets` and reject `COMPLETE` if absent or INCOMPLETE. The context flag must be set by the configured Level 4 request/selector; documentation alone is not proof that every producer currently supplies it.
+When the configured parent return receives `context.level4_certification_required = true` **or detects an explicit Level 4 request in its contextual `job`, `request`, or `user_request` fields**, the [parent gate](../../runtime/improvement_core_return_gate.py) must re-evaluate `state.level4_certification_packets` and reject `COMPLETE` if absent or INCOMPLETE. Producers must pass the user's actual request or the explicit selector flag. This is a fail-closed configured return check; a host omitting both a request and the flag still requires separate host-binding verification.
 
 ## Adversarial negative controls
 
