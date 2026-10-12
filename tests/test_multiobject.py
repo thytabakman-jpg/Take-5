@@ -254,3 +254,219 @@ def test_multiobject_level3_direct_and_conductor_success_paths_converge(monkeypa
     assert row["configured_plan"]["geometry"]=="D36_C"
     assert row["recurrence"]["status"]=="RELATIVE_CLOSE"
     assert row["recurrence"]["call_count"]==2
+
+
+# Hume twelve-case three-primary-object + dependent-bridge native run
+# Current project-specific relation provider: scope-only evidence backed by the
+# published Reaserch living networks and the independently checked finite
+# pairwise-compatible / jointly-incompatible sets.
+# This validates Take-5's actual MultiObject control sequence. It deliberately
+# retains OPEN for any native four-framework semantic bridge, and is NOT
+# evidence of a complete CURRENT_FULL FTW/HF2/36 wrapper invocation.
+def _hume_objects():
+    return (
+        FrozenObject(
+            "MA","MATHEMATICAL_GUARDED_PRESERVATION",
+            "source-shaped selected-set and quotient relations across 12 cases",
+            "fiber constancy; guarded transport; joint witness",
+            primitives=("K","E","D","quotient","guard"),
+            outputs=("WK surplus guard","multi-target LR-1")),
+        FrozenObject(
+            "PH","PHILOSOPHICAL_INTERPRETATION",
+            "source-bounded ought content, force and agency concepts",
+            "licensed equivalence of normative interpretation",
+            primitives=("ought content","reason force","agent or group")),
+        FrozenObject(
+            "LO","NATIVE_LOGICAL_INFERENCE",
+            "SDL/G3sdl/STIT/Watkins source-specific fragments",
+            "source-native consequence and definedness",
+            primitives=("sequent","Kripke model","choice dominance","reason W")),
+        FrozenObject(
+            "BR","DEPENDENT_CROSS_SOURCE_INTERFACE",
+            "candidate B01-B12 typed interpretations",
+            "partial maps and native admission",
+            dependencies=("MA","PH","LO"),
+            open_coordinates=("full four-source reflection","G3 proof objects")),
+    )
+
+
+class HumeScopedRelationProvider:
+    """Evidence-constrained provider for an exact abstract joint obstruction.
+
+    The semantic pair claims below are grounded in source-indexed Hume
+    research; neither their labels nor a terminal native engine result
+    establishes four-framework mathematical or philosophical adequacy.
+    """
+    _pair_types={
+        ("MA","PH"):"CONSTRAINS",
+        ("MA","LO"):"CONSTRAINS",
+        ("MA","BR"):"SUPPORTS",
+        ("PH","LO"):"CONSTRAINS",
+        ("PH","BR"):"CONSTRAINS",
+        ("LO","BR"):"CONSTRAINS",
+    }
+    _source_path="projects/rebt-is-ought/formal/HUME_TWELVE_LOGICAL_RELATION_NETWORK.md"
+    def __init__(self, *, omit_bridged_residual=False, alter_joint_evidence=False):
+        self.calls=[]
+        self.omit_bridged_residual=omit_bridged_residual
+        self.alter_joint_evidence=alter_joint_evidence
+
+    def joint(self, objects, *, route_id):
+        ids=tuple(x.object_id for x in objects)
+        assert ids==("MA","PH","LO","BR")
+        self.calls.append(("joint",ids))
+        # This joint result is independent of the same-cycle pair analysis.
+        sets=({0,1},{1,2},{0,2})
+        assert all(sets[i]&sets[j] for i in range(3) for j in range(i+1,3))
+        assert not set.intersection(*sets)
+        abstract=RelationFinding(
+            "HUME_JOINT_COMMON_WITNESS",("MA","PH","LO"),
+            "JOINT_CONTEXT_NOT_INFERRED_FROM_PAIRWISE_EXISTENCE",
+            ("three explicitly frozen finite admissibility sets",
+             "three pair intersections nonempty; global empty"),
+            ("FINITE_TEST:A01:{0,1}|{1,2}|{0,2}",))
+        bridge=RelationFinding(
+            "HUME_NATIVE_BRIDGE_ADMISSION",ids,
+            "OPEN_NATIVE_FOUR_SOURCE_TRANSLATION",
+            ("mathematics/philosophy/logic require one typed admissible common job",
+             "bridge is dependent, not an independent fourth evidence source"),
+            ("NATIVE_RECEIPT_NOT_AVAILABLE" if not self.alter_joint_evidence
+             else "CHANGED_OPEN_NATIVE_RECEIPT",))
+        return RouteResult(
+            route_id,"FULL_JOINT",ids,(abstract,bridge),
+            isolation_receipt="ISOLATED_JOINT_FROM_FROZEN_FOUR_PACKETS")
+
+    def pair(self,left,right,*,route_id):
+        pair=(left.object_id,right.object_id)
+        assert pair in self._pair_types
+        self.calls.append(("pair",pair))
+        return RouteResult(
+            route_id,"PAIR",pair,
+            (RelationFinding(
+                "HUME_PAIR_"+"_".join(pair),pair,self._pair_types[pair],
+                ("typed source-relative interface comparison",
+                 "no native proof-certificate transport claimed"),
+                (self._source_path,)),),
+            isolation_receipt="ISOLATED_PAIR_"+"_".join(pair))
+
+    def synthesize_pairs(self,pair_routes):
+        self.calls.append(("synthesize",len(pair_routes)))
+        assert len(pair_routes)==6
+        assert all(route.route_kind=="PAIR" for route in pair_routes)
+        ids=("MA","PH","LO","BR")
+        return RouteResult(
+            "HUME_PAIR_SYNTHESIS","PAIR_SYNTHESIS",ids,
+            (RelationFinding(
+                "HUME_SYNTH_TYPED_JOBS",ids,
+                "SHARED_DEPENDENCY",
+                ("truth matching alone loses native inference and moral subject",
+                 "shared-context prerequisite not discharged by six pairs"),
+                (self._source_path,)),),
+            isolation_receipt="SYNTHESIS_AFTER_SIX_ISOLATED_PAIRS")
+
+    def challenge_reducibility(self,joint_route,pair_routes,pair_synthesis):
+        self.calls.append(("reducibility",joint_route.route_id))
+        values=[
+            ResidualJudgment("HUME_JOINT_COMMON_WITNESS",
+                             "HIGHER_ORDER_RESIDUAL",
+                             ("pairwise nonempty does not imply triple nonempty",
+                              "direct three-set countermodel")),
+        ]
+        if not self.omit_bridged_residual:
+            values.append(ResidualJudgment(
+                "HUME_NATIVE_BRIDGE_ADMISSION","OPEN_REDUCIBILITY",
+                ("native four-source bridge provider absent",
+                 "no admissible completeness theorem inferred")))
+        return tuple(values)
+
+    def triggered_views(self,objects,joint_route,pair_routes,pair_synthesis,residuals):
+        self.calls.append(("views",len(residuals)))
+        return (
+            ViewRequest("HUME_HIGHER_ARITY","ARITY",("MA","PH","LO"),
+                        "pairwise intersection can conceal global empty intersection"),
+            ViewRequest("HUME_SOURCE_BRIDGE","CROSS_LAYER",
+                        ("MA","PH","LO","BR"),
+                        "test native semantic/proof source admission"),
+        )
+
+    def analyze_view(self,request,objects):
+        self.calls.append(("view",request.view_id))
+        fid=("HUME_VIEW_ARITY" if request.view_id=="HUME_HIGHER_ARITY"
+             else "HUME_VIEW_SOURCE")
+        rtype=("HIGHER_ORDER_OBSTRUCTION_ABSTRACT"
+               if request.view_id=="HUME_HIGHER_ARITY"
+               else "OPEN_NATIVE_ADMISSION")
+        return RouteResult(
+            "VIEW:"+request.view_id,"VIEW",request.support,
+            (RelationFinding(fid,request.support,rtype,
+                             (request.reason,),
+                             ("FINITE_ABSTRACT_WITNESS" if fid=="HUME_VIEW_ARITY"
+                              else "NATIVE_SOURCEMAP_OPEN",)),),
+            isolation_receipt="TRIGGERED_SOURCE_VIEW:"+request.view_id)
+
+    def reconcile(self,pair_routes,pair_synthesis,joint_route,residuals,view_results):
+        self.calls.append(("reconcile",len(view_results)))
+        r=[
+            ReconciledFinding("HUME_JOINT_COMMON_WITNESS","JOINT_ONLY",
+                ("bounded three-set obstruction survives member-removal",)),
+            ReconciledFinding("HUME_NATIVE_BRIDGE_ADMISSION","OPEN",
+                ("four-source native proof still absent",)),
+            ReconciledFinding("HUME_SYNTH_TYPED_JOBS","PAIRWISE_ONLY",
+                ("typed constraints from source-grounded pairs",)),
+        ]
+        for route in pair_routes:
+            fid=route.findings[0].finding_id
+            r.append(ReconciledFinding(fid,"REFINEMENT",
+                 ("source-scoped interface obligation, not proved transport",)))
+        for route in view_results:
+            fid=route.findings[0].finding_id
+            r.append(ReconciledFinding(
+                fid,"JOINT_ONLY" if fid=="HUME_VIEW_ARITY" else "OPEN",
+                ("higher arity check" if fid=="HUME_VIEW_ARITY"
+                 else "source-native proof admission remains open",)))
+        return tuple(r)
+
+
+def test_hume_native_multiobject_provider_runs_isolated_pair_joint_reconciliation():
+    provider=HumeScopedRelationProvider()
+    result=run_multiobject(_hume_objects(),provider)
+    assert result.status=="OPEN"
+    assert result.blocker=="MULTIOBJECT_OPEN_PRESERVED"
+    assert result.execution_truth=="OPEN"
+    assert result.state.joint_route.route_id=="JOINT:MA,PH,LO,BR"
+    assert provider.calls[0]==("joint",("MA","PH","LO","BR"))
+    assert len(result.state.pair_routes)==6
+    assert {tuple(route.support) for route in result.state.pair_routes}=={
+        ("MA","PH"),("MA","LO"),("MA","BR"),("PH","LO"),
+        ("PH","BR"),("LO","BR")
+    }
+    assert len(result.state.residuals)==2
+    assert len(result.state.view_results)==2
+    assert len(result.state.reconciliation)==11
+    assert result.state.residuals[0].status=="HIGHER_ORDER_RESIDUAL"
+    assert result.state.residuals[1].status=="OPEN_REDUCIBILITY"
+    assert result.recurrence_signature[0].startswith("MO_SIG_V2:")
+    assert result.material_delta is True
+
+    # No false HF2 fixed-point claim: identical reentry may have zero delta,
+    # but the native source-bridge OPEN is preserved.
+    follow=run_multiobject(_hume_objects(),HumeScopedRelationProvider(),
+                           previous_signature=result.recurrence_signature)
+    assert follow.status=="OPEN"
+    assert follow.material_delta is False
+    assert follow.blocker=="MULTIOBJECT_OPEN_PRESERVED"
+
+    # Content-addressed signature must detect material semantic change even
+    # when finding IDs remain unchanged.
+    changed=run_multiobject(
+        _hume_objects(),HumeScopedRelationProvider(alter_joint_evidence=True),
+        previous_signature=result.recurrence_signature)
+    assert changed.material_delta is True
+    assert changed.status=="OPEN"
+
+
+def test_hume_native_multiobject_provider_cannot_omit_open_bridge_residual():
+    result=run_multiobject(
+        _hume_objects(),HumeScopedRelationProvider(omit_bridged_residual=True))
+    assert result.status=="OPEN"
+    assert result.blocker=="MULTIOBJECT_REDUCIBILITY_COVERAGE_INCOMPLETE"
