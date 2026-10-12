@@ -175,3 +175,18 @@ def test_conductor_portable_adapter_consumes_hf2_successor_packet(monkeypatch):
     assert row["result"]=={"iteration":2}
     assert row["recurrence"]["status"]=="RELATIVE_CLOSE"
     assert row["recurrence"]["call_count"]==2
+
+
+def test_duplicate_registered_factor_is_rejected_before_any_native_execution(monkeypatch):
+    import pytest
+    import portable_tool_conductor as conductor
+    monkeypatch.setattr(conductor,"MATERIAL_TOOLS",("MT","MT"))
+    calls=[]
+    def adapter(packet):
+        calls.append("executed")
+        return {"status":"EXECUTED","result":{},"material_delta":False}
+    with pytest.raises(RuntimeError,match="TOOL_CONDUCTOR_DUPLICATE_REGISTRY_ID"):
+        conductor.run_tool_conductor({},adapters={"MT":adapter})
+    with pytest.raises(RuntimeError,match="TOOL_CONDUCTOR_DUPLICATE_REGISTRY_ID"):
+        conductor.compile_repertoire()
+    assert calls==[]
