@@ -1,7 +1,8 @@
 # CURRENT TOOL REALITY — Strong Closure Gate 001
 
 Date: 2026-09-27
-Status: CURRENT / FAIL-CLOSED
+Currentness review: 2026-10-12, America/Toronto
+Status: CURRENT DOCUMENT / HISTORICAL RECOVERY CLAIMS; live tool-reality certification remains source-and-run-specific
 Canonical repository: thytabakman-jpg/Take-5
 
 **Document goal:** State the evidence-bound finite registered-tool closure claim, the recovery basis behind it, and its explicit external host boundary.
@@ -10,6 +11,7 @@ Canonical repository: thytabakman-jpg/Take-5
 
 - [Governing distinction](#governing-distinction)
 - [Current result](#current-result)
+- [How to verify the live inventory](#how-to-verify-the-live-inventory)
 - [Four-tool recovery delta](#four-tool-recovery-delta)
 - [Validation evidence](#validation-evidence)
 - [Historical frontier](#historical-frontier)
@@ -57,6 +59,24 @@ universal host interception, self-contained execution for every environment, or
 global mathematical completeness.
 
 **Registry-currentness gate (2026-10-11):** The 2026-09-27 PR #162 success below is exact historical evidence for its then-registered repertoire, **not** a fresh native strong-reality proof of every subsequently registered tool. [The tool-system owner](../projects/tool-system/CURRENT_STATE.md) now distinguishes **95 current tools** from the **93-tool PR #166 historical sweep**. A fresh `CLOSED_RELATIVE` **three-coordinate strong-reality** claim for a chosen current registry requires [`runtime/tool_reality_audit.py`](../runtime/tool_reality_audit.py) to verify configured identity, the explicit manifest and native entrypoint recovery on that same registry/currentness basis. Constructed configured-plan evidence and end-to-end consumer execution remain **separate** additional claims and must not be inferred from this audit. The separate [every-tool sweep](../runtime/tool_system_every_tool_sweep.py) tests configured execution and development bindings; its PASS is useful additional evidence but does not by itself replace the strong-reality audit. If a fresh three-coordinate result is unavailable or changes, preserve the proven historical closure and report the expanded/current basis as `OPEN`, not automatically `CLOSED_RELATIVE`. Even a fresh three-coordinate PASS does not certify the two separate plan/consumer properties.
+
+## How to verify the live inventory
+
+The **current** 95-tool repertoire is owned by [the configured registry](../runtime/tool_run_registry.py),
+and its [navigation index](../projects/tool-system/TOOL_INDEX.md) is a projection.
+The **historical** PR #162 audit figures in the next section remain evidence
+about the earlier 2026-09-27 basis, not a fresh verdict.
+
+For a new claim, bind the exact repository commit and run all three checks
+using [the executable audit](../runtime/tool_reality_audit.py), with
+[its regression tests](../tests/test_tool_reality_audit.py).
+A matching commit's GitHub validation may establish current **three-coordinate**
+closure. It cannot establish universal mathematical completeness or a separate
+live domain-consumer execution simply by testing existence of entrypoints.
+
+A failed or unavailable current audit must leave current closure `OPEN` while
+preserving the dated historical proof. Environment-bound entrypoints are not
+automatically portable without the required caller inputs.
 
 ## Four-tool recovery delta
 

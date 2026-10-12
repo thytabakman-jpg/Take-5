@@ -41,3 +41,31 @@ def test_tool_reality_document_does_not_promote_three_coordinate_audit_to_four_l
     assert "verifies all four layers" not in text
     assert "current-basis claim" not in text
     assert "fresh four-layer result" not in text
+
+
+def test_native_witness_failure_and_identity_collision_cannot_close_tool_reality(monkeypatch):
+    from dataclasses import replace
+    import tool_reality_audit as owner
+    import portable_tool_conductor as conductor
+    monkeypatch.setattr(owner,"CONFIGURED_RUNS",{"MT":CONFIGURED_RUNS["MT"]})
+    original=owner.compilation_witness
+    for altered in (
+        lambda tid:replace(original(tid),tool_id="GOAL"),
+        lambda tid:replace(original(tid),entrypoint=None),
+        lambda tid:(_ for _ in ()).throw(RuntimeError("missing native entrypoint")),
+    ):
+        monkeypatch.setattr(owner,"compilation_witness",altered)
+        audit=owner.audit_tool_reality()
+        assert audit.checked==1
+        assert audit.native_execution_status=="OPEN"
+        assert audit.native_unrecovered==("MT",)
+        assert audit.status=="OPEN"
+
+
+def test_environment_bound_witness_is_not_misclassified_as_missing_or_portable(monkeypatch):
+    import tool_reality_audit as owner
+    monkeypatch.setattr(owner,"CONFIGURED_RUNS",{"MTA":CONFIGURED_RUNS["MTA"]})
+    audit=owner.audit_tool_reality()
+    assert audit.native_unrecovered==()
+    assert audit.environment_bound==("MTA",)
+    assert audit.native_execution_status=="CLOSED_RELATIVE"

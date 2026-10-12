@@ -4,6 +4,10 @@ Status: GENERATED CURRENT INVENTORY
 Date: 2026-09-30
 Current configured tools: 95
 
+Original inventory snapshot: 2026-09-30
+Navigation reviewed: 2026-10-12, America/Toronto
+**Role:** generated navigation only. The [configured-run registry](../../runtime/tool_run_registry.py) owns the actual tool inventory. The [cross-repository source map](SOURCE_MAP.md) classifies the packages against the separately governed Reaserch formal catalog; matching names or C-numbers do not certify equivalent semantics.
+
 - [C01](current-tools/c01/README.md)
 - [C02](current-tools/c02/README.md)
 - [C03](current-tools/c03/README.md)

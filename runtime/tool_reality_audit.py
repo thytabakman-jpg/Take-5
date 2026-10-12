@@ -38,11 +38,17 @@ def audit_tool_reality() -> ToolRealityAudit:
     native_unrecovered = []
     environment_bound = []
     for tool_id in CONFIGURED_RUNS:
-        witness = compilation_witness(tool_id)
-        if witness.entrypoint is None:
+        try:
+            witness = compilation_witness(tool_id)
+            if (witness.tool_id!=tool_id or witness.entrypoint is None
+                    or witness.status=="OPEN_NATIVE_RUNTIME"):
+                native_unrecovered.append(tool_id)
+            elif witness.required_environment:
+                environment_bound.append(tool_id)
+        except (KeyError,ValueError,RuntimeError,TypeError,AttributeError):
+            # An unreadable/mismatched native witness is OPEN, never an
+            # accidental exception that prevents an honest audit result.
             native_unrecovered.append(tool_id)
-        elif witness.required_environment:
-            environment_bound.append(tool_id)
 
     configured_status = configured.status
     manifest_status = manifests.status
