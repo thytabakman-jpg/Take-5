@@ -256,3 +256,50 @@ def test_source_map_navigation_appendices_do_not_disable_create_only_collision(t
     else:
         raise AssertionError("Create-only materializer silently accepted a divergent source-map")
     assert target.read_text(encoding="utf-8")==augmented
+
+
+def test_curated_current_source_map_materialization_remains_idempotent(tmp_path:Path):
+    """A single augmented package source-map must not freeze all regeneration."""
+    repo=Path(__file__).resolve().parents[1]
+    specimens=("C01","C21","GOAL","Architecture","RootCause","ProjectManager","L-D8")
+    specs={spec.object_id:spec for spec in current_tool_specs()}
+    for id in specimens:
+        spec=specs[id]
+        materialize_package(tmp_path,spec)
+        rel=f"current-tools/{id.lower()}/SOURCE_MAP.md"
+        live=(repo/"projects/tool-system"/rel).read_text(encoding="utf-8")
+        local=tmp_path/"projects/tool-system"/rel
+        local.write_text(live,encoding="utf-8")
+        before=local.read_text(encoding="utf-8")
+        assert materialize_package(tmp_path,spec)==()
+        assert local.read_text(encoding="utf-8")==before
+
+
+def test_curated_source_map_rejects_wrong_identity_lost_authority_and_category(tmp_path:Path):
+    """Negative cases fail closed; never delete a protected navigational map."""
+    repo=Path(__file__).resolve().parents[1]
+    specs={spec.object_id:spec for spec in current_tool_specs()}
+    for tool,poison in (
+        ("GOAL", lambda s:s.replace("# Source map: GOAL", "# Source map: PD",1)),
+        ("GOAL", lambda s:s.replace("runtime/tool_manifest.py","runtime/missing_manifest.py")),
+        ("C21", lambda s:s.replace("related numbered capability family","unverified identical primitive")),
+        ("RootCause", lambda s:s.replace("ALIAS_COLLISION_OPEN","NAMED_CROSS_REFERENCE")),
+        ("L-D8", lambda s:s.replace("SOURCE_MAP.md#cross-repository-tool-package-navigation-derived-no-authority-transfer",
+                                       "SOURCE_MAP.md#dead-anchor")),
+    ):
+        spec=specs[tool]
+        materialize_package(tmp_path,spec)
+        local=tmp_path/"projects/tool-system"/f"current-tools/{tool.lower()}/SOURCE_MAP.md"
+        live=(repo/"projects/tool-system"/f"current-tools/{tool.lower()}/SOURCE_MAP.md").read_text(encoding="utf-8")
+        bad=poison(live)
+        assert bad!=live
+        local.write_text(bad,encoding="utf-8")
+        try:
+            materialize_package(tmp_path,spec)
+        except ToolProjectPackageCollision:
+            pass
+        else:
+            raise AssertionError(f"{tool}: invalid source-map silently admitted")
+        assert local.read_text(encoding="utf-8")==bad
+        local.write_text(live,encoding="utf-8")
+        assert materialize_package(tmp_path,spec)==()
