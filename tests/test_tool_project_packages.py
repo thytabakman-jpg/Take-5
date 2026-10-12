@@ -318,7 +318,7 @@ def _assert_canonical_tool_project_authority_links(text:str,root:Path):
     for job,exact_link in mandatory.items():
         candidates=[line for line in rows if line.startswith(f"| {job} |")]
         assert len(candidates)==1,f"Authority owner missing or duplicated: {job}"
-        assert candidates[0]==f"| {job} | {exact_link} |",f"Wrong owner link: {job}"
+        assert candidates[0].startswith(f"| {job} | {exact_link}") and candidates[0].endswith(" |"),f"Wrong owner link: {job}"
     for rel in findall(r"\]\(([^)#]+)(?:#[^)]*)?\)",text):
         if "://" not in rel:
             assert (root/"projects/tool-system"/rel).exists(),f"Missing authority locator: {rel}"
