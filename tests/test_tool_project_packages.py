@@ -307,16 +307,18 @@ def test_curated_source_map_rejects_wrong_identity_lost_authority_and_category(t
 
 def _assert_canonical_tool_project_authority_links(text:str,root:Path):
     from re import findall
-    mandatory=(
-        ("current tool inventory","runtime/tool_run_registry.py"),
-        ("current protected tool identity","runtime/tool_manifest.py"),
-        ("native runtime realization","runtime/portable_tool_conductor.py"),
-        ("derived cross-repository tool navigation","SOURCE_MAP.md"),
-        ("package schema","PACKAGE_CONTRACT.md"),
-    )
-    for job,target in mandatory:
-        assert f"| {job} |" in text
-        assert target in text
+    mandatory={
+        "current tool inventory":"[runtime/tool_run_registry.py](../../runtime/tool_run_registry.py)",
+        "current protected tool identity":"[runtime/tool_manifest.py](../../runtime/tool_manifest.py)",
+        "native runtime realization":"[runtime/portable_tool_conductor.py](../../runtime/portable_tool_conductor.py)",
+        "derived cross-repository tool navigation":"[SOURCE_MAP.md](SOURCE_MAP.md)",
+        "package schema":"[PACKAGE_CONTRACT.md](PACKAGE_CONTRACT.md)",
+    }
+    rows=text.splitlines()
+    for job,exact_link in mandatory.items():
+        candidates=[line for line in rows if line.startswith(f"| {job} |")]
+        assert len(candidates)==1,f"Authority owner missing or duplicated: {job}"
+        assert candidates[0]==f"| {job} | {exact_link} |",f"Wrong owner link: {job}"
     for rel in findall(r"\]\(([^)#]+)(?:#[^)]*)?\)",text):
         if "://" not in rel:
             assert (root/"projects/tool-system"/rel).exists(),f"Missing authority locator: {rel}"
