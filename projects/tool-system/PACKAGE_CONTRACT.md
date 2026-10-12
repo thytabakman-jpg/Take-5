@@ -1,6 +1,6 @@
 # Tool Project Package Contract
 
-Status: CURRENT CANDIDATE
+Status: CURRENT PACKAGE-SCHEMA CONTRACT (repository-owned; does not promote tool semantics)
 
 Every current configured tool and every known ICC/IC variant receives a durable
 package.
@@ -41,6 +41,26 @@ DECISION_LOG.md, LESSONS_LEDGER.md, evidence/, runs/, and history/ are append-on
 
 coverage/*.md owns only its exact Scope x ModeFace coordinate and never becomes
 canonical semantic truth merely because a finding appears there.
+
+## Curated source maps and generator ownership
+
+The package generator owns the minimum, create-only package template. Current tool
+`SOURCE_MAP.md` pages may contain separately authored, source-specific navigation
+and preserved historical evidence. The existing source map, not a second generated
+copy, owns those additional human-reading links.
+
+The current-tool materializer accepts an unchanged minimum template, or a curated
+source map only after verifying its exact package identity, protected configured
+runtime registry/manifest/conductor references, its shared crosswalk anchor, and
+its type-specific navigation distinction. It does not rewrite either source.
+Missing/invalid authority or a crosswalk mismatch is a collision, not a reason
+to discard provenance. The MultiObject source map remains fully generated and
+byte-for-byte checked because that package has an explicit reproducibility owner.
+
+A fresh configured package's generated minimum source map is not evidence that
+the package is represented in the cross-repository crosswalk. The crosswalk's
+own registry-parity gate requires a new package row, and package navigation
+requires its derived source-map section before claiming discoverability.
 
 ## Historical ICC variants
 
