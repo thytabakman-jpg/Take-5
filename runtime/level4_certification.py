@@ -40,6 +40,15 @@ def assess_level4(packet):
                 or not refs(residence.get("local_evidence_refs"))
                 or residence.get("verified") is not True):
             issues.append("LOCAL_EVIDENCE_NOT_VERIFIED:"+ident)
+        # A well-formed audit locator is still not owner-resident evidence.
+        local_refs=residence.get("local_evidence_refs")
+        if refs(local_refs):
+            audit_prefixes=("audit:","report:","historical:","validation:","provenance:")
+            if all(str(ref).lower().startswith(audit_prefixes)
+                   or "/audits/" in str(ref).lower()
+                   or "/validation/" in str(ref).lower()
+                   for ref in local_refs):
+                issues.append("HISTORICAL_AUDIT_ONLY:"+ident)
         status=residence.get("status")
         if status=="ALREADY_LOCAL":
             return
