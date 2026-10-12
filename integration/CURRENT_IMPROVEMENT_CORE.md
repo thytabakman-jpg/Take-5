@@ -371,23 +371,23 @@ Open-world global maximality/minimality is not a licensed completion claim. Curr
 28. runtime/specification_before_transformation.py
 29. architecture/SPECIFICATION_BEFORE_TRANSFORMATION_INVARIANT_134.md
 30. runtime/improvement_core_tool_bridge.py
-29. architecture/IMPROVEMENT_CORE_CONFIGURED_TOOL_EXECUTION_109.md
-30. runtime/improvement_core_recursive_manager.py
-31. runtime/improvement_core_learning_memory.py
-32. integration/IMPROVEMENT_CORE_DURABLE_LEARNING_110.json
-33. runtime/improvement_core_knowledge_ledger.py
-34. integration/IMPROVEMENT_CORE_KNOWLEDGE_LEDGER_113.json
-35. architecture/IMPROVEMENT_CORE_MATERIAL_KNOWLEDGE_CAPTURE_113.md
-36. runtime/improvement_core_progress_relation.py
-37. architecture/IMPROVEMENT_CORE_CANONICAL_PROGRESS_MATHEMATICS_001_2026-09-26.md
-38. architecture/IMPROVEMENT_CORE_ANTI_REPEAT_110.md
-39. architecture/IMPROVEMENT_CORE_INDEXED_PROGRESS_MATHEMATICS_111.md
-40. runtime/improvement_core_order_math.py
-41. architecture/IMPROVEMENT_CORE_MAXIMIZATION_081.md
-42. architecture/CROSS_REPOSITORY_IMPROVEMENTCORE_LINEAGE_CHOICE_080.md
-43. architecture/PROTECTED_TRANSITION_INTEGRITY_090.md
-44. integration/CURRENT_PROTECTED_TRANSITION_INTEGRITY.md
-45. MIGRATION_STATE.yaml
+31. architecture/IMPROVEMENT_CORE_CONFIGURED_TOOL_EXECUTION_109.md
+32. runtime/improvement_core_recursive_manager.py
+33. runtime/improvement_core_learning_memory.py
+34. integration/IMPROVEMENT_CORE_DURABLE_LEARNING_110.json
+35. runtime/improvement_core_knowledge_ledger.py
+36. integration/IMPROVEMENT_CORE_KNOWLEDGE_LEDGER_113.json
+37. architecture/IMPROVEMENT_CORE_MATERIAL_KNOWLEDGE_CAPTURE_113.md
+38. runtime/improvement_core_progress_relation.py
+39. architecture/IMPROVEMENT_CORE_CANONICAL_PROGRESS_MATHEMATICS_001_2026-09-26.md
+40. architecture/IMPROVEMENT_CORE_ANTI_REPEAT_110.md
+41. architecture/IMPROVEMENT_CORE_INDEXED_PROGRESS_MATHEMATICS_111.md
+42. runtime/improvement_core_order_math.py
+43. architecture/IMPROVEMENT_CORE_MAXIMIZATION_081.md
+44. architecture/CROSS_REPOSITORY_IMPROVEMENTCORE_LINEAGE_CHOICE_080.md
+45. architecture/PROTECTED_TRANSITION_INTEGRITY_090.md
+46. integration/CURRENT_PROTECTED_TRANSITION_INTEGRITY.md
+47. MIGRATION_STATE.yaml
 
 
 ## Default HF2 local recurrence
@@ -510,9 +510,13 @@ The restored repository dispatch requires an explicit semantic provider. When th
 missing, the restored path returns RESTORED_SEMANTIC_PROVIDER_REQUIRED as OPEN. It does not silently
 substitute the older fixed-stage controller and call that restored execution.
 
-runtime/improvement_core_dispatch.py and the regime-091 fixed-stage path remain compatibility/debug
-surfaces while automatic host semantic binding is unavailable. Their continued existence is not a
-license to redefine the restored controller semantics.
+The manifest-selected ordinary entrypoint remains runtime/improvement_core_dispatch.py,
+which routes through default HF2 and the regime-091 controller. This is the current
+compatibility/default execution route, not evidence that the Legacy-restored semantic loop
+executed. The direct regime-091 one-pass path remains a controlled/debug surface.
+Legacy-restored execution instead requires runtime/improvement_core_restored_dispatch.py
+with an explicit admissible host semantic provider. Missing provider binding stays OPEN;
+neither ordinary dispatch nor fixed-stage execution may be relabeled as restored execution.
 
 Full conversation/file history is durable recovery evidence, not mandatory active context. The
 requested master three-month archive remains externally unresolved until an exact archive object is
