@@ -133,7 +133,7 @@ def _verifier(state, memory, context):
 def _parent(state, required):
     return evaluate_parent_return(
         candidate_status="COMPLETE", candidate_blocker=None, state=state, memory={},
-        context={"controller":"ImprovementCore","target":"x","job":"level4",
+        context={"controller":"ImprovementCore","target":"x","job":"complete ordinary task",
                  "basis":"current","parent_round":0,"hf2_status":"RELATIVE_CLOSE",
                  "level4_certification_required":required},
         verifier=_verifier, fresh_reobserve=_stable,
@@ -160,3 +160,16 @@ def test_parent_level4_accepts_valid_packet():
 
 def test_non_level4_job_not_forced_to_supply_packet():
     assert _parent({"terminal":"COMPLETE"}, False).terminal=="COMPLETE"
+
+
+def test_parent_detects_unflagged_level4_user_request():
+    from improvement_core_return_gate import evaluate_parent_return
+    with pytest.raises(RuntimeError, match="WITHOUT_LEVEL4_CERTIFICATION"):
+        evaluate_parent_return(
+            candidate_status="COMPLETE", candidate_blocker=None,
+            state={"terminal":"COMPLETE"}, memory={},
+            context={"controller":"ImprovementCore","target":"x",
+                     "job":"Run Level 4 on the document", "basis":"current",
+                     "parent_round":0,"hf2_status":"RELATIVE_CLOSE"},
+            verifier=_verifier, fresh_reobserve=_stable,
+        )
