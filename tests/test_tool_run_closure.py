@@ -127,3 +127,35 @@ def test_trc_distinct_target_versions_are_not_subsumed():
     assert {r.cid[4] for r in out.certificate.records}=={"sha-a","sha-b"}
     # No proof of a globally exhaustive harvest can be inferred from local closure.
     assert out.certificate.harvest_complete is False
+
+
+def test_trc_does_not_consume_when_verification_is_failed_unknown_or_implicit():
+    for invalid in ("FAILED","OK","UNVERIFIED","PENDING"):
+        consumed=[]
+        out=run_tool_run_closure(
+            tool_result=None,pre_state={},post_state={},
+            harvest_fn=lambda *args:(q("A"),),
+            disposition_fn=lambda c,state:Disposition.REALIZE,
+            realize_fn=lambda c,state:StageResult(state,status="COMPLETED_UNVERIFIED"),
+            verify_fn=lambda c,state:StageResult(state,status=invalid),
+            consume_fn=lambda c,state:(consumed.append(c.referent) or
+                StageResult(state,status=ConsumerState.CONSUMED.value)),
+        )
+        assert out.certificate.status=="OPEN"
+        assert out.certificate.settled_count==0
+        assert out.certificate.open_coordinates
+        assert not consumed
+        assert "VERIFICATION_NOT_CERTIFIED" in out.certificate.records[0].resume_condition
+
+
+def test_trc_rejects_bare_state_without_explicit_verify_witness():
+    out=run_tool_run_closure(
+        tool_result=None,pre_state={},post_state={},
+        harvest_fn=lambda *args:(q("A"),),
+        disposition_fn=lambda c,state:Disposition.REALIZE,
+        realize_fn=lambda c,state:StageResult(state,status="COMPLETED_UNVERIFIED"),
+        verify_fn=lambda c,state:state,  # implicit OK must not prove VERIFIED
+        consume_fn=lambda c,state:StageResult(state,status="CONSUMED"),
+    )
+    assert out.certificate.status=="OPEN"
+    assert out.certificate.settled_count==0

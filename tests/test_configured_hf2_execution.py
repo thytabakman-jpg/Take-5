@@ -82,3 +82,30 @@ def test_multiobject_configured_hf2_reenters_same_id_changed_evidence():
     assert out.trace[2]["disposition"] == "RELATIVE_CLOSE"
     assert out.trace[1]["delta"]["material_result_delta"] is True
     assert out.trace[2]["delta"]["material_result_delta"] is False
+
+
+def test_configured_hf2_rejects_other_tools_plan_before_native_execution():
+    import pytest
+    from configured_hf2_execution import ConfiguredHF2ExecutionError
+    plan=build_tool_execution_plan(CONFIGURED_RUNS["MT"])
+    called=[]
+    def adapter(current, bound_plan):
+        called.append(current)
+        return {"status":"EXECUTED","result":True,"material_delta":False}
+    with pytest.raises(ConfiguredHF2ExecutionError,match="CONFIGURED_HF2_TOOL_IDENTITY_MISMATCH"):
+        execute_configured_with_hf2(
+            tool_id="GOAL",plan=plan,state={"packet":"protected"},adapter=adapter,
+        )
+    assert called==[]
+
+
+def test_configured_hf2_rejects_count_preserving_missing_plan_cell():
+    import pytest
+    from dataclasses import replace
+    from configured_hf2_execution import ConfiguredHF2ExecutionError
+    plan=build_tool_execution_plan(CONFIGURED_RUNS["GOAL"])
+    wrong=replace(plan,cells=(plan.cells[0],plan.cells[0],*plan.cells[2:]))
+    with pytest.raises(ConfiguredHF2ExecutionError,match="CONFIGURED_HF2_PLAN_INCOMPLETE"):
+        execute_configured_with_hf2(
+            tool_id="GOAL",plan=wrong,state={},adapter=lambda *args:True,
+        )

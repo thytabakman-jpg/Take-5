@@ -202,6 +202,13 @@ def execute_configured_with_hf2(
             f"CONFIGURED_HF2_ADAPTER_REQUIRED:{tool_id}"
         )
 
+    # A valid plan for another tool is still the wrong executable authority.
+    # Check binding identity before handing any state to the native adapter.
+    if str(getattr(plan,"tool_id",""))!=str(tool_id):
+        raise ConfiguredHF2ExecutionError(
+            f"CONFIGURED_HF2_TOOL_IDENTITY_MISMATCH:{tool_id}"
+        )
+
     if not bool(getattr(plan,"complete",False)):
         raise ConfiguredHF2ExecutionError(
             f"CONFIGURED_HF2_PLAN_INCOMPLETE:{tool_id}"

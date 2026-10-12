@@ -210,14 +210,17 @@ def run_tool_run_closure(
         state=verified.state
         evidence.extend(verified.evidence)
         _enqueue(queue,verified.induced)
-        if verified.status in {"OPEN","BLOCKED"}:
-            target=open_coords if verified.status=="OPEN" else blocked_coords
+        # Only an actual VERIFIED receipt can authorize consumption. An
+        # implicit OK, FAILED or arbitrary string was never proof of a check.
+        if verified.status!="VERIFIED":
+            verify_status=(verified.status if verified.status in {"OPEN","BLOCKED"} else "OPEN")
+            target=open_coords if verify_status=="OPEN" else blocked_coords
             key=":".join(map(str,cid))
             target.append(key)
             records.append(ConsequenceRecord(
                 cid,disp,realized.status,verified.status,
-                ConsumerState.OPEN.value if verified.status=="OPEN" else ConsumerState.BLOCKED.value,
-                tuple(evidence),verified.resume_condition,
+                ConsumerState.OPEN.value if verify_status=="OPEN" else ConsumerState.BLOCKED.value,
+                tuple(evidence),verified.resume_condition or f"VERIFICATION_NOT_CERTIFIED:{verified.status}",
             ))
             continue
 
