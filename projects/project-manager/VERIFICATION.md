@@ -10,10 +10,10 @@ Status: CURRENT
 - [Pre-project gate verification](#pre-project-gate-verification)
 - [Mandatory management spine verification](#mandatory-management-spine-verification)
 - [Failure-immunity verification](#failure-immunity-verification)
-- [ProjectManager Level 2 — selected ten files (2026-10-10)](#projectmanager-level-2-selected-ten-files-2026-10-10)
-- [ProjectManager Level 2 batch two — ten governing files (2026-10-10)](#projectmanager-level-2-batch-two-ten-governing-files-2026-10-10)
-- [ProjectManager Level 2 batch three — final 21 files (2026-10-10)](#projectmanager-level-2-batch-three-final-21-files-2026-10-10)
-- [ProjectManager Level 2 batch three — final 21 selected sources (2026-10-10)](#projectmanager-level-2-batch-three-final-21-selected-sources-2026-10-10)
+- [ProjectManager Level 2 — selected ten files (2026-10-10)](#projectmanager-level-2--selected-ten-files-2026-10-10)
+- [ProjectManager Level 2 batch two — ten governing files (2026-10-10)](#projectmanager-level-2-batch-two--ten-governing-files-2026-10-10)
+- [ProjectManager Level 2 batch three — final 21 files (2026-10-10)](#projectmanager-level-2-batch-three--final-21-files-2026-10-10)
+- [ProjectManager Level 2 batch three — final 21 selected sources (2026-10-10)](#projectmanager-level-2-batch-three--final-21-selected-sources-2026-10-10)
 - [ProjectManager Level 1 document triage (2026-10-10)](#projectmanager-level-1-document-triage-2026-10-10)
 
 Required evidence before canonical promotion
