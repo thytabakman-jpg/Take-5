@@ -184,7 +184,15 @@ def compilation_witness(tool_id: str) -> CompilationWitness:
     )
 
 
+def _check_repertoire_unique() -> None:
+    # One configured identity corresponds to one conductor factor. Treat
+    # duplicate registry entries as an invalid source, not two executions.
+    if len(MATERIAL_TOOLS)!=len(set(MATERIAL_TOOLS)):
+        raise RuntimeError("TOOL_CONDUCTOR_DUPLICATE_REGISTRY_ID")
+
+
 def compile_repertoire() -> tuple[CompilationWitness, ...]:
+    _check_repertoire_unique()
     return tuple(compilation_witness(tool_id) for tool_id in MATERIAL_TOOLS)
 
 
@@ -291,6 +299,7 @@ def run_tool_conductor(
     factor's native adapter more than once while the conductor still emits
     exactly one factor disposition.
     """
+    _check_repertoire_unique()
     adapters = dict(adapters or {})
     capability_inputs = packet.get("capability_inputs", {}) or {}
     results = []
