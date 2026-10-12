@@ -17,6 +17,7 @@ from dataclasses import dataclass, asdict
 from typing import Any, Callable, Mapping
 
 from whole_job_stability import run_whole_job_stability, receipt_dict as stability_receipt_dict
+from level4_certification import assess_level4
 
 RETURNABLE={"COMPLETE","OPEN","BLOCKED","CONFLICT"}
 DISPOSITIONS={"RETURN","CONTINUE"}
@@ -183,6 +184,20 @@ def evaluate_parent_return(
     prose_receipt_required=bool(ctx.get("prose_receipt_required",False))
     prose_receipts_present=_prose_receipts_present(proposed_state)
     prose_receipt_residuals=_unclosed_prose_receipts(proposed_state)
+    level4_required=ctx.get("level4_certification_required") is True
+    level4_packets=proposed_state.get("level4_certification_packets")
+    if isinstance(level4_packets, Mapping):
+        level4_packets=[level4_packets]
+    level4_present=isinstance(level4_packets,(list,tuple)) and bool(level4_packets)
+    level4_residuals=[]
+    if level4_packets is not None:
+        if not isinstance(level4_packets,(list,tuple)):
+            level4_residuals.append("INVALID_LEVEL4_PACKET_COLLECTION")
+        else:
+            for index,packet in enumerate(level4_packets):
+                status,items=assess_level4(packet)
+                if status!="PASS":
+                    level4_residuals.extend(f"LEVEL4:{index}:{item}" for item in items)
 
     receipt={
         "gate":"PARENT_RETURN_GATE",
@@ -202,6 +217,9 @@ def evaluate_parent_return(
         "prose_receipt_required":prose_receipt_required,
         "prose_transition_receipts_present":prose_receipts_present,
         "prose_transition_receipt_residuals":prose_receipt_residuals,
+        "level4_certification_required":level4_required,
+        "level4_certification_present":level4_present,
+        "level4_certification_residuals":tuple(level4_residuals),
     }
 
     if disposition=="CONTINUE":
@@ -256,6 +274,11 @@ def evaluate_parent_return(
         raise RuntimeError(
             "IC_PARENT_RETURN_GATE_COMPLETE_WITH_UNCLOSED_PROSE_RECEIPT"
         )
+
+    if terminal=="COMPLETE" and level4_required and not level4_present:
+        raise RuntimeError("IC_PARENT_RETURN_GATE_COMPLETE_WITHOUT_LEVEL4_CERTIFICATION")
+    if terminal=="COMPLETE" and level4_residuals:
+        raise RuntimeError("IC_PARENT_RETURN_GATE_COMPLETE_WITH_INVALID_LEVEL4_CERTIFICATION")
 
     blocker=decision.get("blocker") or candidate_blocker
     if terminal in {"OPEN","BLOCKED","CONFLICT"} and not blocker:
