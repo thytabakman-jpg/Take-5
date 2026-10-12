@@ -29,3 +29,51 @@ def test_current_identity_audit_rejects_wrong_manifest_identity(monkeypatch):
     out=owner.audit_current_portfolio_identity()
     assert out.status=="OPEN"
     assert "MT:MANIFEST_INCOMPLETE" in out.failures
+
+
+def test_current_identity_empty_repertoire_cannot_claim_relative_closure(monkeypatch):
+    import current_portfolio_identity as owner
+    monkeypatch.setattr(owner,"CONFIGURED_RUNS",{})
+    out=owner.audit_current_portfolio_identity()
+    assert out.status=="OPEN"
+    assert out.checked==0
+    assert "EMPTY_CONFIGURED_REPERTOIRE" in out.failures
+
+
+def _assert_live_tool_index(index:str,root:Path):
+    import re
+    from tool_run_registry import MATERIAL_TOOLS
+    from tool_project_packages import slug
+    assert index.startswith("# Current Tool Package Index\n")
+    rows=re.findall(r"(?m)^- \[([^\]]+)\]\((current-tools/[^)]+/README\.md)\)$",index)
+    assert tuple(label for label,_ in rows)==tuple(MATERIAL_TOOLS)
+    assert len(rows)==len(set(label for label,_ in rows))
+    for label,rel in rows:
+        assert rel==f"current-tools/{slug(label)}/README.md"
+        assert (root/"projects/tool-system"/rel).is_file()
+    assert "derived" not in index.lower() or "navigation" in index.lower()
+    assert "SOURCE_MAP.md" in index
+    assert "runtime/tool_run_registry.py" in index
+
+
+def test_current_tool_index_parity_and_authority_owner_are_live():
+    from pathlib import Path
+    root=Path(__file__).resolve().parents[1]
+    text=(root/"projects/tool-system/TOOL_INDEX.md").read_text(encoding="utf-8")
+    _assert_live_tool_index(text,root)
+
+
+def test_tool_index_negative_mutations_are_detected():
+    import pytest
+    from pathlib import Path
+    root=Path(__file__).resolve().parents[1]
+    text=(root/"projects/tool-system/TOOL_INDEX.md").read_text(encoding="utf-8")
+    for mutant in (
+        text.replace("- [C01](current-tools/c01/README.md)\n","",1),
+        text.replace("- [C01](current-tools/c01/README.md)","- [C01](current-tools/c02/README.md)",1),
+        text.replace("- [MT](current-tools/mt/README.md)","- [MT](current-tools/goal/README.md)",1),
+        text.replace("- [C02](current-tools/c02/README.md)","- [C01](current-tools/c02/README.md)",1),
+    ):
+        assert mutant!=text
+        with pytest.raises(AssertionError):
+            _assert_live_tool_index(mutant,root)

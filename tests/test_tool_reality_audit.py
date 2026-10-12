@@ -69,3 +69,33 @@ def test_environment_bound_witness_is_not_misclassified_as_missing_or_portable(m
     assert audit.native_unrecovered==()
     assert audit.environment_bound==("MTA",)
     assert audit.native_execution_status=="CLOSED_RELATIVE"
+
+
+def test_reality_audit_empty_registry_cannot_claim_three_coordinate_closure(monkeypatch):
+    import tool_reality_audit as owner
+    monkeypatch.setattr(owner,"CONFIGURED_RUNS",{})
+    monkeypatch.setattr(owner,"audit_current_portfolio_identity",
+        lambda: type("Baseline",(),{"status":"CLOSED_RELATIVE"})())
+    out=owner.audit_tool_reality()
+    assert out.status=="OPEN"
+    assert out.native_execution_status=="OPEN"
+    assert out.checked==0
+
+
+def test_tool_reality_human_navigation_preserves_currentness_and_no_execution_inference():
+    root=Path(__file__).resolve().parents[1]
+    text=(root/"integration/CURRENT_TOOL_REALITY.md").read_text(encoding="utf-8")
+    for token in (
+        "historical-audit-basis","three-coordinate",
+        "2026-09-27 PR #162","How to verify the live inventory",
+        "not a fresh verdict","end-to-end consumer execution",
+    ):
+        assert token in text
+    readme=(root/"projects/tool-system/README.md").read_text(encoding="utf-8")
+    for ref in ("[SOURCE_MAP.md](SOURCE_MAP.md)","[TOOL_INDEX.md](TOOL_INDEX.md)",
+                "current tool IDs","change control"):
+        assert ref in readme
+    changes=(root/"projects/tool-system/CHANGE_CONTROL.md").read_text(encoding="utf-8")
+    assert "exact repository commit" in changes or "source blob" in changes
+    assert "new, removed or renamed" in changes
+    assert "INCOMPLETE" in changes

@@ -52,7 +52,7 @@ def audit_tool_reality() -> ToolRealityAudit:
 
     configured_status = configured.status
     manifest_status = manifests.status
-    native_status = "CLOSED_RELATIVE" if not native_unrecovered else "OPEN"
+    native_status = "CLOSED_RELATIVE" if CONFIGURED_RUNS and not native_unrecovered else "OPEN"
 
     strong_closed = (
         configured_status == "CLOSED_RELATIVE"

@@ -29,7 +29,7 @@ class PortfolioIdentityAudit:
 
     @property
     def status(self):
-        return "CLOSED_RELATIVE" if not self.unresolved else "OPEN"
+        return "CLOSED_RELATIVE" if self.dispositions and not self.unresolved else "OPEN"
 
 def audit_tool_identities(tool_ids, explicit_tool_ids):
     explicit=set(str(x) for x in explicit_tool_ids)
@@ -51,8 +51,8 @@ def audit_tool_identities(tool_ids, explicit_tool_ids):
                 valid=False
             status="EXPLICIT_MANIFEST" if valid else "INVALID_MANIFEST_OPEN"
         else:
-            # Non-mapping collections only attest membership, not manifest quality.
-            status="EXPLICIT_MANIFEST"
+            # A set of names does not prove any protected manifest exists.
+            status="UNVERIFIED_MEMBERSHIP_OPEN"
         rows.append(ToolIdentityDisposition(tool_id,status))
         seen.add(tool_id)
     return PortfolioIdentityAudit(tuple(rows))

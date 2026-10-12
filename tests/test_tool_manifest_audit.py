@@ -54,3 +54,10 @@ def test_manifest_audit_rejects_missing_invalid_and_mismatched_explicit_manifest
     blank=audit_tool_identities(("MT",""),OVERRIDES)
     assert blank.status=="OPEN"
     assert blank.dispositions[1].status=="INVALID_TOOL_ID_OPEN"
+
+
+def test_manifest_audit_never_closes_empty_or_names_only_repertoire():
+    assert audit_tool_identities((),OVERRIDES).status=="OPEN"
+    status=audit_tool_identities(("MT",),{"MT"})
+    assert status.status=="OPEN"
+    assert status.dispositions[0].status=="UNVERIFIED_MEMBERSHIP_OPEN"

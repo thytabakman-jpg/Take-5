@@ -28,6 +28,8 @@ class CurrentToolIdentityAudit:
 
 def audit_current_portfolio_identity()->CurrentToolIdentityAudit:
     failures=[]
+    if not CONFIGURED_RUNS:
+        failures.append("EMPTY_CONFIGURED_REPERTOIRE")
     for tool_id,spec in CONFIGURED_RUNS.items():
         if spec.tool_id!=tool_id or (spec.manifest_id and spec.manifest_id!=tool_id):
             failures.append(f"{tool_id}:CONFIGURED_IDENTITY_MISMATCH")
