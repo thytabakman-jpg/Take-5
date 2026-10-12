@@ -208,7 +208,7 @@ def _validate_registered_crosswalk(text:str)->tuple[tuple[str,str,str],...]:
     assert sum(relation=="CAPABILITY_FAMILY_ONLY" for _,_,relation in parsed)==49
     assert sum(relation=="UNMAPPED" for _,_,relation in parsed)==29
     assert "a navigable link" in text.lower()
-    assert "identity equivalence \`OPEN\`" in text or "equivalence \`OPEN\`" in text
+    assert "identity equivalence `OPEN`" in text or "equivalence `OPEN`" in text
     return tuple(parsed)
 
 
@@ -234,8 +234,8 @@ def test_cross_repository_crosswalk_negative_controls_preserve_all_package_edges
     for broken in (
         text.replace("| [C01](current-tools/c01/README.md)", "| [C01](current-tools/c02/README.md)",1),
         text.replace("| [GOAL](current-tools/goal/README.md)", "| [GOAL](current-tools/pd/README.md)",1),
-        text.replace("| [C01](current-tools/c01/README.md)", "| [C01](current-tools/c01/README.md) | injected",1),
-        text.replace("ALIAS_COLLISION_OPEN", "NAMED_CROSS_REFERENCE",1),
+        text.replace("| [C01](current-tools/c01/README.md)", "| [C01-REMOVED](current-tools/c01/README.md)",1),
+        __import__("re").sub(r"(?m)^(\| \[RootCause\].+ \| )ALIAS_COLLISION_OPEN( \| .+ \|)$",r"\1NAMED_CROSS_REFERENCE\2",text,count=1),
         text.replace("| [C49](current-tools/c49/README.md)", "| [C49-REMOVED](current-tools/c49/README.md)",1),
     ):
         with pytest.raises(AssertionError):
