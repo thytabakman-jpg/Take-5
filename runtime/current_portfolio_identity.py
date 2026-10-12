@@ -29,11 +29,14 @@ class CurrentToolIdentityAudit:
 def audit_current_portfolio_identity()->CurrentToolIdentityAudit:
     failures=[]
     for tool_id,spec in CONFIGURED_RUNS.items():
+        if spec.tool_id!=tool_id or (spec.manifest_id and spec.manifest_id!=tool_id):
+            failures.append(f"{tool_id}:CONFIGURED_IDENTITY_MISMATCH")
+            continue
         if not spec.complete():
             failures.append(f"{tool_id}:CONFIGURED_SPEC_INCOMPLETE")
             continue
         manifest=manifest_for(tool_id)
-        if not manifest.complete():
+        if manifest.tool_id!=tool_id or not manifest.complete():
             failures.append(f"{tool_id}:MANIFEST_INCOMPLETE")
             continue
         required=tuple(spec.protected_behaviors)+("PROTECTED_TRANSITION_INTEGRITY",)
