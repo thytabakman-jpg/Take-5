@@ -634,6 +634,9 @@ def _admit_curated_source_map(spec:ProjectObjectSpec, existing:str)->None:
     if category=="NAMED_CROSS_REFERENCE":
         if "Reaserch" not in existing or "catalog" not in existing.lower():
             raise ToolProjectPackageCollision(f"{spec.object_id}: SOURCE_MAP_FORMAL_LINK_MISSING")
+    elif category=="CAPABILITY_FAMILY_ONLY":
+        if "CAPABILITY_FAMILY_ONLY" not in existing and "related numbered capability family" not in existing:
+            raise ToolProjectPackageCollision(f"{spec.object_id}: SOURCE_MAP_CATEGORY_MISMATCH")
     elif category not in existing:
         raise ToolProjectPackageCollision(f"{spec.object_id}: SOURCE_MAP_CATEGORY_MISMATCH")
 
@@ -646,7 +649,8 @@ def materialize_package(base:Path,spec:ProjectObjectSpec)->tuple[Path,...]:
         if path.exists():
             existing=path.read_text(encoding="utf-8")
             if spec.current_tool and rel.endswith("/SOURCE_MAP.md") and spec.object_id!="MultiObject":
-                _admit_curated_source_map(spec,existing)
+                if existing!=content:
+                    _admit_curated_source_map(spec,existing)
                 continue
             if existing!=content:
                 raise ToolProjectPackageCollision(str(path))
