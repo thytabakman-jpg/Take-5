@@ -2,7 +2,7 @@
 
 **Role:** derived, non-authoritative navigation linking Take-5's configured package inventory to Reaserch's separately typed formal catalog. Current snapshot: 2026-10-12, America/Toronto. Tool identity and execution remain owned by the listed registries, not this page.
 
-**Coverage:** 95 Take-5 packages = 15 named cross-references + 2 unresolved alias-collision entries + 49 numbered-capability-family entries + 29 unmapped packages. Reaserch contains 38 formal objects, of which 22 lack a confirmed exact Take-5 package correspondence. A navigable link is not an executable binding or formal equivalence proof.
+**Coverage:** 95 Take-5 packages = 15 named cross-references + 2 unresolved alias-collision entries + 49 numbered-capability-family entries + 29 unmapped packages. Reaserch contains 38 formal objects: 22 have no proposed one-to-one Take-5 package counterpart; the other 16 have named or alias-collision cross-references only, not certified exact identities. A navigable link is not an executable binding or formal equivalence proof.
 
 ## Contents
 
@@ -135,6 +135,8 @@ This section reconciles the Take-5 **configured-run package inventory** with Rea
 | [L-FUNCTIONAL-STACK](current-tools/l-functional-stack/README.md) | No exact catalog entry established | UNMAPPED | Take-5 owner governs |
 
 ### Reaserch objects without an exact Take-5 package mapping
+
+This section identifies the 22 formal objects with no proposed one-to-one package counterpart. It is not an exhaustive list of unproven exact identities: the 15 named cross-references and the DIAGNOSIS alias-collision case also remain uncertified for exact equivalence.
 
 - [DIFFERENTIATE](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/core-system-mathematics/math/DIFFERENTIATE_MINIMAL_SENSITIVITY_MAP_001_2026-09-24.md) (K1) — Reaserch object; no matching Take-5 configured-run package established.
 - [RELATE](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/pd/working/RELATE_MATHEMATICAL_REDUCTION_001_2026-09-24.md) (K1) — Reaserch object; no matching Take-5 configured-run package established.
