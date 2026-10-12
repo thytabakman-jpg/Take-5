@@ -1,5 +1,17 @@
 # Tool System Source Map
 
+**Role:** derived, non-authoritative navigation linking Take-5's configured package inventory to Reaserch's separately typed formal catalog. Current snapshot: 2026-10-12, America/Toronto. Tool identity and execution remain owned by the listed registries, not this page.
+
+**Coverage:** 95 Take-5 packages = 15 named cross-references + 2 unresolved alias-collision entries + 49 numbered-capability-family entries + 29 unmapped packages. Reaserch contains 38 formal objects, of which 22 lack a confirmed exact Take-5 package correspondence. A navigable link is not an executable binding or formal equivalence proof.
+
+## Contents
+
+- [Current repository authorities](#current-repository-authorities)
+- [Legacy provenance](#legacy-provenance)
+- [Cross-repository tool-package navigation](#cross-repository-tool-package-navigation-derived-no-authority-transfer)
+- [Reaserch objects without an exact package mapping](#reaserch-objects-without-an-exact-take-5-package-mapping)
+- [Reader routing and acceptance boundary](#reader-routing-and-acceptance-boundary)
+
 ## Current repository authorities
 
 - [`runtime/tool_run_registry.py`](../../runtime/tool_run_registry.py)
