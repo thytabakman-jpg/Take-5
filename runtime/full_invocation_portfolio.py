@@ -34,8 +34,13 @@ class FullInvocationPortfolioAudit:
 
 def audit_full_invocation_portfolio()->FullInvocationPortfolioAudit:
     failures=[]
+    if not CONFIGURED_RUNS:
+        failures.append("EMPTY_CONFIGURED_REPERTOIRE")
 
     for tool_id,spec in CONFIGURED_RUNS.items():
+        if spec.tool_id!=tool_id or (spec.manifest_id and spec.manifest_id!=tool_id):
+            failures.append(f"{tool_id}:CONFIGURED_IDENTITY_MISMATCH")
+            continue
         expected_engine="SELF" if tool_id=="HF002" else "HF002"
 
         if not spec.complete():

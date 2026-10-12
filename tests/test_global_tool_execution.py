@@ -50,3 +50,27 @@ def test_assert_keeps_two_declared_native_layers():
     assert spec.required_layers==("ASSERT_LAYER_1","ASSERT_LAYER_2")
     plan=build_tool_execution_plan(spec)
     assert len(plan.native)==2*36
+
+
+def test_full_plan_rejects_count_preserving_missing_or_repeated_coordinates():
+    from dataclasses import replace
+    base=build_tool_execution_plan(CONFIGURED_RUNS["MT"])
+    assert base.complete
+    for key in ("cells","native","questions","cognitive"):
+        content=getattr(base,key)
+        poison=(content[0],content[0],*content[2:])
+        assert len(poison)==len(content)
+        assert not replace(base,**{key:tuple(poison)}).complete,key
+
+
+def test_full_plan_rejects_recursion_profile_or_tool_identity_spoof():
+    from dataclasses import replace
+    plan=build_tool_execution_plan(CONFIGURED_RUNS["MT"])
+    for variant in (
+        replace(plan,tool_id="HF002"),
+        replace(plan,tool_id=""),
+        replace(plan,recurrence_engine="SELF"),
+        replace(plan,native=(("layer",plan.cells[0]),)*len(plan.native)),
+    ):
+        assert not variant.complete
+    assert build_tool_execution_plan(CONFIGURED_RUNS["HF002"]).complete

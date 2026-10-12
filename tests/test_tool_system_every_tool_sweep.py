@@ -58,3 +58,32 @@ def test_human_tool_index_is_exactly_in_registry_parity():
     assert len(listed)==len(MATERIAL_TOOLS)
     assert set(listed)==set(MATERIAL_TOOLS)
     assert f"Current configured tools: {len(MATERIAL_TOOLS)}" in text
+
+
+def test_every_tool_sweep_keeps_open_conductor_open_despite_green_other_audits(monkeypatch):
+    import tool_system_every_tool_sweep as owner
+    original=owner.run_tool_conductor
+    def sabotage(*args,**kwargs):
+        result=dict(original(*args,**kwargs))
+        result["status"]="OPEN"
+        result["open_tools"]=("MT",)
+        return result
+    monkeypatch.setattr(owner,"run_tool_conductor",sabotage)
+    receipt=owner.run()
+    assert receipt["campaign_status"]=="OPEN"
+    assert "tool_conductor:INCOMPLETE_OR_IDENTITY_DRIFT" in receipt["structural_failures"]
+
+
+def test_every_tool_sweep_requires_live_manifest_and_reality_checks(monkeypatch):
+    import tool_system_every_tool_sweep as owner
+    prior=owner.development_audits
+    def fake():
+        current=prior()
+        current["tool_manifest_audit"]["status"]="OPEN"
+        current["tool_reality_audit"]["status"]="OPEN"
+        return current
+    monkeypatch.setattr(owner,"development_audits",fake)
+    receipt=owner.run()
+    assert receipt["campaign_status"]=="OPEN"
+    assert "tool_manifest_audit:OPEN" in receipt["structural_failures"]
+    assert "tool_reality_audit:OPEN" in receipt["structural_failures"]

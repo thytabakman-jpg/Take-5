@@ -67,18 +67,28 @@ class ToolExecutionPlan:
 
     @property
     def complete(self) -> bool:
-        return (
-            self.mode == DEFAULT_MODE
-            and self.wrapper_required
-            and self.geometry == DEFAULT_GEOMETRY
-            and self.recurrence_required
-            and self.recurrence_engine in {"HF002","SELF"}
-            and self.invocation_profile == FULL_INVOCATION_PROFILE
-            and len(self.cells) == 36
-            and bool(self.native)
-            and len(self.questions) == len(QUESTION_FAMILIES) * 36
-            and len(self.cognitive) == len(COGNITIVE_OPERATORS) * 36
-        )
+        # Cardinality is not coverage: repeated coordinates could displace
+        # an entire Scope x ModeFace or question/operator coordinate.
+        expected_cells=tuple(D36CCell(scope,face) for scope in Scope for face in ModeFace)
+        if (not self.tool_id or self.mode != DEFAULT_MODE or not self.wrapper_required
+                or self.geometry != DEFAULT_GEOMETRY or not self.recurrence_required
+                or self.invocation_profile != FULL_INVOCATION_PROFILE
+                or self.recurrence_engine != ("SELF" if self.tool_id=="HF002" else "HF002")
+                or len(self.cells)!=36 or set(self.cells)!=set(expected_cells)
+                or len(set(self.cells))!=36):
+            return False
+        if (len(self.questions)!=len(QUESTION_FAMILIES)*36
+                or set(self.questions)!={(q,c) for q in QUESTION_FAMILIES for c in expected_cells}):
+            return False
+        if (len(self.cognitive)!=len(COGNITIVE_OPERATORS)*36
+                or set(self.cognitive)!={(op,c) for op in COGNITIVE_OPERATORS for c in expected_cells}):
+            return False
+        if not self.native:
+            return False
+        layers={name for name,cell in self.native if isinstance(name,str) and name}
+        if not layers or len(self.native)!=len(layers)*36:
+            return False
+        return set(self.native)=={(layer,cell) for layer in layers for cell in expected_cells}
 
 
 def d36c_cells() -> tuple[D36CCell, ...]:

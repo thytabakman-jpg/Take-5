@@ -1008,7 +1008,15 @@ def run()->dict[str,Any]:
     dev=development_audits()
 
     structural_failures=[]
-    for name in ("current_portfolio_identity","full_invocation_portfolio","protected_transition_portfolio","repertoire_reachability"):
+    if not MATERIAL_TOOLS or len(set(MATERIAL_TOOLS))!=len(MATERIAL_TOOLS):
+        structural_failures.append("registered_repertoire:EMPTY_OR_DUPLICATE")
+    if (conductor.get("status")!="COMPLETE" or conductor.get("tool_count")!=len(MATERIAL_TOOLS)
+            or conductor.get("open_tools") or len(rows)!=len(MATERIAL_TOOLS)
+            or tuple(row.get("tool_id") for row in rows)!=tuple(MATERIAL_TOOLS)
+            or any(row.get("status") not in {"EXECUTED","EXECUTED_SELF_WITNESS"} for row in rows)):
+        structural_failures.append("tool_conductor:INCOMPLETE_OR_IDENTITY_DRIFT")
+    for name in ("current_portfolio_identity","full_invocation_portfolio","protected_transition_portfolio","repertoire_reachability",
+                 "tool_reality_audit","tool_manifest_audit"):
         status=str(dev[name].get("status",""))
         if status not in {"CLOSED_RELATIVE","PASS"}:
             structural_failures.append(f"{name}:{status}")
