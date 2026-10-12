@@ -8,7 +8,7 @@ Date checked: 2026-09-27
 - [Internal basis](#internal-basis)
 - [External research](#external-research)
 - [Synthesis](#synthesis)
-- [Cross-project failure-history basis](#cross-project-failure-history-basis-2026-09-30)
+- [Cross-project failure-history basis](#cross-project-failure-history-basis--2026-09-30)
 - [Currentness and operational evidence crosswalk](#currentness-and-operational-evidence-crosswalk-2026-10-10-level-2)
 
 ## Internal basis
