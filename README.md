@@ -72,7 +72,7 @@ A later discovery can rebase this system through currentness/admission and valid
 
 [Level 4 certification and repair contract](projects/tool-system/LEVEL4_CERTIFICATION_AND_REPAIR_CONTRACT.md) governs all Level 4 reviews regardless of subject. Level 4 establishes the file's actual purpose and requirements, challenges every material assertion and dependency against its owner, repairs any discovered defects, then reverifies. A genuine OPEN research question is acceptable; an unsupported factual assertion, unsatisfied requirement, or unverified repair **blocks Level 4 certification**. A reviewer cannot obtain PASS by relabeling a previously asserted fact OPEN. A check receipt is not a substitute for specialist verification.
 
-[Structured fail-closed receipt check](runtime/level4_certification.py) and [parent return gate](runtime/improvement_core_return_gate.py) provide conditional runtime enforcement when the configured Level 4 selector sets `context.level4_certification_required=true`; binding this flag across every entry path is a separate integration obligation, not inferred from document text.
+[Structured fail-closed receipt check](runtime/level4_certification.py) and [parent return gate](runtime/improvement_core_return_gate.py) provide conditional runtime enforcement when Level 4 is explicitly selected or the parent context includes an explicit Level 4 request; binding this flag across every entry path is a separate integration obligation, not inferred from document text.
 
 ## Current architecture
 
