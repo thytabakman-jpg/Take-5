@@ -18,3 +18,12 @@
 
 Pointers preserve provenance. This package does not copy legacy evidence merely
 to make the folder look complete.
+
+## Cross-repository reconciliation (derived navigation; no promotion)
+
+- [Take-5/Reaserch crosswalk](../../SOURCE_MAP.md#cross-repository-tool-package-navigation-derived-no-authority-transfer) — all current packages, catalogued formal objects and unresolved differences.
+- [Reaserch `ICC-128` (K5) catalog entry](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/improvement-core/tool-ecosystem/FORMAL_TOOL_CATALOG_CURRENT.yaml) and [its current semantic locator](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/improvement-core/tool-ecosystem/ICC128_FULL_TOOL_MATH_002_2026-09-26.md). Matching names permit navigation, not automatic semantic equivalence or runnable integration.
+- Take-5 configured-run authority remains [registry](../../../../runtime/tool_run_registry.py), [manifest](../../../../runtime/tool_manifest.py), [conductor](../../../../runtime/portable_tool_conductor.py). See [mathematics](MATHEMATICS.md), [runtime](RUNTIME.md), [dependencies](DEPENDENCIES.md), [regression contract](REGRESSION_CONTRACT.md).
+- Native evidence surfaces are [runs](runs/README.md), [evidence](evidence/README.md), [coverage](coverage/README.md) and [history](history/README.md); a file link is not proof that configured execution or certification passed.
+
+**Owner boundary:** Do not copy mathematical truth between repositories or infer current runtime promotion from this source map. Mark unresolved mismatches OPEN and check the specialist owner.

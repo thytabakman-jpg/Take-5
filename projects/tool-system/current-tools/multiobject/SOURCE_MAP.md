@@ -58,3 +58,12 @@ The pinned historical sources above are the reproducible provenance basis. These
 - [2026-09-24 mathematical reconstruction](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/core-system-mathematics/math/MULTI_OBJECT_V2_CANONICAL_MATHEMATICS_001_2026-09-24.md)
 - [Selected 2026-09-26 semantic snapshot](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/improvement-core/tool-ecosystem/MULTIOBJECT_CURRENT_SEMANTIC_STATE_2026-09-26.md)
 - [Basis-relative factorization candidate](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/improvement-core/tool-ecosystem/MULTIOBJECT_CURRENT_BASIS_FACTORIZATION_002_2026-09-26.md)
+
+## Cross-repository reconciliation (derived navigation; no promotion)
+
+- [Take-5/Reaserch crosswalk](../../SOURCE_MAP.md#cross-repository-tool-package-navigation-derived-no-authority-transfer) — all current packages, catalogued formal objects and unresolved differences.
+- [Reaserch `MULTI-OBJECT` (K2) catalog entry](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/improvement-core/tool-ecosystem/FORMAL_TOOL_CATALOG_CURRENT.yaml) and [its current semantic locator](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/improvement-core/tool-ecosystem/MULTIOBJECT_CURRENT_SEMANTIC_STATE_2026-09-26.md). Matching names permit navigation, not automatic semantic equivalence or runnable integration.
+- Take-5 configured-run authority remains [registry](../../../../runtime/tool_run_registry.py), [manifest](../../../../runtime/tool_manifest.py), [conductor](../../../../runtime/portable_tool_conductor.py). See [mathematics](MATHEMATICS.md), [runtime](RUNTIME.md), [dependencies](DEPENDENCIES.md), [regression contract](REGRESSION_CONTRACT.md).
+- Native evidence surfaces are [runs](runs/README.md), [evidence](evidence/README.md), [coverage](coverage/README.md) and [history](history/README.md); a file link is not proof that configured execution or certification passed.
+
+**Owner boundary:** Do not copy mathematical truth between repositories or infer current runtime promotion from this source map. Mark unresolved mismatches OPEN and check the specialist owner.
