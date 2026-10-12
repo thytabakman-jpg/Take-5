@@ -24,13 +24,19 @@ def valid_packet():
         "claims": [
             {"id": "CLAIM", "kind": "FACTUAL_ASSERTION",
              "baseline_kind": "FACTUAL_ASSERTION", "text": "Scoped theorem T.",
-             "disposition": "SUBSTANTIATED", "evidence_refs": ["owner:proof-T"]},
+             "disposition": "SUBSTANTIATED", "evidence_refs": ["owner:proof-T"],
+             "residence": {"owner_ref": "project/node/file.md",
+                           "status": "ALREADY_LOCAL", "verified": True,
+                           "inspection_refs": ["inspection:actual-owner-proof"],
+                           "local_evidence_refs": ["owner:proof-T"]}},
             {"id": "OPEN1", "kind": "OPEN_RESEARCH_QUESTION",
              "baseline_kind": "OPEN_RESEARCH_QUESTION", "text": "Does T extend to other systems?",
              "asserted_as_fact": False},
         ],
         "dependencies": [{"id": "D1", "owner_ref": "mathematics/current.md",
-                          "status": "VERIFIED", "evidence_refs": ["math:proof"]}],
+                          "status": "VERIFIED", "evidence_refs": ["math:proof"],
+                          "local_evidence_refs": ["math:canonical-local-proof"],
+                          "local_residence_verified": True}],
         "defects": [],
         "reverified": True,
         "reverification_refs": ["run:recheck-after-review"],
@@ -173,3 +179,68 @@ def test_parent_detects_unflagged_level4_user_request():
                      "parent_round":0,"hf2_status":"RELATIVE_CLOSE"},
             verifier=_verifier, fresh_reobserve=_stable,
         )
+
+
+def test_missing_claim_residence_fails_despite_otherwise_good_receipt():
+    check_bad(lambda p: p["claims"][0].pop("residence"), "MISSING_LOCAL_EVIDENCE_RESIDENCE")
+
+
+def test_historical_audit_link_does_not_prove_local_residence():
+    check_bad(lambda p: p["claims"][0]["residence"].update(
+        inspection_refs=[], local_evidence_refs=["audit:old-report"]),
+        "LOCAL_EVIDENCE_NOT_VERIFIED")
+
+
+def test_repair_labeled_verified_without_source_transfer_or_recheck_fails():
+    check_bad(lambda p: p["claims"][0]["residence"].update(
+        status="REPAIRED_AND_VERIFIED"),
+        "LOCAL_EVIDENCE_TRANSFER_NOT_VERIFIED")
+
+
+def test_verified_transfer_receipt_can_pass():
+    p = valid_packet()
+    p["claims"][0]["residence"].update(
+        status="REPAIRED_AND_VERIFIED",
+        discovered_source_refs=["historical:report-lines-10-25"],
+        transfer_refs=["commit:owner-proof-transfer"],
+        local_evidence_refs=["owner:local-reconstructed-proof"],
+        post_transfer_recheck_refs=["test:independent-countermodel"])
+    p["defects"].append({
+        "id": "LOCAL_EVIDENCE_GAP",
+        "status": "RESOLVED",
+        "repair_refs": ["commit:owner-proof-transfer"],
+        "recheck_refs": ["test:independent-countermodel"],
+    })
+    assert assess_level4(p) == ("PASS", ())
+
+
+def test_audit_only_disguised_as_local_evidence_fails():
+    p = valid_packet()
+    p["claims"][0]["residence"].update(
+        status="REPAIRED_AND_VERIFIED",
+        discovered_source_refs=["report:only"],
+        transfer_refs=["report:only"],
+        local_evidence_refs=["report:only"],
+        post_transfer_recheck_refs=["run:report-read"])
+    assert "HISTORICAL_AUDIT_ONLY:CLAIM" in assess_level4(p)[1]
+
+
+def test_dependency_owner_link_without_local_evidence_fails():
+    check_bad(lambda p: p["dependencies"][0].pop("local_evidence_refs"),
+              "DEPENDENCY_LOCAL_EVIDENCE_MISSING")
+
+
+def test_dependency_local_evidence_requires_actual_verification():
+    check_bad(lambda p: p["dependencies"][0].update(local_residence_verified=False),
+              "DEPENDENCY_LOCAL_EVIDENCE_MISSING")
+
+
+def test_corrected_fact_to_open_still_requires_owner_evidence():
+    p = valid_packet()
+    p["claims"][0].update(kind="OPEN_RESEARCH_QUESTION", asserted_as_fact=False,
+                          text="Does T extend?", correction_verified=True,
+                          correction_refs=["owner:revised-claim"],
+                          prior_text="Scoped theorem T.")
+    assert assess_level4(p) == ("PASS", ())
+    p["claims"][0].pop("residence")
+    assert "MISSING_LOCAL_EVIDENCE_RESIDENCE:CLAIM" in assess_level4(p)[1]
