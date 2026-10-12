@@ -17,7 +17,7 @@ from dataclasses import dataclass, asdict
 from typing import Any, Callable, Mapping
 
 from whole_job_stability import run_whole_job_stability, receipt_dict as stability_receipt_dict
-from level4_certification import assess_level4
+from level4_certification import assess_level4, level4_required_for_request
 
 RETURNABLE={"COMPLETE","OPEN","BLOCKED","CONFLICT"}
 DISPOSITIONS={"RETURN","CONTINUE"}
@@ -184,7 +184,10 @@ def evaluate_parent_return(
     prose_receipt_required=bool(ctx.get("prose_receipt_required",False))
     prose_receipts_present=_prose_receipts_present(proposed_state)
     prose_receipt_residuals=_unclosed_prose_receipts(proposed_state)
-    level4_required=ctx.get("level4_certification_required") is True
+    level4_intent_text=" ".join(str(ctx.get(key,"")) for key in
+                                ("user_request","request","job"))
+    level4_required=(ctx.get("level4_certification_required") is True
+                     or level4_required_for_request(level4_intent_text))
     level4_packets=proposed_state.get("level4_certification_packets")
     if isinstance(level4_packets, Mapping):
         level4_packets=[level4_packets]
