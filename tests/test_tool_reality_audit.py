@@ -93,7 +93,7 @@ def test_tool_reality_human_navigation_preserves_currentness_and_no_execution_in
         assert token in text
     readme=(root/"projects/tool-system/README.md").read_text(encoding="utf-8")
     for ref in ("[SOURCE_MAP.md](SOURCE_MAP.md)","[TOOL_INDEX.md](TOOL_INDEX.md)",
-                "current tool IDs","change control"):
+                "current Take-5 tool IDs","change control"):
         assert ref in readme
     changes=(root/"projects/tool-system/CHANGE_CONTROL.md").read_text(encoding="utf-8")
     assert "exact repository commit" in changes or "source blob" in changes
