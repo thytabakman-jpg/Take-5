@@ -303,3 +303,60 @@ def test_curated_source_map_rejects_wrong_identity_lost_authority_and_category(t
         assert local.read_text(encoding="utf-8")==bad
         local.write_text(live,encoding="utf-8")
         assert materialize_package(tmp_path,spec)==()
+
+
+def _assert_canonical_tool_project_authority_links(text:str,root:Path):
+    from re import findall
+    mandatory=(
+        ("current tool inventory","runtime/tool_run_registry.py"),
+        ("current protected tool identity","runtime/tool_manifest.py"),
+        ("native runtime realization","runtime/portable_tool_conductor.py"),
+        ("derived cross-repository tool navigation","SOURCE_MAP.md"),
+        ("package schema","PACKAGE_CONTRACT.md"),
+    )
+    for job,target in mandatory:
+        assert f"| {job} |" in text
+        assert target in text
+    for rel in findall(r"\]\(([^)#]+)(?:#[^)]*)?\)",text):
+        if "://" not in rel:
+            assert (root/"projects/tool-system"/rel).exists(),f"Missing authority locator: {rel}"
+
+
+def test_tool_project_authority_and_schema_contracts_have_live_sources():
+    root=Path(__file__).resolve().parents[1]
+    body=(root/"projects/tool-system/AUTHORITY_REGISTRY.md").read_text(encoding="utf-8")
+    _assert_canonical_tool_project_authority_links(body,root)
+    schema=(root/"projects/tool-system/PACKAGE_CONTRACT.md").read_text(encoding="utf-8")
+    assert "Curated source maps and generator ownership" in schema
+    for name in CORE_FILES:
+        assert f"\n{name}\n" in schema,f"Required package page not in contract: {name}"
+    assert "MultiObject source map remains fully generated" in schema
+    assert "source map only after verifying its exact package identity" in schema
+
+
+def test_authority_registry_negative_controls_are_discriminating():
+    import pytest
+    root=Path(__file__).resolve().parents[1]
+    body=(root/"projects/tool-system/AUTHORITY_REGISTRY.md").read_text(encoding="utf-8")
+    _assert_canonical_tool_project_authority_links(body,root)
+    for broken in (
+        body.replace("| current tool inventory |","| invented tool inventory |",1),
+        body.replace("runtime/tool_manifest.py","runtime/missing_tool_manifest.py",1),
+        body.replace("SOURCE_MAP.md](SOURCE_MAP.md)","SOURCE_MAP.md](missing_crosswalk.md)",1),
+    ):
+        with pytest.raises(AssertionError):
+            _assert_canonical_tool_project_authority_links(broken,root)
+
+
+def test_tool_registry_manifest_and_conductor_identity_trace_is_complete():
+    from portable_tool_conductor import compile_repertoire
+    from tool_manifest import manifest_for
+    expected=tuple(MATERIAL_TOOLS)
+    assert len(expected)==len(set(expected))
+    observed=compile_repertoire()
+    assert tuple(w.tool_id for w in observed)==expected
+    for witness in observed:
+        manifest=manifest_for(witness.tool_id)
+        assert manifest.tool_id==witness.tool_id
+        assert manifest.complete()
+        assert witness.entrypoint is not None
