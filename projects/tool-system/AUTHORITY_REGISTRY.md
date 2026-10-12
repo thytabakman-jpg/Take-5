@@ -17,6 +17,8 @@ Status: CURRENT
 | native runtime realization | [runtime/portable_tool_conductor.py](../../runtime/portable_tool_conductor.py) |
 | current strong reality | [integration/CURRENT_TOOL_REALITY.md](../../integration/CURRENT_TOOL_REALITY.md) |
 | package index | [TOOL_INDEX.md](TOOL_INDEX.md) |
+| derived cross-repository tool navigation | [SOURCE_MAP.md](SOURCE_MAP.md); Reaserch retains its separately governed catalog |
+| authored current-tool provenance/navigation | [current-tools/*/SOURCE_MAP.md](current-tools/) (curated source maps, subject to generator admission guard) |
 | ICC/IC variant index | [ICC_VARIANT_REGISTRY.md](ICC_VARIANT_REGISTRY.md) |
 | project change semantics | [CHANGE_CONTROL.md](CHANGE_CONTROL.md) |
 | anti-loss invariants | [ANTI_LOSS_CONTRACT.md](ANTI_LOSS_CONTRACT.md) |

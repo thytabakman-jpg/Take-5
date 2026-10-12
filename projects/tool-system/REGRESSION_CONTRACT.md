@@ -1,6 +1,6 @@
 # Tool Project Regression Contract
 
-Status: CURRENT CANDIDATE
+Status: CURRENT REGRESSION OBLIGATIONS; actual certification depends on current native evidence
 
 CI must detect:
 
@@ -25,3 +25,12 @@ Primary executable guard:
 
 [runtime/tool_project_packages.py](../../runtime/tool_project_packages.py)
 [tests/test_tool_project_packages.py](../../tests/test_tool_project_packages.py)
+
+## Current cross-repository organization controls (2026-10-12)
+
+- [Source-map parity and adversarial link checks](../../tests/test_tool_project_packages.py) compare each registered Take-5 configured package with the 95-row navigation table and reject swapped, missing, misclassified or duplicated rows.
+- The same tests exercise template reentry, separately authored current-tool source-map preservation, and rejection of incorrect package identity, missing runtime/manifest pointers, incorrect alias-category status, and a missing crosswalk link.
+- [Conductor identity tests](../../tests/test_portable_tool_conductor.py) require one factor per configured identity; duplicates fail before native tool execution.
+- [Package generator](../../runtime/tool_project_packages.py) remains create-only for generated pages. Current-tool source maps are curated navigation objects with a narrow source-map admission guard; MultiObject retains byte-for-byte generator parity.
+
+**Limits:** These checks do not establish external Reaserch-to-Take-5 equivalence, correct every unverified external URL, prove that a configured run executed from a source-map link, or close any missing change-sensitive consumer tests. A historical successful workflow does not certify future commits; consult the latest workflow result and source commit.
