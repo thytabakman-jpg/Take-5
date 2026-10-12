@@ -975,7 +975,7 @@ def development_audits()->dict[str,Any]:
         "current_portfolio_identity":plain(identity),
         "full_invocation_portfolio":plain(invocation),
         "protected_transition_portfolio":plain(transitions),
-        "tool_manifest_audit":plain(manifests),
+        "tool_manifest_audit":{"status":manifests.status, **plain(manifests)},
         "tool_reality_audit":plain(reality),
         "tool_maturity":maturity_summary(),
         "system_audit":plain(system),
