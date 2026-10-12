@@ -1,5 +1,9 @@
 # Dependencies: Architecture
 
+**Status and role:** Current, derived Architecture-package dependency guide; runtime identity, behavior and execution remain governed by the sources below.
+
+**Purpose and readers:** Help package maintainers and repository-aware repair operators identify the immediate authoritative sources, direct tests and conditional consumer interfaces before changing the Architecture tool. A source reference does not by itself certify live integration.
+
 ## Current Take-5 execution dependency chain
 
 1. [tool_run_registry.py](../../../../runtime/tool_run_registry.py) — sole registered current ID `Architecture`; do not register `Architect` as a second configured tool by string similarity.
