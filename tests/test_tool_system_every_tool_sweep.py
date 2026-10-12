@@ -87,3 +87,24 @@ def test_every_tool_sweep_requires_live_manifest_and_reality_checks(monkeypatch)
     assert receipt["campaign_status"]=="OPEN"
     assert "tool_manifest_audit:OPEN" in receipt["structural_failures"]
     assert "tool_reality_audit:OPEN" in receipt["structural_failures"]
+
+
+def test_every_tool_sweep_cli_exit_code_reflects_campaign_closure(monkeypatch,capsys):
+    import pytest
+    import tool_system_every_tool_sweep as owner
+    monkeypatch.setattr(sys,"argv",["tool_system_every_tool_sweep.py"])
+    fixture={
+        "campaign_id":"adversarial-cli",
+        "registered_tool_count":1,
+        "tool_conductor":{"status_counts":{"OPEN":1},"open_tools":("MT",)},
+        "project_manager_actual_project_assessment":{"status":"OPEN","result":{}},
+        "structural_failures":["tool_conductor:INCOMPLETE"],
+        "development_audits":{},
+    }
+    for status,exit_code in (("OPEN",1),("CLOSED_RELATIVE",0)):
+        monkeypatch.setattr(owner,"run",lambda status=status:{**fixture,"campaign_status":status})
+        with pytest.raises(SystemExit) as stopped:
+            owner.main()
+        assert stopped.value.code==exit_code
+    out=capsys.readouterr().out
+    assert "EVERY_TOOL_SWEEP=" in out

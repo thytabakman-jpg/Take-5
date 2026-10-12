@@ -1078,6 +1078,9 @@ def main()->None:
         },
     }
     print("EVERY_TOOL_SWEEP="+json.dumps(compact,sort_keys=True,default=str))
+    # The CLI is a validation gate, not merely a reporting command.
+    # An OPEN receipt must never produce a successful process exit.
+    raise SystemExit(0 if receipt["campaign_status"]=="CLOSED_RELATIVE" else 1)
 
 
 if __name__=="__main__":
