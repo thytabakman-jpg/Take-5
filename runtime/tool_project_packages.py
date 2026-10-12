@@ -600,6 +600,44 @@ def package_files(spec:ProjectObjectSpec)->dict[str,str]:
     return files
 
 
+def _admit_curated_source_map(spec:ProjectObjectSpec, existing:str)->None:
+    """Admit an authored, source-specific navigation page without replacing it.
+
+    The general package generator owns the *minimum template*, not bespoke
+    evidence/provenance routes added by a package maintainer. This is scoped
+    to active configured tools; historical variant source maps remain strict.
+    """
+    prefix=f"# Source map: {spec.display_name}\\n"
+    if not existing.startswith(prefix):
+        raise ToolProjectPackageCollision(f"{spec.object_id}: SOURCE_MAP_IDENTITY_MISMATCH")
+    required=(
+        "runtime/tool_run_registry.py",
+        "runtime/tool_manifest.py",
+        "runtime/portable_tool_conductor.py",
+        "SOURCE_MAP.md#cross-repository-tool-package-navigation-derived-no-authority-transfer",
+    )
+    if any(token not in existing for token in required):
+        raise ToolProjectPackageCollision(f"{spec.object_id}: SOURCE_MAP_CRITICAL_ROUTE_MISSING")
+    if spec.object_id.startswith("C") and spec.object_id[1:].isdigit() and 1<=int(spec.object_id[1:])<=49:
+        category="CAPABILITY_FAMILY_ONLY"
+    elif spec.object_id in {"RootCause","Diagnosis"}:
+        category="ALIAS_COLLISION_OPEN"
+    elif spec.object_id in {
+        "ImprovementCore","ICC128","MT","MTA","Architecture","PD","PDAudit",
+        "HF001","HF002","TRC","RTC","MultiObject","ASSERT","GOAL","ToolConductor",
+    }:
+        category="NAMED_CROSS_REFERENCE"
+    else:
+        category="UNMAPPED"
+    # Named package pages express the match through a typed object link
+    # rather than repeating the machine-facing category label.
+    if category=="NAMED_CROSS_REFERENCE":
+        if "Reaserch" not in existing or "catalog" not in existing.lower():
+            raise ToolProjectPackageCollision(f"{spec.object_id}: SOURCE_MAP_FORMAL_LINK_MISSING")
+    elif category not in existing:
+        raise ToolProjectPackageCollision(f"{spec.object_id}: SOURCE_MAP_CATEGORY_MISMATCH")
+
+
 def materialize_package(base:Path,spec:ProjectObjectSpec)->tuple[Path,...]:
     written=[]
     for rel,content in package_files(spec).items():
@@ -607,6 +645,9 @@ def materialize_package(base:Path,spec:ProjectObjectSpec)->tuple[Path,...]:
         path.parent.mkdir(parents=True,exist_ok=True)
         if path.exists():
             existing=path.read_text(encoding="utf-8")
+            if spec.current_tool and rel=="SOURCE_MAP.md" and spec.object_id!="MultiObject":
+                _admit_curated_source_map(spec,existing)
+                continue
             if existing!=content:
                 raise ToolProjectPackageCollision(str(path))
             continue
