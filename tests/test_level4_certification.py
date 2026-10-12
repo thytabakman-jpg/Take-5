@@ -244,3 +244,12 @@ def test_corrected_fact_to_open_still_requires_owner_evidence():
     assert assess_level4(p) == ("PASS", ())
     p["claims"][0].pop("residence")
     assert "MISSING_LOCAL_EVIDENCE_RESIDENCE:CLAIM" in assess_level4(p)[1]
+
+
+def test_audit_only_evidence_cannot_pass_with_filled_inspection_fields():
+    p = valid_packet()
+    p["claims"][0]["residence"].update(
+        local_evidence_refs=["projects/research/validation/old-audit.md"],
+        inspection_refs=["review:opened-report"],
+        verified=True)
+    assert "HISTORICAL_AUDIT_ONLY:CLAIM" in assess_level4(p)[1]
