@@ -1,0 +1,20 @@
+{
+  "schema": "education-booklet-project-web/1",
+  "id": "EDU-SUKKOS-QUESTION-STRUCTURE",
+  "title": "Sukkos question structure",
+  "role": "NAVIGATION_ONLY",
+  "repository": "Take-5",
+  "root": "projects/sukkos-question-booklet/",
+  "current_state": "projects/sukkos-question-booklet/CURRENT_STATE.md",
+  "native_owners": {
+    "goal": "projects/sukkos-question-booklet/GOAL.md",
+    "source": "projects/sukkos-question-booklet/SOURCE_LOCK.md",
+    "route": "projects/sukkos-question-booklet/FOUR_PAGE_ARCHITECTURE.md",
+    "copy": "projects/sukkos-question-booklet/EXACT_COPY.md",
+    "assessment": "projects/sukkos-question-booklet/ACCEPTANCE_GATES.md",
+    "dependency": "projects/sukkos-question-booklet/DEPENDENCY_GRAPH.md"
+  },
+  "research_bridge": "Reaserch:projects/curriculum-design-research/research-web/instructional-design-research/objects/QUESTION_MODEL_CROSS_PROJECT_COMPARISON_2026_10_13.md",
+  "status": "RENDER_QA_RELEASE_OPEN",
+  "preserve": "Original goal/source/copy controls and historical artifact identity. Do not select by file date."
+}
