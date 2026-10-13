@@ -4,6 +4,7 @@
   "title": "Sukkos question structure",
   "role": "NAVIGATION_ONLY",
   "repository": "Take-5",
+  "repo": "Take-5",
   "root": "projects/sukkos-question-booklet/",
   "current_state": "projects/sukkos-question-booklet/CURRENT_STATE.md",
   "native_owners": {
