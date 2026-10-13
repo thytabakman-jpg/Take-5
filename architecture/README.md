@@ -1,0 +1,16 @@
+# Take-5 Architecture
+
+**Job:** Orient readers to architecture decisions, mathematical specifications, candidate constructions, and preserved design constraints without treating every historical design as simultaneously governing.
+
+## Start from the authority-bearing surfaces
+
+- [Repository entry](../README.md) — ordered navigation and operating boundaries.
+- [Migration state](../MIGRATION_STATE.yaml) and [GitHub governance](../GITHUB_GOVERNANCE.md) — repository-level status and admission rules.
+- [Canonical foundation](CANONICAL_FOUNDATION_034.md) — admitted foundational distinctions, subject to its exact scope and later binding checks.
+- [Kernel math contract](KERNEL_MATH_CONTRACT_053.yaml) — source contract; runtime authority depends on the configured selection.
+- [Tool-system project](../projects/tool-system/README.md) — packages, their separate roles, and local authority routing.
+- [Runtime implementations](../runtime/) and [tests](../tests/) — executable and verification surfaces.
+
+## Boundary
+
+A file in this folder may be a proposal, historical analysis, validated design, or current contract. Resolve its own declared status, source version, registered consumers, executable binding and later supersession before treating it as an authority. Do not infer equivalence among designs from names, dates or shared mathematical dimensions. No specifications are migrated or promoted here.
