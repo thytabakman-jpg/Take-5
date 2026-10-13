@@ -253,3 +253,18 @@ def test_audit_only_evidence_cannot_pass_with_filled_inspection_fields():
         inspection_refs=["review:opened-report"],
         verified=True)
     assert "HISTORICAL_AUDIT_ONLY:CLAIM" in assess_level4(p)[1]
+
+@pytest.mark.parametrize("locator", [
+    "audits/old-audit.md",
+    "validation/old-audit.md",
+    "./audits/old-audit.md",
+    "../validation/old-audit.md",
+])
+def test_relative_audit_only_evidence_cannot_claim_local_residence(locator):
+    p = valid_packet()
+    p["claims"][0]["residence"].update(local_evidence_refs=[locator])
+    assert "HISTORICAL_AUDIT_ONLY:CLAIM" in assess_level4(p)[1]
+
+
+def test_genuine_owner_local_residence_remains_accepted():
+    assert assess_level4(valid_packet()) == ("PASS", ())
