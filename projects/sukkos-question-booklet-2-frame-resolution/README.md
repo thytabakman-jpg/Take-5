@@ -18,3 +18,7 @@ This is the separately managed Grade 5–6 four-page Sukkos booklet studying **q
 The [Reaserch education science web](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/curriculum-design-research/research-web/README.md), [research ↔ practice handoff](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/curriculum-design-research/research-web/RESEARCH_PRACTICE_HANDOFF.md), and [cross-repository source index](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/curriculum-design-research/research-web/EDUCATION_CROSS_REPOSITORY_SOURCE_INDEX.md) allow research questions and learning evidence to be located without altering this booklet's accepted goal, current source choices, lesson mechanics or production state.
 
 A source citation or project-file count does not certify scientific transfer, rendered artifact acceptance or Level 4 closure. Preserve known OPENs and exact project-state status.
+
+## Project-specific source web
+
+[Project source web](PROJECT_WEB.json) lists the native goal, current-state, source, student-copy and acceptance owners, plus independent education research connections. This is a navigation projection only; all version selection, QA and release decisions remain controlled by the existing native files.
