@@ -93,10 +93,12 @@ def required_coordinates(level:ExecutionClaimLevel|str)->tuple[str,...]:
 def assess_execution_claim(receipt:ExecutionClaimReceipt)->ExecutionClaimAssessment:
     level=receipt.level()
     required=required_coordinates(level)
-    evidence={str(k):str(v) for k,v in dict(receipt.evidence).items()}
+    # Do not stringify evidence: None, False, 0, [] and {} are not attestations.
+    evidence=dict(receipt.evidence) if isinstance(receipt.evidence,Mapping) else {}
     missing=tuple(
         coordinate for coordinate in required
-        if not evidence.get(coordinate,"").strip()
+        if not isinstance(evidence.get(coordinate),str)
+        or not evidence[coordinate].strip()
     )
     return ExecutionClaimAssessment(
         object_id=receipt.object_id,
@@ -136,7 +138,8 @@ def extend_execution_claim(
     evidence:Mapping[str,str],
 )->ExecutionClaimReceipt:
     merged=dict(receipt.evidence)
-    merged.update({str(k):str(v) for k,v in dict(evidence).items()})
+    # Preserve original value types so the validation gate can reject them.
+    merged.update(dict(evidence))
     out=ExecutionClaimReceipt(
         object_id=receipt.object_id,
         claim_id=receipt.claim_id,
@@ -165,11 +168,11 @@ def from_protected_transition(
         claim_id=str(claim_id),
         claimed_level=ExecutionClaimLevel.CONSUMED,
         evidence={
-            "identity":str(ev.get("canonical_identity","")),
-            "plan":str(plan_evidence),
-            "dispatch":str(ev.get("configured_dispatch","")),
-            "execution":str(ev.get("execution","")),
-            "consumption":str(ev.get("result_consumption","")),
+            "identity":ev.get("canonical_identity",""),
+            "plan":plan_evidence,
+            "dispatch":ev.get("configured_dispatch",""),
+            "execution":ev.get("execution",""),
+            "consumption":ev.get("result_consumption",""),
         },
     )
     require_execution_claim(out,minimum_level=ExecutionClaimLevel.CONSUMED)

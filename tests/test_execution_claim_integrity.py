@@ -86,3 +86,49 @@ def test_configured_pti_projects_into_generic_claim_without_replacing_pti():
     assert claim.level() is ExecutionClaimLevel.CONSUMED
     assert assess_execution_claim(claim).status=="VERIFIED"
     assert claim.evidence["execution"]=="native-run"
+
+@pytest.mark.parametrize("bad_evidence", [None, False, 0, [], {}, ["not-an-attestation"], {"spurious": "value"}, "  "])
+def test_execution_claim_rejects_nonstring_or_blank_evidence(bad_evidence):
+    receipt=ExecutionClaimReceipt(
+        object_id="artifact-x", claim_id="bad-evidence",
+        claimed_level=ExecutionClaimLevel.EXECUTED,
+        evidence={
+            "identity": "id", "plan": "plan",
+            "dispatch": "dispatch", "execution": bad_evidence,
+        },
+    )
+    result=assess_execution_claim(receipt)
+    assert result.status=="OPEN"
+    assert result.missing_coordinates==("execution",)
+    with pytest.raises(ExecutionClaimIntegrityError):
+        require_execution_claim(receipt)
+
+
+def test_extend_execution_claim_does_not_stringify_false_evidence():
+    base=ExecutionClaimReceipt(
+        object_id="artifact-x", claim_id="extend",
+        claimed_level=ExecutionClaimLevel.IDENTIFIED,
+        evidence={"identity": "id"},
+    )
+    with pytest.raises(ExecutionClaimIntegrityError):
+        extend_execution_claim(
+            base, claimed_level=ExecutionClaimLevel.PLANNED,
+            evidence={"plan": False},
+        )
+
+
+def test_pti_projection_does_not_stringify_invalid_plan_evidence():
+    pti=complete_receipt(
+        object_id="MT", behavior_id="configured-execution",
+        evidence={
+            "canonical_identity": "configured_run:MT",
+            "configured_dispatch": "dispatch",
+            "execution": "native-run",
+            "result_consumption": "consume",
+            "state_update": "update",
+            "reentry": "reenter",
+            "user_visible_boundary": "emit",
+        },
+    )
+    with pytest.raises(ExecutionClaimIntegrityError):
+        from_protected_transition(pti, claim_id="mt-invalid-plan", plan_evidence=False)
