@@ -22,15 +22,15 @@ The 36-cell Scope × ModeFace lattice is an audit and discovery surface. It is n
 
 ## Entry order
 
-1. CURRENT_STATE.md
-2. PROJECT_CHARTER.md
-3. AUTHORITY_REGISTRY.md
-4. CONTROLLER.md
-5. GOAL.md
-6. ASSERT_BASELINE.md
-7. OPEN_QUESTIONS.md
+1. [CURRENT_STATE.md](CURRENT_STATE.md)
+2. [PROJECT_CHARTER.md](PROJECT_CHARTER.md)
+3. [AUTHORITY_REGISTRY.md](AUTHORITY_REGISTRY.md)
+4. [CONTROLLER.md](CONTROLLER.md)
+5. [GOAL.md](GOAL.md)
+6. [ASSERT_BASELINE.md](ASSERT_BASELINE.md)
+7. [OPEN_QUESTIONS.md](OPEN_QUESTIONS.md)
 8. the authority file implicated by the current change
-9. coverage/ only when a coverage or interaction audit is required
+9. [coverage/](coverage/) only when a coverage or interaction audit is required
 
 ## Current locked facts
 
