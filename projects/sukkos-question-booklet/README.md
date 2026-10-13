@@ -1,9 +1,9 @@
 # Sukkos Question Booklet
 
-Status: BOOTSTRAP / GREENFIELD
+Status: POPULATED / RENDER-READY CANDIDATE (derived from CURRENT_STATE.md; QA and release OPEN)
 Repository: thytabakman-jpg/Take-5
 Project type: independent four-page Grade 5–6 Sukkos booklet
-Current lifecycle: BOOK_SEED + DESIGN_BRIEF
+Current lifecycle: ROUTE / COPY / VISUAL CANDIDATES COMPLETED; RENDER + QA + CLASSROOM VALIDATION + RELEASE OPEN
 Controller: project-local Sukkos Question Booklet Controller
 
 ## Project identity
@@ -38,16 +38,10 @@ The public artifact has four pages.
 The audience is Grade 5–6.
 The booklet teaches a basic model of what a question is and how to ask one better.
 The Sukkos connection must be holiday-native and perform real educational work.
-The public artifact cannot depend on hidden facilitator intelligence.
-Project work is persisted in Markdown.
-A project-local controller manages routing, state, provenance, and change impact.
+The public artifact cannot depend on hidden facilitator in## Current unfinished work — derived from the live state
 
-## Current OPEN coordinates
-
-The exact student-facing question decomposition is not locked.
-The exact Page 1 phenomenon is not locked.
-The Page 2 Jewish operation and exact source set are not locked.
-The Sukkos embodiment is not locked.
+[CURRENT_STATE.md](CURRENT_STATE.md) is the current project-status owner. The question decomposition, page route, source lock, exact student copy and visual master are now populated/locked relative to their explicit current scopes. Production remains incomplete: four-page rendering, page-level QA, whole-booklet QA, empirical learner validation and release remain OPEN. Do not follow the historical bootstrap coordinates below as live questions, or reopen conceptual architecture without a result-sensitive defect and the owning change gate.
+t locked.
 The visual master is not locked.
 Exact student-facing copy is not locked.
 The final Page 4 transfer activity is not locked.
