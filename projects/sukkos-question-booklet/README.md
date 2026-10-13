@@ -66,3 +66,7 @@ The [Reaserch Education Learning Science Web](https://github.com/thytabakman-jpg
 ## Project-specific source web
 
 [Project source web](PROJECT_WEB.json) lists the native goal, current-state, source, student-copy and acceptance owners, plus independent education research connections. This is a navigation projection only; all version selection, QA and release decisions remain controlled by the existing native files.
+
+## Education portfolio link
+
+[All separately owned booklet projects](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/education-packets/booklet-projects/README.md) lists this native project alongside other teaching booklets. Its registry is navigation only; this project's goal, source, exact copy, current state, render and acceptance remain controlled by the files above.
