@@ -45,8 +45,8 @@ def assess_level4(packet):
         if refs(local_refs):
             audit_prefixes=("audit:","report:","historical:","validation:","provenance:")
             if all(str(ref).lower().startswith(audit_prefixes)
-                   or "/audits/" in str(ref).lower()
-                   or "/validation/" in str(ref).lower()
+                   or "/audits/" in ("/" + str(ref).lower().lstrip("./"))
+                   or "/validation/" in ("/" + str(ref).lower().lstrip("./"))
                    for ref in local_refs):
                 issues.append("HISTORICAL_AUDIT_ONLY:"+ident)
         status=residence.get("status")
