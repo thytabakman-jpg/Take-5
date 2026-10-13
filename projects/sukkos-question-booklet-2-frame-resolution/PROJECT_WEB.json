@@ -4,6 +4,7 @@
   "title": "Sukkos question frame resolution",
   "role": "NAVIGATION_ONLY",
   "repository": "Take-5",
+  "repo": "Take-5",
   "root": "projects/sukkos-question-booklet-2-frame-resolution/",
   "current_state": "projects/sukkos-question-booklet-2-frame-resolution/PROJECT_STATE.json",
   "native_owners": {
