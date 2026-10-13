@@ -3,6 +3,24 @@
 Status: CURRENT
 Date: 2026-09-27
 
+## Gate navigation
+
+- [G01 Project identity](#g01-project-identity)
+- [G02 Architecture integrity](#g02-architecture-integrity)
+- [G03 Question mathematics](#g03-question-mathematics)
+- [G04 Student compression](#g04-student-compression)
+- [G05 Is/ought boundary](#g05-isought-boundary)
+- [G06 Jewish operation](#g06-jewish-operation)
+- [G07 Sukkos source fidelity](#g07-sukkos-source-fidelity)
+- [G08 Holiday-specific surplus](#g08-holiday-specific-surplus)
+- [G09 Activity enactment](#g09-activity-enactment)
+- [G10 Independent transfer](#g10-independent-transfer)
+- [G11 Copy fidelity](#g11-copy-fidelity)
+- [G12 Visual system](#g12-visual-system)
+- [G13 Render fidelity](#g13-render-fidelity)
+- [G14 Classroom mechanism](#g14-classroom-mechanism)
+- [G15 Release](#g15-release)
+
 Gate states:
 PASS
 OPEN
