@@ -21,9 +21,13 @@ The goal is distinct from constraints.
 
 Current protected constraints include four public pages, Grade 5–6 accessibility, one-session usability, no hidden facilitator bridge, real intellectual work from mathematics or logic, explicit is/ought boundary, meaningful Sukkos surplus, source/interpretation/application separation, independent Page 4 transfer, durable Markdown state, and localized change control.
 
-## Not yet frozen
+## Historical bootstrap OPENs and current governing homes
 
-The exact number of student-facing "parts of a question" is not frozen.
-The exact mathematical representation is not frozen.
-The exact Jewish source is not frozen.
-The exact Sukkos practice or object used to embody the model is not frozen.
+At initial goal formation, the number of student-facing question parts, mathematical representation, Jewish source and Sukkos embodiment were not yet frozen. Those four statements are **historical**, not current unresolved design items.
+
+- [QUESTION_MODEL.md](QUESTION_MODEL.md) locks the present student projection (Target, Relevant facts, Answer test) relative to the current route.
+- [SOURCE_LOCK.md](SOURCE_LOCK.md) is the current source-set and scope owner.
+- [ROUTE_LOCK.md](ROUTE_LOCK.md) and [ACTIVITY_MODEL.md](ACTIVITY_MODEL.md) own the current question activity and Sukkos application.
+- [CURRENT_STATE.md](CURRENT_STATE.md) continues to govern render, QA, classroom validation and release status. Reopening requires a documented result-sensitive change, not this old bootstrap list.
+
+The high-level learner goal and its protected constraints above are unchanged.
