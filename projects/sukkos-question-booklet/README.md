@@ -38,13 +38,15 @@ The public artifact has four pages.
 The audience is Grade 5–6.
 The booklet teaches a basic model of what a question is and how to ask one better.
 The Sukkos connection must be holiday-native and perform real educational work.
-The public artifact cannot depend on hidden facilitator in## Current unfinished work — derived from the live state
+The public artifact cannot depend on hidden facilitator instructions.
 
-[CURRENT_STATE.md](CURRENT_STATE.md) is the current project-status owner. The question decomposition, page route, source lock, exact student copy and visual master are now populated/locked relative to their explicit current scopes. Production remains incomplete: four-page rendering, page-level QA, whole-booklet QA, empirical learner validation and release remain OPEN. Do not follow the historical bootstrap coordinates below as live questions, or reopen conceptual architecture without a result-sensitive defect and the owning change gate.
-t locked.
-The visual master is not locked.
-Exact student-facing copy is not locked.
-The final Page 4 transfer activity is not locked.
+## Current unfinished work — derived from the live state
+
+[CURRENT_STATE.md](CURRENT_STATE.md) is the current project-status owner. The question decomposition, page route, source lock, exact student copy and visual master are now populated/locked relative to their explicit current scopes.
+
+Production remains incomplete: four-page rendering, page-level QA, whole-booklet QA, empirical learner validation and release are OPEN. Do not follow the historical bootstrap coordinates as live questions or reopen the conceptual architecture without a result-sensitive defect and the owning change gate.
+
+The earlier statements that visual master, exact copy and Page 4 were "not locked" belong to the historical bootstrap, not the current state. They remain available in version history and earlier project records; they are not current instructions.
 
 ## Source inheritance
 
