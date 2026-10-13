@@ -25,3 +25,13 @@ This package organizes the object without becoming a second semantic authority.
 
 Do not overwrite history, decisions, lessons, run evidence, or coverage-cell evidence.
 Current projections may change only through explicit change control and retained lineage.
+
+<!-- FOUR_TOOL_RESEARCH_NETWORK_LINK_20261013 -->
+## Linked scientific research (non-authoritative)
+
+- [ICC118 research home](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/improvement-core/research/icc-research-web/tool-studies/icc118/README.md).
+- [Four-tool research network](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/improvement-core/research/icc-research-web/tool-studies/README.md) · [Directional transfer ledger](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/improvement-core/research/icc-research-web/tool-studies/TRANSFER_LEDGER.md) · [Research admission contract](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/improvement-core/research/icc-research-web/tool-studies/CROSS_TOOL_TRANSFER_CONTRACT.md).
+
+The Reaserch completion-enforcer CTIR is a later configured successor, not retroactive proof of the historical Take-5 ICC-118 identity.
+
+These research links do not change this package's identity, status, configured semantics, runtime or governing authority.
