@@ -1,0 +1,20 @@
+{
+  "schema": "education-booklet-project-web/1",
+  "id": "EDU-SUKKOS-QUESTION-FRAMES",
+  "title": "Sukkos question frame resolution",
+  "role": "NAVIGATION_ONLY",
+  "repository": "Take-5",
+  "root": "projects/sukkos-question-booklet-2-frame-resolution/",
+  "current_state": "projects/sukkos-question-booklet-2-frame-resolution/PROJECT_STATE.json",
+  "native_owners": {
+    "goal": "projects/sukkos-question-booklet-2-frame-resolution/GOAL.md",
+    "source": "projects/sukkos-question-booklet-2-frame-resolution/SOURCE_LOCK.md",
+    "route": "projects/sukkos-question-booklet-2-frame-resolution/FOUR_PAGE_ARCHITECTURE.md",
+    "copy": "projects/sukkos-question-booklet-2-frame-resolution/EXACT_COPY.md",
+    "assessment": "projects/sukkos-question-booklet-2-frame-resolution/VERIFICATION.md",
+    "dependency": "projects/sukkos-question-booklet-2-frame-resolution/DEPENDENCIES.md"
+  },
+  "research_bridge": "Reaserch:projects/curriculum-design-research/research-web/instructional-design-research/objects/QUESTION_MODEL_CROSS_PROJECT_COMPARISON_2026_10_13.md",
+  "status": "RESOLVE_FROM_NATIVE_PROJECT_STATE",
+  "preserve": "Independent from the first Sukkos question booklet. Do not merge ASSUMES/OPENS/SETTLES with TARGET/FACTS/ANSWER_TEST or promote historical renders."
+}
