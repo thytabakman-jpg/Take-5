@@ -259,3 +259,8 @@ This research episode closes only when:
 - the next falsifiable experiment is explicit.
 
 Those conditions are met by this artifact.
+
+<!-- ICC27_RESEARCH_EXTRACTION_LINK_20261013 -->
+## Scientific research extraction (2026-10-13)
+
+[ICC123-06 research packet](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/improvement-core/research/icc-research-web/source-intake/ICC123-06.md) records reusable scientific interpretation, source limits and falsifiable tests. [Source-intake index](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/improvement-core/research/icc-research-web/source-intake/README.md) provides scientific navigation. This dated original remains the authoritative holder of its full research, historical evidence and validation; this link does not imply current runtime execution or historical identity promotion.

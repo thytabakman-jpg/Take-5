@@ -149,3 +149,8 @@ Excluded:
 - generic project/tool infrastructure with no result-sensitive relation to this question.
 
 This prevents number-based false positives while keeping the explicit historical package exhaustive.
+
+<!-- ICC27_RESEARCH_EXTRACTION_LINK_20261013 -->
+## Scientific research extraction (2026-10-13)
+
+[ICC118-03 research packet](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/improvement-core/research/icc-research-web/source-intake/ICC118-03.md) records reusable scientific interpretation, source limits and falsifiable tests. [Source-intake index](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/improvement-core/research/icc-research-web/source-intake/README.md) provides scientific navigation. This dated original remains the authoritative holder of its full research, historical evidence and validation; this link does not imply current runtime execution or historical identity promotion.

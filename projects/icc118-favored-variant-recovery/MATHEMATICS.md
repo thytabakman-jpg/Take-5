@@ -225,3 +225,8 @@ This mathematics is a 2026-09-27 successor reconstruction of the behavior the us
 sought under the "118" label.
 
 It is not evidence that one historical ICC118 formal object already had this exact equation.
+
+<!-- ICC27_RESEARCH_EXTRACTION_LINK_20261013 -->
+## Scientific research extraction (2026-10-13)
+
+[ICC118-01 research packet](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/improvement-core/research/icc-research-web/source-intake/ICC118-01.md) records reusable scientific interpretation, source limits and falsifiable tests. [Source-intake index](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/improvement-core/research/icc-research-web/source-intake/README.md) provides scientific navigation. This dated original remains the authoritative holder of its full research, historical evidence and validation; this link does not imply current runtime execution or historical identity promotion.

@@ -401,3 +401,8 @@ map, mechanism, goal, unresolved integration item, or status-changing discovery 
 is converted into a candidate Work/currentness object.
 
 This is the next ICC-123 target.
+
+<!-- ICC27_RESEARCH_EXTRACTION_LINK_20261013 -->
+## Scientific research extraction (2026-10-13)
+
+[ICC123-07 research packet](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/improvement-core/research/icc-research-web/source-intake/ICC123-07.md) records reusable scientific interpretation, source limits and falsifiable tests. [Source-intake index](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/improvement-core/research/icc-research-web/source-intake/README.md) provides scientific navigation. This dated original remains the authoritative holder of its full research, historical evidence and validation; this link does not imply current runtime execution or historical identity promotion.

@@ -169,3 +169,8 @@ Closure requires:
 - unresolved conflicts remain durably reenterable;
 - no material consequence lives only in chat prose;
 - a prospective new-chat test demonstrates currentness plus endogenous continuation.
+
+<!-- ICC27_RESEARCH_EXTRACTION_LINK_20261013 -->
+## Scientific research extraction (2026-10-13)
+
+[ICC123-08 research packet](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/improvement-core/research/icc-research-web/source-intake/ICC123-08.md) records reusable scientific interpretation, source limits and falsifiable tests. [Source-intake index](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/improvement-core/research/icc-research-web/source-intake/README.md) provides scientific navigation. This dated original remains the authoritative holder of its full research, historical evidence and validation; this link does not imply current runtime execution or historical identity promotion.
