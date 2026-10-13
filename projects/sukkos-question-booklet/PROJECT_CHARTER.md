@@ -1,6 +1,6 @@
 # Project Charter
 
-Status: CURRENT BOOTSTRAP AUTHORITY
+Status: CURRENT PROJECT CHARTER (initially issued at bootstrap; current build status is separately owned by CURRENT_STATE.md)
 Authority: project purpose, scope, constraints, and success frame
 
 ## Purpose
@@ -18,7 +18,7 @@ Facilitator role: logistics, safety, timing, and conversation process only. Requ
 
 At the end of the booklet, a learner can take a vague or incomplete question and improve it by identifying the information target and the conditions that make the question answerable.
 
-The exact student-facing decomposition remains OPEN until QUESTION_MODEL.md closes it.
+The initial bootstrap decomposition was OPEN pending QUESTION_MODEL.md. The current [Question Model](QUESTION_MODEL.md) locks the student projection (Target / Relevant facts / Answer test) relative to its route; [CURRENT_STATE.md](CURRENT_STATE.md) governs present rendering, QA, validation and release status. This historical charter condition is not a live instruction to reopen the decomposition.
 
 ## Holiday requirement
 
