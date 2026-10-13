@@ -58,3 +58,9 @@ Legacy booklet evidence lives primarily in thytabakman-jpg/Reaserch/projects/jew
 Current tool mathematics and controller evidence live in thytabakman-jpg/Take-5/.
 
 See SOURCE_MAP.md.
+
+
+<!-- EDUCATION_CROSS_REPO_RESEARCH_20261013 -->
+## Independent educational research connection
+
+The [Reaserch Education Learning Science Web](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/curriculum-design-research/research-web/README.md) studies question framing, instructional dependencies, learner evidence and agency as source-grounded research questions. The [research/practice handoff](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/curriculum-design-research/research-web/RESEARCH_PRACTICE_HANDOFF.md) and [Take-5 source inventory](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/curriculum-design-research/research-web/EDUCATION_CROSS_REPOSITORY_SOURCE_INDEX.md) are non-authoritative cross-links. This project's own CURRENT_STATE, GOAL, SOURCE_LOCK, EXACT_COPY, VISUAL_MASTER, classroom and acceptance files remain controlling; no external research result changes them or certifies render/QA.
