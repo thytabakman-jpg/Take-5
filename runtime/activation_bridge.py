@@ -64,14 +64,25 @@ def bind(selection:Selection, *, program_id:str|None=None, target_id:str|None=No
                           f"{selection.episode}:{selection.selection_id}:{p}",observation_only=obs)
 
 def activation_complete(selection:Selection,binding:BindingReceipt,execution:ExecutionReceipt)->bool:
+    # A receipt must describe the same selected job, target, authority, and episode.
+    # Matching a contract string alone cannot certify a different execution.
     return (
-        binding.episode==selection.episode
-        and binding.selection_id==selection.selection_id
-        and binding.program_id==selection.program_id
-        and binding.authority_out <= binding.authority_in
-        and execution.contract_id==binding.contract_id
-        and execution.dispatched and execution.started and execution.executed
-        and execution.result_captured and execution.consumed
+        binding.status == "BOUND"
+        and binding.episode == selection.episode
+        and binding.selection_id == selection.selection_id
+        and binding.program_id == selection.program_id
+        and binding.target_id == selection.target_id
+        and binding.job == selection.job
+        and binding.authority_in == selection.authority
+        and binding.authority_out <= selection.authority
+        and (not selection.observation_only or binding.observation_only is True)
+        and binding.contract_id == f"{selection.episode}:{selection.selection_id}:{selection.program_id}"
+        and execution.episode == selection.episode
+        and execution.contract_id == binding.contract_id
+        and execution.failure_stage is None
+        and all(getattr(execution, field) is True for field in (
+            "dispatched", "started", "executed", "result_captured", "consumed"
+        ))
     )
 
 def execution_stage(r:ExecutionReceipt)->Stage:
