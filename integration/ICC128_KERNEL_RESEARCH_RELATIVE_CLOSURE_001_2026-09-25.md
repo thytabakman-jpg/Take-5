@@ -200,3 +200,8 @@ No, not globally.
 Yes, this kernel-research episode is at a valid relative stopping point.
 
 The remaining work is explicit, typed, durable, and reenterable rather than hidden behind a false completion claim.
+
+<!-- ICC27_RESEARCH_EXTRACTION_LINK_20261013 -->
+## Scientific research extraction (2026-10-13)
+
+[ICC128-04 research packet](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/improvement-core/research/icc-research-web/source-intake/ICC128-04.md) records the reusable source-specific scientific findings, evidence status and falsifiable checks. [Twenty-seven-source research intake](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/improvement-core/research/icc-research-web/source-intake/README.md) links the research web. This source remains the full historical/evidence owner and is not converted into a current runtime or Level certificate.

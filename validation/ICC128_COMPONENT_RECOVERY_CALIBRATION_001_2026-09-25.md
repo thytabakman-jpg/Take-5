@@ -292,3 +292,8 @@ The baseline artifact remains unchanged during that process.
 Adopt this audit pattern as the calibration standard before applying the same process to MTA, PD, Goal, Architect, or ICC itself.
 
 The next high-value target after calibration is MTA because its unresolved components are precisely the kind this method is designed to expose.
+
+<!-- ICC27_RESEARCH_EXTRACTION_LINK_20261013 -->
+## Scientific research extraction (2026-10-13)
+
+[ICC128-06 research packet](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/improvement-core/research/icc-research-web/source-intake/ICC128-06.md) records the reusable source-specific scientific findings, evidence status and falsifiable checks. [Twenty-seven-source research intake](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/improvement-core/research/icc-research-web/source-intake/README.md) links the research web. This source remains the full historical/evidence owner and is not converted into a current runtime or Level certificate.

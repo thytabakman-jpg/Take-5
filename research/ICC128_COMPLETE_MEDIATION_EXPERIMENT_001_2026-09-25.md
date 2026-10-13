@@ -432,3 +432,8 @@ E6 K_law externalizability: BLOCKED BY E5 + B4.
 E7 OPEN preservation: SATISFIED.
 
 This experiment therefore closes RELATIVE to the question "is complete mediation already established?" with answer NO/NOT ESTABLISHED, while reentering on state-role typing and historical protected-witness recovery.
+
+<!-- ICC27_RESEARCH_EXTRACTION_LINK_20261013 -->
+## Scientific research extraction (2026-10-13)
+
+[ICC128-01 research packet](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/improvement-core/research/icc-research-web/source-intake/ICC128-01.md) records the reusable source-specific scientific findings, evidence status and falsifiable checks. [Twenty-seven-source research intake](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/improvement-core/research/icc-research-web/source-intake/README.md) links the research web. This source remains the full historical/evidence owner and is not converted into a current runtime or Level certificate.

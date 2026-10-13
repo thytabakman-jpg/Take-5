@@ -328,3 +328,8 @@ This repair episode is closed relative to the recovered current basis because B1
 Future ASSERT reentry is triggered by a new material witness, a regression, a new post-cutover legacy change, or a new result-sensitive residual.
 
 A new future discovery reopens only its affected dependency cone.
+
+<!-- ICC27_RESEARCH_EXTRACTION_LINK_20261013 -->
+## Scientific research extraction (2026-10-13)
+
+[ICC128-05 research packet](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/improvement-core/research/icc-research-web/source-intake/ICC128-05.md) records the reusable source-specific scientific findings, evidence status and falsifiable checks. [Twenty-seven-source research intake](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/improvement-core/research/icc-research-web/source-intake/README.md) links the research web. This source remains the full historical/evidence owner and is not converted into a current runtime or Level certificate.

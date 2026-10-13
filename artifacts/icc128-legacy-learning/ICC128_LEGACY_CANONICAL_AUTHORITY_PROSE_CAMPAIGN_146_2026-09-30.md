@@ -125,3 +125,8 @@ This report is the persistent learning artifact.
 Within-run learned controller memory is not promoted into the frozen Legacy
 snapshot. A later Legacy activation starts fresh and may retrieve this report as
 external retained evidence.
+
+<!-- ICC27_RESEARCH_EXTRACTION_LINK_20261013 -->
+## Scientific research extraction (2026-10-13)
+
+[ICC128-13 research packet](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/improvement-core/research/icc-research-web/source-intake/ICC128-13.md) records the reusable source-specific scientific findings, evidence status and falsifiable checks. [Twenty-seven-source research intake](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/improvement-core/research/icc-research-web/source-intake/README.md) links the research web. This source remains the full historical/evidence owner and is not converted into a current runtime or Level certificate.
