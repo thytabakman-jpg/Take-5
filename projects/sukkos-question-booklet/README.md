@@ -60,3 +60,5 @@ See SOURCE_MAP.md.
 ## Independent educational research connection
 
 The [Reaserch Education Learning Science Web](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/curriculum-design-research/research-web/README.md) studies question framing, instructional dependencies, learner evidence and agency as source-grounded research questions. The [research/practice handoff](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/curriculum-design-research/research-web/RESEARCH_PRACTICE_HANDOFF.md) and [Take-5 source inventory](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/curriculum-design-research/research-web/EDUCATION_CROSS_REPOSITORY_SOURCE_INDEX.md) are non-authoritative cross-links. This project's own CURRENT_STATE, GOAL, SOURCE_LOCK, EXACT_COPY, VISUAL_MASTER, classroom and acceptance files remain controlling; no external research result changes them or certifies render/QA.
+
+[Archived v1 identity review](ARCHIVED_V1_IDENTITY_REVIEW.md) is historical source evidence, not the current project controller.
