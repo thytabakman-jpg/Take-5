@@ -27,3 +27,14 @@ to make the folder look complete.
 - Native evidence surfaces are [runs](runs/README.md), [evidence](evidence/README.md), [coverage](coverage/README.md) and [history](history/README.md); a file link is not proof that configured execution or certification passed.
 
 **Owner boundary:** Do not copy mathematical truth between repositories or infer current runtime promotion from this source map. Mark unresolved mismatches OPEN and check the specialist owner.
+
+
+<!-- ICC128_RESEARCH_BRIDGE_20261013 -->
+## Connected independent scientific research
+
+- [Reaserch ICC-128 source-populated research web](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/improvement-core/research/icc-research-web/README.md) provides component and interaction Mathematics, Logic, Philosophy and three geometry perspectives per family.
+- [Typed research relationships](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/improvement-core/research/icc-research-web/relations/README.md) and [research-to-tool handoff](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/improvement-core/research/icc-research-web/RESEARCH_TOOL_HANDOFF.md) connect questions, falsifiers, and source evidence to this configured tool.
+- [Scientific source and dismantling inventory](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/improvement-core/research/icc-research-web/SOURCE_ADMISSION_AND_DISMANTLING.md) preserves source authority and explains why native mathematical and operational originals remain.
+- [ICC123/ICC118 bounded review](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/improvement-core/research/icc-research-web/COMPLETION_REVIEW.md) distinguishes documentary population from executable tool acceptance.
+
+**Authority guard:** This is derived navigation, not a new configured runtime, mathematical proof, host interception claim, or automatic two-way data synchronization. Take-5 current configured ICC128, Reaserch semantic ICC-128 and separate current/legacy variant identities remain distinct until actually reconciled and tested. A source-backed research finding is a candidate for authorized improvement, not an applied change.
