@@ -9,7 +9,12 @@ open-ended question generation with hard-coded rules.
 """
 from __future__ import annotations
 from dataclasses import dataclass, field, asdict
-from typing import Any, Protocol, Sequence
+from typing import Any, Callable, Mapping, Protocol, Sequence
+
+from controller_tool_conductor import (
+    attach_consultation,
+    consult_registered_repertoire,
+)
 
 TERMINAL={"COMPLETE","OPEN","BLOCKED","CONFLICT"}
 
@@ -33,6 +38,7 @@ class DiscoveryClosure(Protocol):
 class ICC128Trace:
     iteration:int
     questions:list[dict[str,Any]]
+    tool_conductor:dict[str,Any]
     work:list[dict[str,Any]]
     selected:list[dict[str,Any]]
     results:list[dict[str,Any]]
@@ -52,6 +58,8 @@ class ICC128Controller:
     dcc: DiscoveryClosure | None = None
     max_iterations:int=64
     traces:list[ICC128Trace]=field(default_factory=list)
+    tool_conductor_adapters:Mapping[str,Callable]=field(default_factory=dict)
+    tool_conductor_runner:Callable[...,dict[str,Any]]|None=None
 
     def run(self,state:dict[str,Any],memory:dict[str,Any])->dict[str,Any]:
         z=dict(state); mi=dict(memory)
@@ -65,6 +73,25 @@ class ICC128Controller:
             admitted_continuation=bool(z.get("admitted_continuation",False))
             if admitted_continuation and not q:
                 raise RuntimeError("ICC128_LIVENESS_FAILURE:G_Q_empty_with_admitted_continuation")
+
+            # Mandatory complete-repertoire consultation before work generation.
+            conductor_packet={**z,"icc_questions":tuple(q)}
+            conductor_kwargs={
+                "active_controller":"ICC128",
+                "adapters":self.tool_conductor_adapters,
+            }
+            if self.tool_conductor_runner is not None:
+                conductor_kwargs["conductor_runner"]=self.tool_conductor_runner
+            conductor=consult_registered_repertoire(
+                conductor_packet,
+                **conductor_kwargs,
+            )
+            z=attach_consultation(z,conductor)
+            if not conductor.coverage_complete:
+                raise RuntimeError(
+                    "ICC128_TOOL_CONDUCTOR_COVERAGE_FAILURE:"
+                    +(conductor.blocker or "OPEN")
+                )
 
             # G_W
             w=self.gw(q,z,mi)
@@ -96,7 +123,8 @@ class ICC128Controller:
             terminal2=str(z2.get("terminal","CONTINUE"))
 
             self.traces.append(ICC128Trace(
-                iteration=i,questions=q,work=w,selected=selected,results=results,
+                iteration=i,questions=q,tool_conductor=conductor.payload(),
+                work=w,selected=selected,results=results,
                 admitted_delta=delta,state_after=z2,memory_after=mi2,terminal=terminal2
             ))
             z,mi=z2,mi2

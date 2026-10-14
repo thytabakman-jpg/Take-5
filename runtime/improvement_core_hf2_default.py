@@ -46,6 +46,9 @@ _OPERATIONAL_KEYS=frozenset({
     "configured_tool_outputs",
     "configured_tool_bindings",
     "configured_tool_binding_status",
+    "tool_conductor_consultation",
+    "tool_conductor_coverage_status",
+    "tool_conductor_consultation_history",
     "last_stage",
 })
 
@@ -64,6 +67,9 @@ def _pass_input_state(state:dict[str,Any])->dict[str,Any]:
             "configured_tool_outputs",
             "configured_tool_bindings",
             "configured_tool_binding_status",
+            "tool_conductor_consultation",
+            "tool_conductor_coverage_status",
+            "tool_conductor_consultation_history",
             "stage_trace",
             "self_study_stage_trace",
             "last_stage",

@@ -185,7 +185,7 @@ def normalize(raw,state,memory):
 
 
 def test_post_merge_think_big_reentry_closes_remaining_bypasses():
-    assert CURRENT_REGIME.version=="091"
+    assert CURRENT_REGIME.version=="092"
     assert CURRENT_REGIME.default_local_recurrence=="HF002"
 
     hf2=HF002RecursiveContinuation(

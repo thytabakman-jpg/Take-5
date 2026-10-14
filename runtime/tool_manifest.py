@@ -105,6 +105,12 @@ ICC128_BINDINGS=GENERIC_BINDINGS+(
         "tests/test_icc128_current.py",
     ),
     ProtectedBinding(
+        "ICC128_TOOL_CONDUCTOR_PREWORK_CONSULTATION",
+        "INTRA",
+        "runtime/controller_tool_conductor.py",
+        "tests/test_icc128_current.py",
+    ),
+    ProtectedBinding(
         "ICC128_STATE_RELATIVE_SELECTOR",
         "INTRA",
         "runtime/rho128_policy.py",
@@ -148,6 +154,12 @@ IMPROVEMENT_CORE_BINDINGS=GENERIC_BINDINGS+(
         "PRE",
         "runtime/improvement_core_manager.py",
         "tests/test_icc_entry_053_promotion.py",
+    ),
+    ProtectedBinding(
+        "IMPROVEMENTCORE_TOOL_CONDUCTOR_PRESELECTION_CONSULTATION",
+        "INTRA",
+        "runtime/controller_tool_conductor.py",
+        "tests/test_improvement_core_manager.py",
     ),
     ProtectedBinding(
         "IMPROVEMENTCORE_OBSERVER_FIRST_MODE",
