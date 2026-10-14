@@ -38,6 +38,12 @@ class ProjectObjectDisposition:
     local_patch_available:bool=True
     reverified:bool=False
     resume_condition:str|None=None
+    # Exact object/generation identity is independently bound by the caller.
+    # Missing evidence is never repaired by guessing from a display name.
+    object_identity:str=""
+    built_generation:str=""
+    latest_generation:str=""
+    identity_verified:bool=False
 
 
 @dataclass(frozen=True)
@@ -83,6 +89,10 @@ def affected_cone(changed_objects:Iterable[str],dependency_graph:Mapping[str,Ite
 def _manual_receipt(obj:ProjectObjectDisposition,*,status:Currentness,action:str)->CurrentnessReceipt:
     return CurrentnessReceipt(
         component=obj.object_id,
+        object_identity=obj.object_identity,
+        built_generation=obj.built_generation,
+        latest_generation=obj.latest_generation,
+        identity_verified=obj.identity_verified,
         built_basis=obj.built_basis,
         latest_basis=obj.latest_basis,
         protected=tuple(obj.protected),
@@ -108,6 +118,10 @@ def _currentness_receipt(obj:ProjectObjectDisposition)->CurrentnessReceipt:
         return _manual_receipt(obj,status=Currentness.OPEN,action="BASIS_MISMATCH_WITHOUT_DELTA")
     return assess_currentness(
         component=obj.object_id,
+        object_identity=obj.object_identity,
+        built_generation=obj.built_generation,
+        latest_generation=obj.latest_generation,
+        identity_verified=obj.identity_verified,
         built_basis=obj.built_basis,
         latest_basis=obj.latest_basis,
         protected=obj.protected,
@@ -122,8 +136,13 @@ def _currentness_receipt(obj:ProjectObjectDisposition)->CurrentnessReceipt:
 
 
 def _currentness_closed(receipt:CurrentnessReceipt)->bool:
+    if not (receipt.identity_verified and receipt.object_identity and
+            receipt.built_generation and receipt.latest_generation):
+        return False
     return (
-        receipt.status in {Currentness.CURRENT,Currentness.SUPERSEDED}
+        (receipt.status==Currentness.CURRENT and
+         receipt.built_generation==receipt.latest_generation)
+        or receipt.status==Currentness.SUPERSEDED
         or (receipt.status==Currentness.PATCH and receipt.reverified)
     )
 
