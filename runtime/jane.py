@@ -6,6 +6,7 @@ guarded ICC128 continuity handoff. Neither facade owns substantive selection
 or authenticates external host currentness.
 """
 from dataclasses import dataclass
+from collections.abc import Mapping
 from capability_router import coverage
 from delegation_officer import plan_delegation
 from entry_contract import bind_entry_contract, entry_is_bound
@@ -85,6 +86,8 @@ def begin_icc128_turn(user_text, *, target, job, basis, currentness,
     It does not grant Jane substantive selection, authenticate external host
     ingress, or replace the historical begin_turn compatibility interface.
     """
+    if not isinstance(currentness, Mapping):
+        raise RuntimeError("JANE_CURRENTNESS_MAPPING_REQUIRED")
     packet, _ = recover_turn_continuity(
         currentness,
         protected_behaviors=protected_behaviors,
