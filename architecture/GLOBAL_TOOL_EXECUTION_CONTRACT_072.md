@@ -79,3 +79,8 @@ tests/test_global_tool_execution.py verifies every registered material tool, not
 ## Host boundary
 
 Repository enforcement cannot force an unrelated host or chat surface that bypasses the repository entirely. Any host integration claiming Take-5 configured-tool execution must bind through this contract or remain OPEN/BLOCKED as an integration defect.
+
+<!-- 36_FACE_SCIENTIFIC_BOUNDARY_20261014 -->
+## Research versus actual execution
+
+The [source-grounded C36 research home](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/improvement-core/research/icc-research-web/system-interaction-research/mathematics/C36_SCOPE_MODE_FACE_MATHEMATICS.md) owns scientific questions about six scope faces and typed distinctions, not configured execution. C36 is Scope × ModeFace; its count of 36 coverage addresses must never be mistaken for H36 directed scope handoffs, 36 distinct tools, or 36 successful material executions. This contract and the registered native runtime remain the working execution authorities. The knowledge-web crosslink carries provenance only, not permission to skip effect receipts or host verification.
