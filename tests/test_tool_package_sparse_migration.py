@@ -91,6 +91,35 @@ def test_existing_markdown_reader_is_recorded_before_compaction(one_cell):
     assert path.is_file()  # a plan must not touch either source or consumer
 
 
+def test_sparse_core_projection_preserves_curated_substance_and_originals(one_cell):
+    root, spec, idx, scope, mode, page = one_cell
+    folder = page.parent.parent
+    manifest = folder / "MANIFEST.md"
+    regression = folder / "REGRESSION_CONTRACT.md"
+    index = page.parent / "README.md"
+    name = page.name
+    manifest.write_text(
+        "# Manifest\\nCoverage cells: 36\\n## Coverage pages\\n"
+        f"- [coverage/{name}](coverage/{name})\\n## Curated proof of identity\\nunchanged\\n",
+        encoding="utf-8",
+    )
+    regression.write_text(
+        "- exactly 36 Scope x ModeFace coverage pages exist\\n"
+        "## Native protected invariants\\nnever overwrite authored findings\\n",
+        encoding="utf-8",
+    )
+    index.write_text(f"- [{idx:02d} {mode.value}](./{name})\\n", encoding="utf-8")
+    before = [p.read_bytes() for p in (manifest, regression, index)]
+    edits = sparse.proposed_sparse_core_updates(root)
+    assert "## Reserved logical coverage coordinates" in edits[str(manifest.relative_to(root))]
+    assert f"- coverage/{name}" in edits[str(manifest.relative_to(root))]
+    assert "## Curated proof of identity\\nunchanged" in edits[str(manifest.relative_to(root))]
+    assert "## Native protected invariants" in edits[str(regression.relative_to(root))]
+    assert "physical cell files are reserved for admitted evidence" in edits[str(regression.relative_to(root))]
+    assert "reserved logical coordinate" in edits[str(index.relative_to(root))]
+    assert [p.read_bytes() for p in (manifest, regression, index)] == before
+
+
 def test_frozen_repository_coverage_scan_precedes_deletion():
     """Run directly in a full checkout; never interpret a partial corpus as safe."""
     root = Path(__file__).resolve().parents[1]
