@@ -149,3 +149,30 @@ def test_discovery_only_wrapper_round_notifies_jane_without_target_mutation():
     assert "discovery_delta" in fields
     assert not target_mutated
     assert fingerprints_equal
+
+
+def test_unadmitted_open_discovery_cannot_be_synchronized_as_admitted():
+    binding, _ = begin_icc128_turn(
+        "ICC observe", target="research-system", job="repair-continuity",
+        basis="Take-5/main", currentness=_currentness(),
+    )
+    result = run_math_first_wrapper(
+        binding,
+        {"answer": "stable"}, {"received": ()},
+        bootstrap_fn=_bootstrap,
+        observe_fn=lambda s, b: s,
+        formalize_fn=lambda o, b: {"fixed": 1},
+        goal_fn=lambda m, b: "preserve-answer",
+        architect_fn=lambda m, g, s, b: {"obligations": []},
+        ic_fn=lambda p: dict(p),
+        closure_fn=lambda p, i, a: DiscoveryClosure(
+            dict(p), Cert("OPEN"), DiscoveryDelta(view_changed=True)
+        ),
+        update_fn=lambda p, c: c.state,
+        jane_update_fn=lambda j, delta: {"received": (delta.changed,)},
+        result_fn=lambda s: s["answer"],
+    )
+    assert result.status == "OPEN"
+    assert result.state == {"answer": "stable"}
+    assert not result.rounds[0].jane_synced
+    assert result.jane_state == {"received": ()}
