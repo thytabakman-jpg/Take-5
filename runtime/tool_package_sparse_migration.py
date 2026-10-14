@@ -14,7 +14,7 @@ import re
 
 from tool_project_packages import (
     all_project_specs, package_relroot, coverage_cells, coverage_name,
-    render_coverage_cell,
+    render_coverage_cell, SPARSE_COVERAGE_PILOT,
 )
 
 PACKAGE_ROOT = Path("projects/tool-system")
@@ -60,8 +60,12 @@ def audit_coverage(root: Path) -> tuple[CellObservation, ...]:
             file = root / rel
             found.add(fname)
             if not file.is_file():
+                pilot = spec.object_id in SPARSE_COVERAGE_PILOT
                 findings.append(CellObservation(
-                    str(rel), spec.object_id, index, "MISSING", "", "expected cell is absent"))
+                    str(rel), spec.object_id, index,
+                    "VIRTUAL_EMPTY_PILOT" if pilot else "MISSING", "",
+                    "pilot logical slot with no admitted evidence" if pilot
+                    else "expected cell is absent"))
                 continue
             content = file.read_bytes()
             digest = hashlib.sha256(content).hexdigest()
@@ -125,8 +129,9 @@ def proposed_sparse_core_updates(root: Path) -> dict[str, str]:
         text = (root / manifest).read_text(encoding="utf-8")
         if "Coverage cells: 36" not in text:
             raise ValueError(f"MISSING_36_COORDINATE_IDENTITY:{manifest}")
-        if "## Coverage pages" not in text:
-            raise ValueError(f"MISSING_OLD_MANIFEST_HEADING:{manifest}")
+        if ("## Coverage pages" not in text and
+            "## Reserved logical coverage coordinates" not in text):
+            raise ValueError(f"MISSING_MANIFEST_COVERAGE_HEADING:{manifest}")
         text = text.replace("## Coverage pages",
                             "## Reserved logical coverage coordinates (36; physical pages optional)")
         for index, scope, face in coverage_cells():
@@ -166,7 +171,7 @@ def candidate_plan(root: Path) -> dict:
     """Lossless plan: only exact blank templates qualify for future retirement."""
     rows = audit_coverage(root)
     dispositions = {name: sum(r.disposition == name for r in rows)
-                    for name in ("EMPTY_TEMPLATE", "PRESERVE", "MISSING", "UNKNOWN_CELL")}
+                    for name in ("EMPTY_TEMPLATE", "VIRTUAL_EMPTY_PILOT", "PRESERVE", "MISSING", "UNKNOWN_CELL")}
     readers = affected_markdown_readers(root, (r.path for r in rows if r.disposition == "EMPTY_TEMPLATE"))
     return {
         "status": "CANDIDATE_ONLY_GOAL_CHANGE_APPROVAL_REQUIRED",
@@ -176,6 +181,8 @@ def candidate_plan(root: Path) -> dict:
         "dispositions": dispositions,
         "candidate_empty_file_paths": [r.path for r in rows
                                        if r.disposition == "EMPTY_TEMPLATE"],
+        "virtual_empty_pilot_paths": [r.path for r in rows
+                                      if r.disposition == "VIRTUAL_EMPTY_PILOT"],
         "protected_paths": [r.path for r in rows
                             if r.disposition in {"PRESERVE", "UNKNOWN_CELL"}],
         "missing_coordinates": [r.path for r in rows
@@ -198,6 +205,7 @@ def main() -> None:
     if args.summary_only:
         plan.pop("candidate_empty_file_paths")
         plan.pop("protected_paths")
+        plan.pop("virtual_empty_pilot_paths")
         plan.pop("missing_coordinates")
     print(json.dumps(plan, indent=2))
 
