@@ -39,6 +39,16 @@ to make the folder look complete.
 
 **Authority guard:** This is derived navigation, not a new configured runtime, mathematical proof, host interception claim, or automatic two-way data synchronization. Take-5 current configured ICC128, Reaserch semantic ICC-128 and separate current/legacy variant identities remain distinct until actually reconciled and tested. A source-backed research finding is a candidate for authorized improvement, not an applied change.
 
+## Exact ICC128 controller implementation routes (2026-10-14)
+
+This section documents **the two existing implementations**, not an equivalence claim or a new controller. These are operational controller source files, **not ICC research files**.
+
+- **Take-5 configured entry** — [`runtime/icc_entry.py`](../../../../runtime/icc_entry.py) constructs the current [`ICC128EpisodeAdapter`](../../../../runtime/icc128_episode_adapter.py) after its ASSERT/GOAL wrapper. Its direct [Take-5 controller substrate](../../../../runtime/icc128_autonomous_controller.py) implements `G_Q → G_W → S → E → A → U → G_Q` and is protected by [`tests/test_icc128_current.py`](../../../../tests/test_icc128_current.py), [`runtime/tool_manifest.py`](../../../../runtime/tool_manifest.py), and [`runtime/tool_run_registry.py`](../../../../runtime/tool_run_registry.py). Tool Conductor is a distinct shared **configured execution** route, not an interchangeable replacement for this entry.
+- **Reaserch Epic semantic profile** — [`ICC128_EPIC_MODE_CURRENT.yaml`](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/improvement-core/ICC128_EPIC_MODE_CURRENT.yaml) selects [`ICC128_AUTONOMOUS_CONTROLLER_CURRENT.yaml`](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/improvement-core/ICC128_AUTONOMOUS_CONTROLLER_CURRENT.yaml) and the [Reaserch controller implementation](https://github.com/thytabakman-jpg/Reaserch/blob/main/runtime/icc128_autonomous_controller.py). That implementation additionally has a successor-question closure probe, ordered campaign obligations, recovery boundaries and repair-continuation controls; it uses independently owned [Reaserch continuity code](https://github.com/thytabakman-jpg/Reaserch/blob/main/runtime/icc128_resumable_execution.py). The Epic profile defines a mode, not proof that the ChatGPT host or Take-5's configured entry invokes that implementation.
+- **Relation type** — `SAME_HISTORICAL_CONTROLLER_FAMILY / CURRENT_IMPLEMENTATIONS_NONIDENTICAL / CROSS_REPOSITORY_BEHAVIORAL_EQUIVALENCE_OPEN`. The files are **not** safe duplicate-retirement candidates. Confirm native test parity, imports, consumer routes, state transitions, completion and checkpoint behavior before replacing either one or installing the ICC129 successor alias. Historical [ICC128 Legacy](../../../../legacy/icc128-legacy/README.md) keeps separate identity and provenance.
+
+Navigation points to source owners; no source authority is copied into this package and no host-binding or runtime-upgrade receipt is implied.
+
 ## ICC128 four-tool scientific and operational boundaries (navigation only)
 
 - [ICC118 / ICC123 / ICC124 / ICC128 research network](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/improvement-core/research/icc-research-web/tool-studies/README.md) — separate scientific claims and owner identities.
