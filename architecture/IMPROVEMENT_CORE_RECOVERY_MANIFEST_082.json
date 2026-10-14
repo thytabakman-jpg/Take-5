@@ -5,7 +5,7 @@
   "status": "CURRENT",
   "canonical_repository": "thytabakman-jpg/Take-5",
   "controller": "IC-028",
-  "regime_version": "091",
+  "regime_version": "092",
   "invocation": {
     "aliases": [
       "ImproveCore",
@@ -20,7 +20,7 @@
   },
   "regime": {
     "surface": "runtime/improvement_core_regime.py",
-    "version": "091",
+    "version": "092",
     "stage_manager": "runtime/improvement_core_manager.py",
     "operator": "runtime/ic028_operator.py",
     "recursive_manager": "runtime/improvement_core_recursive_manager.py",
