@@ -728,6 +728,12 @@ def project_manager_adapter(current:Any,plan:Any)->dict[str,Any]:
         "known_failure_integrity":asdict(integrity),
         "assessment":asdict(assessment),
         "improvementcore_handoff":asdict(improvementcore_handoff(assessment)),
+        "commit_transaction":{
+            "required":bool(assessment.delta and assessment.delta.status=="READY"),
+            "owner":"ProjectManager",
+            "path":"runtime/project_state_transaction.py",
+            "rule":"AFFECTED_CONE_CURRENTNESS_TRC_COMMIT_ONCE_ICC128_REENTRY",
+        },
     }
     status=assessment.status
     return {
@@ -746,3 +752,38 @@ def project_manager_adapter(current:Any,plan:Any)->dict[str,Any]:
         "related_objects":("ImprovementCore","TransferCore"),
         "dependency_footprint":tuple(CORE_COORDINATES),
     }
+
+
+
+def project_manager_commit_transaction(
+    project:Mapping[str,Any],
+    delta:ProjectDelta,
+    **transaction_kwargs:Any,
+):
+    """Run the sole admitted ProjectManager mutation transaction.
+
+    Observer execution remains non-mutating. A READY ProjectDelta can cross
+    this boundary only while its project fingerprint still matches.
+    """
+    if not isinstance(project,Mapping):
+        raise ProjectManagerError("PROJECT_MAPPING_REQUIRED")
+    if not isinstance(delta,ProjectDelta):
+        raise ProjectManagerError("PROJECT_DELTA_REQUIRED")
+    if delta.status!="READY":
+        raise ProjectManagerError(f"PROJECT_DELTA_NOT_READY:{delta.status}")
+
+    current_fingerprint=project_fingerprint(project)
+    if delta.precondition_fingerprint!=current_fingerprint:
+        raise ProjectManagerError("PROJECT_DELTA_PRECONDITION_STALE")
+
+    from project_state_transaction import run_project_state_transaction
+
+    changed=transaction_kwargs.pop("changed_objects",None)
+    if changed is None:
+        changed=delta.owners or delta.affected_coordinates
+
+    return run_project_state_transaction(
+        project_id=str(project["project_id"]),
+        changed_objects=changed,
+        **transaction_kwargs,
+    )
