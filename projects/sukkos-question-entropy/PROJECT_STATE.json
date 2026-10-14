@@ -1,0 +1,334 @@
+{
+  "project_id": "sukkos-question-entropy",
+  "status": "BACKEND_LOCKED_RELATIVE",
+  "goal_status": "CLOSED_RELATIVE",
+  "frontend_status": "OPEN_BY_DESIGN",
+  "coordinates": {
+    "identity": "CURRENT",
+    "charter": "CURRENT",
+    "goal": "LOCKED_RELATIVE",
+    "scope": "CURRENT",
+    "authority": "CURRENT",
+    "stakeholders": "CURRENT",
+    "deliverables": "CURRENT",
+    "schedule": "CURRENT",
+    "resources": "CURRENT",
+    "dependencies": "CURRENT",
+    "interfaces": "CURRENT",
+    "raid": "CURRENT",
+    "questions": "CURRENT",
+    "evidence": "CURRENT",
+    "decisions": "CURRENT",
+    "lessons": "CURRENT",
+    "changes": "CURRENT",
+    "lifecycle": "CURRENT",
+    "verification": "PASS",
+    "communications": "CURRENT",
+    "handoffs": "CURRENT"
+  },
+  "domain": {
+    "mathematical_core": "LOCKED_RELATIVE",
+    "question_construction": "LOCKED_RELATIVE",
+    "source_lock": "LOCKED_RELATIVE",
+    "four_page_architecture": "LOCKED_RELATIVE",
+    "activity_model": "LOCKED_RELATIVE",
+    "emotional_arc": "DIRECTION_LOCKED",
+    "backend": "LOCKED_RELATIVE",
+    "exact_copy": "OPEN_BY_DESIGN",
+    "visual_master": "NOT_CREATED",
+    "render": "NOT_STARTED"
+  },
+  "sibling_project": "sukkos-question-mutual-information",
+  "shared_mutation_authority": false,
+  "integrity_envelope_scope": "Inherited ProjectManager failure-control and root-invariant infrastructure only; does not certify project frontend, exact copy, visuals, rendering, classroom testing, promotion or global completion. Existing project-specific OPEN states are unchanged.",
+  "failure_controls": {
+    "canonical_authority": {
+      "status": "CURRENT",
+      "owner": "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+      "evidence": [
+        "projects/sukkos-question-entropy/AUTHORITY_REGISTRY.md",
+        "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+        "runtime/project_manager_integrity.py"
+      ],
+      "tests": [
+        "tests/test_project_manager_failure_immunity.py",
+        "tests/test_sukkos_question_entropy_project.py"
+      ]
+    },
+    "state_currentness": {
+      "status": "CURRENT",
+      "owner": "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+      "evidence": [
+        "projects/sukkos-question-entropy/CURRENT_STATE.md",
+        "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+        "runtime/project_manager_integrity.py"
+      ],
+      "tests": [
+        "tests/test_project_manager_failure_immunity.py",
+        "tests/test_sukkos_question_entropy_project.py"
+      ]
+    },
+    "project_entry_continuity": {
+      "status": "CURRENT",
+      "owner": "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+      "evidence": [
+        "projects/sukkos-question-entropy/HANDOFFS.md",
+        "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+        "runtime/project_manager_integrity.py"
+      ],
+      "tests": [
+        "tests/test_project_manager_failure_immunity.py",
+        "tests/test_sukkos_question_entropy_project.py"
+      ]
+    },
+    "goal_scope_object": {
+      "status": "CURRENT",
+      "owner": "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+      "evidence": [
+        "projects/sukkos-question-entropy/GOAL.md",
+        "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+        "runtime/project_manager_integrity.py"
+      ],
+      "tests": [
+        "tests/test_project_manager_failure_immunity.py",
+        "tests/test_sukkos_question_entropy_project.py"
+      ]
+    },
+    "adaptive_planning": {
+      "status": "CURRENT",
+      "owner": "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+      "evidence": [
+        "projects/sukkos-question-entropy/CHANGE_CONTROL.md",
+        "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+        "runtime/project_manager_integrity.py"
+      ],
+      "tests": [
+        "tests/test_project_manager_failure_immunity.py",
+        "tests/test_sukkos_question_entropy_project.py"
+      ]
+    },
+    "ownership_control": {
+      "status": "CURRENT",
+      "owner": "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+      "evidence": [
+        "projects/sukkos-question-entropy/AUTHORITY_REGISTRY.md",
+        "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+        "runtime/project_manager_integrity.py"
+      ],
+      "tests": [
+        "tests/test_project_manager_failure_immunity.py",
+        "tests/test_sukkos_question_entropy_project.py"
+      ]
+    },
+    "execution_truth": {
+      "status": "CURRENT",
+      "owner": "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+      "evidence": [
+        "projects/sukkos-question-entropy/VERIFICATION.md",
+        "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+        "runtime/project_manager_integrity.py"
+      ],
+      "tests": [
+        "tests/test_project_manager_failure_immunity.py",
+        "tests/test_sukkos_question_entropy_project.py"
+      ]
+    },
+    "change_propagation": {
+      "status": "CURRENT",
+      "owner": "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+      "evidence": [
+        "projects/sukkos-question-entropy/CHANGE_CONTROL.md",
+        "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+        "runtime/project_manager_integrity.py"
+      ],
+      "tests": [
+        "tests/test_project_manager_failure_immunity.py",
+        "tests/test_sukkos_question_entropy_project.py"
+      ]
+    },
+    "closure_verification": {
+      "status": "CURRENT",
+      "owner": "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+      "evidence": [
+        "projects/sukkos-question-entropy/VERIFICATION.md",
+        "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+        "runtime/project_manager_integrity.py"
+      ],
+      "tests": [
+        "tests/test_project_manager_failure_immunity.py",
+        "tests/test_sukkos_question_entropy_project.py"
+      ]
+    },
+    "artifact_production": {
+      "status": "CURRENT",
+      "owner": "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+      "evidence": [
+        "projects/sukkos-question-entropy/ARTIFACT_SPEC.md",
+        "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+        "runtime/project_manager_integrity.py"
+      ],
+      "tests": [
+        "tests/test_project_manager_failure_immunity.py",
+        "tests/test_sukkos_question_entropy_project.py"
+      ]
+    },
+    "research_evidence": {
+      "status": "CURRENT",
+      "owner": "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+      "evidence": [
+        "projects/sukkos-question-entropy/EVIDENCE.md",
+        "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+        "runtime/project_manager_integrity.py"
+      ],
+      "tests": [
+        "tests/test_project_manager_failure_immunity.py",
+        "tests/test_sukkos_question_entropy_project.py"
+      ]
+    },
+    "information_architecture": {
+      "status": "CURRENT",
+      "owner": "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+      "evidence": [
+        "projects/sukkos-question-entropy/AUTHORITY_REGISTRY.md",
+        "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+        "runtime/project_manager_integrity.py"
+      ],
+      "tests": [
+        "tests/test_project_manager_failure_immunity.py",
+        "tests/test_sukkos_question_entropy_project.py"
+      ]
+    },
+    "recursive_audit_stopping": {
+      "status": "CURRENT",
+      "owner": "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+      "evidence": [
+        "projects/sukkos-question-entropy/BACKEND_LOCK.md",
+        "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+        "runtime/project_manager_integrity.py"
+      ],
+      "tests": [
+        "tests/test_project_manager_failure_immunity.py",
+        "tests/test_sukkos_question_entropy_project.py"
+      ]
+    },
+    "cross_project_transfer": {
+      "status": "CURRENT",
+      "owner": "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+      "evidence": [
+        "projects/sukkos-question-entropy/DEPENDENCIES.md",
+        "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+        "runtime/project_manager_integrity.py"
+      ],
+      "tests": [
+        "tests/test_project_manager_failure_immunity.py",
+        "tests/test_sukkos_question_entropy_project.py"
+      ]
+    },
+    "concurrency_promotion": {
+      "status": "CURRENT",
+      "owner": "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+      "evidence": [
+        "projects/sukkos-question-entropy/CHANGE_CONTROL.md",
+        "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+        "runtime/project_manager_integrity.py"
+      ],
+      "tests": [
+        "tests/test_project_manager_failure_immunity.py",
+        "tests/test_sukkos_question_entropy_project.py"
+      ]
+    },
+    "human_orchestration": {
+      "status": "CURRENT",
+      "owner": "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+      "evidence": [
+        "projects/sukkos-question-entropy/HANDOFFS.md",
+        "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+        "runtime/project_manager_integrity.py"
+      ],
+      "tests": [
+        "tests/test_project_manager_failure_immunity.py",
+        "tests/test_sukkos_question_entropy_project.py"
+      ]
+    },
+    "known_holdouts": {
+      "status": "CURRENT",
+      "owner": "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+      "evidence": [
+        "projects/sukkos-question-entropy/CURRENT_STATE.md",
+        "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+        "runtime/project_manager_integrity.py"
+      ],
+      "tests": [
+        "tests/test_project_manager_failure_immunity.py",
+        "tests/test_sukkos_question_entropy_project.py"
+      ]
+    }
+  },
+  "root_invariants": {
+    "representation_authority_execution_separated": {
+      "status": "CURRENT",
+      "owner": "projects/project-manager/CONTROLLER.md",
+      "evidence": [
+        "projects/sukkos-question-entropy/AUTHORITY_REGISTRY.md",
+        "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+        "runtime/project_manager_integrity.py"
+      ],
+      "tests": [
+        "tests/test_project_manager_failure_immunity.py",
+        "tests/test_sukkos_question_entropy_project.py"
+      ]
+    },
+    "state_externalized_before_action": {
+      "status": "CURRENT",
+      "owner": "projects/project-manager/CONTROLLER.md",
+      "evidence": [
+        "projects/sukkos-question-entropy/CURRENT_STATE.md",
+        "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+        "runtime/project_manager_integrity.py"
+      ],
+      "tests": [
+        "tests/test_project_manager_failure_immunity.py",
+        "tests/test_sukkos_question_entropy_project.py"
+      ]
+    },
+    "mandatory_transition_path": {
+      "status": "CURRENT",
+      "owner": "projects/project-manager/CONTROLLER.md",
+      "evidence": [
+        "projects/sukkos-question-entropy/CHANGE_CONTROL.md",
+        "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+        "runtime/project_manager_integrity.py"
+      ],
+      "tests": [
+        "tests/test_project_manager_failure_immunity.py",
+        "tests/test_sukkos_question_entropy_project.py"
+      ]
+    },
+    "closure_scope_typed": {
+      "status": "CURRENT",
+      "owner": "projects/project-manager/CONTROLLER.md",
+      "evidence": [
+        "projects/sukkos-question-entropy/BACKEND_LOCK.md",
+        "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+        "runtime/project_manager_integrity.py"
+      ],
+      "tests": [
+        "tests/test_project_manager_failure_immunity.py",
+        "tests/test_sukkos_question_entropy_project.py"
+      ]
+    },
+    "human_not_final_integration_layer": {
+      "status": "CURRENT",
+      "owner": "projects/project-manager/CONTROLLER.md",
+      "evidence": [
+        "projects/sukkos-question-entropy/HANDOFFS.md",
+        "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+        "runtime/project_manager_integrity.py"
+      ],
+      "tests": [
+        "tests/test_project_manager_failure_immunity.py",
+        "tests/test_sukkos_question_entropy_project.py"
+      ]
+    }
+  }
+}
