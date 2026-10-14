@@ -95,7 +95,7 @@ def affected_markdown_readers(root: Path, candidate_paths: Iterable[str]) -> tup
     root = Path(root)
     proposed = {str((root / p).resolve()) for p in candidate_paths}
     consumers: set[str] = set()
-    link_re = re.compile(r"\\]\\(([^)]+)\\)")
+    link_re = re.compile(r"\]\(([^)]+)\)")
     for source in (root / PACKAGE_ROOT).rglob("*.md"):
         if str(source.resolve()) in proposed:
             continue
