@@ -109,3 +109,25 @@ def test_configured_hf2_rejects_count_preserving_missing_plan_cell():
         execute_configured_with_hf2(
             tool_id="GOAL",plan=wrong,state={},adapter=lambda *args:True,
         )
+
+def test_hf2_affected_scope_blocks_clean_close():
+    plan=build_tool_execution_plan(CONFIGURED_RUNS["MT"])
+    def adapter(state,plan):
+        return {"status":"CLOSED_RELATIVE","execution_truth":"IMPLEMENTATION_EXECUTED",
+                "result":{"witness":"local"},"material_delta":False,
+                "hf2_local_close":True,"hf2_affected_frontier":("section",)}
+    out=execute_configured_with_hf2(tool_id="MT",plan=plan,state={},adapter=adapter)
+    assert out.status=="OPEN"
+    assert out.call_count==1
+    assert out.trace[-1]["delta"]["affected_frontier"]==("section",)
+
+
+def test_hf2_scope_delta_blocks_clean_close():
+    plan=build_tool_execution_plan(CONFIGURED_RUNS["MT"])
+    def adapter(state,plan):
+        return {"status":"CLOSED_RELATIVE","execution_truth":"IMPLEMENTATION_EXECUTED",
+                "result":{"witness":"local"},"material_delta":False,
+                "hf2_local_close":True,"hf2_scope_deltas":{"claim":False,"section":True}}
+    out=execute_configured_with_hf2(tool_id="MT",plan=plan,state={},adapter=adapter)
+    assert out.status=="OPEN"
+    assert out.trace[-1]["delta"]["scope_deltas"]["section"] is True
