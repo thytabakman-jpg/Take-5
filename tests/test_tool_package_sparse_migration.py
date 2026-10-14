@@ -125,9 +125,9 @@ def test_frozen_repository_coverage_scan_precedes_deletion():
     root = Path(__file__).resolve().parents[1]
     plan = sparse.candidate_plan(root)
     assert plan["total_logical_coordinates"] == 5040
-    assert plan["dispositions"]["EMPTY_TEMPLATE"] == 4968
-    assert plan["dispositions"]["VIRTUAL_EMPTY_PILOT"] == 72
-    assert len(plan["virtual_empty_pilot_paths"]) == 72
+    assert plan["dispositions"]["EMPTY_TEMPLATE"] == 4896
+    assert plan["dispositions"]["VIRTUAL_EMPTY_PILOT"] == 144
+    assert len(plan["virtual_empty_pilot_paths"]) == 144
     assert plan["dispositions"]["PRESERVE"] == 0
     assert plan["dispositions"]["MISSING"] == 0
     assert plan["dispositions"]["UNKNOWN_CELL"] == 0
