@@ -52,3 +52,8 @@ The [configured-run registry](../../runtime/tool_run_registry.py) owns current T
 A Take-5 configured tool and a similarly named Reaserch formal object may legitimately have different classification, semantics or execution readiness. Neither repository silently promotes the other's source. The [source map](SOURCE_MAP.md) retains unresolved correspondences, including RootCause/Diagnosis, rather than merging them.
 
 A change that adds or renames a configured tool must reconcile the index, package, crosswalk, and affected validation before completion. See [change control](CHANGE_CONTROL.md).
+
+<!-- 36_FACE_RESEARCH_WEB_LINK_20261014 -->
+## Scientific-home handoff for 36 coverage
+
+The [separate C36 scientific mathematics](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/improvement-core/research/icc-research-web/system-interaction-research/mathematics/C36_SCOPE_MODE_FACE_MATHEMATICS.md) is the research home for Scope × ModeFace. The [distinct H36 transfer research](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/improvement-core/research/icc-research-web/system-interaction-research/mathematics/CANONICAL_AUTHORITY_36_DIRECTED_SCOPE_TRANSFER_CANDIDATE_2026_10_13.md) studies source-to-destination handoffs. The [ICC research web](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/improvement-core/research/icc-research-web/README.md) relates them with typed source links. This tool system retains configured registry/runtime authority and package-local coverage; in particular, numbered tool package `C36` is a configured identifier, **not** a second name for the 36-cell lattice. No new per-tool 36 pages or extra audit dependencies are introduced.
