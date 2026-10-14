@@ -24,7 +24,7 @@ This package organizes the object without becoming a second semantic authority.
 
 ## Related scientific research (navigation, not authority)
 
-The [Reaserch ICC scientific research web](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/improvement-core/research/icc-research-web/README.md) studies ICC components and interactions; that source [already points back to Take-5's configured tool system](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/improvement-core/research/icc-research-web/README.md). The relation is navigational (conceptually `RESEARCHED_BY` / `NAVIGATES_TO`), **not** a registered dependency edge, `REQUIRES` obligation, runtime identity transfer, Level 2–4 certificate or promotion of scientific claims. The package's actual current state, mathematics, protected behaviors and native tests retain their existing owners.
+The [Reaserch ICC scientific research web](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/improvement-core/research/icc-research-web/README.md) studies ICC components and interactions; that source already points to Take-5's configured tool system. The relation is navigational (conceptually `RESEARCHED_BY` / `NAVIGATES_TO`), **not** a registered dependency edge, `REQUIRES` obligation, runtime identity transfer, Level 2–4 certificate or promotion of scientific claims. The package's actual current state, mathematics, protected behaviors and native tests retain their existing owners.
 
 ## Anti-loss rule
 
