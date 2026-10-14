@@ -49,6 +49,23 @@ class HF002RecursiveContinuation:
             or delta.get("resolved_conflict")
         )
 
+    @staticmethod
+    def _affected_frontier_open(delta:dict[str,Any])->bool:
+        """Treat unresolved affected scope as an independent HF2 closure blocker.
+
+        Domain adapters own the meaning and completeness of these fields;
+        the generic recurrence engine only refuses to call them terminal.
+        """
+        def unresolved(value:Any)->bool:
+            if isinstance(value,dict):
+                return any(unresolved(v) for v in value.values())
+            if isinstance(value,(tuple,list,set,frozenset)):
+                return any(unresolved(v) for v in value)
+            return bool(value)
+
+        return (unresolved(delta.get("affected_frontier"))
+                or unresolved(delta.get("scope_deltas")))
+
     def run(self,state:dict[str,Any],memory:dict[str,Any])->dict[str,Any]:
         x=dict(state); m=dict(memory)
         seen_failed=set(m.get("hf2_failed_equivalence",[]))
@@ -104,6 +121,16 @@ class HF002RecursiveContinuation:
                 self.trace.append(HF2Round(i,x,raw,normalized,delta,hf1,normalized,"REAPPLY_C"))
                 x=normalized
                 continue
+
+            # Material successors already reenter above.  A clean result with
+            # outstanding affected scope is still NOT a verified fixed point.
+            if self._affected_frontier_open(delta):
+                self.trace.append(HF2Round(i,x,raw,normalized,delta,hf1,normalized,"OPEN"))
+                return {
+                    "status":"OPEN","state":normalized,"memory":m,
+                    "trace":[asdict(t) for t in self.trace],
+                    "open":["AFFECTED_FRONTIER_NOT_CLOSED"],
+                }
 
             if live:
                 self.trace.append(HF2Round(i,x,raw,normalized,delta,hf1,normalized,"OPEN"))
