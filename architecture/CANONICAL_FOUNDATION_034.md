@@ -119,3 +119,8 @@ Transition/bridge minimality.
 Kernel global minimality.
 
 These constrain strength of claims, not the existence of a usable canonical working system.
+
+<!-- 36_FACE_SCIENCE_HOME_20261014 -->
+## Research ownership and knowledge-web connection
+
+The current C36/H36 types, chosen controller foundation and runtime semantics remain owned in Take-5. The separately governed Reaserch [C36 scope-by-mode-face scientific research](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/improvement-core/research/icc-research-web/system-interaction-research/mathematics/C36_SCOPE_MODE_FACE_MATHEMATICS.md) compares coverage, mode projections, closure and falsifiers. Its [H36 directed handoff research](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/improvement-core/research/icc-research-web/system-interaction-research/mathematics/CANONICAL_AUTHORITY_36_DIRECTED_SCOPE_TRANSFER_CANDIDATE_2026_10_13.md) and [typed relation guards](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/improvement-core/research/icc-research-web/relations/README.md) are separate scientific/graph navigation surfaces. These references do not confer Take-5 runtime authority on Reaserch, turn web links into dependencies, or close native/host verification gates.
