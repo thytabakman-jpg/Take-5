@@ -1,8 +1,9 @@
 """Jane integrated interface over Take-5 control services.
 
-Jane is the user-facing interface/facade. Conversation entry is bound here
-before substantive controller work so controller identity and initial mode do
-not drift inside the host layer.
+Jane is the user-facing continuity interface/facade. The historical begin_turn
+retains its IC-028 compatibility binding; begin_icc128_turn is the explicit
+guarded ICC128 continuity handoff. Neither facade owns substantive selection
+or authenticates external host currentness.
 """
 from dataclasses import dataclass
 from capability_router import coverage
