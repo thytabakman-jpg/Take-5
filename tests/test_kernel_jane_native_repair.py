@@ -40,6 +40,14 @@ def _currentness(**overrides):
     return data
 
 
+def test_jane_guarded_entry_rejects_untyped_currentness():
+    with pytest.raises(RuntimeError, match="JANE_CURRENTNESS_MAPPING_REQUIRED"):
+        begin_icc128_turn(
+            "ICC repair", target="research-system", job="repair-continuity",
+            basis="Take-5/main", currentness=None,
+        )
+
+
 def test_jane_guarded_current_entry_preserves_controller_ownership_and_memory():
     binding, handoff = begin_icc128_turn(
         "ICC repair native continuity",
