@@ -151,8 +151,8 @@ def proposed_sparse_core_updates(root: Path) -> dict[str, str]:
         coverage_index = folder / "coverage/README.md"
         text = (root / coverage_index).read_text(encoding="utf-8")
         text = re.sub(
-            r"\\[(\\d{2}) ([A-Z]+)\\]\\(\\./\\d{2}_[A-Z_]+__[A-Z]+\\.md\\)",
-            r"\\1 \\2 (reserved logical coordinate)",
+            r"\[(\d{2}) ([A-Z]+)\]\(\./\d{2}_[A-Z_]+__[A-Z]+\.md\)",
+            r"\1 \2 (reserved logical coordinate)",
             text,
         )
         # The basic coverage index already names the exact 36-coordinate
