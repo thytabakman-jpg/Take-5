@@ -39,5 +39,296 @@
     "render": "NOT_STARTED"
   },
   "sibling_project": "sukkos-question-entropy",
-  "shared_mutation_authority": false
+  "shared_mutation_authority": false,
+  "integrity_envelope_scope": "Inherited ProjectManager failure-control and root-invariant infrastructure only; does not certify project frontend, exact copy, visuals, rendering, classroom testing, promotion or global completion. Existing project-specific OPEN states are unchanged.",
+  "failure_controls": {
+    "canonical_authority": {
+      "status": "CURRENT",
+      "owner": "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+      "evidence": [
+        "projects/sukkos-question-mutual-information/AUTHORITY_REGISTRY.md",
+        "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+        "runtime/project_manager_integrity.py"
+      ],
+      "tests": [
+        "tests/test_project_manager_failure_immunity.py",
+        "tests/test_sukkos_question_mutual_information_project.py"
+      ]
+    },
+    "state_currentness": {
+      "status": "CURRENT",
+      "owner": "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+      "evidence": [
+        "projects/sukkos-question-mutual-information/CURRENT_STATE.md",
+        "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+        "runtime/project_manager_integrity.py"
+      ],
+      "tests": [
+        "tests/test_project_manager_failure_immunity.py",
+        "tests/test_sukkos_question_mutual_information_project.py"
+      ]
+    },
+    "project_entry_continuity": {
+      "status": "CURRENT",
+      "owner": "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+      "evidence": [
+        "projects/sukkos-question-mutual-information/HANDOFFS.md",
+        "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+        "runtime/project_manager_integrity.py"
+      ],
+      "tests": [
+        "tests/test_project_manager_failure_immunity.py",
+        "tests/test_sukkos_question_mutual_information_project.py"
+      ]
+    },
+    "goal_scope_object": {
+      "status": "CURRENT",
+      "owner": "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+      "evidence": [
+        "projects/sukkos-question-mutual-information/GOAL.md",
+        "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+        "runtime/project_manager_integrity.py"
+      ],
+      "tests": [
+        "tests/test_project_manager_failure_immunity.py",
+        "tests/test_sukkos_question_mutual_information_project.py"
+      ]
+    },
+    "adaptive_planning": {
+      "status": "CURRENT",
+      "owner": "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+      "evidence": [
+        "projects/sukkos-question-mutual-information/CHANGE_CONTROL.md",
+        "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+        "runtime/project_manager_integrity.py"
+      ],
+      "tests": [
+        "tests/test_project_manager_failure_immunity.py",
+        "tests/test_sukkos_question_mutual_information_project.py"
+      ]
+    },
+    "ownership_control": {
+      "status": "CURRENT",
+      "owner": "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+      "evidence": [
+        "projects/sukkos-question-mutual-information/AUTHORITY_REGISTRY.md",
+        "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+        "runtime/project_manager_integrity.py"
+      ],
+      "tests": [
+        "tests/test_project_manager_failure_immunity.py",
+        "tests/test_sukkos_question_mutual_information_project.py"
+      ]
+    },
+    "execution_truth": {
+      "status": "CURRENT",
+      "owner": "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+      "evidence": [
+        "projects/sukkos-question-mutual-information/VERIFICATION.md",
+        "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+        "runtime/project_manager_integrity.py"
+      ],
+      "tests": [
+        "tests/test_project_manager_failure_immunity.py",
+        "tests/test_sukkos_question_mutual_information_project.py"
+      ]
+    },
+    "change_propagation": {
+      "status": "CURRENT",
+      "owner": "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+      "evidence": [
+        "projects/sukkos-question-mutual-information/CHANGE_CONTROL.md",
+        "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+        "runtime/project_manager_integrity.py"
+      ],
+      "tests": [
+        "tests/test_project_manager_failure_immunity.py",
+        "tests/test_sukkos_question_mutual_information_project.py"
+      ]
+    },
+    "closure_verification": {
+      "status": "CURRENT",
+      "owner": "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+      "evidence": [
+        "projects/sukkos-question-mutual-information/VERIFICATION.md",
+        "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+        "runtime/project_manager_integrity.py"
+      ],
+      "tests": [
+        "tests/test_project_manager_failure_immunity.py",
+        "tests/test_sukkos_question_mutual_information_project.py"
+      ]
+    },
+    "artifact_production": {
+      "status": "CURRENT",
+      "owner": "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+      "evidence": [
+        "projects/sukkos-question-mutual-information/ARTIFACT_SPEC.md",
+        "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+        "runtime/project_manager_integrity.py"
+      ],
+      "tests": [
+        "tests/test_project_manager_failure_immunity.py",
+        "tests/test_sukkos_question_mutual_information_project.py"
+      ]
+    },
+    "research_evidence": {
+      "status": "CURRENT",
+      "owner": "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+      "evidence": [
+        "projects/sukkos-question-mutual-information/EVIDENCE.md",
+        "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+        "runtime/project_manager_integrity.py"
+      ],
+      "tests": [
+        "tests/test_project_manager_failure_immunity.py",
+        "tests/test_sukkos_question_mutual_information_project.py"
+      ]
+    },
+    "information_architecture": {
+      "status": "CURRENT",
+      "owner": "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+      "evidence": [
+        "projects/sukkos-question-mutual-information/AUTHORITY_REGISTRY.md",
+        "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+        "runtime/project_manager_integrity.py"
+      ],
+      "tests": [
+        "tests/test_project_manager_failure_immunity.py",
+        "tests/test_sukkos_question_mutual_information_project.py"
+      ]
+    },
+    "recursive_audit_stopping": {
+      "status": "CURRENT",
+      "owner": "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+      "evidence": [
+        "projects/sukkos-question-mutual-information/BACKEND_LOCK.md",
+        "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+        "runtime/project_manager_integrity.py"
+      ],
+      "tests": [
+        "tests/test_project_manager_failure_immunity.py",
+        "tests/test_sukkos_question_mutual_information_project.py"
+      ]
+    },
+    "cross_project_transfer": {
+      "status": "CURRENT",
+      "owner": "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+      "evidence": [
+        "projects/sukkos-question-mutual-information/DEPENDENCIES.md",
+        "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+        "runtime/project_manager_integrity.py"
+      ],
+      "tests": [
+        "tests/test_project_manager_failure_immunity.py",
+        "tests/test_sukkos_question_mutual_information_project.py"
+      ]
+    },
+    "concurrency_promotion": {
+      "status": "CURRENT",
+      "owner": "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+      "evidence": [
+        "projects/sukkos-question-mutual-information/CHANGE_CONTROL.md",
+        "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+        "runtime/project_manager_integrity.py"
+      ],
+      "tests": [
+        "tests/test_project_manager_failure_immunity.py",
+        "tests/test_sukkos_question_mutual_information_project.py"
+      ]
+    },
+    "human_orchestration": {
+      "status": "CURRENT",
+      "owner": "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+      "evidence": [
+        "projects/sukkos-question-mutual-information/HANDOFFS.md",
+        "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+        "runtime/project_manager_integrity.py"
+      ],
+      "tests": [
+        "tests/test_project_manager_failure_immunity.py",
+        "tests/test_sukkos_question_mutual_information_project.py"
+      ]
+    },
+    "known_holdouts": {
+      "status": "CURRENT",
+      "owner": "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+      "evidence": [
+        "projects/sukkos-question-mutual-information/CURRENT_STATE.md",
+        "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+        "runtime/project_manager_integrity.py"
+      ],
+      "tests": [
+        "tests/test_project_manager_failure_immunity.py",
+        "tests/test_sukkos_question_mutual_information_project.py"
+      ]
+    }
+  },
+  "root_invariants": {
+    "representation_authority_execution_separated": {
+      "status": "CURRENT",
+      "owner": "projects/project-manager/CONTROLLER.md",
+      "evidence": [
+        "projects/sukkos-question-mutual-information/AUTHORITY_REGISTRY.md",
+        "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+        "runtime/project_manager_integrity.py"
+      ],
+      "tests": [
+        "tests/test_project_manager_failure_immunity.py",
+        "tests/test_sukkos_question_mutual_information_project.py"
+      ]
+    },
+    "state_externalized_before_action": {
+      "status": "CURRENT",
+      "owner": "projects/project-manager/CONTROLLER.md",
+      "evidence": [
+        "projects/sukkos-question-mutual-information/CURRENT_STATE.md",
+        "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+        "runtime/project_manager_integrity.py"
+      ],
+      "tests": [
+        "tests/test_project_manager_failure_immunity.py",
+        "tests/test_sukkos_question_mutual_information_project.py"
+      ]
+    },
+    "mandatory_transition_path": {
+      "status": "CURRENT",
+      "owner": "projects/project-manager/CONTROLLER.md",
+      "evidence": [
+        "projects/sukkos-question-mutual-information/CHANGE_CONTROL.md",
+        "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+        "runtime/project_manager_integrity.py"
+      ],
+      "tests": [
+        "tests/test_project_manager_failure_immunity.py",
+        "tests/test_sukkos_question_mutual_information_project.py"
+      ]
+    },
+    "closure_scope_typed": {
+      "status": "CURRENT",
+      "owner": "projects/project-manager/CONTROLLER.md",
+      "evidence": [
+        "projects/sukkos-question-mutual-information/BACKEND_LOCK.md",
+        "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+        "runtime/project_manager_integrity.py"
+      ],
+      "tests": [
+        "tests/test_project_manager_failure_immunity.py",
+        "tests/test_sukkos_question_mutual_information_project.py"
+      ]
+    },
+    "human_not_final_integration_layer": {
+      "status": "CURRENT",
+      "owner": "projects/project-manager/CONTROLLER.md",
+      "evidence": [
+        "projects/sukkos-question-mutual-information/HANDOFFS.md",
+        "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+        "runtime/project_manager_integrity.py"
+      ],
+      "tests": [
+        "tests/test_project_manager_failure_immunity.py",
+        "tests/test_sukkos_question_mutual_information_project.py"
+      ]
+    }
+  }
 }
