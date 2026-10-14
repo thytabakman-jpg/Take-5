@@ -55,6 +55,45 @@ def test_material_failure_forces_reselection():
     assert needs_reselection({"failed_route":True})
 
 
+
+def test_rho128_does_not_select_partial_package_when_no_route_covers_all_jobs():
+    # This guard already exists in Reaserch, but the configured Take-5 selector
+    # previously fell back to partially covering packages and claimed SELECTED.
+    cheap={
+        "task_and_job_well_typed": True,
+        "one_validated_capability_clearly_fits": True,
+        "consequence_bounded": True,
+        "no_material_rival_exposed": True,
+    }
+    candidates=[
+        Package("half_a",frozenset({"repair"}),burden=1),
+        Package("half_b",frozenset({"validate"}),burden=2),
+    ]
+    required={"repair","validate"}
+    for state,expected_mode in ((cheap,"CHEAP_DIRECT"),({"hidden_dependency_plausible":True},"FIRE")):
+        result=choose(state,candidates,required)
+        assert result["mode"]==expected_mode
+        assert result["status"]=="OPEN"
+        assert result["selected"]==[]
+        assert result["frontier"]==[]
+
+
+def test_rho128_still_selects_full_coverage_candidate_over_partial_one():
+    state={
+        "task_and_job_well_typed": True,
+        "one_validated_capability_clearly_fits": True,
+        "consequence_bounded": True,
+        "no_material_rival_exposed": True,
+    }
+    packages=[
+        Package("partial",frozenset({"repair"}),burden=1),
+        Package("full",frozenset({"repair","validate"}),burden=3),
+    ]
+    result=choose(state,packages,{"repair","validate"})
+    assert result["status"]=="SELECTED"
+    assert result["selected"]==["full"]
+
+
 def test_icc128_source_map_records_distinct_epic_runtime():
     from pathlib import Path
     root = Path(__file__).resolve().parents[1]
