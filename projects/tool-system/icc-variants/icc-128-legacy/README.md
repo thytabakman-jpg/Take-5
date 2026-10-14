@@ -39,3 +39,8 @@ These research links do not change this package's identity, status, configured s
 ## Preserved-legacy research exchange boundary — 2026-10-13
 
 The [governed ICC128 exchange](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/improvement-core/research/icc-research-web/exchange/README.md) recognizes this package only as `ICC-128-LEGACY` with its **separate exact identity path and blob SHA**. This is an opt-in typed study and execution handoff, not an alias, semantic replacement, automatic legacy upgrade or claim of current configured execution. No source rollback or variant merge is authorized by linking the exchange.
+
+<!-- ICC128_ORIGINAL_AGENT_RECOVERY_LINK -->
+## Separate original-agent identification effort
+
+The [ICC128 Legacy original-agent recovery investigation](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/improvement-core/research/icc-research-web/tool-studies/icc128/legacy-recovery/README.md) indexes historic claims, candidate earlier identities, reports, and discriminating tests without changing this preserved variant or the frozen snapshot. The currently preserved Legacy object is known; whether it equals the powerful agent originally experienced is **OPEN**. Scientific search links grant no activation, mutation or package promotion rights.
