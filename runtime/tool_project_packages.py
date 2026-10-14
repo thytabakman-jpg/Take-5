@@ -564,8 +564,8 @@ through the authority and change-control path.
         # Preserve 36 semantic positions without publishing broken links.
         import re
         body = re.sub(
-            r"- \\[(\\d{2}) ([A-Z]+)\\]\\(\\./\\d{2}_[A-Z_]+__[A-Z]+\\.md\\)",
-            r"- \\1 \\2 (reserved logical coordinate; no admitted evidence)",
+            r"- \[(\d{2}) ([A-Z]+)\]\(\./\d{2}_[A-Z_]+__[A-Z]+\.md\)",
+            r"- \1 \2 (reserved logical coordinate; no admitted evidence)",
             body,
         )
         body = body.replace(
