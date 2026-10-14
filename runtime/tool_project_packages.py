@@ -33,6 +33,8 @@ class ToolProjectPackageCollision(RuntimeError):
 
 
 PACKAGE_ROOT="projects/tool-system"
+# CANDIDATE ONLY: evidence-sparse pilots on unmerged branch; no goal policy change.
+SPARSE_COVERAGE_PILOT=frozenset({"MultiObject","DelegatedExecutor","GOAL","ICC128"})
 CORE_FILES=(
     "README.md",
     "MANIFEST.md",
@@ -216,7 +218,7 @@ Coverage cells: 36
 
 {core}
 
-## Coverage pages
+## {('Reserved logical coverage coordinates (36; physical evidence pages optional)' if spec.object_id in SPARSE_COVERAGE_PILOT else 'Coverage pages')}
 
 {coverage}
 
@@ -432,6 +434,8 @@ Retain old evidence and record supersession rather than rewriting history.
 
 
 def render_regression(spec:ProjectObjectSpec)->str:
+    if spec.object_id in SPARSE_COVERAGE_PILOT:
+        return _render_sparse_regression(spec)
     return f"""# Regression contract: {spec.display_name}
 
 A valid package keeps all of these true:
@@ -446,6 +450,24 @@ A valid package keeps all of these true:
 - aliases do not create duplicate mutable authority
 - missing semantics/runtime/evidence remain typed OPEN
 """
+
+
+def _render_sparse_regression(spec:ProjectObjectSpec)->str:
+    baseline = f"""# Regression contract: {spec.display_name}
+
+A valid package keeps all of these true:
+
+- required core files exist
+- exactly 36 logical Scope x ModeFace coordinates exist
+- physical coverage pages are evidence only, not semantic authority
+- the distinct SourceScope x TargetScope surface is not merged into coverage
+- decisions, lessons, runs, and evidence are append-only
+- package generation never overwrites changed existing files
+- current configured tools have one package each
+- aliases do not create duplicate mutable authority
+- missing semantics/runtime/evidence remain typed OPEN
+"""
+    return baseline
 
 
 def render_decisions(spec:ProjectObjectSpec)->str:
@@ -538,6 +560,18 @@ through the authority and change-control path.
                 previous_scope=scope
             body += f"- [{index:02d} {face.value}](./{coverage_name(index,scope,face)})\n"
         body += "\nEach linked page is evidence for one Scope x ModeFace coordinate, not an executable delegation job or a recurring schedule. `OPEN` on a coverage page does not by itself determine the native DelegatedExecutor runtime state.\n"
+    if spec.object_id in SPARSE_COVERAGE_PILOT:
+        # Preserve 36 semantic positions without publishing broken links.
+        import re
+        body = re.sub(
+            r"- \[(\d{2}) ([A-Z]+)\]\(\./\d{2}_[A-Z_]+__[A-Z]+\.md\)",
+            r"- \1 \2 (reserved logical coordinate; no admitted evidence)",
+            body,
+        )
+        body = body.replace(
+            "Each linked page is evidence for one Scope x ModeFace coordinate",
+            "Each reserved logical coordinate can independently own evidence for Scope x ModeFace",
+        )
     return body
 
 
@@ -595,8 +629,10 @@ def package_files(spec:ProjectObjectSpec)->dict[str,str]:
         f"{root}/history/README.md":render_stream(spec,"History"),
         f"{root}/coverage/README.md":render_coverage_readme(spec),
     }
-    for i,scope,face in coverage_cells():
-        files[f"{root}/coverage/{coverage_name(i,scope,face)}"]=render_coverage_cell(spec,i,scope,face)
+    if spec.object_id not in SPARSE_COVERAGE_PILOT:
+        for i,scope,face in coverage_cells():
+            files[f"{root}/coverage/{coverage_name(i,scope,face)}"]=render_coverage_cell(spec,i,scope,face)
+    # Admitted evidence remains an optional, append-only coordinate-owned file.
     return files
 
 
@@ -641,6 +677,24 @@ def _admit_curated_source_map(spec:ProjectObjectSpec, existing:str)->None:
         raise ToolProjectPackageCollision(f"{spec.object_id}: SOURCE_MAP_CATEGORY_MISMATCH")
 
 
+def _verify_curated_pilot_page(spec:ProjectObjectSpec,rel:str,existing:str,generated:str)->None:
+    # Pilot updates must not silently overwrite authored native control clauses.
+    if rel.endswith("/MANIFEST.md"):
+        if not existing.startswith(f"# Package manifest: {spec.display_name}\\n".replace("\\n","\n")):
+            raise ToolProjectPackageCollision(f"{spec.object_id}:MANIFEST_IDENTITY_MISMATCH")
+        if "Coverage cells: 36" not in existing or "Reserved logical coverage coordinates" not in existing:
+            raise ToolProjectPackageCollision(f"{spec.object_id}:MANIFEST_LOGICAL_36_MISSING")
+        for index,scope,face in coverage_cells():
+            filename=coverage_name(index,scope,face)
+            if f"- coverage/{filename}" not in existing:
+                raise ToolProjectPackageCollision(f"{spec.object_id}:MANIFEST_SLOT_MISSING")
+    elif rel.endswith("/REGRESSION_CONTRACT.md"):
+        if not existing.startswith(generated):
+            raise ToolProjectPackageCollision(f"{spec.object_id}:REGRESSION_PREFIX_MISSING")
+    else:
+        raise ToolProjectPackageCollision(f"{spec.object_id}:UNEXPECTED_CURATED_PAGE")
+
+
 def materialize_package(base:Path,spec:ProjectObjectSpec)->tuple[Path,...]:
     written=[]
     for rel,content in package_files(spec).items():
@@ -651,6 +705,9 @@ def materialize_package(base:Path,spec:ProjectObjectSpec)->tuple[Path,...]:
             if spec.current_tool and rel.endswith("/SOURCE_MAP.md") and spec.object_id!="MultiObject":
                 if existing!=content:
                     _admit_curated_source_map(spec,existing)
+                continue
+            if spec.object_id in SPARSE_COVERAGE_PILOT and (rel.endswith("/MANIFEST.md") or rel.endswith("/REGRESSION_CONTRACT.md")):
+                _verify_curated_pilot_page(spec,rel,existing,content)
                 continue
             if existing!=content:
                 raise ToolProjectPackageCollision(str(path))
@@ -693,7 +750,26 @@ def audit_materialized(base:Path)->dict[str,Any]:
         expected={coverage_name(i,s,f) for i,s,f in coverage_cells()}
         cdir=p/"coverage"
         actual={x.name for x in cdir.glob("*.md") if x.name!="README.md"} if cdir.is_dir() else set()
-        if actual!=expected:
+        if spec.object_id in SPARSE_COVERAGE_PILOT:
+            if not actual.issubset(expected):
+                bad_coverage.append(spec.object_id)
+            else:
+                for index,scope,face in coverage_cells():
+                    fname=coverage_name(index,scope,face)
+                    if fname not in actual:
+                        continue
+                    body=(cdir/fname).read_text(encoding="utf-8")
+                    # Fail closed on unknown content, blank placeholders, or
+                    # evidence attached to the wrong coordinate or owner.
+                    if (body==render_coverage_cell(spec,index,scope,face)
+                        or f"Object ID: {spec.object_id}" not in body
+                        or f"Coverage cell: {index:02d}/36" not in body
+                        or f"Scope: {scope.value}" not in body
+                        or f"Mode face: {face.value}" not in body
+                        or "- none admitted yet" in body):
+                        bad_coverage.append(spec.object_id)
+                        break
+        elif actual!=expected:
             bad_coverage.append(spec.object_id)
     current_dirs={slug(x) for x in MATERIAL_TOOLS}
     represented={slug(s.object_id) for s in current_tool_specs()}
