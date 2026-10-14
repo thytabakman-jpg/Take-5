@@ -28,7 +28,7 @@ runs/README.md
 history/README.md
 coverage/README.md
 
-plus exactly 36 Scope x ModeFace coverage pages.
+plus exactly 36 separately addressable Scope x ModeFace **logical coordinates** per package. The package manifest (or a typed evidence registry) may represent currently empty coordinates without 36 physical placeholder files. Any coordinate with admitted evidence retains independently addressable, append-only evidence and provenance; unknown or changed content must not be discarded. The separate directed SourceScope x TargetScope handoff structure remains distinct.
 
 ## Ownership
 
@@ -39,8 +39,7 @@ CURRENT_STATE.md is a disposable current projection over retained history.
 
 DECISION_LOG.md, LESSONS_LEDGER.md, evidence/, runs/, and history/ are append-only.
 
-coverage/*.md owns only its exact Scope x ModeFace coordinate and never becomes
-canonical semantic truth merely because a finding appears there.
+A materialized coverage/*.md owns only its exact Scope x ModeFace evidence coordinate and never becomes canonical semantic truth merely because a finding appears there. Empty logical coordinates live in MANIFEST.md or an equivalent typed registry; generated placeholder files are optional.
 
 ## Curated source maps and generator ownership
 
