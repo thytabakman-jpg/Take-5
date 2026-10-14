@@ -8,9 +8,9 @@ from __future__ import annotations
 
 from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Iterable
 import hashlib
 import json
+import re
 
 from tool_project_packages import (
     all_project_specs, package_relroot, coverage_cells, coverage_name,
@@ -86,13 +86,39 @@ def audit_coverage(root: Path) -> tuple[CellObservation, ...]:
     return tuple(findings)
 
 
+def affected_markdown_readers(root: Path, candidate_paths: Iterable[str]) -> tuple[str, ...]:
+    """Find linked readers of proposed empty-cell paths before any removal.
+
+    A linked source outside a soon-to-be-deleted cell needs a migrated target,
+    even when the target is presently an empty placeholder.
+    """
+    root = Path(root)
+    proposed = {str((root / p).resolve()) for p in candidate_paths}
+    consumers: set[str] = set()
+    link_re = re.compile(r"\\]\\(([^)]+)\\)")
+    for source in (root / PACKAGE_ROOT).rglob("*.md"):
+        if str(source.resolve()) in proposed:
+            continue
+        body = source.read_text(encoding="utf-8")
+        for match in link_re.finditer(body):
+            ref = match.group(1).split("#", 1)[0].strip()
+            if not ref or "://" in ref or ref.startswith(("mailto:", "/", "#")):
+                continue
+            link = (source.parent / ref).resolve()
+            if str(link) in proposed:
+                consumers.add(str(source.relative_to(root)))
+    return tuple(sorted(consumers))
+
+
 def candidate_plan(root: Path) -> dict:
     """Lossless plan: only exact blank templates qualify for future retirement."""
     rows = audit_coverage(root)
     dispositions = {name: sum(r.disposition == name for r in rows)
                     for name in ("EMPTY_TEMPLATE", "PRESERVE", "MISSING", "UNKNOWN_CELL")}
+    readers = affected_markdown_readers(root, (r.path for r in rows if r.disposition == "EMPTY_TEMPLATE"))
     return {
         "status": "CANDIDATE_ONLY_GOAL_CHANGE_APPROVAL_REQUIRED",
+        "existing_markdown_readers_requiring_migration": readers,
         "source": "runtime/tool_package_sparse_migration.py",
         "total_logical_coordinates": len(all_project_specs()) * len(coverage_cells()),
         "dispositions": dispositions,
