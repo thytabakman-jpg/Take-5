@@ -22,7 +22,7 @@ class EvidenceLedger:
     def activation_complete(self,episode:str,program_id:str)->bool:
         for r in reversed(self.activations):
             if r["episode"]==episode and r["program_id"]==program_id:
-                return all(r[k] for k in ("selected","bound","dispatched","started","executed","captured","consumed"))
+                return all(r.get(k) is True for k in ("selected","bound","dispatched","started","executed","captured","consumed"))
         return False
 
     def record_reconstruction(self,*,historical_id:str,successor_id:str,frozen_job:str,
@@ -41,7 +41,7 @@ class EvidenceLedger:
 
     def readiness(self,required_historical=()):
         return {
-            "activation_evidence": any(all(r[k] for k in ("selected","bound","dispatched","started","executed","captured","consumed")) for r in self.activations),
+            "activation_evidence": any(all(r.get(k) is True for k in ("selected","bound","dispatched","started","executed","captured","consumed")) for r in self.activations),
             "historical_reconstruction": all(self.historically_reconstructed(x) for x in required_historical),
             "no_failed_required_validation": not any(v["status"]=="FAIL" for v in self.validations),
         }
