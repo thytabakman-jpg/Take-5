@@ -35,3 +35,11 @@ Current projections may change only through explicit change control and retained
 Reuse the existing Reaserch scientific web; current ICC128 is not silently interchangeable with legacy ICC128.
 
 These research links do not change this package's identity, status, configured semantics, runtime or governing authority.
+
+## Governed scientific ↔ configured execution exchange — 2026-10-13
+
+- [Executable Reaserch ICC128 bridge](https://github.com/thytabakman-jpg/Reaserch/blob/main/runtime/icc128_research_execution_bridge.py)
+- [Transport, identity, approval and receipts](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/improvement-core/research/icc-research-web/exchange/README.md)
+- [Synthetic regression test source](https://github.com/thytabakman-jpg/Reaserch/blob/main/runtime/test_icc128_research_execution_bridge.py)
+
+This **opt-in** bridge reads the Take-5 ICC128 identity at its exact Git blob SHA and returns evidence to Reaserch. It does not replace the Take-5 manifest/registry/conductor, authorize modifications, grant `FULL_MATCH`, or automatically install itself into the host. A current-versus-legacy identity mismatch fails closed. Host installation and actual configured execution receipts remain separately necessary.
