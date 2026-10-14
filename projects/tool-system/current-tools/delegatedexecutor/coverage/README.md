@@ -11,56 +11,56 @@ through the authority and change-control path.
 
 ### SYSTEM
 
-- [01 EXPAND](./01_SYSTEM__EXPAND.md)
-- [02 CONTRACT](./02_SYSTEM__CONTRACT.md)
-- [03 INWARD](./03_SYSTEM__INWARD.md)
-- [04 OUTWARD](./04_SYSTEM__OUTWARD.md)
-- [05 ISOLATE](./05_SYSTEM__ISOLATE.md)
-- [06 COUPLE](./06_SYSTEM__COUPLE.md)
+- 01 EXPAND (reserved logical coordinate; no admitted evidence)
+- 02 CONTRACT (reserved logical coordinate; no admitted evidence)
+- 03 INWARD (reserved logical coordinate; no admitted evidence)
+- 04 OUTWARD (reserved logical coordinate; no admitted evidence)
+- 05 ISOLATE (reserved logical coordinate; no admitted evidence)
+- 06 COUPLE (reserved logical coordinate; no admitted evidence)
 
 ### SUBSYSTEM
 
-- [07 EXPAND](./07_SUBSYSTEM__EXPAND.md)
-- [08 CONTRACT](./08_SUBSYSTEM__CONTRACT.md)
-- [09 INWARD](./09_SUBSYSTEM__INWARD.md)
-- [10 OUTWARD](./10_SUBSYSTEM__OUTWARD.md)
-- [11 ISOLATE](./11_SUBSYSTEM__ISOLATE.md)
-- [12 COUPLE](./12_SUBSYSTEM__COUPLE.md)
+- 07 EXPAND (reserved logical coordinate; no admitted evidence)
+- 08 CONTRACT (reserved logical coordinate; no admitted evidence)
+- 09 INWARD (reserved logical coordinate; no admitted evidence)
+- 10 OUTWARD (reserved logical coordinate; no admitted evidence)
+- 11 ISOLATE (reserved logical coordinate; no admitted evidence)
+- 12 COUPLE (reserved logical coordinate; no admitted evidence)
 
 ### COMPONENT
 
-- [13 EXPAND](./13_COMPONENT__EXPAND.md)
-- [14 CONTRACT](./14_COMPONENT__CONTRACT.md)
-- [15 INWARD](./15_COMPONENT__INWARD.md)
-- [16 OUTWARD](./16_COMPONENT__OUTWARD.md)
-- [17 ISOLATE](./17_COMPONENT__ISOLATE.md)
-- [18 COUPLE](./18_COMPONENT__COUPLE.md)
+- 13 EXPAND (reserved logical coordinate; no admitted evidence)
+- 14 CONTRACT (reserved logical coordinate; no admitted evidence)
+- 15 INWARD (reserved logical coordinate; no admitted evidence)
+- 16 OUTWARD (reserved logical coordinate; no admitted evidence)
+- 17 ISOLATE (reserved logical coordinate; no admitted evidence)
+- 18 COUPLE (reserved logical coordinate; no admitted evidence)
 
 ### INTERFACE
 
-- [19 EXPAND](./19_INTERFACE__EXPAND.md)
-- [20 CONTRACT](./20_INTERFACE__CONTRACT.md)
-- [21 INWARD](./21_INTERFACE__INWARD.md)
-- [22 OUTWARD](./22_INTERFACE__OUTWARD.md)
-- [23 ISOLATE](./23_INTERFACE__ISOLATE.md)
-- [24 COUPLE](./24_INTERFACE__COUPLE.md)
+- 19 EXPAND (reserved logical coordinate; no admitted evidence)
+- 20 CONTRACT (reserved logical coordinate; no admitted evidence)
+- 21 INWARD (reserved logical coordinate; no admitted evidence)
+- 22 OUTWARD (reserved logical coordinate; no admitted evidence)
+- 23 ISOLATE (reserved logical coordinate; no admitted evidence)
+- 24 COUPLE (reserved logical coordinate; no admitted evidence)
 
 ### BOUNDARY_DECOMPOSITION
 
-- [25 EXPAND](./25_BOUNDARY_DECOMPOSITION__EXPAND.md)
-- [26 CONTRACT](./26_BOUNDARY_DECOMPOSITION__CONTRACT.md)
-- [27 INWARD](./27_BOUNDARY_DECOMPOSITION__INWARD.md)
-- [28 OUTWARD](./28_BOUNDARY_DECOMPOSITION__OUTWARD.md)
-- [29 ISOLATE](./29_BOUNDARY_DECOMPOSITION__ISOLATE.md)
-- [30 COUPLE](./30_BOUNDARY_DECOMPOSITION__COUPLE.md)
+- 25 EXPAND (reserved logical coordinate; no admitted evidence)
+- 26 CONTRACT (reserved logical coordinate; no admitted evidence)
+- 27 INWARD (reserved logical coordinate; no admitted evidence)
+- 28 OUTWARD (reserved logical coordinate; no admitted evidence)
+- 29 ISOLATE (reserved logical coordinate; no admitted evidence)
+- 30 COUPLE (reserved logical coordinate; no admitted evidence)
 
 ### CROSS_LAYER
 
-- [31 EXPAND](./31_CROSS_LAYER__EXPAND.md)
-- [32 CONTRACT](./32_CROSS_LAYER__CONTRACT.md)
-- [33 INWARD](./33_CROSS_LAYER__INWARD.md)
-- [34 OUTWARD](./34_CROSS_LAYER__OUTWARD.md)
-- [35 ISOLATE](./35_CROSS_LAYER__ISOLATE.md)
-- [36 COUPLE](./36_CROSS_LAYER__COUPLE.md)
+- 31 EXPAND (reserved logical coordinate; no admitted evidence)
+- 32 CONTRACT (reserved logical coordinate; no admitted evidence)
+- 33 INWARD (reserved logical coordinate; no admitted evidence)
+- 34 OUTWARD (reserved logical coordinate; no admitted evidence)
+- 35 ISOLATE (reserved logical coordinate; no admitted evidence)
+- 36 COUPLE (reserved logical coordinate; no admitted evidence)
 
-Each linked page is evidence for one Scope x ModeFace coordinate, not an executable delegation job or a recurring schedule. `OPEN` on a coverage page does not by itself determine the native DelegatedExecutor runtime state.
+Each reserved logical coordinate can independently own evidence for Scope x ModeFace, not an executable delegation job or a recurring schedule. `OPEN` on a coverage page does not by itself determine the native DelegatedExecutor runtime state.
