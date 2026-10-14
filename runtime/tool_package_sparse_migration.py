@@ -110,6 +110,58 @@ def affected_markdown_readers(root: Path, candidate_paths: Iterable[str]) -> tup
     return tuple(sorted(consumers))
 
 
+def proposed_sparse_core_updates(root: Path) -> dict[str, str]:
+    """Build minimal *in-memory* core-page changes; never write repository state.
+
+    Original object-specific documentation and native regression clauses survive.
+    Only the physical-page assertions and links to disappearing placeholders
+    change. This does not change the accepted GOAL.md on main.
+    """
+    root = Path(root)
+    edits: dict[str, str] = {}
+    for spec in all_project_specs():
+        folder = PACKAGE_ROOT / package_relroot(spec)
+        manifest = folder / "MANIFEST.md"
+        text = (root / manifest).read_text(encoding="utf-8")
+        if "Coverage cells: 36" not in text:
+            raise ValueError(f"MISSING_36_COORDINATE_IDENTITY:{manifest}")
+        if "## Coverage pages" not in text:
+            raise ValueError(f"MISSING_OLD_MANIFEST_HEADING:{manifest}")
+        text = text.replace("## Coverage pages",
+                            "## Reserved logical coverage coordinates (36; physical pages optional)")
+        for index, scope, face in coverage_cells():
+            name = coverage_name(index, scope, face)
+            # Linked authored manifests are still preserved, but blank page
+            # links cannot be left dangling.
+            text = text.replace(f"- [coverage/{name}](coverage/{name})",
+                                f"- coverage/{name}")
+            if f"- coverage/{name}" not in text:
+                raise ValueError(f"MISSING_RESERVED_COORDINATE:{manifest}:{name}")
+        edits[str(manifest)] = text
+
+        regression = folder / "REGRESSION_CONTRACT.md"
+        text = (root / regression).read_text(encoding="utf-8")
+        assertion = "- exactly 36 Scope x ModeFace coverage pages exist"
+        if text.count(assertion) != 1:
+            raise ValueError(f"UNEXPECTED_REGRESSION_CONTRACT:{regression}")
+        edits[str(regression)] = text.replace(
+            assertion, "- exactly 36 logical Scope x ModeFace coordinates exist; "
+            "physical cell files are reserved for admitted evidence")
+
+        coverage_index = folder / "coverage/README.md"
+        text = (root / coverage_index).read_text(encoding="utf-8")
+        text = re.sub(
+            r"\\[(\\d{2}) ([A-Z]+)\\]\\(\\./\\d{2}_[A-Z_]+__[A-Z]+\\.md\\)",
+            r"\\1 \\2 (reserved logical coordinate)",
+            text,
+        )
+        # The basic coverage index already names the exact 36-coordinate
+        # surface. Readers that used numbered links now receive nonbroken
+        # coordinate names, while actual admitted evidence remains independent.
+        edits[str(coverage_index)] = text
+    return edits
+
+
 def candidate_plan(root: Path) -> dict:
     """Lossless plan: only exact blank templates qualify for future retirement."""
     rows = audit_coverage(root)
