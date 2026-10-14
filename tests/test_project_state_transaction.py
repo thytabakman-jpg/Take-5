@@ -24,6 +24,11 @@ def disposition(name,status="CURRENT",built="v1",latest="v1",**kwargs):
         disposition=status,
         built_basis=built,
         latest_basis=latest,
+        # Fixture-specific verified identities; real callers supply exact generations.
+        object_identity=f"project-test:{name}",
+        built_generation=f"fixture:{built}",
+        latest_generation=f"fixture:{latest}",
+        identity_verified=True,
         evidence=(f"evidence:{name}",),
         **kwargs,
     )
@@ -174,3 +179,13 @@ def test_project_manager_ready_delta_uses_transaction_gate():
     )
     assert out.status=="COMMITTED"
     assert out.icc128_reselection_required
+
+
+def test_currentness_identity_missing_fails_closed():
+    from dataclasses import replace
+    states={x:disposition(x) for x in ("manuscript","claim_registry","project_page","state")}
+    states["manuscript"]=replace(states["manuscript"],identity_verified=False)
+    out=tx(object_dispositions=states)
+    assert out.status=="OPEN"
+    assert out.commit_receipt is None
+    assert "manuscript" in out.unresolved_open
