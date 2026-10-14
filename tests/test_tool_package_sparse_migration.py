@@ -81,6 +81,16 @@ def test_goals_curated_link_variant_is_only_admitted_when_exact(one_cell, monkey
     assert sparse.candidate_plan(root)["dispositions"]["PRESERVE"] == 1
 
 
+def test_existing_markdown_reader_is_recorded_before_compaction(one_cell):
+    root, spec, idx, scope, mode, path = one_cell
+    path.write_text(render_coverage_cell(spec, idx, scope, mode), encoding="utf-8")
+    consumer = path.parent / "README.md"
+    consumer.write_text(f"[important witness link](./{path.name})\\n", encoding="utf-8")
+    out = sparse.candidate_plan(root)
+    assert str(consumer.relative_to(root)) in out["existing_markdown_readers_requiring_migration"]
+    assert path.is_file()  # a plan must not touch either source or consumer
+
+
 def test_frozen_repository_coverage_scan_precedes_deletion():
     """Run directly in a full checkout; never interpret a partial corpus as safe."""
     root = Path(__file__).resolve().parents[1]
