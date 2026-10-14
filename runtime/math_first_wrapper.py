@@ -44,6 +44,7 @@ class StateDelta:
     material: bool
     before_fingerprint: str
     after_fingerprint: str
+    discovery_evidence: Any = None
 
 
 @dataclass(frozen=True)
@@ -308,12 +309,17 @@ def run_math_first_wrapper(
         admitted_discovery = discovery_material and closure_status in {
             "CLOSED", "RELATIVE_CLOSED", "CLOSED_RELATIVE"
         }
+        discovery_evidence = (
+            closure.get("discovery_delta") if isinstance(closure, Mapping)
+            else getattr(closure, "discovery_delta", None)
+        ) if admitted_discovery else None
         supervisory_delta = (
             StateDelta(
                 changed=delta.changed + ("discovery_delta",),
                 material=delta.material,
                 before_fingerprint=delta.before_fingerprint,
                 after_fingerprint=delta.after_fingerprint,
+                discovery_evidence=deepcopy(discovery_evidence),
             )
             if admitted_discovery else delta
         )
