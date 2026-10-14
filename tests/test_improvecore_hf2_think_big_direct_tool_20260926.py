@@ -243,7 +243,7 @@ def _admit(raw,state,memory):
 
 
 def test_final_think_big_improvementcore_reapplies_under_hf2_until_system_closes():
-    assert CURRENT_REGIME.version=="091"
+    assert CURRENT_REGIME.version=="092"
     assert CURRENT_REGIME.default_local_recurrence=="HF002"
 
     hf2=HF002RecursiveContinuation(
