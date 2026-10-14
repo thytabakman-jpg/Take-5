@@ -305,6 +305,9 @@ def run_math_first_wrapper(
         # A result-sensitive discovery can change the next questions and dependency
         # universe without changing governed target state. Notify Jane of that
         # supervisory event; do not falsely label the target state as mutated.
+        admitted_discovery = discovery_material and closure_status in {
+            "CLOSED", "RELATIVE_CLOSED", "CLOSED_RELATIVE"
+        }
         supervisory_delta = (
             StateDelta(
                 changed=delta.changed + ("discovery_delta",),
@@ -312,9 +315,9 @@ def run_math_first_wrapper(
                 before_fingerprint=delta.before_fingerprint,
                 after_fingerprint=delta.after_fingerprint,
             )
-            if discovery_material else delta
+            if admitted_discovery else delta
         )
-        supervisory_material = delta.material or discovery_material
+        supervisory_material = delta.material or admitted_discovery
         relevance = bool(
             relevance_fn(supervisory_delta, frozen_math=frozen, entry_binding=binding)
         )
