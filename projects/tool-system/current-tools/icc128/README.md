@@ -11,6 +11,7 @@ This package organizes the object without becoming a second semantic authority.
 ## Entry order
 
 1. CURRENT_STATE.md
+   - [Current cross-file L2/L3/L4 and repair frontier](CURRENT_ISSUES.md) (separate, source-bound lookup; not a controller or evidence owner)
 2. AUTHORITY_REGISTRY.md
 3. IDENTITY.md
 4. MATHEMATICS.md
