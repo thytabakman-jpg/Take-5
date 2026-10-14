@@ -275,3 +275,40 @@ def test_consistent_duplicate_candidate_does_not_multiply_work():
     assert result.unresolved_extraction == ()
     assert len(result.candidates) == 1
     assert len(to_work_items(result)) == 1
+
+
+def test_mapping_generator_cannot_attribute_candidate_to_untraversed_artifact():
+    result = intake([ArtifactRecord("source-a", "evidence")], {"forged": lambda a: [{
+        "candidate_id": "forged", "candidate_type": "SEMANTIC_PRIMITIVE",
+        "source_artifact": "source-b", "source_span": "line:1",
+        "load_bearing": True,
+    }]})
+    assert result.candidates == ()
+    assert result.unresolved_extraction == ("source-a:forged:ValueError",)
+    assert result.generator_receipts[0].status == "ERROR"
+    assert to_work_items(result, package_verifier=lambda _: True) == ()
+
+
+def test_typed_generator_cannot_attribute_candidate_to_untraversed_artifact():
+    from artifact_intake import ExtractedCandidate
+    forged = ExtractedCandidate(
+        candidate_id="forged", candidate_type="SEMANTIC_PRIMITIVE",
+        source_artifact="source-b", source_span="line:1", load_bearing=True,
+    )
+    result = intake([ArtifactRecord("source-a", "evidence")],
+                    {"forged": lambda a: [forged]})
+    assert result.candidates == ()
+    assert result.unresolved_extraction == ("source-a:forged:ValueError",)
+    assert to_work_items(result, package_verifier=lambda _: True) == ()
+
+
+def test_explicit_matching_source_identity_preserves_normal_admission():
+    result = intake([ArtifactRecord("source-a", "evidence")], {"valid": lambda a: [{
+        "candidate_id": "real", "candidate_type": "SEMANTIC_PRIMITIVE",
+        "source_artifact": a.artifact_id, "source_span": "line:1",
+        "load_bearing": True,
+    }]})
+    assert result.unresolved_extraction == ()
+    assert len(result.candidates) == 1
+    assert result.candidates[0].source_artifact == "source-a"
+    assert len(to_work_items(result)) == 1
