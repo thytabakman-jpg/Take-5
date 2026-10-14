@@ -9,6 +9,7 @@ from tool_project_packages import (
     all_project_specs, append_record, audit_materialized,
     coverage_cells, current_tool_specs, icc_variant_specs,
     materialize_all, materialize_package, package_files,
+    SPARSE_COVERAGE_PILOT, render_coverage_cell,
 )
 from tool_run_registry import MATERIAL_TOOLS
 
@@ -17,7 +18,7 @@ def test_current_tool_inventory_has_exact_package_spec_parity():
     assert tuple(x.object_id for x in current_tool_specs())==tuple(MATERIAL_TOOLS)
 
 
-def test_every_object_package_has_required_core_and_exactly_36_coverage_pages():
+def test_every_object_package_has_required_core_and_36_coverage_coordinates():
     for spec in all_project_specs():
         files=package_files(spec)
         for rel in CORE_FILES:
@@ -26,7 +27,11 @@ def test_every_object_package_has_required_core_and_exactly_36_coverage_pages():
             path for path in files
             if "/coverage/" in path and not path.endswith("/coverage/README.md")
         ]
-        assert len(coverage)==36
+        assert len(coverage)==(0 if spec.object_id in SPARSE_COVERAGE_PILOT else 36)
+        manifest=files[next(path for path in files if path.endswith("/MANIFEST.md"))]
+        assert "Coverage cells: 36" in manifest
+        for index,scope,face in coverage_cells():
+            assert f"coverage/{index:02d}_{scope.value}__{face.value}.md" in manifest
 
 
 def test_coverage_surface_is_scope_x_modeface_and_distinct_from_handoff_surface():
@@ -48,10 +53,10 @@ def test_delegatedexecutor_generated_coverage_index_matches_committed_source():
     committed=(repo_root/"projects/tool-system/current-tools/delegatedexecutor/coverage/README.md").read_text(encoding="utf-8")
     assert generated==committed
     for index,scope,face in coverage_cells():
-        name=f"{index:02d}_{scope.value}__{face.value}.md"
-        assert generated.count(f"(./{name})")==1
-    assert generated.count("](./")==36
-    assert "evidence for one Scope x ModeFace coordinate" in generated
+        assert f"- {index:02d} {face.value} (reserved logical coordinate; no admitted evidence)" in generated
+    assert generated.count("(reserved logical coordinate; no admitted evidence)")==36
+    assert generated.count("](./")==0
+    assert "Each reserved logical coordinate" in generated
 
 
 def test_materializer_refuses_to_overwrite_changed_existing_content(tmp_path:Path):
@@ -137,7 +142,7 @@ def test_multiobject_package_has_direct_runtime_math_and_legacy_lineage_routes()
     assert "blob/main/projects/pd/protocol/MULTI_OBJECT_CONNECTOR_PROTOCOL.md" in sources
     assert "blob/492bf7da82ac346c1a17ab0acc2405adf17ae5c1" in sources
 
-def test_multiobject_batch2_coverage_and_streams_are_materialized_and_linked():
+def test_multiobject_sparse_coverage_and_streams_are_materialized_and_indexed():
     spec=next(x for x in current_tool_specs() if x.object_id=="MultiObject")
     files=package_files(spec)
     root=Path(__file__).resolve().parents[1]/"projects/tool-system"
@@ -146,14 +151,10 @@ def test_multiobject_batch2_coverage_and_streams_are_materialized_and_linked():
     for number,scope,mode in coverage_cells():
         name=f"{number:02d}_{scope.value}__{mode.value}.md"
         path=prefix+"coverage/"+name
-        expected=files[path]
-        assert f"({('./'+name)})" in index
-        assert "Disposition: OPEN" in expected
-        assert "- none admitted yet" in expected
-        assert "[all 36 coverage cells](README.md)" in expected
-        assert "[authority registry](../AUTHORITY_REGISTRY.md)" in expected
-        assert (root/path).read_text(encoding="utf-8")==expected
-    assert index.count("](./")==36
+        assert path not in files
+        assert not (root/path).exists()
+        assert f"- {number:02d} {mode.value} (reserved logical coordinate; no admitted evidence)" in index
+    assert index.count("(reserved logical coordinate; no admitted evidence)")==36
     assert (root/(prefix+"coverage/README.md")).read_text(encoding="utf-8")==index
     for directory in ("evidence","runs","history"):
         path=prefix+directory+"/README.md"
@@ -161,6 +162,25 @@ def test_multiobject_batch2_coverage_and_streams_are_materialized_and_linked():
         assert "This directory is append-only." in expected
         assert "[Change control](../CHANGE_CONTROL.md)" in expected
         assert (root/path).read_text(encoding="utf-8")==expected
+
+
+def test_pilot_sparse_pages_fail_closed_on_evidence_misrouting(tmp_path:Path):
+    spec=next(x for x in current_tool_specs() if x.object_id=="MultiObject")
+    materialize_package(tmp_path,spec)
+    cdir=tmp_path/"projects/tool-system/current-tools/multiobject/coverage"
+    assert not list(cdir.glob("[0-9]*.md"))
+    idx,scope,face=coverage_cells()[0]
+    page=cdir/f"{idx:02d}_{scope.value}__{face.value}.md"
+    native=render_coverage_cell(spec,idx,scope,face)
+    page.write_text(native.replace("- none admitted yet","- E001 independently admitted"),encoding="utf-8")
+    assert spec.object_id not in audit_materialized(tmp_path)["bad_coverage"]
+    assert materialize_package(tmp_path,spec)==()  # evidence preserved
+    assert "- E001" in page.read_text(encoding="utf-8")
+    page.write_text(native,encoding="utf-8")
+    assert spec.object_id in audit_materialized(tmp_path)["bad_coverage"]
+    page.unlink()
+    (cdir/"37_FAKE__EXPAND.md").write_text("not admitted",encoding="utf-8")
+    assert spec.object_id in audit_materialized(tmp_path)["bad_coverage"]
 
 
 def _validate_registered_crosswalk(text:str)->tuple[tuple[str,str,str],...]:
