@@ -125,7 +125,11 @@ def test_discovery_only_wrapper_round_notifies_jane_without_target_mutation():
     def sync_jane(jane_state, delta):
         out = dict(jane_state)
         out["received"] = out.get("received", ()) + (
-            (delta.changed, delta.material, delta.before_fingerprint == delta.after_fingerprint),
+            (
+                delta.changed, delta.material,
+                delta.before_fingerprint == delta.after_fingerprint,
+                getattr(delta.discovery_evidence, "candidate_universe_changed", None),
+            ),
         )
         return out
 
@@ -153,10 +157,11 @@ def test_discovery_only_wrapper_round_notifies_jane_without_target_mutation():
     assert result.rounds[0].jane_synced
     assert not result.rounds[1].jane_synced
     assert len(result.jane_state["received"]) == 1
-    fields, target_mutated, fingerprints_equal = result.jane_state["received"][0]
+    fields, target_mutated, fingerprints_equal, candidate_discovered = result.jane_state["received"][0]
     assert "discovery_delta" in fields
     assert not target_mutated
     assert fingerprints_equal
+    assert candidate_discovered is True
 
 
 def test_unadmitted_open_discovery_cannot_be_synchronized_as_admitted():
