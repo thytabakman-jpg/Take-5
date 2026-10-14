@@ -1,8 +1,10 @@
 schema_version: 0.1
 system: take_5
-status: CANONICAL_WORKING
-target_status: CANONICAL_WORKING
+status: SUCCESSOR_CANDIDATE
+status_scope: kernel_contract_promotion
+target_status: REPLACEMENT
 production_authority: none
+repository_working_status: CANONICAL_WORKING
 working_authority: thytabakman-jpg/Take-5
 working_authority_source: MIGRATION_STATE.yaml
 legacy_authority: thytabakman-jpg/Reaserch
