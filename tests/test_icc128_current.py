@@ -53,3 +53,14 @@ def test_state_relative_selector_prefers_minimum_burden_when_cheap():
 
 def test_material_failure_forces_reselection():
     assert needs_reselection({"failed_route":True})
+
+
+def test_icc128_source_map_records_distinct_epic_runtime():
+    from pathlib import Path
+    root = Path(__file__).resolve().parents[1]
+    file = root / 'projects/tool-system/current-tools/icc128/SOURCE_MAP.md'
+    body = file.read_text(encoding='utf-8')
+    assert 'CROSS_REPOSITORY_BEHAVIORAL_EQUIVALENCE_OPEN' in body
+    assert 'ICC128_EPIC_MODE_CURRENT.yaml' in body
+    assert (root / 'runtime/icc_entry.py').is_file()
+    assert (root / 'runtime/icc128_autonomous_controller.py').is_file()
