@@ -183,6 +183,43 @@ def test_pilot_sparse_pages_fail_closed_on_evidence_misrouting(tmp_path:Path):
     assert spec.object_id in audit_materialized(tmp_path)["bad_coverage"]
 
 
+def test_all_four_sparse_pilot_packages_preserve_exact_logical_cells_and_own_evidence():
+    import re
+    assert SPARSE_COVERAGE_PILOT=={"MultiObject","DelegatedExecutor","GOAL","ICC128"}
+    root=Path(__file__).resolve().parents[1]/"projects/tool-system/current-tools"
+    specs={s.object_id:s for s in current_tool_specs()}
+    for ident in SPARSE_COVERAGE_PILOT:
+        spec=specs[ident]
+        folder=root/ident.lower()
+        manifest=(folder/"MANIFEST.md").read_text(encoding="utf-8")
+        assert manifest.count("Coverage cells: 36")==1
+        index=(folder/"coverage/README.md").read_text(encoding="utf-8")
+        assert not re.search(r"\\]\\(\\./\\d{2}_[A-Z_]+__[A-Z]+\\.md\\)",index)
+        for number,scope,mode in coverage_cells():
+            name=f"{number:02d}_{scope.value}__{mode.value}.md"
+            assert f"- coverage/{name}" in manifest
+            assert not (folder/"coverage"/name).exists()
+        regression=(folder/"REGRESSION_CONTRACT.md").read_text(encoding="utf-8")
+        assert "36 logical Scope x ModeFace coordinates" in regression
+        assert "the distinct SourceScope x TargetScope surface" in regression
+
+
+def test_sparse_manifest_curated_integrity_fail_closed(tmp_path:Path):
+    spec=next(s for s in current_tool_specs() if s.object_id=="GOAL")
+    materialize_package(tmp_path,spec)
+    path=tmp_path/"projects/tool-system/current-tools/goal/MANIFEST.md"
+    body=path.read_text(encoding="utf-8")
+    first=next(p for p in body.splitlines() if p.startswith("- coverage/01_"))
+    path.write_text(body.replace(first,"- coverage/01_MISSING__CELL.md"),encoding="utf-8")
+    try:
+        materialize_package(tmp_path,spec)
+    except ToolProjectPackageCollision:
+        pass
+    else:
+        raise AssertionError("Sparse GOAL manifest illegally lost first logical cell")
+    assert "01_MISSING__CELL" in path.read_text(encoding="utf-8")
+
+
 def _validate_registered_crosswalk(text:str)->tuple[tuple[str,str,str],...]:
     """Validate the navigational map against exact current configured identities.
 
