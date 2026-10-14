@@ -74,6 +74,8 @@ A later discovery can rebase this system through currentness/admission and valid
 
 [Structured fail-closed receipt check](runtime/level4_certification.py) and [parent return gate](runtime/improvement_core_return_gate.py) provide conditional runtime enforcement when Level 4 is explicitly selected or the parent context includes an explicit Level 4 request; binding this flag across every entry path is a separate integration obligation, not inferred from document text.
 
+**Hume cross-chat source-reconciliation (capture only):** the [source-first evidence and outstanding comparisons](integration/CROSS_CHAT_INTEGRATION_INBOX_2026-09-25.md#2026-10-10-hume-research-three-location-and-audit-repair-authority-reconciliation--capture-only) are archived in the existing non-authoritative integration inbox. This pointer does not promote unreviewed source research, audit status, or any manuscript/Kernel authority.
+
 ## Current architecture
 
 The controller uses the 36-cell Scope × ModeFace lattice for coverage and false-closure control.
