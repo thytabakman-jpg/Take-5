@@ -35,3 +35,7 @@ Current projections may change only through explicit change control and retained
 This preserved legacy object retains separate identity and protected behavior, even though it participates in the shared research study.
 
 These research links do not change this package's identity, status, configured semantics, runtime or governing authority.
+
+## Preserved-legacy research exchange boundary — 2026-10-13
+
+The [governed ICC128 exchange](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/improvement-core/research/icc-research-web/exchange/README.md) recognizes this package only as `ICC-128-LEGACY` with its **separate exact identity path and blob SHA**. This is an opt-in typed study and execution handoff, not an alias, semantic replacement, automatic legacy upgrade or claim of current configured execution. No source rollback or variant merge is authorized by linking the exchange.
