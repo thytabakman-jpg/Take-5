@@ -1,9 +1,12 @@
 schema_version: 0.1
 system: take_5
-status: SUCCESSOR_CANDIDATE
-target_status: REPLACEMENT
+status: CANONICAL_WORKING
+target_status: CANONICAL_WORKING
 production_authority: none
+working_authority: thytabakman-jpg/Take-5
+working_authority_source: MIGRATION_STATE.yaml
 legacy_authority: thytabakman-jpg/Reaserch
+legacy_authority_role: rollback_and_provenance_only
 architecture_status: KERNEL_053_VALIDATED
 
 governing_principles:
