@@ -34,7 +34,7 @@ class ToolProjectPackageCollision(RuntimeError):
 
 PACKAGE_ROOT="projects/tool-system"
 # CANDIDATE ONLY: evidence-sparse pilots on unmerged branch; no goal policy change.
-SPARSE_COVERAGE_PILOT=frozenset({"MultiObject","DelegatedExecutor","GOAL"})
+SPARSE_COVERAGE_PILOT=frozenset({"MultiObject","DelegatedExecutor","GOAL","ICC128"})
 CORE_FILES=(
     "README.md",
     "MANIFEST.md",
