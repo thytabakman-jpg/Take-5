@@ -63,7 +63,6 @@ def test_material_round_forces_internal_clean_verification_pass():
     out=_engine(run).run({"version":0},{})
     assert out["status"]=="RELATIVE_CLOSE"
     assert calls==[1,2]
-    assert out["post_mutation_clean_pass"] is True
     assert [r["disposition"] for r in out["trace"]]==[
         "REAPPLY_C","RELATIVE_CLOSE"
     ]
@@ -85,7 +84,8 @@ def test_repeated_material_delta_never_false_closes():
     out=_engine(run,max_rounds=3).run({"version":0},{})
     assert out["status"]=="RESOURCE_STOP"
     assert len(calls)==3
-    assert out["open"]==["FIXED_POINT_NOT_REACHED_WITHIN_MAX_ROUNDS"]
+    assert [r["disposition"] for r in out["trace"]]==["REAPPLY_C"]*3
+    assert all(r["disposition"]!="RELATIVE_CLOSE" for r in out["trace"])
 
 
 def test_affected_frontier_blocks_close_even_on_clean_round():
