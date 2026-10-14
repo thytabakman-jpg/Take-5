@@ -19,8 +19,10 @@ from dataclasses import dataclass
 def test_kernel_repository_authority_agrees_with_migration_without_host_promotion():
     kernel = yaml.safe_load((ROOT / "KERNEL.yaml").read_text(encoding="utf-8"))
     migration = yaml.safe_load((ROOT / "MIGRATION_STATE.yaml").read_text(encoding="utf-8"))
-    assert kernel["status"] == migration["status"] == "CANONICAL_WORKING"
-    assert kernel["target_status"] == "CANONICAL_WORKING"
+    assert kernel["repository_working_status"] == migration["status"] == "CANONICAL_WORKING"
+    assert kernel["status_scope"] == "kernel_contract_promotion"
+    assert kernel["status"] == "SUCCESSOR_CANDIDATE"
+    assert kernel["target_status"] == "REPLACEMENT"
     assert kernel["working_authority"] == migration["current_repository"]
     assert kernel["working_authority_source"] == "MIGRATION_STATE.yaml"
     assert kernel["legacy_authority"] == migration["legacy_baseline"]["repository"]
