@@ -35,6 +35,11 @@ class RunRequest:
 
 
 ALIASES = {
+    "icc128": "ICC128",
+    "icc 128": "ICC128",
+    "icc-128": "ICC128",
+    "improvementcore": "ImprovementCore",
+    "improvement core": "ImprovementCore",
     "project manager": "ProjectManager",
     "project management": "ProjectManager",
     "project management tool": "ProjectManager",
@@ -84,7 +89,7 @@ def resolve_run_request(text: str) -> RunRequest:
     """
     tool = _normalize_tool(text)
     lowered = text.lower()
-    explicit_bare = bool(re.search(r"\b(?:bare|core)\b", lowered))
+    explicit_bare = bool(re.search(r"^\s*(?:run\s+)?(?:bare|core)\b", lowered))
 
     if explicit_bare:
         return RunRequest(
