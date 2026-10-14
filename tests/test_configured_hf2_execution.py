@@ -131,3 +131,30 @@ def test_hf2_scope_delta_blocks_clean_close():
     out=execute_configured_with_hf2(tool_id="MT",plan=plan,state={},adapter=adapter)
     assert out.status=="OPEN"
     assert out.trace[-1]["delta"]["scope_deltas"]["section"] is True
+
+def test_hf2_empty_affected_scope_allows_clean_close():
+    plan=build_tool_execution_plan(CONFIGURED_RUNS["MT"])
+    def adapter(state,plan):
+        return {"status":"CLOSED_RELATIVE","execution_truth":"IMPLEMENTATION_EXECUTED",
+                "result":{"witness":"clean"},"material_delta":False,
+                "hf2_local_close":True,"hf2_affected_frontier":(),
+                "hf2_scope_deltas":{"section":False}}
+    out=execute_configured_with_hf2(tool_id="MT",plan=plan,state={},adapter=adapter)
+    assert out.status=="RELATIVE_CLOSE"
+    assert out.call_count==1
+
+
+def test_hf2_material_reenter_then_unresolved_affected_scope():
+    plan=build_tool_execution_plan(CONFIGURED_RUNS["MT"])
+    calls=[]
+    def adapter(state,plan):
+        calls.append(1)
+        return {"status":"CLOSED_RELATIVE","execution_truth":"IMPLEMENTATION_EXECUTED",
+                "result":{"witness":len(calls)},"state":{"version":1},
+                "material_delta":len(calls)==1,"hf2_local_close":True,
+                "hf2_scope_deltas":{"section":len(calls)>1}}
+    out=execute_configured_with_hf2(tool_id="MT",plan=plan,
+                                   state={"version":0},adapter=adapter)
+    assert out.status=="OPEN"
+    assert out.call_count==2
+    assert [x["disposition"] for x in out.trace]==["REAPPLY_C","OPEN"]
