@@ -22,6 +22,10 @@ This package organizes the object without becoming a second semantic authority.
 9. SOURCE_MAP.md
 10. coverage/ only for coverage evidence
 
+## Related scientific research (navigation, not authority)
+
+The [Reaserch ICC scientific research web](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/improvement-core/research/icc-research-web/README.md) studies ICC components and interactions; that source [already points back to this Take-5 configured tool family](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/improvement-core/research/icc-research-web/README.md). This is a typed `RESEARCHED_BY` / `NAVIGATES_TO` cross-reference, **not** a `REQUIRES` dependency, runtime identity transfer, Level 2–4 certificate or promotion of scientific claims. The package's actual current state, mathematics, protected behaviors and native tests retain their existing owners.
+
 ## Anti-loss rule
 
 Do not overwrite history, decisions, lessons, run evidence, or coverage-cell evidence.
