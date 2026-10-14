@@ -87,6 +87,9 @@ def _bool_coordinate(value: Mapping[str, Any], key: str, default: bool | None) -
 
 def _normalize_candidate(value: Any, artifact: ArtifactRecord) -> ExtractedCandidate:
     if isinstance(value, ExtractedCandidate):
+        # A generator may not impersonate a different artifact's source identity.
+        if value.source_artifact != artifact.artifact_id:
+            raise ValueError("candidate source_artifact differs from traversed artifact")
         # Both supported generator result shapes use the same authority-sensitive
         # boolean gate. Dataclass annotations do not enforce runtime types.
         for key in ("load_bearing", "executable_claim", "bound"):
@@ -98,6 +101,8 @@ def _normalize_candidate(value: Any, artifact: ArtifactRecord) -> ExtractedCandi
         return value
     if not isinstance(value, Mapping):
         raise TypeError("generator candidates must be ExtractedCandidate or mapping")
+    if value.get("source_artifact", artifact.artifact_id) != artifact.artifact_id:
+        raise ValueError("candidate source_artifact differs from traversed artifact")
     return ExtractedCandidate(
         candidate_id=str(value.get("candidate_id", "")),
         candidate_type=str(value.get("candidate_type", "")),
