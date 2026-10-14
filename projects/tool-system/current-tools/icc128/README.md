@@ -43,3 +43,9 @@ These research links do not change this package's identity, status, configured s
 - [Synthetic regression test source](https://github.com/thytabakman-jpg/Reaserch/blob/main/runtime/test_icc128_research_execution_bridge.py)
 
 This **opt-in** bridge reads the Take-5 ICC128 identity at its exact Git blob SHA and returns evidence to Reaserch. It does not replace the Take-5 manifest/registry/conductor, authorize modifications, grant `FULL_MATCH`, or automatically install itself into the host. A current-versus-legacy identity mismatch fails closed. Host installation and actual configured execution receipts remain separately necessary.
+
+<!-- ICC128_SEMANTIC_DRIFT_RESEARCH_BOUNDARY_20261013 -->
+## Historical semantic drift versus live ICC-128 tool
+
+The source-scoped [ICC23/ICC128 semantic-drift repair 066](../../../../integration/ICC23_ICC128_SEMANTIC_DRIFT_REPAIR_066_2026-09-25.md) is dated historical control and capture evidence; its [reusable semantic object/type research](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/improvement-core/research/icc-research-web/component-research/logic/README.md) is owned directly by the existing ICC component-logic research home. [Ten-file source/owner reconciliation](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/improvement-core/research/icc-research-web/source-intake/ICC128_ORPHAN_TEN_DIRECT_HOME_CONSOLIDATION_2026_10_13.md). The historical report is not a parallel current tool manifest, and this navigation does not modify current tool identity, wrapper, runtime, or approval boundary.
+
