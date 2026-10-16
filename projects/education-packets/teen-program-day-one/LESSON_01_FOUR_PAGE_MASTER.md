@@ -93,7 +93,7 @@ mode, distribute/open the booklet after the evidence reveal when feasible.
 
 **TEXT [x=8, y=18, w=84, h=7; 24pt bold]** — Headline: "MORE THAN WHAT YOU SEE"
 
-**TEXT [x=8, y=27, w=84, h=8; 12pt]** — Two-sentence story bridge: "The seven traditions came from different times in Jewish history. Yet they all reached Jewish life today."
+**TEXT [x=8, y=27, w=84, h=8; 12pt]** — Two-sentence story bridge: "The seven things you sorted entered Jewish life at different times. Yet you can encounter all seven today."
 
 **IMAGE [id=ART_SHOFAR_A01; x=13, y=37, w=30, h=15]** — The *identical* shofar illustration from Page 1, enlarged. No new art or hidden lettering.
 **TEXT [x=13, y=52, w=30, h=3; 9pt bold; centered]** — Caption: "Shofar"
@@ -159,7 +159,7 @@ mode, distribute/open the booklet after the evidence reveal when feasible.
 
 **TEXT [x=8, y=19, w=84, h=7; 24pt bold]** — Headline: "WHAT GOES FORWARD?"
 
-**TEXT [x=8, y=28, w=84, h=9; 12pt]** — Story return, three sentences: "For thousands of years, Jewish life has passed from generation to generation. People have preserved, studied, questioned, and shaped what they received. Now those histories reach the present."
+**TEXT [x=8, y=28, w=84, h=9; 12pt]** — Story return, three sentences: "Jewish life stretches across roughly 3,000 years. Across generations, people have passed on, studied, questioned, and shaped what they received. The story is still unfolding today."
 
 **TEXT [x=8, y=39, w=84, h=4; 9pt]** — Exact source attribution: "Book of Micah · Micah 6:8"
 
