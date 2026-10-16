@@ -43,7 +43,7 @@ mode, distribute/open the booklet after the evidence reveal when feasible.
 
 **PAGE** — White background. Neutral shuffled seven-object cluster, without numbering or dating. No decorative timeline or solved historical arrow.
 
-**TEXT [x=8, y=6, w=84, h=3; 9pt]** — Top navigation, "1 LOCATE" in dark violet bold and the rest light gray: "1 LOCATE     2 INTERPRET     3 RELATE     4 CONTRIBUTE"
+**TEXT [x=8, y=6, w=84, h=3; 9pt]** — Top navigation, LOCATE in dark violet bold and the rest light gray: "1 LOCATE     2 INTERPRET     3 RELATE     4 CONTRIBUTE"
 
 **TEXT [x=8, y=12, w=84, h=7; 24pt bold]** — Left-aligned headline: "WHICH CAME FIRST?"
 
