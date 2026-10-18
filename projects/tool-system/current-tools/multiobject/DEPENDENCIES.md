@@ -2,16 +2,16 @@
 
 ## Canonical dependencies
 
-- runtime/tool_run_registry.py
-- runtime/tool_manifest.py
-- runtime/portable_tool_conductor.py
-- integration/CURRENT_TOOL_REALITY.md
+- [Configured-run registry](../../../../runtime/tool_run_registry.py)
+- [Protected tool manifest](../../../../runtime/tool_manifest.py)
+- [Portable invocation conductor](../../../../runtime/portable_tool_conductor.py)
+- [Current tool reality](../../../../integration/CURRENT_TOOL_REALITY.md)
 
 ## Shared runtime/identity dependencies
 
-- runtime/tool_run_registry.py
-- runtime/tool_manifest.py
-- runtime/portable_tool_conductor.py
+The registry, manifest, and conductor above are shared runtime/identity
+authorities. The current-tool-reality source supplies the separate
+currentness and execution-evidence boundary.
 
 ## Rule
 
