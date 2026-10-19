@@ -5,6 +5,18 @@ Status: CURRENT / VALIDATED / MERGED
 Controller: ImprovementCore / IC-028
 Candidate regime: 091
 
+## Contents
+
+- [Problem](#problem)
+- [Promotion](#promotion)
+- [Recurrence predicate](#recurrence-predicate)
+- [Closure](#closure)
+- [Role separation](#role-separation)
+- [Identity promotion](#identity-promotion)
+- [Boundary](#boundary)
+- [Validation target](#validation-target)
+- [Promotion evidence](#promotion-evidence)
+
 ## Problem
 
 Repeated successful use of explicit HF2[ImprovementCore] campaigns showed a manual-reprompt seam.
