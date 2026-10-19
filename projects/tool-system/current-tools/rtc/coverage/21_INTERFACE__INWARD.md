@@ -6,6 +6,9 @@ Scope: INTERFACE
 Mode face: INWARD
 Authority: AUDIT_EVIDENCE_ONLY
 Disposition: OPEN
+Purpose: Retain only observations for this exact Scope x ModeFace evidence coordinate; no finding is admitted yet.
+Reader: RTC maintainers and audit reviewers.
+Index: [all RTC coverage cells](README.md)
 
 ## Findings
 
@@ -18,4 +21,4 @@ Disposition: OPEN
 ## Non-overwrite rule
 
 Add evidence here without replacing findings owned by another coverage cell.
-Canonical semantic changes route through AUTHORITY_REGISTRY.md and CHANGE_CONTROL.md.
+Canonical semantic changes route through the [authority registry](../AUTHORITY_REGISTRY.md) and [change control](../CHANGE_CONTROL.md).

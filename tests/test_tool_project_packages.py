@@ -152,6 +152,157 @@ def test_rtc_home_native_chain_and_readme_collision(tmp_path:Path):
         materialize_package(tmp_path,spec)
 
 
+def test_three_tool_homes_level2_all_110_source_jobs_and_type_boundaries():
+    """2C: exact live corpus, independent owner jobs, typed evidence and source parity."""
+    root=Path(__file__).resolve().parents[1]
+    families={"MultiObject":("multiobject",25),"GOAL":("goal",29),"RTC":("rtc",56)}
+    additional={
+        "multiobject": {
+            "evidence/batch-02-level1-triage.md",
+            "evidence/batch-03-level1-triage.md",
+            "evidence/batch-03-level1-validation-closure.md",
+            "evidence/level1-ten-loadbearing-source-triage.md",
+            "evidence/level2-ten-loadbearing-source-triage.md",
+        },
+        "goal": {
+            "runs/LEVEL1_BATCH01_2026-10-10.md",
+            "runs/LEVEL1_BATCH02_2026-10-10.md",
+            "runs/LEVEL1_BATCH03_2026-10-10.md",
+            "runs/LEVEL1_BATCH04_2026-10-10.md",
+            "runs/LEVEL1_BATCH05_2026-10-10.md",
+            "runs/LEVEL1_BATCH05_POST_RECEIPT_RECONCILIATION_2026-10-10.md",
+            "runs/LEVEL1_BATCH06_2026-10-10.md",
+            "runs/LEVEL1_BATCH06_POST_RECEIPT_RECONCILIATION_2026-10-10.md",
+            "runs/RTC_GOAL_2026-09-30.md",
+        },
+        "rtc":set(),
+    }
+    roles={
+        "README.md":"Operational home contract",
+        "MANIFEST.md":"Coverage cells: 36",
+        "AUTHORITY_REGISTRY.md":"current configured-tool identity",
+        "CURRENT_STATE.md":"Projection status: CURRENT",
+        "IDENTITY.md":"Species: CURRENT_CONFIGURED_TOOL",
+        "MATHEMATICS.md":"Non-duplication rule",
+        "RUNTIME.md":"execution",
+        "PROTECTED_BEHAVIORS.md":"protected behavior",
+        "DEPENDENCIES.md":"runtime/tool_manifest.py",
+        "SOURCE_MAP.md":"runtime/tool_run_registry.py",
+        "OPEN_QUESTIONS.md":"OPEN",
+        "CHANGE_CONTROL.md":"Delta =",
+        "REGRESSION_CONTRACT.md":"A valid package",
+        "DECISION_LOG.md":"Append-only",
+        "LESSONS_LEDGER.md":"Append-only",
+        "HANDOFF_SURFACE.md":"SourceScope x TargetScope",
+    }
+    total=0
+    for spec in current_tool_specs():
+        if spec.object_id not in families:
+            continue
+        name,count=families[spec.object_id]
+        home=root/"projects/tool-system/current-tools"/name
+        generated=package_files(spec)
+        expected={p.removeprefix(f"current-tools/{name}/") for p in generated}
+        expected |= additional[name]
+        actual={p.relative_to(home).as_posix() for p in home.rglob("*.md")}
+        assert actual==expected,(name,sorted(expected-actual),sorted(actual-expected))
+        assert len(actual)==count,(name,len(actual),count)
+        total+=len(actual)
+        for rel in actual:
+            body=(home/rel).read_text(encoding="utf-8")
+            assert body.startswith("# "), (name,rel,"title")
+            assert body.strip(), (name,rel,"empty")
+        for page,required in roles.items():
+            text=(home/page).read_text(encoding="utf-8")
+            assert required in text,(name,page,required)
+        for part in ("coverage","evidence","history","runs"):
+            readme=(home/part/"README.md").read_text(encoding="utf-8")
+            assert "append-only" in readme.lower() if part in {"evidence","history","runs"} else "Scope x ModeFace" in readme
+        home_contract=(home/"README.md").read_text(encoding="utf-8").lower()
+        assert "without becoming a second semantic authority" in home_contract
+        assert "a clean readme is not a certificate" in home_contract
+        for rel in additional[name]:
+            body=(home/rel).read_text(encoding="utf-8")
+            assert body.startswith("# "), (name,rel)
+        # Generator-produced pages are compared *byte for byte* against current
+        # canonical sources. Curated archival/source-map pages remain separately owned.
+        strict={"multiobject":{"CURRENT_STATE.md"},"goal":{"evidence/README.md","history/README.md"},"rtc":{
+            "AUTHORITY_REGISTRY.md","CURRENT_STATE.md","OPEN_QUESTIONS.md",
+            "evidence/README.md","history/README.md","runs/README.md",
+        }}[name]
+        if name=="rtc":
+            strict|={p for p in expected if p.startswith("coverage/") and p!="coverage/README.md"}
+        for rel in strict:
+            assert (home/rel).read_text(encoding="utf-8")==generated[f"current-tools/{name}/{rel}"],(name,rel,"generator parity")
+    assert total==110
+
+
+def test_three_tool_homes_level2_rtc_all_36_typed_reciprocal_edges():
+    """2C: no evidence promotion, no coordinate aliases, real one-hop owners."""
+    root=Path(__file__).resolve().parents[1]/"projects/tool-system/current-tools/rtc"
+    spec=next(s for s in current_tool_specs() if s.object_id=="RTC")
+    index=(root/"coverage/README.md").read_text(encoding="utf-8")
+    observed=set()
+    for i,scope,face in coverage_cells():
+        name=f"{i:02d}_{scope.value}__{face.value}.md"
+        page=(root/"coverage"/name).read_text(encoding="utf-8")
+        assert name not in observed
+        observed.add(name)
+        assert page.startswith(f"# RTC: {scope.value} x {face.value}\n")
+        assert f"Coverage cell: {i:02d}/36" in page
+        assert f"Scope: {scope.value}" in page
+        assert f"Mode face: {face.value}" in page
+        for clause in ("Authority: AUDIT_EVIDENCE_ONLY","Disposition: OPEN","- none admitted yet",
+                       "[all RTC coverage cells](README.md)",
+                       "[authority registry](../AUTHORITY_REGISTRY.md)",
+                       "[change control](../CHANGE_CONTROL.md)"):
+            assert clause in page,(name,clause)
+        assert (root/"coverage/README.md").exists()
+        assert f"](./{name})" in index
+        assert page==package_files(spec)[f"current-tools/rtc/coverage/{name}"]
+    assert len(observed)==36
+    assert "separate" in index.lower()
+    # Local mutation must be detectable; direct scope/name mismatch cannot pass.
+    corrupt=(root/"coverage/01_SYSTEM__EXPAND.md").read_text(encoding="utf-8").replace(
+        "Coverage cell: 01/36","Coverage cell: 02/36",1
+    )
+    assert "Coverage cell: 01/36" not in corrupt
+
+
+def test_three_tool_homes_level2_one_hop_markdown_residence():
+    """2C: current native/local links resolve; pinned historical slots stay typed."""
+    import re
+    root=Path(__file__).resolve().parents[1]
+    base=root/"projects/tool-system/current-tools"
+    unresolved=[]
+    known_historical=[]
+    for home_name in ("multiobject","goal","rtc"):
+        home=base/home_name
+        for file in home.rglob("*.md"):
+            content=file.read_text(encoding="utf-8")
+            for raw in re.findall(r"\]\(([^)]+)\)",content):
+                dest=raw.split("#",1)[0].strip()
+                if not dest or "://" in dest or dest.startswith(("mailto:","data:")):
+                    continue
+                dest=dest.split(" \"",1)[0]
+                target=(file.parent/dest)
+                if target.exists():
+                    continue
+                rel=file.relative_to(home).as_posix()
+                if (home_name=="goal" and rel.startswith("runs/LEVEL1_BATCH0")
+                    and dest.startswith("../coverage/") and dest.endswith(".md")):
+                    known_historical.append((rel,dest))
+                    continue
+                unresolved.append((home_name,rel,dest))
+    assert not unresolved,unresolved[:30]
+    if known_historical:
+        # Prior materialized pages were explicitly archived at this immutable
+        # revision; an old receipt's historical-relative link is not live routing.
+        guide=(base/"goal/coverage/README.md").read_text(encoding="utf-8")
+        assert "bc9421f8b91684e143f1757eb9f78035cde7045d" in guide
+        assert "historical" in guide.lower()
+
+
 def test_rtc_coverage_index_reproduces_and_navigates_all_36_existing_cells():
     spec=next(s for s in current_tool_specs() if s.object_id=="RTC")
     generated=package_files(spec)["current-tools/rtc/coverage/README.md"]

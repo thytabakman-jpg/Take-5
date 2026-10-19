@@ -287,10 +287,20 @@ truth, fix the routing before editing either one.
             "| MultiObject native execution | runtime/multiobject.py |\n"
             "| full mathematical identity | architecture/MULTIOBJECT_FULL_TOOL_MATH_001_2026-09-27.md |",
         )
+    if spec.current_tool and spec.object_id=="RTC":
+        body=body.replace(
+            "| current executable realization | runtime/portable_tool_conductor.py |",
+            "| current configured invocation | runtime/portable_tool_conductor.py |\n| RTC native entrypoint | runtime/raise_the_ceiling.py |\n| C48 capability dispatch | runtime/capability_runtime.py |\n| C48 candidate evaluator | runtime/a5_programs.py |",
+        )
     return body
 
+MULTIOBJECT_CURRENT_STATE_BOUNDARY = "\n## MultiObject registered-versus-executed distinction\n\n`CURRENT` means the configured tool package is registered. It does not witness a completed MultiObject relation-discovery run, a supplied domain provider, or a finding whose material-delta semantics were independently validated. The live [executor](../../../../runtime/multiobject.py), [configured conductor](../../../../runtime/portable_tool_conductor.py), [source map](SOURCE_MAP.md) and [native regression owner](REGRESSION_CONTRACT.md) remain separate; missing provider or unverified semantic coverage stays OPEN at the affected scope.\n"
+
+
+RTC_CURRENT_STATE_BOUNDARY = "\n## Registered state versus native RTC proof\n\n`CURRENT` records the configured RTC package, not a witnessed RTC invocation or complete protected-property proof. The [configured entrypoint](../../../../runtime/raise_the_ceiling.py), [C48 evaluator](../../../../runtime/a5_programs.py), [source map](SOURCE_MAP.md) and [regression contract](REGRESSION_CONTRACT.md) remain independently checkable. The present truthy-field preservation check does not prove coverage of a declared protected set; that stronger assertion remains OPEN.\n"
+
 def render_current(spec:ProjectObjectSpec)->str:
-    return f"""# Current state: {spec.display_name}
+    body=f"""# Current state: {spec.display_name}
 
 Projection status: CURRENT
 Object status: {spec.status}
@@ -305,6 +315,11 @@ shared registry/manifest/runtime authorities listed in SOURCE_MAP.md.
 It does not erase history and it does not supersede external semantic authority
 without an explicit admitted change.
 """
+    if spec.current_tool and spec.object_id=="MultiObject":
+        body += MULTIOBJECT_CURRENT_STATE_BOUNDARY
+    if spec.current_tool and spec.object_id=="RTC":
+        body += RTC_CURRENT_STATE_BOUNDARY
+    return body
 
 
 def render_identity(spec:ProjectObjectSpec)->str:
@@ -453,12 +468,15 @@ to make the folder look complete.
         body += "\n## Cross-repository reconciliation (derived navigation; no promotion)\n\n- [Take-5/Reaserch crosswalk](../../SOURCE_MAP.md#cross-repository-tool-package-navigation-derived-no-authority-transfer) — all current packages, catalogued formal objects and unresolved differences.\n- [Reaserch `MULTI-OBJECT` (K2) catalog entry](https://github.com/HISTORICAL_REPO/blob/main/projects/improvement-core/tool-ecosystem/FORMAL_TOOL_CATALOG_CURRENT.yaml) and [its current semantic locator](https://github.com/HISTORICAL_REPO/blob/main/projects/improvement-core/tool-ecosystem/MULTIOBJECT_CURRENT_SEMANTIC_STATE_2026-09-26.md). Matching names permit navigation, not automatic semantic equivalence or runnable integration.\n- Take-5 configured-run authority remains [registry](../../../../runtime/tool_run_registry.py), [manifest](../../../../runtime/tool_manifest.py), [conductor](../../../../runtime/portable_tool_conductor.py). See [mathematics](MATHEMATICS.md), [runtime](RUNTIME.md), [dependencies](DEPENDENCIES.md), [regression contract](REGRESSION_CONTRACT.md).\n- Native evidence surfaces are [runs](runs/README.md), [evidence](evidence/README.md), [coverage](coverage/README.md) and [history](history/README.md); a file link is not proof that configured execution or certification passed.\n\n**Owner boundary:** Do not copy mathematical truth between repositories or infer current runtime promotion from this source map. Mark unresolved mismatches OPEN and check the specialist owner.\n".replace("HISTORICAL_REPO", "thytabakman-jpg" + "/" + "Reaserch")
     return body
 
+RTC_OPEN_PRESERVATION_FRONTIER = "\n## C48 protected-set adequacy — OPEN\n\nThe [RTC runtime chain](RUNTIME.md) currently accepts C48 candidates when `strict_gain` and `preserves` are truthy. That is not a membership/coverage check for each declared protected property. Independently reconcile the [native C48 evaluator](../../../../runtime/a5_programs.py), [manifest-bound preservation contract](../../../../runtime/tool_manifest.py), [recovery specification](../../../../architecture/NATIVE_TOOL_RECOVERY_PACK_160_2026-09-27.md) and [native regressions](REGRESSION_CONTRACT.md) before asserting full protected-basis preservation. This is a **source/verification obligation**, not proof that every higher-level RTC use violates preservation; maintain separate package-current and native-run statuses.\n"
+
+
 def render_open(spec:ProjectObjectSpec)->str:
     if spec.current_tool:
         body="- package-specific open questions are added here only when they are not already owned by a canonical source"
     else:
         body=f"- semantic/currentness reconstruction remains governed by status {spec.status}\n- do not infer missing role from numbering or neighboring variants"
-    return f"""# OPEN questions: {spec.display_name}
+    body = f"""# OPEN questions: {spec.display_name}
 
 {body}
 
@@ -467,6 +485,9 @@ def render_open(spec:ProjectObjectSpec)->str:
 OPEN is durable state. Closing an item requires evidence and a receipt; deleting
 the line because a later summary is shorter is forbidden.
 """
+    if spec.current_tool and spec.object_id=="RTC":
+        body += RTC_OPEN_PRESERVATION_FRONTIER
+    return body
 
 
 def render_change(spec:ProjectObjectSpec)->str:
@@ -584,6 +605,17 @@ Do not replace an older record with a newer one.
             "Run evidence": "\n## Use and authority\n\nReader: MultiObject operators and validators.\nPurpose: Retain run-specific inputs, invoked route, evidence, results, and limits only when an actual run or validation was performed.\n\n- [Executable route and provider boundary](../RUNTIME.md)\n- [Protected behavior routes](../PROTECTED_BEHAVIORS.md)\n- [Change control](../CHANGE_CONTROL.md)\n\nA plan, pending workflow, or generated file is not an executed-run receipt.\n",
             "History": "\n## Use and authority\n\nReader: MultiObject maintainers and historians.\nPurpose: Preserve superseded package states and their provenance without making older versions current authorities.\n\n- [Current state projection](../CURRENT_STATE.md)\n- [Decision log](../DECISION_LOG.md)\n- [Lessons ledger](../LESSONS_LEDGER.md)\n- [Change control](../CHANGE_CONTROL.md)\n\nUse Git history for revisions of a living file; create a separate immutable record here only for independently necessary historical evidence.\n"
         }.get(name, "")
+    if spec.current_tool and spec.object_id=="GOAL":
+        body += {
+            "Evidence": "Navigation: [package manifest](../MANIFEST.md) · [authority ownership](../AUTHORITY_REGISTRY.md) · [change control](../CHANGE_CONTROL.md).\n\n## Evidence role and admission\n\nReader: GOAL maintainers, reviewers and certification consumers. This stream preserves immutable source-attributed audit or repair evidence; it does not independently prove a configured GOAL execution, select a mathematical specification or rewrite a project's canonical goals. Consult the [source map](../SOURCE_MAP.md) for current authority, the [run evidence index](../runs/README.md) for already recorded historical receipts and [change control](../CHANGE_CONTROL.md) before admitting a new observation.\n",
+            "History": "Navigation: [Goal source lineage and mathematics](../SOURCE_MAP.md) · [package decision log](../DECISION_LOG.md) · [change control](../CHANGE_CONTROL.md).\n\n## Historical role and admission\n\nReader: GOAL maintainers and historians. Preserve independently meaningful superseded package states and their provenance; ordinary revisions of living source files remain in Git history. This home is not a second runtime or current-goal selector. Recover the [current state projection](../CURRENT_STATE.md) and [source map](../SOURCE_MAP.md) before translating a historical source into a present claim.\n",
+        }.get(name, "")
+    if spec.current_tool and spec.object_id=="RTC":
+        body += {
+            "Evidence": "\n## Evidence role and admission\n\nReader: RTC maintainers and audit reviewers. Retain source-attributed tool-specific evidence without treating it as executed C48, admitted mathematical authority or a completed protected-set proof. Retrieve the [source map](../SOURCE_MAP.md), [authority registry](../AUTHORITY_REGISTRY.md) and [change control](../CHANGE_CONTROL.md) before admitting findings. Evidence is distinct from configured [run receipts](../runs/README.md) and superseded [history](../history/README.md).\n",
+            "History": "\n## Historical role and admission\n\nReader: RTC maintainers and historians. Retain independently meaningful superseded package states and provenance, not a second C48 implementation or routine Git revisions of living files. Recover the [current projection](../CURRENT_STATE.md), [source map](../SOURCE_MAP.md) and [decision history](../DECISION_LOG.md) before translating archived observations into current claims.\n",
+            "Run evidence": "\n## Run-evidence role and admission\n\nReader: RTC operators and validation reviewers. Admit only an actually witnessed RTC or C48 invocation with inputs, source revision, observed result, native checks and limitations. A plan, generic CI green status, package registration or prose source link is not a new RTC run. See the [runtime entrypoint](../RUNTIME.md), [native regressions](../REGRESSION_CONTRACT.md) and [open preservation question](../OPEN_QUESTIONS.md).\n",
+        }.get(name, "")
     return body
 
 
@@ -664,6 +696,15 @@ Canonical semantic changes route through AUTHORITY_REGISTRY.md and CHANGE_CONTRO
     if spec.current_tool and spec.object_id=="MultiObject":
         body=body.replace("Disposition: OPEN\n\n## Findings", "Disposition: OPEN\nPurpose: Preserve only findings at this exact Scope x ModeFace coordinate; do not infer semantic closure from this page.\nReader: MultiObject maintainers and audit reviewers.\nIndex: [all 36 coverage cells](README.md)\n\n## Findings")
         body=body.replace("Canonical semantic changes route through AUTHORITY_REGISTRY.md and CHANGE_CONTROL.md.", "Canonical semantic changes route through the [authority registry](../AUTHORITY_REGISTRY.md) and [change control](../CHANGE_CONTROL.md).")
+    if spec.current_tool and spec.object_id=="RTC":
+        body=body.replace(
+            "Disposition: OPEN\n\n## Findings",
+            "Disposition: OPEN\nPurpose: Retain only observations for this exact Scope x ModeFace evidence coordinate; no finding is admitted yet.\nReader: RTC maintainers and audit reviewers.\nIndex: [all RTC coverage cells](README.md)\n\n## Findings",
+        )
+        body=body.replace(
+            "Canonical semantic changes route through AUTHORITY_REGISTRY.md and CHANGE_CONTROL.md.",
+            "Canonical semantic changes route through the [authority registry](../AUTHORITY_REGISTRY.md) and [change control](../CHANGE_CONTROL.md).",
+        )
     return body
 
 
