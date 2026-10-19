@@ -2,6 +2,7 @@
 
 Date: 2026-09-24
 Controller: IC-028
+Status: DATED DESIGN DECISION; LATER CURRENTNESS NOT ASSERTED
 Decision: REVISE prior independent-observation default
 
 ## Contents
