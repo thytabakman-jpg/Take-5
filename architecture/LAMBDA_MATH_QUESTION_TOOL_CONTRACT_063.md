@@ -5,6 +5,18 @@ Status: CURRENT WORKING DESIGN CANDIDATE
 Program ID: LambdaMath
 Primary question: What is the exact mathematics of Lambda?
 
+## Contents
+
+- [Question nucleus](#question-nucleus)
+- [Whole-system finding](#whole-system-finding)
+- [Two-phase entry](#two-phase-entry)
+- [Exact operator](#exact-operator)
+- [Final binding](#final-binding)
+- [Protected laws](#protected-laws)
+- [Placement](#placement)
+- [Runtime](#runtime)
+- [Validation](#validation)
+
 ## Question nucleus
 
 What is the exact mathematics of the entry-state reconstruction operator required by the whole current system?
