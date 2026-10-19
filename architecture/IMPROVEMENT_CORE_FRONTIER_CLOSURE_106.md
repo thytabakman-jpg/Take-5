@@ -4,6 +4,14 @@ Date: 2026-09-26
 Status: CURRENT VALIDATED BASIS-RELATIVE CLOSURE
 Parent: integration/CURRENT_IMPROVEMENT_CORE.md
 
+## Contents
+
+- [Scope](#scope)
+- [Dispositions](#dispositions)
+- [Version consequence](#version-consequence)
+- [Closure claim](#closure-claim)
+- [Regime-089 execution correction](#regime-089-execution-correction)
+
 ## Scope
 
 This pass resolves the nine OPEN coordinates in Recovery Anchor 082 by
