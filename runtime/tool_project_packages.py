@@ -289,8 +289,11 @@ truth, fix the routing before editing either one.
         )
     return body
 
+MULTIOBJECT_CURRENT_STATE_BOUNDARY = "\n## MultiObject registered-versus-executed distinction\n\n`CURRENT` means the configured tool package is registered. It does not witness a completed MultiObject relation-discovery run, a supplied domain provider, or a finding whose material-delta semantics were independently validated. The live [executor](../../../../runtime/multiobject.py), [configured conductor](../../../../runtime/portable_tool_conductor.py), [source map](SOURCE_MAP.md) and [native regression owner](REGRESSION_CONTRACT.md) remain separate; missing provider or unverified semantic coverage stays OPEN at the affected scope.\n"
+
+
 def render_current(spec:ProjectObjectSpec)->str:
-    return f"""# Current state: {spec.display_name}
+    body=f"""# Current state: {spec.display_name}
 
 Projection status: CURRENT
 Object status: {spec.status}
@@ -305,6 +308,9 @@ shared registry/manifest/runtime authorities listed in SOURCE_MAP.md.
 It does not erase history and it does not supersede external semantic authority
 without an explicit admitted change.
 """
+    if spec.current_tool and spec.object_id=="MultiObject":
+        body += MULTIOBJECT_CURRENT_STATE_BOUNDARY
+    return body
 
 
 def render_identity(spec:ProjectObjectSpec)->str:
