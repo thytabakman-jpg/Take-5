@@ -8,6 +8,25 @@ Runtime effect: ACTIVE for fail-closed ICC bootstrap gating; full cross-chat inv
 
 Purpose: preserve the current wrapper mathematics so future wrapper changes are compared against an explicit artifact rather than reconstructed from chat memory.
 
+## Contents
+
+- [1. Problem](#1-problem)
+- [2. Wrapper identity](#2-wrapper-identity)
+- [3. Current wrapper spine](#3-current-wrapper-spine)
+- [4. Stage jobs](#4-stage-jobs)
+- [5. Geometry is typed, not "36-aware"](#5-geometry-is-typed-not-36-aware)
+- [6. Deterministic routing](#6-deterministic-routing)
+- [7. Cheap probes and heavy execution](#7-cheap-probes-and-heavy-execution)
+- [8. Human-visible mathematics](#8-human-visible-mathematics)
+- [8A. Discovery regeneration and fixed-point reentry](#8a-discovery-regeneration-and-fixed-point-reentry)
+- [9. Wrapper preservation signature](#9-wrapper-preservation-signature)
+- [10. Admission law for wrapper changes](#10-admission-law-for-wrapper-changes)
+- [11. Mandatory comparison protocol](#11-mandatory-comparison-protocol)
+- [12. Current protected invariants](#12-current-protected-invariants)
+- [13. Current OPEN coordinates](#13-current-open-coordinates)
+- [14. Relationship to existing artifacts](#14-relationship-to-existing-artifacts)
+- [15. Stopping rule](#15-stopping-rule)
+
 ## 1. Problem
 
 Wrapper design has been evolving faster than its authoritative state has been externalized.
