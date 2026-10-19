@@ -5,6 +5,14 @@ Status: NON-AUTHORITATIVE IMPLEMENTATION BLUEPRINT
 Parent: architecture/KERNEL_MATH_CONTRACT_053.yaml
 Branch: kernel-053-implementation-prototype
 
+## Contents
+
+- [Governing rule](#governing-rule)
+- [Reuse map](#reuse-map)
+- [External-code rule](#external-code-rule)
+- [Prototype sequence](#prototype-sequence)
+- [External evidence snapshot](#external-evidence-snapshot)
+
 ## Governing rule
 
 Before new code is admitted, classify the requirement as one of:
