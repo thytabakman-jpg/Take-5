@@ -169,6 +169,16 @@ def _bullets(values:Iterable[str])->str:
     return "\n".join(f"- {x}" for x in rows) if rows else "- none"
 
 
+PILOT_TOOL_HOME_CONTRACTS = {
+    "MultiObject": "\n## Operational home contract — pilot\n\n**Job and role:** Navigate the configured MultiObject relation-discovery tool over provider-supplied relations, preserving joint/pair route identity and typed unresolved cases. This is an organizational home, not new mathematical or execution authority.\n\n**Owner and functional boundary:** Package identity, navigation, change control and scoped evidence live here. [Native executor](../../../../runtime/multiobject.py), [configured conductor](../../../../runtime/portable_tool_conductor.py), [protected manifest](../../../../runtime/tool_manifest.py), [mathematical identity](../../../../architecture/MULTIOBJECT_FULL_TOOL_MATH_001_2026-09-27.md) and [native regression tests](../../../../tests/test_multiobject.py) retain their own authority. [RUNTIME.md](RUNTIME.md), [DEPENDENCIES.md](DEPENDENCIES.md), [SOURCE_MAP.md](SOURCE_MAP.md) and [REGRESSION_CONTRACT.md](REGRESSION_CONTRACT.md) route the maintained closure. A missing domain provider is OPEN, not successful execution.\n\n**Admission and restructuring gate:** Check independently justified goal/job, source type, actual authority, reader and native consumers before KEEP, MOVE, SPLIT, CONSOLIDATE, RETAIN-WITH-LINKS or NO MOVE. Admit only tool-specific organizational contracts and correctly owned evidence; keep shared runtimes/tests, independent research, original proofs and histories at their legitimate owners. Transfer/split/merge requires owning file-type Level 2 placement and preservation checks, with affected functional Level 3/4 verification where required. Retain source material if authorization, preservation or native execution evidence is unresolved; a clean README is not a certificate.\n",
+    "GOAL": "\n## Operational home contract — pilot\n\n**Job and role:** Navigate configured GOAL recovery over supplied candidate evidence and a valid robust-MT receipt. This is an organizational home, not a second project-goal or mathematics authority.\n\n**Owner and functional boundary:** Package identity, navigation, change control and scoped evidence live here. [Native GOAL](../../../../runtime/goal.py), [MT receipt gate](../../../../runtime/mt_semantic_return_gate.py), [conductor](../../../../runtime/portable_tool_conductor.py), [protected manifest](../../../../runtime/tool_manifest.py), [mathematical identity](../../../../architecture/GOAL_FULL_TOOL_MATH_002_2026-09-30.md) and [native regression tests](../../../../tests/test_goal.py) retain their own authority. [RUNTIME.md](RUNTIME.md), [DEPENDENCIES.md](DEPENDENCIES.md), [SOURCE_MAP.md](SOURCE_MAP.md) and [REGRESSION_CONTRACT.md](REGRESSION_CONTRACT.md) route the maintained closure. A native call without a valid MT preflight is not configured execution.\n\n**Admission and restructuring gate:** Check independently justified goal/job, source type, actual authority, reader and native consumers before KEEP, MOVE, SPLIT, CONSOLIDATE, RETAIN-WITH-LINKS or NO MOVE. Admit only tool-specific organizational contracts and correctly owned evidence; keep shared runtimes/tests, independent research, original proofs and histories at their legitimate owners. Transfer/split/merge requires owning file-type Level 2 placement and preservation checks, with affected functional Level 3/4 verification where required. Retain source material if authorization, preservation or native execution evidence is unresolved; a clean README is not a certificate.\n",
+    "RTC": "\n## Operational home contract — pilot\n\n**Job and role:** Navigate the configured RTC (Raise-the-Ceiling) specialization of C48 over supplied candidates, distinguishing strict-gain results from typed no-gain. This is an organizational home, not a preservation proof or executed C48 run.\n\n**Owner and functional boundary:** Package identity, navigation, change control and scoped evidence live here. The [conductor](../../../../runtime/portable_tool_conductor.py) selects [raise_the_ceiling](../../../../runtime/raise_the_ceiling.py), which uses [capability dispatch](../../../../runtime/capability_runtime.py) and the [C48 evaluator](../../../../runtime/a5_programs.py). [Protected manifest](../../../../runtime/tool_manifest.py), [native recovery specification](../../../../architecture/NATIVE_TOOL_RECOVERY_PACK_160_2026-09-27.md) and [specialization test](../../../../tests/test_recovered_native_tools_20260927.py) retain their own authority. [RUNTIME.md](RUNTIME.md), [DEPENDENCIES.md](DEPENDENCIES.md), [SOURCE_MAP.md](SOURCE_MAP.md) and [REGRESSION_CONTRACT.md](REGRESSION_CONTRACT.md) route the maintained closure. Truthy `strict_gain`/`preserves` flags alone do not prove coverage of a declared protected set; that stronger claim remains OPEN.\n\n**Admission and restructuring gate:** Check independently justified goal/job, source type, actual authority, reader and native consumers before KEEP, MOVE, SPLIT, CONSOLIDATE, RETAIN-WITH-LINKS or NO MOVE. Admit only tool-specific organizational contracts and correctly owned evidence; keep shared runtimes/tests, independent research, original proofs and histories at their legitimate owners. Transfer/split/merge requires owning file-type Level 2 placement and preservation checks, with affected functional Level 3/4 verification where required. Retain source material if authorization, preservation or native execution evidence is unresolved; a clean README is not a certificate.\n",
+}
+RTC_RUNTIME_ROUTE = "\n## RTC configured-to-native chain and verified scope\n\n- [Portable conductor](../../../../runtime/portable_tool_conductor.py) selects `raise_the_ceiling.raise_the_ceiling` for RTC.\n- [RTC entrypoint](../../../../runtime/raise_the_ceiling.py) calls `execute_capability(\"C48\", payload)`.\n- [Capability dispatcher](../../../../runtime/capability_runtime.py) sends C48 to `run_generic`.\n- [C48 evaluator](../../../../runtime/a5_programs.py) filters truthy `strict_gain` and `preserves` fields; otherwise returns `NOOP` with `NO_STRICT_GAIN_FOUND`.\n- [Native RTC specialization test](../../../../tests/test_recovered_native_tools_20260927.py) checks an accepted and a non-gaining candidate.\n\n**OPEN:** This implementation does not verify coverage of every declared protected property. A source link or static package check is not an executed tool or proof of that stronger property.\n"
+RTC_DEPENDENCY_CONE = "\n## RTC native functional dependency cone\n\n- [RTC configured entrypoint](../../../../runtime/raise_the_ceiling.py)\n- [Capability dispatch](../../../../runtime/capability_runtime.py)\n- [C48 evaluation](../../../../runtime/a5_programs.py)\n- [Native specialization regression](../../../../tests/test_recovered_native_tools_20260927.py)\n- [Configured conductor regressions](../../../../tests/test_portable_tool_conductor.py)\n- [Capability registry regressions](../../../../tests/test_a5_registry.py)\n- [Manifest-selected native recovery specification](../../../../architecture/NATIVE_TOOL_RECOVERY_PACK_160_2026-09-27.md)\n\nA change to dispatch, C48 selection, manifest, registry or configured entrypoint reopens the affected consumers. The tests above do not alone establish complete protected-set coverage.\n"
+RTC_REGRESSION_GATES = "\n## RTC native and relocation regression boundary\n\n- [RTC specialization test](../../../../tests/test_recovered_native_tools_20260927.py) covers the accepted strict-gain and excluded no-gain case.\n- [Capability registry tests](../../../../tests/test_a5_registry.py) cover registry integrity, not every C48 protected-property case.\n- [Configured conductor tests](../../../../tests/test_portable_tool_conductor.py) cover configured routing to the extent asserted.\n- [Package generator tests](../../../../tests/test_tool_project_packages.py) protect materialized navigation parity and collision behavior.\n- Native source chain: `runtime/raise_the_ceiling.py` -> `runtime/capability_runtime.py` -> `runtime/a5_programs.py` (C48). Retest its affected consumers after any move or split.\n- Stronger preservation-set proof and unavailable native execution remain OPEN; a package structural check never closes them.\n"
+
+
 def render_readme(spec:ProjectObjectSpec)->str:
     body=f"""# {spec.display_name} project package
 
@@ -198,7 +208,7 @@ This package organizes the object without becoming a second semantic authority.
 Do not overwrite history, decisions, lessons, run evidence, or coverage-cell evidence.
 Current projections may change only through explicit change control and retained lineage.
 """
-    if spec.current_tool and spec.object_id=="MultiObject":
+    if spec.current_tool and spec.object_id in {"MultiObject", "GOAL"}:
         for index, name in enumerate((
             "CURRENT_STATE.md", "AUTHORITY_REGISTRY.md", "IDENTITY.md",
             "MATHEMATICS.md", "RUNTIME.md", "PROTECTED_BEHAVIORS.md",
@@ -209,6 +219,8 @@ Current projections may change only through explicit change control and retained
             "10. coverage/ only for coverage evidence",
             "10. [coverage/](coverage/README.md) only for coverage evidence",
         )
+    if spec.current_tool and spec.object_id in PILOT_TOOL_HOME_CONTRACTS:
+        body += PILOT_TOOL_HOME_CONTRACTS[spec.object_id]
     return body
 
 
@@ -349,6 +361,8 @@ receipt, and parent closure remain distinct objects.
 
     if spec.current_tool and spec.object_id=="MultiObject":
         body += "\n## MultiObject executable route\n\n- [Native runtime implementation](../../../../runtime/multiobject.py) — `run_multiobject`\n- [Portable invocation conductor](../../../../runtime/portable_tool_conductor.py) — `multiobject.run_multiobject`\n- [Native runtime tests](../../../../tests/test_multiobject.py)\n\nDomain relation generation requires an explicit `multiobject_provider`. Absence of the provider cannot be reported as successful domain execution. This package remains an organizational projection.\n"
+    if spec.current_tool and spec.object_id=="RTC":
+        body += RTC_RUNTIME_ROUTE
     return body
 
 def render_behaviors(spec:ProjectObjectSpec)->str:
@@ -405,6 +419,8 @@ A dependency change reopens the affected cone. Unaffected package state remains 
             "currentness and execution-evidence boundary.\n",
         )
         body += "\n## MultiObject native dependency edges\n\n- [Native relation-discovery executor](../../../../runtime/multiobject.py)\n- [Full-tool mathematical identity](../../../../architecture/MULTIOBJECT_FULL_TOOL_MATH_001_2026-09-27.md)\n"
+    if spec.current_tool and spec.object_id=="RTC":
+        body += RTC_DEPENDENCY_CONE
     return body
 
 def render_source_map(spec:ProjectObjectSpec)->str:
@@ -468,7 +484,7 @@ Retain old evidence and record supersession rather than rewriting history.
 def render_regression(spec:ProjectObjectSpec)->str:
     if spec.object_id in SPARSE_COVERAGE_PILOT:
         return _render_sparse_regression(spec)
-    return f"""# Regression contract: {spec.display_name}
+    body = f"""# Regression contract: {spec.display_name}
 
 A valid package keeps all of these true:
 
@@ -482,6 +498,9 @@ A valid package keeps all of these true:
 - aliases do not create duplicate mutable authority
 - missing semantics/runtime/evidence remain typed OPEN
 """
+    if spec.current_tool and spec.object_id=="RTC":
+        body += RTC_REGRESSION_GATES
+    return body
 
 
 def _render_sparse_regression(spec:ProjectObjectSpec)->str:
