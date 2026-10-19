@@ -4,6 +4,15 @@ Date 2026-09-24
 Status CANONICAL_WORKING after user-authorized migration
 Legacy rollback authority thytabakman-jpg/Reaserch preserved intact
 
+## Contents
+
+- [Reconciliation of the six-by-six discoveries](#reconciliation-of-the-six-by-six-discoveries)
+- [Canonical factored foundation](#canonical-factored-foundation)
+- [Kernel](#kernel)
+- [Migration decision](#migration-decision)
+- [Remaining OPEN research after promotion](#remaining-open-research-after-promotion)
+- [Research ownership and knowledge-web connection](#research-ownership-and-knowledge-web-connection)
+
 ## Reconciliation of the six-by-six discoveries
 
 There is no supported 4x4 foundation claim.
