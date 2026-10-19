@@ -3,6 +3,24 @@
 Date: 2026-09-26
 Status: IMPLEMENTED / VALIDATED / MERGED
 
+## Contents
+
+- [Native target](#native-target)
+- [State](#state)
+- [Candidate type](#candidate-type)
+- [Rootness vector](#rootness-vector)
+- [Root admissibility](#root-admissibility)
+- [Smaller-generator challenge](#smaller-generator-challenge)
+- [HF2 composition](#hf2-composition)
+- [ImprovementCore boundary](#improvementcore-boundary)
+- [Local closure](#local-closure)
+- [MT-derived lexical result](#mt-derived-lexical-result)
+- [Current chat run target](#current-chat-run-target)
+- [Runtime](#runtime)
+- [OPEN](#open)
+- [Disposition](#disposition)
+- [Validation evidence](#validation-evidence)
+
 ## Native target
 
 RootCause does not seek merely a causal predecessor.
