@@ -218,7 +218,9 @@ def test_three_tool_homes_level2_all_110_source_jobs_and_type_boundaries():
         for part in ("coverage","evidence","history","runs"):
             readme=(home/part/"README.md").read_text(encoding="utf-8")
             assert "append-only" in readme.lower() if part in {"evidence","history","runs"} else "Scope x ModeFace" in readme
-        assert "does not" in (home/"README.md").read_text(encoding="utf-8").lower()
+        home_contract=(home/"README.md").read_text(encoding="utf-8").lower()
+        assert "without becoming a second semantic authority" in home_contract
+        assert "a clean readme is not a certificate" in home_contract
         for rel in additional[name]:
             body=(home/rel).read_text(encoding="utf-8")
             assert body.startswith("# "), (name,rel)
