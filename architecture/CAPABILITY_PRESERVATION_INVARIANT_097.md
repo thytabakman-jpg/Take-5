@@ -3,6 +3,17 @@
 Date: 2026-09-26
 Status: IMPLEMENTED CANDIDATE / FAIL-CLOSED
 
+## Contents
+
+- [Problem](#problem)
+- [Preservation predicate](#preservation-predicate)
+- [Semantic-only objects](#semantic-only-objects)
+- [Successor rule](#successor-rule)
+- [Runtime](#runtime)
+- [Consequence](#consequence)
+- [Placement](#placement)
+- [Closure](#closure)
+
 ## Problem
 
 The system has repeatedly rediscovered valuable behavior because capability presence was
