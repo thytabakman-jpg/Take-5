@@ -170,7 +170,7 @@ def _bullets(values:Iterable[str])->str:
 
 
 def render_readme(spec:ProjectObjectSpec)->str:
-    return f"""# {spec.display_name} project package
+    body=f"""# {spec.display_name} project package
 
 Object ID: {spec.object_id}
 Species: {spec.species}
@@ -198,6 +198,18 @@ This package organizes the object without becoming a second semantic authority.
 Do not overwrite history, decisions, lessons, run evidence, or coverage-cell evidence.
 Current projections may change only through explicit change control and retained lineage.
 """
+    if spec.current_tool and spec.object_id=="MultiObject":
+        for index, name in enumerate((
+            "CURRENT_STATE.md", "AUTHORITY_REGISTRY.md", "IDENTITY.md",
+            "MATHEMATICS.md", "RUNTIME.md", "PROTECTED_BEHAVIORS.md",
+            "DEPENDENCIES.md", "OPEN_QUESTIONS.md", "SOURCE_MAP.md",
+        ), start=1):
+            body=body.replace(f"{index}. {name}", f"{index}. [{name}]({name})")
+        body=body.replace(
+            "10. coverage/ only for coverage evidence",
+            "10. [coverage/](coverage/README.md) only for coverage evidence",
+        )
+    return body
 
 
 def render_manifest(spec:ProjectObjectSpec)->str:
@@ -372,6 +384,26 @@ def render_dependencies(spec:ProjectObjectSpec)->str:
 A dependency change reopens the affected cone. Unaffected package state remains protected.
 """
     if spec.current_tool and spec.object_id=="MultiObject":
+        link_labels={
+            "runtime/tool_run_registry.py": "[Configured-run registry](../../../../runtime/tool_run_registry.py)",
+            "runtime/tool_manifest.py": "[Protected tool manifest](../../../../runtime/tool_manifest.py)",
+            "runtime/portable_tool_conductor.py": "[Portable invocation conductor](../../../../runtime/portable_tool_conductor.py)",
+            "integration/CURRENT_TOOL_REALITY.md": "[Current tool reality](../../../../integration/CURRENT_TOOL_REALITY.md)",
+        }
+        body=body.replace(
+            _bullets(spec.source_refs),
+            "\n".join("- "+link_labels.get(ref,ref) for ref in spec.source_refs),
+        )
+        body=body.replace(
+            "## Shared runtime/identity dependencies\n\n"
+            "- runtime/tool_run_registry.py\n"
+            "- runtime/tool_manifest.py\n"
+            "- runtime/portable_tool_conductor.py\n",
+            "## Shared runtime/identity dependencies\n\n"
+            "The registry, manifest, and conductor above are shared runtime/identity\n"
+            "authorities. The current-tool-reality source supplies the separate\n"
+            "currentness and execution-evidence boundary.\n",
+        )
         body += "\n## MultiObject native dependency edges\n\n- [Native relation-discovery executor](../../../../runtime/multiobject.py)\n- [Full-tool mathematical identity](../../../../architecture/MULTIOBJECT_FULL_TOOL_MATH_001_2026-09-27.md)\n"
     return body
 
