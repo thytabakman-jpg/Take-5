@@ -10,6 +10,15 @@ Protected constraints:
 - wrapper may be rebuilt greenfield;
 - preserve authority, provenance, OPEN/BLOCKED, controller lease, and current behavior.
 
+## Contents
+
+- [Rewritten governing prompt](#rewritten-governing-prompt)
+- [C01-C49 sweep](#c01-c49-sweep)
+- [New-tool sweep](#new-tool-sweep)
+- [Root quotient](#root-quotient)
+- [Final wrapper mathematics](#final-wrapper-mathematics)
+- [Implementation disposition](#implementation-disposition)
+
 ## Rewritten governing prompt
 
 IC, take the lead in observer mode.
