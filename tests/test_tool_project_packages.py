@@ -145,6 +145,9 @@ def test_multiobject_package_has_direct_runtime_math_and_legacy_lineage_routes()
     runtime=page("RUNTIME.md")
     sources=page("SOURCE_MAP.md")
     deps=page("DEPENDENCIES.md")
+    readme=page("README.md")
+    assert "[CURRENT_STATE.md](CURRENT_STATE.md)" in readme
+    assert "[coverage/](coverage/README.md)" in readme
     assert "| MultiObject native execution | runtime/multiobject.py |" in authority
     assert "| current invocation routing | runtime/portable_tool_conductor.py |" in authority
     assert "MULTIOBJECT_FULL_TOOL_MATH_001_2026-09-27.md" in math
