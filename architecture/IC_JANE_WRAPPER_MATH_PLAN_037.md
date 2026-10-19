@@ -5,6 +5,17 @@ Status: IMPLEMENTED_VALIDATED
 Runtime changes: IMPLEMENTED via runtime/math_first_wrapper.py, runtime/math_first_selector.py, runtime/jane_relevance.py, plus narrow backward-compatible IC/HF extension points
 Protected decision: do not rebuild IC or Jane; preserve current behavior and interfaces unless a narrowly-scoped verified patch is required. This constraint was preserved in implementation.\n\nImplementation merge: a567245bc62e3746f4fe5eaeec769a7d65245b72\nValidation: GitHub Actions run 36154766223 SUCCESS
 
+## Contents
+
+- [1. Current Improvement Core mathematics](#1-current-improvement-core-mathematics)
+- [2. Current Jane mathematics](#2-current-jane-mathematics)
+- [3. Missing mathematics](#3-missing-mathematics)
+- [4. Jane gaps](#4-jane-gaps)
+- [5. Wrapper rebuild from mathematics](#5-wrapper-rebuild-from-mathematics)
+- [6. Tool placement](#6-tool-placement)
+- [7. Finish sequence](#7-finish-sequence)
+- [Decision](#decision)
+
 ## 1. Current Improvement Core mathematics
 
 Let packet/state be (x\in\mathcal X).
