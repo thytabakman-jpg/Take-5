@@ -28,12 +28,12 @@ Define:
 [
 FirstMentionDateOK(p,N)
 iff
-orall (n_i,d_i)in N:
-ig(
+\forall (n_i,d_i)in N:
+\big(
 Mentioned(p,n_i)
 Rightarrow
 Known(d_i)land AdjacentDate(p,n_i,d_i)
-ig).
+\big).
 ]
 
 Unknown or unresolved dates do not license guessing.
