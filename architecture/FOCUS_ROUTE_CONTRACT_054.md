@@ -16,6 +16,23 @@ Purpose: close the wrapper's two highest-dependency open coordinates in the corr
 (1) exact Focus mathematics;
 (2) deterministic Route input/output law.
 
+## Contents
+
+- [1. Focus is a projection, not a chooser](#1-focus-is-a-projection-not-a-chooser)
+- [2. Focus completeness](#2-focus-completeness)
+- [3. Route input](#3-route-input)
+- [3A. Eight-role routing basis](#3a-eight-role-routing-basis)
+- [4. Tool contract](#4-tool-contract)
+- [5. Deterministic route](#5-deterministic-route)
+- [6. Geometry is orthogonal to tool identity](#6-geometry-is-orthogonal-to-tool-identity)
+- [7. Initial FULL-SPECTRUM-20 trigger contract](#7-initial-full-spectrum-20-trigger-contract)
+- [8. Probe versus execution](#8-probe-versus-execution)
+- [8A. A16 placement](#8a-a16-placement)
+- [9. Interaction rule](#9-interaction-rule)
+- [10. Human correction](#10-human-correction)
+- [11. Preservation delta against Wrapper Contract 053](#11-preservation-delta-against-wrapper-contract-053)
+- [12. Required validation before promotion](#12-required-validation-before-promotion)
+
 ## 1. Focus is a projection, not a chooser
 
 Let the frozen mathematical object be mbar.
