@@ -572,6 +572,17 @@ through the authority and change-control path.
             "Each linked page is evidence for one Scope x ModeFace coordinate",
             "Each reserved logical coordinate can independently own evidence for Scope x ModeFace",
         )
+    if spec.current_tool and spec.object_id=="RTC":
+        body += "\n## Navigation and ownership\n\nReader: RTC maintainers and audit reviewers.\nPurpose: Locate the 36 evidence-only Scope x ModeFace pages without treating them as mathematical or execution authority.\n\n- [RTC authority registry](../AUTHORITY_REGISTRY.md)\n- [Change control](../CHANGE_CONTROL.md)\n- [Source map and current runtime owner](../SOURCE_MAP.md)\n- [Separate directed handoff surface](../HANDOFF_SURFACE.md)\n\n"
+        previous_scope = None
+        for index, scope, face in coverage_cells():
+            if scope != previous_scope:
+                body += f"### {scope.value}\n\n"
+                previous_scope = scope
+            body += f"- [{index:02d} {face.value}](./{coverage_name(index, scope, face)})\n"
+            if face.value == "COUPLE":
+                body += "\n"
+        body += "A cell marked `OPEN` has no admitted cell-specific finding yet. It does not establish that RTC is unimplemented or that no scientific relation exists. The directed SourceScope x TargetScope surface is separate from these pages.\n"
     return body
 
 
