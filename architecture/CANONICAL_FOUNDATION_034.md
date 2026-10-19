@@ -1,8 +1,8 @@
 # Canonical Foundation 034
 
-Date 2026-09-24
-Status CANONICAL_WORKING after user-authorized migration
-Legacy rollback authority thytabakman-jpg/Reaserch preserved intact
+Date: 2026-09-24
+Status: CANONICAL_WORKING after user-authorized migration
+Legacy rollback authority: thytabakman-jpg/Reaserch preserved intact
 
 ## Contents
 
