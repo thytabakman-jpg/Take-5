@@ -4,6 +4,21 @@ Date: 2026-09-26
 Status: IMPLEMENTED CANDIDATE
 Target: current ImprovementCore regime
 
+## Contents
+
+- [Defect](#defect)
+- [Governing repair](#governing-repair)
+- [External capability classes](#external-capability-classes)
+- [Expected-value rule](#expected-value-rule)
+- [Signals](#signals)
+- [Gap law](#gap-law)
+- [Host boundary](#host-boundary)
+- [External trust boundary](#external-trust-boundary)
+- [Research comparison](#research-comparison)
+- [Protected behaviors](#protected-behaviors)
+- [Current files](#current-files)
+- [Remaining OPEN](#remaining-open)
+
 ## Defect
 
 ImprovementCore could detect external dependence but still route the job through
