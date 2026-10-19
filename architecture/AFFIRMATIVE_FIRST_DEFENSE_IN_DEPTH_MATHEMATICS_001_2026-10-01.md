@@ -34,7 +34,7 @@ Let (p) be reader-facing prose and (AF(p)) mean that the affirmative proposition
 [
 AF(p)=PASS
 iff
-R_{neg-first}(p)setminus L_{neg}(p)=arnothing.
+R_{neg-first}(p)setminus L_{neg}(p)=\varnothing.
 ]
 
 No repository-controlled user-visible prose is admissible unless (AF(p)=PASS).
@@ -56,7 +56,7 @@ return,
 emission,
 regression,
 host
-angle.
+\rangle.
 ]
 
 Repository-relative closure requires every repository-controlled coordinate to have a witness. Host is separately typed because repository code cannot compel an unrelated external host.
