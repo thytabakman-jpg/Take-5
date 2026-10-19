@@ -5,6 +5,18 @@ Status: CHOSEN
 Decision authority: IC synthesis across the current session and prior ImproveCore/Take work
 Scope: control architecture, tool selection, and relation of D4/D6/D8 and framework-specific tools
 
+## Contents
+
+- [Decision](#decision)
+- [Why this choice](#why-this-choice)
+- [Role of D4, D6, and D8](#role-of-d4-d6-and-d8)
+- [Role of the framework tools](#role-of-the-framework-tools)
+- [Role of the 36-cell systems](#role-of-the-36-cell-systems)
+- [Formal tool-selection rule](#formal-tool-selection-rule)
+- [Broad observation versus narrow execution](#broad-observation-versus-narrow-execution)
+- [Canonical invariant](#canonical-invariant)
+- [Immediate consequence](#immediate-consequence)
+
 ## Decision
 
 The canonical control direction is **math first, tools second**.
