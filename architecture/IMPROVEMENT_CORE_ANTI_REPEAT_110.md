@@ -6,6 +6,15 @@ Target regime: 090
 
 **Document goal:** Preserve the diagnosed source of repeated no-gain routes, the implemented anti-repeat mechanism, and the bounded validation evidence needed to recover that protection.
 
+## Contents
+
+- [Root defect](#root-defect)
+- [Repair](#repair)
+- [Persistence boundary](#persistence-boundary)
+- [Protected behaviors added](#protected-behaviors-added)
+- [Closure rule](#closure-rule)
+- [Validation evidence](#validation-evidence)
+
 ## Root defect
 
 The repeated regression loop was not one missing tool. Three already-built protections were separated:
