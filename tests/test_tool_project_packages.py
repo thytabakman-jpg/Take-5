@@ -142,6 +142,9 @@ def test_rtc_home_native_chain_and_readme_collision(tmp_path:Path):
         assert (home/name).read_text(encoding="utf-8")==expected
         for source in ("runtime/raise_the_ceiling.py","runtime/capability_runtime.py","runtime/a5_programs.py","tests/test_recovered_native_tools_20260927.py"):
             assert source in expected, (name,source)
+    source_map=(home/"SOURCE_MAP.md").read_text(encoding="utf-8")
+    for source in ("runtime/capability_runtime.py","runtime/a5_programs.py"):
+        assert source in source_map
     materialize_package(tmp_path,spec)
     readme=tmp_path/"projects/tool-system/current-tools/rtc/README.md"
     readme.write_text(readme.read_text(encoding="utf-8").replace("C48","C99",1),encoding="utf-8")
