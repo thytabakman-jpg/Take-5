@@ -4,6 +4,17 @@ Date: 2026-09-25
 
 Status: GLOBAL REPAIR CANDIDATE
 
+## Contents
+
+- [Problem](#problem)
+- [Governing rule](#governing-rule)
+- [Coverage](#coverage)
+- [Observer law](#observer-law)
+- [Runtime](#runtime)
+- [Validation](#validation)
+- [Host boundary](#host-boundary)
+- [Research versus actual execution](#research-versus-actual-execution)
+
 ## Problem
 
 Tool execution semantics were richer in wrapper/design artifacts than in the configured-run registry. ASSERT received a special full-36 repair, while other registered tools could still satisfy ConfiguredRunSpec without wrapper, geometry, question-layer, cognitive-layer, or observer-default guarantees.
