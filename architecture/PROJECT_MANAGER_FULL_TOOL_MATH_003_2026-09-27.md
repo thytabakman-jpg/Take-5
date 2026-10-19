@@ -10,6 +10,17 @@ current configured controller or a newer-filename authority selector.
 Supersedes for current run orchestration:
 PROJECT_MANAGER_FULL_TOOL_MATH_002_2026-09-27.md
 
+## Contents
+
+- [Table of contents](#table-of-contents)
+- [Governing repair](#governing-repair)
+- [Current ordinary invocation](#current-ordinary-invocation)
+- [Adaptive routing](#adaptive-routing)
+- [Protected behavior](#protected-behavior)
+- [Existing protections retained](#existing-protections-retained)
+- [Validation targets](#validation-targets)
+- [Canonical validation](#canonical-validation)
+
 ## Table of contents
 
 - [Governing repair](#governing-repair)
