@@ -698,8 +698,8 @@ Canonical semantic changes route through AUTHORITY_REGISTRY.md and CHANGE_CONTRO
         body=body.replace("Canonical semantic changes route through AUTHORITY_REGISTRY.md and CHANGE_CONTROL.md.", "Canonical semantic changes route through the [authority registry](../AUTHORITY_REGISTRY.md) and [change control](../CHANGE_CONTROL.md).")
     if spec.current_tool and spec.object_id=="RTC":
         body=body.replace(
-            "Disposition: OPEN\\n\\n## Findings",
-            "Disposition: OPEN\\nPurpose: Retain only observations for this exact Scope x ModeFace evidence coordinate; no finding is admitted yet.\\nReader: RTC maintainers and audit reviewers.\\nIndex: [all RTC coverage cells](README.md)\\n\\n## Findings",
+            "Disposition: OPEN\n\n## Findings",
+            "Disposition: OPEN\nPurpose: Retain only observations for this exact Scope x ModeFace evidence coordinate; no finding is admitted yet.\nReader: RTC maintainers and audit reviewers.\nIndex: [all RTC coverage cells](README.md)\n\n## Findings",
         )
         body=body.replace(
             "Canonical semantic changes route through AUTHORITY_REGISTRY.md and CHANGE_CONTROL.md.",
