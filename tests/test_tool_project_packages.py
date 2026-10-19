@@ -27,7 +27,7 @@ def test_every_object_package_has_required_core_and_36_coverage_coordinates():
             path for path in files
             if "/coverage/" in path and not path.endswith("/coverage/README.md")
         ]
-        assert len(coverage)==(0 if spec.object_id in SPARSE_COVERAGE_PILOT else 36)
+        assert len(coverage)==0  # all 36 unfilled coordinates are logical
         manifest=files[next(path for path in files if path.endswith("/MANIFEST.md"))]
         assert "Coverage cells: 36" in manifest
         for index,scope,face in coverage_cells():
@@ -38,9 +38,7 @@ def test_coverage_surface_is_scope_x_modeface_and_distinct_from_handoff_surface(
     cells=coverage_cells()
     assert len(cells)==36
     assert len({(scope.value,face.value) for _,scope,face in cells})==36
-    sample=package_files(current_tool_specs()[0])[
-        next(p for p in package_files(current_tool_specs()[0]) if p.endswith("coverage/01_SYSTEM__EXPAND.md"))
-    ]
+    sample=render_coverage_cell(current_tool_specs()[0],*cells[0])
     assert "Scope: SYSTEM" in sample
     assert "Mode face: EXPAND" in sample
     assert "SourceScope x TargetScope" not in sample
@@ -152,10 +150,10 @@ def test_rtc_home_native_chain_and_readme_collision(tmp_path:Path):
         materialize_package(tmp_path,spec)
 
 
-def test_three_tool_homes_level2_all_110_source_jobs_and_type_boundaries():
+def test_three_tool_homes_level2_all_74_source_jobs_and_type_boundaries():
     """2C: exact live corpus, independent owner jobs, typed evidence and source parity."""
     root=Path(__file__).resolve().parents[1]
-    families={"MultiObject":("multiobject",25),"GOAL":("goal",29),"RTC":("rtc",56)}
+    families={"MultiObject":("multiobject",25),"GOAL":("goal",29),"RTC":("rtc",20)}
     additional={
         "multiobject": {
             "evidence/batch-02-level1-triage.md",
@@ -234,39 +232,30 @@ def test_three_tool_homes_level2_all_110_source_jobs_and_type_boundaries():
             strict|={p for p in expected if p.startswith("coverage/") and p!="coverage/README.md"}
         for rel in strict:
             assert (home/rel).read_text(encoding="utf-8")==generated[f"current-tools/{name}/{rel}"],(name,rel,"generator parity")
-    assert total==110
+    assert total==74
 
 
-def test_three_tool_homes_level2_rtc_all_36_typed_reciprocal_edges():
-    """2C: no evidence promotion, no coordinate aliases, real one-hop owners."""
+def test_rtc_all_36_logical_coverage_coordinates_and_no_dead_links():
+    """Preserve typed 36 slots without empty files or broken relative links."""
     root=Path(__file__).resolve().parents[1]/"projects/tool-system/current-tools/rtc"
     spec=next(s for s in current_tool_specs() if s.object_id=="RTC")
     index=(root/"coverage/README.md").read_text(encoding="utf-8")
-    observed=set()
+    assert index==package_files(spec)["current-tools/rtc/coverage/README.md"]
+    names=set()
     for i,scope,face in coverage_cells():
         name=f"{i:02d}_{scope.value}__{face.value}.md"
-        page=(root/"coverage"/name).read_text(encoding="utf-8")
-        assert name not in observed
-        observed.add(name)
-        assert page.startswith(f"# RTC: {scope.value} x {face.value}\n")
-        assert f"Coverage cell: {i:02d}/36" in page
-        assert f"Scope: {scope.value}" in page
-        assert f"Mode face: {face.value}" in page
-        for clause in ("Authority: AUDIT_EVIDENCE_ONLY","Disposition: OPEN","- none admitted yet",
-                       "[all RTC coverage cells](README.md)",
-                       "[authority registry](../AUTHORITY_REGISTRY.md)",
-                       "[change control](../CHANGE_CONTROL.md)"):
-            assert clause in page,(name,clause)
-        assert (root/"coverage/README.md").exists()
-        assert f"](./{name})" in index
-        assert page==package_files(spec)[f"current-tools/rtc/coverage/{name}"]
-    assert len(observed)==36
+        assert name not in names
+        names.add(name)
+        assert not (root/"coverage"/name).exists()
+        assert f"- {i:02d} {face.value} (reserved logical coordinate; no admitted evidence)" in index
+    assert len(names)==36
     assert "separate" in index.lower()
-    # Local mutation must be detectable; direct scope/name mismatch cannot pass.
-    corrupt=(root/"coverage/01_SYSTEM__EXPAND.md").read_text(encoding="utf-8").replace(
-        "Coverage cell: 01/36","Coverage cell: 02/36",1
-    )
-    assert "Coverage cell: 01/36" not in corrupt
+    assert "](./" not in index
+    # A future authored observation must still be checked against the exact
+    # identity and coordinate; generated placeholders are not evidence.
+    native=render_coverage_cell(spec,*coverage_cells()[0])
+    assert "Authority: AUDIT_EVIDENCE_ONLY" in native
+    assert "- none admitted yet" in native
 
 
 def test_three_tool_homes_level2_one_hop_markdown_residence():
@@ -303,21 +292,17 @@ def test_three_tool_homes_level2_one_hop_markdown_residence():
         assert "historical" in guide.lower()
 
 
-def test_rtc_coverage_index_reproduces_and_navigates_all_36_existing_cells():
+def test_rtc_coverage_index_reproduces_36_unfilled_logical_cells():
     spec=next(s for s in current_tool_specs() if s.object_id=="RTC")
     generated=package_files(spec)["current-tools/rtc/coverage/README.md"]
     root=Path(__file__).resolve().parents[1]/"projects/tool-system/current-tools/rtc/coverage"
     assert (root/"README.md").read_text(encoding="utf-8")==generated
-    assert generated.count("](./")==36
+    assert generated.count("](./")==0
+    assert generated.count("(reserved logical coordinate; no admitted evidence)")==36
     for index,scope,face in coverage_cells():
         name=f"{index:02d}_{scope.value}__{face.value}.md"
-        assert generated.count(f"- [{index:02d} {face.value}](./{name})")==1
-        page=(root/name).read_text(encoding="utf-8")
-        assert f"Coverage cell: {index:02d}/36" in page
-        assert f"Scope: {scope.value}" in page
-        assert f"Mode face: {face.value}" in page
-        assert "Authority: AUDIT_EVIDENCE_ONLY" in page
-        assert "Disposition: OPEN" in page
+        assert f"- {index:02d} {face.value} (reserved logical coordinate; no admitted evidence)" in generated
+        assert not (root/name).exists()
     assert "SourceScope x TargetScope surface is separate" in generated
 
 

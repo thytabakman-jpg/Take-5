@@ -33,7 +33,7 @@ class ToolProjectPackageCollision(RuntimeError):
 
 
 PACKAGE_ROOT="projects/tool-system"
-# CANDIDATE ONLY: evidence-sparse pilots on unmerged branch; no goal policy change.
+# Curated sparse-pilot guards remain for four packages; all 140 packages use logical empty coverage coordinates.
 SPARSE_COVERAGE_PILOT=frozenset({"MultiObject","DelegatedExecutor","GOAL","ICC128"})
 CORE_FILES=(
     "README.md",
@@ -242,7 +242,7 @@ Coverage cells: 36
 
 {core}
 
-## {('Reserved logical coverage coordinates (36; physical evidence pages optional)' if spec.object_id in SPARSE_COVERAGE_PILOT else 'Coverage pages')}
+## Reserved logical coverage coordinates (36; physical evidence pages optional)
 
 {coverage}
 
@@ -666,6 +666,14 @@ through the authority and change-control path.
             if face.value == "COUPLE":
                 body += "\n"
         body += "A cell marked `OPEN` has no admitted cell-specific finding yet. It does not establish that RTC is unimplemented or that no scientific relation exists. The directed SourceScope x TargetScope surface is separate from these pages.\n"
+        # Render reserved coordinates as text, never dead links to deleted
+        # generated placeholders. Admitted evidence is individually navigable.
+        import re
+        body = re.sub(
+            r"- \[(\d{2}) ([A-Z]+)\]\(\./\d{2}_[A-Z_]+__[A-Z]+\.md\)",
+            r"- \1 \2 (reserved logical coordinate; no admitted evidence)",
+            body,
+        )
     return body
 
 
@@ -732,10 +740,9 @@ def package_files(spec:ProjectObjectSpec)->dict[str,str]:
         f"{root}/history/README.md":render_stream(spec,"History"),
         f"{root}/coverage/README.md":render_coverage_readme(spec),
     }
-    if spec.object_id not in SPARSE_COVERAGE_PILOT:
-        for i,scope,face in coverage_cells():
-            files[f"{root}/coverage/{coverage_name(i,scope,face)}"]=render_coverage_cell(spec,i,scope,face)
-    # Admitted evidence remains an optional, append-only coordinate-owned file.
+    # All empty coordinates remain in the manifest and coverage index, not as
+    # generated files. Independently admitted evidence pages are append-only and
+    # are never generated, overwritten or removed by this materializer.
     return files
 
 
@@ -853,27 +860,24 @@ def audit_materialized(base:Path)->dict[str,Any]:
         expected={coverage_name(i,s,f) for i,s,f in coverage_cells()}
         cdir=p/"coverage"
         actual={x.name for x in cdir.glob("*.md") if x.name!="README.md"} if cdir.is_dir() else set()
-        if spec.object_id in SPARSE_COVERAGE_PILOT:
-            if not actual.issubset(expected):
-                bad_coverage.append(spec.object_id)
-            else:
-                for index,scope,face in coverage_cells():
-                    fname=coverage_name(index,scope,face)
-                    if fname not in actual:
-                        continue
-                    body=(cdir/fname).read_text(encoding="utf-8")
-                    # Fail closed on unknown content, blank placeholders, or
-                    # evidence attached to the wrong coordinate or owner.
-                    if (body==render_coverage_cell(spec,index,scope,face)
-                        or f"Object ID: {spec.object_id}" not in body
-                        or f"Coverage cell: {index:02d}/36" not in body
-                        or f"Scope: {scope.value}" not in body
-                        or f"Mode face: {face.value}" not in body
-                        or "- none admitted yet" in body):
-                        bad_coverage.append(spec.object_id)
-                        break
-        elif actual!=expected:
+        if not actual.issubset(expected):
             bad_coverage.append(spec.object_id)
+            continue
+        for index,scope,face in coverage_cells():
+            fname=coverage_name(index,scope,face)
+            if fname not in actual:
+                continue
+            body=(cdir/fname).read_text(encoding="utf-8")
+            # An exact generated placeholder, a wrong coordinate, or an
+            # unadmitted/unknown page cannot masquerade as real evidence.
+            if (body==render_coverage_cell(spec,index,scope,face)
+                or f"Object ID: {spec.object_id}" not in body
+                or f"Coverage cell: {index:02d}/36" not in body
+                or f"Scope: {scope.value}" not in body
+                or f"Mode face: {face.value}" not in body
+                or "- none admitted yet" in body):
+                bad_coverage.append(spec.object_id)
+                break
     current_dirs={slug(x) for x in MATERIAL_TOOLS}
     represented={slug(s.object_id) for s in current_tool_specs()}
     registry_parity=current_dirs==represented

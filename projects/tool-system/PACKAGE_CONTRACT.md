@@ -39,7 +39,7 @@ CURRENT_STATE.md is a disposable current projection over retained history.
 
 DECISION_LOG.md, LESSONS_LEDGER.md, evidence/, runs/, and history/ are append-only.
 
-A materialized coverage/*.md owns only its exact Scope x ModeFace evidence coordinate and never becomes canonical semantic truth merely because a finding appears there. Empty logical coordinates live in MANIFEST.md or an equivalent typed registry; generated placeholder files are optional.
+A materialized coverage/*.md owns only its exact Scope x ModeFace evidence coordinate and never becomes canonical semantic truth merely because a finding appears there. Empty logical coordinates live in MANIFEST.md or an equivalent typed registry; generated placeholder files are unnecessary and are not materialized by default. Admitted evidence pages remain independent, append-only, source-verifiable files, and existing filled or unknown pages are never silently removed. The separate SourceScope x TargetScope handoff structure is unchanged.
 
 ## Curated source maps and generator ownership
 
