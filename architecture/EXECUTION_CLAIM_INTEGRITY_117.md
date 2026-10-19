@@ -7,6 +7,17 @@ Origin:
 - ImprovementCore + HF2 observer campaign 115
 - ImprovementCore + HF2 command: "Think big, fix this."
 
+## Contents
+
+- [Problem](#problem)
+- [Scope](#scope)
+- [Ordered causal coordinates](#ordered-causal-coordinates)
+- [PTI projection](#pti-projection)
+- [ICC128 Legacy application](#icc128-legacy-application)
+- [Host boundary](#host-boundary)
+- [HF2 role](#hf2-role)
+- [Closure target](#closure-target)
+
 ## Problem
 
 Take-5 already has validated Protected Transition Integrity for configured-tool execution.
