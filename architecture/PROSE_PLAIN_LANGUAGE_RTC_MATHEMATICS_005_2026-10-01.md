@@ -7,6 +7,17 @@ Tool: Prose
 Parent:
 - architecture/PROSE_ARCHITECTURE_READER_LOAD_MATHEMATICS_004_2026-09-30.md
 
+## Contents
+
+- [Preserved job](#preserved-job)
+- [New protected property](#new-protected-property)
+- [Accuracy priority](#accuracy-priority)
+- [Operational contract](#operational-contract)
+- [Relationship to READER_LOAD](#relationship-to-reader_load)
+- [Raise-the-Ceiling candidate test](#raise-the-ceiling-candidate-test)
+- [New protected behavior](#new-protected-behavior)
+- [Strict-gain test](#strict-gain-test)
+
 ## Preserved job
 
 PROSE remains a protected reader-facing prose acceptance tool. It preserves
