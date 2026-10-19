@@ -5,6 +5,19 @@ Status: IMPLEMENTED_VALIDATED
 Decision owner: IC
 Scope: post-wrapper next action
 
+## Contents
+
+- [Choice](#choice)
+- [Contract](#contract)
+- [Selection](#selection)
+- [Cost status](#cost-status)
+- [Admitted tool identities](#admitted-tool-identities)
+- [Execution rule](#execution-rule)
+- [Architecture placement](#architecture-placement)
+- [Validation target](#validation-target)
+- [Validation evidence](#validation-evidence)
+- [Deferred choices](#deferred-choices)
+
 ## Choice
 
 The next move after wrapper closure is not cost calibration, wrapper retirement, or another controller redesign.
