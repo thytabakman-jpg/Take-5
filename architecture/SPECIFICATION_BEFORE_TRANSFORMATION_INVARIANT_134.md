@@ -3,6 +3,20 @@
 Date: 2026-09-26
 Status: CURRENT VALIDATED / ENFORCED
 
+## Contents
+
+- [Problem](#problem)
+- [Governing order](#governing-order)
+- [Job-relative adequacy](#job-relative-adequacy)
+- [Legal unresolved work](#legal-unresolved-work)
+- [ImprovementCore placement](#improvementcore-placement)
+- [Emergent objects](#emergent-objects)
+- [Take-6](#take-6)
+- [Regression class closed by this invariant](#regression-class-closed-by-this-invariant)
+- [Validation and promotion](#validation-and-promotion)
+- [Complementary authoritative-emission gate](#complementary-authoritative-emission-gate)
+- [Pre-execution effect boundary — current validated extension](#pre-execution-effect-boundary--current-validated-extension)
+
 ## Problem
 
 The system can possess strong architecture, persistence, wrappers, admission,
