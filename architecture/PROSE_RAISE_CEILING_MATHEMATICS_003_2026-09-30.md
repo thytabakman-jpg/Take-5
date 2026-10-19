@@ -9,6 +9,16 @@ Parents:
 Controller: Raise the Ceiling / RTC
 Tool: Prose
 
+## Contents
+
+- [Preserved job](#preserved-job)
+- [Defects localized by the ceiling run](#defects-localized-by-the-ceiling-run)
+- [First-mention exactness](#first-mention-exactness)
+- [Numeric-year precedence](#numeric-year-precedence)
+- [Ordered-anchor protection](#ordered-anchor-protection)
+- [New protected behavior](#new-protected-behavior)
+- [Strict-gain test](#strict-gain-test)
+
 ## Preserved job
 
 PROSE remains a protected reader-facing prose acceptance tool. It does not
