@@ -9,6 +9,21 @@ Origin:
 - ImprovementCore + HF2 campaign 119
 - ImprovementCore + HF2 Think-big pass 120
 
+## Contents
+
+- [Problem](#problem)
+- [Registered recurrence law](#registered-recurrence-law)
+- [Full plan](#full-plan)
+- [Runtime invocation](#runtime-invocation)
+- [Repository routes](#repository-routes)
+- [Fail-closed rules](#fail-closed-rules)
+- [Protected reconstruction](#protected-reconstruction)
+- [Portfolio audit](#portfolio-audit)
+- [External host boundary](#external-host-boundary)
+- [Post-merge Think-big reentry](#post-merge-think-big-reentry)
+- [Strengthened route set](#strengthened-route-set)
+- [Validation and merge evidence](#validation-and-merge-evidence)
+
 ## Problem
 
 A registered tool could already have a complete wrapper/D36_C configured plan while a
