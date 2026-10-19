@@ -27,7 +27,7 @@ land
 IdentityMatch(r,c)
 land
 Evidence(r)
-eqarnothing
+eq\varnothing
 land
 
 eg Rejected_M(c).
