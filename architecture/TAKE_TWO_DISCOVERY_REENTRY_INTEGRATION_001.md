@@ -5,6 +5,18 @@ Status: VALIDATED TRANSFER ON PR #161 HEAD 02fa863b
 Decision authority: ICC synthesis using pre-upgrade ICC-128 as outer controller and ICC-123 Multi-Object residual logic as an internal challenge
 Protected baseline: Take-2 remains untouched
 
+## Contents
+
+- [Executive decision](#executive-decision)
+- [ICC-128 outer role](#icc-128-outer-role)
+- [ICC-123 inner role](#icc-123-inner-role)
+- [Discovery state](#discovery-state)
+- [Relative closure](#relative-closure)
+- [Implementation change](#implementation-change)
+- [Regression witness](#regression-witness)
+- [Architectural consequence](#architectural-consequence)
+- [Current validation](#current-validation)
+
 ## Executive decision
 
 The property valued in original Take Two is not another named tool and not generic recursion.
