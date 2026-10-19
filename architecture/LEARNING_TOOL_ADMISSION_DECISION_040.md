@@ -28,13 +28,13 @@ This preserves the math-first rule:
 
 [
 	ext{mathematical object}
-ightarrow
+\rightarrow
 	ext{typed obligation}
-ightarrow
+\rightarrow
 	ext{applicability}
-ightarrow
+\rightarrow
 	ext{least-cost package selection}
-ightarrow
+\rightarrow
 	ext{execution}.
 ]
 
@@ -52,7 +52,7 @@ O_i,
 A_i,
 C_i,
 c_i
-angle
+\rangle
 ]
 
 where:
@@ -70,7 +70,7 @@ A_i(x)=1
 iff
 R_isubseteq Keys(x_i)
 land
-orall fin F_i, Callable(x_i[f]),
+\forall fin F_i, Callable(x_i[f]),
 ]
 
 where (R_i) is the required-field set, (F_isubseteq R_i) is the callable-field set, and (x_i) is the lens-specific runtime input packet.
@@ -97,7 +97,7 @@ sum_{T_iin P}c_i
 subject to
 
 [
-igcup_{T_iin P}C_i
+\bigcup_{T_iin P}C_i
 supseteq
 mathcal O_{mathrm{exec}}(x),
 ]
