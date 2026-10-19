@@ -111,6 +111,44 @@ def test_repository_materialization_is_complete():
     assert out["registry_parity"] is True
 
 
+def test_tool_home_pilot_contracts_are_reproducible_and_native_owned():
+    import re
+    from tool_project_packages import PILOT_TOOL_HOME_CONTRACTS
+    root=Path(__file__).resolve().parents[1]
+    expected={"MultiObject":("multiobject","runtime/multiobject.py"),"GOAL":("goal","runtime/goal.py"),"RTC":("rtc","runtime/a5_programs.py")}
+    assert set(PILOT_TOOL_HOME_CONTRACTS)==set(expected)
+    for spec in current_tool_specs():
+        if spec.object_id not in expected:
+            continue
+        folder,source=expected[spec.object_id]
+        path=root/"projects/tool-system/current-tools"/folder
+        page=package_files(spec)[f"current-tools/{folder}/README.md"]
+        assert (path/"README.md").read_text(encoding="utf-8")==page
+        assert "## Operational home contract — pilot" in page
+        assert "Admission and restructuring gate" in page
+        assert source in page
+        for ref in re.findall(r"\\]\\(([^)#]+)(?:#[^)]*)?\\)", page):
+            if "://" not in ref:
+                assert (path/ref).exists(), (folder,ref)
+
+
+def test_rtc_home_native_chain_and_readme_collision(tmp_path:Path):
+    import pytest
+    spec=next(s for s in current_tool_specs() if s.object_id=="RTC")
+    home=Path(__file__).resolve().parents[1]/"projects/tool-system/current-tools/rtc"
+    files=package_files(spec)
+    for name in ("RUNTIME.md","DEPENDENCIES.md","REGRESSION_CONTRACT.md"):
+        expected=files[f"current-tools/rtc/{name}"]
+        assert (home/name).read_text(encoding="utf-8")==expected
+        for source in ("runtime/raise_the_ceiling.py","runtime/capability_runtime.py","runtime/a5_programs.py","tests/test_recovered_native_tools_20260927.py"):
+            assert source in expected, (name,source)
+    materialize_package(tmp_path,spec)
+    readme=tmp_path/"projects/tool-system/current-tools/rtc/README.md"
+    readme.write_text(readme.read_text(encoding="utf-8").replace("C48","C99",1),encoding="utf-8")
+    with pytest.raises(ToolProjectPackageCollision):
+        materialize_package(tmp_path,spec)
+
+
 def test_rtc_coverage_index_reproduces_and_navigates_all_36_existing_cells():
     spec=next(s for s in current_tool_specs() if s.object_id=="RTC")
     generated=package_files(spec)["current-tools/rtc/coverage/README.md"]
