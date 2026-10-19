@@ -5,6 +5,18 @@ Status: VALIDATED IMPLEMENTATION ON PR #162
 Canonical repository: thytabakman-jpg/Take-5
 Scope: MTA, Architecture, PD, PDAudit
 
+## Contents
+
+- [Governing problem](#governing-problem)
+- [Admission rule](#admission-rule)
+- [MTA](#mta)
+- [Architecture](#architecture)
+- [PD](#pd)
+- [PDAudit](#pdaudit)
+- [Wrapper identity](#wrapper-identity)
+- [Strong-reality target](#strong-reality-target)
+- [Validation](#validation)
+
 ## Governing problem
 
 The current strong tool-reality audit has one exact four-object frontier:
