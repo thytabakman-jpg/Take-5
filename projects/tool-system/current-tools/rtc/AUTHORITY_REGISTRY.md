@@ -7,7 +7,10 @@ Status: CURRENT PACKAGE ROUTING
 | package identity/status routing | this package |
 | current configured-tool identity | runtime/tool_run_registry.py |
 | current protected tool identity | runtime/tool_manifest.py |
-| current executable realization | runtime/portable_tool_conductor.py |
+| current configured invocation | runtime/portable_tool_conductor.py |
+| RTC native entrypoint | runtime/raise_the_ceiling.py |
+| C48 capability dispatch | runtime/capability_runtime.py |
+| C48 candidate evaluator | runtime/a5_programs.py |
 | historical/lineage evidence | SOURCE_MAP.md pointers |
 | package current projection | CURRENT_STATE.md |
 | unresolved package questions | OPEN_QUESTIONS.md |
