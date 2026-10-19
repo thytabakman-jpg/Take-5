@@ -9,6 +9,16 @@ Recurrence: HF002
 Parent:
 - architecture/PROSE_PLAIN_LANGUAGE_RTC_MATHEMATICS_005_2026-10-01.md
 
+## Contents
+
+- [Preserved basis](#preserved-basis)
+- [Raised rule](#raised-rule)
+- [Successor mathematics](#successor-mathematics)
+- [36-dimensional observer pass](#36-dimensional-observer-pass)
+- [C48 candidate frontier](#c48-candidate-frontier)
+- [HF2 recurrence](#hf2-recurrence)
+- [New current lineage](#new-current-lineage)
+
 ## Preserved basis
 
 The successor preserves:
