@@ -111,6 +111,24 @@ def test_repository_materialization_is_complete():
     assert out["registry_parity"] is True
 
 
+def test_rtc_coverage_index_reproduces_and_navigates_all_36_existing_cells():
+    spec=next(s for s in current_tool_specs() if s.object_id=="RTC")
+    generated=package_files(spec)["current-tools/rtc/coverage/README.md"]
+    root=Path(__file__).resolve().parents[1]/"projects/tool-system/current-tools/rtc/coverage"
+    assert (root/"README.md").read_text(encoding="utf-8")==generated
+    assert generated.count("](./")==36
+    for index,scope,face in coverage_cells():
+        name=f"{index:02d}_{scope.value}__{face.value}.md"
+        assert generated.count(f"- [{index:02d} {face.value}](./{name})")==1
+        page=(root/name).read_text(encoding="utf-8")
+        assert f"Coverage cell: {index:02d}/36" in page
+        assert f"Scope: {scope.value}" in page
+        assert f"Mode face: {face.value}" in page
+        assert "Authority: AUDIT_EVIDENCE_ONLY" in page
+        assert "Disposition: OPEN" in page
+    assert "SourceScope x TargetScope surface is separate" in generated
+
+
 def test_multiobject_package_has_direct_runtime_math_and_legacy_lineage_routes():
     spec=next(x for x in current_tool_specs() if x.object_id=="MultiObject")
     generated=package_files(spec)
