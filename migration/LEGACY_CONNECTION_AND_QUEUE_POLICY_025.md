@@ -4,6 +4,8 @@ Date 2026-09-24
 Scope Take-5 migration preparation
 Authority nonproduction
 
+**Currentness and intended reader:** Historical, pre-promotion migration policy for Take-5 migration and rollback reviewers. The statement below about Reaserch remaining production authority describes the *September 24 preparation stage*, not today's authority. Current repository ownership, admission, post-cutover drift and rollback are governed by [MIGRATION_STATE.yaml](../MIGRATION_STATE.yaml) and [GitHub Governance](../GITHUB_GOVERNANCE.md). This historical policy remains evidence and does not independently reactivate pre-cutover routing or authorize a live repository migration.
+
 ## Decision
 
 Take-5 must not have runtime dependencies on Take-2, Take-3, Take-4, or Reaserch.
