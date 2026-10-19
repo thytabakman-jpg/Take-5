@@ -1,8 +1,7 @@
-"""Evidence-first migration of Take-5's empty 36-cell package pages.
+"""Read-only evidence-first coverage classifier for logical tool packages.
 
-This module only *audits* and plans. It deliberately does not delete files or
-change the current package contract or accepted project goal. Physical removal
-requires separate approved governance and matching generator/consumer changes.
+This observer never deletes files. It distinguishes authored evidence, exact
+empty templates and manifest-reserved coordinates.
 """
 from __future__ import annotations
 
@@ -52,7 +51,10 @@ def audit_coverage(root: Path) -> tuple[CellObservation, ...]:
     root = Path(root)
     findings = []
     for spec in all_project_specs():
-        folder = PACKAGE_ROOT / package_relroot(spec) / "coverage"
+        home = PACKAGE_ROOT / package_relroot(spec)
+        folder = home / "coverage"
+        manifest_path = root / home / "MANIFEST.md"
+        manifest = manifest_path.read_text(encoding="utf-8") if manifest_path.is_file() else ""
         found = set()
         for index, scope, mode in coverage_cells():
             fname = coverage_name(index, scope, mode)
@@ -61,11 +63,14 @@ def audit_coverage(root: Path) -> tuple[CellObservation, ...]:
             found.add(fname)
             if not file.is_file():
                 pilot = spec.object_id in SPARSE_COVERAGE_PILOT
+                reserved = ("## Reserved logical coverage coordinates" in manifest
+                            and f"- coverage/{fname}" in manifest)
+                disposition = ("VIRTUAL_EMPTY_PILOT" if pilot else
+                               "VIRTUAL_EMPTY_LOGICAL" if reserved else "MISSING")
                 findings.append(CellObservation(
-                    str(rel), spec.object_id, index,
-                    "VIRTUAL_EMPTY_PILOT" if pilot else "MISSING", "",
-                    "pilot logical slot with no admitted evidence" if pilot
-                    else "expected cell is absent"))
+                    str(rel), spec.object_id, index, disposition, "",
+                    "reserved logical slot with no admitted evidence"
+                    if pilot or reserved else "unregistered coordinate missing"))
                 continue
             content = file.read_bytes()
             digest = hashlib.sha256(content).hexdigest()
@@ -148,7 +153,8 @@ def proposed_sparse_core_updates(root: Path) -> dict[str, str]:
         text = (root / regression).read_text(encoding="utf-8")
         assertion = "- exactly 36 Scope x ModeFace coverage pages exist"
         if text.count(assertion) != 1:
-            raise ValueError(f"UNEXPECTED_REGRESSION_CONTRACT:{regression}")
+            if "- exactly 36 logical Scope x ModeFace coordinates exist" not in text:
+                raise ValueError(f"UNEXPECTED_REGRESSION_CONTRACT:{regression}")
         edits[str(regression)] = text.replace(
             assertion, "- exactly 36 logical Scope x ModeFace coordinates exist; "
             "physical cell files are reserved for admitted evidence")
@@ -171,10 +177,11 @@ def candidate_plan(root: Path) -> dict:
     """Lossless plan: only exact blank templates qualify for future retirement."""
     rows = audit_coverage(root)
     dispositions = {name: sum(r.disposition == name for r in rows)
-                    for name in ("EMPTY_TEMPLATE", "VIRTUAL_EMPTY_PILOT", "PRESERVE", "MISSING", "UNKNOWN_CELL")}
+                    for name in ("EMPTY_TEMPLATE", "VIRTUAL_EMPTY_PILOT", "VIRTUAL_EMPTY_LOGICAL", "PRESERVE", "MISSING", "UNKNOWN_CELL")}
     readers = affected_markdown_readers(root, (r.path for r in rows if r.disposition == "EMPTY_TEMPLATE"))
     return {
-        "status": "CANDIDATE_ONLY_GOAL_CHANGE_APPROVAL_REQUIRED",
+        "status": ("LOGICAL_COVERAGE_VERIFIED" if not any(dispositions[k] for k in ("EMPTY_TEMPLATE","MISSING","UNKNOWN_CELL"))
+                   else "COVERAGE_REVIEW_REQUIRED"),
         "existing_markdown_readers_requiring_migration": readers,
         "source": "runtime/tool_package_sparse_migration.py",
         "total_logical_coordinates": len(all_project_specs()) * len(coverage_cells()),
@@ -183,15 +190,16 @@ def candidate_plan(root: Path) -> dict:
                                        if r.disposition == "EMPTY_TEMPLATE"],
         "virtual_empty_pilot_paths": [r.path for r in rows
                                       if r.disposition == "VIRTUAL_EMPTY_PILOT"],
+        "virtual_empty_logical_paths": [r.path for r in rows
+                                         if r.disposition == "VIRTUAL_EMPTY_LOGICAL"],
         "protected_paths": [r.path for r in rows
                             if r.disposition in {"PRESERVE", "UNKNOWN_CELL"}],
         "missing_coordinates": [r.path for r in rows
                                 if r.disposition == "MISSING"],
         "delete_authorized": False,
         "current_project_goal_unchanged": True,
-        "note": ("No physical deletion is licensed. Any future schema migration "
-                 "must preserve 36 logical cells, native consumers, curated "
-                 "manifests/regressions and separately admitted goal approval."),
+        "note": ("Read-only observer; all 36 logical coordinates remain manifest-owned. "
+                 "Authored evidence remains independently protected and append-only."),
     }
 
 
@@ -206,6 +214,7 @@ def main() -> None:
         plan.pop("candidate_empty_file_paths")
         plan.pop("protected_paths")
         plan.pop("virtual_empty_pilot_paths")
+        plan.pop("virtual_empty_logical_paths")
         plan.pop("missing_coordinates")
     print(json.dumps(plan, indent=2))
 

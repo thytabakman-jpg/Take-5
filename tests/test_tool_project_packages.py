@@ -30,6 +30,9 @@ def test_every_object_package_has_required_core_and_36_coverage_coordinates():
         assert len(coverage)==0  # all 36 unfilled coordinates are logical
         manifest=files[next(path for path in files if path.endswith("/MANIFEST.md"))]
         assert "Coverage cells: 36" in manifest
+        assert "Reserved logical coverage coordinates" in manifest
+        regression=files[next(path for path in files if path.endswith("/REGRESSION_CONTRACT.md"))]
+        assert "exactly 36 logical Scope x ModeFace coordinates exist" in regression
         for index,scope,face in coverage_cells():
             assert f"coverage/{index:02d}_{scope.value}__{face.value}.md" in manifest
 

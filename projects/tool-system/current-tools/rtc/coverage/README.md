@@ -10,7 +10,7 @@ through the authority and change-control path.
 ## Navigation and ownership
 
 Reader: RTC maintainers and audit reviewers.
-Purpose: Locate the 36 evidence-only Scope x ModeFace pages without treating them as mathematical or execution authority.
+Purpose: Locate the 36 evidence-only Scope x ModeFace coordinates without treating them as mathematical or execution authority.
 
 - [RTC authority registry](../AUTHORITY_REGISTRY.md)
 - [Change control](../CHANGE_CONTROL.md)
