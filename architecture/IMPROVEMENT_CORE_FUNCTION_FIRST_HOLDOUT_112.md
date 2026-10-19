@@ -5,6 +5,20 @@ Status: VALIDATED CURRENT EXPERIMENT / NOT SYSTEM-WIDE PROMOTED
 Controller: ImprovementCore
 Canonical repository: thytabakman-jpg/Take-5
 
+## Contents
+
+- [Recovered historical trigger](#recovered-historical-trigger)
+- [Later function-first refinement](#later-function-first-refinement)
+- [ImprovementCore question](#improvementcore-question)
+- [Executable experiment](#executable-experiment)
+- [Holdout result](#holdout-result)
+- [Material discovery](#material-discovery)
+- [Improvement](#improvement)
+- [Next frontier](#next-frontier)
+- [Disposition](#disposition)
+- [Validation receipt](#validation-receipt)
+- [Regime-091 delta](#regime-091-delta)
+
 ## Recovered historical trigger
 
 The September 25 PD discovery established the exact mathematical equivalence between
