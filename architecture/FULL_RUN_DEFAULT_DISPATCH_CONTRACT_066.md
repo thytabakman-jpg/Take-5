@@ -3,6 +3,15 @@
 Date: 2026-09-25
 Status: CURRENT USER-INVOCATION CONTRACT
 
+## Contents
+
+- [Failure](#failure)
+- [Rule](#rule)
+- [MT binding](#mt-binding)
+- [Anti-degradation invariant](#anti-degradation-invariant)
+- [Consequence](#consequence)
+- [MT before-return semantic gate](#mt-before-return-semantic-gate)
+
 ## Failure
 
 A user command such as "run MT" was allowed to degrade into the bare MT semantic primitive, without the canonical wrapper and without the intended typed 36-cell geometry.
