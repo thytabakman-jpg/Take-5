@@ -3,6 +3,18 @@
 Date: 2026-09-25
 Status: CURRENT EMISSION BOUNDARY CONTRACT
 
+## Contents
+
+- [Problem](#problem)
+- [Root cause](#root-cause)
+- [Goal](#goal)
+- [Required pipeline](#required-pipeline)
+- [Hard prohibitions](#hard-prohibitions)
+- [Chat rendering projection](#chat-rendering-projection)
+- [Closure test](#closure-test)
+- [Current implementation update — 2026-09-26](#current-implementation-update--2026-09-26)
+- [Affirmative-first prose extension — 2026-10-01](#affirmative-first-prose-extension--2026-10-01)
+
 ## Problem
 
 Repository rendering rules can be correct while a conversational response bypasses them by hand-authoring presentation markup.
