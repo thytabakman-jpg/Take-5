@@ -6,6 +6,18 @@ Branch: main
 Parent design: architecture/KERNEL_MATH_CONTRACT_053.yaml
 PR #198: MERGED
 
+## Contents
+
+- [Scope](#scope)
+- [Reuse-first implementation](#reuse-first-implementation)
+- [Controller ownership evidence](#controller-ownership-evidence)
+- [Durable execution evidence](#durable-execution-evidence)
+- [CI evidence](#ci-evidence)
+- [Promotion-gate evidence matrix](#promotion-gate-evidence-matrix)
+- [Current conclusion](#current-conclusion)
+- [Canonical promotion patch](#canonical-promotion-patch)
+- [Final currentness reconciliation](#final-currentness-reconciliation)
+
 ## Scope
 
 This audit records the implementation and promotion evidence for Kernel 053.
