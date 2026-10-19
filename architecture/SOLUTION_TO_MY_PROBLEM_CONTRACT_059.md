@@ -4,6 +4,20 @@ Date: 2026-09-25
 Status: CURRENT CANDIDATE CONFIGURED PROGRAM
 Program ID: SolutionToMyProblem
 
+## Contents
+
+- [Job](#job)
+- [Input](#input)
+- [Question](#question)
+- [Presuppositions](#presuppositions)
+- [Admissibility](#admissibility)
+- [Selection](#selection)
+- [Output](#output)
+- [Wrapper](#wrapper)
+- [Non-collapse](#non-collapse)
+- [Reentry](#reentry)
+- [Current application](#current-application)
+
 ## Job
 
 Given a diagnosed problem object, determine the smallest admissible intervention package that attacks the diagnosed generator, closes the required effects, preserves protected behavior, and survives verification.
