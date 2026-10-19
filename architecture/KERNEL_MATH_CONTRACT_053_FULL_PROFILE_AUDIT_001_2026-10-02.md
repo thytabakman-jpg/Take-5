@@ -7,6 +7,24 @@ Mode: OBSERVER ONLY
 Runtime mutation authority: NONE
 Implementation authority: NONE
 
+## Contents
+
+- [Execution-truth statement](#execution-truth-statement)
+- [Governing sequence used](#governing-sequence-used)
+- [Phase 0 — resolution of the three implementation-boundary questions](#phase-0--resolution-of-the-three-implementation-boundary-questions)
+- [ASSERT full D36_C observer pass](#assert-full-d36_c-observer-pass)
+- [Robust MT preflight before GOAL](#robust-mt-preflight-before-goal)
+- [GOAL full observer pass](#goal-full-observer-pass)
+- [Architecture full D36_C observer pass](#architecture-full-d36_c-observer-pass)
+- [External reuse analysis](#external-reuse-analysis)
+- [HF2 recurrence record](#hf2-recurrence-record)
+- [Current recommendation before Round 3](#current-recommendation-before-round-3)
+- [Reentry continuation after initial report](#reentry-continuation-after-initial-report)
+- [Final clean successor observer pass](#final-clean-successor-observer-pass)
+- [Updated Architecture result](#updated-architecture-result)
+- [Updated external-reuse recommendation](#updated-external-reuse-recommendation)
+- [Final audit status](#final-audit-status)
+
 ## Execution-truth statement
 
 This report applies the current Take-5 ASSERT, robust-MT, GOAL, Architecture,
