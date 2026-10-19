@@ -53,7 +53,7 @@ NumericYearDate(d)
 iff
 |Y(d)|ge 1
 land
-C(d)=arnothing.
+C(d)=\varnothing.
 ]
 
 Qualifiers such as (c.), (fl.), (d.), before, after, and ranges do not
@@ -67,7 +67,7 @@ governed by the active prose contract.
 [
 NumericYearDating(p)
 iff
-orall din D(p), NumericYearDate(d).
+\forall din D(p), NumericYearDate(d).
 ]
 
 Any explicit century-label realization in reader-facing historical dating is a
