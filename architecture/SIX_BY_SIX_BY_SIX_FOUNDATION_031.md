@@ -4,6 +4,19 @@ Date 2026-09-24
 Status candidate foundation successor
 Migration remains paused pending validation
 
+## Contents
+
+- [Recovered idea](#recovered-idea)
+- [Run identity](#run-identity)
+- [Foundation geometry](#foundation-geometry)
+- [Kernel candidate](#kernel-candidate)
+- [Controller](#controller)
+- [RCDL integration](#rcdl-integration)
+- [Why this is stronger](#why-this-is-stronger)
+- [Anti-numerology guard](#anti-numerology-guard)
+- [Validation obligations](#validation-obligations)
+- [Migration consequence](#migration-consequence)
+
 ## Recovered idea
 
 Three distinct six-structures now exist and must not be collapsed.
