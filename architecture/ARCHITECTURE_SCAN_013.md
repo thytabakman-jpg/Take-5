@@ -2,6 +2,13 @@
 
 Date 2026-09-24
 
+## Contents
+
+- [Current architecture](#current-architecture)
+- [Scan findings](#scan-findings)
+- [Required architecture repair](#required-architecture-repair)
+- [Architecture disposition](#architecture-disposition)
+
 ## Current architecture
 
 Semantic algebra T = <K,S,O,G,M,C,R,U>
