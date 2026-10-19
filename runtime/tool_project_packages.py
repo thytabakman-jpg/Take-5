@@ -208,7 +208,7 @@ This package organizes the object without becoming a second semantic authority.
 Do not overwrite history, decisions, lessons, run evidence, or coverage-cell evidence.
 Current projections may change only through explicit change control and retained lineage.
 """
-    if spec.current_tool and spec.object_id=="MultiObject":
+    if spec.current_tool and spec.object_id in {"MultiObject", "GOAL"}:
         for index, name in enumerate((
             "CURRENT_STATE.md", "AUTHORITY_REGISTRY.md", "IDENTITY.md",
             "MATHEMATICS.md", "RUNTIME.md", "PROTECTED_BEHAVIORS.md",
