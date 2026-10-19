@@ -10,6 +10,20 @@ The mathematics, earlier protection layers, and original candidate-stage tests
 below remain historical research objects; actual live behavior is governed by
 the current runtime, manifest and validation evidence.
 
+## Contents
+
+- [Table of contents](#table-of-contents)
+- [Governing problem](#governing-problem)
+- [Preserved object](#preserved-object)
+- [Failure-prevention extension](#failure-prevention-extension)
+- [Remediation frontier](#remediation-frontier)
+- [Transform gate](#transform-gate)
+- [State-currentness gate](#state-currentness-gate)
+- [Frontier closure correction](#frontier-closure-correction)
+- [Five root invariants](#five-root-invariants)
+- [Raise-the-Ceiling strict-gain test](#raise-the-ceiling-strict-gain-test)
+- [Operational guarantee](#operational-guarantee)
+
 ## Table of contents
 
 - [Governing problem](#governing-problem)
