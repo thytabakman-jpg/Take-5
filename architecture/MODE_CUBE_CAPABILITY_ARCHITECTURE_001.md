@@ -5,6 +5,18 @@ Status: ARCHITECTURE CANDIDATE
 Authority: research only
 Input: research/MT_CAPABILITY_MODE_CUBE_003.md
 
+## Contents
+
+- [1. Architectural object](#1-architectural-object)
+- [2. Placement rule](#2-placement-rule)
+- [3. Octant architecture](#3-octant-architecture)
+- [4. Global center](#4-global-center)
+- [5. Center finder](#5-center-finder)
+- [6. Architecture risks](#6-architecture-risks)
+- [7. Build decision criterion](#7-build-decision-criterion)
+- [8. Current architecture conclusion](#8-current-architecture-conclusion)
+- [9. Expected leverage](#9-expected-leverage)
+
 ## 1. Architectural object
 
 Mode cube:
