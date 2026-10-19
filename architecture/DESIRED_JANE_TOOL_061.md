@@ -5,6 +5,17 @@ Status: IMPLEMENTED ON BRANCH / VALIDATION REQUIRED
 Tool id: DesiredJane
 Primary question: What does Tzvi want Jane to be?
 
+## Contents
+
+- [Rewritten controlling prompt](#rewritten-controlling-prompt)
+- [Tool object](#tool-object)
+- [First recovered desired-Jane contract](#first-recovered-desired-jane-contract)
+- [ASSERT on the desired-Jane contract](#assert-on-the-desired-jane-contract)
+- [ASSERT on the tool](#assert-on-the-tool)
+- [Comparison with current Jane](#comparison-with-current-jane)
+- [Disposition](#disposition)
+- [Semantic lifecycle clarification](#semantic-lifecycle-clarification)
+
 ## Rewritten controlling prompt
 
 Recover from all available evidence what Tzvi wants Jane to be. Do not infer Jane's desired role from her current implementation alone. Separate required behavior, prohibited behavior, unresolved coordinates, and genuine conflicts. Preserve the current Jane/ICC role separation unless the evidence defeats it. Run the full compound ASSERT process on the recovered desired-Jane contract and separately on the tool that recovered it. Reject any requirement invented from repetition, recency, convenience, or architecture aesthetics. Implement the tool as a configured strong-claim tool with OPEN/conflict preservation, recursive closure, and reentry. Then compare the desired-Jane contract against current Jane and report only the material results.
