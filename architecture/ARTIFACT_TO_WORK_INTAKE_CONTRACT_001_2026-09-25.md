@@ -4,6 +4,21 @@ Date: 2026-09-25
 Status: CANDIDATE INTERFACE CONTRACT / BRIDGE IMPLEMENTED / SEMANTIC COVERAGE OPEN
 Source campaign: integration/ICC123_THREE_DAY_RECOVERY_CAMPAIGN_001_2026-09-25.md
 
+## Contents
+
+- [Job](#job)
+- [Objects](#objects)
+- [Intake transform](#intake-transform)
+- [Coverage truth](#coverage-truth)
+- [Generator evolution](#generator-evolution)
+- [Anti-loss](#anti-loss)
+- [Surface-minimality result](#surface-minimality-result)
+- [Validation obligations](#validation-obligations)
+- [Implementation evidence](#implementation-evidence)
+- [Current disposition](#current-disposition)
+- [Bound external ZIP adapter](#bound-external-zip-adapter)
+- [Additional validation obligations](#additional-validation-obligations)
+
 ## Job
 
 Bridge admitted corpus evidence into existing Take-5 object-admission and endogenous-work machinery.
