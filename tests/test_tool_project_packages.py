@@ -246,7 +246,7 @@ def test_three_tool_homes_level2_rtc_all_36_typed_reciprocal_edges():
         page=(root/"coverage"/name).read_text(encoding="utf-8")
         assert name not in observed
         observed.add(name)
-        assert page.startswith(f"# RTC: {scope.value} x {face.value}\\n")
+        assert page.startswith(f"# RTC: {scope.value} x {face.value}\n")
         assert f"Coverage cell: {i:02d}/36" in page
         assert f"Scope: {scope.value}" in page
         assert f"Mode face: {face.value}" in page
@@ -278,7 +278,7 @@ def test_three_tool_homes_level2_one_hop_markdown_residence():
         home=base/home_name
         for file in home.rglob("*.md"):
             content=file.read_text(encoding="utf-8")
-            for raw in re.findall(r"\\]\(([^)]+)\\)",content):
+            for raw in re.findall(r"\]\(([^)]+)\)",content):
                 dest=raw.split("#",1)[0].strip()
                 if not dest or "://" in dest or dest.startswith(("mailto:","data:")):
                     continue
