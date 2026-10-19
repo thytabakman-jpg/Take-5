@@ -11,6 +11,16 @@ Parent contracts:
 - architecture/PROSE_RAISE_CEILING_MATHEMATICS_003_2026-09-30.md
 - architecture/PROSE_ARCHITECTURE_READER_LOAD_MATHEMATICS_004_2026-09-30.md
 
+## Contents
+
+- [Preserved job](#preserved-job)
+- [New defect 1: buried questions](#new-defect-1-buried-questions)
+- [New defect 2: Jewish lexical drift](#new-defect-2-jewish-lexical-drift)
+- [Ownership boundary](#ownership-boundary)
+- [Defaulting](#defaulting)
+- [Strict-gain conditions](#strict-gain-conditions)
+- [Reentry](#reentry)
+
 ## Preserved job
 
 PROSE remains a protected reader-facing prose acceptance tool. It evaluates concrete prose against a frozen contract. It does not decide factual truth, silently invent a transliteration standard, or rewrite failed prose.
