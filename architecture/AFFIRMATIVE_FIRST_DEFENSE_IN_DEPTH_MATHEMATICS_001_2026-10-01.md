@@ -6,6 +6,15 @@ Origin: RootCause on repeated negative-first conversational prose
 Controller: ImprovementCore
 Protected behavior: AFFIRMATIVE_FIRST
 
+## Contents
+
+- [Root generator](#root-generator)
+- [Required invariant](#required-invariant)
+- [Defense layers](#defense-layers)
+- [Admission logic](#admission-logic)
+- [Fail-closed states](#fail-closed-states)
+- [Mutation rule](#mutation-rule)
+
 ## Root generator
 
 The observed failure is not absence of the preference. The preference and Prose rule already exist.
