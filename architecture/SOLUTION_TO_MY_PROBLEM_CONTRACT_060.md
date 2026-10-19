@@ -5,6 +5,16 @@ Status: CURRENT CANDIDATE CONFIGURED PROGRAM
 Program ID: SolutionToMyProblem
 Supersedes: SOLUTION_TO_MY_PROBLEM_CONTRACT_059.md
 
+## Contents
+
+- [Anti-cheat correction](#anti-cheat-correction)
+- [Governing question](#governing-question)
+- [Solution law](#solution-law)
+- [Proposal relevance](#proposal-relevance)
+- [Terminal states](#terminal-states)
+- [Required evidence separation](#required-evidence-separation)
+- [Current problem disposition](#current-problem-disposition)
+
 ## Anti-cheat correction
 
 Contract 059 allowed candidate-local fields such as Executable, Verified, Resolves, and Preserves to participate directly in SOLVED. That permitted a proposal to carry the facts needed to certify itself.
