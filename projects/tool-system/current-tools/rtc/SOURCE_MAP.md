@@ -23,6 +23,8 @@ to make the folder look complete.
 
 - [Portable invocation conductor](../../../../runtime/portable_tool_conductor.py) selects `raise_the_ceiling.raise_the_ceiling` for configured `RTC`; this is a source locator, not evidence of a completed invocation.
 - [Native Raise-the-Ceiling entrypoint](../../../../runtime/raise_the_ceiling.py) delegates to C48 and retains the strict-gain/preservation-or-typed-no-gain boundary.
+- [C48 dispatch owner](../../../../runtime/capability_runtime.py) routes the configured specialization into `run_generic`.
+- [C48 evaluator](../../../../runtime/a5_programs.py) implements the actual truthy `strict_gain`/`preserves` selection; full declared protected-set coverage is not yet demonstrated.
 - [Protected tool manifest](../../../../runtime/tool_manifest.py) binds `RTC_STRICT_GAIN_PRESERVATION_GATE` and selects the [native tool recovery specification](../../../../architecture/NATIVE_TOOL_RECOVERY_PACK_160_2026-09-27.md); this package does not replace either owner.
 - [Native regression witness](../../../../tests/test_recovered_native_tools_20260927.py) contains the C48 strict-gain specialization test. A test source link alone is not a successful test run.
 
