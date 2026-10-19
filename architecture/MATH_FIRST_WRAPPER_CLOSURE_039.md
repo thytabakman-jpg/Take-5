@@ -6,6 +6,16 @@ Scope: IC + Jane + wrapper completion
 Production authority: unchanged
 Legacy wrapper: preserved for rollback/comparison
 
+## Contents
+
+- [Decision](#decision)
+- [Final equation](#final-equation)
+- [IC selection mathematics](#ic-selection-mathematics)
+- [Protected role equations](#protected-role-equations)
+- [Validation evidence](#validation-evidence)
+- [Tool placement after closure](#tool-placement-after-closure)
+- [Remaining OPEN work](#remaining-open-work)
+
 ## Decision
 
 The observer-mode all-tools sweep is closed relative to the frozen job.
