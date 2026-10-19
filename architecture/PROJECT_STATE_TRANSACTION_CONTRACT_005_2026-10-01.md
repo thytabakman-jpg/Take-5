@@ -3,6 +3,20 @@
 Date: 2026-10-01
 Status: IMPLEMENTED / VALIDATION PENDING
 
+## Contents
+
+- [Job](#job)
+- [Core invariant](#core-invariant)
+- [Currentness](#currentness)
+- [Consequence closure](#consequence-closure)
+- [Concurrency](#concurrency)
+- [Commit](#commit)
+- [ICC128 reentry](#icc128-reentry)
+- [ImprovementCore relation](#improvementcore-relation)
+- [ProjectManager relation](#projectmanager-relation)
+- [Implementation](#implementation)
+- [Verification](#verification)
+
 ## Job
 
 ProjectStateTransaction makes every admitted ProjectManager mutation one coherent project state transaction.
