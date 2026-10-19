@@ -8,7 +8,7 @@ Scope x ModeFace
 
 6 scopes x 6 faces = 36 cells.
 
-This is the per-tool coverage surface materialized under each package's coverage/.
+This per-tool coverage surface is represented by 36 manifest coordinates per package; a physical file under coverage/ is necessary only for independently admitted coordinate-specific evidence.
 
 ## Directed handoff surface
 

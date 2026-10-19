@@ -120,15 +120,18 @@ def test_sparse_core_projection_preserves_curated_substance_and_originals(one_ce
     assert [p.read_bytes() for p in (manifest, regression, index)] == before
 
 
-def test_frozen_repository_coverage_scan_precedes_deletion():
-    """Run directly in a full checkout; never interpret a partial corpus as safe."""
+def test_current_repository_logical_coverage_is_complete():
+    """Verify the approved compaction preserves every original logical coordinate."""
     root = Path(__file__).resolve().parents[1]
     plan = sparse.candidate_plan(root)
     assert plan["total_logical_coordinates"] == 5040
-    assert plan["dispositions"]["EMPTY_TEMPLATE"] == 4896
+    assert plan["dispositions"]["EMPTY_TEMPLATE"] == 0
     assert plan["dispositions"]["VIRTUAL_EMPTY_PILOT"] == 144
+    assert plan["dispositions"]["VIRTUAL_EMPTY_LOGICAL"] == 4896
     assert len(plan["virtual_empty_pilot_paths"]) == 144
+    assert len(plan["virtual_empty_logical_paths"]) == 4896
     assert plan["dispositions"]["PRESERVE"] == 0
     assert plan["dispositions"]["MISSING"] == 0
     assert plan["dispositions"]["UNKNOWN_CELL"] == 0
+    assert plan["status"] == "LOGICAL_COVERAGE_VERIFIED"
     assert plan["delete_authorized"] is False

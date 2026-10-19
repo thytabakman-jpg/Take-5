@@ -29,7 +29,7 @@ Coverage cells: 36
 - history/README.md
 - coverage/README.md
 
-## Coverage pages
+## Reserved logical coverage coordinates (36; physical evidence pages optional)
 
 - coverage/01_SYSTEM__EXPAND.md
 - coverage/02_SYSTEM__CONTRACT.md
