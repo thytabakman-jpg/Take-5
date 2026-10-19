@@ -1,10 +1,10 @@
 # Kernel Math Contract 052
 
-Date 2026-09-25
+Date: 2026-09-25
 
-Status REVIEW ONLY MATH FREEZE
+Status: REVIEW ONLY MATH FREEZE
 
-Runtime effect NONE
+Runtime effect: NONE
 
 This artifact separates the mathematical objects that are currently easy to conflate.
 
