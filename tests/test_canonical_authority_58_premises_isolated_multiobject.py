@@ -80,8 +80,9 @@ class PremiseOnlyProvider:
               for f in joint_route.findings)
 
     def triggered_views(self,objects,joint_route,pair_routes,pair_synthesis,residuals):
-        return tuple(ViewRequest(f"{scope}_{j}",scope+"|"+str(j),IDS,
-            description) for scope,questions in RUBRICS for j,description in enumerate(questions,1))
+        faces=("EXPAND","CONTRACT","INWARD","OUTWARD","ISOLATE","COUPLE")
+        return tuple(ViewRequest(f"{scope}_{face}",scope+"|"+face,IDS,
+            description) for scope,questions in RUBRICS for face,description in zip(faces,questions))
 
     def analyze_view(self,request,objects):
         # Every addressed premise is examined as a separate inspectable record.
