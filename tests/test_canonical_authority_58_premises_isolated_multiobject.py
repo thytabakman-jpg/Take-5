@@ -109,9 +109,9 @@ class PremiseOnlyProvider:
         rec.extend(ReconciledFinding(r.findings[0].finding_id,"REFINEMENT",
               ("relation type explicitly bounded; not theorem certification",))
               for r in pair_routes if r.findings[0].relation_type!="NO_LICENSED_RELATION")
-        rec.extend(ReconciledFinding("FACE_"+v.route_id,"OPEN",
-            ("58 per-premise tests framed, substantive closure withheld",))
-            for v in view_results)
+        rec.extend(ReconciledFinding(f.finding_id,"OPEN",
+            ("facet probe recorded for exact premise; substantive closure withheld",))
+            for v in view_results for f in v.findings)
         return tuple(rec)
 
 def test_isolated_58_premise_multiobject_full36():
