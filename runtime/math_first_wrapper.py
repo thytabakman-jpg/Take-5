@@ -44,6 +44,7 @@ class StateDelta:
     material: bool
     before_fingerprint: str
     after_fingerprint: str
+    discovery_evidence: Any = None
 
 
 @dataclass(frozen=True)
@@ -302,11 +303,32 @@ def run_math_first_wrapper(
         state = update_fn(pre_state, closure)
         delta = infer_delta(pre_state, state)
 
+        # A result-sensitive discovery can change the next questions and dependency
+        # universe without changing governed target state. Notify Jane of that
+        # supervisory event; do not falsely label the target state as mutated.
+        admitted_discovery = discovery_material and closure_status in {
+            "CLOSED", "RELATIVE_CLOSED", "CLOSED_RELATIVE"
+        }
+        discovery_evidence = (
+            closure.get("discovery_delta") if isinstance(closure, Mapping)
+            else getattr(closure, "discovery_delta", None)
+        ) if admitted_discovery else None
+        supervisory_delta = (
+            StateDelta(
+                changed=delta.changed + ("discovery_delta",),
+                material=delta.material,
+                before_fingerprint=delta.before_fingerprint,
+                after_fingerprint=delta.after_fingerprint,
+                discovery_evidence=deepcopy(discovery_evidence),
+            )
+            if admitted_discovery else delta
+        )
+        supervisory_material = delta.material or admitted_discovery
         relevance = bool(
-            relevance_fn(delta, frozen_math=frozen, entry_binding=binding)
+            relevance_fn(supervisory_delta, frozen_math=frozen, entry_binding=binding)
         )
         synced = False
-        if delta.material and relevance and jane_update_fn is not None:
+        if supervisory_material and relevance and jane_update_fn is not None:
             def _update_jane(d):
                 nonlocal jane_state
                 jane_state = jane_update_fn(jane_state, d)
@@ -314,7 +336,7 @@ def run_math_first_wrapper(
                 material=True,
                 supervisory_relevant=True,
                 update=_update_jane,
-                delta=delta,
+                delta=supervisory_delta,
             )
             synced = bool(sync_receipt.synced)
 

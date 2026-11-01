@@ -30,6 +30,10 @@ SUPERVISORY_PREFIXES = (
     "basis",
     "frozen_math",
     "candidate_universe",
+    "dependency",
+    "discovery",
+    "representation",
+    "view",
 )
 
 

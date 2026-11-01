@@ -26,12 +26,14 @@ ICC is the user-facing name for the current integrated Take-5 stack. It does not
 
 **Executable controller identity:** The current canonical `runtime/icc_entry.py` binds ICC128. The component names in the following description are architectural lineage and supporting roles, not a second runtime controller selector. See [current ICC128 conversation control](integration/CURRENT_ICC128_CONVERSATION_CONTROL.md).
 
-ICC means Jane + the validated math-first wrapper + Improvement Core / IC-028 + Tool Run Closure + HF reentry + the typed IC tool system.
+ICC means Jane continuity/currentness supervision + the validated Kernel 053 math-first wrapper + ICC128 top-level substantive control + delegated ImprovementCore + Tool Run Closure/HF reentry + the typed configured tool system. The older IC-028 entry path remains a compatibility surface, not the active parent-controller selector.
 
 ## Start here
 
 1. [`MIGRATION_STATE.yaml`](MIGRATION_STATE.yaml) — authoritative current repository/migration selection, rollback and post-cutover drift rules; resolve live scope before using older candidate statements.
 1. [`GITHUB_GOVERNANCE.md`](GITHUB_GOVERNANCE.md) — admission, branch, validation and merge rules for consequential canonical changes.
+1. [`KERNEL.yaml`](KERNEL.yaml) — machine-readable legality and Kernel candidate-promotion contract; its promotion status is distinct from repository working authority in `MIGRATION_STATE.yaml`, while external-host production claims remain independently gated.
+1. [`runtime/jane.py`](runtime/jane.py) + [`runtime/jane_continuity.py`](runtime/jane_continuity.py) + [`runtime/jane_icc128_bridge.py`](runtime/jane_icc128_bridge.py) — typed Jane continuity supervision, guarded ICC128 entry, and preservation of unresolved state without giving Jane controller selection authority.
 1. [`architecture/PROJECT_MANAGER_FULL_TOOL_MATH_001_2026-09-27.md`](architecture/PROJECT_MANAGER_FULL_TOOL_MATH_001_2026-09-27.md) + [`runtime/project_manager.py`](runtime/project_manager.py) — reusable authority-bound ProjectManager tool; its first managed project is itself under `projects/project-manager/`.
 1. [`architecture/ICC128_HOST_RELAY_001_2026-10-03.md`](architecture/ICC128_HOST_RELAY_001_2026-10-03.md) + [`runtime/icc_host_relay.py`](runtime/icc_host_relay.py) — fail-closed transport-only host relay that requires an ICC128-authored response and blocks host fallback or post-ICC mutation.
 1. [`integration/CURRENT_TOOL_PROJECT_ORGANIZATION.md`](integration/CURRENT_TOOL_PROJECT_ORGANIZATION.md) — current anti-loss organization for all live tools and recovered ICC/IC variants; per-object packages, 36-cell coverage, append-only evidence, and overwrite regression guards.
