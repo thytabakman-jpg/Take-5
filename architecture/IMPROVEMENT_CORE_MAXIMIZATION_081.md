@@ -4,6 +4,17 @@ Date: 2026-09-26
 Status: IMPLEMENTED / VALIDATED / MERGED
 Canonical repository: Take-5
 
+## Contents
+
+- [Governing job](#governing-job)
+- [Evidence used](#evidence-used)
+- [Strict-gain dispositions](#strict-gain-dispositions)
+- [Mathematical organization](#mathematical-organization)
+- [Take-2 / Take-3 guards](#take-2--take-3-guards)
+- [Activation correction](#activation-correction)
+- [Remaining gap](#remaining-gap)
+- [Closure status](#closure-status)
+
 ## Governing job
 
 Re-evaluate the current ImprovementCore using the full current conversation and

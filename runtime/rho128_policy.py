@@ -52,8 +52,10 @@ def dominates(a:Package,b:Package,required_jobs:set[str])->bool:
 
 def nondominated(packages:list[Package],required_jobs:set[str])->list[Package]:
     admitted=[p for p in packages if p.protected and p.authority_ok and p.inputs_ok]
-    covered=[p for p in admitted if required_jobs.issubset(p.jobs)]
-    pool=covered or admitted
+    # An admitted partial package is evidence for future discovery, not an
+    # executable selection for a frozen set of required jobs. Do not fabricate
+    # a successful route when no candidate covers the complete job.
+    pool=[p for p in admitted if required_jobs.issubset(p.jobs)]
     return [p for p in pool if not any(dominates(q,p,required_jobs) for q in pool if q!=p)]
 
 def _trace(state:dict[str,Any],packages:list[Package],required_jobs:set[str],mode:str,frontier:list[Package],selected:list[Package])->dict[str,Any]:

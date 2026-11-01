@@ -3,6 +3,20 @@
 Date: 2026-09-26
 Status: IMPLEMENTED / VALIDATED / MERGED
 
+## Contents
+
+- [Origin](#origin)
+- [Invariant](#invariant)
+- [Two levels of enforcement](#two-levels-of-enforcement)
+- [Portfolio audit](#portfolio-audit)
+- [Root-cause counterfactual](#root-cause-counterfactual)
+- [Runtime](#runtime)
+- [Regression](#regression)
+- [Boundary](#boundary)
+- [Closure rule](#closure-rule)
+- [Validation evidence](#validation-evidence)
+- [Post-repair root recheck](#post-repair-root-recheck)
+
 ## Origin
 
 Recovered by validated RootCause run 089.

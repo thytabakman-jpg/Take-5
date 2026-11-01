@@ -28,3 +28,9 @@ def test_historical_pass_with_complete_witness():
 def test_failed_validation_blocks_readiness_axis():
     l=EvidenceLedger(); l.validate("holdout","FAIL","x")
     assert not l.readiness()["no_failed_required_validation"]
+
+def test_string_false_is_not_execution_evidence():
+    l=EvidenceLedger()
+    l.record_activation(episode="e",program_id="C01",selected=True,bound=True,dispatched=True,started=True,executed="false",captured=True,consumed=True)
+    assert not l.activation_complete("e","C01")
+    assert not l.readiness()["activation_evidence"]

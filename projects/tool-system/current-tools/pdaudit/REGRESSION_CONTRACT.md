@@ -3,7 +3,7 @@
 A valid package keeps all of these true:
 
 - required core files exist
-- exactly 36 Scope x ModeFace coverage pages exist
+- exactly 36 logical Scope x ModeFace coordinates exist; physical cell files are reserved for admitted evidence
 - coverage pages are audit evidence, not semantic authority
 - the distinct SourceScope x TargetScope surface is not merged into coverage
 - decisions, lessons, runs, and evidence are append-only

@@ -22,6 +22,15 @@ D12 The spine depends on current configured identities for ASSERT, GOAL, MT, PD,
 CurrentnessAudit, and QuestionWorthAsking.
 D13 Specialized tools remain adaptive dependencies rather than unconditional ordinary-run factors.
 
+
+D14 Every admitted ProjectManager mutation depends on runtime/project_state_transaction.py.
+
+D15 ProjectStateTransaction depends on CurrentnessAudit, Tool Run Closure, state_commit authorization, the project dependency graph, and rho128 ICC128 reselection.
+
+D16 Commit authorization depends on a stable bound head. Head drift forces affected-cone recomputation and REBASE_REQUIRED.
+
+D17 Explicit OPEN or BLOCKED affected residue routes to ImprovementCore as evidence-only continuation work.
+
 D14 Known-failure integrity depends on runtime/project_manager_integrity.py, the 17 controls
 and five root invariants in FAILURE_PREVENTION_MATRIX.md, their self-project projection,
 and tests/test_project_manager_failure_immunity.py.

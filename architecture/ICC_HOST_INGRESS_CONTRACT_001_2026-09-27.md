@@ -3,6 +3,16 @@
 Date: 2026-09-27
 Status: CURRENT BASIS / HARDENING IN CLEANUP CAMPAIGN
 
+## Contents
+
+- [Problem](#problem)
+- [Invariant](#invariant)
+- [Identity law](#identity-law)
+- [Receipt](#receipt)
+- [Validation](#validation)
+- [Evidence contract](#evidence-contract)
+- [Boundary](#boundary)
+
 ## Problem
 
 Take-5 already owns the canonical ICC controller, bootstrap, configured tool

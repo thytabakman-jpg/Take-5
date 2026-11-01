@@ -3,6 +3,22 @@
 Date: 2026-09-26
 Status: IMPLEMENTED / VALIDATED / MERGED
 
+## Contents
+
+- [Identity](#identity)
+- [State](#state)
+- [Package selection](#package-selection)
+- [Mode](#mode)
+- [Execution sub-transition](#execution-sub-transition)
+- [Consequence closure](#consequence-closure)
+- [Update and delta](#update-and-delta)
+- [Reentry law](#reentry-law)
+- [Terminal law](#terminal-law)
+- [Unified recurrence](#unified-recurrence)
+- [Runtime](#runtime)
+- [Scope of completeness](#scope-of-completeness)
+- [Validation evidence](#validation-evidence)
+
 ## Identity
 
 HF1 is the governed reentry episode over admitted packet state.

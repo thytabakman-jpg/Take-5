@@ -3,6 +3,19 @@
 Date: 2026-09-25
 Status: CURRENT WORKING DESIGN CANDIDATE
 
+## Contents
+
+- [Problem](#problem)
+- [Short-fix invariant](#short-fix-invariant)
+- [MT dual output](#mt-dual-output)
+- [Package shape](#package-shape)
+- [Non-overwrite rule](#non-overwrite-rule)
+- [Black box](#black-box)
+- [Mandatory black-box decomposition](#mandatory-black-box-decomposition)
+- [Tool](#tool)
+- [Short fix vs large backfill](#short-fix-vs-large-backfill)
+- [Before-return enrichment](#before-return-enrichment)
+
 ## Problem
 
 The system repeatedly discovers a load-bearing term, uses it in reasoning, and later loses its exact meaning because durable semantic capture is optional or fragmented.

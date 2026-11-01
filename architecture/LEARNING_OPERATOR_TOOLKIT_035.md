@@ -5,6 +5,15 @@ Status: WORKING_FORMALIZATION
 Repository authority: Take-5
 Purpose: preserve and operationalize the learning/processing tools developed in the current research thread without forcing them into one undifferentiated taxonomy.
 
+## Contents
+
+- [Design laws](#design-laws)
+- [Tool registry](#tool-registry)
+- [Common notation](#common-notation)
+- [Composition with the existing system](#composition-with-the-existing-system)
+- [Minimum validity contract](#minimum-validity-contract)
+- [Source anchors](#source-anchors)
+
 ## Design laws
 
 1. Mathematics is chosen before labels are promoted to tools.

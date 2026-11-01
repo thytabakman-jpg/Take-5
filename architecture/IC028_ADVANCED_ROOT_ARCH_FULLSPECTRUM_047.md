@@ -5,6 +5,24 @@ Controller lease: IC-028
 Status: EXECUTED SEMANTIC ARCHITECTURE DECISION
 Sequence: MT -> MTA -> PD/PDAudit -> Architect -> Multi-Object/MO-MT -> Architect -> Root Cause -> Architect -> RTC/MTOS -> Architect -> Consequence Closure
 
+## Contents
+
+- [Rewritten prompt](#rewritten-prompt)
+- [1 MT / MTA](#1-mt--mta)
+- [2 PD / PD Audit](#2-pd--pd-audit)
+- [3 Architect pass A](#3-architect-pass-a)
+- [4 Multi-Object / MO-MT](#4-multi-object--mo-mt)
+- [5 Advanced Root Cause](#5-advanced-root-cause)
+- [6 Architect pass B](#6-architect-pass-b)
+- [7 The "throw everything at it" ensemble](#7-the-throw-everything-at-it-ensemble)
+- [8 20 x 36 correction](#8-20-x-36-correction)
+- [9 Order optimization](#9-order-optimization)
+- [10 Test Two reconstruction](#10-test-two-reconstruction)
+- [11 Three labs](#11-three-labs)
+- [12 RTC / Raise the Ceiling](#12-rtc--raise-the-ceiling)
+- [13 Architect pass C](#13-architect-pass-c)
+- [14 IC-028 decision](#14-ic-028-decision)
+
 ## Rewritten prompt
 
 Take ownership of the current system-design episode. Recover the strongest configured versions of the meta-tools rather than their names. Analyze the new IC-028/Jane/Foundation relationship, especially JaneAlert -> WorkCandidate -> IC-028 and IC-028 admitted delta/receipt -> Jane update. Determine the correct wrapper, role assignment law, backlog ownership, tool-ensemble design, and lab strategy. Design a stable "throw everything at it" configured program from a deliberately chosen high-value tool basis rather than blind invocation. Determine whether 20 tool families is justified and how the 36-cell scope/mode surface applies. Preserve the current kernel while testing successor foundations in labs. Execute only changes supported by the analysis.

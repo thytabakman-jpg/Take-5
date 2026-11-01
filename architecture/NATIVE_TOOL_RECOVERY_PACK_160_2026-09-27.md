@@ -4,6 +4,13 @@ Date: 2026-09-27
 Status: VALIDATED ON PR #160 HEAD 9ef028ea
 Scope: current Take-5 configured repertoire
 
+## Contents
+
+- [Job](#job)
+- [Recovered tools](#recovered-tools)
+- [Deliberately unrecovered](#deliberately-unrecovered)
+- [Validation](#validation)
+
 ## Job
 
 Reduce the strong tool-reality OPEN set only where the current repository already

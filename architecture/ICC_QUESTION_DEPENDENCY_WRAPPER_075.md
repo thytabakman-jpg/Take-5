@@ -4,6 +4,21 @@ Status: CANDIDATE / NOT YET CANONICAL
 Date: 2026-09-25  
 Provenance: `integration/ICC_WRAPPER_REDESIGN_CONVERSATION_CAPTURE_074_2026-09-25.md`
 
+## Contents
+
+- [Governing objective](#governing-objective)
+- [Candidate pipeline](#candidate-pipeline)
+- [MTPD block](#mtpd-block)
+- [GOAL](#goal)
+- [ARCHITECT](#architect)
+- [Four core cognitive operations](#four-core-cognitive-operations)
+- [ICC lineage integration](#icc-lineage-integration)
+- [Residual routing](#residual-routing)
+- [Wrapper invariants retained from earlier iterations](#wrapper-invariants-retained-from-earlier-iterations)
+- [HF1](#hf1)
+- [Deferred architecture problem](#deferred-architecture-problem)
+- [Authority rule](#authority-rule)
+
 ## Governing objective
 
 ICC is not primarily a next-tool selector.

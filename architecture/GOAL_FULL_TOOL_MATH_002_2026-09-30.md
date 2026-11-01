@@ -6,6 +6,19 @@ Parent: architecture/GOAL_FULL_TOOL_MATH_001_2026-09-27.md
 Controller: Raise the Ceiling / RTC
 Tool: GOAL
 
+## Contents
+
+- [Preserved identity](#preserved-identity)
+- [Ceiling defect](#ceiling-defect)
+- [Strengthened configured wrapper](#strengthened-configured-wrapper)
+- [Preserved native semantics](#preserved-native-semantics)
+- [New protected behavior](#new-protected-behavior)
+- [Portability](#portability)
+- [Strict-gain test](#strict-gain-test)
+- [Inherited protected behavior set](#inherited-protected-behavior-set)
+- [Historical process defect](#historical-process-defect)
+- [External boundary](#external-boundary)
+
 ## Preserved identity
 
 This successor preserves the five-coordinate GOAL identity recovered in 001:

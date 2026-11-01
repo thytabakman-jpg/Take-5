@@ -2,7 +2,22 @@
 
 Date: 2026-09-24
 Controller: IC-028
+Status: DATED DESIGN DECISION; LATER CURRENTNESS NOT ASSERTED
 Decision: REVISE prior independent-observation default
+
+## Contents
+
+- [Rewritten prompt](#rewritten-prompt)
+- [Finding 1: sequential compounding is the live-work default](#finding-1-sequential-compounding-is-the-live-work-default)
+- [Finding 2: Reconcile is a missing first-class operation](#finding-2-reconcile-is-a-missing-first-class-operation)
+- [Finding 3: FullSpectrum becomes compounding/adaptive](#finding-3-fullspectrum-becomes-compoundingadaptive)
+- [Finding 4: Architect + Goal has a legitimate composite](#finding-4-architect--goal-has-a-legitimate-composite)
+- [Finding 5: Handoff vs Sort Later](#finding-5-handoff-vs-sort-later)
+- [Finding 6: user involvement policy](#finding-6-user-involvement-policy)
+- [Finding 7: 36 vs 35](#finding-7-36-vs-35)
+- [Finding 8: tool-use hesitation](#finding-8-tool-use-hesitation)
+- [Finding 9: role of Jane](#finding-9-role-of-jane)
+- [Decision](#decision)
 
 ## Rewritten prompt
 

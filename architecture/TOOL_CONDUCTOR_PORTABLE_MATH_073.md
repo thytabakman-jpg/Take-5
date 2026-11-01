@@ -3,6 +3,16 @@
 Date: 2026-09-26
 Status: CURRENT RECOVERED CORE / PORTABILITY CLOSURE OPEN
 
+## Contents
+
+- [Job](#job)
+- [Typed product semantics](#typed-product-semantics)
+- [Effective portability coordinate](#effective-portability-coordinate)
+- [Self application](#self-application)
+- [Current executable realization](#current-executable-realization)
+- [Closure](#closure)
+- [Configured-factor invocation update](#configured-factor-invocation-update)
+
 ## Job
 
 Apply every member of a frozen registered tool repertoire to one common target

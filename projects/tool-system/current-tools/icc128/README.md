@@ -11,6 +11,7 @@ This package organizes the object without becoming a second semantic authority.
 ## Entry order
 
 1. CURRENT_STATE.md
+   - [Current cross-file L2/L3/L4 and repair frontier](CURRENT_ISSUES.md) (separate, source-bound lookup; not a controller or evidence owner)
 2. AUTHORITY_REGISTRY.md
 3. IDENTITY.md
 4. MATHEMATICS.md
@@ -21,17 +22,11 @@ This package organizes the object without becoming a second semantic authority.
 9. SOURCE_MAP.md
 10. coverage/ only for coverage evidence
 
+## Related scientific research (navigation, not authority)
+
+The [Reaserch ICC scientific research web](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/improvement-core/research/icc-research-web/README.md) studies ICC components and interactions; that source already points to Take-5's configured tool system. The relation is navigational (conceptually `RESEARCHED_BY` / `NAVIGATES_TO`), **not** a registered dependency edge, `REQUIRES` obligation, runtime identity transfer, Level 2–4 certificate or promotion of scientific claims. The package's actual current state, mathematics, protected behaviors and native tests retain their existing owners.
+
 ## Anti-loss rule
 
 Do not overwrite history, decisions, lessons, run evidence, or coverage-cell evidence.
 Current projections may change only through explicit change control and retained lineage.
-
-<!-- FOUR_TOOL_RESEARCH_NETWORK_LINK_20261013 -->
-## Linked scientific research (non-authoritative)
-
-- [ICC128 research home](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/improvement-core/research/icc-research-web/tool-studies/icc128/README.md).
-- [Four-tool research network](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/improvement-core/research/icc-research-web/tool-studies/README.md) · [Directional transfer ledger](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/improvement-core/research/icc-research-web/tool-studies/TRANSFER_LEDGER.md) · [Research admission contract](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/improvement-core/research/icc-research-web/tool-studies/CROSS_TOOL_TRANSFER_CONTRACT.md).
-
-Reuse the existing Reaserch scientific web; current ICC128 is not silently interchangeable with legacy ICC128.
-
-These research links do not change this package's identity, status, configured semantics, runtime or governing authority.

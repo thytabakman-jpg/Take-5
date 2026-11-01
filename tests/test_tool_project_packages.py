@@ -9,6 +9,7 @@ from tool_project_packages import (
     all_project_specs, append_record, audit_materialized,
     coverage_cells, current_tool_specs, icc_variant_specs,
     materialize_all, materialize_package, package_files,
+    SPARSE_COVERAGE_PILOT, render_coverage_cell,
 )
 from tool_run_registry import MATERIAL_TOOLS
 
@@ -17,7 +18,7 @@ def test_current_tool_inventory_has_exact_package_spec_parity():
     assert tuple(x.object_id for x in current_tool_specs())==tuple(MATERIAL_TOOLS)
 
 
-def test_every_object_package_has_required_core_and_exactly_36_coverage_pages():
+def test_every_object_package_has_required_core_and_36_coverage_coordinates():
     for spec in all_project_specs():
         files=package_files(spec)
         for rel in CORE_FILES:
@@ -26,16 +27,21 @@ def test_every_object_package_has_required_core_and_exactly_36_coverage_pages():
             path for path in files
             if "/coverage/" in path and not path.endswith("/coverage/README.md")
         ]
-        assert len(coverage)==36
+        assert len(coverage)==0  # all 36 unfilled coordinates are logical
+        manifest=files[next(path for path in files if path.endswith("/MANIFEST.md"))]
+        assert "Coverage cells: 36" in manifest
+        assert "Reserved logical coverage coordinates" in manifest
+        regression=files[next(path for path in files if path.endswith("/REGRESSION_CONTRACT.md"))]
+        assert "exactly 36 logical Scope x ModeFace coordinates exist" in regression
+        for index,scope,face in coverage_cells():
+            assert f"coverage/{index:02d}_{scope.value}__{face.value}.md" in manifest
 
 
 def test_coverage_surface_is_scope_x_modeface_and_distinct_from_handoff_surface():
     cells=coverage_cells()
     assert len(cells)==36
     assert len({(scope.value,face.value) for _,scope,face in cells})==36
-    sample=package_files(current_tool_specs()[0])[
-        next(p for p in package_files(current_tool_specs()[0]) if p.endswith("coverage/01_SYSTEM__EXPAND.md"))
-    ]
+    sample=render_coverage_cell(current_tool_specs()[0],*cells[0])
     assert "Scope: SYSTEM" in sample
     assert "Mode face: EXPAND" in sample
     assert "SourceScope x TargetScope" not in sample
@@ -48,10 +54,10 @@ def test_delegatedexecutor_generated_coverage_index_matches_committed_source():
     committed=(repo_root/"projects/tool-system/current-tools/delegatedexecutor/coverage/README.md").read_text(encoding="utf-8")
     assert generated==committed
     for index,scope,face in coverage_cells():
-        name=f"{index:02d}_{scope.value}__{face.value}.md"
-        assert generated.count(f"(./{name})")==1
-    assert generated.count("](./")==36
-    assert "evidence for one Scope x ModeFace coordinate" in generated
+        assert f"- {index:02d} {face.value} (reserved logical coordinate; no admitted evidence)" in generated
+    assert generated.count("(reserved logical coordinate; no admitted evidence)")==36
+    assert generated.count("](./")==0
+    assert "Each reserved logical coordinate" in generated
 
 
 def test_materializer_refuses_to_overwrite_changed_existing_content(tmp_path:Path):
@@ -106,6 +112,203 @@ def test_repository_materialization_is_complete():
     assert out["registry_parity"] is True
 
 
+def test_tool_home_pilot_contracts_are_reproducible_and_native_owned():
+    import re
+    from tool_project_packages import PILOT_TOOL_HOME_CONTRACTS
+    root=Path(__file__).resolve().parents[1]
+    expected={"MultiObject":("multiobject","runtime/multiobject.py"),"GOAL":("goal","runtime/goal.py"),"RTC":("rtc","runtime/a5_programs.py")}
+    assert set(PILOT_TOOL_HOME_CONTRACTS)==set(expected)
+    for spec in current_tool_specs():
+        if spec.object_id not in expected:
+            continue
+        folder,source=expected[spec.object_id]
+        path=root/"projects/tool-system/current-tools"/folder
+        page=package_files(spec)[f"current-tools/{folder}/README.md"]
+        assert (path/"README.md").read_text(encoding="utf-8")==page
+        assert "## Operational home contract — pilot" in page
+        assert "Admission and restructuring gate" in page
+        assert source in page
+        for ref in re.findall(r"\\]\\(([^)#]+)(?:#[^)]*)?\\)", page):
+            if "://" not in ref:
+                assert (path/ref).exists(), (folder,ref)
+
+
+def test_rtc_home_native_chain_and_readme_collision(tmp_path:Path):
+    import pytest
+    spec=next(s for s in current_tool_specs() if s.object_id=="RTC")
+    home=Path(__file__).resolve().parents[1]/"projects/tool-system/current-tools/rtc"
+    files=package_files(spec)
+    for name in ("RUNTIME.md","DEPENDENCIES.md","REGRESSION_CONTRACT.md"):
+        expected=files[f"current-tools/rtc/{name}"]
+        assert (home/name).read_text(encoding="utf-8")==expected
+        for source in ("runtime/raise_the_ceiling.py","runtime/capability_runtime.py","runtime/a5_programs.py","tests/test_recovered_native_tools_20260927.py"):
+            assert source in expected, (name,source)
+    source_map=(home/"SOURCE_MAP.md").read_text(encoding="utf-8")
+    for source in ("runtime/capability_runtime.py","runtime/a5_programs.py"):
+        assert source in source_map
+    materialize_package(tmp_path,spec)
+    readme=tmp_path/"projects/tool-system/current-tools/rtc/README.md"
+    readme.write_text(readme.read_text(encoding="utf-8").replace("C48","C99",1),encoding="utf-8")
+    with pytest.raises(ToolProjectPackageCollision):
+        materialize_package(tmp_path,spec)
+
+
+def test_three_tool_homes_level2_all_74_source_jobs_and_type_boundaries():
+    """2C: exact live corpus, independent owner jobs, typed evidence and source parity."""
+    root=Path(__file__).resolve().parents[1]
+    families={"MultiObject":("multiobject",25),"GOAL":("goal",29),"RTC":("rtc",20)}
+    additional={
+        "multiobject": {
+            "evidence/batch-02-level1-triage.md",
+            "evidence/batch-03-level1-triage.md",
+            "evidence/batch-03-level1-validation-closure.md",
+            "evidence/level1-ten-loadbearing-source-triage.md",
+            "evidence/level2-ten-loadbearing-source-triage.md",
+        },
+        "goal": {
+            "runs/LEVEL1_BATCH01_2026-10-10.md",
+            "runs/LEVEL1_BATCH02_2026-10-10.md",
+            "runs/LEVEL1_BATCH03_2026-10-10.md",
+            "runs/LEVEL1_BATCH04_2026-10-10.md",
+            "runs/LEVEL1_BATCH05_2026-10-10.md",
+            "runs/LEVEL1_BATCH05_POST_RECEIPT_RECONCILIATION_2026-10-10.md",
+            "runs/LEVEL1_BATCH06_2026-10-10.md",
+            "runs/LEVEL1_BATCH06_POST_RECEIPT_RECONCILIATION_2026-10-10.md",
+            "runs/RTC_GOAL_2026-09-30.md",
+        },
+        "rtc":set(),
+    }
+    roles={
+        "README.md":"Operational home contract",
+        "MANIFEST.md":"Coverage cells: 36",
+        "AUTHORITY_REGISTRY.md":"current configured-tool identity",
+        "CURRENT_STATE.md":"Projection status: CURRENT",
+        "IDENTITY.md":"Species: CURRENT_CONFIGURED_TOOL",
+        "MATHEMATICS.md":"Non-duplication rule",
+        "RUNTIME.md":"execution",
+        "PROTECTED_BEHAVIORS.md":"protected behavior",
+        "DEPENDENCIES.md":"runtime/tool_manifest.py",
+        "SOURCE_MAP.md":"runtime/tool_run_registry.py",
+        "OPEN_QUESTIONS.md":"OPEN",
+        "CHANGE_CONTROL.md":"Delta =",
+        "REGRESSION_CONTRACT.md":"A valid package",
+        "DECISION_LOG.md":"Append-only",
+        "LESSONS_LEDGER.md":"Append-only",
+        "HANDOFF_SURFACE.md":"SourceScope x TargetScope",
+    }
+    total=0
+    for spec in current_tool_specs():
+        if spec.object_id not in families:
+            continue
+        name,count=families[spec.object_id]
+        home=root/"projects/tool-system/current-tools"/name
+        generated=package_files(spec)
+        expected={p.removeprefix(f"current-tools/{name}/") for p in generated}
+        expected |= additional[name]
+        actual={p.relative_to(home).as_posix() for p in home.rglob("*.md")}
+        assert actual==expected,(name,sorted(expected-actual),sorted(actual-expected))
+        assert len(actual)==count,(name,len(actual),count)
+        total+=len(actual)
+        for rel in actual:
+            body=(home/rel).read_text(encoding="utf-8")
+            assert body.startswith("# "), (name,rel,"title")
+            assert body.strip(), (name,rel,"empty")
+        for page,required in roles.items():
+            text=(home/page).read_text(encoding="utf-8")
+            assert required in text,(name,page,required)
+        for part in ("coverage","evidence","history","runs"):
+            readme=(home/part/"README.md").read_text(encoding="utf-8")
+            assert "append-only" in readme.lower() if part in {"evidence","history","runs"} else "Scope x ModeFace" in readme
+        home_contract=(home/"README.md").read_text(encoding="utf-8").lower()
+        assert "without becoming a second semantic authority" in home_contract
+        assert "a clean readme is not a certificate" in home_contract
+        for rel in additional[name]:
+            body=(home/rel).read_text(encoding="utf-8")
+            assert body.startswith("# "), (name,rel)
+        # Generator-produced pages are compared *byte for byte* against current
+        # canonical sources. Curated archival/source-map pages remain separately owned.
+        strict={"multiobject":{"CURRENT_STATE.md"},"goal":{"evidence/README.md","history/README.md"},"rtc":{
+            "AUTHORITY_REGISTRY.md","CURRENT_STATE.md","OPEN_QUESTIONS.md",
+            "evidence/README.md","history/README.md","runs/README.md",
+        }}[name]
+        if name=="rtc":
+            strict|={p for p in expected if p.startswith("coverage/") and p!="coverage/README.md"}
+        for rel in strict:
+            assert (home/rel).read_text(encoding="utf-8")==generated[f"current-tools/{name}/{rel}"],(name,rel,"generator parity")
+    assert total==74
+
+
+def test_rtc_all_36_logical_coverage_coordinates_and_no_dead_links():
+    """Preserve typed 36 slots without empty files or broken relative links."""
+    root=Path(__file__).resolve().parents[1]/"projects/tool-system/current-tools/rtc"
+    spec=next(s for s in current_tool_specs() if s.object_id=="RTC")
+    index=(root/"coverage/README.md").read_text(encoding="utf-8")
+    assert index==package_files(spec)["current-tools/rtc/coverage/README.md"]
+    names=set()
+    for i,scope,face in coverage_cells():
+        name=f"{i:02d}_{scope.value}__{face.value}.md"
+        assert name not in names
+        names.add(name)
+        assert not (root/"coverage"/name).exists()
+        assert f"- {i:02d} {face.value} (reserved logical coordinate; no admitted evidence)" in index
+    assert len(names)==36
+    assert "separate" in index.lower()
+    assert "](./" not in index
+    # A future authored observation must still be checked against the exact
+    # identity and coordinate; generated placeholders are not evidence.
+    native=render_coverage_cell(spec,*coverage_cells()[0])
+    assert "Authority: AUDIT_EVIDENCE_ONLY" in native
+    assert "- none admitted yet" in native
+
+
+def test_three_tool_homes_level2_one_hop_markdown_residence():
+    """2C: current native/local links resolve; pinned historical slots stay typed."""
+    import re
+    root=Path(__file__).resolve().parents[1]
+    base=root/"projects/tool-system/current-tools"
+    unresolved=[]
+    known_historical=[]
+    for home_name in ("multiobject","goal","rtc"):
+        home=base/home_name
+        for file in home.rglob("*.md"):
+            content=file.read_text(encoding="utf-8")
+            for raw in re.findall(r"\]\(([^)]+)\)",content):
+                dest=raw.split("#",1)[0].strip()
+                if not dest or "://" in dest or dest.startswith(("mailto:","data:")):
+                    continue
+                dest=dest.split(" \"",1)[0]
+                target=(file.parent/dest)
+                if target.exists():
+                    continue
+                rel=file.relative_to(home).as_posix()
+                if (home_name=="goal" and rel.startswith("runs/LEVEL1_BATCH0")
+                    and dest.startswith("../coverage/") and dest.endswith(".md")):
+                    known_historical.append((rel,dest))
+                    continue
+                unresolved.append((home_name,rel,dest))
+    assert not unresolved,unresolved[:30]
+    if known_historical:
+        # Prior materialized pages were explicitly archived at this immutable
+        # revision; an old receipt's historical-relative link is not live routing.
+        guide=(base/"goal/coverage/README.md").read_text(encoding="utf-8")
+        assert "bc9421f8b91684e143f1757eb9f78035cde7045d" in guide
+        assert "historical" in guide.lower()
+
+
+def test_rtc_coverage_index_reproduces_36_unfilled_logical_cells():
+    spec=next(s for s in current_tool_specs() if s.object_id=="RTC")
+    generated=package_files(spec)["current-tools/rtc/coverage/README.md"]
+    root=Path(__file__).resolve().parents[1]/"projects/tool-system/current-tools/rtc/coverage"
+    assert (root/"README.md").read_text(encoding="utf-8")==generated
+    assert generated.count("](./")==0
+    assert generated.count("(reserved logical coordinate; no admitted evidence)")==36
+    for index,scope,face in coverage_cells():
+        name=f"{index:02d}_{scope.value}__{face.value}.md"
+        assert f"- {index:02d} {face.value} (reserved logical coordinate; no admitted evidence)" in generated
+        assert not (root/name).exists()
+    assert "SourceScope x TargetScope surface is separate" in generated
+
+
 def test_multiobject_package_has_direct_runtime_math_and_legacy_lineage_routes():
     spec=next(x for x in current_tool_specs() if x.object_id=="MultiObject")
     generated=package_files(spec)
@@ -122,6 +325,9 @@ def test_multiobject_package_has_direct_runtime_math_and_legacy_lineage_routes()
     runtime=page("RUNTIME.md")
     sources=page("SOURCE_MAP.md")
     deps=page("DEPENDENCIES.md")
+    readme=page("README.md")
+    assert "[CURRENT_STATE.md](CURRENT_STATE.md)" in readme
+    assert "[coverage/](coverage/README.md)" in readme
     assert "| MultiObject native execution | runtime/multiobject.py |" in authority
     assert "| current invocation routing | runtime/portable_tool_conductor.py |" in authority
     assert "MULTIOBJECT_FULL_TOOL_MATH_001_2026-09-27.md" in math
@@ -137,7 +343,7 @@ def test_multiobject_package_has_direct_runtime_math_and_legacy_lineage_routes()
     assert "blob/main/projects/pd/protocol/MULTI_OBJECT_CONNECTOR_PROTOCOL.md" in sources
     assert "blob/492bf7da82ac346c1a17ab0acc2405adf17ae5c1" in sources
 
-def test_multiobject_batch2_coverage_and_streams_are_materialized_and_linked():
+def test_multiobject_sparse_coverage_and_streams_are_materialized_and_indexed():
     spec=next(x for x in current_tool_specs() if x.object_id=="MultiObject")
     files=package_files(spec)
     root=Path(__file__).resolve().parents[1]/"projects/tool-system"
@@ -146,14 +352,10 @@ def test_multiobject_batch2_coverage_and_streams_are_materialized_and_linked():
     for number,scope,mode in coverage_cells():
         name=f"{number:02d}_{scope.value}__{mode.value}.md"
         path=prefix+"coverage/"+name
-        expected=files[path]
-        assert f"({('./'+name)})" in index
-        assert "Disposition: OPEN" in expected
-        assert "- none admitted yet" in expected
-        assert "[all 36 coverage cells](README.md)" in expected
-        assert "[authority registry](../AUTHORITY_REGISTRY.md)" in expected
-        assert (root/path).read_text(encoding="utf-8")==expected
-    assert index.count("](./")==36
+        assert path not in files
+        assert not (root/path).exists()
+        assert f"- {number:02d} {mode.value} (reserved logical coordinate; no admitted evidence)" in index
+    assert index.count("(reserved logical coordinate; no admitted evidence)")==36
     assert (root/(prefix+"coverage/README.md")).read_text(encoding="utf-8")==index
     for directory in ("evidence","runs","history"):
         path=prefix+directory+"/README.md"
@@ -161,6 +363,62 @@ def test_multiobject_batch2_coverage_and_streams_are_materialized_and_linked():
         assert "This directory is append-only." in expected
         assert "[Change control](../CHANGE_CONTROL.md)" in expected
         assert (root/path).read_text(encoding="utf-8")==expected
+
+
+def test_pilot_sparse_pages_fail_closed_on_evidence_misrouting(tmp_path:Path):
+    spec=next(x for x in current_tool_specs() if x.object_id=="MultiObject")
+    materialize_package(tmp_path,spec)
+    cdir=tmp_path/"projects/tool-system/current-tools/multiobject/coverage"
+    assert not list(cdir.glob("[0-9]*.md"))
+    idx,scope,face=coverage_cells()[0]
+    page=cdir/f"{idx:02d}_{scope.value}__{face.value}.md"
+    native=render_coverage_cell(spec,idx,scope,face)
+    page.write_text(native.replace("- none admitted yet","- E001 independently admitted"),encoding="utf-8")
+    assert spec.object_id not in audit_materialized(tmp_path)["bad_coverage"]
+    assert materialize_package(tmp_path,spec)==()  # evidence preserved
+    assert "- E001" in page.read_text(encoding="utf-8")
+    page.write_text(native,encoding="utf-8")
+    assert spec.object_id in audit_materialized(tmp_path)["bad_coverage"]
+    page.unlink()
+    (cdir/"37_FAKE__EXPAND.md").write_text("not admitted",encoding="utf-8")
+    assert spec.object_id in audit_materialized(tmp_path)["bad_coverage"]
+
+
+def test_all_four_sparse_pilot_packages_preserve_exact_logical_cells_and_own_evidence():
+    import re
+    assert SPARSE_COVERAGE_PILOT=={"MultiObject","DelegatedExecutor","GOAL","ICC128"}
+    root=Path(__file__).resolve().parents[1]/"projects/tool-system/current-tools"
+    specs={s.object_id:s for s in current_tool_specs()}
+    for ident in SPARSE_COVERAGE_PILOT:
+        spec=specs[ident]
+        folder=root/ident.lower()
+        manifest=(folder/"MANIFEST.md").read_text(encoding="utf-8")
+        assert manifest.count("Coverage cells: 36")==1
+        index=(folder/"coverage/README.md").read_text(encoding="utf-8")
+        assert not re.search(r"\\]\\(\\./\\d{2}_[A-Z_]+__[A-Z]+\\.md\\)",index)
+        for number,scope,mode in coverage_cells():
+            name=f"{number:02d}_{scope.value}__{mode.value}.md"
+            assert f"- coverage/{name}" in manifest
+            assert not (folder/"coverage"/name).exists()
+        regression=(folder/"REGRESSION_CONTRACT.md").read_text(encoding="utf-8")
+        assert "36 logical Scope x ModeFace coordinates" in regression
+        assert "the distinct SourceScope x TargetScope surface" in regression
+
+
+def test_sparse_manifest_curated_integrity_fail_closed(tmp_path:Path):
+    spec=next(s for s in current_tool_specs() if s.object_id=="GOAL")
+    materialize_package(tmp_path,spec)
+    path=tmp_path/"projects/tool-system/current-tools/goal/MANIFEST.md"
+    body=path.read_text(encoding="utf-8")
+    first=next(p for p in body.splitlines() if p.startswith("- coverage/01_"))
+    path.write_text(body.replace(first,"- coverage/01_MISSING__CELL.md"),encoding="utf-8")
+    try:
+        materialize_package(tmp_path,spec)
+    except ToolProjectPackageCollision:
+        pass
+    else:
+        raise AssertionError("Sparse GOAL manifest illegally lost first logical cell")
+    assert "01_MISSING__CELL" in path.read_text(encoding="utf-8")
 
 
 def _validate_registered_crosswalk(text:str)->tuple[tuple[str,str,str],...]:

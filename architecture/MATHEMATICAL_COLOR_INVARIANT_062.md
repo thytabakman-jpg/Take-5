@@ -3,6 +3,23 @@
 Date: 2026-09-25
 Status: IMPLEMENTED / VALIDATED / MERGED IN TAKE-5
 
+## Contents
+
+- [Job](#job)
+- [Core law](#core-law)
+- [Conservative rule](#conservative-rule)
+- [Red conditions](#red-conditions)
+- [Green conditions](#green-conditions)
+- [Dependency inheritance](#dependency-inheritance)
+- [Claim-relative coloring](#claim-relative-coloring)
+- [Emission gate](#emission-gate)
+- [Current recovery / identity basis](#current-recovery--identity-basis)
+- [Relationship to wrapper](#relationship-to-wrapper)
+- [Assistant response boundary](#assistant-response-boundary)
+- [Recovery rule — 2026-09-26](#recovery-rule--2026-09-26)
+- [Validation evidence — 2026-09-26](#validation-evidence--2026-09-26)
+- [Root-cause correction — PR #60](#root-cause-correction--pr-60)
+
 ## Job
 
 Control user-visible coloring of mathematical and formal-system objects relative to the current job.

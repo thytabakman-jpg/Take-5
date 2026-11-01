@@ -17,8 +17,7 @@ organization without rebuilding unaffected state.
 The goal is satisfied relative to the current basis when:
 
 - current registry and package inventory are in exact parity;
-- every package has its required owned control surfaces and 36 Scope x ModeFace
-  coverage pages;
+- every package has its required owned control surfaces and exactly 36 independently addressable Scope x ModeFace logical coverage coordinates; unpopulated coordinates may be represented in a single package manifest or evidence registry, while actual coordinate-specific findings retain independently addressable, append-only evidence with provenance;
 - the separate SourceScope x TargetScope handoff surface remains distinct;
 - evidence, runs, decisions, lessons, and history are retained append-only;
 - existing semantic/runtime authorities are referenced rather than duplicated;

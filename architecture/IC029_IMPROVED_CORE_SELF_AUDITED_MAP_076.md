@@ -3,6 +3,16 @@
 Date: 2026-09-25
 Status: ACTIVE DESIGN CANDIDATE / RUNTIME CUTOVER OPEN
 
+## Contents
+
+- [Identity and aliases](#identity-and-aliases)
+- [Self-run result](#self-run-result)
+- [Mandatory per-tool execution profile](#mandatory-per-tool-execution-profile)
+- [IC-029 ordered map](#ic-029-ordered-map)
+- [Reentry routing](#reentry-routing)
+- [ICC path convergence requirement](#icc-path-convergence-requirement)
+- [Color/status rule](#colorstatus-rule)
+
 ## Identity and aliases
 
 Primary identity: IC-029

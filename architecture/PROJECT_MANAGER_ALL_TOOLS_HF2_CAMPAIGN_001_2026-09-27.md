@@ -5,6 +5,17 @@ Status: HISTORICAL CAMPAIGN PLAN / CLOSED_RELATIVE (PR 167)
 Target: current canonical ProjectManager
 Repertoire: every current registered Take-5 tool
 
+## Contents
+
+- [Table of contents](#table-of-contents)
+- [Governing job](#governing-job)
+- [Repertoire](#repertoire)
+- [Order](#order)
+- [Execution invariant](#execution-invariant)
+- [Result interpretation](#result-interpretation)
+- [Reentry](#reentry)
+- [Historical scope and later verification boundary (Level 2, 2026-10-10)](#historical-scope-and-later-verification-boundary-level-2-2026-10-10)
+
 ## Table of contents
 
 - [Governing job](#governing-job)

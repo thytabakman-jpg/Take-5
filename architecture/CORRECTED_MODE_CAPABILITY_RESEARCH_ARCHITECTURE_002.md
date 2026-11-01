@@ -4,6 +4,20 @@ Date: 2026-09-24
 Status: RESEARCH ARCHITECTURE / CORRECTED PLAN
 Authority: research only
 
+## Contents
+
+- [0. Correction basis](#0-correction-basis)
+- [1. Top-level architecture](#1-top-level-architecture)
+- [2. Research layers](#2-research-layers)
+- [3. Capability classification architecture](#3-capability-classification-architecture)
+- [4. Gap detection architecture](#4-gap-detection-architecture)
+- [5. Candidate capability statuses](#5-candidate-capability-statuses)
+- [6. Corrected architecture placement](#6-corrected-architecture-placement)
+- [7. Build architecture](#7-build-architecture)
+- [8. Scientific stopping criteria](#8-scientific-stopping-criteria)
+- [9. Corrected priority](#9-corrected-priority)
+- [10. Architectural conclusion](#10-architectural-conclusion)
+
 ## 0. Correction basis
 
 This architecture analysis explicitly incorporates the MT critique of the prior plan.

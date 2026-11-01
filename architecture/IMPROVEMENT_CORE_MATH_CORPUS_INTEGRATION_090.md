@@ -5,6 +5,39 @@ Status: CROSS-LINEAGE RECOVERY / STRICT-GAIN CANDIDATE
 Controller: IC-028 / ImproveCore
 Scope: Take-2, Take-3, Take-4, Take-5, Reaserch, and recovered prior-chat mathematics
 
+## Contents
+
+- [Governing question](#governing-question)
+- [Recovery basis](#recovery-basis)
+- [Result 1 — common typed-map substrate](#result-1--common-typed-map-substrate)
+- [Result 2 — continuation-equivalence state](#result-2--continuation-equivalence-state)
+- [Result 3 — ambient system algebra](#result-3--ambient-system-algebra)
+- [Result 4 — four-core cognitive basis](#result-4--four-core-cognitive-basis)
+- [Result 5 — router mathematics is set-valued](#result-5--router-mathematics-is-set-valued)
+- [Result 6 — protected capability preservation](#result-6--protected-capability-preservation)
+- [Result 7 — cumulative autonomous preservation](#result-7--cumulative-autonomous-preservation)
+- [Result 8 — Update U is a typed transition law](#result-8--update-u-is-a-typed-transition-law)
+- [Result 9 — state is behavioral, not a file schema](#result-9--state-is-behavioral-not-a-file-schema)
+- [Result 10 — mode geometry](#result-10--mode-geometry)
+- [Result 11 — scope-transition x mode geometry](#result-11--scope-transition-x-mode-geometry)
+- [Result 12 — question-search fixed point](#result-12--question-search-fixed-point)
+- [Result 13 — Big Equation / wrapper orchestration](#result-13--big-equation--wrapper-orchestration)
+- [Result 14 — HF1 and DCC](#result-14--hf1-and-dcc)
+- [Result 15 — HF2 local recurrence versus global recurrence](#result-15--hf2-local-recurrence-versus-global-recurrence)
+- [Result 16 — augmented ImproveCore controller](#result-16--augmented-improvecore-controller)
+- [Result 17 — discovery closure / coevolving basis](#result-17--discovery-closure--coevolving-basis)
+- [Result 18 — closure is basis-relative, not resource-relative](#result-18--closure-is-basis-relative-not-resource-relative)
+- [Result 19 — RootCause mathematics](#result-19--rootcause-mathematics)
+- [Result 20 — execution truth ladder](#result-20--execution-truth-ladder)
+- [Result 21 — tool speed / factorization](#result-21--tool-speed--factorization)
+- [Result 22 — artifact completeness / canonical reconstruction](#result-22--artifact-completeness--canonical-reconstruction)
+- [Result 23 — concurrency mathematics](#result-23--concurrency-mathematics)
+- [Result 24 — outside learning mathematics](#result-24--outside-learning-mathematics)
+- [New ImproveCore controller interpretation](#new-improvecore-controller-interpretation)
+- [Immediate strict gains implemented](#immediate-strict-gains-implemented)
+- [What remains OPEN](#what-remains-open)
+- [Anti-loss conclusion](#anti-loss-conclusion)
+
 ## Governing question
 
 What mathematics already discovered across the system lineage changes ImproveCore's

@@ -5,6 +5,18 @@ Status: IMPLEMENTED CANDIDATE
 Parent: integration/CURRENT_IMPROVEMENT_CORE.md
 Target regime: 089
 
+## Contents
+
+- [Defect](#defect)
+- [Category error in the prior audit](#category-error-in-the-prior-audit)
+- [Repair](#repair)
+- [Full configured binding](#full-configured-binding)
+- [Controller integration](#controller-integration)
+- [Repertoire audit correction](#repertoire-audit-correction)
+- [Self-study activation](#self-study-activation)
+- [Protected behavior](#protected-behavior)
+- [Remaining boundary](#remaining-boundary)
+
 ## Defect
 
 ImprovementCore had a powerful configured-tool repertoire and a complete global

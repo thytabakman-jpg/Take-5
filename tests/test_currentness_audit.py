@@ -56,3 +56,21 @@ def test_reverified_patch_can_close_currentness():
 
 def test_open_or_replace_blocks_currentness_closure():
     assert not audit_complete([assess(component="x",built_basis="a",latest_basis="b",delta=["d"],behavior_preserved=True,local_patch_available=False,**IDENTITY)])
+
+def test_textual_identity_verification_cannot_certify_currentness():
+    same_generation={**IDENTITY,"latest_generation":IDENTITY["built_generation"],"identity_verified":"false"}
+    r=assess(component="x",built_basis="a",latest_basis="a",**same_generation)
+    assert r.status==Currentness.OPEN
+    assert not audit_complete([r])
+
+
+def test_textual_reverification_cannot_certify_patch():
+    r=assess(component="x",built_basis="a",latest_basis="b",delta=["d"],reverified="false",**IDENTITY)
+    assert r.status==Currentness.PATCH
+    assert not audit_complete([r])
+
+
+def test_textual_preservation_cannot_authorize_patch():
+    r=assess(component="x",built_basis="a",latest_basis="b",delta=["d"],behavior_preserved="false",**IDENTITY)
+    assert r.status==Currentness.OPEN
+    assert not audit_complete([r])

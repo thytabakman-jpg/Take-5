@@ -6,6 +6,18 @@ Controller target: ImprovementCore
 Historical behavioral reference: frozen ICC128 Legacy
 Frozen source: thytabakman-jpg/Reaserch@e4c76c595b44a35fd9efc02cde8979e656ef54e8
 
+## Contents
+
+- [Governing user goal](#governing-user-goal)
+- [Core distinction](#core-distinction)
+- [Historical behavioral reference](#historical-behavioral-reference)
+- [Required restored behavior](#required-restored-behavior)
+- [Current diagnosed regression](#current-diagnosed-regression)
+- [Restoration rule](#restoration-rule)
+- [Corpus use rule](#corpus-use-rule)
+- [Anti-churn rule](#anti-churn-rule)
+- [Completion condition](#completion-condition)
+
 ## Governing user goal
 
 Recover the material mathematics, ideas, distinctions, failed paths, prompts, project state,

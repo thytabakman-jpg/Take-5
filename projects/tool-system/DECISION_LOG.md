@@ -40,3 +40,12 @@ self-witness as the only explicit self-reference exception.
 
 TOOL_INDEX.md is a navigational projection and must remain in exact set/count
 parity with runtime/tool_run_registry.py.
+
+## 2026-10-14 D008 — Approved logical 36-coordinate schema
+
+Approval source: explicit user message `Approved.` on 2026-10-14, in direct response to the exact physical-to-logical coverage GOAL replacement recorded in `projects/tool-system/OPEN_QUESTIONS.md`. This is specific authorization for that proposal, not blanket authorization to change unrelated goals.
+
+Old success condition: `every package has its required owned control surfaces and 36 Scope x ModeFace coverage pages`.
+New success condition: every package retains exactly 36 independently addressable logical Scope x ModeFace coordinates, with empty coordinates allowed in one manifest/typed registry and actual findings independently addressable and append-only with provenance. The distinct SourceScope x TargetScope handoff is unchanged.
+
+Canonical GOAL mutation: `4daf9e9d78f233fb16efd127ff3493234f075720`, readback confirmed. Propagated package-contract change: `69e0c5e781b0c537384acbf6a29f1e61ec1c7003`; regression-contract change: `61053e17366441336747e166241bd06b83dae0c4`. All are Take-5 `main` commits. Affected: package generator, tests, 140 package consumers, source-map/navigation and Knowledge Web file-node accounting. Physical deletion is a separate implementation step, not certified merely by this decision; preserve original historical Git blobs.

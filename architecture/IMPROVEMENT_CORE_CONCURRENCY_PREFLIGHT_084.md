@@ -3,6 +3,15 @@
 Date: 2026-09-26
 Status: ISOLATED STRICT-GAIN CANDIDATE / NOT CURRENT / NOT PROMOTED
 
+## Contents
+
+- [Problem](#problem)
+- [Narrow improvement](#narrow-improvement)
+- [Why this is a strict gain](#why-this-is-a-strict-gain)
+- [Placement](#placement)
+- [Anti-collision rule for this branch](#anti-collision-rule-for-this-branch)
+- [Remaining open](#remaining-open)
+
 ## Problem
 
 The ImprovementCore concurrency protocol already requires immutable workstream

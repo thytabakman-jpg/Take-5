@@ -4,6 +4,17 @@ Date: 2026-09-26
 Status: CURRENT CANDIDATE / SELF-HOSTING TARGET
 Canonical repository: thytabakman-jpg/Take-5
 
+## Contents
+
+- [Problem](#problem)
+- [Generic object](#generic-object)
+- [Recursive closure](#recursive-closure)
+- [Kind-indexed obligations](#kind-indexed-obligations)
+- [Portability](#portability)
+- [Show-me-the-math operator](#show-me-the-math-operator)
+- [Self application](#self-application)
+- [Relation to tool FullMath](#relation-to-tool-fullmath)
+
 ## Problem
 
 The first SHOW_ME_THE_MATH contract inherited tool-shaped obligations from FullMath.

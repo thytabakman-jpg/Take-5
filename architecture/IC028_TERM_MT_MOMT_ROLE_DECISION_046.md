@@ -5,6 +5,21 @@ Controller lease: IC-028
 Status: EXECUTED SEMANTIC MULTI-TOOL ANALYSIS
 Target: prior role-separation message and user's hypothesis that IC-028 operates while Jane remains hidden/background
 
+## Contents
+
+- [IC-028 rewritten prompt](#ic-028-rewritten-prompt)
+- [1 Term-MT](#1-term-mt)
+- [2 Multi-Object: Foundation x Operator x Interface](#2-multi-object-foundation-x-operator-x-interface)
+- [3 Multi-Object: Competence x Jane x User x Interface x Operator x Foundation](#3-multi-object-competence-x-jane-x-user-x-interface-x-operator-x-foundation)
+- [4 PD / result sensitivity](#4-pd--result-sensitivity)
+- [5 MTA factorization](#5-mta-factorization)
+- [6 MT modes](#6-mt-modes)
+- [7 Architecture/root cause](#7-architectureroot-cause)
+- [8 Execution-truth/currentness challenge](#8-execution-truthcurrentness-challenge)
+- [9 RTC / strict-gain comparison](#9-rtc--strict-gain-comparison)
+- [10 Consequence closure](#10-consequence-closure)
+- [11 Decision](#11-decision)
+
 ## IC-028 rewritten prompt
 
 Analyze every load-bearing term in the current role decomposition rather than accepting the prose categories. Run MT across each term; run Multi-Object across Foundation, Operator, Interface and across Competence, UserFacingJane, Interface, Operator, Foundation; apply PD/result-sensitivity, MTA ownership/factorization, architecture/root-cause, representation challenge, execution truth, currentness, RTC/strict-gain and consequence closure. Decide who the user should interact with and whether Jane is interface, guardrail, tool, observer, state-maintainer, or some combination. Make one controller decision and propagate it. Avoid duplicate authority.

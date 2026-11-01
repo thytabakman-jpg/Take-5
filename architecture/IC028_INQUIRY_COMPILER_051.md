@@ -4,6 +4,19 @@ Date: 2026-09-24
 Controller: IC-028
 Status: DESIGN DECISION
 
+## Contents
+
+- [Rewritten prompt](#rewritten-prompt)
+- [Core tool](#core-tool)
+- [Question selection](#question-selection)
+- [Question x 36](#question-x-36)
+- [PD enrichment](#pd-enrichment)
+- [Architect's question role](#architects-question-role)
+- [Existing math-project test](#existing-math-project-test)
+- [Cross-project automation](#cross-project-automation)
+- [Architecture consequence](#architecture-consequence)
+- [Decision](#decision)
+
 ## Rewritten prompt
 
 Turn the Tool-as-Question discovery into an executable inquiry architecture. Reuse existing root-translation mathematics instead of inventing a new formalism. Determine the smallest pipeline that can select high-value research questions, translate each question to a formal object, expand it through the 36 scope/mode challenge surface, inject PD where it adds discrimination power, route the resulting probes/tools, reconcile answers, and recursively generate the next questions. Test the pipeline on the current system and on an existing mathematical research problem without derailing the active architecture program. Route project-wide question compilation as autonomous handoff work.

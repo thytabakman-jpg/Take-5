@@ -3,6 +3,17 @@
 Date: 2026-09-27
 Status: VALIDATED ON PR #161 HEAD 02fa863b
 
+## Contents
+
+- [Problem](#problem)
+- [Admission rule](#admission-rule)
+- [Registry-defined capabilities](#registry-defined-capabilities)
+- [Learning tools](#learning-tools)
+- [Dedicated native identities](#dedicated-native-identities)
+- [Deliberate residual](#deliberate-residual)
+- [Target state](#target-state)
+- [Validation](#validation)
+
 ## Problem
 
 The configured repertoire and native execution portfolio had become substantially

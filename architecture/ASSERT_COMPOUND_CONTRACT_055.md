@@ -8,6 +8,20 @@ Runtime effect: COMPOUND ORCHESTRATION IMPLEMENTED ON BRANCH; end-to-end semanti
 
 Purpose: preserve the current full ASSERT tool as a compound discovery engine rather than allowing later conversations to collapse it back into a one-pass assertion scan.
 
+## Contents
+
+- [1. ASSERT core object](#1-assert-core-object)
+- [2. Current full ASSERT](#2-current-full-assert)
+- [3. Stage jobs](#3-stage-jobs)
+- [4. Fixed-point state](#4-fixed-point-state)
+- [5. Reentry law](#5-reentry-law)
+- [6. Closure law](#6-closure-law)
+- [7. Wrapper integration](#7-wrapper-integration)
+- [8. Geometry and current-use full-36 compatibility](#8-geometry-and-current-use-full-36-compatibility)
+- [9. Preservation requirement](#9-preservation-requirement)
+- [10. Current OPEN coordinates](#10-current-open-coordinates)
+- [11. Runtime realization](#11-runtime-realization)
+
 ## 1. ASSERT core object
 
 Let Gamma be the accessible evidence state.

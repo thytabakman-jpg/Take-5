@@ -3,7 +3,7 @@
 Date: 2026-09-27
 Status: VALIDATED / CURRENT-REGISTRY PARITY
 
-**Historical count context (2026-10-10 live readback):** The **93-tool / 138-package / 4,968-coverage-page** figures below are the 2026-09-27 validated backfill baseline. The current repository tree and [tool index](TOOL_INDEX.md) now contain **95 current tools, 45 historical variants, 140 packages and 5,040 coverage pages**. This ledger retains the earlier counts and receipts as history rather than replacing them or certifying the newer roster from an old run.
+**Historical count context (2026-10-10 live readback):** The **93-tool / 138-package / 4,968-coverage-page** figures below are the 2026-09-27 validated backfill baseline. The October 10 pre-compaction tree contained **95 current tools, 45 historical variants, 140 packages and 5,040 physical coverage pages**. The October 19 migration retains all 5,040 logical coordinates in manifests, with zero empty numbered pages. The earlier counts below are historical. This ledger retains the earlier counts and receipts as history rather than replacing them or certifying the newer roster from an old run.
 
 Current configured tool packages: 93
 ICC/IC variant packages: 45

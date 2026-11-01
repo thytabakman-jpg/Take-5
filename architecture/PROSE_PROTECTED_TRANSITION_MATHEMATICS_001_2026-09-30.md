@@ -6,6 +6,20 @@ Origin: RootCause HF2 on the Canonical Authority affirmative-first regression
 Controller: ImprovementCore
 Candidate tool: Prose
 
+## Contents
+
+- [Failure class](#failure-class)
+- [Mathematical object](#mathematical-object)
+- [Affirmative-first constraint](#affirmative-first-constraint)
+- [Protected transition coordinates](#protected-transition-coordinates)
+- [Layer responsibilities](#layer-responsibilities)
+- [Tool-admission test](#tool-admission-test)
+- [Default protected prose constraints](#default-protected-prose-constraints)
+- [Fail-closed rule](#fail-closed-rule)
+- [Scope of enforcement](#scope-of-enforcement)
+- [Required implementation witnesses](#required-implementation-witnesses)
+- [Mutation rule](#mutation-rule)
+
 ## Failure class
 
 A protected reader-facing prose constraint can exist in project control state while a prose mutation violates it and later architecture, solution, verification, recurrence, and emission stages still accept the successor.
@@ -43,10 +57,10 @@ Let:
 Define prose admissibility:
 
 [
-oxed{
+\boxed{
 ProseAdmissible_{K_p}(s,p,E)
 iff
-V_{K_p}(p)=arnothing
+V_{K_p}(p)=\varnothing
 land
 SemPres(O_s,p,E)
 land
@@ -80,7 +94,7 @@ Then:
 [
 AF(p)
 iff
-R(p)setminus L(p)=arnothing.
+R(p)setminus L(p)=\varnothing.
 ]
 
 Thus negation remains permitted when it is the proposition under analysis, e.g. a branch stating that a tradition does not guarantee correctness.
@@ -101,7 +115,7 @@ realization,
 verification,
 reentry,
 emission
-angle.
+\rangle.
 ]
 
 Each coordinate must be witnessed:
@@ -118,8 +132,8 @@ Define:
 [
 ProtectedProseTransition(k)=VERIFIED
 iff
-orall cin PTP(k), Witness(c,k)
-eqarnothing.
+\forall cin PTP(k), Witness(c,k)
+eq\varnothing.
 ]
 
 Missing witness gives OPEN.
@@ -144,7 +158,7 @@ For prose-changing work:
 [
 ArchitectureAccept(A,K_p)
 iff
-orall kin K_p, PreservedByDesign(A,k).
+\forall kin K_p, PreservedByDesign(A,k).
 ]
 
 A successor frontier missing a protected prose constraint is OPEN, not admissible architecture.

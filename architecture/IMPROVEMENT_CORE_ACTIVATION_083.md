@@ -4,6 +4,16 @@ Date: 2026-09-26
 Status: IMPLEMENTED / VALIDATED / MERGED
 Regime version: 083
 
+## Contents
+
+- [Defect](#defect)
+- [Repair](#repair)
+- [Compatibility](#compatibility)
+- [Recovery correction](#recovery-correction)
+- [Protected tests](#protected-tests)
+- [OPEN](#open)
+- [Closure rule](#closure-rule)
+
 ## Defect
 
 The maximization repair added recursive parent/child management, basis-relative

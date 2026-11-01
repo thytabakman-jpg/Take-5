@@ -1,6 +1,15 @@
 # Architecture Scan 013
 
-Date 2026-09-24
+Date: 2026-09-24
+Status: DATED ARCHITECTURE SCAN / NOT A PROMOTION OR MIGRATION AUTHORIZATION
+Purpose: Identify architectural activation, evidence, and preservation gaps and record the resulting design-level repair disposition.
+
+## Contents
+
+- [Current architecture](#current-architecture)
+- [Scan findings](#scan-findings)
+- [Required architecture repair](#required-architecture-repair)
+- [Architecture disposition](#architecture-disposition)
 
 ## Current architecture
 

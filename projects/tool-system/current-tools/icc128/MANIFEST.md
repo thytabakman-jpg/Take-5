@@ -12,6 +12,7 @@ Coverage cells: 36
 - MANIFEST.md
 - AUTHORITY_REGISTRY.md
 - CURRENT_STATE.md
+- CURRENT_ISSUES.md
 - IDENTITY.md
 - MATHEMATICS.md
 - RUNTIME.md
@@ -29,7 +30,7 @@ Coverage cells: 36
 - history/README.md
 - coverage/README.md
 
-## Coverage pages
+## Reserved logical coverage coordinates (36; physical evidence pages optional)
 
 - coverage/01_SYSTEM__EXPAND.md
 - coverage/02_SYSTEM__CONTRACT.md

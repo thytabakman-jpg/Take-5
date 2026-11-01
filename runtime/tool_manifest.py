@@ -105,6 +105,12 @@ ICC128_BINDINGS=GENERIC_BINDINGS+(
         "tests/test_icc128_current.py",
     ),
     ProtectedBinding(
+        "ICC128_TOOL_CONDUCTOR_PREWORK_CONSULTATION",
+        "INTRA",
+        "runtime/controller_tool_conductor.py",
+        "tests/test_icc128_current.py",
+    ),
+    ProtectedBinding(
         "ICC128_STATE_RELATIVE_SELECTOR",
         "INTRA",
         "runtime/rho128_policy.py",
@@ -148,6 +154,12 @@ IMPROVEMENT_CORE_BINDINGS=GENERIC_BINDINGS+(
         "PRE",
         "runtime/improvement_core_manager.py",
         "tests/test_icc_entry_053_promotion.py",
+    ),
+    ProtectedBinding(
+        "IMPROVEMENTCORE_TOOL_CONDUCTOR_PRESELECTION_CONSULTATION",
+        "INTRA",
+        "runtime/controller_tool_conductor.py",
+        "tests/test_improvement_core_manager.py",
     ),
     ProtectedBinding(
         "IMPROVEMENTCORE_OBSERVER_FIRST_MODE",
@@ -232,6 +244,7 @@ PROJECT_MANAGER_BINDINGS=GENERIC_BINDINGS+(
     ProtectedBinding("PROJECTMANAGER_MANDATORY_MANAGEMENT_SPINE","PRE","runtime/project_manager_management_spine.py","tests/test_project_manager_management_spine.py"),
     ProtectedBinding("PROJECTMANAGER_FAILURE_PREVENTION_ENVELOPE","PRE","runtime/project_manager_integrity.py","tests/test_project_manager_failure_immunity.py"),
     ProtectedBinding("PROJECTMANAGER_TRANSFORM_IMPACT_VERIFICATION_GATE","INTRA","runtime/project_manager.py","tests/test_project_manager_failure_immunity.py"),
+    ProtectedBinding("PROJECTMANAGER_PROJECT_STATE_TRANSACTION","POST","runtime/project_state_transaction.py","tests/test_project_state_transaction.py"),
     ProtectedBinding("PROJECTMANAGER_NO_FALSE_CLOSE_WITH_FRONTIER","POST","runtime/project_manager.py","tests/test_project_manager_failure_immunity.py"),
     ProtectedBinding("PROJECTMANAGER_HISTORICAL_FAILURE_HOLDOUT_GATE","CROSS","projects/project-manager/FAILURE_PREVENTION_MATRIX.md","tests/test_project_manager_failure_immunity.py"),
 )

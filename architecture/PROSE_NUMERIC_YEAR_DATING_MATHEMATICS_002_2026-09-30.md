@@ -6,6 +6,17 @@ Controller: ImprovementCore
 Tool: Prose
 Parent mathematics: architecture/PROSE_PROTECTED_TRANSITION_MATHEMATICS_001_2026-09-30.md
 
+## Contents
+
+- [User rule](#user-rule)
+- [Object](#object)
+- [Whole-prose gate](#whole-prose-gate)
+- [Person-date integration](#person-date-integration)
+- [Default status](#default-status)
+- [Fail-closed behavior](#fail-closed-behavior)
+- [Required implementation witnesses](#required-implementation-witnesses)
+- [Anti-loss rule](#anti-loss-rule)
+
 ## User rule
 
 Historical dates in reader-facing prose use numeric year values.
@@ -42,7 +53,7 @@ NumericYearDate(d)
 iff
 |Y(d)|ge 1
 land
-C(d)=arnothing.
+C(d)=\varnothing.
 ]
 
 Qualifiers such as (c.), (fl.), (d.), before, after, and ranges do not
@@ -56,7 +67,7 @@ governed by the active prose contract.
 [
 NumericYearDating(p)
 iff
-orall din D(p), NumericYearDate(d).
+\forall din D(p), NumericYearDate(d).
 ]
 
 Any explicit century-label realization in reader-facing historical dating is a

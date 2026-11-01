@@ -33,6 +33,8 @@ class ToolProjectPackageCollision(RuntimeError):
 
 
 PACKAGE_ROOT="projects/tool-system"
+# Curated sparse-pilot guards remain for four packages; all 140 packages use logical empty coverage coordinates.
+SPARSE_COVERAGE_PILOT=frozenset({"MultiObject","DelegatedExecutor","GOAL","ICC128"})
 CORE_FILES=(
     "README.md",
     "MANIFEST.md",
@@ -167,8 +169,18 @@ def _bullets(values:Iterable[str])->str:
     return "\n".join(f"- {x}" for x in rows) if rows else "- none"
 
 
+PILOT_TOOL_HOME_CONTRACTS = {
+    "MultiObject": "\n## Operational home contract — pilot\n\n**Job and role:** Navigate the configured MultiObject relation-discovery tool over provider-supplied relations, preserving joint/pair route identity and typed unresolved cases. This is an organizational home, not new mathematical or execution authority.\n\n**Owner and functional boundary:** Package identity, navigation, change control and scoped evidence live here. [Native executor](../../../../runtime/multiobject.py), [configured conductor](../../../../runtime/portable_tool_conductor.py), [protected manifest](../../../../runtime/tool_manifest.py), [mathematical identity](../../../../architecture/MULTIOBJECT_FULL_TOOL_MATH_001_2026-09-27.md) and [native regression tests](../../../../tests/test_multiobject.py) retain their own authority. [RUNTIME.md](RUNTIME.md), [DEPENDENCIES.md](DEPENDENCIES.md), [SOURCE_MAP.md](SOURCE_MAP.md) and [REGRESSION_CONTRACT.md](REGRESSION_CONTRACT.md) route the maintained closure. A missing domain provider is OPEN, not successful execution.\n\n**Admission and restructuring gate:** Check independently justified goal/job, source type, actual authority, reader and native consumers before KEEP, MOVE, SPLIT, CONSOLIDATE, RETAIN-WITH-LINKS or NO MOVE. Admit only tool-specific organizational contracts and correctly owned evidence; keep shared runtimes/tests, independent research, original proofs and histories at their legitimate owners. Transfer/split/merge requires owning file-type Level 2 placement and preservation checks, with affected functional Level 3/4 verification where required. Retain source material if authorization, preservation or native execution evidence is unresolved; a clean README is not a certificate.\n",
+    "GOAL": "\n## Operational home contract — pilot\n\n**Job and role:** Navigate configured GOAL recovery over supplied candidate evidence and a valid robust-MT receipt. This is an organizational home, not a second project-goal or mathematics authority.\n\n**Owner and functional boundary:** Package identity, navigation, change control and scoped evidence live here. [Native GOAL](../../../../runtime/goal.py), [MT receipt gate](../../../../runtime/mt_semantic_return_gate.py), [conductor](../../../../runtime/portable_tool_conductor.py), [protected manifest](../../../../runtime/tool_manifest.py), [mathematical identity](../../../../architecture/GOAL_FULL_TOOL_MATH_002_2026-09-30.md) and [native regression tests](../../../../tests/test_goal.py) retain their own authority. [RUNTIME.md](RUNTIME.md), [DEPENDENCIES.md](DEPENDENCIES.md), [SOURCE_MAP.md](SOURCE_MAP.md) and [REGRESSION_CONTRACT.md](REGRESSION_CONTRACT.md) route the maintained closure. A native call without a valid MT preflight is not configured execution.\n\n**Admission and restructuring gate:** Check independently justified goal/job, source type, actual authority, reader and native consumers before KEEP, MOVE, SPLIT, CONSOLIDATE, RETAIN-WITH-LINKS or NO MOVE. Admit only tool-specific organizational contracts and correctly owned evidence; keep shared runtimes/tests, independent research, original proofs and histories at their legitimate owners. Transfer/split/merge requires owning file-type Level 2 placement and preservation checks, with affected functional Level 3/4 verification where required. Retain source material if authorization, preservation or native execution evidence is unresolved; a clean README is not a certificate.\n",
+    "RTC": "\n## Operational home contract — pilot\n\n**Job and role:** Navigate the configured RTC (Raise-the-Ceiling) specialization of C48 over supplied candidates, distinguishing strict-gain results from typed no-gain. This is an organizational home, not a preservation proof or executed C48 run.\n\n**Owner and functional boundary:** Package identity, navigation, change control and scoped evidence live here. The [conductor](../../../../runtime/portable_tool_conductor.py) selects [raise_the_ceiling](../../../../runtime/raise_the_ceiling.py), which uses [capability dispatch](../../../../runtime/capability_runtime.py) and the [C48 evaluator](../../../../runtime/a5_programs.py). [Protected manifest](../../../../runtime/tool_manifest.py), [native recovery specification](../../../../architecture/NATIVE_TOOL_RECOVERY_PACK_160_2026-09-27.md) and [specialization test](../../../../tests/test_recovered_native_tools_20260927.py) retain their own authority. [RUNTIME.md](RUNTIME.md), [DEPENDENCIES.md](DEPENDENCIES.md), [SOURCE_MAP.md](SOURCE_MAP.md) and [REGRESSION_CONTRACT.md](REGRESSION_CONTRACT.md) route the maintained closure. Truthy `strict_gain`/`preserves` flags alone do not prove coverage of a declared protected set; that stronger claim remains OPEN.\n\n**Admission and restructuring gate:** Check independently justified goal/job, source type, actual authority, reader and native consumers before KEEP, MOVE, SPLIT, CONSOLIDATE, RETAIN-WITH-LINKS or NO MOVE. Admit only tool-specific organizational contracts and correctly owned evidence; keep shared runtimes/tests, independent research, original proofs and histories at their legitimate owners. Transfer/split/merge requires owning file-type Level 2 placement and preservation checks, with affected functional Level 3/4 verification where required. Retain source material if authorization, preservation or native execution evidence is unresolved; a clean README is not a certificate.\n",
+}
+RTC_RUNTIME_ROUTE = "\n## RTC configured-to-native chain and verified scope\n\n- [Portable conductor](../../../../runtime/portable_tool_conductor.py) selects `raise_the_ceiling.raise_the_ceiling` for RTC.\n- [RTC entrypoint](../../../../runtime/raise_the_ceiling.py) calls `execute_capability(\"C48\", payload)`.\n- [Capability dispatcher](../../../../runtime/capability_runtime.py) sends C48 to `run_generic`.\n- [C48 evaluator](../../../../runtime/a5_programs.py) filters truthy `strict_gain` and `preserves` fields; otherwise returns `NOOP` with `NO_STRICT_GAIN_FOUND`.\n- [Native RTC specialization test](../../../../tests/test_recovered_native_tools_20260927.py) checks an accepted and a non-gaining candidate.\n\n**OPEN:** This implementation does not verify coverage of every declared protected property. A source link or static package check is not an executed tool or proof of that stronger property.\n"
+RTC_DEPENDENCY_CONE = "\n## RTC native functional dependency cone\n\n- [RTC configured entrypoint](../../../../runtime/raise_the_ceiling.py)\n- [Capability dispatch](../../../../runtime/capability_runtime.py)\n- [C48 evaluation](../../../../runtime/a5_programs.py)\n- [Native specialization regression](../../../../tests/test_recovered_native_tools_20260927.py)\n- [Configured conductor regressions](../../../../tests/test_portable_tool_conductor.py)\n- [Capability registry regressions](../../../../tests/test_a5_registry.py)\n- [Manifest-selected native recovery specification](../../../../architecture/NATIVE_TOOL_RECOVERY_PACK_160_2026-09-27.md)\n\nA change to dispatch, C48 selection, manifest, registry or configured entrypoint reopens the affected consumers. The tests above do not alone establish complete protected-set coverage.\n"
+RTC_REGRESSION_GATES = "\n## RTC native and relocation regression boundary\n\n- [RTC specialization test](../../../../tests/test_recovered_native_tools_20260927.py) covers the accepted strict-gain and excluded no-gain case.\n- [Capability registry tests](../../../../tests/test_a5_registry.py) cover registry integrity, not every C48 protected-property case.\n- [Configured conductor tests](../../../../tests/test_portable_tool_conductor.py) cover configured routing to the extent asserted.\n- [Package generator tests](../../../../tests/test_tool_project_packages.py) protect materialized navigation parity and collision behavior.\n- Native source chain: `runtime/raise_the_ceiling.py` -> `runtime/capability_runtime.py` -> `runtime/a5_programs.py` (C48). Retest its affected consumers after any move or split.\n- Stronger preservation-set proof and unavailable native execution remain OPEN; a package structural check never closes them.\n"
+
+
 def render_readme(spec:ProjectObjectSpec)->str:
-    return f"""# {spec.display_name} project package
+    body=f"""# {spec.display_name} project package
 
 Object ID: {spec.object_id}
 Species: {spec.species}
@@ -196,6 +208,20 @@ This package organizes the object without becoming a second semantic authority.
 Do not overwrite history, decisions, lessons, run evidence, or coverage-cell evidence.
 Current projections may change only through explicit change control and retained lineage.
 """
+    if spec.current_tool and spec.object_id in {"MultiObject", "GOAL"}:
+        for index, name in enumerate((
+            "CURRENT_STATE.md", "AUTHORITY_REGISTRY.md", "IDENTITY.md",
+            "MATHEMATICS.md", "RUNTIME.md", "PROTECTED_BEHAVIORS.md",
+            "DEPENDENCIES.md", "OPEN_QUESTIONS.md", "SOURCE_MAP.md",
+        ), start=1):
+            body=body.replace(f"{index}. {name}", f"{index}. [{name}]({name})")
+        body=body.replace(
+            "10. coverage/ only for coverage evidence",
+            "10. [coverage/](coverage/README.md) only for coverage evidence",
+        )
+    if spec.current_tool and spec.object_id in PILOT_TOOL_HOME_CONTRACTS:
+        body += PILOT_TOOL_HOME_CONTRACTS[spec.object_id]
+    return body
 
 
 def render_manifest(spec:ProjectObjectSpec)->str:
@@ -216,7 +242,7 @@ Coverage cells: 36
 
 {core}
 
-## Coverage pages
+## Reserved logical coverage coordinates (36; physical evidence pages optional)
 
 {coverage}
 
@@ -261,10 +287,20 @@ truth, fix the routing before editing either one.
             "| MultiObject native execution | runtime/multiobject.py |\n"
             "| full mathematical identity | architecture/MULTIOBJECT_FULL_TOOL_MATH_001_2026-09-27.md |",
         )
+    if spec.current_tool and spec.object_id=="RTC":
+        body=body.replace(
+            "| current executable realization | runtime/portable_tool_conductor.py |",
+            "| current configured invocation | runtime/portable_tool_conductor.py |\n| RTC native entrypoint | runtime/raise_the_ceiling.py |\n| C48 capability dispatch | runtime/capability_runtime.py |\n| C48 candidate evaluator | runtime/a5_programs.py |",
+        )
     return body
 
+MULTIOBJECT_CURRENT_STATE_BOUNDARY = "\n## MultiObject registered-versus-executed distinction\n\n`CURRENT` means the configured tool package is registered. It does not witness a completed MultiObject relation-discovery run, a supplied domain provider, or a finding whose material-delta semantics were independently validated. The live [executor](../../../../runtime/multiobject.py), [configured conductor](../../../../runtime/portable_tool_conductor.py), [source map](SOURCE_MAP.md) and [native regression owner](REGRESSION_CONTRACT.md) remain separate; missing provider or unverified semantic coverage stays OPEN at the affected scope.\n"
+
+
+RTC_CURRENT_STATE_BOUNDARY = "\n## Registered state versus native RTC proof\n\n`CURRENT` records the configured RTC package, not a witnessed RTC invocation or complete protected-property proof. The [configured entrypoint](../../../../runtime/raise_the_ceiling.py), [C48 evaluator](../../../../runtime/a5_programs.py), [source map](SOURCE_MAP.md) and [regression contract](REGRESSION_CONTRACT.md) remain independently checkable. The present truthy-field preservation check does not prove coverage of a declared protected set; that stronger assertion remains OPEN.\n"
+
 def render_current(spec:ProjectObjectSpec)->str:
-    return f"""# Current state: {spec.display_name}
+    body=f"""# Current state: {spec.display_name}
 
 Projection status: CURRENT
 Object status: {spec.status}
@@ -279,6 +315,11 @@ shared registry/manifest/runtime authorities listed in SOURCE_MAP.md.
 It does not erase history and it does not supersede external semantic authority
 without an explicit admitted change.
 """
+    if spec.current_tool and spec.object_id=="MultiObject":
+        body += MULTIOBJECT_CURRENT_STATE_BOUNDARY
+    if spec.current_tool and spec.object_id=="RTC":
+        body += RTC_CURRENT_STATE_BOUNDARY
+    return body
 
 
 def render_identity(spec:ProjectObjectSpec)->str:
@@ -335,6 +376,8 @@ receipt, and parent closure remain distinct objects.
 
     if spec.current_tool and spec.object_id=="MultiObject":
         body += "\n## MultiObject executable route\n\n- [Native runtime implementation](../../../../runtime/multiobject.py) — `run_multiobject`\n- [Portable invocation conductor](../../../../runtime/portable_tool_conductor.py) — `multiobject.run_multiobject`\n- [Native runtime tests](../../../../tests/test_multiobject.py)\n\nDomain relation generation requires an explicit `multiobject_provider`. Absence of the provider cannot be reported as successful domain execution. This package remains an organizational projection.\n"
+    if spec.current_tool and spec.object_id=="RTC":
+        body += RTC_RUNTIME_ROUTE
     return body
 
 def render_behaviors(spec:ProjectObjectSpec)->str:
@@ -370,7 +413,29 @@ def render_dependencies(spec:ProjectObjectSpec)->str:
 A dependency change reopens the affected cone. Unaffected package state remains protected.
 """
     if spec.current_tool and spec.object_id=="MultiObject":
+        link_labels={
+            "runtime/tool_run_registry.py": "[Configured-run registry](../../../../runtime/tool_run_registry.py)",
+            "runtime/tool_manifest.py": "[Protected tool manifest](../../../../runtime/tool_manifest.py)",
+            "runtime/portable_tool_conductor.py": "[Portable invocation conductor](../../../../runtime/portable_tool_conductor.py)",
+            "integration/CURRENT_TOOL_REALITY.md": "[Current tool reality](../../../../integration/CURRENT_TOOL_REALITY.md)",
+        }
+        body=body.replace(
+            _bullets(spec.source_refs),
+            "\n".join("- "+link_labels.get(ref,ref) for ref in spec.source_refs),
+        )
+        body=body.replace(
+            "## Shared runtime/identity dependencies\n\n"
+            "- runtime/tool_run_registry.py\n"
+            "- runtime/tool_manifest.py\n"
+            "- runtime/portable_tool_conductor.py\n",
+            "## Shared runtime/identity dependencies\n\n"
+            "The registry, manifest, and conductor above are shared runtime/identity\n"
+            "authorities. The current-tool-reality source supplies the separate\n"
+            "currentness and execution-evidence boundary.\n",
+        )
         body += "\n## MultiObject native dependency edges\n\n- [Native relation-discovery executor](../../../../runtime/multiobject.py)\n- [Full-tool mathematical identity](../../../../architecture/MULTIOBJECT_FULL_TOOL_MATH_001_2026-09-27.md)\n"
+    if spec.current_tool and spec.object_id=="RTC":
+        body += RTC_DEPENDENCY_CONE
     return body
 
 def render_source_map(spec:ProjectObjectSpec)->str:
@@ -403,12 +468,15 @@ to make the folder look complete.
         body += "\n## Cross-repository reconciliation (derived navigation; no promotion)\n\n- [Take-5/Reaserch crosswalk](../../SOURCE_MAP.md#cross-repository-tool-package-navigation-derived-no-authority-transfer) — all current packages, catalogued formal objects and unresolved differences.\n- [Reaserch `MULTI-OBJECT` (K2) catalog entry](https://github.com/HISTORICAL_REPO/blob/main/projects/improvement-core/tool-ecosystem/FORMAL_TOOL_CATALOG_CURRENT.yaml) and [its current semantic locator](https://github.com/HISTORICAL_REPO/blob/main/projects/improvement-core/tool-ecosystem/MULTIOBJECT_CURRENT_SEMANTIC_STATE_2026-09-26.md). Matching names permit navigation, not automatic semantic equivalence or runnable integration.\n- Take-5 configured-run authority remains [registry](../../../../runtime/tool_run_registry.py), [manifest](../../../../runtime/tool_manifest.py), [conductor](../../../../runtime/portable_tool_conductor.py). See [mathematics](MATHEMATICS.md), [runtime](RUNTIME.md), [dependencies](DEPENDENCIES.md), [regression contract](REGRESSION_CONTRACT.md).\n- Native evidence surfaces are [runs](runs/README.md), [evidence](evidence/README.md), [coverage](coverage/README.md) and [history](history/README.md); a file link is not proof that configured execution or certification passed.\n\n**Owner boundary:** Do not copy mathematical truth between repositories or infer current runtime promotion from this source map. Mark unresolved mismatches OPEN and check the specialist owner.\n".replace("HISTORICAL_REPO", "thytabakman-jpg" + "/" + "Reaserch")
     return body
 
+RTC_OPEN_PRESERVATION_FRONTIER = "\n## C48 protected-set adequacy — OPEN\n\nThe [RTC runtime chain](RUNTIME.md) currently accepts C48 candidates when `strict_gain` and `preserves` are truthy. That is not a membership/coverage check for each declared protected property. Independently reconcile the [native C48 evaluator](../../../../runtime/a5_programs.py), [manifest-bound preservation contract](../../../../runtime/tool_manifest.py), [recovery specification](../../../../architecture/NATIVE_TOOL_RECOVERY_PACK_160_2026-09-27.md) and [native regressions](REGRESSION_CONTRACT.md) before asserting full protected-basis preservation. This is a **source/verification obligation**, not proof that every higher-level RTC use violates preservation; maintain separate package-current and native-run statuses.\n"
+
+
 def render_open(spec:ProjectObjectSpec)->str:
     if spec.current_tool:
         body="- package-specific open questions are added here only when they are not already owned by a canonical source"
     else:
         body=f"- semantic/currentness reconstruction remains governed by status {spec.status}\n- do not infer missing role from numbering or neighboring variants"
-    return f"""# OPEN questions: {spec.display_name}
+    body = f"""# OPEN questions: {spec.display_name}
 
 {body}
 
@@ -417,6 +485,9 @@ def render_open(spec:ProjectObjectSpec)->str:
 OPEN is durable state. Closing an item requires evidence and a receipt; deleting
 the line because a later summary is shorter is forbidden.
 """
+    if spec.current_tool and spec.object_id=="RTC":
+        body += RTC_OPEN_PRESERVATION_FRONTIER
+    return body
 
 
 def render_change(spec:ProjectObjectSpec)->str:
@@ -432,12 +503,14 @@ Retain old evidence and record supersession rather than rewriting history.
 
 
 def render_regression(spec:ProjectObjectSpec)->str:
-    return f"""# Regression contract: {spec.display_name}
+    if spec.object_id in SPARSE_COVERAGE_PILOT:
+        return _render_sparse_regression(spec)
+    body = f"""# Regression contract: {spec.display_name}
 
 A valid package keeps all of these true:
 
 - required core files exist
-- exactly 36 Scope x ModeFace coverage pages exist
+- exactly 36 logical Scope x ModeFace coordinates exist; physical cell files are reserved for admitted evidence
 - coverage pages are audit evidence, not semantic authority
 - the distinct SourceScope x TargetScope surface is not merged into coverage
 - decisions, lessons, runs, and evidence are append-only
@@ -446,6 +519,27 @@ A valid package keeps all of these true:
 - aliases do not create duplicate mutable authority
 - missing semantics/runtime/evidence remain typed OPEN
 """
+    if spec.current_tool and spec.object_id=="RTC":
+        body += RTC_REGRESSION_GATES
+    return body
+
+
+def _render_sparse_regression(spec:ProjectObjectSpec)->str:
+    baseline = f"""# Regression contract: {spec.display_name}
+
+A valid package keeps all of these true:
+
+- required core files exist
+- exactly 36 logical Scope x ModeFace coordinates exist
+- physical coverage pages are evidence only, not semantic authority
+- the distinct SourceScope x TargetScope surface is not merged into coverage
+- decisions, lessons, runs, and evidence are append-only
+- package generation never overwrites changed existing files
+- current configured tools have one package each
+- aliases do not create duplicate mutable authority
+- missing semantics/runtime/evidence remain typed OPEN
+"""
+    return baseline
 
 
 def render_decisions(spec:ProjectObjectSpec)->str:
@@ -511,6 +605,17 @@ Do not replace an older record with a newer one.
             "Run evidence": "\n## Use and authority\n\nReader: MultiObject operators and validators.\nPurpose: Retain run-specific inputs, invoked route, evidence, results, and limits only when an actual run or validation was performed.\n\n- [Executable route and provider boundary](../RUNTIME.md)\n- [Protected behavior routes](../PROTECTED_BEHAVIORS.md)\n- [Change control](../CHANGE_CONTROL.md)\n\nA plan, pending workflow, or generated file is not an executed-run receipt.\n",
             "History": "\n## Use and authority\n\nReader: MultiObject maintainers and historians.\nPurpose: Preserve superseded package states and their provenance without making older versions current authorities.\n\n- [Current state projection](../CURRENT_STATE.md)\n- [Decision log](../DECISION_LOG.md)\n- [Lessons ledger](../LESSONS_LEDGER.md)\n- [Change control](../CHANGE_CONTROL.md)\n\nUse Git history for revisions of a living file; create a separate immutable record here only for independently necessary historical evidence.\n"
         }.get(name, "")
+    if spec.current_tool and spec.object_id=="GOAL":
+        body += {
+            "Evidence": "Navigation: [package manifest](../MANIFEST.md) · [authority ownership](../AUTHORITY_REGISTRY.md) · [change control](../CHANGE_CONTROL.md).\n\n## Evidence role and admission\n\nReader: GOAL maintainers, reviewers and certification consumers. This stream preserves immutable source-attributed audit or repair evidence; it does not independently prove a configured GOAL execution, select a mathematical specification or rewrite a project's canonical goals. Consult the [source map](../SOURCE_MAP.md) for current authority, the [run evidence index](../runs/README.md) for already recorded historical receipts and [change control](../CHANGE_CONTROL.md) before admitting a new observation.\n",
+            "History": "Navigation: [Goal source lineage and mathematics](../SOURCE_MAP.md) · [package decision log](../DECISION_LOG.md) · [change control](../CHANGE_CONTROL.md).\n\n## Historical role and admission\n\nReader: GOAL maintainers and historians. Preserve independently meaningful superseded package states and their provenance; ordinary revisions of living source files remain in Git history. This home is not a second runtime or current-goal selector. Recover the [current state projection](../CURRENT_STATE.md) and [source map](../SOURCE_MAP.md) before translating a historical source into a present claim.\n",
+        }.get(name, "")
+    if spec.current_tool and spec.object_id=="RTC":
+        body += {
+            "Evidence": "\n## Evidence role and admission\n\nReader: RTC maintainers and audit reviewers. Retain source-attributed tool-specific evidence without treating it as executed C48, admitted mathematical authority or a completed protected-set proof. Retrieve the [source map](../SOURCE_MAP.md), [authority registry](../AUTHORITY_REGISTRY.md) and [change control](../CHANGE_CONTROL.md) before admitting findings. Evidence is distinct from configured [run receipts](../runs/README.md) and superseded [history](../history/README.md).\n",
+            "History": "\n## Historical role and admission\n\nReader: RTC maintainers and historians. Retain independently meaningful superseded package states and provenance, not a second C48 implementation or routine Git revisions of living files. Recover the [current projection](../CURRENT_STATE.md), [source map](../SOURCE_MAP.md) and [decision history](../DECISION_LOG.md) before translating archived observations into current claims.\n",
+            "Run evidence": "\n## Run-evidence role and admission\n\nReader: RTC operators and validation reviewers. Admit only an actually witnessed RTC or C48 invocation with inputs, source revision, observed result, native checks and limitations. A plan, generic CI green status, package registration or prose source link is not a new RTC run. See the [runtime entrypoint](../RUNTIME.md), [native regressions](../REGRESSION_CONTRACT.md) and [open preservation question](../OPEN_QUESTIONS.md).\n",
+        }.get(name, "")
     return body
 
 
@@ -538,6 +643,37 @@ through the authority and change-control path.
                 previous_scope=scope
             body += f"- [{index:02d} {face.value}](./{coverage_name(index,scope,face)})\n"
         body += "\nEach linked page is evidence for one Scope x ModeFace coordinate, not an executable delegation job or a recurring schedule. `OPEN` on a coverage page does not by itself determine the native DelegatedExecutor runtime state.\n"
+    if spec.object_id in SPARSE_COVERAGE_PILOT:
+        # Preserve 36 semantic positions without publishing broken links.
+        import re
+        body = re.sub(
+            r"- \[(\d{2}) ([A-Z]+)\]\(\./\d{2}_[A-Z_]+__[A-Z]+\.md\)",
+            r"- \1 \2 (reserved logical coordinate; no admitted evidence)",
+            body,
+        )
+        body = body.replace(
+            "Each linked page is evidence for one Scope x ModeFace coordinate",
+            "Each reserved logical coordinate can independently own evidence for Scope x ModeFace",
+        )
+    if spec.current_tool and spec.object_id=="RTC":
+        body += "\n## Navigation and ownership\n\nReader: RTC maintainers and audit reviewers.\nPurpose: Locate the 36 evidence-only Scope x ModeFace coordinates without treating them as mathematical or execution authority.\n\n- [RTC authority registry](../AUTHORITY_REGISTRY.md)\n- [Change control](../CHANGE_CONTROL.md)\n- [Source map and current runtime owner](../SOURCE_MAP.md)\n- [Separate directed handoff surface](../HANDOFF_SURFACE.md)\n\n"
+        previous_scope = None
+        for index, scope, face in coverage_cells():
+            if scope != previous_scope:
+                body += f"### {scope.value}\n\n"
+                previous_scope = scope
+            body += f"- [{index:02d} {face.value}](./{coverage_name(index, scope, face)})\n"
+            if face.value == "COUPLE":
+                body += "\n"
+        body += "A cell marked `OPEN` has no admitted cell-specific finding yet. It does not establish that RTC is unimplemented or that no scientific relation exists. The directed SourceScope x TargetScope surface is separate from these pages.\n"
+        # Render reserved coordinates as text, never dead links to deleted
+        # generated placeholders. Admitted evidence is individually navigable.
+        import re
+        body = re.sub(
+            r"- \[(\d{2}) ([A-Z]+)\]\(\./\d{2}_[A-Z_]+__[A-Z]+\.md\)",
+            r"- \1 \2 (reserved logical coordinate; no admitted evidence)",
+            body,
+        )
     return body
 
 
@@ -568,6 +704,15 @@ Canonical semantic changes route through AUTHORITY_REGISTRY.md and CHANGE_CONTRO
     if spec.current_tool and spec.object_id=="MultiObject":
         body=body.replace("Disposition: OPEN\n\n## Findings", "Disposition: OPEN\nPurpose: Preserve only findings at this exact Scope x ModeFace coordinate; do not infer semantic closure from this page.\nReader: MultiObject maintainers and audit reviewers.\nIndex: [all 36 coverage cells](README.md)\n\n## Findings")
         body=body.replace("Canonical semantic changes route through AUTHORITY_REGISTRY.md and CHANGE_CONTROL.md.", "Canonical semantic changes route through the [authority registry](../AUTHORITY_REGISTRY.md) and [change control](../CHANGE_CONTROL.md).")
+    if spec.current_tool and spec.object_id=="RTC":
+        body=body.replace(
+            "Disposition: OPEN\n\n## Findings",
+            "Disposition: OPEN\nPurpose: Retain only observations for this exact Scope x ModeFace evidence coordinate; no finding is admitted yet.\nReader: RTC maintainers and audit reviewers.\nIndex: [all RTC coverage cells](README.md)\n\n## Findings",
+        )
+        body=body.replace(
+            "Canonical semantic changes route through AUTHORITY_REGISTRY.md and CHANGE_CONTROL.md.",
+            "Canonical semantic changes route through the [authority registry](../AUTHORITY_REGISTRY.md) and [change control](../CHANGE_CONTROL.md).",
+        )
     return body
 
 
@@ -595,8 +740,9 @@ def package_files(spec:ProjectObjectSpec)->dict[str,str]:
         f"{root}/history/README.md":render_stream(spec,"History"),
         f"{root}/coverage/README.md":render_coverage_readme(spec),
     }
-    for i,scope,face in coverage_cells():
-        files[f"{root}/coverage/{coverage_name(i,scope,face)}"]=render_coverage_cell(spec,i,scope,face)
+    # All empty coordinates remain in the manifest and coverage index, not as
+    # generated files. Independently admitted evidence pages are append-only and
+    # are never generated, overwritten or removed by this materializer.
     return files
 
 
@@ -641,6 +787,24 @@ def _admit_curated_source_map(spec:ProjectObjectSpec, existing:str)->None:
         raise ToolProjectPackageCollision(f"{spec.object_id}: SOURCE_MAP_CATEGORY_MISMATCH")
 
 
+def _verify_curated_pilot_page(spec:ProjectObjectSpec,rel:str,existing:str,generated:str)->None:
+    # Pilot updates must not silently overwrite authored native control clauses.
+    if rel.endswith("/MANIFEST.md"):
+        if not existing.startswith(f"# Package manifest: {spec.display_name}\\n".replace("\\n","\n")):
+            raise ToolProjectPackageCollision(f"{spec.object_id}:MANIFEST_IDENTITY_MISMATCH")
+        if "Coverage cells: 36" not in existing or "Reserved logical coverage coordinates" not in existing:
+            raise ToolProjectPackageCollision(f"{spec.object_id}:MANIFEST_LOGICAL_36_MISSING")
+        for index,scope,face in coverage_cells():
+            filename=coverage_name(index,scope,face)
+            if f"- coverage/{filename}" not in existing:
+                raise ToolProjectPackageCollision(f"{spec.object_id}:MANIFEST_SLOT_MISSING")
+    elif rel.endswith("/REGRESSION_CONTRACT.md"):
+        if not existing.startswith(generated):
+            raise ToolProjectPackageCollision(f"{spec.object_id}:REGRESSION_PREFIX_MISSING")
+    else:
+        raise ToolProjectPackageCollision(f"{spec.object_id}:UNEXPECTED_CURATED_PAGE")
+
+
 def materialize_package(base:Path,spec:ProjectObjectSpec)->tuple[Path,...]:
     written=[]
     for rel,content in package_files(spec).items():
@@ -651,6 +815,9 @@ def materialize_package(base:Path,spec:ProjectObjectSpec)->tuple[Path,...]:
             if spec.current_tool and rel.endswith("/SOURCE_MAP.md") and spec.object_id!="MultiObject":
                 if existing!=content:
                     _admit_curated_source_map(spec,existing)
+                continue
+            if spec.object_id in SPARSE_COVERAGE_PILOT and (rel.endswith("/MANIFEST.md") or rel.endswith("/REGRESSION_CONTRACT.md")):
+                _verify_curated_pilot_page(spec,rel,existing,content)
                 continue
             if existing!=content:
                 raise ToolProjectPackageCollision(str(path))
@@ -693,8 +860,24 @@ def audit_materialized(base:Path)->dict[str,Any]:
         expected={coverage_name(i,s,f) for i,s,f in coverage_cells()}
         cdir=p/"coverage"
         actual={x.name for x in cdir.glob("*.md") if x.name!="README.md"} if cdir.is_dir() else set()
-        if actual!=expected:
+        if not actual.issubset(expected):
             bad_coverage.append(spec.object_id)
+            continue
+        for index,scope,face in coverage_cells():
+            fname=coverage_name(index,scope,face)
+            if fname not in actual:
+                continue
+            body=(cdir/fname).read_text(encoding="utf-8")
+            # An exact generated placeholder, a wrong coordinate, or an
+            # unadmitted/unknown page cannot masquerade as real evidence.
+            if (body==render_coverage_cell(spec,index,scope,face)
+                or f"Object ID: {spec.object_id}" not in body
+                or f"Coverage cell: {index:02d}/36" not in body
+                or f"Scope: {scope.value}" not in body
+                or f"Mode face: {face.value}" not in body
+                or "- none admitted yet" in body):
+                bad_coverage.append(spec.object_id)
+                break
     current_dirs={slug(x) for x in MATERIAL_TOOLS}
     represented={slug(s.object_id) for s in current_tool_specs()}
     registry_parity=current_dirs==represented

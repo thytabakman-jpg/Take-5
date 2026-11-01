@@ -6,6 +6,33 @@ Base: Take-5 regime 090
 Controller target: ImprovementCore
 Primary defect attacked: transition-local progress evidence was being asked to serve as the global strict-improvement relation
 
+## Contents
+
+- [1. Tool-derived diagnosis](#1-tool-derived-diagnosis)
+- [2. Root defect](#2-root-defect)
+- [3. Basis-indexed state fibers](#3-basis-indexed-state-fibers)
+- [4. Information order](#4-information-order)
+- [5. Protected semantic preorder](#5-protected-semantic-preorder)
+- [6. Why the previous effect-witness relation was insufficient](#6-why-the-previous-effect-witness-relation-was-insufficient)
+- [7. Cross-basis comparison](#7-cross-basis-comparison)
+- [8. Path coherence law](#8-path-coherence-law)
+- [9. Episode-wide comparison frame](#9-episode-wide-comparison-frame)
+- [10. Transitivity result](#10-transitivity-result)
+- [11. One-step transition certification](#11-one-step-transition-certification)
+- [12. NoGain memory](#12-nogain-memory)
+- [13. Semantic cycles](#13-semantic-cycles)
+- [14. Closure](#14-closure)
+- [15. Fixed-basis anti-repeat / finite termination bound](#15-fixed-basis-anti-repeat--finite-termination-bound)
+- [16. ImproveCore self-improvement](#16-improvecore-self-improvement)
+- [17. Tool algebra](#17-tool-algebra)
+- [18. ImproveCore controller consequence](#18-improvecore-controller-consequence)
+- [19. Validated implementation](#19-validated-implementation)
+- [20. Regime-090 composition law](#20-regime-090-composition-law)
+- [21. Remaining OPEN](#21-remaining-open)
+- [22. Regime-090 validation evidence](#22-regime-090-validation-evidence)
+- [23. Current promotion evidence](#23-current-promotion-evidence)
+- [24. Burden tie-case correction](#24-burden-tie-case-correction)
+
 ## 1. Tool-derived diagnosis
 
 Regime 090 already promotes the local canonical progress gate, durable negative learning, pre-frontier no-gain filtering, and semantic cycle blocking. This successor does not replace those behaviors. It supplies the missing longitudinal/system-level order above them.

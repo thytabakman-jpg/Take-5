@@ -24,6 +24,10 @@ NASA technical planning, configuration, data, risk, and decision-analysis guidan
 
 Evidence does not self-authorize admission.
 
+architecture/PROJECT_STATE_TRANSACTION_CONTRACT_005_2026-10-01.md
+runtime/project_state_transaction.py
+tests/test_project_state_transaction.py
+
 ## Current implementation and verification witnesses
 
 The earlier architecture and Sukkos references above are foundational evidence,

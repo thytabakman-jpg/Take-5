@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="250" viewBox="0 0 1500 250">
+<rect width="100%" height="100%" fill="white"/>
+<g font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="34" fill="#24292f">
+<text x="40" y="72"><tspan fill="#1a7f37">R₁₂₃</tspan><tspan> + </tspan><tspan fill="#cf222e">G</tspan><tspan> + </tspan><tspan fill="#1a7f37">D_PD</tspan></text>
+<text x="40" y="142" font-size="26"><tspan fill="#1a7f37">resolved glyph</tspan><tspan>   structural syntax neutral   </tspan><tspan fill="#cf222e">unresolved glyph</tspan></text>
+<text x="40" y="205" font-size="24">Status is carried by the mathematical glyph itself. No square, badge, or raw renderer command substitutes for it.</text>
+</g>
+</svg>

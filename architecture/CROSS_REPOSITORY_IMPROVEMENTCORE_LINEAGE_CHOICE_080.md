@@ -10,6 +10,17 @@ Compared corpora:
 - thytabakman-jpg/Take-4
 - thytabakman-jpg/Take-5
 
+## Contents
+
+- [Governing question](#governing-question)
+- [Repository contributions](#repository-contributions)
+- [Choice](#choice)
+- [Non-choice](#non-choice)
+- [Successor behavioral contract](#successor-behavioral-contract)
+- [Transition law](#transition-law)
+- [Immediate implementation program](#immediate-implementation-program)
+- [Decision](#decision)
+
 ## Governing question
 
 Which recovered lineage best satisfies the user's actual target:

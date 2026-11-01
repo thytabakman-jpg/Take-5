@@ -71,7 +71,7 @@ Controller:
 - IC-028
 
 Current regime version:
-- 091
+- 092
 
 Current invocation path:
 
@@ -511,9 +511,9 @@ missing, the restored path returns RESTORED_SEMANTIC_PROVIDER_REQUIRED as OPEN. 
 substitute the older fixed-stage controller and call that restored execution.
 
 The manifest-selected ordinary entrypoint remains runtime/improvement_core_dispatch.py,
-which routes through default HF2 and the regime-091 controller. This is the current
+which routes through default HF2 and the current regime-092 controller. This is the current
 compatibility/default execution route, not evidence that the Legacy-restored semantic loop
-executed. The direct regime-091 one-pass path remains a controlled/debug surface.
+executed. The direct regime-092 one-pass path remains a controlled/debug surface.
 Legacy-restored execution instead requires runtime/improvement_core_restored_dispatch.py
 with an explicit admissible host semantic provider. Missing provider binding stays OPEN;
 neither ordinary dispatch nor fixed-stage execution may be relabeled as restored execution.

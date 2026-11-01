@@ -1,6 +1,7 @@
 # Observer All-Tools Sweep 038
 
 Date: 2026-09-25
+Status: DATED OBSERVER ANALYSIS; NO INDEPENDENT RUNTIME PROMOTION AUTHORITY
 Mode: OBSERVE_DECOUPLED
 Controller: IC-028
 Frozen target: IC + Jane + math-first wrapper plan
@@ -9,6 +10,15 @@ Protected constraints:
 - do not rebuild Jane;
 - wrapper may be rebuilt greenfield;
 - preserve authority, provenance, OPEN/BLOCKED, controller lease, and current behavior.
+
+## Contents
+
+- [Rewritten governing prompt](#rewritten-governing-prompt)
+- [C01-C49 sweep](#c01-c49-sweep)
+- [New-tool sweep](#new-tool-sweep)
+- [Root quotient](#root-quotient)
+- [Final wrapper mathematics](#final-wrapper-mathematics)
+- [Implementation disposition](#implementation-disposition)
 
 ## Rewritten governing prompt
 

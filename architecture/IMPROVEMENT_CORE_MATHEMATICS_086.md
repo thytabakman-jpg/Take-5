@@ -3,6 +3,23 @@
 Date: 2026-09-26
 Status: CURRENT STRICT-GAIN MATHEMATICS / VALIDATED
 
+## Contents
+
+- [Problem](#problem)
+- [Augmented controller](#augmented-controller)
+- [Learning gate](#learning-gate)
+- [Admissible action space](#admissible-action-space)
+- [Policy](#policy)
+- [Transition](#transition)
+- [Progress predicate](#progress-predicate)
+- [Memory update](#memory-update)
+- [Unified recursion](#unified-recursion)
+- [Realization mapping](#realization-mapping)
+- [Strict gain](#strict-gain)
+- [Remaining OPEN](#remaining-open)
+- [Current conclusion](#current-conclusion)
+- [Validation evidence](#validation-evidence)
+
 ## Problem
 
 The prior compact controller was:

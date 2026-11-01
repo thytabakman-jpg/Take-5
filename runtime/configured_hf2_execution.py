@@ -179,6 +179,19 @@ def _delta_from_raw(tool_id:str,raw:dict[str,Any])->dict[str,Any]:
         delta["invalidating_evidence"]=True
     if raw.get("certified_no_gain"):
         delta["certified_no_gain"]=True
+    # Preserve independently supplied affected-scope obligations.  A producer
+    # cannot certify close by reporting a clean local result while its domain
+    # has unresolved affected files, sections or other result-sensitive nodes.
+    for source_field, delta_field in (
+        ("hf2_affected_frontier", "affected_frontier"),
+        ("hf2_scope_deltas", "scope_deltas"),
+    ):
+        if source_field in raw:
+            value=raw[source_field]
+            if value:
+                delta[delta_field]=value
+            else:
+                delta.setdefault(delta_field,value)
     return delta
 
 

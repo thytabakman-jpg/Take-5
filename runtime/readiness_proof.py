@@ -16,7 +16,7 @@ class ReadinessProof:
 
     @property
     def foundation_ready(self):
-        return all((
+        return all(x is True for x in (
             self.architecture_current,self.configured_tools_complete,self.runtime_independent,
             self.regression_passed,self.closed_loop_passed,self.dump_passed,
             self.no_fresh_work,self.no_blocking_open,self.history_certified,
@@ -24,4 +24,4 @@ class ReadinessProof:
 
     @property
     def migration_ready(self):
-        return self.foundation_ready and self.migration_authorized
+        return self.foundation_ready and self.migration_authorized is True

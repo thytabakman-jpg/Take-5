@@ -4,6 +4,21 @@ Date: 2026-09-26
 Status: CURRENT / IMPLEMENTED / VALIDATED / PROMOTED
 Canonical repository: thytabakman-jpg/Take-5
 
+## Contents
+
+- [Problem](#problem)
+- [Failure class](#failure-class)
+- [Claim object](#claim-object)
+- [Governing relation](#governing-relation)
+- [Historical mathematics](#historical-mathematics)
+- [Frozen dependencies](#frozen-dependencies)
+- [Mathematical color consequence](#mathematical-color-consequence)
+- [ImprovementCore consequence](#improvementcore-consequence)
+- [Relationship to Specification Before Transformation](#relationship-to-specification-before-transformation)
+- [Regression instances](#regression-instances)
+- [Nonclaims](#nonclaims)
+- [Validation surface](#validation-surface)
+
 ## Problem
 
 Two recent failures expose one deeper class.

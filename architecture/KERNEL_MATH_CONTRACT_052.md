@@ -1,10 +1,10 @@
 # Kernel Math Contract 052
 
-Date 2026-09-25
+Date: 2026-09-25
 
-Status REVIEW ONLY MATH FREEZE
+Status: REVIEW ONLY MATH FREEZE
 
-Runtime effect NONE
+Runtime effect: NONE
 
 This artifact separates the mathematical objects that are currently easy to conflate.
 
@@ -27,6 +27,16 @@ The key anti-loss rule is
 ```
 change(one factor) != silently_redefine(other factors)
 ```
+
+## Contents
+
+- [1. Kernel](#1-kernel)
+- [2. Current executable wrapper](#2-current-executable-wrapper)
+- [3. Current executable Improvement Core](#3-current-executable-improvement-core)
+- [4. Take Two recovered equation](#4-take-two-recovered-equation)
+- [5. Alignment candidate](#5-alignment-candidate)
+- [6. Change protocol](#6-change-protocol)
+- [Open coordinates](#open-coordinates)
 
 ## 1. Kernel
 

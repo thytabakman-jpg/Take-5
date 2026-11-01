@@ -5,6 +5,19 @@ Controller: IC-028
 Question: Is Jane meant to be the operator, or is Jane a lower-level kernel/guardrail/state substrate while an Improvement-Core-class controller operates?
 Status: DECISION CANDIDATE FROM CODE + BEHAVIOR AUDIT
 
+## Contents
+
+- [Rewritten prompt](#rewritten-prompt)
+- [Actual implementation evidence](#actual-implementation-evidence)
+- [Role factorization](#role-factorization)
+- [Proposed responsibilities](#proposed-responsibilities)
+- [Why not make Jane equal IC-028?](#why-not-make-jane-equal-ic-028)
+- [Kernel question](#kernel-question)
+- [Migration rule](#migration-rule)
+- [Immediate architecture repair](#immediate-architecture-repair)
+- [Critical remaining gap](#critical-remaining-gap)
+- [Decision](#decision)
+
 ## Rewritten prompt
 
 Determine the smallest role decomposition that preserves the useful Take-5 foundation and the strongest historical IC-028 operator behavior. Compare actual implementation, not names. Decide whether to enlarge Jane into an operator, replace Jane, or narrow Jane to a substrate role. Prefer the decomposition with lower duplication, clearer authority, shorter hot path, and stronger behavioral preservation. Do not migrate merely because a component is older.

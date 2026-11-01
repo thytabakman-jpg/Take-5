@@ -7,6 +7,18 @@ Wrapper: HF1
 Targets: Prose, Architecture
 Sequence: ASSERT -> PD + MT -> Architecture -> Raise the Ceiling -> HF1 reentry
 
+## Contents
+
+- [Observed regression](#observed-regression)
+- [ASSERT result](#assert-result)
+- [PD result](#pd-result)
+- [MT result](#mt-result)
+- [PROSE extension](#prose-extension)
+- [ARCHITECTURE extension](#architecture-extension)
+- [Ownership boundary](#ownership-boundary)
+- [Raise-the-Ceiling strict-gain condition](#raise-the-ceiling-strict-gain-condition)
+- [HF1 closure](#hf1-closure)
+
 ## Observed regression
 
 A Canonical Authority section contained this reader-facing unit:

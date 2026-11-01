@@ -117,7 +117,10 @@
     "projects/project-manager/tool-runs/OUTER_SEQUENCE_REENTRY_001.md",
     "architecture/PROJECT_MANAGER_FULL_TOOL_MATH_004_2026-09-30.md",
     "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
-    "projects/project-manager/tool-runs/FAILURE_IMMUNITY_ICC_RTC_TOOLCONDUCTOR_001.md"
+    "projects/project-manager/tool-runs/FAILURE_IMMUNITY_ICC_RTC_TOOLCONDUCTOR_001.md",
+    "architecture/PROJECT_STATE_TRANSACTION_CONTRACT_005_2026-10-01.md",
+    "runtime/project_state_transaction.py",
+    "tests/test_project_state_transaction.py"
   ],
   "failure_controls": {
     "canonical_authority": {
@@ -138,10 +141,13 @@
       "evidence": [
         "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
         "projects/project-manager/CONTROLLER.md",
-        "projects/project-manager/VERIFICATION.md"
+        "projects/project-manager/VERIFICATION.md",
+        "architecture/PROJECT_STATE_TRANSACTION_CONTRACT_005_2026-10-01.md",
+        "runtime/project_state_transaction.py"
       ],
       "tests": [
-        "tests/test_project_manager_failure_immunity.py"
+        "tests/test_project_manager_failure_immunity.py",
+        "tests/test_project_state_transaction.py"
       ]
     },
     "project_entry_continuity": {
@@ -210,10 +216,13 @@
       "evidence": [
         "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
         "projects/project-manager/CONTROLLER.md",
-        "projects/project-manager/VERIFICATION.md"
+        "projects/project-manager/VERIFICATION.md",
+        "architecture/PROJECT_STATE_TRANSACTION_CONTRACT_005_2026-10-01.md",
+        "runtime/project_state_transaction.py"
       ],
       "tests": [
-        "tests/test_project_manager_failure_immunity.py"
+        "tests/test_project_manager_failure_immunity.py",
+        "tests/test_project_state_transaction.py"
       ]
     },
     "closure_verification": {
@@ -294,10 +303,13 @@
       "evidence": [
         "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
         "projects/project-manager/CONTROLLER.md",
-        "projects/project-manager/VERIFICATION.md"
+        "projects/project-manager/VERIFICATION.md",
+        "architecture/PROJECT_STATE_TRANSACTION_CONTRACT_005_2026-10-01.md",
+        "runtime/project_state_transaction.py"
       ],
       "tests": [
-        "tests/test_project_manager_failure_immunity.py"
+        "tests/test_project_manager_failure_immunity.py",
+        "tests/test_project_state_transaction.py"
       ]
     },
     "human_orchestration": {
@@ -306,10 +318,13 @@
       "evidence": [
         "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
         "projects/project-manager/CONTROLLER.md",
-        "projects/project-manager/VERIFICATION.md"
+        "projects/project-manager/VERIFICATION.md",
+        "architecture/PROJECT_STATE_TRANSACTION_CONTRACT_005_2026-10-01.md",
+        "runtime/project_state_transaction.py"
       ],
       "tests": [
-        "tests/test_project_manager_failure_immunity.py"
+        "tests/test_project_manager_failure_immunity.py",
+        "tests/test_project_state_transaction.py"
       ]
     },
     "known_holdouts": {
@@ -342,10 +357,13 @@
       "owner": "CONTROLLER.md",
       "evidence": [
         "architecture/PROJECT_MANAGER_FULL_TOOL_MATH_004_2026-09-30.md",
-        "projects/project-manager/FAILURE_PREVENTION_MATRIX.md"
+        "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+        "architecture/PROJECT_STATE_TRANSACTION_CONTRACT_005_2026-10-01.md",
+        "runtime/project_state_transaction.py"
       ],
       "tests": [
-        "tests/test_project_manager_failure_immunity.py"
+        "tests/test_project_manager_failure_immunity.py",
+        "tests/test_project_state_transaction.py"
       ]
     },
     "mandatory_transition_path": {
@@ -353,10 +371,13 @@
       "owner": "CONTROLLER.md",
       "evidence": [
         "architecture/PROJECT_MANAGER_FULL_TOOL_MATH_004_2026-09-30.md",
-        "projects/project-manager/FAILURE_PREVENTION_MATRIX.md"
+        "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+        "architecture/PROJECT_STATE_TRANSACTION_CONTRACT_005_2026-10-01.md",
+        "runtime/project_state_transaction.py"
       ],
       "tests": [
-        "tests/test_project_manager_failure_immunity.py"
+        "tests/test_project_manager_failure_immunity.py",
+        "tests/test_project_state_transaction.py"
       ]
     },
     "closure_scope_typed": {
@@ -375,10 +396,13 @@
       "owner": "CONTROLLER.md",
       "evidence": [
         "architecture/PROJECT_MANAGER_FULL_TOOL_MATH_004_2026-09-30.md",
-        "projects/project-manager/FAILURE_PREVENTION_MATRIX.md"
+        "projects/project-manager/FAILURE_PREVENTION_MATRIX.md",
+        "architecture/PROJECT_STATE_TRANSACTION_CONTRACT_005_2026-10-01.md",
+        "runtime/project_state_transaction.py"
       ],
       "tests": [
-        "tests/test_project_manager_failure_immunity.py"
+        "tests/test_project_manager_failure_immunity.py",
+        "tests/test_project_state_transaction.py"
       ]
     }
   }

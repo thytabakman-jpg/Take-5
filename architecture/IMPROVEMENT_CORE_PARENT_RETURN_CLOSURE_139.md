@@ -4,6 +4,17 @@ Date: 2026-09-26
 Status: IMPLEMENTED CANDIDATE / FAIL-CLOSED
 Canonical repository: thytabakman-jpg/Take-5
 
+## Contents
+
+- [Problem](#problem)
+- [Root defect](#root-defect)
+- [Recurrence law](#recurrence-law)
+- [Runtime](#runtime)
+- [Fail-closed behavior](#fail-closed-behavior)
+- [Historical evidence](#historical-evidence)
+- [Regression requirements](#regression-requirements)
+- [Closure boundary](#closure-boundary)
+
 ## Problem
 
 Repeated ImprovementCore episodes produced a real material gain, persisted it, and then returned to the user even though the governing job still had owned work.

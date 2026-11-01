@@ -292,6 +292,14 @@ class ICC128EpisodeAdapter:
 
         def admit(results,current,mem):
             delta=dict(self.admit_results(results,current,mem) or {})
+            # Consultation is not execution. A rejected rho128 selection leaves
+            # required jobs unexecuted, even if a caller tries to mark COMPLETE.
+            if current.get("selection_blocked"):
+                delta["terminal"]="OPEN"
+                delta["new_OPEN"]=True
+                delta["selection_status"]=str(current.get("selection_status","OPEN"))
+                delta["execution_blocker"]="ICC128_SELECTION_NOT_EXECUTED:"+delta["selection_status"]
+                delta["rho_reselection_required"]=True
             child_deltas=[
                 dict(result["child_delta"])
                 for result in results
