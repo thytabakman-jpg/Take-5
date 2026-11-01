@@ -32,7 +32,7 @@ def assess(*,component,built_basis,latest_basis,object_identity="",built_generat
         str(object_identity).strip()
         and str(built_generation).strip()
         and str(latest_generation).strip()
-        and identity_verified
+        and identity_verified is True
     )
     if not identity_ready:
         status=Currentness.OPEN
@@ -45,10 +45,10 @@ def assess(*,component,built_basis,latest_basis,object_identity="",built_generat
     elif not delta:
         status=Currentness.CURRENT
         action="KEEP"
-    elif behavior_preserved and local_patch_available:
+    elif behavior_preserved is True and local_patch_available is True:
         status=Currentness.PATCH
         action="PATCH_IN_PLACE"
-    elif not behavior_preserved:
+    elif behavior_preserved is False:
         status=Currentness.REPLACE
         action="REPLACE_MINIMAL_LOAD_BEARING_COMPONENT"
     else:
@@ -69,13 +69,13 @@ def assess(*,component,built_basis,latest_basis,object_identity="",built_generat
         obligations=tuple(obligations),
         dependents=tuple(dependents),
         reverified=reverified,
-        identity_verified=bool(identity_verified),
+        identity_verified=identity_verified is True,
     )
 
 def audit_complete(receipts):
     rs=tuple(receipts)
     return bool(rs) and all(
-        r.identity_verified
+        r.identity_verified is True
         and bool(r.object_identity)
         and bool(r.built_generation)
         and bool(r.latest_generation)
@@ -85,7 +85,7 @@ def audit_complete(receipts):
                 and r.built_generation==r.latest_generation
             )
             or r.status==Currentness.SUPERSEDED
-            or (r.status==Currentness.PATCH and r.reverified)
+            or (r.status==Currentness.PATCH and r.reverified is True)
         )
         for r in rs
     )
