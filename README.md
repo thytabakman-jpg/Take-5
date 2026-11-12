@@ -20,6 +20,12 @@ Promotion authorization: user authorized 2026-09-24
 - [Current architecture](#current-architecture)
 - [GitHub operating boundary](#github-operating-boundary)
 
+## Approved-source precedence and deferred migration
+
+[Research-System](https://github.com/thytabakman-jpg/Research-System) and [ICC-System](https://github.com/thytabakman-jpg/ICC-System) are the two user-approved destination repositories. Each file placed in either has the user's explicit approval and is authoritative for the subject and responsibility it actually governs. Where an approved file conflicts with an older file on the same responsibility, the approved file controls; an older `canonical`, `current`, or `locked` label does not reverse that precedence. The two destination repositories govern their respective research and ICC subjects, not each other's unrelated responsibilities.
+
+This does not mean the migration is complete. Legacy repositories retain historical evidence, experiments, and responsibility for work not yet represented by an approved replacement. In particular, Take-5 remains the current working ICC runtime until an independently authorized and verified cutover. Migration and legacy cleanup are deferred, not prerequisites to using the approved files. This README does not authorize moving, deleting, promoting, or importing any file; new admission to either approved repository requires explicit user approval.
+
 ## ICC
 
 ICC is the user-facing name for the current integrated Take-5 stack. It does not create a second controller identity.
@@ -64,7 +70,7 @@ ICC means Jane continuity/currentness supervision + the validated Kernel 053 mat
 
 ## Authority rule
 
-New work starts here.
+New work on the working ICC runtime starts here for responsibilities not yet transferred to an approved ICC-System file. Approved ICC-System files govern the ICC subjects they actually cover; approved Research-System files likewise govern their research subjects. Working runtime authority remains here until a separately authorized and tested cutover.
 
 Reaserch remains available as frozen historical evidence and rollback state. It is not deleted or overwritten by this migration. Missing historical backfill is preserved as an explicit migration obligation rather than silently treated as absent.
 
