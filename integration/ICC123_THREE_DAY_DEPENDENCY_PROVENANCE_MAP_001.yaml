@@ -3,7 +3,7 @@ object_id: ICC123_THREE_DAY_DEPENDENCY_PROVENANCE_MAP_001
 date: 2026-09-25
 authority: thytabakman-jpg/Take-5
 status: current_campaign_map
-campaign: integration/ICC123_THREE_DAY_RECOVERY_CAMPAIGN_001_2026-09-25.md
+campaign: campaign/ICC123_THREE_DAY_RECOVERY_CAMPAIGN_001_2026-09-25.md
 
 nodes:
   - id: R1
@@ -119,7 +119,7 @@ nodes:
     current_refs:
       - integration/ICC_SHUTDOWN_HANDOFF_2026-09-25.md
       - integration/CROSS_CHAT_INTEGRATION_INBOX_2026-09-25.md
-      - integration/ICC123_THREE_DAY_RECOVERY_CAMPAIGN_001_2026-09-25.md
+      - campaign/ICC123_THREE_DAY_RECOVERY_CAMPAIGN_001_2026-09-25.md
       - integration/ICC123_THREE_DAY_RECOVERY_STATE_001_2026-09-25.md
       - runtime/jane_supervisor.py
       - runtime/jane_sync.py
