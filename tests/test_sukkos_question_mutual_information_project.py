@@ -1,5 +1,5 @@
-from pathlib import Path
-ROOT=Path("projects/sukkos-question-mutual-information")
+from runtime.legacy_reference import legacy_reference
+ROOT=legacy_reference("projects/sukkos-question-mutual-information")
 
 def test_mutual_information_project_authorities_exist():
     required=["IDENTITY.md","PROJECT_CHARTER.md","GOAL.md","SCOPE.md","AUTHORITY_REGISTRY.md","STAKEHOLDERS.md","WBS.md","SCHEDULE.md","RESOURCES.md","DEPENDENCIES.md","INTERFACES.md","RAID.md","OPEN_QUESTIONS.md","EVIDENCE.md","DECISION_LOG.md","LESSONS_LEDGER.md","CHANGE_CONTROL.md","LIFECYCLE.md","VERIFICATION.md","COMMUNICATIONS.md","HANDOFFS.md","PROJECT_STATE.json","MATHEMATICAL_CORE.md","QUESTION_CONSTRUCTION.md","SOURCE_LOCK.md","FOUR_PAGE_ARCHITECTURE.md","ACTIVITY_MODEL.md","EMOTIONAL_ARC.md","RAISE_THE_CEILING.md","BACKEND_LOCK.md","CURRENT_STATE.md"]

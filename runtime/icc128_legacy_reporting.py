@@ -21,14 +21,19 @@ from execution_claim_integrity import (
     require_execution_claim,
 )
 
+try:
+    from .legacy_reference import legacy_reference
+except ImportError:
+    from legacy_reference import legacy_reference
+
 REPORT_REPOSITORY = "thytabakman-jpg/Take-5"
 REPORT_DIRECTORY = "artifacts/icc128-legacy-learning"
 SOURCE_COMMIT = "e4c76c595b44a35fd9efc02cde8979e656ef54e8"
-MANIFEST = Path(__file__).resolve().parents[1] / "legacy" / "icc128-legacy" / "MANIFEST.yaml"
 
 def _manifest_source_repository() -> str:
     in_source = False
-    for raw in MANIFEST.read_text(encoding="utf-8").splitlines():
+    manifest = legacy_reference("legacy/icc128-legacy") / "MANIFEST.yaml"
+    for raw in manifest.read_text(encoding="utf-8").splitlines():
         if raw and not raw.startswith(" "):
             in_source = raw.strip() == "source:"
             continue

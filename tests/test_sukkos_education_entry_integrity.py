@@ -4,11 +4,12 @@ This validates only source entrances and exact current-state delegation.
 It does not certify learner effects, project release, or Level 2-4.
 """
 from pathlib import Path
+from runtime.legacy_reference import legacy_reference
 import json
 
 ROOT = Path(__file__).resolve().parents[1]
-FIRST = ROOT / "projects/sukkos-question-booklet"
-SECOND = ROOT / "projects/sukkos-question-booklet-2-frame-resolution"
+FIRST = legacy_reference("projects/sukkos-question-booklet")
+SECOND = legacy_reference("projects/sukkos-question-booklet-2-frame-resolution")
 
 
 def test_first_question_booklet_delegates_currentness_without_corruption():

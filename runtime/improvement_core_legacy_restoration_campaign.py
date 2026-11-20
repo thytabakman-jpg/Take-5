@@ -15,13 +15,15 @@ sys.path.insert(0,str(ROOT/"runtime"))
 
 from improvement_core_dispatch import dispatch_improvement_core
 from ic028_operator import GOAL_DIRECTED_STAGES
+from legacy_reference import legacy_reference
 
 BENCH=ROOT/"integration/IC128_LEGACY_BEHAVIOR_BENCHMARK_129.yaml"
 OPERATOR=ROOT/"runtime/ic028_operator.py"
 HF2=ROOT/"runtime/improvement_core_hf2_default.py"
-LEGACY=ROOT/"legacy/icc128-legacy/snapshot/runtime/icc128_autonomous_controller.py"
-RHO=ROOT/"legacy/icc128-legacy/snapshot/runtime/rho128_policy.py"
-RHO_CONTRACT=ROOT/"legacy/icc128-legacy/snapshot/contracts/ICC128_RHO_POLICY_CURRENT.yaml"
+LEGACY_SNAPSHOT=legacy_reference("legacy/icc128-legacy")/"snapshot"
+LEGACY=LEGACY_SNAPSHOT/"runtime/icc128_autonomous_controller.py"
+RHO=LEGACY_SNAPSHOT/"runtime/rho128_policy.py"
+RHO_CONTRACT=LEGACY_SNAPSHOT/"contracts/ICC128_RHO_POLICY_CURRENT.yaml"
 CANDIDATE=ROOT/"runtime/improvement_core_legacy_candidate.py"
 CANDIDATE_TESTS=ROOT/"tests/test_improvement_core_legacy_candidate.py"
 RESTORED=ROOT/"runtime/improvement_core_legacy_restored.py"

@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 import json
 from pathlib import Path
+from runtime.legacy_reference import legacy_reference
 from runtime.project_manager import assess_project, validate_project_package
 
 ROOT=Path(__file__).resolve().parents[1]
-STATE=ROOT/"projects/icc118-favored-variant-recovery/PROJECT_STATE.json"
+STATE=legacy_reference("projects/icc118-favored-variant-recovery")/"PROJECT_STATE.json"
 
 def run():
     project=json.loads(STATE.read_text(encoding="utf-8"))

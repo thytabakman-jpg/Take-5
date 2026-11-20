@@ -1,6 +1,7 @@
 import json
 import sys
 from pathlib import Path
+from runtime.legacy_reference import legacy_reference
 
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/"runtime"))
@@ -11,7 +12,7 @@ from global_tool_execution import build_tool_execution_plan
 from mt_semantic_return_gate import run_mt_with_before_return_gate
 from tool_run_registry import CONFIGURED_RUNS
 
-BASE=ROOT/"projects"/"sukkos-question-booklet-2-frame-resolution"
+BASE=legacy_reference("projects/sukkos-question-booklet-2-frame-resolution")
 
 
 def test_project_2_package_closes_relative_without_touching_project_1():
@@ -22,7 +23,7 @@ def test_project_2_package_closes_relative_without_touching_project_1():
     assert out.authority_gaps==()
     assert out.authority_conflicts==()
     assert out.package_conflicts==()
-    assert (ROOT/"projects"/"sukkos-question-booklet"/"EXACT_COPY.md").exists()
+    assert (legacy_reference("projects/sukkos-question-booklet")/"EXACT_COPY.md").exists()
 
 
 def test_exact_copy_has_four_pages_and_core_student_coordinates():

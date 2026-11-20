@@ -1,6 +1,7 @@
 import sys
 import json
 from pathlib import Path
+from runtime.legacy_reference import legacy_reference
 sys.path.insert(0,"runtime")
 
 from direct_tool_command_gateway import direct_tool_ids,bind_direct_tool_commands
@@ -259,7 +260,7 @@ def test_transfercore_boundary_stays_evidence_only_while_identity_open():
 def test_checked_in_self_project_package_is_managed_by_same_runtime():
     root=Path(__file__).resolve().parents[1]
     project=json.loads(
-        (root/"projects"/"project-manager"/"PROJECT_STATE.json").read_text()
+        (legacy_reference("projects/project-manager")/"PROJECT_STATE.json").read_text()
     )
     out=assess_project(project)
     assert out.project_id=="project-manager"

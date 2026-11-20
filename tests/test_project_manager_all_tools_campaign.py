@@ -1,6 +1,7 @@
 import json
 import sys
 from pathlib import Path
+from runtime.legacy_reference import legacy_reference
 
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/"runtime"))
@@ -16,12 +17,12 @@ from tool_run_registry import MATERIAL_TOOLS
 
 def _run():
     project=json.loads(
-        (ROOT/"projects"/"project-manager"/"PROJECT_STATE.json").read_text(
+        (legacy_reference("projects/project-manager")/"PROJECT_STATE.json").read_text(
             encoding="utf-8"
         )
     )
     current=(
-        ROOT/"projects"/"project-manager"/"CURRENT_STATE.md"
+        legacy_reference("projects/project-manager")/"CURRENT_STATE.md"
     ).read_text(encoding="utf-8")
     return run_all_tools_campaign(
         project=project,
@@ -76,7 +77,7 @@ def test_first_pass_reaches_end_and_exposes_only_bounded_project_consequences():
     # Pass 2 begins only after the pass-1 owner-local lifecycle delta has
     # been applied.  No local project-control action may remain.
     current=(
-        ROOT/"projects"/"project-manager"/"CURRENT_STATE.md"
+        legacy_reference("projects/project-manager")/"CURRENT_STATE.md"
     ).read_text(encoding="utf-8")
     assert "Run repository validation, repair any regression" not in current
     assert out.status=="CLOSED_RELATIVE"

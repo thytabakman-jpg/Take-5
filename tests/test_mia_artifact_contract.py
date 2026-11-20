@@ -1,9 +1,10 @@
 from pathlib import Path
+from runtime.legacy_reference import legacy_reference
 import re
 import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
-P = ROOT / "projects" / "mathematical-interface-architecture"
+P = legacy_reference("projects/mathematical-interface-architecture")
 REG = P / "ARTIFACT_REGISTRY.yaml"
 
 CORE = {
@@ -27,7 +28,7 @@ def test_registry_declares_exactly_eight_core_roles_and_paths_exist():
     core = data["core_artifacts"]
     assert len(core) == 8
     for item in core:
-        assert (ROOT / item["path"]).exists(), item["path"]
+        assert (P / Path(item["path"]).relative_to("projects/mathematical-interface-architecture")).exists(), item["path"]
 
 def test_frozen_candidate_v4_equation_is_preserved():
     expected = "ICC₁₂₈ = C₁₂₈(Zₜ, F₁₂₈, MIₜ)"

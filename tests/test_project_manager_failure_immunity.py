@@ -1,6 +1,7 @@
 import json
 import sys
 from pathlib import Path
+from runtime.legacy_reference import legacy_reference
 
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/"runtime"))
@@ -248,7 +249,7 @@ def test_direct_adapter_exposes_known_failure_integrity():
 
 
 def test_checked_in_project_manager_self_instance_passes_failure_envelope():
-    p=json.loads((ROOT/"projects"/"project-manager"/"PROJECT_STATE.json").read_text())
+    p=json.loads((legacy_reference("projects/project-manager")/"PROJECT_STATE.json").read_text())
     out=assess_project_integrity(p)
     assert out.status=="CURRENT"
     assert set(p["failure_controls"])==set(FAILURE_CONTROL_IDS)
@@ -256,18 +257,26 @@ def test_checked_in_project_manager_self_instance_passes_failure_envelope():
 
 
 def test_failure_matrix_names_every_control_and_root_invariant():
-    text=(ROOT/"projects"/"project-manager"/"FAILURE_PREVENTION_MATRIX.md").read_text()
+    text=(legacy_reference("projects/project-manager")/"FAILURE_PREVENTION_MATRIX.md").read_text()
     for item in FAILURE_CONTROL_IDS+ROOT_INVARIANT_IDS:
         assert item in text
 
 
-def test_every_checked_in_managed_project_state_carries_failure_envelope():
-    paths=sorted((ROOT/"projects").glob("*/PROJECT_STATE.json"))
+def test_every_managed_project_state_carries_failure_envelope():
+    retired = (
+        "icc118-favored-variant-recovery",
+        "project-manager",
+        "sukkos-question-booklet-2-frame-resolution",
+        "sukkos-question-entropy",
+        "sukkos-question-mutual-information",
+    )
+    paths = {name: legacy_reference(f"projects/{name}") / "PROJECT_STATE.json" for name in retired}
+    paths.update({path.parent.name: path for path in (ROOT / "projects").glob("*/PROJECT_STATE.json")})
     assert paths
     failures=[]
-    for path in paths:
+    for name, path in sorted(paths.items()):
         project=json.loads(path.read_text())
         result=assess_project_integrity(project)
         if result.status!="CURRENT":
-            failures.append((str(path.relative_to(ROOT)),result.status))
+            failures.append((name,result.status))
     assert failures==[]
