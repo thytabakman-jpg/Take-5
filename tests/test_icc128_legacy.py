@@ -1,4 +1,5 @@
 from pathlib import Path
+from runtime.legacy_reference import legacy_reference
 import hashlib
 import sys
 
@@ -34,7 +35,7 @@ def test_activation_phrase_resolves_frozen_tool():
 
 def test_frozen_snapshot_matches_source_blob_ids():
     for rel, expected in EXPECTED_BLOBS.items():
-        assert git_blob_sha((ROOT / rel).read_bytes()) == expected
+        assert git_blob_sha((legacy_reference("legacy/icc128-legacy") / Path(rel).relative_to("legacy/icc128-legacy")).read_bytes()) == expected
 
 def test_loader_exposes_historical_runtime():
     active = icc128_legacy.activate()

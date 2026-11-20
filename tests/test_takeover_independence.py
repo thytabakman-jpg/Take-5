@@ -1,4 +1,5 @@
 from pathlib import Path
+from runtime.legacy_reference import legacy_reference
 from tool_run_registry import MATERIAL_TOOLS,CONFIGURED_RUNS
 from configured_run import validate_specs
 
@@ -26,7 +27,7 @@ def test_icc128_legacy_predecessor_reference_is_provenance_not_runtime_dependenc
     root=Path(__file__).parents[1]
     loader=(root/"runtime"/"icc128_legacy.py").read_text()
     reporting=(root/"runtime"/"icc128_legacy_reporting.py").read_text()
-    manifest=(root/"legacy"/"icc128-legacy"/"MANIFEST.yaml").read_text()
+    manifest=(legacy_reference("legacy/icc128-legacy")/"MANIFEST.yaml").read_text()
 
     assert "SNAPSHOT_ROOT" in loader
     assert 'LEGACY_ROOT / "snapshot"' in loader

@@ -2,17 +2,18 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from pathlib import Path
 import importlib.util
 import sys
 try:
     from . import icc128_legacy_reporting as legacy_reporting
+    from .legacy_reference import legacy_reference
 except ImportError:
     import icc128_legacy_reporting as legacy_reporting
+    from legacy_reference import legacy_reference
 
 DISPLAY_NAME = "ICC128 Legacy"
 SOURCE_COMMIT = "e4c76c595b44a35fd9efc02cde8979e656ef54e8"
-LEGACY_ROOT = Path(__file__).resolve().parents[1] / "legacy" / "icc128-legacy"
+LEGACY_ROOT = legacy_reference("legacy/icc128-legacy")
 MANIFEST = LEGACY_ROOT / "MANIFEST.yaml"
 SNAPSHOT_ROOT = LEGACY_ROOT / "snapshot"
 

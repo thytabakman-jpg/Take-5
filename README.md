@@ -114,3 +114,7 @@ Material canonical changes use branch -> pull request -> validation -> admission
 `MIGRATION_STATE.yaml` remains the authority pointer: Take-5 is canonical working state and
 Reaserch is rollback/provenance evidence. Post-cutover Reaserch writes require explicit
 reconciliation and do not become current by recency.
+
+## Retained historical inputs
+
+Browse the retained copies in Reaserch's [Take-5 runtime snapshot](https://github.com/thytabakman-jpg/Reaserch/tree/main/Shared%20Tool%20System/Controllers%20and%20Runtime/Runtime%20Implementations/Take-5%20Runtime%20Snapshot), [mathematics and capabilities](https://github.com/thytabakman-jpg/Reaserch/tree/main/Shared%20Tool%20System/Mathematics%20and%20Capabilities), [recovery studies](https://github.com/thytabakman-jpg/Reaserch/tree/main/System-Wide%20Experiments/System%20Recovery%20and%20Successor%20Studies/Recovery%20Studies), [ProjectManager](https://github.com/thytabakman-jpg/Reaserch/tree/main/Tools%20and%20Workflows/Individual%20Tools/ProjectManager), and [Sukkos booklets](https://github.com/thytabakman-jpg/Reaserch/tree/main/Projects/Education/Take-5%20Sukkos%20Booklets/projects). The ICC128 Legacy loader and tests that use the retired project snapshots read pinned bytes from this repository's Git history. Run them from a full Git checkout.
