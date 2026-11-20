@@ -486,7 +486,7 @@ The next major move begins only after cross-chat integration has reconciled thes
 ## ICC-123 three-day recovery campaign — 2026-09-25
 
 Current controlling integration campaign:
-- integration/ICC123_THREE_DAY_RECOVERY_CAMPAIGN_001_2026-09-25.md
+- campaign/ICC123_THREE_DAY_RECOVERY_CAMPAIGN_001_2026-09-25.md
 - integration/ICC123_THREE_DAY_RECOVERY_STATE_001_2026-09-25.md
 - integration/REASERCH_POST_CUTOVER_RECONCILIATION_PASS_001_2026-09-25.md
 

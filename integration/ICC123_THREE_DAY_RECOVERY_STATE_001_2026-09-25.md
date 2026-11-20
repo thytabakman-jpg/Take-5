@@ -3,7 +3,7 @@
 Date: 2026-09-25
 Status: RECOVERED STATE / PRE-ADMISSION
 Controller campaign:
-integration/ICC123_THREE_DAY_RECOVERY_CAMPAIGN_001_2026-09-25.md
+campaign/ICC123_THREE_DAY_RECOVERY_CAMPAIGN_001_2026-09-25.md
 
 ## Recovered clusters
 
