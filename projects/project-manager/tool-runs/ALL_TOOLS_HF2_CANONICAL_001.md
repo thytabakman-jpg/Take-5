@@ -5,7 +5,7 @@ Status: HISTORICAL 2026-09-27 CAMPAIGN / CLOSED_RELATIVE / MERGED PR 167
 Status at original execution: CURRENT / CLOSED_RELATIVE / MERGED
 
 Campaign:
-architecture/PROJECT_MANAGER_ALL_TOOLS_HF2_CAMPAIGN_001_2026-09-27.md
+projects/project-manager/tool-runs/PROJECT_MANAGER_ALL_TOOLS_HF2_CAMPAIGN_001_2026-09-27.md
 
 Pass 1:
 93 registered tools executed.

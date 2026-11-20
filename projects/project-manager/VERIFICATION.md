@@ -70,7 +70,7 @@ OPEN by design and excluded from any claim of recovered current authority.
 ## Exhaustive all-tools HF2 campaign
 
 Campaign definition:
-architecture/PROJECT_MANAGER_ALL_TOOLS_HF2_CAMPAIGN_001_2026-09-27.md
+projects/project-manager/tool-runs/PROJECT_MANAGER_ALL_TOOLS_HF2_CAMPAIGN_001_2026-09-27.md
 
 Pass 1:
 Take-5 Validation 36348125556

@@ -1071,7 +1071,7 @@ def _named_adapter_raw(tool_id:str,packet:dict[str,Any],plan:Any)->dict[str,Any]
             "hf1_disposition":"STABLE",
             "evidence":(
                 "runtime/project_manager_all_tools_campaign.py",
-                "architecture/PROJECT_MANAGER_ALL_TOOLS_HF2_CAMPAIGN_001_2026-09-27.md",
+                "projects/project-manager/tool-runs/PROJECT_MANAGER_ALL_TOOLS_HF2_CAMPAIGN_001_2026-09-27.md",
             ),
         }
     except Exception as exc:

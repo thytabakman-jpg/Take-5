@@ -11,7 +11,7 @@ Repertoire:
 
 Order:
 dependency-aware order defined by
-architecture/PROJECT_MANAGER_ALL_TOOLS_HF2_CAMPAIGN_001_2026-09-27.md.
+projects/project-manager/tool-runs/PROJECT_MANAGER_ALL_TOOLS_HF2_CAMPAIGN_001_2026-09-27.md.
 
 Execution result:
 all 93 registered factors executed through their current full configured plans.
