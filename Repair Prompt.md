@@ -123,7 +123,7 @@ Where source evidence is insufficient, investigate the relevant external sources
 
 ## 6. Tool-assisted analysis
 
-Use the relevant tools to discover and resolve material problems:
+Evaluate the applicability of every tool listed below to each individual file. Execute every applicable tool through its full configured native implementation. For each tool not executed, establish the specific reason for its omission. Semantic host analysis may supplement native tool execution but must not substitute for an available and applicable native implementation.
 
 - PD
 - PDAudit
