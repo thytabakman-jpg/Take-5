@@ -18,6 +18,8 @@ Process the target documents individually, following any execution order specifi
 
 Do not modify documents outside the established execution scope.
 
+Repair mode is the default. Recommendations-only mode applies when explicitly requested by the user.
+
 ## 3. Governing tools and protocols
 
 Retrieve and inspect the actual protocols before execution.
@@ -97,11 +99,7 @@ Apply the mandatory mathematical object-integrity and prerequisite-integrity gat
 
 Evaluate each document according to its purpose, content and function.
 
-Use GOAL to evaluate its purpose, governing questions and objectives.
-
-Use Architecture to evaluate its structural organization, heading hierarchy, section responsibilities and dependencies.
-
-Use PDAudit, ASSERT and other applicable tools to evaluate its semantic precision, claims, evidence, reasoning and conclusions.
+Evaluate the precision of its purpose, governing questions and objectives; the integrity of its structural organization, heading hierarchy, section responsibilities and dependencies; and the semantic precision and validity of its claims, evidence, reasoning and conclusions. Tool selection and execution are governed by Section 6.
 
 Ensure that:
 
@@ -134,7 +132,9 @@ Execute the following mandatory tools through their full configured implementati
 - ASSERT
 - Diagnosis, when defects are identified.
 - RTC, when improvements are proposed.
-- TRC and HF2 through their configured execution pathways.
+- TRC.
+
+Use the full configured invocation profile, including its mandatory HF2 recurrence.
 
 ### 6.2 Conditional tools
 
@@ -162,6 +162,8 @@ Distinguish verified native execution, semantic host analysis, blocked execution
 
 Do not treat tool availability, successful runtime tests, protocol retrieval or host-generated findings as evidence of native tool execution.
 
+When a mandatory tool is unavailable or blocked, record the specific limitation and continue independently executable analysis and repairs whose validity does not depend on the missing results. Preserve unresolved dependencies and do not certify incomplete requirements as completed.
+
 Do not generate artificial problems or unnecessary tool invocations.
 
 ## 7. Autonomous repair cycle
@@ -171,7 +173,7 @@ Complete the following cycle for each individual file before proceeding to the n
 1. Retrieve and freeze the current file version.
 2. Read the entire document.
 3. Conduct the comprehensive semantic preflight.
-4. Execute the mandatory and applicable conditional tools.
+4. Execute the tools required by Section 6.
 5. Consolidate discoveries and eliminate duplicate findings and false positives.
 6. Investigate unresolved substantive problems using the applicable tools and external evidence.
 7. Develop concrete textual and analytical repairs.
@@ -180,7 +182,7 @@ Complete the following cycle for each individual file before proceeding to the n
 10. Reject NO-GO recommendations.
 11. Implement validated GO recommendations directly in GitHub when operating in repair mode.
 12. Retrieve the modified document and verify the actual changes.
-13. Re-examine affected passages and downstream dependencies for regressions, using TRC to manage applicable consequences and verification obligations.
+13. Re-examine affected passages and downstream dependencies for regressions and verify applicable consequences and obligations under Section 6.
 14. Record any remaining material limitations.
 15. Proceed immediately to the next file.
 
