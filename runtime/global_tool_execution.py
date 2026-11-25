@@ -205,6 +205,10 @@ def execute_protected_transition(
             raw["hf2_delta"]=hints["hf2_delta"]
         if hints.get("hf1_targets") is not None:
             raw["hf1_targets"]=hints["hf1_targets"]
+        # Preserve the configured HF2 affected-scope obligations across PTI.
+        for key in ("hf2_affected_frontier", "hf2_scope_deltas"):
+            if key in hints:
+                raw[key]=hints[key]
         if hints.get("invalidating_evidence"):
             raw["invalidating_evidence"]=True
         if hints.get("certified_no_gain"):
