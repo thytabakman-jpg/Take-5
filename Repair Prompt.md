@@ -150,6 +150,8 @@ Use countermodels, alternative interpretations, semantic perturbations and depen
 
 Do not generate artificial problems merely to demonstrate tool activity.
 
+For every tool invocation, retain the actual runtime-generated execution evidence, including the tool identity, native adapter, supplied input, configured invocation profile, returned output and applicable recurrence receipt. Distinguish verified native execution, semantic host analysis, blocked execution and non-execution. Do not treat tool availability, successful runtime tests, protocol retrieval or host-generated findings as evidence of native tool execution.
+
 ## 7. Autonomous repair cycle
 
 Complete the following cycle for each individual file before proceeding to the next.
