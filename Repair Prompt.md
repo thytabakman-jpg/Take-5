@@ -229,6 +229,8 @@ A file that contains no material defect does not require an artificial edit.
 
 Provide concise progress reports identifying the actual problems discovered and repairs implemented or recommended.
 
+Progress reporting is part of ongoing execution and does not terminate or suspend the repair cycle.
+
 At completion, report:
 
 - Files completed.
