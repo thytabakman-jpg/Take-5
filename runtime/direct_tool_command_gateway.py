@@ -35,7 +35,7 @@ class DirectToolCommandBinding:
 
     @property
     def complete(self)->bool:
-        return bool(self.tool_ids) and len(self.tool_ids)==len(self.bindings)
+        return bool(self.tool_ids) and self.tool_ids==tuple(binding.tool_id for binding in self.bindings)
 
 
 def _known_command_pattern():
@@ -112,12 +112,17 @@ def bind_direct_tool_commands(
     }
 
     try:
-        bound_state,bindings=bind_selected_tools(selected)
+        selection_state,bindings=bind_selected_tools({"selected_tools":tool_ids})
     except ToolBridgeBlocked as exc:
         raise DirectToolCommandBlocked(str(exc)) from exc
 
+    # Inherited controller selections are context, not authorization for this command.
+    if tuple(binding.tool_id for binding in bindings)!=tool_ids:
+        raise DirectToolCommandBlocked("DIRECT_TOOL_BINDING_IDENTITY_MISMATCH")
+
     bound_state={
-        **bound_state,
+        **selected,
+        **selection_state,
         "direct_tool_command_status":"BOUND_FULL_CONFIGURED",
         "direct_tool_ids":tool_ids,
     }
