@@ -1,1 +1,1 @@
-Refresh authoritative 94112b4647941dd01615a7315a0f03dfb467fefc for adapter admission and conductor readiness validation
+Refresh 780bce636507e093b7155bd9817b5e8344db127c with final adapter admission and conductor regression changes
