@@ -173,6 +173,8 @@ Direct-command route:
 
 These routes share the same binding and execution primitive.
 
+The [direct command gateway](../runtime/direct_tool_command_gateway.py) binds exactly the ordered identities extracted from the authorized direct command. Inherited controller selections remain contextual state; they cannot add tools to this binding or veto it merely by naming an unrelated unregistered identity. An identity mismatch between the command and the resulting bindings is BLOCKED before adapter execution.
+
 ## Fail-closed rules
 
 A recognized but unregistered formal object in a direct-command request:
