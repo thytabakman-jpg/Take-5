@@ -1,7 +1,7 @@
 # Full Configured Tool Invocation 121
 
 Date: 2026-09-26
-Status: CURRENT / VALIDATED / MERGED
+Status: CURRENT / MERGED; routing/profile validation is distinct from domain-semantic validation
 Origin:
 - MT direct-tool/HF2 prompt audit 118
 - GOAL direct-tool/HF2 118
@@ -59,6 +59,7 @@ otherwise.
 
 For every T in R, the current ConfiguredRunSpec carries:
 
+```text
 <
 wrapper_required,
 mode,
@@ -73,7 +74,8 @@ PTI,
 recurrence_required,
 recurrence_engine,
 invocation_profile
->.
+>
+```
 
 The invocation profile is:
 
@@ -83,6 +85,7 @@ FULL_CONFIGURED_HF2_V1.
 
 For registered T:
 
+```text
 Plan(T)
 =
 <
@@ -113,11 +116,13 @@ and
 RecurrenceEngine(T)=Rec(T)
 and
 InvocationProfile(T)=FULL_CONFIGURED_HF2_V1.
+```
 
 ## Runtime invocation
 
 For ordinary T:
 
+```text
 FullInvoke(T,x)
 =
 HF002[
@@ -125,7 +130,8 @@ HF002[
         Plan(T),
         x
     )
-].
+]
+```
 
 HF002 re-applies Adapter_T only while:
 
@@ -169,8 +175,8 @@ These routes share the same binding and execution primitive.
 
 ## Fail-closed rules
 
-Unregistered formal object:
-BLOCKED.
+A recognized but unregistered formal object in a direct-command request:
+BLOCKED, including when it is mixed with a registered tool command. A registered label cannot be matched as the prefix of a longer hyphenated or word-token label. Unknown ordinary-language tokens are not assigned a tool identity.
 
 Missing adapter:
 OPEN.
@@ -185,7 +191,7 @@ HF2 local frontier unresolved:
 OPEN or another typed HF2 disposition.
 
 A prose analysis, a plan, a tool label, or host reasoning cannot substitute for the bound
-adapter execution.
+adapter execution. A successful configured route and a relative HF2 close establish only the execution and scope represented by their receipts. Distinguish IMPLEMENTATION_EXECUTED, SEMANTICALLY_APPLIED and FULL_MATCH, and do not infer full domain-semantic coverage merely from plan completeness, a synthetic routing check or a bounded native result.
 
 ## Protected reconstruction
 
@@ -203,7 +209,7 @@ Therefore recurrence is not merely an execution convention.
 
 ## Portfolio audit
 
-runtime/full_invocation_portfolio.py
+[runtime/full_invocation_portfolio.py](../runtime/full_invocation_portfolio.py)
 
 For every current registered tool it verifies:
 
@@ -233,6 +239,8 @@ That remains:
 
 HOST_INTEGRATION_BYPASS = EXTERNAL_NOT_OWNED.
 
+The direct gateway is a lexical command recognizer, not a natural-language authorization interpreter. The caller must establish that a command is genuinely requested rather than negated, quoted, hypothetical or otherwise non-operative before submitting it. This is a host responsibility, not a certified property of the regular-expression parser.
+
 Inside a Take-5-governed formal-tool route, the weaker one-shot configured path is no longer
 admissible.
 
@@ -244,11 +252,11 @@ otherwise have remained weaker parallel paths.
 
 ### Protected Transition Integrity executor
 
-runtime/global_tool_execution.execute_protected_transition
+[`runtime/global_tool_execution.execute_protected_transition`](../runtime/global_tool_execution.py)
 
 now executes its execution edge through:
 
-runtime/configured_hf2_execution.execute_configured_with_hf2.
+[`runtime/configured_hf2_execution.execute_configured_with_hf2`](../runtime/configured_hf2_execution.py).
 
 Backward-compatible execute callbacks may return:
 
@@ -273,7 +281,7 @@ OPEN, BLOCKED, CONFLICT, RETURN_REENTER, or RESOURCE_STOP.
 
 ### Tool Conductor factors
 
-runtime/portable_tool_conductor.py
+[runtime/portable_tool_conductor.py](../runtime/portable_tool_conductor.py)
 
 still emits exactly one conductor-level disposition per registered factor.
 
@@ -336,7 +344,7 @@ Post-merge validation:
 
 Final ImprovementCore + HF2 reentry:
 
-artifacts/improvecore/IMPROVEMENTCORE_HF2_THINK_BIG_REENTRY_122_2026-09-26.md
+[IMPROVEMENTCORE_HF2_THINK_BIG_REENTRY_122_2026-09-26.md](../artifacts/improvecore/IMPROVEMENTCORE_HF2_THINK_BIG_REENTRY_122_2026-09-26.md)
 
 Current finite registered-repertoire disposition:
 
