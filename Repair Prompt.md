@@ -196,15 +196,21 @@ When the user explicitly requests recommendations without implementation, comple
 
 ## 8. Sequential execution and continuation
 
-Work on one file at a time.
+Work on one file at a time. Complete its full repair cycle wherever operationally possible.
 
-Finish and verify each file before beginning the next. In repair mode, commit all implemented repairs individually. Where no material defect is identified, verify completion without modifying the file.
+In repair mode, commit and verify implemented repairs before advancing. Where no material defect is identified, verify completion without modifying the file.
 
-Do not stop after each file to request permission. Continue autonomously across all the files within the authorized execution mode.
+When requirements are genuinely blocked, complete all independently executable work and record the outstanding obligations.
 
-Maintain a compact continuation record containing completed file identifiers, verified commits where applicable, material findings, repairs or recommendations, unresolved issues and the next file.
+After each file, update a recoverable continuation record identifying its completion status, verified repairs or recommendations, unresolved obligations and the next file. Use authorized persistent storage where available.
 
-If interrupted by execution limits, resume from the first unfinished file using the current repository state.
+Proceed immediately to the next file without requesting further authorization.
+
+Continue until all independently executable work across the entire target set has been exhausted or an actual execution limit prevents further progress.
+
+Upon subsequent invocation, resume from the recorded checkpoint and revisit outstanding obligations when their blocking conditions have been resolved.
+
+Distinguish successful completion from incomplete execution.
 
 ## 9. Success criteria
 
