@@ -26,11 +26,11 @@ Retrieve and inspect the actual protocols before execution.
 
 **PD Semantic Preflight Candidate:**
 
-[https://github.com/thytabakman-jpg/Reaserch/blob/main/Tools%20and%20Workflows/Individual%20Tools/PD/protocol/PROMPT_SEMANTIC_PREFLIGHT_CANDIDATE.md](https://github.com/thytabakman-jpg/Reaserch/blob/main/Tools%20and%20Workflows/Individual%20Tools/PD/protocol/PROMPT_SEMANTIC_PREFLIGHT_CANDIDATE.md)
+[https://github.com/thytabakman-jpg/Reaserch/blob/main/Projects/Mathematics%20and%20Formal%20Methods/PD/protocol/PROMPT_SEMANTIC_PREFLIGHT_CANDIDATE.md](https://github.com/thytabakman-jpg/Reaserch/blob/main/Projects/Mathematics%20and%20Formal%20Methods/PD/protocol/PROMPT_SEMANTIC_PREFLIGHT_CANDIDATE.md)
 
 **PDAudit governing protocol:**
 
-[https://github.com/thytabakman-jpg/Reaserch/blob/main/Tools%20and%20Workflows/Individual%20Tools/PD/protocol/PROTOCOL.md](https://github.com/thytabakman-jpg/Reaserch/blob/main/Tools%20and%20Workflows/Individual%20Tools/PD/protocol/PROTOCOL.md)
+[https://github.com/thytabakman-jpg/Reaserch/blob/main/Projects/Mathematics%20and%20Formal%20Methods/PD/protocol/PROTOCOL.md](https://github.com/thytabakman-jpg/Reaserch/blob/main/Projects/Mathematics%20and%20Formal%20Methods/PD/protocol/PROTOCOL.md)
 
 **Authoritative executable tool repository:**
 
