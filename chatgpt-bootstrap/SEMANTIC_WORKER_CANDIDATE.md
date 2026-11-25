@@ -1,0 +1,13 @@
+# PD-SAR native semantic integration candidate
+
+Status: engineering candidate, not a live PD-SAR audit. Take-5 main remains unchanged. The active skill remains unchanged.
+
+This candidate supplies an optional Prose semantic-worker bridge and an independent coverage attestation gate. It replaces the launcher's unconditional refusal to certify coverage with a verified admission path, not an unconditional acceptance path. Every tool must still cross the actual Take-5 native gateway and supply exact projection evidence; the worker and reviewer must be separately trusted and configured. Signatures authenticate attestations, not intellectual correctness. No general semantic worker or reviewer is bundled. Other tool-specific semantic workers are not implemented by this candidate.
+
+`semantic_prose_adapter.py` is an explicit `--adapter-module` for Prose, with `TAKE5_SEMANTIC_WORKER_CONFIG` pointing to a trusted local JSON configuration with `worker_id` and `worker_command` (argv list). The worker receives a JSON request on stdin and returns a JSON response on stdout. It must implement the actual semantic analysis, including all projection IDs, source spans, evidence, and the native `ProseEvidence` fields. See the code for the contract. The included fixture worker is for engineering tests only.
+
+`run_native.py` optionally accepts `--coverage-trust-config` containing distinct trusted `worker_id`, `reviewer_id`, `worker_public_key`, `reviewer_public_key` (hex Ed25519 public keys) and `review_command` (argv list). The command is called after native execution with the frozen target, packet, receipt, revision and requested output file. The worker and independent reviewer attest the exact native receipt through the schema implemented in `semantic_coverage.py`. No private keys or credentials belong in the repository. A missing or invalid attestation, incomplete semantic projection coverage or an open native run fails closed. Never use fixture keys for real research.
+
+Tests run against the independently verified Take-5 source revision f543d214ac752c71a68c6f5f04cd61f5c8221e32. The bootstrap verified 3,916 files and passed 175 native tests and the 95-identity registry routing audit. The candidate passed 15 additional fixture/negative-path tests, including actual configured native Prose invocation and detection of a known syntactic defect. The fixtures do not verify substantive document analysis or independent reasoning. The candidate is not production-certified; real worker provisioning, remaining native adapters, independent review and full manuscript coverage remain open.
+
+Run: `TAKE5_TEST_RUNTIME=/path/to/f543d214ac752c71a68c6f5f04cd61f5c8221e32 python -m pytest -q test_semantic_coverage.py test_semantic_prose_adapter.py`.
