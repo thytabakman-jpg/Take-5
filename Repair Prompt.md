@@ -62,7 +62,9 @@ The linked PD protocol governs historical audit-reduction research, mathematical
 
 The execution environment has already been established using GitHub Actions and ChatGPT's Python environment. Retrieve the current runtime automatically using the bootstrap instructions. Resolve the current authoritative main commit independently, select or refresh the matching verified artifact, and verify its operational availability before relying on it. Do not use a historical successful workflow as evidence of current runtime availability. No additional subscriptions, plugins, downloads or manual user configuration are required for the previously demonstrated bounded executions.
 
-Use actual native implementations wherever the required inputs and adapters are available. Distinguish native execution from semantic host analysis. Do not falsely certify unavailable capabilities.
+Use actual native implementations wherever the required inputs and adapters are available. Follow the [bootstrap usage and adapter contract](https://github.com/thytabakman-jpg/Take-5/blob/chatgpt-runtime-bootstrap/chatgpt-bootstrap/README.md) and the [semantic worker adapter contract](runtime/WORKER_ADAPTER_CONTRACT.md). Verify that each adapter admits the actual target and task, not merely the registered tool identity. The supplied `document_adapters.py` bindings are specific to classification matrices and finite integer-threshold comparisons; they are not general document-repair workers. Do not submit unrelated documents to those bindings or reinterpret their bounded results as general semantic coverage. Where a suitable task-specific provider is absent, retain the affected tool obligation as OPEN and distinguish independently supported host analysis from native execution.
+
+Distinguish native execution from semantic host analysis. Do not falsely certify unavailable capabilities.
 
 Do not spend the conversation unnecessarily developing execution infrastructure.
 
@@ -170,7 +172,7 @@ Distinguish verified native execution, semantic host analysis, blocked execution
 
 Do not treat tool availability, successful runtime tests, protocol retrieval or host-generated findings as evidence of native tool execution.
 
-When a mandatory tool is unavailable or blocked, record the specific limitation and continue independently executable analysis and repairs whose validity does not depend on the missing results. Preserve unresolved dependencies and do not certify incomplete requirements as completed.
+When a mandatory tool is unavailable or blocked, record the exact tool identity, missing input, provider or other blocking condition and continue independently executable analysis and repairs whose validity does not depend on the missing results. Use separately receipted invocations for independent tools when an earlier blocked tool would otherwise suppress their execution; preserve actual inter-tool prerequisites and never bypass a required precondition. Preserve unresolved dependencies and do not certify incomplete requirements as completed.
 
 Do not generate artificial problems or unnecessary tool invocations.
 
