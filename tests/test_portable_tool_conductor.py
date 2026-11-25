@@ -221,6 +221,7 @@ def test_consultation_does_not_confuse_native_recovery_with_dispatch_readiness()
         assert row["result"]["execution_readiness"]=="ADAPTER_REQUIRED"
         assert row["result"]["dispatch_route"]=="UNBOUND"
     assert by_id["C01"]["result"]["dispatch_route"]=="BUILTIN"
+    assert by_id["L-D6"]["result"]["input_readiness"]=="MISSING_OR_INVALID_FIELDS"
     assert by_id["C01"]["result"]["input_readiness"]=="UNVERIFIED"
 
 
@@ -233,5 +234,5 @@ def test_consultation_reports_bound_routes_without_certifying_input_readiness():
     assert not calls
     assert by_id["Diagnosis"]["status"]=="AVAILABLE_BOUND"
     assert by_id["Diagnosis"]["result"]["execution_readiness"]=="INPUTS_UNVERIFIED"
-    assert by_id["RTC"]["status"]=="BLOCKED"
+    assert by_id["RTC"]["status"]=="OPEN"
     assert by_id["C01"]["result"]["dispatch_route"]=="BUILTIN"
