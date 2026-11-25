@@ -24,12 +24,20 @@ jobs:
           ref: main
           fetch-depth: 1
           persist-credentials: false
+          path: source
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+          persist-credentials: false
+          path: bootstrap
       - name: Package authoritative tracked source
         shell: bash
         run: |
           set -euo pipefail
           mkdir -p "$RUNNER_TEMP/take5-runtime"
-          cd "$GITHUB_WORKSPACE"
+          cp "$GITHUB_WORKSPACE/bootstrap/chatgpt-bootstrap/bootstrap.py" "$RUNNER_TEMP/take5-runtime/bootstrap.py"
+          cd "$GITHUB_WORKSPACE/source"
           git rev-parse HEAD > "$RUNNER_TEMP/take5-runtime/source-commit.txt"
           git ls-tree -r HEAD > "$RUNNER_TEMP/take5-runtime/git-tree.txt"
           git archive --format=zip --output="$RUNNER_TEMP/take5-runtime/take5-source.zip" HEAD
