@@ -107,9 +107,10 @@ def main():
             external=binder(packet)
             if not isinstance(external,Mapping):
                 raise TypeError("ADAPTER_MAPPING_REQUIRED")
-            provider["status"]="LOADED"
-            provider["offered_tools"]=list(external)
-            for tool,binding in external.items():
+            offered=list(external.items())
+            admitted={}
+            provider["offered_tools"]=[tool for tool,_ in offered]
+            for tool,binding in offered:
                 if tool not in ids:
                     continue
                 if tool in adapters and tool not in allowed:
@@ -117,7 +118,9 @@ def main():
                 elif not callable(binding):
                     admission_errors[tool]="ADAPTER_NOT_CALLABLE"
                 else:
-                    adapters[tool]=binding
+                    admitted[tool]=binding
+            adapters.update(admitted)
+            provider["status"]="LOADED"
         except Exception as exc:
             provider_error=f"{type(exc).__name__}:{exc}"
             provider.update(status="BLOCKED",blocker=provider_error)
