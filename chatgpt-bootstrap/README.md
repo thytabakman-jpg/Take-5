@@ -38,3 +38,28 @@ This is an isolated integration branch, not a change to Take-5's governing main 
 ```
 
 Expect PD and PDAudit to return bounded native results, Prose to preserve OPEN for missing semantic evidence, and MT to remain OPEN without its adapter. No document changes follow. The execution receipts must identify the frozen packet and current source revision.
+
+
+## Read-only document-analysis bindings
+
+`document_adapters.py` provides tested host bindings for explicitly admitted classification matrices and finite integer-threshold comparisons. It is packaged with the runtime on demand. Run the existing packet runner with `--adapter-module <bootstrap-directory>/document_adapters.py`. PD, PDAudit and Prose continue to use the packet runner's native bindings.
+
+The document adapter requires these frozen input fields:
+- `sources`: path, authenticated connector blob SHA (`sha`) and a subsequent independently fetched `latest_sha` for every source;
+- `expected_ids`: authoritative inventory;
+- `matrix`: `axes`, `raw` (one whitespace-separated case identifier and one slash-separated label field per axis per line), `transfer_fnv` (eight-digit FNV-1a over Unicode code points), `declared_counts`, `exclusive_axis`;
+- `threshold`: source-supported `values`, inclusive integer `lower` and `upper`, `baseline_probes`, `declared_pair_count`, exact `proof`, `proof_fnv`;
+- `open_coordinates`: unresolved source/semantic obligations; and optional `goal_candidates` (id, goal X/T/I/Sigma, constraints, evidence, grounded, authority_typed, determinate_enough).
+
+The adapters use native GDOS, Discriminator, BiasPerturbation, Architecture, MultiObject, Reconciler, CurrentnessAudit, MT, GOAL, Diagnosis, RTC, compound ASSERT and TRC. GOAL's MT preflight is recovered from an actual gateway invocation. MT runs a limited observation over the packet; unresolved semantic-stage bindings remain OPEN. MultiObject runs an independent algorithmic full-joint membership route before pair routes, then tests exact pair recoverability. It does not infer scholarly relationships from shared tags. ASSERT is the bounded compound core, not full-36 ASSERT certification. RTC only tests additional probes in the fixed finite model. Currentness verifies revision identity, not source truth. Prose requires separately evidenced semantic preservation, reader load and claim strength.
+
+### Host workflow for future document requests
+
+1. Resolve the exact native tool identity and current source revision. Load the verified runtime automatically from the latest branch artifact (refresh only if stale).
+2. Read the actual target through its authenticated connector. Freeze exact source and version references. Do not copy private documents, snippets or research packets into the public bootstrap branch or its artifacts.
+3. As the semantic host, derive the requested tool's admitted case frame, source excerpts, candidate objects, question and protected constraints. Record how the inputs were derived, what is modelled, what remains unverified and why each result coordinate belongs to the tool's actual job. Transfer only the needed packet to the Python sandbox; check exact data against the connector extraction. Do not reuse old scores as source evidence.
+4. Execute the original gateway and native implementation on that packet. Retain full native receipts, not merely an invocation label. For this matrix/threshold provider use the documented schema; for arbitrary prose PD/PDAudit use the base finite-frame adapter and Prose use the explicit contract. For other task-specific native tools bind an actual provider, or retain OPEN rather than claiming success.
+5. Independently recompute deterministic claims with a different algorithm where available. Separate same-model semantic judgement from genuine independent worker evaluation. The branch does not provide a separately authenticated independent semantic reasoning model, source authentication, or full semantic coverage of the 36 cells, 792 question projections and 144 cognitive projections on arbitrary documents. Do not promote a bounded receipt to full semantic certification.
+6. No repair is authorized by a tool receipt alone. Any previously authorized repair still requires the applicable assessment and independent verification; preserve unresolved gates and avoid writing research data back until that workflow is satisfied.
+
+The public branch contains reusable code only. Private input packets and research receipts remain in the current conversation's working environment. No additional subscription is needed for these bounded executions.
