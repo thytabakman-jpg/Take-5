@@ -11,6 +11,7 @@ Origin:
 
 ## Contents
 
+- [Authority and reader route](#authority-and-reader-route)
 - [Problem](#problem)
 - [Registered recurrence law](#registered-recurrence-law)
 - [Full plan](#full-plan)
@@ -23,6 +24,10 @@ Origin:
 - [Post-merge Think-big reentry](#post-merge-think-big-reentry)
 - [Strengthened route set](#strengthened-route-set)
 - [Validation and merge evidence](#validation-and-merge-evidence)
+
+## Authority and reader route
+
+This document owns the architectural invariant, formal justification, protected behavior and validation provenance of full configured invocation. [Current Full Tool Invocation](../integration/CURRENT_FULL_TOOL_INVOCATION.md) is its operational recovery and routing summary, not an independent competing definition. The live registry, manifest and execution implementations remain the authorities for exact registered identities and executable behavior. Preserve any discrepancy as OPEN pending owner verification; do not infer semantic coverage from a routing summary.
 
 ## Problem
 
@@ -157,7 +162,7 @@ ImprovementCore selection
 
 Direct-command route:
 
-"run/use/execute/apply/call T"
+"run/use/execute/apply/call T" or caller-authorized ordered exact registered IDs
 -> direct_tool_command_gateway
 -> bind_selected_tools
 -> build_tool_execution_plan
@@ -166,7 +171,7 @@ Direct-command route:
 
 These routes share the same binding and execution primitive.
 
-The [direct command gateway](../runtime/direct_tool_command_gateway.py) binds exactly the ordered identities extracted from the authorized direct command. Inherited controller selections remain contextual state; they cannot add tools to this binding or veto it merely by naming an unrelated unregistered identity. An identity mismatch between the command and the resulting bindings is BLOCKED before adapter execution.
+The [direct command gateway](../runtime/direct_tool_command_gateway.py) binds exactly the ordered identities extracted from the authorized direct command. Inherited controller selections remain contextual state; they cannot add tools to this binding or veto it merely by naming an unrelated unregistered identity. An identity mismatch between the command and the resulting bindings is BLOCKED before adapter execution. Structured list/tuple input accepts only exact registered IDs in the supplied order; empty requests, unregistered IDs, non-string entries and duplicates are rejected before binding. The legacy lexical string interface remains available, with its original recognition semantics. Both forms enter the same binding, plan and recurrence path. Structured identity validation does not establish natural-language authorization or semantic completeness.
 
 ## Fail-closed rules
 

@@ -1,7 +1,7 @@
 """Canonical repository-owned gateway for direct formal-tool commands.
 
-The gateway recognizes explicit imperative formal-tool requests, resolves the
-current registered identity, binds the current full configured plan, and reuses
+The gateway accepts explicit imperative formal-tool requests or structured ordered
+lists/tuples of exact registered tool IDs, binds the current full configured plan, and reuses
 the shared configured-tool bridge. The bridge owns HF2 recurrence.
 
 This repository cannot force an unrelated external host to enter this gateway.
@@ -55,7 +55,23 @@ FORMALISH_TOKEN_PATTERN=re.compile(
 )
 
 
-def direct_tool_ids(user_text:str)->tuple[str,...]:
+def direct_tool_ids(user_text:str|list[str]|tuple[str,...])->tuple[str,...]:
+    """Resolve legacy lexical commands or validate an explicit ordered ID list.
+
+    Structured requests are caller-authorized exact identities, not natural
+    language. Reject the whole request on invalid or repeated IDs before binding.
+    """
+    if isinstance(user_text,(list,tuple)):
+        if not user_text:
+            raise DirectToolCommandBlocked("DIRECT_TOOL_COMMAND_NOT_FOUND")
+        ids=[]
+        for raw in user_text:
+            if not isinstance(raw,str) or raw not in CONFIGURED_RUNS:
+                raise DirectToolCommandBlocked(f"DIRECT_TOOL_NOT_REGISTERED:{raw!r}")
+            if raw in ids:
+                raise DirectToolCommandBlocked(f"DIRECT_TOOL_DUPLICATE_ID:{raw}")
+            ids.append(raw)
+        return tuple(ids)
     text=str(user_text)
     out=[]
 
@@ -92,7 +108,7 @@ def direct_tool_ids(user_text:str)->tuple[str,...]:
 
 
 def bind_direct_tool_commands(
-    user_text:str,
+    user_text:str|list[str]|tuple[str,...],
     *,
     state:Any|None=None,
 )->DirectToolCommandBinding:
@@ -136,7 +152,7 @@ def bind_direct_tool_commands(
 
 
 def execute_direct_tool_commands(
-    user_text:str,
+    user_text:str|list[str]|tuple[str,...],
     *,
     state:Any|None=None,
     adapters:Mapping[str,Callable]|None=None,
