@@ -1,0 +1,43 @@
+name: ChatGPT runtime bootstrap
+on:
+  push:
+    branches: [chatgpt-runtime-bootstrap]
+    paths:
+      - '.github/workflows/chatgpt-runtime-bootstrap.yml'
+      - 'chatgpt-runtime-request.txt'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: chatgpt-runtime-bootstrap
+  cancel-in-progress: true
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: main
+          fetch-depth: 1
+          persist-credentials: false
+      - name: Package authoritative tracked source
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/take5-runtime"
+          cd "$GITHUB_WORKSPACE"
+          git rev-parse HEAD > "$RUNNER_TEMP/take5-runtime/source-commit.txt"
+          git ls-tree -r HEAD > "$RUNNER_TEMP/take5-runtime/git-tree.txt"
+          git archive --format=zip --output="$RUNNER_TEMP/take5-runtime/take5-source.zip" HEAD
+          cd "$RUNNER_TEMP/take5-runtime"
+          sha256sum take5-source.zip > SHA256SUMS
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: take5-chatgpt-runtime
+          path: ${{ runner.temp }}/take5-runtime/
+          retention-days: 90
+          if-no-files-found: error
