@@ -1,1 +1,1 @@
-Refresh current main 8ce53398a2c16ae8e81f61493be1a7ce54bbfe77 for CA-012 CA-018 repair invocation 2026-11-25T20:32Z
+Refresh current main a7666baabecae6d893def067200bf6b5284dd833 for recursive Repair architectural assessment
