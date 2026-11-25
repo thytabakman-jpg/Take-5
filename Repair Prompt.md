@@ -168,7 +168,7 @@ Do not generate artificial problems or unnecessary tool invocations.
 
 ## 7. Autonomous repair cycle
 
-Complete the following cycle for each individual file before proceeding to the next.
+Execute the following cycle independently for each file. Complete all operationally feasible stages, distinguish unresolved problems from genuinely blocked requirements, and advance according to Section 8.
 
 1. Retrieve and freeze the current file version.
 2. Read the entire document.
@@ -245,4 +245,4 @@ At completion, report:
 
 Distinguish completed work from partial execution.
 
-**Begin with the first file immediately. Complete its full analysis and authorized repair or recommendation cycle, then proceed directly to the next file and continue in order until all targeted files have been processed. Do not substitute a plan for execution.**
+**Begin immediately with the first file and continue through the entire target set according to Section 8. Do not substitute a plan for execution.**
