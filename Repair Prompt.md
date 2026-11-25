@@ -34,9 +34,11 @@ Retrieve and inspect the actual protocols before execution.
 
 [https://github.com/thytabakman-jpg/Reaserch/blob/main/Projects/Mathematics%20and%20Formal%20Methods/PD/protocol/PROMPT_SEMANTIC_PREFLIGHT_CANDIDATE.md](https://github.com/thytabakman-jpg/Reaserch/blob/main/Projects/Mathematics%20and%20Formal%20Methods/PD/protocol/PROMPT_SEMANTIC_PREFLIGHT_CANDIDATE.md)
 
-**PDAudit governing protocol:**
+**PD audit-reduction research protocol and applicable integrity controls:**
 
 [https://github.com/thytabakman-jpg/Reaserch/blob/main/Projects/Mathematics%20and%20Formal%20Methods/PD/protocol/PROTOCOL.md](https://github.com/thytabakman-jpg/Reaserch/blob/main/Projects/Mathematics%20and%20Formal%20Methods/PD/protocol/PROTOCOL.md)
+
+The linked PD protocol governs historical audit-reduction research, mathematical integrity gates, and the distinction between historical methods and the runnable successor. For ordinary Repair, apply its applicable integrity, evidence, authorization and regression controls. Do not automatically execute the historical D0/C0 experiments, holdout campaign or PD research-priority program merely because a document invokes PDAudit. Native PDAudit execution follows the registered Take-5 implementation and its admitted inputs. The Reaserch read-only successor is a distinct execution path, not a substitute receipt for Take-5 PDAudit.
 
 **Authoritative executable tool repository:**
 
@@ -54,11 +56,11 @@ Retrieve and inspect the actual protocols before execution.
 
 [https://github.com/thytabakman-jpg/Take-5/blob/main/architecture/FULL_CONFIGURED_TOOL_INVOCATION_121.md](https://github.com/thytabakman-jpg/Take-5/blob/main/architecture/FULL_CONFIGURED_TOOL_INVOCATION_121.md)
 
-**Previously successful packaging workflow:**
+**Historical packaging evidence (not a current runtime selector):**
 
 [https://github.com/thytabakman-jpg/Take-5/actions/runs/45527275910](https://github.com/thytabakman-jpg/Take-5/actions/runs/45527275910)
 
-The execution environment has already been established using GitHub Actions and ChatGPT's Python environment. Retrieve the current runtime automatically using the bootstrap instructions and verify its operational availability before relying on it. No additional subscriptions, plugins, downloads or manual user configuration are required for the previously demonstrated bounded executions.
+The execution environment has already been established using GitHub Actions and ChatGPT's Python environment. Retrieve the current runtime automatically using the bootstrap instructions. Resolve the current authoritative main commit independently, select or refresh the matching verified artifact, and verify its operational availability before relying on it. Do not use a historical successful workflow as evidence of current runtime availability. No additional subscriptions, plugins, downloads or manual user configuration are required for the previously demonstrated bounded executions.
 
 Use actual native implementations wherever the required inputs and adapters are available. Distinguish native execution from semantic host analysis. Do not falsely certify unavailable capabilities.
 
@@ -186,8 +188,8 @@ Execute the following cycle independently for each file. Complete all operationa
 8. Assess each proposed repair using GO / NO-GO / TWEAK.
 9. Refine TWEAK recommendations through applicable recursive tool execution.
 10. Reject NO-GO recommendations.
-11. Implement validated GO recommendations directly in GitHub when operating in repair mode.
-12. Retrieve the modified document and verify the actual changes.
+11. Implement validated GO recommendations directly in GitHub when operating in repair mode. Recheck the target branch and frozen file identity immediately before writing. Use a conditional write against the verified current blob or an equivalent non-overwriting version guard. If the file or a result-sensitive dependency has changed, retrieve the new state, reconcile the proposed changes, and reassess affected repairs before writing. Never overwrite an intervening change using a stale replacement.
+12. Retrieve the modified document from the intended branch and verify the actual changes against the committed version, including preservation of concurrent work.
 13. Re-examine affected passages and downstream dependencies for regressions and verify applicable consequences and obligations under Section 6.
 14. Record any remaining material limitations.
 15. Proceed immediately to the next file.
@@ -208,13 +210,13 @@ In repair mode, commit and verify implemented repairs before advancing. Where no
 
 When requirements are genuinely blocked, complete all independently executable work and record the outstanding obligations.
 
-After each file, update a recoverable continuation record identifying its completion status, verified repairs or recommendations, unresolved obligations and the next file. Use authorized persistent storage where available.
+After each file, update a recoverable continuation record identifying the run scope (repositories, branches, target selection and mode), exact file path, assessed blob identity, committed blob and commit identities where applicable, completion status, verified repairs or recommendations, unresolved obligations and the next file. Distinguish a verified no-change result from a modified file and from a partial or blocked result. Use authorized persistent storage where available; do not claim a durable checkpoint if persistence is unavailable.
 
 Proceed immediately to the next file without requesting further authorization.
 
 Continue until all independently executable work across the entire target set has been exhausted or an actual execution limit prevents further progress.
 
-Upon subsequent invocation, resume from the recorded checkpoint and revisit outstanding obligations when their blocking conditions have been resolved.
+Resume from a recorded checkpoint only when the invocation is a continuation of the same authorized scope and mode. Reconcile the checkpoint with the current target inventory and file identities; retain completed results only while their assessed versions and result-sensitive dependencies remain current. Reassess changed or newly admitted files, exclude targets no longer in scope, and revisit outstanding obligations when their blocking conditions have been resolved. A fresh Repair invocation or explicitly requested reassessment starts from current state; previous records are evidence, not instructions to skip files. Never silently import a prior run's scope, authorization or completion status.
 
 Distinguish successful completion from incomplete execution.
 
