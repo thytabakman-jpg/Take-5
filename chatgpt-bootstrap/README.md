@@ -44,7 +44,18 @@ Expect PD and PDAudit to return bounded native results, Prose to preserve OPEN f
 
 `document_adapters.py` provides tested host bindings for explicitly admitted classification matrices and finite integer-threshold comparisons. It is packaged with the runtime on demand. Run the existing packet runner with `--adapter-module <bootstrap-directory>/document_adapters.py`. PD, PDAudit and Prose continue to use the packet runner's native bindings.
 
-The document adapter requires these frozen input fields:
+The complete combined packet supports the following frozen input fields. Admission is now per registered tool; the original combined packet remains supported.
+
+| Binding | Required evidence groups |
+| --- | --- |
+| GDOS, BiasPerturbation, Architecture, MultiObject | Matrix and source references; only fields used by the selected algorithm |
+| Discriminator, Reconciler, Diagnosis, RTC | Threshold model and source references; only fields used by the selected algorithm |
+| MT, GOAL, compound ASSERT | Both matrix and threshold model, plus source references |
+| CurrentnessAudit, TRC | Source references and applicable currentness or open-obligation coordinates |
+
+A missing required group or field produces an OPEN receipt; malformed admitted input produces BLOCKED. Neither disposition claims a native invocation. Unused groups are not validated, so an unrelated missing or malformed group cannot block an independent tool.
+
+Complete packet field definitions:
 - `sources`: path, authenticated connector blob SHA (`sha`) and a subsequent independently fetched `latest_sha` for every source;
 - `expected_ids`: authoritative inventory;
 - `matrix`: `axes`, `raw` (one whitespace-separated case identifier and one slash-separated label field per axis per line), `transfer_fnv` (eight-digit FNV-1a over Unicode code points), `declared_counts`, `exclusive_axis`;
