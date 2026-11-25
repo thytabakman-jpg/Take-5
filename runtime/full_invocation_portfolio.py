@@ -74,6 +74,26 @@ def audit_full_invocation_portfolio()->FullInvocationPortfolioAudit:
                 failures.append(f"{tool_id}:DIRECT_BINDING_INCOMPLETE")
                 continue
 
+            # An authorized direct command must not inherit another controller selection.
+            other=next((candidate for candidate in CONFIGURED_RUNS if candidate!=tool_id),None)
+            if other is not None:
+                contextual_state={
+                    "selected_tool_ids":(other,),
+                    "selected_tool":other,
+                    "selected_tool_id":other,
+                    "selected_action":{"tool_id":other},
+                    "selected_job":{"tool_id":other},
+                    "selected_next_candidate":{"tool_id":other},
+                }
+                contextual=bind_direct_tool_commands(f"run {tool_id}",state=contextual_state)
+                if not contextual.complete or tuple(b.tool_id for b in contextual.bindings)!=(tool_id,):
+                    failures.append(f"{tool_id}:INHERITED_SELECTION_LEAK")
+                if any(contextual.state.get(k)!=v for k,v in contextual_state.items()):
+                    failures.append(f"{tool_id}:INHERITED_CONTEXT_LOSS")
+                invalid=bind_direct_tool_commands(f"run {tool_id}",state={"selected_tool_id":"NOT_REGISTERED"})
+                if not invalid.complete:
+                    failures.append(f"{tool_id}:UNRELATED_SELECTION_VETO")
+
             plan=bound.bindings[0].plan
             if not plan.complete:
                 failures.append(f"{tool_id}:PLAN_INCOMPLETE")
