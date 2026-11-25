@@ -1,1 +1,1 @@
-Refresh 780bce636507e093b7155bd9817b5e8344db127c with final adapter admission and conductor regression changes
+Refresh e0458f2741681be74ee88d68ceb3066c82045731 for per-tool document admission and adapter diagnostic preservation regression tests
