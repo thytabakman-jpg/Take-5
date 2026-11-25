@@ -21,7 +21,7 @@ from typing import Any, Callable, Mapping
 from capability_runtime import execute_capability
 from configured_hf2_execution import execute_configured_with_hf2
 from global_tool_execution import build_tool_execution_plan
-from learning_tool_bridge import SPECS, make_learning_worker
+from learning_tool_bridge import SPECS, availability as learning_availability, make_learning_worker
 from tool_run_registry import CONFIGURED_RUNS, MATERIAL_TOOLS
 
 
@@ -334,7 +334,8 @@ def consult_tool_conductor(
     results=[]
     for witness in _consultation_witnesses():
         tool_id=witness.tool_id
-        bound=tool_id in adapters
+        bound=tool_id in adapters and adapters[tool_id] is not None
+        missing_inputs=()
         learning=_learning_spec(tool_id)
         atomic=tool_id.startswith("C") and tool_id[1:].isdigit() and 1 <= int(tool_id[1:]) <= 49
         builtin=atomic or learning is not None
@@ -349,10 +350,12 @@ def consult_tool_conductor(
         elif builtin:
             route="BUILTIN"
             inputs="UNVERIFIED"
-            if witness.required_environment:
-                status="OPEN"
-                reason="ENVIRONMENT_REQUIRED"
-                readiness="INPUTS_UNVERIFIED"
+            if learning is not None:
+                available,missing_inputs=learning_availability(packet,learning)
+                inputs="REQUIRED_FIELDS_PRESENT" if available else "MISSING_OR_INVALID_FIELDS"
+                status="AVAILABLE_SELF_CONTAINED" if available else "OPEN"
+                reason="BUILTIN_DISPATCH_AVAILABLE" if available else "LEARNING_INPUT_REQUIRED"
+                readiness="SEMANTICS_UNVERIFIED" if available else "INPUTS_REQUIRED"
             else:
                 status="AVAILABLE_SELF_CONTAINED"
                 reason="BUILTIN_DISPATCH_AVAILABLE"
@@ -390,6 +393,7 @@ def consult_tool_conductor(
                 "native_implementation_recovered":witness.entrypoint is not None,
                 "dispatch_route":route,
                 "input_readiness":inputs,
+                "missing_inputs":missing_inputs,
                 "execution_readiness":readiness,
                 "entrypoint":witness.entrypoint,
                 "required_environment":witness.required_environment,
