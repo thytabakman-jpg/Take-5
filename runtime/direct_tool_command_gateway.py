@@ -42,7 +42,7 @@ def _known_command_pattern():
     aliases=aliases_by_length()
     labels="|".join(re.escape(alias) for alias in aliases)
     return re.compile(
-        rf"\b(?:run|use|execute|apply|call)\s+(?:(?:the|a)\s+)?(?P<label>{labels})(?=\b|$)",
+        rf"\b(?:run|use|execute|apply|call)\s+(?:(?:the|a)\s+)?(?P<label>{labels})(?![\w-])",
         flags=re.IGNORECASE,
     )
 
@@ -74,25 +74,21 @@ def direct_tool_ids(user_text:str)->tuple[str,...]:
         if canonical not in out:
             out.append(canonical)
 
-    if out:
-        return tuple(out)
-
-    # Fail closed for formal-looking single-token commands outside the current
-    # configured repertoire, while ordinary prose such as "use this" remains
-    # outside the formal-tool gateway.
-    fallback=FORMALISH_TOKEN_PATTERN.search(text)
-    if fallback:
+    # Check every formal-looking command, including mixed registered and
+    # unregistered requests. Unknown ordinary prose remains outside the gateway.
+    for fallback in FORMALISH_TOKEN_PATTERN.finditer(text):
         raw=fallback.group("label")
         try:
             canonical=canonical_formal_label(raw)
         except KeyError:
-            return ()
+            continue
         if canonical not in CONFIGURED_RUNS:
             raise DirectToolCommandBlocked(
                 f"DIRECT_TOOL_NOT_REGISTERED:{canonical}"
             )
 
-    return ()
+    return tuple(out)
+
 
 
 def bind_direct_tool_commands(
