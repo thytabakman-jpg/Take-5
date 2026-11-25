@@ -15,7 +15,7 @@ selecting the first file with "architecture" in its name:
    analysis dependency.
 2. For the formal, basis-relative `Architect` / `ARCHITECTURE-ANALYSIS`
    mathematical reconstruction, follow the separately labeled [Reaserch
-   FullMath source](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/improvement-core/tool-ecosystem/ARCHITECTURE_ANALYSIS_FULL_MATH_002_2026-09-26.md)
+   FullMath source](https://github.com/thytabakman-jpg/Reaserch/blob/main/Shared%20Tool%20System/Controllers%20and%20Runtime/ImprovementCore/tool-ecosystem/ARCHITECTURE_ANALYSIS_FULL_MATH_002_2026-09-26.md)
    through [SOURCE_MAP.md](SOURCE_MAP.md). Its runtime-OPEN status cannot
    override Take-5's registered runtime or be silently treated as equivalent
    configured execution.
@@ -23,9 +23,11 @@ selecting the first file with "architecture" in its name:
    [specialized Take-5 mathematics](../../../../architecture/PROSE_ARCHITECTURE_READER_LOAD_MATHEMATICS_004_2026-09-30.md);
    this is not the whole mathematical identity.
 4. For hierarchical GOAL coupling, follow the separately governed
-   [GOAL–Architect contract](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/improvement-core/tool-ecosystem/GOAL_ARCHITECT_META_RECURSION_CONTRACT_001_2026-10-02.yaml).
+   [GOAL–Architect contract](https://github.com/thytabakman-jpg/Reaserch/blob/main/Shared%20Tool%20System/Controllers%20and%20Runtime/ImprovementCore/tool-ecosystem/GOAL_ARCHITECT_META_RECURSION_CONTRACT_001_2026-10-02.yaml).
    Do not infer that current Take-5 dispatch implements that cross-repository
    contract without an admitted binding and runtime test.
+ 
+The relocated Reaserch links preserve the previously referenced source blobs; see [SOURCE_MAP.md](SOURCE_MAP.md) for unresolved current cross-copy authority.
 
 Take-5's `Scope × ModeFace` 36-cell coverage is distinct from Reaserch's
 `SourceScope × TargetScope` 36-cell directed handoff. Unknown equivalence,

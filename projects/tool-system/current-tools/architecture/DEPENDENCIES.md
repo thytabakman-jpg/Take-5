@@ -17,11 +17,13 @@
 
 - [Native Architecture recovery tests](../../../../tests/test_four_tool_recovery_20260927.py).
 - [Protected unit-job behaviour tests](../../../../tests/test_prose_transition_layers.py).
-- [Reaserch hierarchical GOAL–Architect contract](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/improvement-core/tool-ecosystem/GOAL_ARCHITECT_META_RECURSION_CONTRACT_001_2026-10-02.yaml) — separately governed **conditional integration**, not evidence that the Take-5 runtime already executes same-level pairing, parent ascent, or directed scope handoff. See [OPEN_QUESTIONS.md](OPEN_QUESTIONS.md).
+- [Reaserch hierarchical GOAL–Architect contract](https://github.com/thytabakman-jpg/Reaserch/blob/main/Shared%20Tool%20System/Controllers%20and%20Runtime/ImprovementCore/tool-ecosystem/GOAL_ARCHITECT_META_RECURSION_CONTRACT_001_2026-10-02.yaml) — separately governed **conditional integration**, not evidence that the Take-5 runtime already executes same-level pairing, parent ascent, or directed scope handoff. See [OPEN_QUESTIONS.md](OPEN_QUESTIONS.md).
 
 A modification to a source in this chain reopens its impacted downstream
 consumer or test, not every unrelated tool package. The two distinct 36-cell
 surfaces remain typed separately.
+
+The relocated Reaserch links preserve the previously referenced source blobs; see [SOURCE_MAP.md](SOURCE_MAP.md) for unresolved current cross-copy authority.
 
 ## Rule
 
