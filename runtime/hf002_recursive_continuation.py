@@ -1,8 +1,10 @@
 """HF-002 generic capability-level recursive continuation substrate.
 
-HF2 reapplies the same configured capability to its changed normalized successor
-while a material local delta and live local frontier remain under a stable
-upstream basis. It owns local recurrence, not global episode selection.
+HF2 reapplies the same configured capability after a material local successor
+when upstream control permits local continuation, even if the successor reports
+its local frontier inactive. A subsequent non-material pass must establish
+local closure without unresolved affected scope. It owns local recurrence,
+not global episode selection.
 """
 from __future__ import annotations
 from dataclasses import dataclass, asdict, field
