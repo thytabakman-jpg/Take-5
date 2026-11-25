@@ -14,7 +14,13 @@ Identify and verify the exact repository, folder paths and files included in the
 
 If the target documents are unambiguous, proceed directly. If the scope is ambiguous, obtain clarification before execution.
 
-Process the target documents individually, following any execution order specified by the user.
+Unless the user explicitly requires a particular execution order, establish a provisional repair order through lightweight prioritization of the target files.
+
+Prioritize files according to their apparent repair necessity, structural importance, downstream dependencies and potential impact on subsequent repairs.
+
+Reuse available inventories, metadata, dependency information and existing findings. Limit additional inspection to inexpensive, readily available evidence. Do not conduct comprehensive document analysis, additional tool cycles or extensive research solely to determine execution order.
+
+Where the available evidence does not justify reordering files, retain their original order.
 
 Do not modify documents outside the established execution scope.
 
