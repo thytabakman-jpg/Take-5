@@ -207,3 +207,31 @@ def test_duplicate_registered_factor_is_rejected_before_any_native_execution(mon
     with pytest.raises(RuntimeError,match="TOOL_CONDUCTOR_DUPLICATE_REGISTRY_ID"):
         conductor.compile_repertoire()
     assert calls==[]
+
+
+def test_consultation_does_not_confuse_native_recovery_with_dispatch_readiness():
+    consulted=consult_tool_conductor({})
+    by_id={row["tool_id"]:row for row in consulted["results"]}
+    actual={row["tool_id"]:row for row in run_tool_conductor({})["results"]}
+    for tool in ("Diagnosis","RTC","ProjectManager","Reconciler"):
+        row=by_id[tool]
+        assert row["witness"]["self_contained"] is True
+        assert row["result"]["native_implementation_recovered"] is True
+        assert row["status"]==actual[tool]["status"]=="OPEN"
+        assert row["result"]["execution_readiness"]=="ADAPTER_REQUIRED"
+        assert row["result"]["dispatch_route"]=="UNBOUND"
+    assert by_id["C01"]["result"]["dispatch_route"]=="BUILTIN"
+    assert by_id["C01"]["result"]["input_readiness"]=="UNVERIFIED"
+
+
+def test_consultation_reports_bound_routes_without_certifying_input_readiness():
+    calls=[]
+    def adapter(packet):
+        calls.append(packet)
+        return {"status":"EXECUTED","material_delta":False}
+    by_id={row["tool_id"]:row for row in consult_tool_conductor({},adapters={"Diagnosis":adapter,"RTC":None,"C01":adapter})["results"]}
+    assert not calls
+    assert by_id["Diagnosis"]["status"]=="AVAILABLE_BOUND"
+    assert by_id["Diagnosis"]["result"]["execution_readiness"]=="INPUTS_UNVERIFIED"
+    assert by_id["RTC"]["status"]=="BLOCKED"
+    assert by_id["C01"]["result"]["dispatch_route"]=="BUILTIN"
