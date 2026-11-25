@@ -35,24 +35,77 @@ def fnv(value):
     return f'{h:08x}'
 
 
+# Admission is per tool, not per packet family. All existing finite-model
+# algorithms and the public bind_adapters(packet) mapping remain intact.
+_INPUT_GROUPS = {
+    'GDOS': ('matrix',), 'Discriminator': ('threshold',),
+    'BiasPerturbation': ('matrix',), 'Architecture': ('matrix',),
+    'MultiObject': ('matrix',), 'GOAL': ('matrix', 'threshold'),
+    'CurrentnessAudit': (), 'Reconciler': ('threshold',),
+    'MT': ('matrix', 'threshold'), 'Diagnosis': ('threshold',),
+    'RTC': ('threshold',), 'ASSERT': ('matrix', 'threshold'), 'TRC': (),
+}
+
+
 def bind_adapters(packet):
-    # The source representation is explicit and frozen; fail on transfer corruption.
-    # PD/PDAudit/Prose are separately provided by run_packet.py.
-    matrix=packet['matrix']
-    if fnv(matrix['raw']) != matrix['transfer_fnv']:
-        raise ValueError('CONNECTOR_PACKET_TRANSFER_MISMATCH')
-    axes=tuple(matrix['axes'])
-    rows=tuple(tuple(line.split()) for line in matrix['raw'].splitlines())
-    if len(set(r[0] for r in rows))!=len(rows) or any(len(r)!=len(axes)+1 for r in rows):
-        raise ValueError('MALFORMED_OR_DUPLICATE_MATRIX_ROW')
-    expected=tuple(packet['expected_ids'])
-    expected_counts=matrix['declared_counts']
-    source_ids=tuple(x['sha'] for x in packet['sources'])
-    t=packet['threshold']
-    thresholds=tuple(t['values'])
-    qs=tuple(range(t['lower'],t['upper']+1))
-    if fnv(t['proof'])!=t['proof_fnv']:
-        raise ValueError('PROOF_TRANSFER_MISMATCH')
+    """Return independent bindings for the original registered tool set."""
+    def binding(tool, groups):
+        def invoke(current, plan):
+            try:
+                admitted = _bind_admitted_adapters(packet, tool, groups)
+            except KeyError as exc:
+                return {'status':'OPEN','execution_truth':'OPEN',
+                        'blocker':f'DOCUMENT_INPUT_REQUIRED:{exc.args[0]}',
+                        'material_delta':False,'evidence':[f'packet:{digest(packet)}'],
+                        'scope':'BOUNDED_EXPLICIT_INPUT; NO_NATIVE_INVOCATION'}
+            except (ValueError, TypeError, IndexError) as exc:
+                return {'status':'BLOCKED','execution_truth':'BLOCKED',
+                        'blocker':f'DOCUMENT_INPUT_INVALID:{exc}',
+                        'material_delta':False,'evidence':[f'packet:{digest(packet)}'],
+                        'scope':'BOUNDED_EXPLICIT_INPUT; NO_NATIVE_INVOCATION'}
+            return admitted[tool](current, plan)
+        return invoke
+    return {tool:binding(tool, groups) for tool, groups in _INPUT_GROUPS.items()}
+
+
+def _bind_admitted_adapters(packet, tool, groups):
+    # Admit only the evidence used by this invocation. No input validation
+    # failure may prevent an independent binding from being constructed.
+    sources=packet['sources']
+    if not sources:
+        raise KeyError('sources')
+    source_ids=tuple(x['sha'] for x in sources)
+    if any(not isinstance(s,str) or not s for s in source_ids):
+        raise ValueError('SOURCE_ID_REQUIRED')
+    if tool=='CurrentnessAudit':
+        for source in sources:
+            if not source['path']:
+                raise ValueError('SOURCE_PATH_REQUIRED')
+    if 'matrix' in groups:
+        matrix=packet['matrix']
+        if fnv(matrix['raw']) != matrix['transfer_fnv']:
+            raise ValueError('CONNECTOR_PACKET_TRANSFER_MISMATCH')
+        axes=tuple(matrix['axes'])
+        rows=tuple(tuple(line.split()) for line in matrix['raw'].splitlines())
+        if any(len(r)!=len(axes)+1 for r in rows) or len(set(r[0] for r in rows))!=len(rows):
+            raise ValueError('MALFORMED_OR_DUPLICATE_MATRIX_ROW')
+        # MultiObject uses only the row identities and labels, not declared counts.
+        if tool!='MultiObject':
+            expected=tuple(packet['expected_ids'])
+        if tool in ('GDOS','Architecture'):
+            expected_counts=matrix['declared_counts']
+        if tool=='Architecture' and matrix['exclusive_axis'] not in axes:
+            raise ValueError('MATRIX_EXCLUSIVE_AXIS_NOT_FOUND')
+    if 'threshold' in groups:
+        t=packet['threshold']
+        thresholds=tuple(t['values'])
+        qs=tuple(range(t['lower'],t['upper']+1))
+        if fnv(t['proof'])!=t['proof_fnv']:
+            raise ValueError('PROOF_TRANSFER_MISMATCH')
+        if tool in ('MT','GOAL','RTC'):
+            tuple(t['baseline_probes'])
+        if tool in ('MT','GOAL','ASSERT','Reconciler'):
+            t['declared_pair_count']
     def counts(rs):
         return {a:dict(sorted(Counter(k for r in rs for k in r[i+1].split('/')).items())) for i,a in enumerate(axes)}
     def coverage(rs):
@@ -73,7 +126,7 @@ def bind_adapters(packet):
         out=discriminate()
         return envelope('discriminator.run_discriminator',out,'OPEN' if out['status']=='OPEN' else 'EXECUTED')
     def bias(current,plan):
-        out=run_bias_perturbation(rows,(tuple(reversed(rows)),tuple(sorted(rows,key=lambda r:r[2]))),
+        out=run_bias_perturbation(rows,(tuple(reversed(rows)),tuple(sorted(rows,key=lambda r:r[2] if len(r)>2 else r[1:]))),
               runner=lambda r:(coverage(r),counts(r)),semantics_equivalent=lambda a,b:Counter(a)==Counter(b),result_equivalent=lambda a,b:a==b)
         return envelope('bias_perturbation.run_bias_perturbation',out,'EXECUTED' if out['status']=='ACCEPT' else 'OPEN')
     def architecture(current,plan):
