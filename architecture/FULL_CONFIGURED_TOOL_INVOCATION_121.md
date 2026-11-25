@@ -133,16 +133,9 @@ HF002[
 ]
 ```
 
-HF002 re-applies Adapter_T only while:
+When upstream control permits local continuation, HF002 re-applies Adapter_T after every material local successor, even if that successor reports its live-local frontier inactive. A material successor cannot certify its own fixed point: a subsequent non-material pass is required.
 
-MaterialLocal
-and
-Live_T
-and
-UpstreamStable.
-
-Otherwise it reaches a typed relative close, OPEN, BLOCKED, CONFLICT, RETURN_REENTER, or
-resource stop according to the HF002 contract.
+On a non-material pass, unresolved affected-scope obligations or a still-live local frontier preserve OPEN. Relative closure additionally requires the local-close condition. Upstream reentry, BLOCKED, CONFLICT and resource exhaustion retain their distinct dispositions under the HF002 contract.
 
 For T = HF002:
 
@@ -278,8 +271,7 @@ or, for HF002 itself:
 
 configured-recurrence:SELF:SELF_CLOSE:rounds=1.
 
-PTI cannot return a successful configured transition while its recurrence disposition remains
-OPEN, BLOCKED, CONFLICT, RETURN_REENTER, or RESOURCE_STOP.
+PTI forwards `hf2_affected_frontier` and `hf2_scope_deltas` obligations to the shared recurrence executor. It cannot return a successful configured transition while its recurrence disposition remains OPEN, BLOCKED, CONFLICT, RETURN_REENTER, or RESOURCE_STOP.
 
 ### Tool Conductor factors
 
