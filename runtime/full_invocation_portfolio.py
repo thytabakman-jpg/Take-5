@@ -8,7 +8,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from global_tool_execution import execute_protected_transition
+from global_tool_execution import execute_protected_transition, ToolExecutionBlocked
 from direct_tool_command_gateway import (
     bind_direct_tool_commands,
     direct_tool_ids,
@@ -208,6 +208,28 @@ def audit_full_invocation_portfolio()->FullInvocationPortfolioAudit:
                 failures.append(
                     f"{tool_id}:PTI_RECURRENCE_EVIDENCE:{recurrence_ev}"
                 )
+
+            if tool_id!="HF002":
+                for field,value in (("hf2_affected_frontier",("unverified",)),("hf2_scope_deltas",{"downstream":"OPEN"})):
+                    consumed=[]
+                    try:
+                        execute_protected_transition(
+                            spec,
+                            behavior_id="FULL_CONFIGURED_INVOCATION_PROFILE",
+                            dispatch_fn=lambda p: ({},"scope-probe-dispatch"),
+                            execute_fn=lambda v,p: (v,"scope-probe-execute",{field:value}),
+                            consume_fn=lambda v,p: (consumed.append(v),"scope-probe-consume"),
+                            update_fn=lambda v,p: (v,"scope-probe-update"),
+                            reentry_fn=lambda v,p: (v,"scope-probe-reentry"),
+                            emission_audit_fn=lambda v,p: "scope-probe-emission",
+                        )
+                    except ToolExecutionBlocked as exc:
+                        if str(exc)!=f"PTI_HF2_RECURRENCE_NOT_CLOSED:{tool_id}:OPEN":
+                            failures.append(f"{tool_id}:PTI_AFFECTED_SCOPE_WRONG_BLOCK:{field}:{exc}")
+                    else:
+                        failures.append(f"{tool_id}:PTI_AFFECTED_SCOPE_FALSE_CLOSE:{field}")
+                    if consumed:
+                        failures.append(f"{tool_id}:PTI_AFFECTED_SCOPE_CONSUMED:{field}")
 
         except Exception as exc:
             failures.append(
