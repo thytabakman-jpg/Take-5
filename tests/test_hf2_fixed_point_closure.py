@@ -181,3 +181,27 @@ def test_hf2_round_receipts_freeze_nested_state_at_each_round():
     assert out["trace"][0]["state_after"]["nested"]["version"]==1
     assert out["trace"][1]["state_before"]["nested"]["version"]==1
     assert out["trace"][1]["state_after"]["nested"]["version"]==2
+
+
+def test_hf2_rejects_unverified_nested_mutations_and_textual_terminal():
+    initial={"nested":{"version":0}}
+    def run(state,memory):
+        state["nested"]["version"]=1
+        return {"execution_truth":"IMPLEMENTATION_EXECUTED","state":state}
+    engine=_engine(run)
+    engine.trc_verify=lambda *_:{"terminal":"false"}
+    out=engine.run(initial,{})
+    assert out["status"]=="OPEN"
+    assert out["state"]=={"nested":{"version":0}}
+    assert initial=={"nested":{"version":0}}
+    assert out["trace"][0]["state_after"]==out["state"]
+
+
+def test_hf2_non_success_does_not_admit_in_place_mutation():
+    initial={"nested":{"version":0}}
+    def run(state,memory):
+        state["nested"]["version"]=1
+        return {"execution_truth":"BLOCKED"}
+    out=_engine(run).run(initial,{})
+    assert out["status"]=="BLOCKED"
+    assert out["state"]==initial=={"nested":{"version":0}}
