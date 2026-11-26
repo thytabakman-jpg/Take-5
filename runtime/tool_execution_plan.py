@@ -59,8 +59,8 @@ class ToolExecutionPlan:
         # Cardinality is not coverage: repeated coordinates could displace
         # an entire Scope x ModeFace or question/operator coordinate.
         expected_cells=tuple(D36CCell(scope,face) for scope in Scope for face in ModeFace)
-        if (not self.tool_id or self.mode != DEFAULT_MODE or not self.wrapper_required
-                or self.geometry != DEFAULT_GEOMETRY or not self.recurrence_required
+        if (not self.tool_id or self.mode != DEFAULT_MODE or self.wrapper_required is not True
+                or self.geometry != DEFAULT_GEOMETRY or self.recurrence_required is not True
                 or self.invocation_profile != FULL_INVOCATION_PROFILE
                 or self.recurrence_engine != recurrence_engine_for(self.tool_id)
                 or len(self.cells)!=36 or set(self.cells)!=set(expected_cells)
@@ -79,9 +79,9 @@ class ToolExecutionPlan:
             return False
         # The observed layer inventory cannot establish its own completeness.
         # Resolve registered requirements lazily to avoid a module-import cycle.
-        from tool_run_registry import CONFIGURED_RUNS
-        spec=CONFIGURED_RUNS.get(self.tool_id)
-        if spec is not None and layers!=set(spec.required_layers):
+        from tool_run_registry import registered_spec
+        spec=registered_spec(self.tool_id)
+        if spec is None or not spec.complete() or layers!=set(spec.required_layers):
             return False
         return set(self.native)=={(layer,cell) for layer in layers for cell in expected_cells}
 
@@ -94,7 +94,7 @@ def d36c_cells() -> tuple[D36CCell, ...]:
 
 
 def build_tool_execution_plan(spec: ConfiguredRunSpec, *, requested_mode: str | None=None) -> ToolExecutionPlan:
-    if not spec.complete():
+    if type(spec) is not ConfiguredRunSpec or not spec.complete():
         raise ToolExecutionBlocked(f"INCOMPLETE_CONFIGURED_RUN:{spec.tool_id}")
 
     mode=spec.default_mode if requested_mode is None else requested_mode

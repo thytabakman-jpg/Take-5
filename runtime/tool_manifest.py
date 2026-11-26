@@ -1043,6 +1043,7 @@ _project_registry_manifests(OVERRIDES, A5_REGISTRY, LEARNING_SPECS, _DEDICATED_N
 
 # V. Manifest lookup and reconstruction gates.
 def manifest_for(tool_id:str)->ToolManifest:
+    """Reconstruct a manifest, including generic candidates; this is not registration."""
     tool_id=str(tool_id)
     if tool_id in OVERRIDES:
         return OVERRIDES[tool_id]

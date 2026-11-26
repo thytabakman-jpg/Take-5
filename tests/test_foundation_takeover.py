@@ -5,7 +5,10 @@ from foundation_snapshot import self_contained
 
 def test_configured_run_identity_requires_closure_and_reentry():
     s=ConfiguredRunSpec("MTA",True,True,True,"WHEN_STRONG_CLAIM")
-    assert s.complete() and validate_specs([s])
+    from tool_run_registry import CONFIGURED_RUNS
+    assert s.structurally_complete() and not s.complete()
+    assert not validate_specs([s])
+    assert CONFIGURED_RUNS["MTA"].complete() and validate_specs([CONFIGURED_RUNS["MTA"]])
 
 def test_reconciler_preserves_common_conflict_and_provenance():
     r=reconcile([{"a":1,"b":2},{"a":1,"b":3}])

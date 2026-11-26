@@ -203,3 +203,18 @@ def _build_configured_runs(tool_ids):
 
 
 CONFIGURED_RUNS=_build_configured_runs(MATERIAL_TOOLS)
+
+
+def registered_spec(tool_id):
+    """Return the authoritative configured specification, or None."""
+    return CONFIGURED_RUNS.get(tool_id) if isinstance(tool_id,str) else None
+
+
+def matches_registered_spec(spec):
+    """A structural or experimental specification is not execution authority."""
+    if type(spec) is not ConfiguredRunSpec:
+        return False
+    canonical=registered_spec(spec.tool_id)
+    return canonical is not None and spec==canonical and all(
+        type(value) is type(vars(canonical)[name]) for name,value in vars(spec).items()
+    )

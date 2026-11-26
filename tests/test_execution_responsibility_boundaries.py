@@ -51,3 +51,25 @@ def test_explicit_empty_mode_override_is_invalid():
 
     with pytest.raises(planning.ToolExecutionBlocked, match="NON_OBSERVER_TOOL_RUN_FORBIDDEN"):
         planning.build_tool_execution_plan(CONFIGURED_RUNS["MT"], requested_mode="")
+
+
+def test_configured_specs_require_registered_exact_authority():
+    from dataclasses import replace
+    import pytest
+    from tool_manifest import manifest_for
+
+    spec=CONFIGURED_RUNS["MT"]
+    assert spec.complete()
+    assert replace(spec).complete()
+    assert manifest_for("UNREGISTERED_TEST").complete()  # generic reconstruction only
+    for invalid in (
+        replace(spec, tool_id="UNREGISTERED_TEST", manifest_id="UNREGISTERED_TEST", protected_behaviors=()),
+        replace(spec, manifest_id="GOAL", protected_behaviors=()),
+        replace(spec, external_challenge="NONE"),
+        replace(spec, protected_behaviors=()),
+        replace(spec, required_layers=("SUBSTITUTED",)),
+        replace(spec, wrapper_required=1),
+    ):
+        assert not invalid.complete()
+        with pytest.raises(planning.ToolExecutionBlocked, match="INCOMPLETE_CONFIGURED_RUN"):
+            planning.build_tool_execution_plan(invalid)

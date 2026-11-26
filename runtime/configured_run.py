@@ -30,6 +30,12 @@ class ConfiguredRunSpec:
     invocation_profile:str=FULL_INVOCATION_PROFILE
 
     def complete(self):
+        """Validate admission against the authoritative registered configuration."""
+        from tool_run_registry import matches_registered_spec
+        return matches_registered_spec(self) and self.structurally_complete()
+
+    def structurally_complete(self):
+        """Check a candidate shape without granting configured execution authority."""
         manifest_id=self.manifest_id or self.tool_id
         recurrence_ok=(
             self.recurrence_required

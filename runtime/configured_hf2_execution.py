@@ -243,7 +243,8 @@ def execute_configured_with_hf2(
             f"CONFIGURED_HF2_TOOL_IDENTITY_MISMATCH:{tool_id}"
         )
 
-    if not bool(getattr(plan,"complete",False)):
+    from tool_execution_plan import ToolExecutionPlan
+    if type(plan) is not ToolExecutionPlan or not plan.complete:
         raise ConfiguredHF2ExecutionError(
             f"CONFIGURED_HF2_PLAN_INCOMPLETE:{tool_id}"
         )

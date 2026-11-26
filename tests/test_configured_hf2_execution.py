@@ -276,3 +276,22 @@ def test_native_hf2_never_closes_an_explicit_non_success_result():
         forged = deepcopy(clean["trace"])
         forged[-1]["raw_result"]["status"] = status
         assert not hf2_fixed_point_witness(forged)
+
+
+def test_configured_executor_rejects_unregistered_and_impostor_plans_before_adapter():
+    from dataclasses import replace
+    from types import SimpleNamespace
+    import pytest
+    from configured_hf2_execution import ConfiguredHF2ExecutionError
+
+    plan=build_tool_execution_plan(CONFIGURED_RUNS["MT"])
+    unknown=replace(plan, tool_id="UNREGISTERED_TEST")
+    assert not unknown.complete
+    called=[]
+    def adapter(*args):
+        called.append(args)
+        return True
+    for invalid in (unknown, SimpleNamespace(tool_id="MT", complete=True, recurrence_required=True, recurrence_engine="HF002")):
+        with pytest.raises(ConfiguredHF2ExecutionError, match="CONFIGURED_HF2_PLAN_INCOMPLETE"):
+            execute_configured_with_hf2(tool_id=invalid.tool_id, plan=invalid, state={}, adapter=adapter)
+    assert called==[]
