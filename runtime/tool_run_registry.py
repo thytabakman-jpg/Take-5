@@ -17,7 +17,10 @@ MATERIAL_TOOLS=tuple([f"C{i:02d}" for i in range(1,50)]+[
 
 ASSERT_LAYERS=("ASSERT_LAYER_1","ASSERT_LAYER_2")
 
-PROTECTED_BEHAVIORS={
+# Independent requirements for configured admission, not a list of actual
+# manifest bindings. ConfiguredRunSpec.complete() checks these against the
+# manifest; deriving them from that manifest would erase this verification.
+REQUIRED_PROTECTED_BEHAVIORS={
     "ProjectManager":(
         "PROJECTMANAGER_PROJECT_IDENTITY_BINDING",
         "PROJECTMANAGER_PROJECT_PACKAGE_VALIDATION",
@@ -162,6 +165,10 @@ PROTECTED_BEHAVIORS={
     ),
 }
 
+# Preserve the public name for existing consumers. Both names share one inventory.
+PROTECTED_BEHAVIORS=REQUIRED_PROTECTED_BEHAVIORS
+
+
 def _spec(tool):
     strong=(
         tool in {
@@ -180,7 +187,7 @@ def _spec(tool):
         external_challenge="WHEN_STRONG_CLAIM" if strong else "NONE",
         required_layers=layers,
         manifest_id=tool,
-        protected_behaviors=PROTECTED_BEHAVIORS.get(tool,()),
+        protected_behaviors=REQUIRED_PROTECTED_BEHAVIORS.get(tool,()),
         recurrence_engine=(
             SELF_RECURRENCE_ENGINE
             if tool=="HF002"

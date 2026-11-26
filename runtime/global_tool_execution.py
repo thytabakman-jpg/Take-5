@@ -39,11 +39,7 @@ class ToolExecutionBlocked(RuntimeError):
     pass
 
 
-@dataclass(frozen=True)
-class ProtectedExecutionResult:
-    value: object
-    transition_receipt: ProtectedTransitionReceipt
-
+# I. Universal configured execution plan and coverage validation.
 
 @dataclass(frozen=True)
 class D36CCell:
@@ -141,6 +137,14 @@ def build_tool_execution_plan(spec: ConfiguredRunSpec, *, requested_mode: str | 
         raise ToolExecutionBlocked(f"GLOBAL_TOOL_EXECUTION_INCOMPLETE:{spec.tool_id}")
     return plan
 
+
+
+# II. Protected state-transition orchestration (consumes the shared plan).
+
+@dataclass(frozen=True)
+class ProtectedExecutionResult:
+    value: object
+    transition_receipt: ProtectedTransitionReceipt
 
 
 def execute_protected_transition(

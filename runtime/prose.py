@@ -481,14 +481,10 @@ def audit_jewish_lexical_forms(
     return tuple(sorted(violations,key=lambda x:(x.start,x.end,x.excerpt)))
 
 
-def assess_prose(
-    text:str,
-    contract:ProseContract,
-    evidence:ProseEvidence|None=None,
-)->ProseAssessment:
-    requested=tuple(dict.fromkeys(str(x) for x in contract.constraints if str(x)))
-    unsupported=tuple(sorted(set(requested)-SUPPORTED_CONSTRAINTS))
-
+def _evaluate_deterministic_constraints(
+    text:str, contract:ProseContract, requested:tuple[str,...],
+)->tuple[tuple[ProseViolation,...],tuple[str,...]]:
+    """Evaluate text and contract rules without semantic evidence or acceptance decisions."""
     violations=()
     residuals=()
     if AFFIRMATIVE_FIRST in requested:
@@ -511,6 +507,18 @@ def assess_prose(
         residuals=residuals+lexical_residuals
         if not lexical_residuals:
             violations=violations+audit_jewish_lexical_forms(text,entries)
+    return violations,residuals
+
+
+def assess_prose(
+    text:str,
+    contract:ProseContract,
+    evidence:ProseEvidence|None=None,
+)->ProseAssessment:
+    requested=tuple(dict.fromkeys(str(x) for x in contract.constraints if str(x)))
+    unsupported=tuple(sorted(set(requested)-SUPPORTED_CONSTRAINTS))
+
+    violations,residuals=_evaluate_deterministic_constraints(text,contract,requested)
 
     if unsupported:
         return ProseAssessment(
