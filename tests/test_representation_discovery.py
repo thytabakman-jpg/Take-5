@@ -23,3 +23,19 @@ def test_static_empty_frontier_does_not_certify_dynamic_view_closure():
     u1=candidate_universe(s,(View("alternate",()),),{"relation":rel})
     assert not u0.candidates
     assert u1.candidates
+
+def test_question_frontier_only_delta_requires_reentry():
+    from representation_discovery import DiscoveryDelta
+    delta=DiscoveryDelta(question_frontier_changed=True)
+    assert delta.material
+    assert reentry_required(delta)
+    assert not DiscoveryDelta().material
+
+
+def test_compare_discovery_preserves_question_only_delta():
+    views=(View("inventory",()),)
+    universe=candidate_universe({},views,{})
+    delta=compare_discovery(views,views,universe,universe,question_frontier_changed=True)
+    assert delta.question_frontier_changed and reentry_required(delta)
+    assert not delta.state_changed and not delta.view_changed and not delta.candidate_universe_changed
+    assert not reentry_required(compare_discovery(views,views,universe,universe))

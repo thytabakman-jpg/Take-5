@@ -25,12 +25,13 @@ class DiscoveryDelta:
     relation_changed:bool=False
     authority_or_evidence_changed:bool=False
     runtime_reality_changed:bool=False
+    question_frontier_changed:bool=False
 
     @property
     def material(self):
         return any((self.state_changed,self.view_changed,self.candidate_universe_changed,
                     self.relation_changed,self.authority_or_evidence_changed,
-                    self.runtime_reality_changed))
+                    self.runtime_reality_changed,self.question_frontier_changed))
 
 def generate_views(state:dict,generators:Iterable[Callable[[dict],View]]):
     return tuple(g(state) for g in generators)
@@ -44,12 +45,13 @@ def candidate_universe(state:dict,views:tuple[View,...],generators):
         found.extend(f"{cls}:{v}" for v in vals)
     return CandidateUniverse(tuple(classes),tuple(dict.fromkeys(found)))
 
-def compare_discovery(before_views,after_views,before_universe,after_universe,relation_changed=False,state_changed=False):
+def compare_discovery(before_views,after_views,before_universe,after_universe,relation_changed=False,state_changed=False,*,question_frontier_changed=False):
     return DiscoveryDelta(
         state_changed=state_changed,
         view_changed=before_views!=after_views,
         candidate_universe_changed=before_universe!=after_universe,
         relation_changed=relation_changed,
+        question_frontier_changed=question_frontier_changed,
     )
 
 def reentry_required(delta:DiscoveryDelta):
