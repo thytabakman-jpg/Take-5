@@ -24,3 +24,30 @@ def test_prose_policy_exports_keep_existing_identity():
         assert getattr(prose, name) is getattr(prose_profiles, name)
     assert prose.ProseContract("default").constraints == prose_profiles.LEGACY_DEFAULT_CONSTRAINTS
     assert prose.ProseContract("semantic", profile="SEMANTIC_ONLY").constraints == ()
+
+
+def test_registered_plan_rejects_missing_or_substituted_native_layers():
+    from dataclasses import replace
+    import pytest
+    from configured_hf2_execution import ConfiguredHF2ExecutionError, execute_configured_with_hf2
+
+    plan = planning.build_tool_execution_plan(CONFIGURED_RUNS["ASSERT"])
+    layer = plan.native[0][0]
+    missing = replace(plan, native=tuple(pair for pair in plan.native if pair[0] != layer))
+    substituted = replace(plan, native=tuple(
+        ("UNREGISTERED_LAYER" if name == layer else name, cell)
+        for name, cell in plan.native
+    ))
+    for invalid in (missing, substituted):
+        assert not invalid.complete
+        with pytest.raises(ConfiguredHF2ExecutionError, match="CONFIGURED_HF2_PLAN_INCOMPLETE"):
+            execute_configured_with_hf2(
+                tool_id="ASSERT", plan=invalid, state={}, adapter=lambda *_: True
+            )
+
+
+def test_explicit_empty_mode_override_is_invalid():
+    import pytest
+
+    with pytest.raises(planning.ToolExecutionBlocked, match="NON_OBSERVER_TOOL_RUN_FORBIDDEN"):
+        planning.build_tool_execution_plan(CONFIGURED_RUNS["MT"], requested_mode="")
