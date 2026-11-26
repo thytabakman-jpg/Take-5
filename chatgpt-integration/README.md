@@ -2,6 +2,12 @@
 
 This isolated integration branch packages the authoritative Take-5 **main** commit for a read-only, ephemeral ChatGPT Python execution environment. Use the GitHub connector and an existing verified packaging artifact. Refreshing that artifact requires an available GitHub Actions runner and applicable repository quota; if Actions cannot run or a current artifact is unavailable, report OPEN/BLOCKED rather than claiming a successful bootstrap. No additional API key, model subscription, machine or scheduled job is inherent to the integration. The branch does not alter governing main or ICC-System.
 
+## Navigation
+
+**Operational instructions:** [Retrieve, verify and execute](#retrieve-verify-and-execute) · [Evidence, execution and security boundaries](#evidence-execution-and-security-boundaries) · [Finite packet example](#packet-shape-finite-explicitly-labelled-example).
+
+**Technical reference:** [Provider responsibilities and bindings](#read-only-document-analysis-bindings) · [Architecture graphs](#explicit-architecture-graph-input) · [Exact quotation ASSERT](#exact-quotation-assert-input) · [Structured Diagnosis and RTC](#structured-diagnosis-and-rtc-input) · [Worker contract mapping](#worker-contract-mapping-and-execution-provenance).
+
 ## Retrieve, verify and execute
 
 1. Establish the exact requested tool IDs.
@@ -54,7 +60,7 @@ The [integration regression suite](test_document_tool_adapters.py) exercises bot
 
 ### Specialized bindings
 
-[document_tool_adapters.py](document_tool_adapters.py) provides host bindings for explicitly admitted classification matrices, finite integer-threshold comparisons, and structured Diagnosis/RTC evidence. It is packaged with the runtime on demand. Run the existing packet runner with `--adapter-module <integration-directory>/document_tool_adapters.py`. PD, PDAudit and Prose continue to use the packet runner's built-in bindings unless an explicit replacement is authorized.
+[document_tool_adapters.py](document_tool_adapters.py) provides host bindings for explicitly admitted classification matrices, finite integer-threshold comparisons, and structured Diagnosis/RTC evidence. It is packaged with the runtime on demand. Run the existing packet runner with `--adapter-module <integration-directory>/document_tool_adapters.py`. See [provider responsibilities](#provider-responsibilities) for the built-in binding and override rules.
 
 Admission is per registered tool. A combined packet may supply multiple input groups.
 
@@ -81,7 +87,7 @@ GOAL's MT preflight is recovered from an actual gateway invocation. MT runs a li
 
 ### Explicit Architecture graph input
 
-For Architecture alone, `architecture_graph` is an alternative to `matrix`; supplying both is BLOCKED. It contains a nonempty list of unique text `expected_units` and a `units` list. Each unit has a unique nonempty `id`, `source` path and exact Git blob `sha` matching a declared source, nonempty `role` and `locator`, and `internal_dependencies` (a list of unique text unit IDs). Optional `external_dependencies`, `information_ownership` and `execution_dependencies` are lists of declared text identities. Execution dependencies must be a subset of internal dependencies. The optional Boolean `check_unit_job_purity` enables the existing native `UNIT_JOB_PURITY` constraint; each unit then requires a nonempty `jobs` list of distinct identities and a nonblank `job_evidence` source locator. Missing fields remain OPEN; malformed fields are BLOCKED. No exceptions or jobs are inferred from role labels. Source paths must be unique. Missing required fields remain OPEN; malformed fields are BLOCKED before the native entrypoint. Other tool bindings ignore this group.
+For Architecture alone, `architecture_graph` is an alternative to `matrix`; supplying both is BLOCKED. It contains a nonempty list of unique text `expected_units` and a `units` list. Each unit has a unique nonempty `id`, `source` path and exact Git blob `sha` matching a declared source, nonempty `role` and `locator`, and `internal_dependencies` (a list of unique text unit IDs). Optional `external_dependencies`, `information_ownership` and `execution_dependencies` are lists of declared text identities. Execution dependencies must be a subset of internal dependencies. The optional Boolean `check_unit_job_purity` enables the existing native `UNIT_JOB_PURITY` constraint; each unit then requires a nonempty `jobs` list of distinct identities and a nonblank `job_evidence` source locator. No exceptions or jobs are inferred from role labels. Source paths must be unique. Missing required fields remain OPEN; malformed fields are BLOCKED before the native entrypoint. Other tool bindings ignore this group.
 
 The graph binding reports missing or unexpected units, dangling internal dependencies, reverse internal consumers, declared roles and ownership, and source provenance through the native Architecture core. `InteractionState.diagnostic_candidates` separately reports cyclic strongly connected components (including self-loops), cycles within explicitly declared execution edges, and multiple declared owners of a key. These are mechanical candidates, not proof of harmful execution cycles or incompatible ownership. When requested, the native unit-job constraint checks the explicitly declared job inventory; its blocker is retained. The host supplies and authenticates the graph facts; the adapter does not independently derive relationships or certify source truth, semantic ownership, external consumers or dynamic dependencies. The result intentionally retains OPEN for these unverified obligations, including on a structurally clean graph.
 
@@ -117,6 +123,4 @@ The worker contract defines semantic obligations rather than a common Python ABI
 
 A native return marked OPEN or BLOCKED is distinct from an admission failure before invocation. The gateway's normalized execution truth remains authoritative for closure, while the separate adapter provenance records whether the native call returned. Exceptions with uncertain execution phase remain UNKNOWN. External providers remain responsible for their own execution evidence. A binding or a recorded return alone is not SEMANTICALLY_APPLIED or FULL_MATCH.
 
-### Host workflow for document requests
-
-Follow the unified [retrieve, verify and execute procedure](#retrieve-verify-and-execute), including the document-specific evidence preparation and verification steps.
+For document requests, follow the [operational procedure](#retrieve-verify-and-execute), including its evidence preparation and verification steps.
