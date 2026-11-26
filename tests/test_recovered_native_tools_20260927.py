@@ -143,3 +143,25 @@ def test_architecture_unit_identity_is_not_coerced_to_text():
         analyze_architecture=lambda *_:result, protected_constraints=(UNIT_JOB_PURITY,))
     assert out["status"]=="OPEN"
     assert out["blocker"]=="ARCHITECTURE_UNIT_JOB_IDS_INVALID"
+
+
+def test_bias_perturbation_requires_explicit_boolean_equivalence():
+    for unknown in (None, "OPEN", 1):
+        calls=[]
+        def runner(value):
+            calls.append(value)
+            return value
+        out=run_bias_perturbation(0,[1],runner=runner,
+            semantics_equivalent=lambda *_:unknown,result_equivalent=lambda a,b:a==b)
+        assert out["status"]=="OPEN" and not out["bias_sensitive"] and calls==[0]
+        out=run_bias_perturbation(0,[1],runner=lambda x:x,
+            semantics_equivalent=lambda *_:True,result_equivalent=lambda *_:unknown)
+        assert out["status"]=="OPEN" and not out["bias_sensitive"]
+        assert out["results"][0].result_changed is None
+
+
+def test_bias_perturbation_empty_inventory_remains_open():
+    out=run_bias_perturbation(0,[],runner=lambda x:x,
+        semantics_equivalent=lambda *_:True,result_equivalent=lambda a,b:a==b)
+    assert out["status"]=="OPEN"
+    assert out["blocker"]=="BIAS_PERTURBATION_INVENTORY_REQUIRED"

@@ -33,21 +33,28 @@ def run_bias_perturbation(
     unresolved=[]
     sensitive=[]
 
-    for perturbation in tuple(perturbations):
+    frozen_perturbations=tuple(perturbations)
+    for perturbation in frozen_perturbations:
         candidate=deepcopy(perturbation)
-        irrelevant=bool(semantics_equivalent(deepcopy(baseline_target),deepcopy(candidate)))
+        irrelevant=semantics_equivalent(deepcopy(baseline_target),deepcopy(candidate)) is True
         if not irrelevant:
             rows.append(PerturbationResult(candidate,False,None,None))
             unresolved.append(candidate)
             continue
         result=deepcopy(runner(deepcopy(candidate)))
-        changed=not bool(result_equivalent(deepcopy(baseline_result),deepcopy(result)))
+        equivalent=result_equivalent(deepcopy(baseline_result),deepcopy(result))
+        if equivalent is not True and equivalent is not False:
+            rows.append(PerturbationResult(candidate,True,None,result))
+            unresolved.append(candidate)
+            continue
+        changed=not equivalent
         rows.append(PerturbationResult(candidate,True,changed,result))
         if changed:
             sensitive.append(candidate)
 
     return {
-        "status":"OPEN" if unresolved else "ACCEPT",
+        "status":"OPEN" if unresolved or not frozen_perturbations else "ACCEPT",
+        **({"blocker":"BIAS_PERTURBATION_INVENTORY_REQUIRED"} if not frozen_perturbations else {}),
         "baseline_result":baseline_result,
         "results":tuple(rows),
         "bias_sensitive":tuple(sensitive),
