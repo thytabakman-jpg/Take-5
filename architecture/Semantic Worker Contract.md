@@ -1,4 +1,4 @@
-# Semantic Worker Adapter Contract 001
+# Semantic Worker Contract
 
 **Contract revision:** 1.1. This contract governs the controller–worker boundary; it does not replace individual tool mathematics, the registered invocation profile, or the host-specific binding ABI.
 
@@ -35,7 +35,7 @@ Missing material input remains OPEN; invalid or contradictory input is BLOCKED o
 | Verification hooks | Testable expected consequences, non-regression obligations and applicable verification method |
 | Continuation signal | Material successor, local frontier, affected scope, or grounds for stopping |
 
-Preserve the native tool's own result vocabulary and the host's documented envelope; mapping between them must preserve unresolved obligations and cannot upgrade success. Follow the [current invocation guide](../integration/CURRENT_FULL_TOOL_INVOCATION.md) for configured execution. Binding alone does not establish worker availability or semantic adequacy.
+Preserve the native tool's own result vocabulary and the host's documented envelope; mapping between them must preserve unresolved obligations and cannot upgrade success. Follow the [current invocation guide](../integration/Tool%20Execution%20Guide.md) for configured execution. Binding alone does not establish worker availability or semantic adequacy.
 
 ## Execution evidence and coverage
 

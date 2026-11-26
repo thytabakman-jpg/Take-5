@@ -1,9 +1,9 @@
-# Full Configured Tool Invocation 121
+# Tool Execution Architecture
 
 
 ## Authority and reader route
 
-This document owns the architectural invariant, formal justification and protected behaviour of full configured invocation. [Current Full Tool Invocation](../integration/CURRENT_FULL_TOOL_INVOCATION.md) is its operational recovery and routing summary, not an independent competing definition. The live registry, manifest and execution implementations remain the authorities for exact registered identities and executable behavior. Preserve any discrepancy as OPEN pending owner verification; do not infer semantic coverage from a routing summary.
+This document owns the architectural invariant, formal justification and protected behaviour of full configured invocation. [Tool Execution Guide](../integration/Tool%20Execution%20Guide.md) is its operational recovery and routing summary, not an independent competing definition. The live registry, manifest and execution implementations remain the authorities for exact registered identities and executable behavior. Preserve any discrepancy as OPEN pending owner verification; do not infer semantic coverage from a routing summary.
 
 ## Problem
 
@@ -124,7 +124,7 @@ A second outer HF002 is not added.
 
 ## Repository routes
 
-All repository-owned invocation routes converge on the shared configured plan and recurrence executor. The [operational guide](../integration/CURRENT_FULL_TOOL_INVOCATION.md#execution-routes) identifies the entrypoints.
+All repository-owned invocation routes converge on the shared configured plan and recurrence executor. The [operational guide](../integration/Tool%20Execution%20Guide.md#execution-routes) identifies the entrypoints.
 
 - Direct commands and ImprovementCore-selected tools share `bind_selected_tools`, `build_tool_execution_plan` and `execute_configured_with_hf2`. The ordered binding must equal the authorized direct request. Inherited controller selections cannot add tools or veto a direct request merely by naming an unrelated unregistered identity.
 - [Protected Transition Integrity](../runtime/global_tool_execution.py) executes its execution edge through `execute_configured_with_hf2`. Execution callbacks may return `(value, evidence)` for a one-round local close or `(value, evidence, recurrence_hints)` for a material or live successor. Successful transitions retain configured recurrence evidence, for example `configured-recurrence:HF002:RELATIVE_CLOSE:rounds=n` or `configured-recurrence:SELF:SELF_CLOSE:rounds=1`. PTI forwards `hf2_affected_frontier` and `hf2_scope_deltas`; OPEN, BLOCKED, CONFLICT, RETURN_REENTER or RESOURCE_STOP cannot authorize successful transition.
@@ -138,7 +138,7 @@ The direct gateway rejects recognized unregistered formal objects, including mix
 
 Missing adapters preserve OPEN. Incomplete configured identities or invalid recurrence identities block execution. Unresolved local frontiers preserve typed HF2 non-closure.
 
-Execution receipts establish only their evidenced scope. The [worker contract](../runtime/WORKER_ADAPTER_CONTRACT.md#execution-evidence-and-coverage) defines execution truth and semantic evidence requirements; plan completeness, synthetic routing tests and bounded native results do not imply full semantic coverage.
+Execution receipts establish only their evidenced scope. The [worker contract](Semantic%20Worker%20Contract.md#execution-evidence-and-coverage) defines execution truth and semantic evidence requirements; plan completeness, synthetic routing tests and bounded native results do not imply full semantic coverage.
 
 ## Protected reconstruction
 

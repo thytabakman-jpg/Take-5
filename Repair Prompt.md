@@ -46,7 +46,7 @@ The linked PD protocol governs historical audit-reduction research, mathematical
 
 **Reusable ChatGPT execution environment and adapters:**
 
-[https://github.com/thytabakman-jpg/Take-5/tree/chatgpt-runtime-bootstrap/chatgpt-bootstrap](https://github.com/thytabakman-jpg/Take-5/tree/chatgpt-runtime-bootstrap/chatgpt-bootstrap)
+[https://github.com/thytabakman-jpg/Take-5/tree/chatgpt-runtime-bootstrap/chatgpt-integration](https://github.com/thytabakman-jpg/Take-5/tree/chatgpt-runtime-bootstrap/chatgpt-integration)
 
 **Configured invocation gateway:**
 
@@ -54,19 +54,19 @@ The linked PD protocol governs historical audit-reduction research, mathematical
 
 **Current configured invocation recovery and routing:**
 
-[https://github.com/thytabakman-jpg/Take-5/blob/main/integration/CURRENT_FULL_TOOL_INVOCATION.md](https://github.com/thytabakman-jpg/Take-5/blob/main/integration/CURRENT_FULL_TOOL_INVOCATION.md)
+[https://github.com/thytabakman-jpg/Take-5/blob/main/integration/Tool%20Execution%20Guide.md](https://github.com/thytabakman-jpg/Take-5/blob/main/integration/Tool%20Execution%20Guide.md)
 
 **Full configured invocation requirements (architectural authority):**
 
-[https://github.com/thytabakman-jpg/Take-5/blob/main/architecture/FULL_CONFIGURED_TOOL_INVOCATION_121.md](https://github.com/thytabakman-jpg/Take-5/blob/main/architecture/FULL_CONFIGURED_TOOL_INVOCATION_121.md)
+[https://github.com/thytabakman-jpg/Take-5/blob/main/architecture/Tool%20Execution%20Architecture.md](https://github.com/thytabakman-jpg/Take-5/blob/main/architecture/Tool%20Execution%20Architecture.md)
 
 **Historical packaging evidence (not a current runtime selector):**
 
 [https://github.com/thytabakman-jpg/Take-5/actions/runs/45527275910](https://github.com/thytabakman-jpg/Take-5/actions/runs/45527275910)
 
-The execution environment has already been established using GitHub Actions and ChatGPT's Python environment. Retrieve the current runtime automatically using the bootstrap instructions. Resolve the current authoritative main commit independently, select or refresh the matching verified artifact, and verify its operational availability before relying on it. Do not use a historical successful workflow as evidence of current runtime availability. No additional subscriptions, plugins, downloads or manual user configuration are required for the previously demonstrated bounded executions.
+The execution environment has already been established using GitHub Actions and ChatGPT's Python environment. Retrieve the current runtime automatically using the bootstrap instructions. Resolve both the current authoritative main commit and current integration commit independently, select or refresh the matching dual-revision verified artifact, and verify its operational availability before relying on it. Do not use a historical successful workflow as evidence of current runtime availability. No additional subscriptions, plugins, downloads or manual user configuration are required for the previously demonstrated bounded executions.
 
-Use actual native implementations wherever the required inputs and adapters are available. Follow the [bootstrap usage and adapter contract](https://github.com/thytabakman-jpg/Take-5/blob/chatgpt-runtime-bootstrap/chatgpt-bootstrap/README.md) and the [semantic worker adapter contract](runtime/WORKER_ADAPTER_CONTRACT.md). Verify that each adapter admits the actual target and task, not merely the registered tool identity. The supplied `document_adapters.py` bindings are specific to classification matrices, finite integer-threshold comparisons, and the explicitly admitted structured Diagnosis and RTC evidence routes described in the bootstrap README; they are not general document-repair workers. Do not submit unrelated documents to those bindings or reinterpret their bounded results as general semantic coverage. Where a suitable task-specific provider is absent, retain the affected tool obligation as OPEN and distinguish independently supported host analysis from native execution.
+Use actual native implementations wherever the required inputs and adapters are available. Follow the [bootstrap usage and adapter contract](https://github.com/thytabakman-jpg/Take-5/blob/chatgpt-runtime-bootstrap/chatgpt-integration/README.md) and the [semantic worker adapter contract](architecture/Semantic%20Worker%20Contract.md). Verify that each adapter admits the actual target and task, not merely the registered tool identity. The supplied `document_tool_adapters.py` bindings are specific to classification matrices, finite integer-threshold comparisons, and the explicitly admitted structured Diagnosis and RTC evidence routes described in the bootstrap README; they are not general document-repair workers. Do not submit unrelated documents to those bindings or reinterpret their bounded results as general semantic coverage. Where a suitable task-specific provider is absent, retain the affected tool obligation as OPEN and distinguish independently supported host analysis from native execution.
 
 Distinguish native execution from semantic host analysis. Do not falsely certify unavailable capabilities.
 

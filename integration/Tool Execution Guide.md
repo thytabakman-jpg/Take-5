@@ -1,12 +1,12 @@
-# Current Full Tool Invocation
+# Tool Execution Guide
 
 ## Purpose and authority
 
 Use this guide to invoke current registered Take-5 tools through their full configured execution path.
 
-The [invocation architecture](../architecture/FULL_CONFIGURED_TOOL_INVOCATION_121.md) governs the formal requirements. The [live registry](../runtime/tool_run_registry.py), [manifest](../runtime/tool_manifest.py) and runtime govern exact executable identities and behaviour. Resolve discrepancies against those authorities; preserve unresolved discrepancies as OPEN.
+The [invocation architecture](../architecture/Tool%20Execution%20Architecture.md) governs the formal requirements. The [live registry](../runtime/tool_run_registry.py), [manifest](../runtime/tool_manifest.py) and runtime govern exact executable identities and behaviour. Resolve discrepancies against those authorities; preserve unresolved discrepancies as OPEN.
 
-For a ChatGPT Python environment, follow the [runtime bootstrap instructions](https://github.com/thytabakman-jpg/Take-5/blob/chatgpt-runtime-bootstrap/chatgpt-bootstrap/README.md) to load and verify the current main revision before invoking tools.
+For a ChatGPT Python environment, follow the [runtime bootstrap instructions](https://github.com/thytabakman-jpg/Take-5/blob/chatgpt-runtime-bootstrap/chatgpt-integration/README.md) to load and verify the current main revision before invoking tools.
 
 ## Configured execution requirements
 
@@ -35,7 +35,7 @@ When upstream control permits continuation, reapply the same capability after ea
 
 ## Execution integrity
 
-Bind a task-appropriate adapter and supply the admitted semantic inputs, evidence and authority required by the [worker adapter contract](../runtime/WORKER_ADAPTER_CONTRACT.md). A missing adapter or material input remains OPEN. Invalid configured identity or recurrence blocks execution.
+Bind a task-appropriate adapter and supply the admitted semantic inputs, evidence and authority required by the [worker adapter contract](../architecture/Semantic%20Worker%20Contract.md). A missing adapter or material input remains OPEN. Invalid configured identity or recurrence blocks execution.
 
 Retain the actual native result, execution truth, provenance, coverage, recurrence receipt and unresolved obligations. Distinguish IMPLEMENTATION_EXECUTED, SEMANTICALLY_APPLIED and FULL_MATCH. A complete plan, native function call, routing check or host analysis alone is not evidence of full configured semantic coverage. Do not substitute host prose for a missing native execution or authorize a mutation from a tool receipt alone.
 

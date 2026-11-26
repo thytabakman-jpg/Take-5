@@ -116,7 +116,7 @@ Protected routes include:
 
 Recovery anchor:
 
-integration/CURRENT_FULL_TOOL_INVOCATION.md
+integration/Tool Execution Guide.md
 
 Whole-repertoire audit:
 
