@@ -34,3 +34,18 @@ Take-5's `Scope × ModeFace` 36-cell coverage is distinct from Reaserch's
 missing integration and historical variants remain explicitly OPEN.
 
 Do not copy the full mathematics here merely to make the package look complete.
+
+## Implementation coverage crosswalk (bounded; not an equivalence certificate)
+
+Compare the project [formal architecture mathematics](https://github.com/thytabakman-jpg/Reaserch/blob/main/Projects/Tool%20and%20System%20Research/ImprovementCore/tool-ecosystem/ARCHITECTURE_ANALYSIS_FULL_MATH_002_2026-09-26.md) with [the native carrier](../../../../runtime/architecture_analysis.py) and the [document provider](https://github.com/thytabakman-jpg/Take-5/blob/chatgpt-runtime-bootstrap/chatgpt-integration/document_tool_adapters.py).
+
+| Formal obligation | Current admitted static-graph implementation | Remaining obligation |
+|---|---|---|
+| Architecture and contract carrier | Declared units, roles, source identities, links and optional jobs | Typed ports, state, transitions, observations, authority and preservation basis |
+| Violation and localization | Missing/extra units, dangling links, protected unit-job checks | Minimal result-sensitive support and broader contract evaluation |
+| Dependency and interaction | Declared adjacency, reverse consumers, cycle and ownership candidates | Intervention-sensitive dependencies and joint-outcome/nonseparability evidence |
+| Transformation and successor frontiers | Graph provider returns empty frontiers and retains OPEN | Candidate generation, admissibility, preservation, strict gain and nondominance |
+| Coverage and provenance | Declared graph scope, source locators and explicit OPEN | Directed source-to-target coverage and result-sensitive semantic witnesses |
+| Configured execution | Take-5 configured wrapper and HF2 | Evidence of the distinct Reaserch full profile and applicable cross-level pairing |
+
+The matching native result-field names establish a structural correspondence, not completed mathematical equivalence. The static-graph provider's explicit OPEN is retained; an empty successor frontier is not evidence that no improvement exists. This comparison does not promote either Reaserch copy or authorize a new gateway alias.

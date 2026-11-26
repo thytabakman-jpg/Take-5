@@ -44,3 +44,8 @@ mathematical documents are incorrect or that every invocation path fails.
 
 OPEN is durable state. Closing an item requires evidence and a receipt; deleting
 the line because a later summary is shorter is forbidden.
+
+## Implementation evidence update
+
+- Runtime dispatch for ordinary Repair continues to use the exact registered ID `Architecture`. The formal/name binding remains OPEN; the bounded [coverage crosswalk](MATHEMATICS.md#implementation-coverage-crosswalk-bounded-not-an-equivalence-certificate) identifies what must be reconciled before stronger admission.
+- The existing Reaserch hierarchy-manager implementation now requires witnesses for declared non-applicability and isolates upstream receipts from callback mutation ([implementation commit](https://github.com/thytabakman-jpg/Reaserch/commit/4fdc8805e9c42f1eda777569a9e48cfbe4654757)). This is a local safeguard change, not Take-5 integration or validated hierarchical semantic coverage. Actual directed-surface evidence, authority/invariant binding, parent topology, reconciliation and reentry verification remain OPEN.
