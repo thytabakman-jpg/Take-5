@@ -21,7 +21,7 @@ from typing import Any, Callable, Mapping
 from capability_runtime import execute_capability
 from configured_hf2_execution import execute_configured_with_hf2
 from global_tool_execution import build_tool_execution_plan
-from learning_tool_bridge import SPECS, make_learning_worker
+from learning_tool_bridge import SPECS, availability as learning_availability, make_learning_worker
 from tool_run_registry import CONFIGURED_RUNS, MATERIAL_TOOLS
 
 
@@ -334,28 +334,67 @@ def consult_tool_conductor(
     results=[]
     for witness in _consultation_witnesses():
         tool_id=witness.tool_id
-        bound=tool_id in adapters
+        bound=tool_id in adapters and adapters[tool_id] is not None
+        missing_inputs=()
+        learning=_learning_spec(tool_id)
+        atomic=tool_id.startswith("C") and tool_id[1:].isdigit() and 1 <= int(tool_id[1:]) <= 49
+        builtin=atomic or learning is not None
+        # Native recovery is not a dispatch binding. Match the actual factor
+        # route: atomic/learning dispatch precedes the external adapter map.
         if tool_id=="ToolConductor":
             status="CONSULTED_SELF_WITNESS"
             reason="ANTI_RECURSIVE_SELF_WITNESS"
-        elif bound:
+            route="SELF_WITNESS"
+            readiness="NOT_APPLICABLE"
+            inputs="NOT_APPLICABLE"
+        elif builtin:
+            route="BUILTIN"
+            inputs="UNVERIFIED"
+            if learning is not None:
+                available,missing_inputs=learning_availability(packet,learning)
+                inputs="REQUIRED_FIELDS_PRESENT" if available else "MISSING_OR_INVALID_FIELDS"
+                status="AVAILABLE_SELF_CONTAINED" if available else "OPEN"
+                reason="BUILTIN_DISPATCH_AVAILABLE" if available else "LEARNING_INPUT_REQUIRED"
+                readiness="SEMANTICS_UNVERIFIED" if available else "INPUTS_REQUIRED"
+            else:
+                status="AVAILABLE_SELF_CONTAINED"
+                reason="BUILTIN_DISPATCH_AVAILABLE"
+                readiness="INPUTS_UNVERIFIED"
+        elif bound and callable(adapters[tool_id]):
             status="AVAILABLE_BOUND"
             reason="HOST_ADAPTER_BOUND"
-        elif witness.self_contained:
-            status="AVAILABLE_SELF_CONTAINED"
-            reason="SELF_CONTAINED_RUNTIME_RECOVERED"
+            route="HOST_ADAPTER"
+            readiness="INPUTS_UNVERIFIED"
+            inputs="UNVERIFIED"
+        elif bound:
+            status="BLOCKED"
+            reason="HOST_ADAPTER_NOT_CALLABLE"
+            route="INVALID_HOST_ADAPTER"
+            readiness="BLOCKED"
+            inputs="UNVERIFIED"
         elif witness.entrypoint:
             status="OPEN"
-            reason="ENVIRONMENT_OR_ADAPTER_REQUIRED"
+            reason="PORTABLE_ADAPTER_REQUIRED"
+            route="UNBOUND"
+            readiness="ADAPTER_REQUIRED"
+            inputs="UNVERIFIED"
         else:
             status="BLOCKED"
             reason="NATIVE_PROGRAM_UNRECOVERED"
+            route="UNBOUND"
+            readiness="BLOCKED"
+            inputs="UNVERIFIED"
         results.append({
             "tool_id":tool_id,
             "status":status,
             "result":{
                 "reason":reason,
                 "adapter_bound":bound,
+                "native_implementation_recovered":witness.entrypoint is not None,
+                "dispatch_route":route,
+                "input_readiness":inputs,
+                "missing_inputs":missing_inputs,
+                "execution_readiness":readiness,
                 "entrypoint":witness.entrypoint,
                 "required_environment":witness.required_environment,
             },

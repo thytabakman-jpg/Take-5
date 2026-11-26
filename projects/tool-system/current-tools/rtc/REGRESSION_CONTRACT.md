@@ -14,7 +14,7 @@ A valid package keeps all of these true:
 
 ## RTC native and relocation regression boundary
 
-- [RTC specialization test](../../../../tests/test_recovered_native_tools_20260927.py) covers the accepted strict-gain and excluded no-gain case.
+- [RTC specialization test](../../../../tests/test_recovered_native_tools_20260927.py) covers accepted strict-gain and excluded no-gain cases, missing inventories, non-Boolean evidence and mixed admitted/unresolved results.
 - [Capability registry tests](../../../../tests/test_a5_registry.py) cover registry integrity, not every C48 protected-property case.
 - [Configured conductor tests](../../../../tests/test_portable_tool_conductor.py) cover configured routing to the extent asserted.
 - [Package generator tests](../../../../tests/test_tool_project_packages.py) protect materialized navigation parity and collision behavior.

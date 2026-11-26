@@ -65,9 +65,12 @@ def run_pd(
     rho:Callable,
     approx:Callable,
     representations:Mapping[str,Callable],
+    allow_empty_domain:bool=False,
 )->dict[str,Any]:
     """Recover quotient result classes, fibers, and representation-relative MinSens."""
     cases=tuple(cases)
+    if not cases and allow_empty_domain is not True:
+        return {"status":"OPEN","blocker":"PD_CASE_DOMAIN_REQUIRED","result":None}
     rho=_callable(rho,"PD_RHO")
     approx=_callable(approx,"PD_APPROX")
     if not isinstance(representations,Mapping) or not representations:

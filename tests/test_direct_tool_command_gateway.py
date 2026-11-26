@@ -104,3 +104,9 @@ def test_direct_tool_empty_full_match_cannot_claim_full_execution():
     assert out.blocker=="CONFIGURED_TOOL_HF2_OPEN:MT"
     assert out.state["direct_tool_command_status"]=="OPEN"
     assert out.executions[0].execution_truth=="OPEN"
+
+
+def test_direct_bridge_does_not_invent_material_change():
+    out = execute_direct_tool_commands("run MT", adapters={"MT":lambda *_:{"status":"EXECUTED","result":True}})
+    assert out.status == "EXECUTED"
+    assert out.executions[0].material_delta is False

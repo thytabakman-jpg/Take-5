@@ -59,6 +59,8 @@ class ConfiguredToolExecution:
     recurrence_engine:str=""
     recurrence_status:str=""
     recurrence_rounds:int=0
+    adapter_blocker:Any=None
+    adapter_provenance:dict[str,Any]|None=None
 
 
 @dataclass(frozen=True)
@@ -172,20 +174,37 @@ def _normalize_adapter_result(
         result=raw.get("result",raw)
         next_state=raw.get("state",current)
         evidence=tuple(str(x) for x in raw.get("evidence",()) if str(x))
-        material=bool(raw.get("material_delta",True))
+        material=bool(raw.get("material_delta",False))
         related_objects=tuple(str(x) for x in raw.get("related_objects",()) if str(x))
         dependency_footprint=tuple(str(x) for x in raw.get("dependency_footprint",()) if str(x))
         affected_objects=tuple(str(x) for x in raw.get("affected_objects",()) if str(x))
+        # Preserve the supplied diagnostic and provenance without upgrading
+        # their execution-truth status or replacing the stable batch blocker.
+        adapter_blocker=raw.get("blocker")
+        adapter_provenance={
+            key:raw[key] for key in (
+                "provenance","adapter_provenance","adapter_id","adapter_identity",
+                "provider","provider_identity","scope",
+            ) if key in raw
+        } or None
     else:
         status="EXECUTED"
         truth="IMPLEMENTATION_EXECUTED"
         result=_plain(raw)
         next_state=current
         evidence=()
-        material=True
+        material=False
         related_objects=()
         dependency_footprint=()
         affected_objects=()
+        adapter_blocker=None
+        adapter_provenance=None
+
+    if recurrence is not None and recurrence.trace:
+        # Use the actual admitted recurrence deltas, including earlier rounds.
+        from hf002_recursive_continuation import HF002RecursiveContinuation
+        material=any(HF002RecursiveContinuation._material(row["delta"])
+                     for row in recurrence.trace if row["disposition"] in {"REAPPLY_C","RELATIVE_CLOSE","RETURN_REENTER"})
 
     if status not in SUCCESS_STATUSES|NON_SUCCESS_STATUSES:
         raise ToolBridgeBlocked(f"CONFIGURED_TOOL_STATUS_INVALID:{tool_id}:{status}")
@@ -204,6 +223,8 @@ def _normalize_adapter_result(
             "related_objects":related_objects,
             "dependency_footprint":dependency_footprint,
             "affected_objects":affected_objects,
+            "adapter_blocker":adapter_blocker,
+            "adapter_provenance":adapter_provenance,
             "binding":binding.summary,
             "recurrence":None if recurrence is None else {
                 "engine":recurrence.recurrence_engine,
@@ -226,6 +247,8 @@ def _normalize_adapter_result(
         recurrence_engine="" if recurrence is None else recurrence.recurrence_engine,
         recurrence_status="" if recurrence is None else recurrence.status,
         recurrence_rounds=0 if recurrence is None else recurrence.rounds,
+        adapter_blocker=adapter_blocker,
+        adapter_provenance=adapter_provenance,
     )
 
 

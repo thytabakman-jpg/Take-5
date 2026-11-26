@@ -64,3 +64,47 @@ def test_gdos_freezes_and_isolates_observers_before_reconcile():
     assert target=={"x":[1]}
     assert out["observations"][0]["first"]==(1,2)
     assert out["observations"][1]["second"]==(1,)
+
+
+def test_pd_audit_preserves_one_shot_cases_for_secondary_audit():
+    from pd_audit import run_pd_audit
+    out=run_pd_audit(
+        iter((1,2)),rho=lambda x:x,approx=lambda a,b:a==b,
+        representations={"identity":lambda x:(x,)},
+        kappa_cases=lambda cases:tuple(cases),
+    )
+    assert out["status"]=="RELATIVE_CLOSE"
+    assert out["result"]["kappa_A"]==(1,2)
+
+
+def test_diagnosis_distinguishes_missing_empty_and_unresolved_inventory():
+    assert diagnose({})["status"]=="OPEN"
+    assert diagnose({"failures":[]})["status"]=="ACCEPT"
+    for mechanism in ("UNKNOWN"," OPEN ","FAILED","",None,False):
+        row={"id":"f","mechanism":mechanism}
+        out=diagnose({"failures":[row]})
+        assert out["status"]=="OPEN" and out["unresolved"]==[row]
+    assert diagnose({"failures":[{"mechanism":"stale binding"}]})["status"]=="ACCEPT"
+
+
+def test_rtc_requires_boolean_gain_and_preservation():
+    assert raise_the_ceiling({})["status"]=="OPEN"
+    assert raise_the_ceiling({"candidates":[]})["status"]=="NOOP"
+    for gain,preserves in (("OPEN","FALSE"),("TRUE",True),(True,"FALSE"),(1,True),(True,None)):
+        out=raise_the_ceiling({"candidates":[{"strict_gain":gain,"preserves":preserves}]})
+        assert out["status"]=="OPEN"
+    assert raise_the_ceiling({"candidates":[{"strict_gain":False,"preserves":True}]})["status"]=="NOOP"
+    out=raise_the_ceiling({"candidates":[{"strict_gain":True,"preserves":True},{"strict_gain":"OPEN","preserves":True}]})
+    assert out["status"]=="ACCEPT" and len(out["unresolved"])==1
+
+
+def test_bias_perturbation_snapshots_reused_runner_buffer():
+    shared={}
+    def runner(value):
+        shared["value"]=value
+        return shared
+    out=run_bias_perturbation(0,[1,2],runner=runner,
+        semantics_equivalent=lambda a,b:True,result_equivalent=lambda a,b:a==b)
+    assert out["baseline_result"]=={"value":0}
+    assert out["bias_sensitive"]==(1,2)
+    assert [r.result for r in out["results"]]==[{"value":1},{"value":2}]

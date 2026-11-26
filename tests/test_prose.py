@@ -546,3 +546,22 @@ def test_plain_language_cannot_override_failed_semantic_preservation():
     )
     assert out.status=="OPEN"
     assert "SEMANTIC_PRESERVATION:FAIL" in out.residuals
+
+
+def test_prose_blank_evidence_cannot_license_pass():
+    from prose import ProseContract, ProseEvidence, assess_prose
+    contract=ProseContract("blank-evidence",constraints=())
+    for evidence in (("   ",),(None,)):
+        out=assess_prose("A statement.",contract,ProseEvidence(
+            semantic_preservation="PASS",earned_claim_strength="PASS",
+            no_unsupported_inflation="PASS",evidence=evidence))
+        assert out.status=="OPEN"
+        assert "PROSE_EVIDENCE_REQUIRED" in out.residuals
+
+
+def test_prose_empty_string_alias_does_not_match_word_boundaries():
+    from prose import ProseContract, JEWISH_LEXICAL_FORMS, assess_prose
+    contract=ProseContract("alias",constraints=(JEWISH_LEXICAL_FORMS,),
+        jewish_lexicon=(("Torah","   "),))
+    out=assess_prose("Torah learning.",contract)
+    assert not out.violations
