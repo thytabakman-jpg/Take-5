@@ -20,3 +20,17 @@ def test_router_no_longer_reports_relevant_c20_c48_as_unbound():
     r=coverage("remaining",tags)
     bad=[x.program_id for x in r.dispositions if x.status==CoverageStatus.UNBOUND and x.program_id.startswith("C")]
     assert bad==[]
+
+
+def test_missing_comparison_inputs_do_not_certify_regression_or_verification():
+    for pid in ("C34","C44"):
+        assert run_generic(pid,{})["status"]=="OPEN"
+    assert run_generic("C34",{"protected_before":None,"protected_after":None})["status"]=="OPEN"
+    assert run_generic("C44",{"expected":None})["status"]=="OPEN"
+    assert run_generic("C44",{"expected":None,"actual":None})["status"]=="ACCEPT"
+
+
+def test_textual_false_is_not_route_license_or_strict_gain():
+    assert run_generic("C32",{"routes":[{"licensed":"false","reachable":True}]})["status"]=="OPEN"
+    assert run_generic("C33",{"strict_gain":"false","preserves":True})["status"]=="OPEN"
+    assert run_generic("C33",{"strict_gain":True,"preserves":"false"})["status"]=="OPEN"
