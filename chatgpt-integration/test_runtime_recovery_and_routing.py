@@ -133,6 +133,24 @@ class RecoveryTests(unittest.TestCase):
             self.assemble('bad.zip',tree)
         self.assertFalse((self.root/'bad.zip').exists())
 
+    def test_smoke_basis_reuse_preserves_test_and_environment_requirements(self):
+        receipt={"test_files":["tests/"+name for name in bootstrap.TESTS],
+                 "returncode":0,"registry_returncode":0,
+                 "registry":{"routing_audit":{"status":"CLOSED_RELATIVE"}},
+                 **bootstrap.observed_test_environment()}
+        bootstrap.verify_smoke_basis(receipt)
+        cases=[
+            ({"returncode":False},"BOOTSTRAP_SMOKE_NOT_PASSED"),
+            ({"registry_returncode":1},"BOOTSTRAP_SMOKE_NOT_PASSED"),
+            ({"test_files":[]},"BOOTSTRAP_TEST_INVENTORY_CHANGED"),
+            ({"registry":{"routing_audit":{"status":"OPEN"}}},"BOOTSTRAP_ROUTING_AUDIT_NOT_CLOSED"),
+            ({"python":"different"},"BOOTSTRAP_TEST_ENVIRONMENT_CHANGED"),
+            ({"dependency_versions":{}},"BOOTSTRAP_TEST_ENVIRONMENT_CHANGED"),
+        ]
+        for changes,reason in cases:
+            with self.subTest(changes=changes), self.assertRaisesRegex(ValueError,reason):
+                bootstrap.verify_smoke_basis({**receipt,**changes})
+
     def test_wrong_commit_and_cache_overwrite_rejected(self):
         tree={'a':('100644',self.blob(b'good'))}; sha,obj=self.basis(tree)
         with self.assertRaisesRegex(ValueError,'SOURCE_COMMIT_OBJECT_MISMATCH'):

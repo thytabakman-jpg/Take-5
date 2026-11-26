@@ -142,6 +142,7 @@ def verify_bootstrap_receipt(root, boot, integration_manifest):
     if boot.get("integration_manifest") != integration_manifest:
         raise ValueError("BOOTSTRAP_INTEGRATION_IDENTITY_MISMATCH")
     verify_integration_files(Path(__file__).resolve().parent, integration_manifest)
+    verify_smoke_basis(boot.get("smoke"))
     commit = boot["source_commit"]
     source_tree = verify_installed_tree(root, commit,
         base64.b64decode(boot["source_commit_object"], validate=True),
@@ -315,6 +316,30 @@ TESTS = [
 ]
 
 
+def observed_test_environment():
+    """Coordinates observed by the bootstrap suite, not a proof of total environment identity."""
+    return {
+        "python": sys.version,
+        "dependency_versions": {n: importlib.metadata.version(n) for n in ("pytest", "PyYAML")},
+    }
+
+
+def verify_smoke_basis(receipt):
+    """Reject stale or incomplete local bootstrap regression evidence on reuse."""
+    if not isinstance(receipt, dict):
+        raise ValueError("BOOTSTRAP_SMOKE_RECEIPT_REQUIRED")
+    if any(type(receipt.get(key)) is not int or receipt[key] != 0
+           for key in ("returncode", "registry_returncode")):
+        raise ValueError("BOOTSTRAP_SMOKE_NOT_PASSED")
+    if receipt.get("test_files") != ["tests/" + name for name in TESTS]:
+        raise ValueError("BOOTSTRAP_TEST_INVENTORY_CHANGED")
+    registry = receipt.get("registry")
+    if not isinstance(registry, dict) or not isinstance(registry.get("routing_audit"), dict) or registry["routing_audit"].get("status") != "CLOSED_RELATIVE":
+        raise ValueError("BOOTSTRAP_ROUTING_AUDIT_NOT_CLOSED")
+    if any(receipt.get(key) != value for key, value in observed_test_environment().items()):
+        raise ValueError("BOOTSTRAP_TEST_ENVIRONMENT_CHANGED")
+
+
 def smoke(root):
     env = {**os.environ, "PYTHONPATH": str(root/"runtime")+os.pathsep+str(root),
            "PYTHONDONTWRITEBYTECODE": "1"}
@@ -340,8 +365,7 @@ raise SystemExit(int(a.status!='CLOSED_RELATIVE'))
         "stderr":p.stderr, "registry_returncode":q.returncode,
         "registry":json.loads(q.stdout) if q.returncode==0 else None,
         "registry_stderr":q.stderr,
-        "python":sys.version,
-        "dependency_versions":{n:importlib.metadata.version(n) for n in ("pytest","PyYAML")},
+        **observed_test_environment(),
         "audit_scope":"Native regressions and synthetic invocation-route coverage only",
     }
 
