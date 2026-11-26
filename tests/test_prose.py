@@ -4,7 +4,7 @@ sys.path.insert(0,"runtime")
 from prose import (
     AFFIRMATIVE_FIRST,FIRST_MENTION_PERSON_DATES,NUMERIC_YEAR_DATES_ONLY,ORDERED_ANCHORS,
     READER_LOAD,PLAIN_LANGUAGE,QUESTION_TERMINATES_PARAGRAPH,JEWISH_LEXICAL_FORMS,
-    ProseContract,ProseEvidence,
+    ProseContract,ProseEvidence,LEGACY_DEFAULT_CONSTRAINTS,PROSE_PROFILES,
     assess_prose,require_prose_admissible,ProseAcceptanceError,
 )
 
@@ -581,3 +581,48 @@ def test_jewish_lexicon_canonical_alias_collision_fails_open():
     result=assess_prose("Torah", contract)
     assert result.status=="OPEN"
     assert any(x.startswith("JEWISH_LEXICON_CONFLICT:Torah:") for x in result.residuals)
+
+
+def test_named_profiles_preserve_legacy_default_and_serialized_shape():
+    from dataclasses import asdict
+    implicit=ProseContract("legacy")
+    named=ProseContract("legacy",profile="LEGACY_DEFAULT")
+    assert implicit.constraints==named.constraints==(
+        AFFIRMATIVE_FIRST,NUMERIC_YEAR_DATES_ONLY,QUESTION_TERMINATES_PARAGRAPH,PLAIN_LANGUAGE
+    )==LEGACY_DEFAULT_CONSTRAINTS
+    assert asdict(implicit)==asdict(named)
+    assert "profile" not in asdict(named)
+    assert ProseContract(**asdict(named))==named
+    assert ProseContract("explicit",constraints=[]).constraints==()
+
+
+def test_semantic_only_profile_does_not_enforce_personal_style_preferences():
+    text="Ramban does not merely offer a different emphasis. He directly attacks that supporting generalization."
+    contract=ProseContract("semantic",profile="SEMANTIC_ONLY")
+    assert assess_prose(text,contract,PASS_EVIDENCE).status=="PASS"
+    assert assess_prose(text,contract).status=="OPEN"
+    assert assess_prose(text,contract,ProseEvidence(
+        semantic_preservation="FAIL",earned_claim_strength="PASS",
+        no_unsupported_inflation="PASS",evidence=("fixture",)
+    )).status=="OPEN"
+    assert assess_prose(text,ProseContract("default"),PASS_EVIDENCE).status=="REPAIR_REQUIRED"
+
+
+def test_reader_facing_profile_requires_reader_and_language_evidence():
+    from dataclasses import replace
+    contract=ProseContract("reader",profile="READER_FACING")
+    assert contract.constraints==(READER_LOAD,PLAIN_LANGUAGE)
+    text="The analysis presents a claim."
+    assert "READER_LOAD:OPEN" in assess_prose(text,contract,PASS_EVIDENCE).residuals
+    evidence=replace(PASS_EVIDENCE,reader_load="PASS",reader_load_evidence=("fixture:reader-load",))
+    assert assess_prose(text,contract,evidence).status=="PASS"
+
+
+def test_unknown_or_ambiguous_profile_is_rejected():
+    import pytest
+    with pytest.raises(ValueError,match="UNKNOWN_PROSE_PROFILE"):
+        ProseContract("unknown",profile="UNKNOWN")
+    with pytest.raises(ValueError,match="PROSE_PROFILE_AND_EXPLICIT_CONSTRAINTS"):
+        ProseContract("ambiguous",constraints=(),profile="LEGACY_DEFAULT")
+    with pytest.raises(TypeError):
+        PROSE_PROFILES["LEGACY_DEFAULT"]=()

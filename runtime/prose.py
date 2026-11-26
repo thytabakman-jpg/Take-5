@@ -8,7 +8,8 @@ It does not decide factual truth and does not silently rewrite failed prose.
 """
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import InitVar, dataclass, field
+from types import MappingProxyType
 import re
 from typing import Iterable
 
@@ -33,19 +34,49 @@ SUPPORTED_CONSTRAINTS=frozenset({
 })
 
 
+# Writing-policy selection is distinct from the invariant semantic acceptance gates.
+LEGACY_DEFAULT_CONSTRAINTS=(
+    AFFIRMATIVE_FIRST,
+    NUMERIC_YEAR_DATES_ONLY,
+    QUESTION_TERMINATES_PARAGRAPH,
+    PLAIN_LANGUAGE,
+)
+PROSE_PROFILES=MappingProxyType({
+    "LEGACY_DEFAULT":LEGACY_DEFAULT_CONSTRAINTS,
+    "SEMANTIC_ONLY":(),
+    "READER_FACING":(READER_LOAD,PLAIN_LANGUAGE),
+})
+
+
 @dataclass(frozen=True)
 class ProseContract:
+    """Frozen effective constraints; named profiles are an input convenience.
+
+    Omitted selection preserves the established default. Explicit constraints,
+    including an empty tuple, retain their existing meaning. Profiles never
+    change the mandatory semantic evidence gates in assess_prose.
+    """
     contract_id:str
-    constraints:tuple[str,...]=(
-        AFFIRMATIVE_FIRST,
-        NUMERIC_YEAR_DATES_ONLY,
-        QUESTION_TERMINATES_PARAGRAPH,
-        PLAIN_LANGUAGE,
-    )
+    constraints:tuple[str,...]|None=None
     allowed_negative_spans:tuple[str,...]=()
     person_dates:tuple[tuple[str,str],...]=()
     ordered_anchors:tuple[str,...]=()
     jewish_lexicon:tuple[tuple[str,tuple[str,...]],...]=()
+    profile:InitVar[str|None]=field(default=None,kw_only=True)
+
+    def __post_init__(self,profile):
+        if profile is not None:
+            if not isinstance(profile,str) or profile not in PROSE_PROFILES:
+                raise ValueError("UNKNOWN_PROSE_PROFILE")
+            if self.constraints is not None:
+                raise ValueError("PROSE_PROFILE_AND_EXPLICIT_CONSTRAINTS")
+            selected=PROSE_PROFILES[profile]
+        elif self.constraints is None:
+            selected=LEGACY_DEFAULT_CONSTRAINTS
+        else:
+            selected=self.constraints
+        # Resolve to the existing serialized contract shape, with immutable rules.
+        object.__setattr__(self,"constraints",tuple(selected))
 
 
 @dataclass(frozen=True)

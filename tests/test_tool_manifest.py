@@ -83,3 +83,9 @@ def test_improvementcore_manifest_scopes_controller_ownership_to_delegated_episo
     m=manifest_for("ImprovementCore")
     assert "IMPROVEMENTCORE_DELEGATED_EPISODE_CONTROLLER_OWNERSHIP" in m.behavior_ids()
     assert "IMPROVEMENTCORE_CONTROLLER_OWNERSHIP" not in m.behavior_ids()
+
+
+def test_icc128_lineage_points_to_pinned_original_snapshot():
+    locator=manifest_for("ICC128").lineage_contract
+    assert locator=="https://github.com/thytabakman-jpg/Reaserch/blob/81a46cd3b050ee86138eeec2d01ffdd93f055fb3/Shared%20Tool%20System/Controllers%20and%20Runtime/Runtime%20Implementations/Take-5%20Runtime%20Snapshot/legacy/icc128-legacy/snapshot/math/ICC128_FULL_TOOL_MATH_002_2026-09-26.md"
+    assert manifest_for("ICC128").complete()
