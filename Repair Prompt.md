@@ -26,6 +26,8 @@ Do not modify documents outside the established execution scope.
 
 Repair mode is the default. Recommendations-only mode applies when explicitly requested by the user.
 
+I authorize individual file repairs without requiring further approval when operating in repair mode.
+
 ## 3. Governing tools and protocols
 
 Retrieve and inspect the actual protocols before execution.
@@ -60,13 +62,7 @@ The linked PD protocol governs historical audit-reduction research, mathematical
 
 [https://github.com/thytabakman-jpg/Take-5/blob/main/architecture/Tool%20Execution%20Architecture.md](https://github.com/thytabakman-jpg/Take-5/blob/main/architecture/Tool%20Execution%20Architecture.md)
 
-Retrieve the current runtime automatically using the bootstrap instructions. Independently resolve both current revisions and verify the matching dual-revision runtime before relying on it. Historical workflow success does not establish current availability. Preserve OPEN/BLOCKED when the current artifact or required execution environment is unavailable.
-
-Use actual native implementations wherever the required inputs and adapters are available. Follow the [bootstrap usage and adapter contract](https://github.com/thytabakman-jpg/Take-5/blob/chatgpt-runtime-bootstrap/chatgpt-integration/README.md) and the [semantic worker adapter contract](architecture/Semantic%20Worker%20Contract.md). Verify that each adapter admits the actual target and task, not merely the registered tool identity. The supplied `document_tool_adapters.py` bindings admit only the tool-specific input schemas owned by the [bootstrap README's document-analysis bindings](https://github.com/thytabakman-jpg/Take-5/blob/chatgpt-runtime-bootstrap/chatgpt-integration/README.md#read-only-document-analysis-bindings). They are not general document-repair workers. Do not submit unrelated documents to those bindings or reinterpret their bounded results as general semantic coverage. Where a suitable task-specific provider is absent, retain the affected tool obligation as OPEN and distinguish independently supported host analysis from native execution.
-
-Distinguish native execution from semantic host analysis. Do not falsely certify unavailable capabilities.
-
-Do not spend the conversation unnecessarily developing execution infrastructure.
+The runtime retrieval, provider admission, and execution-evidence requirements are grouped in Section 6.3. The linked files retain ownership of their implementation contracts.
 
 ## 4. Document semantic preflight
 
@@ -160,6 +156,18 @@ Use these tools when their functions materially contribute to the analysis:
 
 ### 6.3 Execution requirements
 
+#### Runtime and provider admission
+
+Retrieve the current runtime automatically using the bootstrap instructions. Independently resolve both current revisions and verify the matching dual-revision runtime before relying on it. Historical workflow success does not establish current availability. Preserve OPEN/BLOCKED when the current artifact or required execution environment is unavailable.
+
+Use actual native implementations wherever the required inputs and adapters are available. Follow the [bootstrap usage and adapter contract](https://github.com/thytabakman-jpg/Take-5/blob/chatgpt-runtime-bootstrap/chatgpt-integration/README.md) and the [semantic worker adapter contract](architecture/Semantic%20Worker%20Contract.md). Verify that each adapter admits the actual target and task, not merely the registered tool identity. The supplied `document_tool_adapters.py` bindings admit only the tool-specific input schemas owned by the [bootstrap README's document-analysis bindings](https://github.com/thytabakman-jpg/Take-5/blob/chatgpt-runtime-bootstrap/chatgpt-integration/README.md#read-only-document-analysis-bindings). They are not general document-repair workers. Do not submit unrelated documents to those bindings or reinterpret their bounded results as general semantic coverage. Where a suitable task-specific provider is absent, retain the affected tool obligation as OPEN and distinguish independently supported host analysis from native execution.
+
+Distinguish native execution from semantic host analysis. Do not falsely certify unavailable capabilities.
+
+Do not spend the conversation unnecessarily developing execution infrastructure.
+
+#### Configured invocation, evidence and open obligations
+
 Follow each selected tool's governing protocol and full configured invocation profile, including mandatory HF2 recurrence. Resolve exact registered tool identities and verify the complete ordered binding before dispatch, using structured ordered IDs where supported or separate explicit imperative commands otherwise. Do not infer authorization from inherited controller state or silently omit mandatory tools.
 
 Supply relevant, evidence-supported semantic inputs and domain analysis. Do not construct artificial analytical objects solely to enable execution, generate artificial problems, duplicate completed procedures or invoke unnecessary tools.
@@ -167,6 +175,8 @@ Supply relevant, evidence-supported semantic inputs and domain analysis. Do not 
 Retain native execution receipts identifying the tool, adapter, input, invocation profile, output and applicable recurrence. Distinguish verified native execution, host analysis, blocked execution and non-execution. Availability, tests, protocol retrieval and host findings do not establish native execution.
 
 Record the exact identity and blocking condition of each unavailable or blocked mandatory tool. Continue independently executable work, using separate receipts when an earlier blockage would suppress independent tools. Preserve actual prerequisites and unresolved obligations; never bypass preconditions or certify incomplete requirements as completed.
+
+Use genuinely independent evaluation where available. If that capability is unavailable, distinguish same-context adversarial review from independent assessment and do not falsely claim the latter.
 
 ## 7. Autonomous repair cycle
 
@@ -188,10 +198,6 @@ Execute the following cycle independently for each file. Complete all operationa
 14. Record any remaining material limitations.
 15. Proceed immediately to the next file.
 
-Use genuinely independent evaluation where available. If that capability is unavailable, distinguish same-context adversarial review from independent assessment and do not falsely claim the latter.
-
-I authorize individual file repairs without requiring further approval when operating in repair mode.
-
 Preserve substantive research, source evidence, objections, useful exploratory material and structural and operational functionality. Research repositories are not condensed manuscript drafts.
 
 When the user explicitly requests recommendations without implementation, complete the applicable analysis and repair development stages, present the proposed repairs and their supporting rationale, and leave the target documents unchanged.
@@ -207,6 +213,8 @@ When requirements are genuinely blocked, complete all independently executable w
 After each file, update a recoverable continuation record identifying the run scope (repositories, branches, target selection and mode), exact file path, assessed blob identity, committed blob and commit identities where applicable, completion status, verified repairs or recommendations, unresolved obligations and the next file. Distinguish a verified no-change result from a modified file and from a partial or blocked result. Use authorized persistent storage where available; do not claim a durable checkpoint if persistence is unavailable.
 
 Proceed immediately to the next file without requesting further authorization.
+
+Progress reporting is part of ongoing execution and does not terminate or suspend the repair cycle.
 
 Continue until all independently executable work across the entire target set has been exhausted or an actual execution limit prevents further progress.
 
@@ -235,9 +243,9 @@ A file that contains no material defect does not require an artificial edit.
 
 ## 10. Reporting
 
-Provide concise progress reports identifying the actual problems discovered and repairs implemented or recommended.
+Execution dispositions and continuation are governed by Sections 6.3 and 8. This section owns the user-facing report, not the execution protocol.
 
-Progress reporting is part of ongoing execution and does not terminate or suspend the repair cycle.
+Provide concise progress reports identifying the actual problems discovered and repairs implemented or recommended.
 
 At completion, report:
 
