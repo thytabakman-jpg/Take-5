@@ -9,6 +9,7 @@ from functools import partial
 import hashlib
 import json
 
+# 1. Shared packet identity, evidence references and receipt helpers.
 
 def _tool_packet(packet, tool):
     """Project one explicitly selected route over shared frozen sources."""
@@ -39,6 +40,213 @@ def _scoped_builtin(packet, tool, invoke, current, plan):
     result['adapter_provenance']['effective_input_sha256']=digest(effective)
     return result
 
+
+# Shared packet identity and provider admission.
+# Generic Git-object hashing is owned by runtime_bootstrap.py. Document source
+# admission and text encoding remain provider responsibilities.
+def digest(value):
+    return hashlib.sha256(json.dumps(value,sort_keys=True,ensure_ascii=False).encode()).hexdigest()
+
+
+def fnv(value):
+    h=2166136261
+    for ch in value:
+        h=((h^ord(ch))*16777619)&0xffffffff
+    return f'{h:08x}'
+
+
+# Structured document evidence admission.
+# Keep the shared source/evidence contract separate from native tool semantics.
+def _git_blob_sha(value):
+    return isinstance(value,str) and len(value) in (40,64) and all(c in "0123456789abcdef" for c in value)
+
+
+def _git_blob_text_hash(text, algorithm):
+    from runtime_bootstrap import git_object_sha
+    return git_object_sha('blob',text.encode('utf-8'),algorithm=algorithm)
+
+
+def _evidence_refs(admitted, row, field, required=True):
+    values=row.get(field,[])
+    if not isinstance(values,list):
+        raise ValueError(f'{field}:EXPECTED_LIST')
+    if required and not values:
+        raise KeyError(field)
+    result=[]
+    for ref in values:
+        if not isinstance(ref,dict):
+            raise ValueError(f'{field}:EXPECTED_EVIDENCE_OBJECT')
+        path,sha=ref['source_path'],ref['source_sha']
+        if not isinstance(path,str) or not isinstance(sha,str) or (path,sha) not in admitted:
+            raise ValueError(f'{field}:UNKNOWN_SOURCE_REVISION')
+        for name in ('locator','basis'):
+            if not isinstance(ref[name],str) or not ref[name].strip():
+                raise ValueError(f'{field}:{name}:NONEMPTY_TEXT_REQUIRED')
+        result.append(f'{path}@{sha}:{ref["locator"]}:{ref["basis"]}')
+    return tuple(result)
+
+
+# Shared bounded execution receipt and model routing.
+# Ownership decision: provider result-envelope construction remains here.
+# execute_tool_packet.py owns packet-level receipts and the runtime owns
+# configured recurrence receipts. These are not interchangeable duplicates.
+def _bounded_result(packet, source_ids, entry,out,status='EXECUTED',blocker=None):
+    return {'status':status,'execution_truth':'IMPLEMENTATION_EXECUTED' if status=='EXECUTED' else status,
+            'result':out,'material_delta':False,'evidence':[f'native:{entry}',f'packet:{digest(packet)}',*['git-blob:'+s for s in source_ids]],
+            'blocker':blocker,'scope':'BOUNDED_EXPLICIT_INPUT; NO_FULL_SEMANTIC_COVERAGE'}
+
+
+# 2. Source and model admission.
+
+# Admission is per tool, not per packet family. All existing finite-model
+# algorithms and the public bind_adapters(packet) mapping remain intact.
+_INPUT_GROUPS = {
+    'GDOS': ('matrix',), 'Discriminator': ('threshold',),
+    'BiasPerturbation': ('matrix',), 'Architecture': ('matrix',),
+    'MultiObject': ('matrix',), 'GOAL': ('matrix', 'threshold'),
+    'CurrentnessAudit': (), 'Reconciler': ('threshold',),
+    'MT': ('matrix', 'threshold'), 'Diagnosis': ('threshold',),
+    'RTC': ('threshold',), 'ASSERT': ('matrix', 'threshold'), 'TRC': (), 'RootCause': (),
+}
+
+
+# Source and finite-model admission. Only requested model groups are validated.
+def _admit_sources(packet, tool):
+    sources=packet['sources']
+    if not sources:
+        raise KeyError('sources')
+    if not isinstance(sources,list) or any(not isinstance(x,dict) for x in sources):
+        raise ValueError('SOURCE_LIST_REQUIRED')
+    source_ids=tuple(x['sha'] for x in sources)
+    paths=tuple(x['path'] for x in sources)
+    if any(not _git_blob_sha(s) for s in source_ids):
+        raise ValueError('SOURCE_BLOB_SHA_INVALID')
+    if any(not isinstance(p,str) or not p.strip() for p in paths) or len(set(paths))!=len(paths):
+        raise ValueError('SOURCE_PATH_UNIQUE_NONEMPTY_REQUIRED')
+    if tool=='CurrentnessAudit':
+        for source in sources:
+            path=source['path']
+            if not isinstance(path,str) or not path.strip():
+                raise ValueError('SOURCE_PATH_REQUIRED')
+            if not _git_blob_sha(source['sha']):
+                raise ValueError('SOURCE_BLOB_SHA_INVALID')
+            latest=source.get('latest_sha')
+            if latest is not None and latest != '' and not _git_blob_sha(latest):
+                raise ValueError('LATEST_SOURCE_BLOB_SHA_INVALID')
+    return sources, source_ids
+
+
+def _admit_matrix(packet, tool):
+    matrix=packet['matrix']
+    if fnv(matrix['raw']) != matrix['transfer_fnv']:
+        raise ValueError('CONNECTOR_PACKET_TRANSFER_MISMATCH')
+    raw_axes=matrix['axes']
+    if (not isinstance(raw_axes,(list,tuple)) or not raw_axes
+            or any(not isinstance(a,str) or not a.strip() for a in raw_axes)
+            or len(set(raw_axes))!=len(raw_axes)):
+        raise ValueError('MATRIX_AXES_NONEMPTY_UNIQUE_TEXT_REQUIRED')
+    axes=tuple(raw_axes)
+    rows=tuple(tuple(line.split()) for line in matrix['raw'].splitlines())
+    if not rows:
+        raise ValueError('MATRIX_ROWS_REQUIRED')
+    if any(len(r)!=len(axes)+1 for r in rows) or len(set(r[0] for r in rows))!=len(rows):
+        raise ValueError('MALFORMED_OR_DUPLICATE_MATRIX_ROW')
+    expected = expected_counts = None
+    # MultiObject uses only the row identities and labels, not declared counts.
+    if tool!='MultiObject':
+        expected=tuple(packet['expected_ids'])
+    if tool in ('GDOS','Architecture'):
+        expected_counts=matrix['declared_counts']
+    if tool=='Architecture' and matrix['exclusive_axis'] not in axes:
+        raise ValueError('MATRIX_EXCLUSIVE_AXIS_NOT_FOUND')
+    return matrix, axes, rows, expected, expected_counts
+
+
+def _admit_threshold(packet, tool):
+    t=packet['threshold']
+    thresholds=tuple(t['values'])
+    lower,upper=t['lower'],t['upper']
+    if (not thresholds or any(type(v) is not int for v in thresholds)
+            or len(set(thresholds))!=len(thresholds)):
+        raise ValueError('THRESHOLD_VALUES_NONEMPTY_UNIQUE_INTEGERS_REQUIRED')
+    if type(lower) is not int or type(upper) is not int or lower>upper:
+        raise ValueError('THRESHOLD_BOUNDS_INVALID')
+    qs=tuple(range(lower,upper+1))
+    if fnv(t['proof'])!=t['proof_fnv']:
+        raise ValueError('PROOF_TRANSFER_MISMATCH')
+    if tool in ('MT','GOAL','RTC'):
+        probes=tuple(t['baseline_probes'])
+        if any(type(q) is not int or not lower<=q<=upper for q in probes) or len(set(probes))!=len(probes):
+            raise ValueError('THRESHOLD_BASELINE_PROBES_INVALID')
+    if tool in ('MT','GOAL','ASSERT','Reconciler'):
+        count=t['declared_pair_count']
+        if type(count) is not int or count<0:
+            raise ValueError('THRESHOLD_DECLARED_PAIR_COUNT_INVALID')
+    return t, thresholds, qs
+
+
+def _structured_inputs(packet, tool, sources):
+    """Validate the host's declared evidence, not the truth of its interpretation."""
+    key, inventory = ('diagnosis','failures') if tool=='Diagnosis' else ('rtc','candidates')
+    spec=packet[key]
+    if not isinstance(spec,dict):
+        raise ValueError(f'{key}:EXPECTED_OBJECT')
+    admitted=set()
+    for source in sources:
+        path,sha=source['path'],source['sha']
+        if not isinstance(path,str) or not path.strip() or not _git_blob_sha(sha):
+            raise ValueError('FROZEN_SOURCE_PATH_AND_BLOB_SHA_REQUIRED')
+        admitted.add((path,sha))
+
+    def require_evidence(container, field):
+        return _evidence_refs(admitted,container,field)
+
+    require_evidence(spec,'inventory_evidence')
+    rows=spec[inventory]
+    if not isinstance(rows,list):
+        raise ValueError(f'{inventory}:EXPECTED_LIST')
+    seen=set()
+    for row in rows:
+        if not isinstance(row,dict):
+            raise ValueError(f'{inventory}:EXPECTED_ROW_OBJECT')
+        ident=row['id']
+        if not isinstance(ident,str) or not ident.strip() or ident in seen:
+            raise ValueError(f'{inventory}:UNIQUE_ROW_ID_REQUIRED')
+        seen.add(ident)
+        require_evidence(row,'evidence')
+        if tool=='Diagnosis':
+            if 'material' in row and type(row['material']) is not bool:
+                raise ValueError('material:BOOLEAN_REQUIRED')
+            mechanism=row.get('mechanism')
+            if mechanism is not None:
+                if not isinstance(mechanism,str) or not mechanism.strip():
+                    raise ValueError('mechanism:TEXT_OR_NULL_REQUIRED')
+                require_evidence(row,'mechanism_evidence')
+        else:
+            for field,evidence_field in (('strict_gain','gain_evidence'),('preserves','preservation_evidence')):
+                value=row.get(field)
+                if value is not None:
+                    if type(value) is not bool:
+                        raise ValueError(f'{field}:BOOLEAN_OR_NULL_REQUIRED')
+                    require_evidence(row,evidence_field)
+    return spec
+
+
+def _admit_tool_models(packet,tool,groups,sources):
+    """Admit only the selected model; keep this independent of native execution."""
+    structured=None
+    structured_key={'Diagnosis':'diagnosis','RTC':'rtc'}.get(tool)
+    if structured_key is not None and structured_key in packet:
+        if 'threshold' in packet:
+            raise ValueError(f'{tool}:AMBIGUOUS_STRUCTURED_AND_THRESHOLD_INPUT')
+        structured=_structured_inputs(packet,tool,sources)
+        groups=()
+    matrix_data=_admit_matrix(packet,tool) if 'matrix' in groups else None
+    threshold_data=_admit_threshold(packet,tool) if 'threshold' in groups else None
+    return structured,matrix_data,threshold_data
+
+
+# 3. Built-in PD, PDAudit and Prose providers.
 
 def _prose_review_evidence(effective,spec):
     """Bind source-located review reports, never certify positive host labels."""
@@ -94,7 +302,7 @@ def _prose_review_evidence(effective,spec):
     return evidence,reports
 
 
-# I. Built-in provider bindings (finite PD/PDAudit and Prose).
+# Built-in provider bindings (finite PD/PDAudit and Prose).
 # Explicit module bindings remain opt-in.
 def builtin_adapters(packet, digest):
     def pd_adapter(tool):
@@ -166,145 +374,282 @@ def builtin_adapters(packet, digest):
     return {"PD":pd_adapter("PD"),"PDAudit":pd_adapter("PDAudit"),"Prose":lambda current,plan: _scoped_builtin(packet,"Prose",run_prose,current,plan)}
 
 
-# II. Shared packet identity and provider admission.
-# Generic Git-object hashing is owned by runtime_bootstrap.py. Document source
-# admission and text encoding remain provider responsibilities.
-def digest(value):
-    return hashlib.sha256(json.dumps(value,sort_keys=True,ensure_ascii=False).encode()).hexdigest()
+# 4. Shared finite-model operations.
+
+# Shared finite-model operations. These operate only on admitted data.
+def _matrix_counts(axes, rs):
+    return {a:dict(sorted(Counter(k for r in rs for k in r[i+1].split('/')).items())) for i,a in enumerate(axes)}
 
 
-def fnv(value):
-    h=2166136261
-    for ch in value:
-        h=((h^ord(ch))*16777619)&0xffffffff
-    return f'{h:08x}'
+def _matrix_coverage(expected, rs):
+    ids={r[0] for r in rs}
+    return {'missing':sorted(set(expected)-ids),'unexpected':sorted(ids-set(expected)),'rows':len(rs)}
 
 
-# Admission is per tool, not per packet family. All existing finite-model
-# algorithms and the public bind_adapters(packet) mapping remain intact.
-_INPUT_GROUPS = {
-    'GDOS': ('matrix',), 'Discriminator': ('threshold',),
-    'BiasPerturbation': ('matrix',), 'Architecture': ('matrix',),
-    'MultiObject': ('matrix',), 'GOAL': ('matrix', 'threshold'),
-    'CurrentnessAudit': (), 'Reconciler': ('threshold',),
-    'MT': ('matrix', 'threshold'), 'Diagnosis': ('threshold',),
-    'RTC': ('threshold',), 'ASSERT': ('matrix', 'threshold'), 'TRC': (), 'RootCause': (),
-}
+def _threshold_signature(qs_, threshold):
+    return tuple(int(q>=threshold) for q in qs_)
 
 
-def bind_adapters(packet):
-    """Return independent bindings for the original registered tool set."""
-    def binding(tool, groups):
-        def invoke(current, plan):
-            try:
-                effective = _tool_packet(packet,tool)
-                admitted = _bind_admitted_adapters(effective, tool, groups)
-            except KeyError as exc:
-                return {'status':'OPEN','execution_truth':'OPEN',
-                        'blocker':f'DOCUMENT_INPUT_REQUIRED:{exc.args[0]}',
-                        'material_delta':False,'evidence':[f'packet:{digest(packet)}'],
-                        'scope':'BOUNDED_EXPLICIT_INPUT; NO_NATIVE_INVOCATION',
-                        'adapter_provenance':{'native_invocation':'NOT_INVOKED','provider_binding':tool}}
-            except (ValueError, TypeError, IndexError) as exc:
-                return {'status':'BLOCKED','execution_truth':'BLOCKED',
-                        'blocker':f'DOCUMENT_INPUT_INVALID:{exc}',
-                        'material_delta':False,'evidence':[f'packet:{digest(packet)}'],
-                        'scope':'BOUNDED_EXPLICIT_INPUT; NO_NATIVE_INVOCATION',
-                        'adapter_provenance':{'native_invocation':'NOT_INVOKED','provider_binding':tool}}
-            result=admitted[tool](current, plan)
-            # Every admitted native route returns only after the native call.
-            # Preserve invocation evidence independently of the gateway disposition.
-            result['adapter_provenance']={
-                'native_invocation':'RETURNED',
-                'provider_binding':tool,
-                'source_references':[{'path':s['path'],'sha':s['sha']} for s in effective['sources']],
-                'effective_input_sha256':digest(effective),
-                'semantic_coverage':'BOUNDED_NOT_CERTIFIED',
-            }
-            return result
-        return invoke
-    return {tool:binding(tool, groups) for tool, groups in _INPUT_GROUPS.items()}
+def _threshold_discriminate(qs, thresholds):
+    from discriminator import run_discriminator
+    return run_discriminator(tuple(combinations(qs,2)),lambda p:len({_threshold_signature(p,k) for k in thresholds})==len(thresholds))
 
 
-# III. Structured document evidence admission.
-# Keep the shared source/evidence contract separate from native tool semantics.
-def _git_blob_sha(value):
-    return isinstance(value,str) and len(value) in (40,64) and all(c in "0123456789abcdef" for c in value)
+# 5. MT and GOAL providers and configured prerequisite dispatch.
+
+# Shared configured MT prerequisite for both GOAL input routes.
+# Ownership decision: configured gateway dispatch and adaptation of its result
+# remain here. runtime/goal.py owns the native GoalMTReceipt type and validation;
+# it must not depend on this integration's packet or gateway schema.
+def _configured_mt_prerequisite(packet,mt):
+    from goal import GoalMTReceipt
+    from direct_tool_command_gateway import execute_direct_tool_commands
+    pre=execute_direct_tool_commands('run MT',state={'packet':digest(packet)},adapters={'MT':mt})
+    receipt=None
+    if pre.executions:
+        e=pre.executions[0]
+        raw=e.result
+        # The projected configured disposition, not a raw native label, owns
+        # admission. Bind the witness to this exact evidence packet and gate.
+        if (e.tool_id=='MT' and isinstance(raw,dict)
+                and e.binding.get('invocation_profile')=='FULL_CONFIGURED_HF2_V1'
+                and e.recurrence_engine=='HF002' and e.recurrence_rounds>0
+                and (e.status,e.recurrence_status,raw.get('status')) in {
+                    ('EXECUTED','RELATIVE_CLOSE','CLOSED_RELATIVE'), ('OPEN','OPEN','OPEN')}
+                and 'native:mt_semantic_return_gate.run_mt_with_before_return_gate' in e.evidence
+                and f'packet:{digest(packet)}' in e.evidence
+                and isinstance(raw.get('state'),dict) and raw['state'].get('packet')==digest(packet)
+                and type(raw.get('rounds')) is int and raw['rounds']>0
+                and isinstance(raw.get('open_objects'),(list,tuple))
+                and all(isinstance(x,str) and x.strip() for x in raw['open_objects'])):
+            receipt=GoalMTReceipt(status=raw['status'],evidence=e.evidence,open_objects=tuple(raw['open_objects']))
+    return pre,receipt
 
 
-def _git_blob_text_hash(text, algorithm):
-    from runtime_bootstrap import git_object_sha
-    return git_object_sha('blob',text.encode('utf-8'),algorithm=algorithm)
+def _document_pd_frames(packet,observations,declared_open):
+    """Admit object-scoped finite frames against already verified observations."""
+    frames=packet.get('semantic_pd_frames',{})
+    if not isinstance(frames,dict):
+        raise ValueError('MT_PD_FRAMES_MAPPING_REQUIRED')
+    for object_id,frame in frames.items():
+        if object_id not in declared_open or object_id=='FULL_DOCUMENT_SEMANTIC_COVERAGE_OPEN':
+            raise ValueError('MT_PD_FRAME_OBJECT_NOT_ADMITTED')
+        if not isinstance(frame,dict) or not isinstance(frame.get('cases'),list) or not frame['cases']:
+            raise ValueError('MT_PD_FRAME_CASES_REQUIRED')
+        for row in frame['cases']:
+            if not isinstance(row,dict):
+                raise ValueError('MT_PD_FRAME_CASE_REQUIRED')
+            ids=row.get('evidence')
+            if (not isinstance(ids,list) or not ids
+                    or any(not isinstance(i,str) or i not in observations for i in ids)
+                    or len(set(ids))!=len(ids)):
+                raise ValueError('MT_PD_CASE_OBSERVATION_NOT_ADMITTED')
+    return frames
 
 
-def _evidence_refs(admitted, row, field, required=True):
-    values=row.get(field,[])
-    if not isinstance(values,list):
-        raise ValueError(f'{field}:EXPECTED_LIST')
-    if required and not values:
-        raise KeyError(field)
-    result=[]
-    for ref in values:
-        if not isinstance(ref,dict):
-            raise ValueError(f'{field}:EXPECTED_EVIDENCE_OBJECT')
-        path,sha=ref['source_path'],ref['source_sha']
-        if not isinstance(path,str) or not isinstance(sha,str) or (path,sha) not in admitted:
-            raise ValueError(f'{field}:UNKNOWN_SOURCE_REVISION')
-        for name in ('locator','basis'):
-            if not isinstance(ref[name],str) or not ref[name].strip():
-                raise ValueError(f'{field}:{name}:NONEMPTY_TEXT_REQUIRED')
-        result.append(f'{path}@{sha}:{ref["locator"]}:{ref["basis"]}')
-    return tuple(result)
+def _document_pd_stage_executor(packet,frames,observations,runs):
+    """Execute the available mandatory stages via their real configured route."""
+    from direct_tool_command_gateway import execute_direct_tool_commands
+    def resolve_stage(tool_id,object_id,state):
+        if tool_id not in ('PD','PDAudit') or object_id not in frames:
+            runs.append({'object_id':object_id,'tool_id':tool_id,'status':'OPEN',
+                         'native_invocation':'NOT_INVOKED','blocker':'MT_STAGE_PROVIDER_OR_OBJECT_FRAME_REQUIRED'})
+            return state,'OPEN',False
+        frame=frames[object_id]
+        evidence_ids=sorted({i for row in frame['cases'] for i in row['evidence']})
+        stage_packet={'pd_frame':frame,'mt_packet_sha256':digest(packet),'object_id':object_id,
+                      'source_observations':{i:observations[i] for i in evidence_ids}}
+        stage_digest=digest(stage_packet)
+        try:
+            batch=execute_direct_tool_commands([tool_id],
+                state={'packet_sha256':stage_digest},adapters=builtin_adapters(stage_packet,stage_digest))
+        except (KeyError,ValueError,TypeError,IndexError) as exc:
+            runs.append({'object_id':object_id,'tool_id':tool_id,'status':'BLOCKED',
+                         'native_invocation':'UNKNOWN','blocker':f'{type(exc).__name__}:{exc}',
+                         'input_sha256':stage_digest})
+            return state,'BLOCKED',False
+        receipt={'object_id':object_id,'tool_id':tool_id,'input_sha256':stage_digest,
+                 'scope':'EXPLICIT_OBJECT_FRAME_ONLY','configured':asdict(batch)}
+        status=batch.status if batch.status in ('OPEN','BLOCKED','CONFLICT') else 'OPEN'
+        if len(batch.executions)==1:
+            e=batch.executions[0]
+            provenance=(e.adapter_provenance or {}).get('adapter_provenance',{})
+            receipt['native_invocation']=provenance.get('native_invocation','UNKNOWN')
+            native_entry='native:pd.run_pd' if tool_id=='PD' else 'native:pd_audit.run_pd_audit'
+            if (batch.status=='EXECUTED' and e.tool_id==tool_id and e.status=='RELATIVE_CLOSE'
+                    and e.binding.get('invocation_profile')=='FULL_CONFIGURED_HF2_V1'
+                    and e.recurrence_engine=='HF002' and e.recurrence_status=='RELATIVE_CLOSE'
+                    and e.recurrence_rounds>0 and native_entry in e.evidence
+                    and f'packet-sha256:{stage_digest}' in e.evidence
+                    and receipt['native_invocation']=='RETURNED'
+                    and isinstance(e.result,dict) and e.result.get('status')=='RELATIVE_CLOSE'):
+                status='RELATIVE_CLOSE'
+        receipt['status']=status
+        runs.append(receipt)
+        # Relative finite-stage results are evidence, not a proved change to
+        # the semantic state. Never claim material progress from a receipt alone.
+        return state,status,False
+    return resolve_stage
 
 
-def _structured_inputs(packet, tool, sources):
-    """Validate the host's declared evidence, not the truth of its interpretation."""
-    key, inventory = ('diagnosis','failures') if tool=='Diagnosis' else ('rtc','candidates')
-    spec=packet[key]
+# Source-bound document observation provider for MT and GOAL.
+# Host interpretations
+# are explicit evidence inputs, never independent semantic certification.
+def _document_mt_goal(packet, tool, sources):
+    from difflib import SequenceMatcher
+    spec=packet['document_observations']
     if not isinstance(spec,dict):
-        raise ValueError(f'{key}:EXPECTED_OBJECT')
-    admitted=set()
-    for source in sources:
-        path,sha=source['path'],source['sha']
-        if not isinstance(path,str) or not path.strip() or not _git_blob_sha(sha):
-            raise ValueError('FROZEN_SOURCE_PATH_AND_BLOB_SHA_REQUIRED')
-        admitted.add((path,sha))
-
-    def require_evidence(container, field):
-        return _evidence_refs(admitted,container,field)
-
-    require_evidence(spec,'inventory_evidence')
-    rows=spec[inventory]
-    if not isinstance(rows,list):
-        raise ValueError(f'{inventory}:EXPECTED_LIST')
-    seen=set()
+        raise ValueError('DOCUMENT_OBSERVATIONS_MAPPING_REQUIRED')
+    by_path={s['path']:s for s in sources}
+    target=spec['target']
+    if not isinstance(target,str) or target not in by_path:
+        raise ValueError('DOCUMENT_TARGET_NOT_ADMITTED')
+    def checked_text(value, sha):
+        if not isinstance(value,str):
+            raise ValueError('DOCUMENT_UTF8_TEXT_REQUIRED')
+        # Preserve the existing SHA-1-only document observation contract.
+        if _git_blob_text_hash(value,'sha1')!=sha:
+            raise ValueError('DOCUMENT_BLOB_MISMATCH')
+        return value
+    def nonempty(value):
+        return isinstance(value,str) and bool(value.strip())
+    def source_text(path):
+        if path not in by_path:
+            raise ValueError('DOCUMENT_EVIDENCE_SOURCE_NOT_ADMITTED')
+        source=by_path[path]
+        if source.get('latest_sha')!=source['sha']:
+            raise KeyError('CURRENT_DOCUMENT_SOURCE_REVISION')
+        return checked_text(source['text'],source['sha'])
+    current_text=source_text(target)
+    rows=spec['observations']
+    if not isinstance(rows,list) or not rows:
+        raise KeyError('document_observations.observations')
+    observations={}
     for row in rows:
         if not isinstance(row,dict):
-            raise ValueError(f'{inventory}:EXPECTED_ROW_OBJECT')
-        ident=row['id']
-        if not isinstance(ident,str) or not ident.strip() or ident in seen:
-            raise ValueError(f'{inventory}:UNIQUE_ROW_ID_REQUIRED')
-        seen.add(ident)
-        require_evidence(row,'evidence')
-        if tool=='Diagnosis':
-            if 'material' in row and type(row['material']) is not bool:
-                raise ValueError('material:BOOLEAN_REQUIRED')
-            mechanism=row.get('mechanism')
-            if mechanism is not None:
-                if not isinstance(mechanism,str) or not mechanism.strip():
-                    raise ValueError('mechanism:TEXT_OR_NULL_REQUIRED')
-                require_evidence(row,'mechanism_evidence')
-        else:
-            for field,evidence_field in (('strict_gain','gain_evidence'),('preserves','preservation_evidence')):
-                value=row.get(field)
-                if value is not None:
-                    if type(value) is not bool:
-                        raise ValueError(f'{field}:BOOLEAN_OR_NULL_REQUIRED')
-                    require_evidence(row,evidence_field)
-    return spec
+            raise ValueError('DOCUMENT_OBSERVATION_MAPPING_REQUIRED')
+        ident,source,quote,meaning=(row[k] for k in ('id','source','quote','interpretation'))
+        if not all(nonempty(v) for v in (ident,source,quote,meaning)) or ident in observations:
+            raise ValueError('DOCUMENT_OBSERVATION_ID_OR_EVIDENCE_INVALID')
+        body=source_text(source)
+        if quote not in body:
+            raise ValueError('DOCUMENT_OBSERVATION_QUOTE_MISSING')
+        observations[ident]={'source':source,'sha':by_path[source]['sha'],
+            'quote':quote,'first_line':body[:body.index(quote)].count('\n')+1,
+            'host_interpretation':meaning}
+    if not any(row['source']==target for row in observations.values()):
+        raise ValueError('DOCUMENT_TARGET_OBSERVATION_REQUIRED')
+    change={'status':'NO_PREVIOUS_REVISION_SUPPLIED'}
+    if 'previous' in spec:
+        prev=spec['previous']
+        if not isinstance(prev,dict):
+            raise ValueError('DOCUMENT_PREVIOUS_MAPPING_REQUIRED')
+        if prev['path']!=target:
+            raise ValueError('DOCUMENT_PREVIOUS_TARGET_MISMATCH')
+        before=checked_text(prev['text'],prev['sha'])
+        a,b=before.splitlines(keepends=True),current_text.splitlines(keepends=True)
+        change={'status':'EXACT_TEXT_COMPARISON','previous_sha':prev['sha'],
+                'current_sha':by_path[target]['sha'],
+                'changed_spans':[{'operation':op,'before':[i,j],'after':[k,l]}
+                    for op,i,j,k,l in SequenceMatcher(None,a,b,autojunk=False).get_opcodes() if op!='equal']}
+    declared_open=packet.get('open_coordinates',[])
+    if not isinstance(declared_open,list) or any(not nonempty(v) for v in declared_open):
+        raise ValueError('DOCUMENT_OPEN_COORDINATES_INVALID')
+    # This provider checks bytes and explicit evidence only. It cannot certify
+    # arbitrary prose semantics or run an unbound black-box resolution stage.
+    unresolved=tuple(dict.fromkeys([*declared_open,'FULL_DOCUMENT_SEMANTIC_COVERAGE_OPEN']))
+    frames=_document_pd_frames(packet,observations,declared_open)
+    candidates=[]
+    if tool=='GOAL':
+        from goal import GoalObject, GoalCandidate
+        raw=packet['goal_candidates']
+        if not isinstance(raw,list) or not raw:
+            raise KeyError('goal_candidates')
+        for row in raw:
+            if not isinstance(row,dict):
+                raise ValueError('DOCUMENT_GOAL_CANDIDATE_MAPPING_REQUIRED')
+            ids=row['evidence']
+            if not isinstance(ids,list) or not ids or any(not isinstance(x,str) or x not in observations for x in ids):
+                raise ValueError('DOCUMENT_GOAL_EVIDENCE_NOT_ADMITTED')
+            if not all(type(row[k]) is bool for k in ('grounded','authority_typed','determinate_enough')):
+                raise ValueError('DOCUMENT_GOAL_FLAGS_INVALID')
+            if not nonempty(row['id']) or not nonempty(row['authority_basis']) or not nonempty(row['determination_basis']):
+                raise ValueError('DOCUMENT_GOAL_HOST_BASIS_REQUIRED')
+            goal=row['goal']; constraints=row['constraints']
+            if not isinstance(goal,dict) or set(goal)!={'X','T','I','Sigma'} or any(not nonempty(v) for v in goal.values()):
+                raise ValueError('DOCUMENT_GOAL_OBJECT_INVALID')
+            if not isinstance(constraints,list) or any(not nonempty(v) for v in constraints):
+                raise ValueError('DOCUMENT_GOAL_CONSTRAINTS_INVALID')
+            evidence=tuple(f"{observations[x]['source']}@{observations[x]['sha']}:L{observations[x]['first_line']}:{x}" for x in ids)
+            evidence+=('HOST_AUTHORITY_BASIS:'+row['authority_basis'],'HOST_DETERMINATION_BASIS:'+row['determination_basis'])
+            candidates.append(GoalCandidate(row['id'],GoalObject(**goal),tuple(constraints),evidence,
+                row['grounded'],row['authority_typed'],row['determinate_enough']))
+    source_ids=tuple(s['sha'] for s in sources)
+    def mt(current,plan):
+        from mt_semantic_return_gate import run_mt_with_before_return_gate
+        def observe(state):
+            return state,{'target':target,'source_observations':observations,'change':change,
+                          'unresolved':unresolved,'scope':'EXACT_DOCUMENT_EVIDENCE_AND_HOST_INTERPRETATION'}
+        runs=[]
+        out=run_mt_with_before_return_gate({'packet':digest(packet)},run_mt=observe,
+            detect_black_boxes=lambda st,res:res['unresolved'],
+            execute_stage=_document_pd_stage_executor(packet,frames,observations,runs))
+        result=asdict(out)
+        result['semantic_stage_runs']=runs
+        return _bounded_result(packet,source_ids,'mt_semantic_return_gate.run_mt_with_before_return_gate',
+            result,'OPEN','FULL_DOCUMENT_SEMANTIC_COVERAGE_OPEN')
+    def goal(current,plan):
+        from goal import recover_goal_configured
+        pre,receipt=_configured_mt_prerequisite(packet,mt)
+        out=recover_goal_configured(tuple(candidates),receipt)
+        return _bounded_result(packet,source_ids,'goal.recover_goal_configured',
+            {'native':asdict(out),'mt_preflight':asdict(pre),'host_candidate_evidence':observations},
+            'EXECUTED' if out.status=='CLOSED_RELATIVE' else out.status,out.blocker)
+    return {'MT':mt,'GOAL':goal}[tool]
 
 
-# IV. Architecture graph provider.
+def _bind_finite_mt(packet, source_ids, matrix_data, threshold_data):
+    matrix, axes, rows, expected, expected_counts = matrix_data
+    t, thresholds, qs = threshold_data
+    counts=partial(_matrix_counts,axes)
+    coverage=partial(_matrix_coverage,expected)
+    signature=_threshold_signature
+    envelope=partial(_bounded_result,packet,source_ids)
+    def mt(current,plan):
+        from mt_semantic_return_gate import run_mt_with_before_return_gate
+        # Actual observation pass over admitted data; unresolved source and semantic
+        # objects reach the native gate but cannot be resolved by a missing worker.
+        def observe(state):
+            result={'target':'explicit matrix and threshold model',
+                    'coverage':coverage(rows),'counts':counts(rows),
+                    'distinct_outcome_signatures':{str(k):signature(tuple(t['baseline_probes']),k) for k in thresholds},
+                    'declared_pair_count':t['declared_pair_count'],
+                    'unresolved':tuple(packet.get('open_coordinates',()))}
+            return state,result
+        def resolve_stage(tool_id,object_id,state):
+            return state,'OPEN',False
+        out=run_mt_with_before_return_gate({'packet':digest(packet)},run_mt=observe,
+                detect_black_boxes=lambda st,res:res['unresolved'],execute_stage=resolve_stage)
+        return envelope('mt_semantic_return_gate.run_mt_with_before_return_gate',asdict(out),'EXECUTED' if out.status=='CLOSED_RELATIVE' else out.status,
+                        'SEMANTIC_BLACK_BOXES_OPEN' if out.open_objects else None)
+    return mt
+
+
+def _bind_finite_goal(packet, source_ids, matrix_data, threshold_data):
+    envelope=partial(_bounded_result,packet,source_ids)
+    mt=_bind_finite_mt(packet,source_ids,matrix_data,threshold_data)
+    def goal(current,plan):
+        from goal import GoalObject, GoalCandidate, recover_goal_configured
+        candidates=tuple(GoalCandidate(x['id'],GoalObject(**x['goal']),tuple(x['constraints']),tuple(x['evidence']),x['grounded'],x['authority_typed'],x['determinate_enough']) for x in packet.get('goal_candidates',[]))
+        pre,receipt=_configured_mt_prerequisite(packet,mt)
+        out=recover_goal_configured(candidates,receipt)
+        return envelope('goal.recover_goal_configured',{'native':asdict(out),'mt_preflight':asdict(pre)},'EXECUTED' if out.status=='CLOSED_RELATIVE' else out.status,out.blocker)
+    return goal
+
+
+# 6. Architecture and MultiObject providers.
+
+# Architecture graph provider.
 # Native schema-neutral cycle diagnostics are owned by architecture_analysis.py.
 # Source-bound graph admission and provider interpretation remain here.
 def _cyclic_components(dependencies):
@@ -486,7 +831,72 @@ def _source_relationship_adapter(packet,tool,sources):
     return multiobject
 
 
-# V. Exact-quotation ASSERT provider.
+def _bind_finite_architecture(packet, source_ids, matrix_data):
+    matrix, axes, rows, expected, expected_counts = matrix_data
+    counts=partial(_matrix_counts,axes)
+    coverage=partial(_matrix_coverage,expected)
+    envelope=partial(_bounded_result,packet,source_ids)
+    def architecture(current,plan):
+        from architecture_analysis import run_architecture_analysis
+        def analyze(target,contract):
+            violations=[]
+            cov=coverage(target)
+            if cov['missing'] or cov['unexpected']: violations.append('CASE_COVERAGE')
+            if counts(target)!=expected_counts: violations.append('COUNT_MISMATCH')
+            if any('/' in row[axes.index(matrix['exclusive_axis'])+1] for row in target): violations.append('EXCLUSIVE_AXIS_MULTIPLICITY')
+            return dict(ArchClass='MATRIX_SCHEMA',Violations=violations,LocalizationFamilies=violations,
+                DependencyState={'case_index_ids':len(expected)},InteractionState={'axes':axes},TransformationFrontier=[],SuccessorFrontier=[],Coverage=cov,
+                OpenConflictBlocked=['OPEN'] if violations else [],Provenance=source_ids)
+        out=run_architecture_analysis(rows,{'axes':axes,'expected_ids':expected},analyze_architecture=analyze)
+        return envelope('architecture_analysis.run_architecture_analysis',out,'EXECUTED' if out['status']=='RELATIVE_CLOSE' else out['status'])
+    return architecture
+
+
+# Independent finite-matrix MultiObject provider; admits no unrelated model fields.
+def _matrix_multiobject_adapter(packet, axes, rows, source_ids):
+    from multiobject import (FrozenObject, RelationFinding, RouteResult, ResidualJudgment,
+                             ReconciledFinding, run_multiobject)
+    def envelope(entry,out,status='EXECUTED',blocker=None):
+        return _bounded_result(packet, source_ids, entry, out, status, blocker)
+    class MatrixProvider:
+        # Joint groups are computed directly by inverted membership, independently of pair routes.
+        def __init__(self,objects): self.ids=tuple(o.object_id for o in objects)
+        def joint(self,objects,*,route_id):
+            groups=defaultdict(list)
+            for o in objects:
+                for tag in o.primitives: groups[tag].append(o.object_id)
+            findings=tuple(RelationFinding('GROUP:'+tag,tuple(ids),'SHARED_CODE_GROUP',(tag,),source_ids) for tag,ids in sorted(groups.items()) if len(ids)>1)
+            return RouteResult(route_id,'FULL_JOINT',self.ids,findings,isolation_receipt='direct-inverted-index:'+digest([(o.object_id,o.primitives) for o in objects]))
+        def pair(self,left,right,*,route_id):
+            ids=(left.object_id,right.object_id)
+            shared=sorted(set(left.primitives)&set(right.primitives))
+            findings=tuple(RelationFinding(route_id+':'+tag,ids,'SHARED_CODE',(tag,),source_ids) for tag in shared)
+            return RouteResult(route_id,'PAIR',ids,findings,isolation_receipt='pair-only:'+digest([(left.object_id,left.primitives),(right.object_id,right.primitives)]))
+        def synthesize_pairs(self,pair_routes):
+            return RouteResult('PAIR-UNION','PAIR_SYNTHESIS',self.ids,tuple(f for p in pair_routes for f in p.findings),isolation_receipt='pair-only-union:'+digest([p.route_id for p in pair_routes]))
+        def challenge_reducibility(self,joint_route,pair_routes,pair_synthesis):
+            edges=defaultdict(set)
+            for f in pair_synthesis.findings: edges[f.grounds[0]].add(frozenset(f.support))
+            out=[]
+            for f in joint_route.findings:
+                required={frozenset(x) for x in combinations(f.support,2)}
+                got=edges[f.grounds[0]]
+                out.append(ResidualJudgment(f.finding_id,'PAIRWISE_RECOVERABLE' if required==got else 'CONFLICT',('exact shared-code clique comparison',)))
+            return tuple(out)
+        def triggered_views(self,*args): return ()
+        def analyze_view(self,*args): raise ValueError('NO_TRIGGERED_VIEW')
+        def reconcile(self,pair_routes,pair_synthesis,joint_route,residuals,view_results):
+            return tuple(ReconciledFinding(f.finding_id,'PAIRWISE_ONLY',('shared assignment, not semantic entailment',)) for f in pair_synthesis.findings)+tuple(ReconciledFinding(r.finding_id,'CONVERGENT' if r.status=='PAIRWISE_RECOVERABLE' else 'CONFLICT',r.grounds) for r in residuals)
+    def mo(current,plan):
+        objects=tuple(FrozenObject(r[0],'CLASSIFICATION_RECORD','EXPLICIT_MATRIX','shared codes',tuple(f'{a}:{k}' for i,a in enumerate(axes) for k in r[i+1].split('/'))) for r in rows)
+        out=run_multiobject(objects,MatrixProvider(objects))
+        return envelope('multiobject.run_multiobject',asdict(out),'EXECUTED' if out.status=='CLOSED_RELATIVE' else out.status,out.blocker)
+    return mo
+
+
+# 7. ASSERT providers.
+
+# Exact-quotation ASSERT provider.
 def _quote_adapter(packet, sources):
     """Verify exact text correspondence, not the truth or implication of a quotation."""
     def nonempty(value):
@@ -552,357 +962,30 @@ def _quote_adapter(packet, sources):
     return invoke
 
 
-# VI. Source and finite-model admission. Only requested model groups are validated.
-def _admit_sources(packet, tool):
-    sources=packet['sources']
-    if not sources:
-        raise KeyError('sources')
-    if not isinstance(sources,list) or any(not isinstance(x,dict) for x in sources):
-        raise ValueError('SOURCE_LIST_REQUIRED')
-    source_ids=tuple(x['sha'] for x in sources)
-    paths=tuple(x['path'] for x in sources)
-    if any(not _git_blob_sha(s) for s in source_ids):
-        raise ValueError('SOURCE_BLOB_SHA_INVALID')
-    if any(not isinstance(p,str) or not p.strip() for p in paths) or len(set(paths))!=len(paths):
-        raise ValueError('SOURCE_PATH_UNIQUE_NONEMPTY_REQUIRED')
-    if tool=='CurrentnessAudit':
-        for source in sources:
-            path=source['path']
-            if not isinstance(path,str) or not path.strip():
-                raise ValueError('SOURCE_PATH_REQUIRED')
-            if not _git_blob_sha(source['sha']):
-                raise ValueError('SOURCE_BLOB_SHA_INVALID')
-            latest=source.get('latest_sha')
-            if latest is not None and latest != '' and not _git_blob_sha(latest):
-                raise ValueError('LATEST_SOURCE_BLOB_SHA_INVALID')
-    return sources, source_ids
+def _bind_finite_assertion(packet, source_ids, matrix_data, threshold_data):
+    matrix, axes, rows, expected, expected_counts = matrix_data
+    t, thresholds, qs = threshold_data
+    signature=_threshold_signature
+    discriminate=partial(_threshold_discriminate,qs,thresholds)
+    envelope=partial(_bounded_result,packet,source_ids)
+    def assertion(current,plan):
+        from assert_compound import AssertState, AssertStages, run_to_fixed_point
+        targets={'matrix_coverage':len(expected),'probe_pair_count':t['declared_pair_count']}
+        def assert_stage(s): return replace(s,assertions=targets)
+        def compare_stage(s):
+            n=(len(discriminate()['survivors']) if not s.here else sum(all(signature((x,y),u)!=signature((x,y),v) for u,v in combinations(thresholds,2)) for x,y in combinations(qs,2)))
+            actual={'matrix_coverage':len(set(r[0] for r in rows)&set(expected)),'probe_pair_count':n}
+            return replace(s,comparisons=actual)
+        def resolve_stage(s): return replace(s,resolutions={k:'TRUE' if s.comparisons[k]==v else 'FALSE' for k,v in s.assertions.items()})
+        def here_stage(s): return replace(s,here={'source_blobs':source_ids,'second_algorithm':True})
+        def inquire_stage(s): return replace(s,inquiries=tuple(packet.get('open_coordinates',())))
+        def reassert_stage(s): return replace(s,world={'claim_test_status':{k:'TRUE' if s.comparisons[k]==v else 'FALSE' for k,v in s.assertions.items()}})
+        out=run_to_fixed_point(AssertState(),AssertStages(assert_stage,compare_stage,resolve_stage,here_stage,inquire_stage,reassert_stage),closure_gate=lambda s:bool(s.world.get('claim_test_status')) and all(v=='TRUE' for v in s.world['claim_test_status'].values()) and not s.inquiries,max_rounds=4)
+        return envelope('assert_compound.run_to_fixed_point',asdict(out),'EXECUTED' if out.status=='CLOSED' else 'OPEN')
+    return assertion
 
 
-def _admit_matrix(packet, tool):
-    matrix=packet['matrix']
-    if fnv(matrix['raw']) != matrix['transfer_fnv']:
-        raise ValueError('CONNECTOR_PACKET_TRANSFER_MISMATCH')
-    raw_axes=matrix['axes']
-    if (not isinstance(raw_axes,(list,tuple)) or not raw_axes
-            or any(not isinstance(a,str) or not a.strip() for a in raw_axes)
-            or len(set(raw_axes))!=len(raw_axes)):
-        raise ValueError('MATRIX_AXES_NONEMPTY_UNIQUE_TEXT_REQUIRED')
-    axes=tuple(raw_axes)
-    rows=tuple(tuple(line.split()) for line in matrix['raw'].splitlines())
-    if not rows:
-        raise ValueError('MATRIX_ROWS_REQUIRED')
-    if any(len(r)!=len(axes)+1 for r in rows) or len(set(r[0] for r in rows))!=len(rows):
-        raise ValueError('MALFORMED_OR_DUPLICATE_MATRIX_ROW')
-    expected = expected_counts = None
-    # MultiObject uses only the row identities and labels, not declared counts.
-    if tool!='MultiObject':
-        expected=tuple(packet['expected_ids'])
-    if tool in ('GDOS','Architecture'):
-        expected_counts=matrix['declared_counts']
-    if tool=='Architecture' and matrix['exclusive_axis'] not in axes:
-        raise ValueError('MATRIX_EXCLUSIVE_AXIS_NOT_FOUND')
-    return matrix, axes, rows, expected, expected_counts
-
-
-def _admit_threshold(packet, tool):
-    t=packet['threshold']
-    thresholds=tuple(t['values'])
-    lower,upper=t['lower'],t['upper']
-    if (not thresholds or any(type(v) is not int for v in thresholds)
-            or len(set(thresholds))!=len(thresholds)):
-        raise ValueError('THRESHOLD_VALUES_NONEMPTY_UNIQUE_INTEGERS_REQUIRED')
-    if type(lower) is not int or type(upper) is not int or lower>upper:
-        raise ValueError('THRESHOLD_BOUNDS_INVALID')
-    qs=tuple(range(lower,upper+1))
-    if fnv(t['proof'])!=t['proof_fnv']:
-        raise ValueError('PROOF_TRANSFER_MISMATCH')
-    if tool in ('MT','GOAL','RTC'):
-        probes=tuple(t['baseline_probes'])
-        if any(type(q) is not int or not lower<=q<=upper for q in probes) or len(set(probes))!=len(probes):
-            raise ValueError('THRESHOLD_BASELINE_PROBES_INVALID')
-    if tool in ('MT','GOAL','ASSERT','Reconciler'):
-        count=t['declared_pair_count']
-        if type(count) is not int or count<0:
-            raise ValueError('THRESHOLD_DECLARED_PAIR_COUNT_INVALID')
-    return t, thresholds, qs
-
-
-# VII. Shared bounded execution receipt and model routing.
-# Ownership decision: provider result-envelope construction remains here.
-# execute_tool_packet.py owns packet-level receipts and the runtime owns
-# configured recurrence receipts. These are not interchangeable duplicates.
-def _bounded_result(packet, source_ids, entry,out,status='EXECUTED',blocker=None):
-    return {'status':status,'execution_truth':'IMPLEMENTATION_EXECUTED' if status=='EXECUTED' else status,
-            'result':out,'material_delta':False,'evidence':[f'native:{entry}',f'packet:{digest(packet)}',*['git-blob:'+s for s in source_ids]],
-            'blocker':blocker,'scope':'BOUNDED_EXPLICIT_INPUT; NO_FULL_SEMANTIC_COVERAGE'}
-
-
-def _admit_tool_models(packet,tool,groups,sources):
-    """Admit only the selected model; keep this independent of native execution."""
-    structured=None
-    structured_key={'Diagnosis':'diagnosis','RTC':'rtc'}.get(tool)
-    if structured_key is not None and structured_key in packet:
-        if 'threshold' in packet:
-            raise ValueError(f'{tool}:AMBIGUOUS_STRUCTURED_AND_THRESHOLD_INPUT')
-        structured=_structured_inputs(packet,tool,sources)
-        groups=()
-    matrix_data=_admit_matrix(packet,tool) if 'matrix' in groups else None
-    threshold_data=_admit_threshold(packet,tool) if 'threshold' in groups else None
-    return structured,matrix_data,threshold_data
-
-
-# VIII. Independent finite-matrix MultiObject provider; admits no unrelated model fields.
-def _matrix_multiobject_adapter(packet, axes, rows, source_ids):
-    from multiobject import (FrozenObject, RelationFinding, RouteResult, ResidualJudgment,
-                             ReconciledFinding, run_multiobject)
-    def envelope(entry,out,status='EXECUTED',blocker=None):
-        return _bounded_result(packet, source_ids, entry, out, status, blocker)
-    class MatrixProvider:
-        # Joint groups are computed directly by inverted membership, independently of pair routes.
-        def __init__(self,objects): self.ids=tuple(o.object_id for o in objects)
-        def joint(self,objects,*,route_id):
-            groups=defaultdict(list)
-            for o in objects:
-                for tag in o.primitives: groups[tag].append(o.object_id)
-            findings=tuple(RelationFinding('GROUP:'+tag,tuple(ids),'SHARED_CODE_GROUP',(tag,),source_ids) for tag,ids in sorted(groups.items()) if len(ids)>1)
-            return RouteResult(route_id,'FULL_JOINT',self.ids,findings,isolation_receipt='direct-inverted-index:'+digest([(o.object_id,o.primitives) for o in objects]))
-        def pair(self,left,right,*,route_id):
-            ids=(left.object_id,right.object_id)
-            shared=sorted(set(left.primitives)&set(right.primitives))
-            findings=tuple(RelationFinding(route_id+':'+tag,ids,'SHARED_CODE',(tag,),source_ids) for tag in shared)
-            return RouteResult(route_id,'PAIR',ids,findings,isolation_receipt='pair-only:'+digest([(left.object_id,left.primitives),(right.object_id,right.primitives)]))
-        def synthesize_pairs(self,pair_routes):
-            return RouteResult('PAIR-UNION','PAIR_SYNTHESIS',self.ids,tuple(f for p in pair_routes for f in p.findings),isolation_receipt='pair-only-union:'+digest([p.route_id for p in pair_routes]))
-        def challenge_reducibility(self,joint_route,pair_routes,pair_synthesis):
-            edges=defaultdict(set)
-            for f in pair_synthesis.findings: edges[f.grounds[0]].add(frozenset(f.support))
-            out=[]
-            for f in joint_route.findings:
-                required={frozenset(x) for x in combinations(f.support,2)}
-                got=edges[f.grounds[0]]
-                out.append(ResidualJudgment(f.finding_id,'PAIRWISE_RECOVERABLE' if required==got else 'CONFLICT',('exact shared-code clique comparison',)))
-            return tuple(out)
-        def triggered_views(self,*args): return ()
-        def analyze_view(self,*args): raise ValueError('NO_TRIGGERED_VIEW')
-        def reconcile(self,pair_routes,pair_synthesis,joint_route,residuals,view_results):
-            return tuple(ReconciledFinding(f.finding_id,'PAIRWISE_ONLY',('shared assignment, not semantic entailment',)) for f in pair_synthesis.findings)+tuple(ReconciledFinding(r.finding_id,'CONVERGENT' if r.status=='PAIRWISE_RECOVERABLE' else 'CONFLICT',r.grounds) for r in residuals)
-    def mo(current,plan):
-        objects=tuple(FrozenObject(r[0],'CLASSIFICATION_RECORD','EXPLICIT_MATRIX','shared codes',tuple(f'{a}:{k}' for i,a in enumerate(axes) for k in r[i+1].split('/'))) for r in rows)
-        out=run_multiobject(objects,MatrixProvider(objects))
-        return envelope('multiobject.run_multiobject',asdict(out),'EXECUTED' if out.status=='CLOSED_RELATIVE' else out.status,out.blocker)
-    return mo
-
-
-# Shared configured MT prerequisite for both GOAL input routes.
-# Ownership decision: configured gateway dispatch and adaptation of its result
-# remain here. runtime/goal.py owns the native GoalMTReceipt type and validation;
-# it must not depend on this integration's packet or gateway schema.
-def _configured_mt_prerequisite(packet,mt):
-    from goal import GoalMTReceipt
-    from direct_tool_command_gateway import execute_direct_tool_commands
-    pre=execute_direct_tool_commands('run MT',state={'packet':digest(packet)},adapters={'MT':mt})
-    receipt=None
-    if pre.executions:
-        e=pre.executions[0]
-        raw=e.result
-        # The projected configured disposition, not a raw native label, owns
-        # admission. Bind the witness to this exact evidence packet and gate.
-        if (e.tool_id=='MT' and isinstance(raw,dict)
-                and e.binding.get('invocation_profile')=='FULL_CONFIGURED_HF2_V1'
-                and e.recurrence_engine=='HF002' and e.recurrence_rounds>0
-                and (e.status,e.recurrence_status,raw.get('status')) in {
-                    ('EXECUTED','RELATIVE_CLOSE','CLOSED_RELATIVE'), ('OPEN','OPEN','OPEN')}
-                and 'native:mt_semantic_return_gate.run_mt_with_before_return_gate' in e.evidence
-                and f'packet:{digest(packet)}' in e.evidence
-                and isinstance(raw.get('state'),dict) and raw['state'].get('packet')==digest(packet)
-                and type(raw.get('rounds')) is int and raw['rounds']>0
-                and isinstance(raw.get('open_objects'),(list,tuple))
-                and all(isinstance(x,str) and x.strip() for x in raw['open_objects'])):
-            receipt=GoalMTReceipt(status=raw['status'],evidence=e.evidence,open_objects=tuple(raw['open_objects']))
-    return pre,receipt
-
-
-def _document_pd_frames(packet,observations,declared_open):
-    """Admit object-scoped finite frames against already verified observations."""
-    frames=packet.get('semantic_pd_frames',{})
-    if not isinstance(frames,dict):
-        raise ValueError('MT_PD_FRAMES_MAPPING_REQUIRED')
-    for object_id,frame in frames.items():
-        if object_id not in declared_open or object_id=='FULL_DOCUMENT_SEMANTIC_COVERAGE_OPEN':
-            raise ValueError('MT_PD_FRAME_OBJECT_NOT_ADMITTED')
-        if not isinstance(frame,dict) or not isinstance(frame.get('cases'),list) or not frame['cases']:
-            raise ValueError('MT_PD_FRAME_CASES_REQUIRED')
-        for row in frame['cases']:
-            if not isinstance(row,dict):
-                raise ValueError('MT_PD_FRAME_CASE_REQUIRED')
-            ids=row.get('evidence')
-            if (not isinstance(ids,list) or not ids
-                    or any(not isinstance(i,str) or i not in observations for i in ids)
-                    or len(set(ids))!=len(ids)):
-                raise ValueError('MT_PD_CASE_OBSERVATION_NOT_ADMITTED')
-    return frames
-
-
-def _document_pd_stage_executor(packet,frames,observations,runs):
-    """Execute the available mandatory stages via their real configured route."""
-    from direct_tool_command_gateway import execute_direct_tool_commands
-    def resolve_stage(tool_id,object_id,state):
-        if tool_id not in ('PD','PDAudit') or object_id not in frames:
-            runs.append({'object_id':object_id,'tool_id':tool_id,'status':'OPEN',
-                         'native_invocation':'NOT_INVOKED','blocker':'MT_STAGE_PROVIDER_OR_OBJECT_FRAME_REQUIRED'})
-            return state,'OPEN',False
-        frame=frames[object_id]
-        evidence_ids=sorted({i for row in frame['cases'] for i in row['evidence']})
-        stage_packet={'pd_frame':frame,'mt_packet_sha256':digest(packet),'object_id':object_id,
-                      'source_observations':{i:observations[i] for i in evidence_ids}}
-        stage_digest=digest(stage_packet)
-        try:
-            batch=execute_direct_tool_commands([tool_id],
-                state={'packet_sha256':stage_digest},adapters=builtin_adapters(stage_packet,stage_digest))
-        except (KeyError,ValueError,TypeError,IndexError) as exc:
-            runs.append({'object_id':object_id,'tool_id':tool_id,'status':'BLOCKED',
-                         'native_invocation':'UNKNOWN','blocker':f'{type(exc).__name__}:{exc}',
-                         'input_sha256':stage_digest})
-            return state,'BLOCKED',False
-        receipt={'object_id':object_id,'tool_id':tool_id,'input_sha256':stage_digest,
-                 'scope':'EXPLICIT_OBJECT_FRAME_ONLY','configured':asdict(batch)}
-        status=batch.status if batch.status in ('OPEN','BLOCKED','CONFLICT') else 'OPEN'
-        if len(batch.executions)==1:
-            e=batch.executions[0]
-            provenance=(e.adapter_provenance or {}).get('adapter_provenance',{})
-            receipt['native_invocation']=provenance.get('native_invocation','UNKNOWN')
-            native_entry='native:pd.run_pd' if tool_id=='PD' else 'native:pd_audit.run_pd_audit'
-            if (batch.status=='EXECUTED' and e.tool_id==tool_id and e.status=='RELATIVE_CLOSE'
-                    and e.binding.get('invocation_profile')=='FULL_CONFIGURED_HF2_V1'
-                    and e.recurrence_engine=='HF002' and e.recurrence_status=='RELATIVE_CLOSE'
-                    and e.recurrence_rounds>0 and native_entry in e.evidence
-                    and f'packet-sha256:{stage_digest}' in e.evidence
-                    and receipt['native_invocation']=='RETURNED'
-                    and isinstance(e.result,dict) and e.result.get('status')=='RELATIVE_CLOSE'):
-                status='RELATIVE_CLOSE'
-        receipt['status']=status
-        runs.append(receipt)
-        # Relative finite-stage results are evidence, not a proved change to
-        # the semantic state. Never claim material progress from a receipt alone.
-        return state,status,False
-    return resolve_stage
-
-
-# IX. Source-bound document observation provider for MT and GOAL.
-# Host interpretations
-# are explicit evidence inputs, never independent semantic certification.
-def _document_mt_goal(packet, tool, sources):
-    from difflib import SequenceMatcher
-    spec=packet['document_observations']
-    if not isinstance(spec,dict):
-        raise ValueError('DOCUMENT_OBSERVATIONS_MAPPING_REQUIRED')
-    by_path={s['path']:s for s in sources}
-    target=spec['target']
-    if not isinstance(target,str) or target not in by_path:
-        raise ValueError('DOCUMENT_TARGET_NOT_ADMITTED')
-    def checked_text(value, sha):
-        if not isinstance(value,str):
-            raise ValueError('DOCUMENT_UTF8_TEXT_REQUIRED')
-        # Preserve the existing SHA-1-only document observation contract.
-        if _git_blob_text_hash(value,'sha1')!=sha:
-            raise ValueError('DOCUMENT_BLOB_MISMATCH')
-        return value
-    def nonempty(value):
-        return isinstance(value,str) and bool(value.strip())
-    def source_text(path):
-        if path not in by_path:
-            raise ValueError('DOCUMENT_EVIDENCE_SOURCE_NOT_ADMITTED')
-        source=by_path[path]
-        if source.get('latest_sha')!=source['sha']:
-            raise KeyError('CURRENT_DOCUMENT_SOURCE_REVISION')
-        return checked_text(source['text'],source['sha'])
-    current_text=source_text(target)
-    rows=spec['observations']
-    if not isinstance(rows,list) or not rows:
-        raise KeyError('document_observations.observations')
-    observations={}
-    for row in rows:
-        if not isinstance(row,dict):
-            raise ValueError('DOCUMENT_OBSERVATION_MAPPING_REQUIRED')
-        ident,source,quote,meaning=(row[k] for k in ('id','source','quote','interpretation'))
-        if not all(nonempty(v) for v in (ident,source,quote,meaning)) or ident in observations:
-            raise ValueError('DOCUMENT_OBSERVATION_ID_OR_EVIDENCE_INVALID')
-        body=source_text(source)
-        if quote not in body:
-            raise ValueError('DOCUMENT_OBSERVATION_QUOTE_MISSING')
-        observations[ident]={'source':source,'sha':by_path[source]['sha'],
-            'quote':quote,'first_line':body[:body.index(quote)].count('\n')+1,
-            'host_interpretation':meaning}
-    if not any(row['source']==target for row in observations.values()):
-        raise ValueError('DOCUMENT_TARGET_OBSERVATION_REQUIRED')
-    change={'status':'NO_PREVIOUS_REVISION_SUPPLIED'}
-    if 'previous' in spec:
-        prev=spec['previous']
-        if not isinstance(prev,dict):
-            raise ValueError('DOCUMENT_PREVIOUS_MAPPING_REQUIRED')
-        if prev['path']!=target:
-            raise ValueError('DOCUMENT_PREVIOUS_TARGET_MISMATCH')
-        before=checked_text(prev['text'],prev['sha'])
-        a,b=before.splitlines(keepends=True),current_text.splitlines(keepends=True)
-        change={'status':'EXACT_TEXT_COMPARISON','previous_sha':prev['sha'],
-                'current_sha':by_path[target]['sha'],
-                'changed_spans':[{'operation':op,'before':[i,j],'after':[k,l]}
-                    for op,i,j,k,l in SequenceMatcher(None,a,b,autojunk=False).get_opcodes() if op!='equal']}
-    declared_open=packet.get('open_coordinates',[])
-    if not isinstance(declared_open,list) or any(not nonempty(v) for v in declared_open):
-        raise ValueError('DOCUMENT_OPEN_COORDINATES_INVALID')
-    # This provider checks bytes and explicit evidence only. It cannot certify
-    # arbitrary prose semantics or run an unbound black-box resolution stage.
-    unresolved=tuple(dict.fromkeys([*declared_open,'FULL_DOCUMENT_SEMANTIC_COVERAGE_OPEN']))
-    frames=_document_pd_frames(packet,observations,declared_open)
-    candidates=[]
-    if tool=='GOAL':
-        from goal import GoalObject, GoalCandidate
-        raw=packet['goal_candidates']
-        if not isinstance(raw,list) or not raw:
-            raise KeyError('goal_candidates')
-        for row in raw:
-            if not isinstance(row,dict):
-                raise ValueError('DOCUMENT_GOAL_CANDIDATE_MAPPING_REQUIRED')
-            ids=row['evidence']
-            if not isinstance(ids,list) or not ids or any(not isinstance(x,str) or x not in observations for x in ids):
-                raise ValueError('DOCUMENT_GOAL_EVIDENCE_NOT_ADMITTED')
-            if not all(type(row[k]) is bool for k in ('grounded','authority_typed','determinate_enough')):
-                raise ValueError('DOCUMENT_GOAL_FLAGS_INVALID')
-            if not nonempty(row['id']) or not nonempty(row['authority_basis']) or not nonempty(row['determination_basis']):
-                raise ValueError('DOCUMENT_GOAL_HOST_BASIS_REQUIRED')
-            goal=row['goal']; constraints=row['constraints']
-            if not isinstance(goal,dict) or set(goal)!={'X','T','I','Sigma'} or any(not nonempty(v) for v in goal.values()):
-                raise ValueError('DOCUMENT_GOAL_OBJECT_INVALID')
-            if not isinstance(constraints,list) or any(not nonempty(v) for v in constraints):
-                raise ValueError('DOCUMENT_GOAL_CONSTRAINTS_INVALID')
-            evidence=tuple(f"{observations[x]['source']}@{observations[x]['sha']}:L{observations[x]['first_line']}:{x}" for x in ids)
-            evidence+=('HOST_AUTHORITY_BASIS:'+row['authority_basis'],'HOST_DETERMINATION_BASIS:'+row['determination_basis'])
-            candidates.append(GoalCandidate(row['id'],GoalObject(**goal),tuple(constraints),evidence,
-                row['grounded'],row['authority_typed'],row['determinate_enough']))
-    source_ids=tuple(s['sha'] for s in sources)
-    def mt(current,plan):
-        from mt_semantic_return_gate import run_mt_with_before_return_gate
-        def observe(state):
-            return state,{'target':target,'source_observations':observations,'change':change,
-                          'unresolved':unresolved,'scope':'EXACT_DOCUMENT_EVIDENCE_AND_HOST_INTERPRETATION'}
-        runs=[]
-        out=run_mt_with_before_return_gate({'packet':digest(packet)},run_mt=observe,
-            detect_black_boxes=lambda st,res:res['unresolved'],
-            execute_stage=_document_pd_stage_executor(packet,frames,observations,runs))
-        result=asdict(out)
-        result['semantic_stage_runs']=runs
-        return _bounded_result(packet,source_ids,'mt_semantic_return_gate.run_mt_with_before_return_gate',
-            result,'OPEN','FULL_DOCUMENT_SEMANTIC_COVERAGE_OPEN')
-    def goal(current,plan):
-        from goal import recover_goal_configured
-        pre,receipt=_configured_mt_prerequisite(packet,mt)
-        out=recover_goal_configured(tuple(candidates),receipt)
-        return _bounded_result(packet,source_ids,'goal.recover_goal_configured',
-            {'native':asdict(out),'mt_preflight':asdict(pre),'host_candidate_evidence':observations},
-            'EXECUTED' if out.status=='CLOSED_RELATIVE' else out.status,out.blocker)
-    return {'MT':mt,'GOAL':goal}[tool]
-
+# 8. Other candidate, finite and structured providers.
 
 def _candidate_evidence_adapter(packet, tool, sources, source_ids):
     """Bounded host-evidence routes; no independently derived semantic truth."""
@@ -1007,26 +1090,7 @@ def _candidate_evidence_adapter(packet, tool, sources, source_ids):
     return invoke
 
 
-# X. Shared finite-model operations. These operate only on admitted data.
-def _matrix_counts(axes, rs):
-    return {a:dict(sorted(Counter(k for r in rs for k in r[i+1].split('/')).items())) for i,a in enumerate(axes)}
-
-
-def _matrix_coverage(expected, rs):
-    ids={r[0] for r in rs}
-    return {'missing':sorted(set(expected)-ids),'unexpected':sorted(ids-set(expected)),'rows':len(rs)}
-
-
-def _threshold_signature(qs_, threshold):
-    return tuple(int(q>=threshold) for q in qs_)
-
-
-def _threshold_discriminate(qs, thresholds):
-    from discriminator import run_discriminator
-    return run_discriminator(tuple(combinations(qs,2)),lambda p:len({_threshold_signature(p,k) for k in thresholds})==len(thresholds))
-
-
-# XI. Tool-specific finite and structured provider factories.
+# Tool-specific finite and structured provider factories.
 # Each factory owns one tool's binding, consumes only its admitted model and
 # retains its original native entrypoint, evidence and disposition mapping.
 
@@ -1055,27 +1119,6 @@ def _bind_finite_bias(packet, source_ids, matrix_data):
     return bias
 
 
-def _bind_finite_architecture(packet, source_ids, matrix_data):
-    matrix, axes, rows, expected, expected_counts = matrix_data
-    counts=partial(_matrix_counts,axes)
-    coverage=partial(_matrix_coverage,expected)
-    envelope=partial(_bounded_result,packet,source_ids)
-    def architecture(current,plan):
-        from architecture_analysis import run_architecture_analysis
-        def analyze(target,contract):
-            violations=[]
-            cov=coverage(target)
-            if cov['missing'] or cov['unexpected']: violations.append('CASE_COVERAGE')
-            if counts(target)!=expected_counts: violations.append('COUNT_MISMATCH')
-            if any('/' in row[axes.index(matrix['exclusive_axis'])+1] for row in target): violations.append('EXCLUSIVE_AXIS_MULTIPLICITY')
-            return dict(ArchClass='MATRIX_SCHEMA',Violations=violations,LocalizationFamilies=violations,
-                DependencyState={'case_index_ids':len(expected)},InteractionState={'axes':axes},TransformationFrontier=[],SuccessorFrontier=[],Coverage=cov,
-                OpenConflictBlocked=['OPEN'] if violations else [],Provenance=source_ids)
-        out=run_architecture_analysis(rows,{'axes':axes,'expected_ids':expected},analyze_architecture=analyze)
-        return envelope('architecture_analysis.run_architecture_analysis',out,'EXECUTED' if out['status']=='RELATIVE_CLOSE' else out['status'])
-    return architecture
-
-
 def _bind_finite_disc(packet, source_ids, threshold_data):
     t, thresholds, qs = threshold_data
     discriminate=partial(_threshold_discriminate,qs,thresholds)
@@ -1101,68 +1144,6 @@ def _bind_finite_reconciler(packet, source_ids, threshold_data):
         out=reconcile({},(tuple(a['survivors']),tuple(b)),resolver)
         return envelope('reconcile.reconcile',asdict(out),'OPEN' if out.conflicts or out.open_coordinates else 'EXECUTED')
     return reconciler
-
-
-def _bind_finite_mt(packet, source_ids, matrix_data, threshold_data):
-    matrix, axes, rows, expected, expected_counts = matrix_data
-    t, thresholds, qs = threshold_data
-    counts=partial(_matrix_counts,axes)
-    coverage=partial(_matrix_coverage,expected)
-    signature=_threshold_signature
-    envelope=partial(_bounded_result,packet,source_ids)
-    def mt(current,plan):
-        from mt_semantic_return_gate import run_mt_with_before_return_gate
-        # Actual observation pass over admitted data; unresolved source and semantic
-        # objects reach the native gate but cannot be resolved by a missing worker.
-        def observe(state):
-            result={'target':'explicit matrix and threshold model',
-                    'coverage':coverage(rows),'counts':counts(rows),
-                    'distinct_outcome_signatures':{str(k):signature(tuple(t['baseline_probes']),k) for k in thresholds},
-                    'declared_pair_count':t['declared_pair_count'],
-                    'unresolved':tuple(packet.get('open_coordinates',()))}
-            return state,result
-        def resolve_stage(tool_id,object_id,state):
-            return state,'OPEN',False
-        out=run_mt_with_before_return_gate({'packet':digest(packet)},run_mt=observe,
-                detect_black_boxes=lambda st,res:res['unresolved'],execute_stage=resolve_stage)
-        return envelope('mt_semantic_return_gate.run_mt_with_before_return_gate',asdict(out),'EXECUTED' if out.status=='CLOSED_RELATIVE' else out.status,
-                        'SEMANTIC_BLACK_BOXES_OPEN' if out.open_objects else None)
-    return mt
-
-
-def _bind_finite_goal(packet, source_ids, matrix_data, threshold_data):
-    envelope=partial(_bounded_result,packet,source_ids)
-    mt=_bind_finite_mt(packet,source_ids,matrix_data,threshold_data)
-    def goal(current,plan):
-        from goal import GoalObject, GoalCandidate, recover_goal_configured
-        candidates=tuple(GoalCandidate(x['id'],GoalObject(**x['goal']),tuple(x['constraints']),tuple(x['evidence']),x['grounded'],x['authority_typed'],x['determinate_enough']) for x in packet.get('goal_candidates',[]))
-        pre,receipt=_configured_mt_prerequisite(packet,mt)
-        out=recover_goal_configured(candidates,receipt)
-        return envelope('goal.recover_goal_configured',{'native':asdict(out),'mt_preflight':asdict(pre)},'EXECUTED' if out.status=='CLOSED_RELATIVE' else out.status,out.blocker)
-    return goal
-
-
-def _bind_finite_assertion(packet, source_ids, matrix_data, threshold_data):
-    matrix, axes, rows, expected, expected_counts = matrix_data
-    t, thresholds, qs = threshold_data
-    signature=_threshold_signature
-    discriminate=partial(_threshold_discriminate,qs,thresholds)
-    envelope=partial(_bounded_result,packet,source_ids)
-    def assertion(current,plan):
-        from assert_compound import AssertState, AssertStages, run_to_fixed_point
-        targets={'matrix_coverage':len(expected),'probe_pair_count':t['declared_pair_count']}
-        def assert_stage(s): return replace(s,assertions=targets)
-        def compare_stage(s):
-            n=(len(discriminate()['survivors']) if not s.here else sum(all(signature((x,y),u)!=signature((x,y),v) for u,v in combinations(thresholds,2)) for x,y in combinations(qs,2)))
-            actual={'matrix_coverage':len(set(r[0] for r in rows)&set(expected)),'probe_pair_count':n}
-            return replace(s,comparisons=actual)
-        def resolve_stage(s): return replace(s,resolutions={k:'TRUE' if s.comparisons[k]==v else 'FALSE' for k,v in s.assertions.items()})
-        def here_stage(s): return replace(s,here={'source_blobs':source_ids,'second_algorithm':True})
-        def inquire_stage(s): return replace(s,inquiries=tuple(packet.get('open_coordinates',())))
-        def reassert_stage(s): return replace(s,world={'claim_test_status':{k:'TRUE' if s.comparisons[k]==v else 'FALSE' for k,v in s.assertions.items()}})
-        out=run_to_fixed_point(AssertState(),AssertStages(assert_stage,compare_stage,resolve_stage,here_stage,inquire_stage,reassert_stage),closure_gate=lambda s:bool(s.world.get('claim_test_status')) and all(v=='TRUE' for v in s.world['claim_test_status'].values()) and not s.inquiries,max_rounds=4)
-        return envelope('assert_compound.run_to_fixed_point',asdict(out),'EXECUTED' if out.status=='CLOSED' else 'OPEN')
-    return assertion
 
 
 def _bind_finite_diagnosis(packet, source_ids, structured, threshold_data):
@@ -1229,7 +1210,10 @@ def _bind_source_trc(packet, source_ids):
         return envelope('tool_run_closure.run_tool_run_closure',asdict(out),'OPEN','UNRESOLVED_SEMANTIC_OBLIGATIONS')
     return trc
 
-# XII. Native provider selection. Admission is separate from provider execution.
+
+# 9. Provider selection and public binding coordination.
+
+# Native provider selection. Admission is separate from provider execution.
 def _bind_admitted_adapters(packet, tool, groups):
     # Admit only the evidence used by this invocation. No input validation
     # failure may prevent an independent binding from being constructed.
@@ -1285,3 +1269,37 @@ def _bind_admitted_adapters(packet, tool, groups):
         return {tool:factory(packet,source_ids,structured,threshold_data)}
     factory={'CurrentnessAudit':_bind_source_currentness,'TRC':_bind_source_trc}[tool]
     return {tool:factory(packet,source_ids)}
+
+
+def bind_adapters(packet):
+    """Return independent bindings for the original registered tool set."""
+    def binding(tool, groups):
+        def invoke(current, plan):
+            try:
+                effective = _tool_packet(packet,tool)
+                admitted = _bind_admitted_adapters(effective, tool, groups)
+            except KeyError as exc:
+                return {'status':'OPEN','execution_truth':'OPEN',
+                        'blocker':f'DOCUMENT_INPUT_REQUIRED:{exc.args[0]}',
+                        'material_delta':False,'evidence':[f'packet:{digest(packet)}'],
+                        'scope':'BOUNDED_EXPLICIT_INPUT; NO_NATIVE_INVOCATION',
+                        'adapter_provenance':{'native_invocation':'NOT_INVOKED','provider_binding':tool}}
+            except (ValueError, TypeError, IndexError) as exc:
+                return {'status':'BLOCKED','execution_truth':'BLOCKED',
+                        'blocker':f'DOCUMENT_INPUT_INVALID:{exc}',
+                        'material_delta':False,'evidence':[f'packet:{digest(packet)}'],
+                        'scope':'BOUNDED_EXPLICIT_INPUT; NO_NATIVE_INVOCATION',
+                        'adapter_provenance':{'native_invocation':'NOT_INVOKED','provider_binding':tool}}
+            result=admitted[tool](current, plan)
+            # Every admitted native route returns only after the native call.
+            # Preserve invocation evidence independently of the gateway disposition.
+            result['adapter_provenance']={
+                'native_invocation':'RETURNED',
+                'provider_binding':tool,
+                'source_references':[{'path':s['path'],'sha':s['sha']} for s in effective['sources']],
+                'effective_input_sha256':digest(effective),
+                'semantic_coverage':'BOUNDED_NOT_CERTIFIED',
+            }
+            return result
+        return invoke
+    return {tool:binding(tool, groups) for tool, groups in _INPUT_GROUPS.items()}
