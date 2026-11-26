@@ -15,6 +15,7 @@ from pathlib import Path, PurePosixPath
 import re
 import subprocess
 import sys
+from time import perf_counter
 import zipfile
 
 # I. Integration identity and validation configuration.
@@ -134,7 +135,7 @@ def verify_installed_tree(root, commit, commit_object, tree, expected_tree):
     return source_tree
 
 
-def verify_bootstrap_receipt(root, boot, integration_manifest):
+def verify_bootstrap_receipt(root, boot, integration_manifest, *, expected_commit):
     """Revalidate a previously verified runtime before any native imports."""
     root = Path(root).resolve()
     if boot.get("status") != "BOOTSTRAP_VERIFIED" or Path(boot["runtime_path"]).resolve() != root:
@@ -144,6 +145,8 @@ def verify_bootstrap_receipt(root, boot, integration_manifest):
     verify_integration_files(Path(__file__).resolve().parent, integration_manifest)
     verify_smoke_basis(boot.get("smoke"))
     commit = boot["source_commit"]
+    if not re.fullmatch(r"[0-9a-f]{40}", expected_commit) or commit != expected_commit:
+        raise ValueError("BOOTSTRAP_SOURCE_COMMIT_NOT_CURRENT")
     source_tree = verify_installed_tree(root, commit,
         base64.b64decode(boot["source_commit_object"], validate=True),
         boot["tracked_tree"], boot.get("source_tree"))
@@ -407,6 +410,8 @@ def main():
             print("RECEIPT_INSIDE_VERIFIED_RUNTIME", file=sys.stderr)
             return 1
     phase = "INSTALL"
+    timings = {}
+    started = perf_counter()
     context = {"expected_commit": args.expected_commit}
     try:
         integration_manifest = read_integration_manifest(args.integration_manifest)
@@ -421,22 +426,32 @@ def main():
             target=(args.destination.resolve()/args.expected_commit).resolve()
             if args.artifact.resolve().is_relative_to(target):
                 raise ValueError("ARCHIVE_INSIDE_VERIFIED_RUNTIME")
+            stage = perf_counter()
             assembly=assemble_verified_archive(args.artifact,args.expected_commit,
                 args.assemble_commit_object.read_bytes(),_read_tracked_tree(args.assemble_tree.read_bytes()),
                 args.assemble_blobs,integration_manifest,Path(__file__).resolve().parent,args.source_cache)
+            timings["local_assembly_seconds"] = perf_counter() - stage
         phase="INSTALL"
+        stage = perf_counter()
         root, receipt = install(args.artifact,args.destination,args.expected_commit,integration_manifest)
+        timings["install_seconds"] = perf_counter() - stage
         if assembly is not None:
             receipt["local_assembly"]=assembly
         receipt["runtime_path"]=str(root)
         context.update(source_commit=receipt["source_commit"], source_tree=receipt["source_tree"],
                        runtime_path=str(root))
         phase = "SMOKE_TESTS"
+        stage = perf_counter()
         receipt["smoke"]=smoke(root)
+        timings["smoke_seconds"] = perf_counter() - stage
         phase = "POST_TEST_INTEGRITY"
+        stage = perf_counter()
         verify_installed_tree(root, receipt["source_commit"],
             base64.b64decode(receipt["source_commit_object"], validate=True),
             receipt["tracked_tree"], receipt["source_tree"])
+        timings["post_test_integrity_seconds"] = perf_counter() - stage
+        timings["total_local_seconds"] = perf_counter() - started
+        receipt["local_timings"] = timings
     except Exception as exc:
         return write_failure_receipt(args.receipt, "BOOTSTRAP", phase, exc, context)
     receipt["status"]="BOOTSTRAP_VERIFIED" if (receipt["smoke"]["returncode"]==0 and receipt["smoke"]["registry_returncode"]==0) else "OPEN_TEST_FAILURE"

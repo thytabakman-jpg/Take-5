@@ -1,6 +1,7 @@
 """Runner-independent archive recovery and cross-tool input routing regressions."""
 import tempfile
 import unittest
+from unittest.mock import patch
 from pathlib import Path
 from document_tool_adapters import bind_adapters, builtin_adapters, digest, fnv
 from direct_tool_command_gateway import execute_direct_tool_commands
@@ -150,6 +151,23 @@ class RecoveryTests(unittest.TestCase):
         for changes,reason in cases:
             with self.subTest(changes=changes), self.assertRaisesRegex(ValueError,reason):
                 bootstrap.verify_smoke_basis({**receipt,**changes})
+
+    def test_dispatch_rejects_stale_but_verified_commit(self):
+        tree={'a':('100644',self.blob(b'good'))}
+        sha,_=self.basis(tree)
+        self.assemble('current.zip',tree)
+        root,receipt=bootstrap.install(self.root/'current.zip',self.root/'install',sha,self.manifest)
+        receipt.update(status="BOOTSTRAP_VERIFIED",runtime_path=str(root),
+                       smoke={"test_files":["tests/"+name for name in bootstrap.TESTS],
+                              "returncode":0,"registry_returncode":0,
+                              "registry":{"routing_audit":{"status":"CLOSED_RELATIVE"}},
+                              **bootstrap.observed_test_environment()})
+        # Only the companion-directory location is substituted for the fixture.
+        with patch.object(bootstrap,"__file__",str(self.companions/"runtime_bootstrap.py")):
+            self.assertEqual(bootstrap.verify_bootstrap_receipt(root,receipt,self.manifest,
+                                 expected_commit=sha),(sha,receipt["source_tree"]))
+            with self.assertRaisesRegex(ValueError,"BOOTSTRAP_SOURCE_COMMIT_NOT_CURRENT"):
+                bootstrap.verify_bootstrap_receipt(root,receipt,self.manifest,expected_commit="f"*40)
 
     def test_wrong_commit_and_cache_overwrite_rejected(self):
         tree={'a':('100644',self.blob(b'good'))}; sha,obj=self.basis(tree)

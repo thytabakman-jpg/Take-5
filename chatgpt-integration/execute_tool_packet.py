@@ -14,6 +14,7 @@ import importlib.util
 import json
 from pathlib import Path
 import sys
+from time import perf_counter
 
 
 # I. Packet/provider identity and loading.
@@ -131,6 +132,7 @@ def _execute_independent_tools(packet,ids,adapters,allowed,provider,admitted_ext
 def main():
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument("--runtime", type=Path, required=True)
+    p.add_argument("--expected-commit", required=True, help="Independently resolved current main commit SHA")
     p.add_argument("--bootstrap-receipt", type=Path, default=Path("bootstrap-receipt.json"),
                    help="Receipt from verified bootstrap installation")
     p.add_argument("--integration-manifest", type=Path, required=True,
@@ -159,11 +161,14 @@ def main():
         print("RECEIPT_INSIDE_VERIFIED_RUNTIME", file=sys.stderr)
         return 1
     phase = "RUNTIME_VERIFICATION"
-    context = {}
+    context = {"expected_commit": a.expected_commit}
+    started = perf_counter()
+    timings = {}
     try:
         boot=json.loads(a.bootstrap_receipt.read_text(encoding="utf-8"))
         integration_manifest = read_integration_manifest(a.integration_manifest)
-        source_commit, source_tree = verify_bootstrap_receipt(root, boot, integration_manifest)
+        source_commit, source_tree = verify_bootstrap_receipt(root, boot, integration_manifest, expected_commit=a.expected_commit)
+        timings["runtime_verification_seconds"] = perf_counter() - started
         context.update(source_commit=source_commit, source_tree=source_tree,
                        integration_commit=integration_manifest["commit"])
         sys.path.insert(0,str(root))
@@ -182,16 +187,22 @@ def main():
         adapters=builtin_adapters(packet,digest)
     except Exception as exc:
         return write_failure_receipt(a.receipt, "PACKET", phase, exc, context)
+    timings["gateway_and_packet_admission_seconds"] = perf_counter() - started - timings["runtime_verification_seconds"]
+    stage = perf_counter()
     allowed=set(a.allow_adapter_override)
     provider,admitted_external,admission_errors,provider_error=admit_external_adapters(
         packet,ids,adapters,a.adapter_module,allowed
     )
+    timings["provider_admission_seconds"] = perf_counter() - stage
+    stage = perf_counter()
     results=_execute_independent_tools(packet,ids,adapters,allowed,provider,admitted_external,admission_errors,provider_error,digest,integration_manifest,execute_direct_tool_commands)
+    timings["dispatch_seconds"] = perf_counter() - stage
+    timings["total_local_seconds"] = perf_counter() - started
     # Final packet-level receipt; per-tool records retain independent dispositions.
     receipt={"source_commit":source_commit,"source_tree":source_tree,
              "integration_manifest":integration_manifest,"packet_sha256":digest,"tool_ids":ids,
              "adapter_module":provider,"authorized_overrides":sorted(allowed),"scope":"Explicit bounded native input; no independent semantic adjudication or full geometric coverage asserted",
-             "results":results}
+             "local_timings":timings,"results":results}
     a.receipt.write_text(json.dumps(receipt,indent=2,default=str)+"\n")
     print(json.dumps({"source_commit":source_commit,"tool_ids":ids,"statuses":[r.get("status") for r in results],"receipt":str(a.receipt)},indent=2))
     return int(not ids or any(r.get("status")!="EXECUTED" for r in results))
