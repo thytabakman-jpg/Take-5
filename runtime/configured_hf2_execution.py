@@ -23,8 +23,8 @@ from hf002_recursive_continuation import (
 
 
 # I. Configured result vocabulary and recurrence receipts.
-# Candidate receiving boundary: recurrence truth and admitted-state projection
-# belong here; controller selection and host provenance do not.
+# Owns recurrence truth and admitted-state projection; controller selection
+# and caller-specific receipt construction remain outside this module.
 SUCCESS_STATUSES={
     "EXECUTED","COMPLETE","CLOSED","CLOSED_RELATIVE","RELATIVE_CLOSE","FULL_MATCH"
 }
@@ -79,6 +79,23 @@ class ConfiguredHF2ExecutionResult:
             "call_count":self.call_count,
             "trace":self.trace,
         }
+
+
+def project_recurrence_result(recurrence, status, truth, next_state, material, adapter_provenance):
+    """Project the admitted state, delta and disposition; preserve reported truth."""
+    if recurrence is not None:
+        # Only the recurrence owner can admit a successor. The last raw
+        # adapter return may have been rejected by TRC or HF1.
+        next_state=recurrence.state
+        material=recurrence.admitted_material_delta
+        if not recurrence.closed:
+            disposition=recurrence.configured_disposition
+            if status!=disposition or truth!=disposition:
+                adapter_provenance={**(adapter_provenance or {}),
+                    "reported_status":status,"reported_execution_truth":truth}
+            status=truth=disposition
+
+    return status,truth,next_state,material,adapter_provenance
 
 
 # II. Native adapter return admission and evidence validation.
