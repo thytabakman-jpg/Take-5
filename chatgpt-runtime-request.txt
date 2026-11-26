@@ -1,1 +1,1 @@
-Canonical Authority dossier repair refresh for main 4381efef96688fb2bdfcd2dae8f8bc43dce2d43a
+Architecture verification of A5 restructuring 88d360080369853565a54186e41803dfc9f4e44f
