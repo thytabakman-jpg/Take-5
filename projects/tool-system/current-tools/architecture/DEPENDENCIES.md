@@ -8,7 +8,7 @@
 
 1. [tool_run_registry.py](../../../../runtime/tool_run_registry.py) — sole registered current ID `Architecture`; do not register `Architect` as a second configured tool by string similarity.
 2. [tool_manifest.py](../../../../runtime/tool_manifest.py) — protected behaviour / configured geometry / closure requirements.
-3. [portable_tool_conductor.py](../../../../runtime/portable_tool_conductor.py) — configured wrapper/factor route and native-entrypoint declaration.
+3. [direct_tool_command_gateway.py](../../../../runtime/direct_tool_command_gateway.py) and [improvement_core_tool_bridge.py](../../../../runtime/improvement_core_tool_bridge.py) — direct Repair dispatch; [portable_tool_conductor.py](../../../../runtime/portable_tool_conductor.py) is a separate configured-factor route and native-entrypoint declaration.
 4. [architecture_analysis.py](../../../../runtime/architecture_analysis.py) — actual native `AA_K(A)` result carrier and protected-constraint checks.
 5. Caller-supplied `analyze_architecture` — environment-specific analyzer; without a correctly typed adapter, do not infer successful native execution.
 6. [CURRENT_TOOL_REALITY.md](../../../../integration/CURRENT_TOOL_REALITY.md) — strong-reality evidence gate, including its currentness limitations.
