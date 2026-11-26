@@ -356,6 +356,48 @@ class DocumentObservationTests(unittest.TestCase):
 
 
 
+class SourceRelationshipAdapterTests(unittest.TestCase):
+    def packet(self):
+        import hashlib
+        sources=[]
+        for path,body in [('a.md','[B](b.md) [C](c.md)'),('b.md','[C](c.md)'),('c.md','[A](a.md)')]:
+            sha=hashlib.sha1(f'blob {len(body.encode())}\0'.encode()+body.encode()).hexdigest()
+            sources.append({'path':path,'sha':sha,'latest_sha':sha,'text':body})
+        return {'command':['Architecture','MultiObject'],'sources':sources,
+                'source_relationships':{'paths':['a.md','b.md','c.md']}}
+
+    def test_source_relationships_reach_both_configured_native_tools(self):
+        from direct_tool_command_gateway import execute_direct_tool_commands
+        from document_tool_adapters import bind_adapters
+        packet=self.packet()
+        adapters=bind_adapters(packet)
+        arch=execute_direct_tool_commands(['Architecture'],adapters=adapters)
+        self.assertEqual(arch.status,'OPEN')
+        report=arch.executions[0].result['result']
+        self.assertEqual(report['InteractionState']['diagnostic_candidates']['internal_cycles'],
+                         [['a.md','b.md','c.md']])
+        self.assertEqual(report['InteractionState']['diagnostic_candidates']['declared_execution_cycles'],[])
+        self.assertEqual(len(report['SourceReferenceBasis']['references']),4)
+        mo=execute_direct_tool_commands(['MultiObject'],adapters=adapters)
+        self.assertEqual(mo.status,'OPEN')
+        native=mo.executions[0].result
+        self.assertEqual(len(native['state']['pair_routes']),3)
+        self.assertTrue(all(r['status']=='PAIRWISE_RECOVERABLE' for r in native['state']['residuals']))
+        self.assertTrue(any(f['relation_type']=='DECLARED_REFERENCE_CYCLE'
+                            for f in native['state']['joint_route']['findings']))
+        self.assertEqual(len(native['SourceReferenceBasis']['references']),4)
+
+    def test_invalid_source_relationships_are_not_invoked(self):
+        from document_tool_adapters import bind_adapters
+        for field,value in [('latest_sha','0'*40),('text','changed')]:
+            packet=self.packet()
+            packet['sources'][0][field]=value
+            for tool in ('Architecture','MultiObject'):
+                out=bind_adapters(packet)[tool]({},None)
+                self.assertEqual(out['status'],'OPEN' if field=='latest_sha' else 'BLOCKED')
+                self.assertEqual(out['adapter_provenance']['native_invocation'],'NOT_INVOKED')
+
+
 class FiniteArchitectureAdapterTests(unittest.TestCase):
     def packet(self):
         source={'path':'example.md','sha':'a'*40}

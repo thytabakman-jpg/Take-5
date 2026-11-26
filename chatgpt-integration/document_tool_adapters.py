@@ -414,6 +414,78 @@ def _graph_adapter(packet, sources):
     return invoke
 
 
+def _source_relationship_adapter(packet,tool,sources):
+    """Bind native reference extraction to the existing configured tools."""
+    import posixpath
+    from architecture_analysis import static_source_relationships
+    spec=packet['source_relationships']
+    if not isinstance(spec,dict) or set(spec)-{'paths','dependency_path_roots'}:
+        raise ValueError('SOURCE_RELATIONSHIP_SPEC_INVALID')
+    paths=spec['paths']
+    if (not isinstance(paths,list) or not paths
+            or any(not isinstance(p,str) or not p or p.startswith('/')
+                   or posixpath.normpath(p)!=p or p.startswith('../') for p in paths)
+            or len(set(paths))!=len(paths)):
+        raise ValueError('SOURCE_RELATIONSHIP_UNIQUE_NORMALIZED_PATHS_REQUIRED')
+    if tool=='MultiObject' and (len(paths)<3 or any('|' in p or ',' in p for p in paths)):
+        raise ValueError('SOURCE_MULTIOBJECT_REQUIRES_THREE_UNAMBIGUOUS_IDS')
+    by_path={s['path']:s for s in sources}
+    selected=[]
+    for path in paths:
+        if path not in by_path:
+            raise ValueError('SOURCE_RELATIONSHIP_PATH_NOT_ADMITTED')
+        row=by_path[path]
+        if row.get('latest_sha')!=row['sha']:
+            raise KeyError('SOURCE_RELATIONSHIP_CURRENT_BLOB_REQUIRED')
+        text=row['text']
+        if not isinstance(text,str):
+            raise ValueError('SOURCE_RELATIONSHIP_TEXT_REQUIRED')
+        algorithm='sha1' if len(row['sha'])==40 else 'sha256'
+        if _git_blob_text_hash(text,algorithm)!=row['sha']:
+            raise ValueError('SOURCE_RELATIONSHIP_BLOB_MISMATCH')
+        selected.append(row)
+    basis=static_source_relationships({s['path']:s['text'] for s in selected})
+    sha_by_path={s['path']:s['sha'] for s in selected}
+    dependencies={p:set() for p in paths}
+    for edge in basis['references']:
+        dependencies[edge['source']].add(edge['target'])
+        edge['source_sha']=sha_by_path[edge['source']]
+        edge['target_sha']=sha_by_path[edge['target']]
+    basis['source_revisions']=sha_by_path
+    if tool=='Architecture':
+        graph={'expected_units':paths,
+               'units':[{'id':p,'source':p,'sha':sha_by_path[p],
+                         'role':'SOURCE_ARTIFACT','locator':'whole verified source',
+                         'internal_dependencies':sorted(dependencies[p])} for p in paths],
+               'dependency_path_roots':spec.get('dependency_path_roots',paths)}
+        generated={'sources':selected,'architecture_graph':graph}
+        invoke=_graph_adapter(generated,selected)
+        def architecture(current,plan):
+            result=invoke(current,plan)
+            result['result']['result']['SourceReferenceBasis']=basis
+            result['result']['result']['Coverage']['scope']='extracted bounded static references only'
+            result['evidence']=[e for e in result['evidence'] if not e.startswith('packet:')]
+            result['evidence']+=['packet:'+digest(packet),'derived-graph:'+digest(generated),
+                                 'native:architecture_analysis.static_source_relationships']
+            result['blocker']='FULL_ARCHITECT_SEMANTIC_COVERAGE_OPEN'
+            result['scope']='BOUNDED_EXTRACTED_SOURCE_GRAPH; NO_FULL_SEMANTIC_COVERAGE'
+            return result
+        return architecture
+    from multiobject import FrozenObject, DeclaredReferenceProvider, run_multiobject
+    objects=tuple(FrozenObject(p,'SOURCE_ARTIFACT','STATIC_REFERENCES',p,
+                    dependencies=tuple(sorted(dependencies[p])),
+                    open_coordinates=('FULL_DOCUMENT_RELATION_SEMANTICS_OPEN',)) for p in paths)
+    provider=DeclaredReferenceProvider(objects,{p:p+'@'+sha_by_path[p] for p in paths})
+    def multiobject(current,plan):
+        out=run_multiobject(objects,provider)
+        result=asdict(out)
+        result['SourceReferenceBasis']=basis
+        return _bounded_result(packet,tuple(sha_by_path[p] for p in paths),
+            'multiobject.run_multiobject',result,out.status,
+            out.blocker or 'FULL_DOCUMENT_RELATION_SEMANTICS_OPEN')
+    return multiobject
+
+
 # V. Exact-quotation ASSERT provider.
 def _quote_adapter(packet, sources):
     """Verify exact text correspondence, not the truth or implication of a quotation."""
@@ -1171,6 +1243,11 @@ def _bind_admitted_adapters(packet, tool, groups):
         if 'matrix' in packet or 'threshold' in packet:
             raise ValueError('AMBIGUOUS_DOCUMENT_MT_GOAL_INPUT')
         return {tool:_document_mt_goal(packet,tool,sources)}
+    if tool in ('Architecture','MultiObject') and 'source_relationships' in packet:
+        alternatives=('matrix','architecture_graph','architecture_interventions') if tool=='Architecture' else ('matrix',)
+        if any(key in packet for key in alternatives):
+            raise ValueError('AMBIGUOUS_SOURCE_RELATIONSHIP_INPUT')
+        return {tool:_source_relationship_adapter(packet,tool,sources)}
     if tool=='Architecture' and 'architecture_interventions' in packet:
         if 'matrix' in packet or 'architecture_graph' in packet:
             raise ValueError('AMBIGUOUS_ARCHITECTURE_INPUT')
