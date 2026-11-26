@@ -70,3 +70,42 @@ def test_finite_round_budget_prevents_unbounded_resolution():
     )
     assert r.rounds==2
     assert r.status=="OPEN"
+
+
+def test_material_change_requires_mt_recheck_even_when_prior_answers_agree():
+    calls=[]
+    def run_mt(state):
+        calls.append(state["phase"])
+        return state,int(state["phase"]>=2)
+    def detect(state,result):
+        return ("TERM:X",) if state["phase"]<2 else ()
+    def execute(tool,obj,state):
+        if tool=="PD":
+            return {"phase":state["phase"]+1},"CLOSED_RELATIVE",True
+        return state,"CLOSED_RELATIVE",False
+    out=run_mt_with_before_return_gate(
+        {"phase":0},run_mt=run_mt,detect_black_boxes=detect,execute_stage=execute,
+    )
+    assert calls==[0,1,2]
+    assert out.mt_result==1 and out.status=="CLOSED_RELATIVE"
+
+
+def test_conflicting_semantic_stage_preserves_open_object():
+    calls=[]
+    def execute(tool,obj,state):
+        calls.append(tool)
+        return state,"CONFLICT",False
+    out=run_semantic_pass({},["TERM:X"],execute_stage=execute)
+    assert calls==["PD"]
+    assert out.open_objects==("TERM:X",)
+    assert out.receipts[0].status=="CONFLICT"
+
+
+def test_mt_rejects_nonpositive_round_budget():
+    import pytest
+    with pytest.raises(ValueError,match="max_rounds"):
+        run_mt_with_before_return_gate(
+            {},run_mt=lambda state:(state,None),
+            detect_black_boxes=lambda *args:(),
+            execute_stage=lambda *args:None,max_rounds=0,
+        )
