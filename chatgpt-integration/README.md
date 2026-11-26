@@ -60,7 +60,7 @@ The [integration regression suite](test_document_tool_adapters.py) exercises bot
 
 ### Specialized bindings
 
-[document_tool_adapters.py](document_tool_adapters.py) provides host bindings for explicitly admitted classification matrices, finite integer-threshold comparisons, and structured Diagnosis/RTC evidence. It is packaged with the runtime on demand. Run the existing packet runner with `--adapter-module <integration-directory>/document_tool_adapters.py`. See [provider responsibilities](#provider-responsibilities) for the built-in binding and override rules.
+[document_tool_adapters.py](document_tool_adapters.py) provides specialized host bindings for explicitly admitted classification matrices, finite integer-threshold comparisons, Architecture graphs, exact-quotation ASSERT evidence, structured Diagnosis/RTC evidence, source-revision currentness checks and open-obligation closure checks. It is packaged with the runtime on demand. Run the existing packet runner with `--adapter-module <integration-directory>/document_tool_adapters.py`. See [provider responsibilities](#provider-responsibilities) for the built-in binding and override rules.
 
 Admission is per registered tool. A combined packet may supply multiple input groups.
 
