@@ -1,7 +1,7 @@
 """Executable dispatch for the complete C01-C49 capability registry."""
 from dataclasses import replace
 from types import MappingProxyType
-from a5_core import ProgramRegistry
+from program_registry import ProgramRegistry
 from tool_run_registry import CAPABILITY_DEFINITIONS, EXPECTED_C
 from a5_programs import (
     run_orient, run_map, run_attack, run_candidate_development, run_structural_improvement, run_improvement_evaluation, run_knowledge_transfer, run_verification

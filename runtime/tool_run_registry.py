@@ -6,7 +6,7 @@ from configured_run import (
 )
 from learning_tool_bridge import SPECS as LEARNING_SPECS
 from execution_profile import recurrence_engine_for
-from a5_core import ProgramRegistry, ProgramSpec
+from program_registry import ProgramRegistry, ProgramSpec
 from types import MappingProxyType
 
 # I. Registered identity inventory.

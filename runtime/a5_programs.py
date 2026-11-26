@@ -3,7 +3,7 @@ from collections import deque
 from collections.abc import Mapping
 from math import isfinite
 from copy import deepcopy
-from a5_core import ProgramRegistry,ProgramSpec  # compatibility exports
+from program_registry import ProgramRegistry,ProgramSpec  # compatibility exports
 from tool_run_registry import CAPABILITY_DEFINITIONS, EXPECTED_C
 
 # Bounded capability implementations.

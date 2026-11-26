@@ -1,6 +1,6 @@
 """Historical reconstruction relation. Evidence-first; never infers equivalence from names."""
 from dataclasses import dataclass
-from a5_core import ProgramRegistry, ProgramSpec
+from program_registry import ProgramRegistry, ProgramSpec
 
 # Historical records are evidence inventory, not current execution bindings.
 # Reconstruction mappings: validation/HISTORICAL_RECONSTRUCTION_WITNESSES_015.md.

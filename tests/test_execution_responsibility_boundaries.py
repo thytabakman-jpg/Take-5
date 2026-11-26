@@ -105,3 +105,20 @@ def test_planning_consumers_use_owner_without_transition_facade():
     assert bridge.ToolExecutionPlan is planning.ToolExecutionPlan
     assert bridge.build_tool_execution_plan is planning.build_tool_execution_plan
     assert conductor.build_tool_execution_plan is planning.build_tool_execution_plan
+
+
+def test_program_schema_is_independent_of_live_and_historical_inventory_and_a5_skeleton():
+    import os, subprocess, sys
+    from pathlib import Path
+    env={**os.environ,"PYTHONPATH":str(Path(__file__).resolve().parents[1]/"runtime")}
+    subprocess.run([sys.executable,"-c",
+        "import program_registry, sys; "
+        "assert not {'a5_core','tool_run_registry','capability_runtime','historical_reconstruction'} & sys.modules.keys()"],
+        env=env,check=True)
+    subprocess.run([sys.executable,"-c",
+        "import tool_run_registry, capability_runtime, historical_reconstruction, sys; "
+        "assert 'a5_core' not in sys.modules; "
+        "from a5_core import ProgramSpec, ProgramRegistry; import program_registry; "
+        "assert ProgramSpec is program_registry.ProgramSpec and ProgramRegistry is program_registry.ProgramRegistry; "
+        "from a5_programs import ProgramSpec as legacy_spec; assert legacy_spec is ProgramSpec"],
+        env=env,check=True)
