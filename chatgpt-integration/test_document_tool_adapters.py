@@ -184,5 +184,96 @@ class BuiltinAdapterTests(unittest.TestCase):
                 self.assertEqual(out.executions[0].recurrence_status, recurrence)
 
 
+class DocumentObservationTests(unittest.TestCase):
+    @staticmethod
+    def blob(body):
+        raw=body.encode()
+        return hashlib.sha1(f'blob {len(raw)}\0'.encode()+raw).hexdigest()
+
+    def packet(self):
+        body='Goal: repair broken links.\nRole: navigation.\n'
+        previous='Goal: repair broken links.\nRole: old navigation.\n'
+        sha=self.blob(body)
+        return {
+            'sources':[{'path':'a.md','sha':sha,'latest_sha':sha,'text':body}],
+            'document_observations':{'target':'a.md','observations':[
+                {'id':'goal','source':'a.md','quote':'Goal: repair broken links.',
+                 'interpretation':'Explicit governing goal.'}],
+                'previous':{'path':'a.md','text':previous,'sha':self.blob(previous)}},
+            'goal_candidates':[{'id':'g','goal':{'X':'a.md','T':'repair broken links',
+                'I':'readable navigation','Sigma':'all specified links resolve'},
+                'constraints':['preserve content'],'evidence':['goal'],
+                'grounded':True,'authority_typed':True,'determinate_enough':True,
+                'authority_basis':'Document explicit goal',
+                'determination_basis':'Goal line controls exact operation'}],
+        }
+
+    def call(self,tool,packet):
+        return bind_adapters(packet)[tool]({},None)
+
+    def test_native_mt_observes_delta_without_semantic_promotion(self):
+        out=self.call('MT',self.packet())
+        self.assertEqual(out['status'],'OPEN')
+        self.assertEqual(out['adapter_provenance']['native_invocation'],'RETURNED')
+        self.assertEqual(out['result']['mt_result']['change']['changed_spans'],
+                         [{'operation':'replace','before':[1,2],'after':[1,2]}])
+        self.assertIn('FULL_DOCUMENT_SEMANTIC_COVERAGE_OPEN',out['result']['open_objects'])
+
+    def test_goal_uses_actual_configured_mt_preflight(self):
+        out=execute_direct_tool_commands(['GOAL'],adapters=bind_adapters(self.packet()))
+        self.assertEqual(out.status,'EXECUTED')
+        result=out.executions[0].result
+        self.assertEqual(result['native']['status'],'CLOSED_RELATIVE')
+        self.assertEqual(result['mt_preflight']['status'],'OPEN')
+        self.assertIn('MT_PREFLIGHT:OPEN',result['native']['evidence'])
+
+    def test_malformed_or_stale_evidence_does_not_invoke_native(self):
+        for case in ('quote','blob','stale','previous','ambiguous'):
+            with self.subTest(case=case):
+                packet=self.packet()
+                if case=='quote':
+                    packet['document_observations']['observations'][0]['quote']='absent'
+                elif case=='blob':
+                    packet['sources'][0]['text']+='bad'
+                elif case=='stale':
+                    packet['sources'][0]['latest_sha']='b'*40
+                elif case=='previous':
+                    packet['document_observations']['previous']['path']='b.md'
+                else:
+                    packet['matrix']={}
+                out=self.call('MT',packet)
+                self.assertEqual(out['status'],'OPEN' if case=='stale' else 'BLOCKED')
+                self.assertEqual(out['adapter_provenance']['native_invocation'],'NOT_INVOKED')
+
+    def test_plural_goals_remain_open(self):
+        import copy
+        packet=self.packet()
+        second=copy.deepcopy(packet['goal_candidates'][0])
+        second['id']='g2'
+        second['goal']['T']='different'
+        packet['goal_candidates'].append(second)
+        out=self.call('GOAL',packet)
+        self.assertEqual(out['result']['native']['blocker'],'PLURAL_GOVERNING_GOALS')
+
+    def test_missing_or_bad_goal_input_does_not_suppress_mt(self):
+        for missing in (True,False):
+            with self.subTest(missing=missing):
+                packet=self.packet()
+                if missing:
+                    del packet['goal_candidates']
+                else:
+                    packet['goal_candidates'][0]['evidence']=['absent']
+                self.assertEqual(self.call('GOAL',packet)['adapter_provenance']['native_invocation'],'NOT_INVOKED')
+                self.assertEqual(self.call('MT',packet)['adapter_provenance']['native_invocation'],'RETURNED')
+
+    def test_original_finite_mt_route_is_preserved(self):
+        packet={'sources':[{'path':'example.md','sha':'a'*40}],'expected_ids':['A'],
+            'matrix':{'axes':['tag'],'raw':'A x','transfer_fnv':fnv('A x')},
+            'threshold':{'values':[0,1],'lower':0,'upper':1,'baseline_probes':[0],
+                'declared_pair_count':1,'proof':'two thresholds','proof_fnv':fnv('two thresholds')},
+            'open_coordinates':['not certified']}
+        self.assertEqual(self.call('MT',packet)['adapter_provenance']['native_invocation'],'RETURNED')
+
+
 if __name__ == '__main__':
     unittest.main()

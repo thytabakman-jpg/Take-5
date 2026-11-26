@@ -503,11 +503,133 @@ def _matrix_multiobject_adapter(packet, axes, rows, source_ids):
     return mo
 
 
+# Source-bound document observation route for MT and GOAL. Host interpretations
+# are explicit evidence inputs, never independent semantic certification.
+def _document_mt_goal(packet, tool, sources):
+    from difflib import SequenceMatcher
+    spec=packet['document_observations']
+    if not isinstance(spec,dict):
+        raise ValueError('DOCUMENT_OBSERVATIONS_MAPPING_REQUIRED')
+    by_path={s['path']:s for s in sources}
+    target=spec['target']
+    if not isinstance(target,str) or target not in by_path:
+        raise ValueError('DOCUMENT_TARGET_NOT_ADMITTED')
+    def checked_text(value, sha):
+        if not isinstance(value,str):
+            raise ValueError('DOCUMENT_UTF8_TEXT_REQUIRED')
+        raw=value.encode('utf-8')
+        if hashlib.sha1(f'blob {len(raw)}\0'.encode()+raw).hexdigest()!=sha:
+            raise ValueError('DOCUMENT_BLOB_MISMATCH')
+        return value
+    def nonempty(value):
+        return isinstance(value,str) and bool(value.strip())
+    def source_text(path):
+        if path not in by_path:
+            raise ValueError('DOCUMENT_EVIDENCE_SOURCE_NOT_ADMITTED')
+        source=by_path[path]
+        if source.get('latest_sha')!=source['sha']:
+            raise KeyError('CURRENT_DOCUMENT_SOURCE_REVISION')
+        return checked_text(source['text'],source['sha'])
+    current_text=source_text(target)
+    rows=spec['observations']
+    if not isinstance(rows,list) or not rows:
+        raise KeyError('document_observations.observations')
+    observations={}
+    for row in rows:
+        if not isinstance(row,dict):
+            raise ValueError('DOCUMENT_OBSERVATION_MAPPING_REQUIRED')
+        ident,source,quote,meaning=(row[k] for k in ('id','source','quote','interpretation'))
+        if not all(nonempty(v) for v in (ident,source,quote,meaning)) or ident in observations:
+            raise ValueError('DOCUMENT_OBSERVATION_ID_OR_EVIDENCE_INVALID')
+        body=source_text(source)
+        if quote not in body:
+            raise ValueError('DOCUMENT_OBSERVATION_QUOTE_MISSING')
+        observations[ident]={'source':source,'sha':by_path[source]['sha'],
+            'quote':quote,'first_line':body[:body.index(quote)].count('\n')+1,
+            'host_interpretation':meaning}
+    if not any(row['source']==target for row in observations.values()):
+        raise ValueError('DOCUMENT_TARGET_OBSERVATION_REQUIRED')
+    change={'status':'NO_PREVIOUS_REVISION_SUPPLIED'}
+    if 'previous' in spec:
+        prev=spec['previous']
+        if not isinstance(prev,dict):
+            raise ValueError('DOCUMENT_PREVIOUS_MAPPING_REQUIRED')
+        if prev['path']!=target:
+            raise ValueError('DOCUMENT_PREVIOUS_TARGET_MISMATCH')
+        before=checked_text(prev['text'],prev['sha'])
+        a,b=before.splitlines(keepends=True),current_text.splitlines(keepends=True)
+        change={'status':'EXACT_TEXT_COMPARISON','previous_sha':prev['sha'],
+                'current_sha':by_path[target]['sha'],
+                'changed_spans':[{'operation':op,'before':[i,j],'after':[k,l]}
+                    for op,i,j,k,l in SequenceMatcher(None,a,b,autojunk=False).get_opcodes() if op!='equal']}
+    declared_open=packet.get('open_coordinates',[])
+    if not isinstance(declared_open,list) or any(not nonempty(v) for v in declared_open):
+        raise ValueError('DOCUMENT_OPEN_COORDINATES_INVALID')
+    # This provider checks bytes and explicit evidence only. It cannot certify
+    # arbitrary prose semantics or run an unbound black-box resolution stage.
+    unresolved=tuple(dict.fromkeys([*declared_open,'FULL_DOCUMENT_SEMANTIC_COVERAGE_OPEN']))
+    candidates=[]
+    if tool=='GOAL':
+        from goal import GoalObject, GoalCandidate
+        raw=packet['goal_candidates']
+        if not isinstance(raw,list) or not raw:
+            raise KeyError('goal_candidates')
+        for row in raw:
+            if not isinstance(row,dict):
+                raise ValueError('DOCUMENT_GOAL_CANDIDATE_MAPPING_REQUIRED')
+            ids=row['evidence']
+            if not isinstance(ids,list) or not ids or any(not isinstance(x,str) or x not in observations for x in ids):
+                raise ValueError('DOCUMENT_GOAL_EVIDENCE_NOT_ADMITTED')
+            if not all(type(row[k]) is bool for k in ('grounded','authority_typed','determinate_enough')):
+                raise ValueError('DOCUMENT_GOAL_FLAGS_INVALID')
+            if not nonempty(row['id']) or not nonempty(row['authority_basis']) or not nonempty(row['determination_basis']):
+                raise ValueError('DOCUMENT_GOAL_HOST_BASIS_REQUIRED')
+            goal=row['goal']; constraints=row['constraints']
+            if not isinstance(goal,dict) or set(goal)!={'X','T','I','Sigma'} or any(not nonempty(v) for v in goal.values()):
+                raise ValueError('DOCUMENT_GOAL_OBJECT_INVALID')
+            if not isinstance(constraints,list) or any(not nonempty(v) for v in constraints):
+                raise ValueError('DOCUMENT_GOAL_CONSTRAINTS_INVALID')
+            evidence=tuple(f"{observations[x]['source']}@{observations[x]['sha']}:L{observations[x]['first_line']}:{x}" for x in ids)
+            evidence+=('HOST_AUTHORITY_BASIS:'+row['authority_basis'],'HOST_DETERMINATION_BASIS:'+row['determination_basis'])
+            candidates.append(GoalCandidate(row['id'],GoalObject(**goal),tuple(constraints),evidence,
+                row['grounded'],row['authority_typed'],row['determinate_enough']))
+    source_ids=tuple(s['sha'] for s in sources)
+    def mt(current,plan):
+        from mt_semantic_return_gate import run_mt_with_before_return_gate
+        def observe(state):
+            return state,{'target':target,'source_observations':observations,'change':change,
+                          'unresolved':unresolved,'scope':'EXACT_DOCUMENT_EVIDENCE_AND_HOST_INTERPRETATION'}
+        out=run_mt_with_before_return_gate({'packet':digest(packet)},run_mt=observe,
+            detect_black_boxes=lambda st,res:res['unresolved'],
+            execute_stage=lambda tool_id,object_id,state:(state,'OPEN',False))
+        return _bounded_result(packet,source_ids,'mt_semantic_return_gate.run_mt_with_before_return_gate',
+            asdict(out),'OPEN','FULL_DOCUMENT_SEMANTIC_COVERAGE_OPEN')
+    def goal(current,plan):
+        from goal import GoalMTReceipt, recover_goal_configured
+        from direct_tool_command_gateway import execute_direct_tool_commands
+        pre=execute_direct_tool_commands('run MT',state={'packet':digest(packet)},adapters={'MT':mt})
+        receipt=None
+        if pre.executions:
+            e=pre.executions[0]
+            if e.tool_id=='MT' and e.result and e.binding.get('invocation_profile')=='FULL_CONFIGURED_HF2_V1':
+                raw=e.result
+                receipt=GoalMTReceipt(status=raw['status'],evidence=e.evidence,open_objects=tuple(raw['open_objects']))
+        out=recover_goal_configured(tuple(candidates),receipt)
+        return _bounded_result(packet,source_ids,'goal.recover_goal_configured',
+            {'native':asdict(out),'mt_preflight':asdict(pre),'host_candidate_evidence':observations},
+            'EXECUTED' if out.status=='CLOSED_RELATIVE' else out.status,out.blocker)
+    return {'MT':mt,'GOAL':goal}[tool]
+
+
 # Tool-specific finite and structured bindings.
 def _bind_admitted_adapters(packet, tool, groups):
     # Admit only the evidence used by this invocation. No input validation
     # failure may prevent an independent binding from being constructed.
     sources, source_ids = _admit_sources(packet, tool)
+    if tool in ('MT','GOAL') and 'document_observations' in packet:
+        if 'matrix' in packet or 'threshold' in packet:
+            raise ValueError('AMBIGUOUS_DOCUMENT_MT_GOAL_INPUT')
+        return {tool:_document_mt_goal(packet,tool,sources)}
     if tool=='Architecture' and 'architecture_graph' in packet:
         if 'matrix' in packet:
             raise ValueError('AMBIGUOUS_ARCHITECTURE_INPUT')

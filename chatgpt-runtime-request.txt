@@ -1,1 +1,1 @@
-Core Repair reliability and provenance compatibility: refresh verified artifact for main f6fd499ba66abf8643b7eb315a2ba38b37d87c07
+Refresh verified runtime after adding source-bound MT/GOAL document observation adapter.

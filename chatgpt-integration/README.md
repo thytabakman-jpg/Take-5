@@ -70,7 +70,7 @@ Admission is per registered tool. A combined packet may supply multiple input gr
 | Architecture | Matrix or explicit architecture graph, plus source references |
 | Discriminator, Reconciler | Threshold model and source references; only fields used by the selected algorithm |
 | Diagnosis, RTC | Threshold model or their respective structured document evidence, plus source references |
-| MT, GOAL | Both matrix and threshold model, plus source references |
+| MT, GOAL | Either matrix and threshold model, or source-bound `document_observations`; GOAL additionally requires grounded candidate evidence |
 | ASSERT | Matrix and threshold model, or exact quotation claims, plus source references |
 | CurrentnessAudit, TRC | Source references and applicable currentness or open-obligation coordinates |
 
@@ -84,6 +84,12 @@ Complete packet field definitions:
 - `open_coordinates`: unresolved source/semantic obligations; and optional `goal_candidates` (id, goal X/T/I/Sigma, constraints, evidence, grounded, authority_typed, determinate_enough).
 
 GOAL's MT preflight is recovered from an actual gateway invocation. MT runs a limited observation over the packet; unresolved semantic-stage bindings remain OPEN. MultiObject runs an independent algorithmic full-joint membership route before pair routes, then tests exact pair recoverability. It does not infer scholarly relationships from shared tags. ASSERT is the bounded compound core, not full-36 ASSERT certification. In the threshold route RTC tests additional probes in the fixed finite model; the structured route evaluates host-supplied candidates. Currentness verifies revision identity, not source truth. Prose requires separately evidenced semantic preservation, reader load and claim strength.
+
+### Source-bound document observation input for MT and GOAL
+
+For ordinary documents, use `document_observations` instead of the finite matrix/threshold route. Supply `target` (declared source path), and a nonempty `observations` array of objects containing `id`, `source`, exact `quote` and `interpretation` (explicitly host-derived). Every used source supplies exact UTF-8 `text`, Git blob `sha` and matching independently refetched `latest_sha`. Optional `previous` supplies the same target `path`, exact prior `text` and prior Git blob `sha`. The adapter verifies byte identities, quote presence, source currentness and evidence IDs, and computes zero-based, half-open changed line spans when a prior revision is supplied. These are exact textual comparisons, not independently certified material semantic deltas. Combining this route with a matrix or threshold is BLOCKED.
+
+For GOAL, also supply `goal_candidates`: each has `id`, `goal` with `X`, `T`, `I`, `Sigma`, `constraints`, `evidence` (observation IDs), Boolean `grounded`, `authority_typed`, `determinate_enough`, and explicit `authority_basis` and `determination_basis`. Host semantic judgments remain host inputs. The provider uses the actual configured MT invocation as GOAL's prerequisite; a recovered goal is relative to the admitted candidates and does not certify the underlying document. Missing/stale inputs remain OPEN before invocation; malformed or contradictory source bytes are BLOCKED. Competing admitted goals remain OPEN. The document MT route always preserves `FULL_DOCUMENT_SEMANTIC_COVERAGE_OPEN`; its native gate does not claim the unbound black-box resolution stages were performed. No automatic general document-semantic worker, independent evaluator, Architecture closure or TRC harvest completeness is introduced. The finite route remains unchanged.
 
 ### Explicit Architecture graph input
 
