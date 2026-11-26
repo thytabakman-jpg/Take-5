@@ -73,9 +73,9 @@ GOAL's MT preflight is recovered from an actual gateway invocation. MT runs a li
 
 ### Explicit Architecture graph input
 
-For Architecture alone, `architecture_graph` is an alternative to `matrix`; supplying both is BLOCKED. It contains a nonempty list of unique text `expected_units` and a `units` list. Each unit has a unique nonempty `id`, `source` path and exact Git blob `sha` matching a declared source, nonempty `role` and `locator`, and `internal_dependencies` (a list of unique text unit IDs). Optional `external_dependencies` and `information_ownership` are lists of declared text identities. Source paths must be unique. Missing required fields remain OPEN; malformed fields are BLOCKED before the native entrypoint. Other tool bindings ignore this group.
+For Architecture alone, `architecture_graph` is an alternative to `matrix`; supplying both is BLOCKED. It contains a nonempty list of unique text `expected_units` and a `units` list. Each unit has a unique nonempty `id`, `source` path and exact Git blob `sha` matching a declared source, nonempty `role` and `locator`, and `internal_dependencies` (a list of unique text unit IDs). Optional `external_dependencies`, `information_ownership` and `execution_dependencies` are lists of declared text identities. Execution dependencies must be a subset of internal dependencies. The optional Boolean `check_unit_job_purity` enables the existing native `UNIT_JOB_PURITY` constraint; each unit then requires a nonempty `jobs` list of distinct identities and a nonblank `job_evidence` source locator. Missing fields remain OPEN; malformed fields are BLOCKED. No exceptions or jobs are inferred from role labels. Source paths must be unique. Missing required fields remain OPEN; malformed fields are BLOCKED before the native entrypoint. Other tool bindings ignore this group.
 
-The native Architecture core reports missing or unexpected units, dangling internal dependencies, reverse internal consumers, declared roles and ownership, and source provenance. The host supplies and authenticates the graph facts; the adapter does not independently derive relationships or certify source truth, semantic ownership, external consumers or dynamic dependencies. The result intentionally retains OPEN for these unverified obligations, including on a structurally clean graph.
+The graph binding reports missing or unexpected units, dangling internal dependencies, reverse internal consumers, declared roles and ownership, and source provenance through the native Architecture core. `InteractionState.diagnostic_candidates` separately reports cyclic strongly connected components (including self-loops), cycles within explicitly declared execution edges, and multiple declared owners of a key. These are mechanical candidates, not proof of harmful execution cycles or incompatible ownership. When requested, the native unit-job constraint checks the explicitly declared job inventory; its blocker is retained. The host supplies and authenticates the graph facts; the adapter does not independently derive relationships or certify source truth, semantic ownership, external consumers or dynamic dependencies. The result intentionally retains OPEN for these unverified obligations, including on a structurally clean graph.
 
 ### Exact quotation ASSERT input
 
@@ -91,6 +91,23 @@ These bindings also accept an explicit evidence inventory instead of a threshold
 - RTC rows contain `strict_gain` and `preserves`, each Boolean or null (absent is unresolved). For each explicit Boolean, supply the corresponding `gain_evidence` or `preservation_evidence`.
 - Do not include a threshold model in a packet invoking a structured route for the same tool: ambiguity is BLOCKED. Missing evidence stays OPEN. A mixed RTC result retains both admitted candidates and unresolved candidates, and its adapter disposition remains OPEN.
 - The provider validates the declared evidence references and input types, then invokes the original native tools. It does not independently authenticate the references, establish the proposed mechanism, prove gain/preservation or authorize edits. The receipt is bounded to the supplied inventory. Other tools retain their original input requirements.
+
+### Worker contract mapping and execution provenance
+
+The worker contract defines semantic obligations rather than a common Python ABI. This bounded, read-only integration maps them as follows.
+
+| Contract field | Existing representation or boundary |
+| --- | --- |
+| Frozen target and corpus | Tool-specific packet contents, source paths/blob identities and locators; host verifies source extraction. Built-in finite PD/Prose packets carry explicit model/text, not independently authenticated source evidence. |
+| Typed state and continuation basis | Gateway state, selected native input schema and configured HF002 receipt; no independent persistent research state or upstream obligations inferred. |
+| Capability and provider | Exact registered ID and configured plan; runner records integration manifest, built-in or explicit module identity and packet digest. |
+| Authority | Read-only host analysis; no promotion or research writes authorized by the receipt. |
+| Result and evidence | Native result and evidence, source references where supplied, adapter provenance and bounded scope; source truth and semantic coverage are not certified. |
+| Execution truth and open obligations | Gateway disposition, recurrence receipt, native result and adapter blocker; `adapter_provenance.native_invocation` distinguishes RETURNED from NOT_INVOKED for these supplied bindings. Missing/untrusted provider evidence is not upgraded. |
+| Target effect and proposed state delta | Findings only; existing material-delta semantics and unchanged research state. No implicit mutation or promotion. |
+| Verification and continuation | Native checks, source-specific evidence, recurrence receipt and explicit remaining obligations; independent semantic verification and any missing affected-scope coverage remain OPEN. |
+
+A native return marked OPEN or BLOCKED is distinct from an admission failure before invocation. The gateway's normalized execution truth remains authoritative for closure, while the separate adapter provenance records whether the native call returned. Exceptions with uncertain execution phase remain UNKNOWN. External providers remain responsible for their own execution evidence. A binding or a recorded return alone is not SEMANTICALLY_APPLIED or FULL_MATCH.
 
 ### Host workflow for document requests
 

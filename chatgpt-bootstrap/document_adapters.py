@@ -42,13 +42,24 @@ def bind_adapters(packet):
                 return {'status':'OPEN','execution_truth':'OPEN',
                         'blocker':f'DOCUMENT_INPUT_REQUIRED:{exc.args[0]}',
                         'material_delta':False,'evidence':[f'packet:{digest(packet)}'],
-                        'scope':'BOUNDED_EXPLICIT_INPUT; NO_NATIVE_INVOCATION'}
+                        'scope':'BOUNDED_EXPLICIT_INPUT; NO_NATIVE_INVOCATION',
+                        'adapter_provenance':{'native_invocation':'NOT_INVOKED','provider_binding':tool}}
             except (ValueError, TypeError, IndexError) as exc:
                 return {'status':'BLOCKED','execution_truth':'BLOCKED',
                         'blocker':f'DOCUMENT_INPUT_INVALID:{exc}',
                         'material_delta':False,'evidence':[f'packet:{digest(packet)}'],
-                        'scope':'BOUNDED_EXPLICIT_INPUT; NO_NATIVE_INVOCATION'}
-            return admitted[tool](current, plan)
+                        'scope':'BOUNDED_EXPLICIT_INPUT; NO_NATIVE_INVOCATION',
+                        'adapter_provenance':{'native_invocation':'NOT_INVOKED','provider_binding':tool}}
+            result=admitted[tool](current, plan)
+            # Every admitted native route returns only after the native call.
+            # Preserve invocation evidence independently of the gateway disposition.
+            result['adapter_provenance']={
+                'native_invocation':'RETURNED',
+                'provider_binding':tool,
+                'source_references':[{'path':s['path'],'sha':s['sha']} for s in packet['sources']],
+                'semantic_coverage':'BOUNDED_NOT_CERTIFIED',
+            }
+            return result
         return invoke
     return {tool:binding(tool, groups) for tool, groups in _INPUT_GROUPS.items()}
 
@@ -117,6 +128,34 @@ def _structured_inputs(packet, tool, sources):
     return spec
 
 
+def _cyclic_components(dependencies):
+    """Return cyclic strongly connected components, including self-loops.
+
+    Iterative reachability avoids recursion limits and ignores dangling targets,
+    which are reported separately by the graph analyzer.
+    """
+    reach = {}
+    for start in dependencies:
+        visited = set()
+        pending = [start]
+        while pending:
+            node = pending.pop()
+            if node in visited or node not in dependencies:
+                continue
+            visited.add(node)
+            pending.extend(dependencies[node])
+        reach[start] = visited
+    remaining = set(dependencies)
+    components = []
+    while remaining:
+        start = min(remaining)
+        component = sorted(node for node in reach[start] if start in reach[node])
+        remaining.difference_update(component)
+        if len(component) > 1 or start in dependencies[start]:
+            components.append(component)
+    return components
+
+
 def _graph_adapter(packet, sources):
     """Analyze declared, source-located graph facts; never infer semantic completeness."""
     def nonempty(value):
@@ -140,6 +179,9 @@ def _graph_adapter(packet, sources):
         raise ValueError('GRAPH_EXPECTED_UNITS_REQUIRED')
     if not isinstance(rows,list):
         raise ValueError('GRAPH_UNITS_LIST_REQUIRED')
+    purity=spec.get('check_unit_job_purity',False)
+    if type(purity) is not bool:
+        raise ValueError('GRAPH_PURITY_FLAG_BOOLEAN_REQUIRED')
     seen=set()
     for row in rows:
         if not isinstance(row,dict):
@@ -152,30 +194,55 @@ def _graph_adapter(packet, sources):
             raise ValueError('GRAPH_UNKNOWN_SOURCE_REVISION')
         if not nonempty(row['role']) or not nonempty(row['locator']):
             raise ValueError('GRAPH_ROLE_AND_LOCATOR_REQUIRED')
-        ids(row['internal_dependencies'],'internal_dependencies')
-        for field in ('external_dependencies','information_ownership'):
+        dependencies=ids(row['internal_dependencies'],'internal_dependencies')
+        for field in ('external_dependencies','information_ownership','execution_dependencies'):
             if field in row:
                 ids(row[field],field)
+        if not set(row.get('execution_dependencies',[])).issubset(dependencies):
+            raise ValueError('GRAPH_EXECUTION_EDGE_NOT_INTERNAL')
+        if purity:
+            jobs=ids(row['jobs'],'jobs')
+            if not jobs or not nonempty(row['job_evidence']):
+                raise ValueError('GRAPH_JOB_IDENTITIES_AND_SOURCE_LOCATOR_REQUIRED')
     def analyze(target,contract):
         present={x['id'] for x in target}
         dependencies={x['id']:x['internal_dependencies'] for x in target}
         consumers={u:sorted(v for v,vs in dependencies.items() if u in vs) for u in sorted(present)}
         issues={'missing':sorted(expected-present),'extra':sorted(present-expected),
                 'dangling':sorted((u,v) for u,vs in dependencies.items() for v in vs if v not in present)}
-        return dict(ArchClass='EXPLICIT_SOURCE_GRAPH',Violations=issues,
+        execution={x['id']:x.get('execution_dependencies',[]) for x in target}
+        owners=defaultdict(list)
+        for row in target:
+            for key in row.get('information_ownership',[]):
+                owners[key].append(row['id'])
+        candidates={
+            'internal_cycles':_cyclic_components(dependencies),
+            'declared_execution_cycles':_cyclic_components(execution),
+            'multiple_declared_owners':{k:sorted(v) for k,v in sorted(owners.items()) if len(v)>1},
+        }
+        result=dict(ArchClass='EXPLICIT_SOURCE_GRAPH',Violations=issues,
             LocalizationFamilies=[k for k,v in issues.items() if v],DependencyState=dependencies,
-            InteractionState={'internal_consumers':consumers,'declared_external_dependencies':{x['id']:x.get('external_dependencies',[]) for x in target}},
+            InteractionState={'internal_consumers':consumers,'declared_external_dependencies':{x['id']:x.get('external_dependencies',[]) for x in target},
+                              'declared_execution_dependencies':execution,'diagnostic_candidates':candidates},
             TransformationFrontier=[],SuccessorFrontier=[],
             Coverage={'scope':'declared static graph only','roles':{x['id']:x['role'] for x in target},
-                      'declared_information_ownership':{x['id']:x.get('information_ownership',[]) for x in target}},
-            OpenConflictBlocked={'OPEN':['semantic ownership and dynamic/external coverage not established']},
+                      'declared_information_ownership':{x['id']:x.get('information_ownership',[]) for x in target},
+                      'execution_edge_coverage_declared':sorted(x['id'] for x in target if 'execution_dependencies' in x),
+                      'unit_job_purity_requested':purity},
+            OpenConflictBlocked={'OPEN':['semantic ownership and dynamic/external coverage not established',
+                                        'cycle and ownership candidates require semantic interpretation']},
             Provenance={x['id']:{'source':x['source'],'sha':x['sha'],'locator':x['locator']} for x in target})
+        if purity:
+            result.update(UnitJobState={x['id']:x['jobs'] for x in target},
+                          UnitJobEvidence={x['id']:{'source':x['source'],'sha':x['sha'],'locator':x['job_evidence']} for x in target})
+        return result
     def invoke(current,plan):
-        from architecture_analysis import run_architecture_analysis
-        out=run_architecture_analysis(rows,{'expected':sorted(expected)},analyze_architecture=analyze)
+        from architecture_analysis import run_architecture_analysis, UNIT_JOB_PURITY
+        out=run_architecture_analysis(rows,{'expected':sorted(expected),'ExpectedUnitIds':sorted(expected)},
+            analyze_architecture=analyze,protected_constraints=(UNIT_JOB_PURITY,) if purity else ())
         return {'status':out['status'],'execution_truth':'IMPLEMENTATION_EXECUTED','result':out,
                 'material_delta':False,'evidence':['native:architecture_analysis.run_architecture_analysis',f'packet:{digest(packet)}',*['git-blob:'+s for s in admitted.values()]],
-                'blocker':'FULL_SEMANTIC_COVERAGE_OPEN','scope':'BOUNDED_DECLARED_GRAPH; NO_FULL_SEMANTIC_COVERAGE'}
+                'blocker':out.get('blocker','FULL_SEMANTIC_COVERAGE_OPEN'),'scope':'BOUNDED_DECLARED_GRAPH; NO_FULL_SEMANTIC_COVERAGE'}
     return invoke
 
 
@@ -252,9 +319,14 @@ def _bind_admitted_adapters(packet, tool, groups):
     sources=packet['sources']
     if not sources:
         raise KeyError('sources')
+    if not isinstance(sources,list) or any(not isinstance(x,dict) for x in sources):
+        raise ValueError('SOURCE_LIST_REQUIRED')
     source_ids=tuple(x['sha'] for x in sources)
-    if any(not isinstance(s,str) or not s for s in source_ids):
-        raise ValueError('SOURCE_ID_REQUIRED')
+    paths=tuple(x['path'] for x in sources)
+    if any(not _git_blob_sha(s) for s in source_ids):
+        raise ValueError('SOURCE_BLOB_SHA_INVALID')
+    if any(not isinstance(p,str) or not p.strip() for p in paths) or len(set(paths))!=len(paths):
+        raise ValueError('SOURCE_PATH_UNIQUE_NONEMPTY_REQUIRED')
     if tool=='CurrentnessAudit':
         for source in sources:
             path=source['path']

@@ -1,1 +1,1 @@
-Refresh runtime for four-document architectural assessment; main 6361a4b122630767eb1b1c88e5f5d678a3399436
+Refresh verified runtime for Architecture graph diagnostics and worker provenance mapping

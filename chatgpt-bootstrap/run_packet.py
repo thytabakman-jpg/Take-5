@@ -25,7 +25,8 @@ def builtin_adapters(packet, digest):
         def invoke(current, plan):
             spec = packet.get("pd_frame")
             if not spec:
-                return {"status":"OPEN", "blocker":"PD_FRAME_REQUIRED"}
+                return {"status":"OPEN", "blocker":"PD_FRAME_REQUIRED",
+                        "adapter_provenance":{"native_invocation":"NOT_INVOKED","provider_binding":tool}}
             rows = tuple(spec["cases"])
             names = spec["representations"]
             if not rows or not names or not all(row.get("id") for row in rows):
@@ -48,13 +49,16 @@ def builtin_adapters(packet, digest):
             out = fn(rows, **args)
             return {"status":out["status"], "result":out, "execution_truth":"IMPLEMENTATION_EXECUTED" if out["status"]=="RELATIVE_CLOSE" else "OPEN",
                     "material_delta":False, "evidence":[f"native:{fn.__module__}.{fn.__name__}",f"packet-sha256:{digest}"],
-                    "blocker":out.get("blocker")}
+                    "blocker":out.get("blocker"),
+                    "adapter_provenance":{"native_invocation":"RETURNED","provider_binding":tool,
+                                          "semantic_coverage":"BOUNDED_NOT_CERTIFIED"}}
         return invoke
 
     def prose_adapter(current,plan):
         spec=packet.get("prose")
         if not spec:
-            return {"status":"OPEN","blocker":"PROSE_TEXT_AND_CONTRACT_REQUIRED"}
+            return {"status":"OPEN","blocker":"PROSE_TEXT_AND_CONTRACT_REQUIRED",
+                    "adapter_provenance":{"native_invocation":"NOT_INVOKED","provider_binding":"Prose"}}
         # Semantic PASS evidence is intentionally not constructed from user labels.
         # A separately reviewed semantic-evidence adapter may be explicitly bound.
         from prose import ProseContract, assess_prose
@@ -64,7 +68,9 @@ def builtin_adapters(packet, digest):
                 "execution_truth":"BLOCKED" if out.status=="BLOCKED" else "OPEN",
                 "result":asdict(out), "material_delta":False,
                 "evidence":["native:prose.assess_prose",f"packet-sha256:{digest}"],
-                "blocker":"PROSE_SEMANTIC_EVIDENCE_NOT_BOUND"}
+                "blocker":"PROSE_SEMANTIC_EVIDENCE_NOT_BOUND",
+                "adapter_provenance":{"native_invocation":"RETURNED","provider_binding":"Prose",
+                                      "semantic_coverage":"BOUNDED_NOT_CERTIFIED"}}
 
     return {"PD":pd_adapter("PD"),"PDAudit":pd_adapter("PDAudit"),"Prose":prose_adapter}
 
@@ -110,6 +116,7 @@ def main():
     except Exception as exc:
         return write_failure_receipt(a.receipt, "PACKET", phase, exc, context)
     provider=None
+    admitted_external=set()
     admission_errors={}
     provider_error=None
     allowed=set(a.allow_adapter_override)
@@ -142,6 +149,7 @@ def main():
                 else:
                     admitted[tool]=binding
             adapters.update(admitted)
+            admitted_external.update(admitted)
             provider["status"]="LOADED"
         except Exception as exc:
             provider_error=f"{type(exc).__name__}:{exc}"
@@ -149,33 +157,43 @@ def main():
     # Independent requested tools retain their own receipts. A failed external
     # provider cannot suppress unrelated built-ins or silently authorize fallback.
     results=[]
+    def binding_identity(tool):
+        if tool in admitted_external:
+            return {"kind":"EXPLICIT_MODULE","path":provider["path"],"sha256":provider["sha256"]}
+        if tool in adapters:
+            return {"kind":"BUILTIN","path":"run_packet.py",
+                    "git_blob_sha":integration_manifest["blobs"]["run_packet.py"]}
+        return {"kind":"MISSING"}
     for tool in ids:
         if tool in admission_errors:
             results.append({"tool_id":tool,"status":"BLOCKED","blocker":admission_errors[tool],
-                            "adapter_disposition":"INCOMPATIBLE_BINDING"})
+                            "adapter_disposition":"INCOMPATIBLE_BINDING","native_invocation":"NOT_INVOKED"})
             continue
         if provider_error and (tool not in adapters or tool in allowed):
             results.append({"tool_id":tool,"status":"BLOCKED","blocker":provider_error,
-                            "adapter_disposition":"PROVIDER_INITIALIZATION_FAILED"})
+                            "adapter_disposition":"PROVIDER_INITIALIZATION_FAILED","native_invocation":"NOT_INVOKED"})
             continue
         if tool in allowed and (provider is None or tool not in provider.get("offered_tools",())):
             results.append({"tool_id":tool,"status":"OPEN","blocker":"AUTHORIZED_OVERRIDE_NOT_SUPPLIED",
-                            "adapter_disposition":"MISSING_OVERRIDE"})
+                            "adapter_disposition":"MISSING_OVERRIDE","native_invocation":"NOT_INVOKED"})
             continue
         try:
             out=execute_direct_tool_commands([tool],state={"packet_sha256":digest},adapters=adapters)
             row=asdict(out)
             row["tool_id"]=tool
             row["adapter_disposition"]="BOUND" if tool in adapters else "MISSING_ADAPTER"
+            row["provider_binding_identity"]=binding_identity(tool)
             results.append(row)
         except (KeyError,ValueError,TypeError) as exc:
             # An exception alone cannot establish whether validation or execution
             # failed; keep the original exception and avoid guessing its cause.
             results.append({"tool_id":tool,"status":"BLOCKED","blocker":f"{type(exc).__name__}:{exc}",
-                            "adapter_disposition":"INPUT_OR_EXECUTION_ERROR"})
+                            "adapter_disposition":"INPUT_OR_EXECUTION_ERROR","native_invocation":"UNKNOWN",
+                            "provider_binding_identity":binding_identity(tool)})
         except Exception as exc:
             results.append({"tool_id":tool,"status":"BLOCKED","blocker":f"{type(exc).__name__}:{exc}",
-                            "adapter_disposition":"EXECUTION_ERROR"})
+                            "adapter_disposition":"EXECUTION_ERROR","native_invocation":"UNKNOWN",
+                            "provider_binding_identity":binding_identity(tool)})
     receipt={"source_commit":source_commit,"source_tree":source_tree,
              "integration_manifest":integration_manifest,"packet_sha256":digest,"tool_ids":ids,
              "adapter_module":provider,"authorized_overrides":sorted(allowed),"scope":"Explicit bounded native input; no independent semantic adjudication or full geometric coverage asserted",
