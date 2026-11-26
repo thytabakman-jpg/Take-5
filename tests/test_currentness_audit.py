@@ -96,3 +96,14 @@ def test_same_generation_does_not_hide_changed_basis_without_delta():
     assert r.status==Currentness.OPEN
     assert r.action=="RECONCILE_BASIS_DELTA"
     assert not audit_complete([replace(r,status=Currentness.CURRENT)])
+
+
+def test_missing_basis_cannot_certify_currentness():
+    from dataclasses import replace
+    same_generation={**IDENTITY,"latest_generation":IDENTITY["built_generation"]}
+    valid=assess(component="x",built_basis="a",latest_basis="a",**same_generation)
+    for missing in (None,"","   "):
+        result=assess(component="x",built_basis=missing,latest_basis=missing,**same_generation)
+        assert result.status==Currentness.OPEN
+        assert not audit_complete([result])
+        assert not audit_complete([replace(valid,built_basis=missing,latest_basis=missing)])
