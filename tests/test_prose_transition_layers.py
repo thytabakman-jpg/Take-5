@@ -1,7 +1,7 @@
 import sys
 sys.path.insert(0,"runtime")
 
-from architecture_analysis import run_architecture_analysis,UNIT_JOB_PURITY
+from architecture_analysis import run_architecture_analysis,UNIT_JOB_PURITY,declared_dependency_paths
 from solution_to_my_problem import Problem,Candidate,SolutionReceipt,solve
 from improvement_core_return_gate import evaluate_parent_return
 from global_tool_execution import execute_protected_transition,ToolExecutionBlocked
@@ -299,3 +299,16 @@ def test_architecture_preserves_valid_job_identity_forms():
             analyze_architecture=lambda *_: _arch_result(UnitJobState={"p":jobs},UnitJobEvidence=("e",)),
             protected_constraints=(UNIT_JOB_PURITY,))
         assert out["status"]=="RELATIVE_CLOSE"
+
+
+def test_declared_dependency_paths_are_deterministic_and_do_not_cross_missing_nodes():
+    graph={"A":["C","B","missing"],"B":["D"],"C":["D"],"D":["A"],"E":[]}
+    paths=declared_dependency_paths(graph)
+    assert paths["A"]=={"B":["A","B"],"C":["A","C"],"D":["A","B","D"]}
+    assert paths["D"]["C"]==["D","A","C"]
+    assert paths["E"]=={}
+    assert all(node not in row for node,row in paths.items())
+    assert "missing" not in paths["A"]
+    assert paths==declared_dependency_paths(dict(reversed(list(graph.items()))))
+    assert declared_dependency_paths(graph,roots=['A'])=={'A':paths['A']}
+    assert declared_dependency_paths(graph,roots=[])=={}

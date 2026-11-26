@@ -1,7 +1,7 @@
 import sys
 sys.path.insert(0,"runtime")
 
-from architecture_analysis import run_architecture_analysis, declared_dependency_paths
+from architecture_analysis import run_architecture_analysis
 from mta import run_mta
 from pd import run_pd
 from pd_audit import run_pd_audit
@@ -33,19 +33,6 @@ def test_mta_native_contract_preserves_open():
         reconstruct_protected_model=lambda *a:opened,
     )
     assert out["status"]=="OPEN"
-
-
-def test_declared_dependency_paths_are_deterministic_and_do_not_cross_missing_nodes():
-    graph={"A":["C","B","missing"],"B":["D"],"C":["D"],"D":["A"],"E":[]}
-    paths=declared_dependency_paths(graph)
-    assert paths["A"]=={"B":["A","B"],"C":["A","C"],"D":["A","B","D"]}
-    assert paths["D"]["C"]==["D","A","C"]
-    assert paths["E"]=={}
-    assert all(node not in row for node,row in paths.items())
-    assert "missing" not in paths["A"]
-    assert paths==declared_dependency_paths(dict(reversed(list(graph.items()))))
-    assert declared_dependency_paths(graph,roots=['A'])=={'A':paths['A']}
-    assert declared_dependency_paths(graph,roots=[])=={}
 
 
 def test_architecture_native_contract_preserves_boundary_state():
