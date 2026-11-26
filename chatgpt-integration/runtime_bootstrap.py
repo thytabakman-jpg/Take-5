@@ -188,6 +188,68 @@ def _read_tracked_tree(raw):
     return tree
 
 
+def assemble_verified_archive(output, expected, commit_object, tree, blob_dir,
+                              integration_manifest, integration_dir, source_cache=None):
+    """Assemble from authenticated identities and local blob bytes, without a runner.
+
+    Cache bytes have no authority: every reused or fetched blob must match the
+    independently selected current tree. The ordinary installer remains the
+    final archive-admission and regression-test path.
+    """
+    verify_commit_tree(expected, commit_object, tree)
+    verify_integration_files(integration_dir, integration_manifest)
+    output=Path(output).resolve()
+    if source_cache is not None and output==Path(source_cache).resolve():
+        raise ValueError('RECONSTRUCTION_OUTPUT_OVERWRITES_CACHE')
+    blob_dir=Path(blob_dir)
+    cached={}
+    if source_cache is not None:
+        with zipfile.ZipFile(source_cache) as outer:
+            with zipfile.ZipFile(io.BytesIO(outer.read('take5-source.zip'))) as source:
+                for member in source.infolist():
+                    if member.filename in tree and not member.is_dir():
+                        data=source.read(member)
+                        sha=tree[member.filename][1]
+                        if git_blob_sha(data)==sha:
+                            cached[member.filename]=data
+    rebuilt=io.BytesIO()
+    with zipfile.ZipFile(rebuilt,'w',zipfile.ZIP_DEFLATED) as source:
+        for name,(mode,sha) in sorted(tree.items()):
+            if name in cached:
+                data=cached[name]
+            else:
+                blob=blob_dir/sha
+                if blob.is_symlink() or not blob.is_file():
+                    raise ValueError(f'RECONSTRUCTION_BLOB_REQUIRED:{name}:{sha}')
+                data=blob.read_bytes()
+            if git_blob_sha(data)!=sha:
+                raise ValueError(f'RECONSTRUCTION_BLOB_MISMATCH:{name}')
+            member=zipfile.ZipInfo(name)
+            member.create_system=3
+            member.external_attr=int(mode,8)<<16
+            member.compress_type=zipfile.ZIP_DEFLATED
+            source.writestr(member,data)
+    data=rebuilt.getvalue()
+    with zipfile.ZipFile(io.BytesIO(data)) as source:
+        verified_archive_members(source,tree)
+    archive=io.BytesIO()
+    with zipfile.ZipFile(archive,'w',zipfile.ZIP_DEFLATED) as outer:
+        for name in INTEGRATION_FILES:
+            outer.writestr(name,(Path(integration_dir)/name).read_bytes())
+        outer.writestr('integration-commit.txt',integration_manifest['commit']+'\n')
+        outer.writestr('source-commit.txt',expected+'\n')
+        outer.writestr('source-commit-object.txt',commit_object)
+        outer.writestr('git-tree.txt',b''.join(f'{mode} blob {sha}\t{name}'.encode()+b'\0'
+                           for name,(mode,sha) in sorted(tree.items())))
+        outer.writestr('take5-source.zip',data)
+        outer.writestr('SHA256SUMS',hashlib.sha256(data).hexdigest()+'  take5-source.zip\n')
+    # Do not overwrite an existing archive; installation still rechecks all bytes.
+    with output.open('xb') as handle:
+        handle.write(archive.getvalue())
+    return {'source_commit':expected,'verified_blobs':len(tree),'reused_cache_blobs':len(cached),
+            'fetched_blobs':len(tree)-len(cached),'archive_sha256':hashlib.sha256(data).hexdigest()}
+
+
 def install(artifact, destination, expected, integration_manifest):
     if not re.fullmatch(r"[0-9a-f]{40}", expected):
         raise ValueError("Expected full Git commit SHA required")
@@ -294,6 +356,10 @@ def main():
                     help="Independently fetched integration commit and four Git blob identities")
     ap.add_argument("--destination",type=Path, default=Path("take5-runtime"))
     ap.add_argument("--receipt",type=Path, default=Path("bootstrap-receipt.json"))
+    ap.add_argument("--assemble-tree",type=Path,help="Authenticated recursive tracked-tree manifest")
+    ap.add_argument("--assemble-commit-object",type=Path,help="Exact current Git commit object bytes")
+    ap.add_argument("--assemble-blobs",type=Path,help="Directory of fetched bytes named by Git blob SHA")
+    ap.add_argument("--source-cache",type=Path,help="Optional earlier local archive; bytes reverified against the current tree")
     args=ap.parse_args()
     if re.fullmatch(r"[0-9a-f]{40}", args.expected_commit):
         target=(args.destination.resolve()/args.expected_commit).resolve()
@@ -306,7 +372,22 @@ def main():
         integration_manifest = read_integration_manifest(args.integration_manifest)
         context["integration_commit"] = integration_manifest["commit"]
         verify_integration_files(Path(__file__).resolve().parent, integration_manifest)
+        assembly_args=(args.assemble_tree,args.assemble_commit_object,args.assemble_blobs)
+        assembly=None
+        if any(assembly_args) or args.source_cache is not None:
+            phase="LOCAL_ARCHIVE_ASSEMBLY"
+            if not all(assembly_args):
+                raise ValueError("COMPLETE_RECONSTRUCTION_INPUT_REQUIRED")
+            target=(args.destination.resolve()/args.expected_commit).resolve()
+            if args.artifact.resolve().is_relative_to(target):
+                raise ValueError("ARCHIVE_INSIDE_VERIFIED_RUNTIME")
+            assembly=assemble_verified_archive(args.artifact,args.expected_commit,
+                args.assemble_commit_object.read_bytes(),_read_tracked_tree(args.assemble_tree.read_bytes()),
+                args.assemble_blobs,integration_manifest,Path(__file__).resolve().parent,args.source_cache)
+        phase="INSTALL"
         root, receipt = install(args.artifact,args.destination,args.expected_commit,integration_manifest)
+        if assembly is not None:
+            receipt["local_assembly"]=assembly
         receipt["runtime_path"]=str(root)
         context.update(source_commit=receipt["source_commit"], source_tree=receipt["source_tree"],
                        runtime_path=str(root))
