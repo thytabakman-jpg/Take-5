@@ -214,7 +214,7 @@ def execute_protected_transition(
                     not bool(hints.get("hf2_live_local",False)),
                 )
             ),
-            "trc_terminal":bool(hints.get("trc_terminal",True)),
+            "trc_terminal":hints.get("trc_terminal",True) is True,
             "hf1_disposition":str(hints.get("hf1_disposition","STABLE")),
             "evidence":(str(execution_ev),),
         }
