@@ -17,6 +17,7 @@ import subprocess
 import sys
 import zipfile
 
+# I. Integration identity and validation configuration.
 TESTS = [
     "test_direct_tool_command_gateway.py", "test_goal.py",
     "test_multiobject.py", "test_prose.py",
@@ -29,6 +30,7 @@ TESTS = [
     "test_improvement_core_hf2_default.py", "test_hf2_fixed_point_closure.py",
 ]
 
+# II. Source and integration verification.
 def git_object_sha(kind, data):
     return hashlib.sha1(f"{kind} {len(data)}\0".encode() + data).hexdigest()
 
@@ -152,6 +154,7 @@ def verify_bootstrap_receipt(root, boot, integration_manifest):
     return commit, source_tree
 
 
+# III. Archive installation.
 def install(artifact, destination, expected, integration_manifest):
     if not re.fullmatch(r"[0-9a-f]{40}", expected):
         raise ValueError("Expected full Git commit SHA required")
@@ -211,6 +214,7 @@ def install(artifact, destination, expected, integration_manifest):
         "runtime_python_files":sum(n.startswith("runtime/") and n.endswith(".py") for n in seen),
     }
 
+# IV. Runtime validation.
 def smoke(root):
     env = {**os.environ, "PYTHONPATH": str(root/"runtime")+os.pathsep+str(root),
            "PYTHONDONTWRITEBYTECODE": "1"}
@@ -241,6 +245,7 @@ raise SystemExit(int(a.status!='CLOSED_RELATIVE'))
         "audit_scope":"Native regressions and synthetic invocation-route coverage only",
     }
 
+# V. Receipt reporting and command-line orchestration.
 def write_failure_receipt(path, operation, phase, exc, context):
     """Report pre-dispatch failure without claiming native tool execution."""
     failure = {**context, "status": "BLOCKED", "operation": operation,

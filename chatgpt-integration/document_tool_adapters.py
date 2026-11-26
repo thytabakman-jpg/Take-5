@@ -9,6 +9,7 @@ import hashlib
 import json
 
 
+# Shared transfer identity helpers.
 def digest(value):
     return hashlib.sha256(json.dumps(value,sort_keys=True,ensure_ascii=False).encode()).hexdigest()
 
@@ -64,6 +65,7 @@ def bind_adapters(packet):
     return {tool:binding(tool, groups) for tool, groups in _INPUT_GROUPS.items()}
 
 
+# Structured evidence admission.
 def _git_blob_sha(value):
     return isinstance(value,str) and len(value) in (40,64) and all(c in "0123456789abcdef" for c in value)
 
@@ -128,6 +130,7 @@ def _structured_inputs(packet, tool, sources):
     return spec
 
 
+# Specialized graph and quotation providers.
 def _cyclic_components(dependencies):
     """Return cyclic strongly connected components, including self-loops.
 
@@ -313,9 +316,8 @@ def _quote_adapter(packet, sources):
     return invoke
 
 
-def _bind_admitted_adapters(packet, tool, groups):
-    # Admit only the evidence used by this invocation. No input validation
-    # failure may prevent an independent binding from being constructed.
+# Shared finite-model admission. Only requested model groups are validated.
+def _admit_sources(packet, tool):
     sources=packet['sources']
     if not sources:
         raise KeyError('sources')
@@ -337,6 +339,63 @@ def _bind_admitted_adapters(packet, tool, groups):
             latest=source.get('latest_sha')
             if latest is not None and latest != '' and not _git_blob_sha(latest):
                 raise ValueError('LATEST_SOURCE_BLOB_SHA_INVALID')
+    return sources, source_ids
+
+
+def _admit_matrix(packet, tool):
+    matrix=packet['matrix']
+    if fnv(matrix['raw']) != matrix['transfer_fnv']:
+        raise ValueError('CONNECTOR_PACKET_TRANSFER_MISMATCH')
+    axes=tuple(matrix['axes'])
+    rows=tuple(tuple(line.split()) for line in matrix['raw'].splitlines())
+    if any(len(r)!=len(axes)+1 for r in rows) or len(set(r[0] for r in rows))!=len(rows):
+        raise ValueError('MALFORMED_OR_DUPLICATE_MATRIX_ROW')
+    expected = expected_counts = None
+    # MultiObject uses only the row identities and labels, not declared counts.
+    if tool!='MultiObject':
+        expected=tuple(packet['expected_ids'])
+    if tool in ('GDOS','Architecture'):
+        expected_counts=matrix['declared_counts']
+    if tool=='Architecture' and matrix['exclusive_axis'] not in axes:
+        raise ValueError('MATRIX_EXCLUSIVE_AXIS_NOT_FOUND')
+    return matrix, axes, rows, expected, expected_counts
+
+
+def _admit_threshold(packet, tool):
+    t=packet['threshold']
+    thresholds=tuple(t['values'])
+    lower,upper=t['lower'],t['upper']
+    if (not thresholds or any(type(v) is not int for v in thresholds)
+            or len(set(thresholds))!=len(thresholds)):
+        raise ValueError('THRESHOLD_VALUES_NONEMPTY_UNIQUE_INTEGERS_REQUIRED')
+    if type(lower) is not int or type(upper) is not int or lower>upper:
+        raise ValueError('THRESHOLD_BOUNDS_INVALID')
+    qs=tuple(range(lower,upper+1))
+    if fnv(t['proof'])!=t['proof_fnv']:
+        raise ValueError('PROOF_TRANSFER_MISMATCH')
+    if tool in ('MT','GOAL','RTC'):
+        probes=tuple(t['baseline_probes'])
+        if any(type(q) is not int or not lower<=q<=upper for q in probes) or len(set(probes))!=len(probes):
+            raise ValueError('THRESHOLD_BASELINE_PROBES_INVALID')
+    if tool in ('MT','GOAL','ASSERT','Reconciler'):
+        count=t['declared_pair_count']
+        if type(count) is not int or count<0:
+            raise ValueError('THRESHOLD_DECLARED_PAIR_COUNT_INVALID')
+    return t, thresholds, qs
+
+
+# Bounded execution result construction.
+def _bounded_result(packet, source_ids, entry,out,status='EXECUTED',blocker=None):
+    return {'status':status,'execution_truth':'IMPLEMENTATION_EXECUTED' if status=='EXECUTED' else status,
+            'result':out,'material_delta':False,'evidence':[f'native:{entry}',f'packet:{digest(packet)}',*['git-blob:'+s for s in source_ids]],
+            'blocker':blocker,'scope':'BOUNDED_EXPLICIT_INPUT; NO_FULL_SEMANTIC_COVERAGE'}
+
+
+# Tool-specific finite and structured bindings.
+def _bind_admitted_adapters(packet, tool, groups):
+    # Admit only the evidence used by this invocation. No input validation
+    # failure may prevent an independent binding from being constructed.
+    sources, source_ids = _admit_sources(packet, tool)
     if tool=='Architecture' and 'architecture_graph' in packet:
         if 'matrix' in packet:
             raise ValueError('AMBIGUOUS_ARCHITECTURE_INPUT')
@@ -353,40 +412,9 @@ def _bind_admitted_adapters(packet, tool, groups):
         structured=_structured_inputs(packet,tool,sources)
         groups=()
     if 'matrix' in groups:
-        matrix=packet['matrix']
-        if fnv(matrix['raw']) != matrix['transfer_fnv']:
-            raise ValueError('CONNECTOR_PACKET_TRANSFER_MISMATCH')
-        axes=tuple(matrix['axes'])
-        rows=tuple(tuple(line.split()) for line in matrix['raw'].splitlines())
-        if any(len(r)!=len(axes)+1 for r in rows) or len(set(r[0] for r in rows))!=len(rows):
-            raise ValueError('MALFORMED_OR_DUPLICATE_MATRIX_ROW')
-        # MultiObject uses only the row identities and labels, not declared counts.
-        if tool!='MultiObject':
-            expected=tuple(packet['expected_ids'])
-        if tool in ('GDOS','Architecture'):
-            expected_counts=matrix['declared_counts']
-        if tool=='Architecture' and matrix['exclusive_axis'] not in axes:
-            raise ValueError('MATRIX_EXCLUSIVE_AXIS_NOT_FOUND')
+        matrix, axes, rows, expected, expected_counts = _admit_matrix(packet, tool)
     if 'threshold' in groups:
-        t=packet['threshold']
-        thresholds=tuple(t['values'])
-        lower,upper=t['lower'],t['upper']
-        if (not thresholds or any(type(v) is not int for v in thresholds)
-                or len(set(thresholds))!=len(thresholds)):
-            raise ValueError('THRESHOLD_VALUES_NONEMPTY_UNIQUE_INTEGERS_REQUIRED')
-        if type(lower) is not int or type(upper) is not int or lower>upper:
-            raise ValueError('THRESHOLD_BOUNDS_INVALID')
-        qs=tuple(range(lower,upper+1))
-        if fnv(t['proof'])!=t['proof_fnv']:
-            raise ValueError('PROOF_TRANSFER_MISMATCH')
-        if tool in ('MT','GOAL','RTC'):
-            probes=tuple(t['baseline_probes'])
-            if any(type(q) is not int or not lower<=q<=upper for q in probes) or len(set(probes))!=len(probes):
-                raise ValueError('THRESHOLD_BASELINE_PROBES_INVALID')
-        if tool in ('MT','GOAL','ASSERT','Reconciler'):
-            count=t['declared_pair_count']
-            if type(count) is not int or count<0:
-                raise ValueError('THRESHOLD_DECLARED_PAIR_COUNT_INVALID')
+        t, thresholds, qs = _admit_threshold(packet, tool)
     if tool == 'MultiObject':
         from multiobject import (FrozenObject, RelationFinding, RouteResult, ResidualJudgment,
                                  ReconciledFinding, run_multiobject)
@@ -401,9 +429,9 @@ def _bind_admitted_adapters(packet, tool, groups):
         from discriminator import run_discriminator
         return run_discriminator(tuple(combinations(qs,2)),lambda p:len({signature(p,k) for k in thresholds})==len(thresholds))
     def envelope(entry,out,status='EXECUTED',blocker=None):
-        return {'status':status,'execution_truth':'IMPLEMENTATION_EXECUTED' if status=='EXECUTED' else status,
-                'result':out,'material_delta':False,'evidence':[f'native:{entry}',f'packet:{digest(packet)}',*['git-blob:'+s for s in source_ids]],
-                'blocker':blocker,'scope':'BOUNDED_EXPLICIT_INPUT; NO_FULL_SEMANTIC_COVERAGE'}
+        return _bounded_result(packet, source_ids, entry, out, status, blocker)
+
+    # Native provider bindings; shared inputs and result envelope are admitted above.
     def gdos(current,plan):
         from gdos import run_gdos
         out=run_gdos(rows,observers=(coverage,counts),reconcile_fn=lambda obs:{'coverage':obs[0],'counts':obs[1],'declared_counts_match':obs[1]==expected_counts})
