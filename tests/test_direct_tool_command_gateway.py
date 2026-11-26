@@ -155,4 +155,4 @@ def test_structured_batch_binds_every_registered_identity():
 @pytest.mark.parametrize("invalid_request", [{"command": "run MT"}, {"run MT"}, b"run MT", None, 12])
 def test_non_string_non_sequence_requests_cannot_be_coerced_to_commands(invalid_request):
     with pytest.raises(DirectToolCommandBlocked, match="DIRECT_TOOL_REQUEST_REQUIRES_STRING_OR_ORDERED_IDS"):
-        direct_tool_ids(request)
+        direct_tool_ids(invalid_request)
