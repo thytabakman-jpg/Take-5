@@ -9,7 +9,10 @@ from execution_profile import recurrence_engine_for
 from program_registry import ProgramRegistry, ProgramSpec
 from types import MappingProxyType
 
-# I. Registered identity inventory.
+# I. Capability-definition inventory (C01-C49).
+# Relocation candidate (not moved): compare with capability_runtime.py (dispatch)
+# and program_registry.py (schema). Neither is established as the inventory owner;
+# retain the independent live definitions here pending a consumer/ownership audit.
 # Declared capability metadata is not evidence of an executable binding.
 _SPECS = []
 
@@ -81,6 +84,8 @@ if _definition_registry.ids() != EXPECTED_C:
     raise ValueError("Current capability definition coverage mismatch")
 CAPABILITY_DEFINITIONS = MappingProxyType({spec.program_id: spec for spec in _SPECS})
 
+# II. Complete registered tool identity inventory.
+# Learning definitions are projected from their existing owner.
 LEARNING_TOOLS=tuple(spec.program_id for spec in LEARNING_SPECS)
 
 MATERIAL_TOOLS=tuple(list(CAPABILITY_DEFINITIONS)+[
@@ -92,7 +97,7 @@ MATERIAL_TOOLS=tuple(list(CAPABILITY_DEFINITIONS)+[
 
 ASSERT_LAYERS=("ASSERT_LAYER_1","ASSERT_LAYER_2")
 
-# II. Independently authored admission requirements.
+# III. Independently authored admission requirements.
 # Independent requirements for configured admission, not a list of actual
 # manifest bindings. ConfiguredRunSpec.complete() checks these against the
 # manifest; deriving them from that manifest would erase this verification.
@@ -245,7 +250,7 @@ REQUIRED_PROTECTED_BEHAVIORS={
 PROTECTED_BEHAVIORS=REQUIRED_PROTECTED_BEHAVIORS
 
 
-# III. Configured profile policy and construction.
+# IV. Configured profile policy and construction.
 STRONG_CHALLENGE_TOOLS=frozenset({
             "ImprovementCore","ProjectManager","ICC128","MT","MTA","Architecture","PD","PDAudit","GDOS","RootCause","RTC",
             "CurrentnessAudit","MultiObject","Diagnosis","ASSERT","GOAL","SolutionToMyProblem","Prose","DesiredJane",
@@ -278,6 +283,7 @@ def _build_configured_runs(tool_ids):
 CONFIGURED_RUNS=_build_configured_runs(MATERIAL_TOOLS)
 
 
+# V. Public registry lookup and authority verification.
 def registered_spec(tool_id):
     """Return the authoritative configured specification, or None."""
     return CONFIGURED_RUNS.get(tool_id) if isinstance(tool_id,str) else None
