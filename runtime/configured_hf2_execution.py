@@ -22,6 +22,9 @@ from hf002_recursive_continuation import (
 )
 
 
+# I. Configured result vocabulary and recurrence receipts.
+# Candidate receiving boundary: recurrence truth and admitted-state projection
+# belong here; controller selection and host provenance do not.
 SUCCESS_STATUSES={
     "EXECUTED","COMPLETE","CLOSED","CLOSED_RELATIVE","RELATIVE_CLOSE","FULL_MATCH"
 }
@@ -78,6 +81,7 @@ class ConfiguredHF2ExecutionResult:
         }
 
 
+# II. Native adapter return admission and evidence validation.
 def _raw_mapping(raw:Any)->dict[str,Any]:
     # A missing adapter result is not an executed formal tool. Keep the
     # configured route OPEN rather than manufacturing successful execution.
@@ -171,6 +175,7 @@ def _raw_mapping(raw:Any)->dict[str,Any]:
     return out
 
 
+# III. Semantic and receipt identity for recurrence.
 def _canonical(value:Any)->Any:
     if is_dataclass(value):
         return _canonical(asdict(value))
@@ -220,6 +225,7 @@ def _semantic_signature(raw:dict[str,Any],current:Any)->str:
     return json.dumps(_canonical(payload),sort_keys=True,separators=(",",":"),ensure_ascii=False)
 
 
+# IV. Recurrence delta projection and affected-scope obligations.
 def _delta_from_raw(tool_id:str,raw:dict[str,Any])->dict[str,Any]:
     supplied=raw.get("hf2_delta",{})
     delta=dict(supplied) if isinstance(supplied,dict) else {}
@@ -250,6 +256,43 @@ def _delta_from_raw(tool_id:str,raw:dict[str,Any])->dict[str,Any]:
     return delta
 
 
+# V. SELF recurrence (HF002 only).
+def _execute_self_recurrence(tool_id,plan,state,adapter,recurrence_engine):
+    if str(tool_id)!="HF002":
+        raise ConfiguredHF2ExecutionError(
+            f"CONFIGURED_HF2_SELF_RECURRENCE_INVALID:{tool_id}"
+        )
+    working=deepcopy(state)
+    raw=_raw_mapping(adapter(working,plan))
+    next_state=raw.get("state",working)
+    status=str(raw.get("status","EXECUTED"))
+    if status in NON_SUCCESS_STATUSES:
+        return ConfiguredHF2ExecutionResult(
+            str(tool_id),recurrence_engine,status,state,raw,1,(),1
+        )
+    native=raw.get("result")
+    native_status=native.get("status") if isinstance(native,Mapping) else None
+    if isinstance(native_status,str) and native_status in TERMINAL-{"RELATIVE_CLOSE"}:
+        raw["blocker"]="CONFIGURED_HF2_SELF_NATIVE_NOT_CLOSED"
+        return ConfiguredHF2ExecutionResult(
+            str(tool_id),recurrence_engine,native_status,state,raw,1,(),1
+        )
+    if (raw.get("hf2_live_local") or raw.get("hf2_local_close",True) is not True
+            or raw.get("trc_terminal",True) is not True
+            or affected_scope_open(_delta_from_raw(str(tool_id),raw))
+            or (native_status=="RELATIVE_CLOSE" and "trace" in native
+                and not hf2_fixed_point_witness(native["trace"] or ()))):
+        raw.update(status="OPEN",execution_truth="OPEN",
+                   blocker="CONFIGURED_HF2_SELF_FRONTIER_NOT_CLOSED")
+        return ConfiguredHF2ExecutionResult(
+            str(tool_id),recurrence_engine,"OPEN",state,raw,1,(),1
+        )
+    return ConfiguredHF2ExecutionResult(
+        str(tool_id),recurrence_engine,"SELF_CLOSE",next_state,raw,1,(),1
+    )
+
+
+# VI. Configured invocation admission and ordinary HF002 execution.
 def execute_configured_with_hf2(
     *,
     tool_id:str,
@@ -290,38 +333,7 @@ def execute_configured_with_hf2(
 
     recurrence_engine=str(getattr(plan,"recurrence_engine",""))
     if recurrence_engine=="SELF":
-        if str(tool_id)!="HF002":
-            raise ConfiguredHF2ExecutionError(
-                f"CONFIGURED_HF2_SELF_RECURRENCE_INVALID:{tool_id}"
-            )
-        working=deepcopy(state)
-        raw=_raw_mapping(adapter(working,plan))
-        next_state=raw.get("state",working)
-        status=str(raw.get("status","EXECUTED"))
-        if status in NON_SUCCESS_STATUSES:
-            return ConfiguredHF2ExecutionResult(
-                str(tool_id),recurrence_engine,status,state,raw,1,(),1
-            )
-        native=raw.get("result")
-        native_status=native.get("status") if isinstance(native,Mapping) else None
-        if isinstance(native_status,str) and native_status in TERMINAL-{"RELATIVE_CLOSE"}:
-            raw["blocker"]="CONFIGURED_HF2_SELF_NATIVE_NOT_CLOSED"
-            return ConfiguredHF2ExecutionResult(
-                str(tool_id),recurrence_engine,native_status,state,raw,1,(),1
-            )
-        if (raw.get("hf2_live_local") or raw.get("hf2_local_close",True) is not True
-                or raw.get("trc_terminal",True) is not True
-                or affected_scope_open(_delta_from_raw(str(tool_id),raw))
-                or (native_status=="RELATIVE_CLOSE" and "trace" in native
-                    and not hf2_fixed_point_witness(native["trace"] or ()))):
-            raw.update(status="OPEN",execution_truth="OPEN",
-                       blocker="CONFIGURED_HF2_SELF_FRONTIER_NOT_CLOSED")
-            return ConfiguredHF2ExecutionResult(
-                str(tool_id),recurrence_engine,"OPEN",state,raw,1,(),1
-            )
-        return ConfiguredHF2ExecutionResult(
-            str(tool_id),recurrence_engine,"SELF_CLOSE",next_state,raw,1,(),1
-        )
+        return _execute_self_recurrence(tool_id,plan,state,adapter,recurrence_engine)
 
     if recurrence_engine!="HF002":
         raise ConfiguredHF2ExecutionError(
