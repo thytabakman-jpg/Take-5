@@ -49,3 +49,7 @@ Compare the project [formal architecture mathematics](https://github.com/thytaba
 | Configured execution | Take-5 configured wrapper and HF2 | Evidence of the distinct Reaserch full profile and applicable cross-level pairing |
 
 The matching native result-field names establish a structural correspondence, not completed mathematical equivalence. The static-graph provider's explicit OPEN is retained; an empty successor frontier is not evidence that no improvement exists. This comparison does not promote either Reaserch copy or authorize a new gateway alias.
+
+## Bounded intervention realization
+
+[Finite Architecture evaluator](../../../../runtime/architecture_finite.py) and its [regression tests](../../../../tests/test_architecture_finite.py) implement observed finite support, result-sensitive dependency, joint residual relative to a declared union algebra, and a nondominated observed preserving-gain candidate frontier. This is a native-core extension, not an admitted general semantic provider or a full Architect identity. Unobserved interventions, authority/admission, continuation equivalence and directed coverage retain OPEN. The static graph path remains separately available.
