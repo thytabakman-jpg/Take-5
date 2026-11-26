@@ -41,3 +41,32 @@ def test_preservation_and_conflicting_state():
     assert r['SuccessorFrontier']==('a','b')
     with pytest.raises(ValueError,match='OBSERVATION_CONFLICT'):
         run_finite_architecture((*rows,replace(rows[-1],identity='conflict',protected=('other',))),c)
+
+
+def test_native_generation_groups_exact_observed_edits_and_retains_open():
+    from dataclasses import replace
+    rows=tuple(Observation(i,c,s,frozenset(q),p,i) for i,c,s,q,p in [
+        ('b1','1',('0','0'),(),('P',)),('b2','2',('0','0'),(),('P',)),
+        ('a1','1',('1','0'),('x',),('P',)),('a2','2',('1','0'),('x',),('P',)),
+        ('c1','1',('0','1'),('y',),('P',)),('c2','2',('0','1'),('y',),('R',)),
+        ('j1','1',('1','1'),('x','y'),('P',)),('dup','1',('1','0'),('x',),('P',))])
+    c=FiniteContract(('A','B'),frozenset('xy'),('b1','b2'),'basis',
+                     generate_observed_candidates=True)
+    out=run_finite_architecture(rows,c)
+    assert out['status']=='OPEN'
+    result=out['result']
+    f=result['TransformationFrontier']
+    w=f['generated_observed_candidates']
+    ids={tuple(v['edits']):k for k,v in w.items()}
+    aa=ids[(('A','0','1'),)]
+    bb=ids[(('B','0','1'),)]
+    jj=ids[(('A','0','1'),('B','0','1'))]
+    assert result['SuccessorFrontier']==(aa,)
+    assert f['rejected']=={jj:'OPEN_CONTEXT_COVERAGE',bb:'PROTECTED_REGRESSION'}
+    assert w[aa]['observation_ids']==('a1','a2')
+    assert run_finite_architecture(tuple(reversed(rows)),c)['result']['TransformationFrontier']==f
+    assert not run_finite_architecture(rows,replace(c,generate_observed_candidates=False))['result']['SuccessorFrontier']
+    with pytest.raises(ValueError,match='MIXED_CANDIDATE_MODES'):
+        run_finite_architecture(rows,replace(c,candidates=(('x',('a1','a2')),)))
+    with pytest.raises(ValueError,match='GENERATION_FLAG_INVALID'):
+        run_finite_architecture(rows,replace(c,generate_observed_candidates=1))
