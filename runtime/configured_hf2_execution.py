@@ -51,6 +51,32 @@ class ConfiguredHF2ExecutionResult:
     def closed(self)->bool:
         return self.status in {"RELATIVE_CLOSE","SELF_CLOSE"}
 
+    @property
+    def configured_disposition(self)->str:
+        """Project recurrence and native status to the configured caller disposition."""
+        if not self.closed:
+            return self.status if self.status in NON_SUCCESS_STATUSES else "OPEN"
+        raw_status=str(self.last_raw.get("status","EXECUTED"))
+        return raw_status if raw_status in NON_SUCCESS_STATUSES else "EXECUTED"
+
+    @property
+    def admitted_material_delta(self)->bool:
+        """Retain admitted material changes across rounds, including earlier rounds."""
+        if not self.trace:
+            return bool(self.last_raw.get("material_delta",False))
+        return any(material_delta_present(row["delta"]) for row in self.trace
+                   if row["disposition"] in {"REAPPLY_C","RELATIVE_CLOSE","RETURN_REENTER"})
+
+    def receipt_payload(self)->dict[str,Any]:
+        """Shared recurrence receipt representation for configured consumers."""
+        return {
+            "engine":self.recurrence_engine,
+            "status":self.status,
+            "rounds":self.rounds,
+            "call_count":self.call_count,
+            "trace":self.trace,
+        }
+
 
 def _raw_mapping(raw:Any)->dict[str,Any]:
     # A missing adapter result is not an executed formal tool. Keep the

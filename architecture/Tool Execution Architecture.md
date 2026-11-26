@@ -95,7 +95,7 @@ Consequently |D| = 36, |Questions(T)| = 792,
 
 ## Runtime invocation
 
-The configured plan is constructed from the exact registered specification by [build_tool_execution_plan](../runtime/global_tool_execution.py); [ConfiguredRunSpec.complete](../runtime/configured_run.py) validates the governing configuration. The cardinalities alone do not establish exact coverage or semantic execution.
+The configured plan is constructed from the exact registered specification by [build_tool_execution_plan](../runtime/tool_execution_plan.py); [ConfiguredRunSpec.complete](../runtime/configured_run.py) validates the governing configuration. The cardinalities alone do not establish exact coverage or semantic execution.
 
 For ordinary T:
 
@@ -130,7 +130,7 @@ All repository-owned invocation routes converge on the shared configured plan an
 - [Protected Transition Integrity](../runtime/global_tool_execution.py) consumes the shared [execution plan](../runtime/tool_execution_plan.py) and executes its execution edge through `execute_configured_with_hf2`. Execution callbacks may return `(value, evidence)` for a one-round local close or `(value, evidence, recurrence_hints)` for a material or live successor. Successful transitions retain configured recurrence evidence, for example `configured-recurrence:HF002:RELATIVE_CLOSE:rounds=n` or `configured-recurrence:SELF:SELF_CLOSE:rounds=1`. PTI forwards `hf2_affected_frontier` and `hf2_scope_deltas`; OPEN, BLOCKED, CONFLICT, RETURN_REENTER or RESOURCE_STOP cannot authorize successful transition.
 - [ToolConductor](../runtime/portable_tool_conductor.py) emits one disposition per registered factor, not one native call. Each non-self factor that executes crosses the configured plan and recurrence executor and may take multiple HF2 rounds. The conductor self factor is a non-recursive self witness that prevents infinite conductor-on-conductor recursion. Missing environment-bound adapters remain OPEN/BLOCKED.
 
-Inner native functions are implementations within a configured invocation, not independent evidence of full configured execution.
+Inner native functions are implementations within a configured invocation, not independent evidence of full configured execution. The shared [configured HF2 executor](../runtime/configured_hf2_execution.py) owns the caller-facing recurrence disposition, admitted material-delta projection and recurrence receipt representation. Invocation routes consume these projections rather than reconstructing them independently. The protected-transition route retains its stricter transition-admission checks.
 
 ## Fail-closed rules
 

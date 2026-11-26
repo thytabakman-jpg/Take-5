@@ -150,7 +150,7 @@ def execute_protected_transition(
         state={"payload":dispatched},
         adapter=protected_adapter,
     )
-    if recurrence.status not in {"RELATIVE_CLOSE","SELF_CLOSE"}:
+    if not recurrence.closed:
         raise ToolExecutionBlocked(
             f"PTI_HF2_RECURRENCE_NOT_CLOSED:{spec.tool_id}:{recurrence.status}"
         )

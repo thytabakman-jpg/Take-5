@@ -12,7 +12,7 @@ For a ChatGPT Python environment, follow the [runtime bootstrap instructions](ht
 
 Use the registered `ConfiguredRunSpec` and `FULL_CONFIGURED_HF2_V1` profile. [ConfiguredRunSpec.complete()](../runtime/configured_run.py) must pass, including wrapper, OBSERVER mode, D36_C, closure, reentry, OPEN preservation, protected transition integrity and recurrence requirements. Manifest reconstruction includes `CONFIGURED_HF2_RECURRENCE` and `FULL_CONFIGURED_INVOCATION_PROFILE`.
 
-Construct the plan with [build_tool_execution_plan](../runtime/global_tool_execution.py). Require exact, unique coverage of the 36 cells, every registered native layer across those cells, Q01–Q22 (792 projections), and DIFFERENTIATE, RELATE, RECONSTRUCT and STRENGTHEN (144 projections). Counts alone do not establish completeness.
+Construct the plan with [build_tool_execution_plan](../runtime/tool_execution_plan.py). Require exact, unique coverage of the 36 cells, every registered native layer across those cells, Q01–Q22 (792 projections), and DIFFERENTIATE, RELATE, RECONSTRUCT and STRENGTHEN (144 projections). Counts alone do not establish completeness.
 
 ## Execution routes
 
@@ -23,7 +23,7 @@ Construct the plan with [build_tool_execution_plan](../runtime/global_tool_execu
 | Protected transition | [global_tool_execution.py](../runtime/global_tool_execution.py): `execute_protected_transition` |
 | ToolConductor factors | [portable_tool_conductor.py](../runtime/portable_tool_conductor.py): `run_tool_conductor` |
 
-The routes share the configured plan and [recurrence executor](../runtime/configured_hf2_execution.py), `execute_configured_with_hf2`, subject to their explicit self-execution exceptions. Do not substitute a one-shot native function call.
+The routes share the configured plan and [recurrence executor](../runtime/configured_hf2_execution.py), `execute_configured_with_hf2`, subject to their explicit self-execution exceptions. Consume its `ConfiguredHF2ExecutionResult` projections for the configured disposition, admitted material change and recurrence receipt; route-specific authorization and result consumption remain with their respective owners. Do not substitute a one-shot native function call.
 
 For direct commands, establish the actual authorized request before submitting it. Prefer an ordered list or tuple of exact registered IDs, for example `("MT", "GOAL")`. Empty batches, duplicate IDs, non-string entries and unregistered IDs are rejected. Verify that the ordered bound identities match the authorized request; inherited selections cannot add tools. The legacy imperative string interface also accepts registered commands (for example, `run MT`); recognized unregistered formal commands fail closed, including mixed requests. Neither interface determines natural-language authorization.
 

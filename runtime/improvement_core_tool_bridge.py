@@ -14,7 +14,7 @@ from configured_hf2_execution import (
     NON_SUCCESS_STATUSES, SUCCESS_STATUSES, execute_configured_with_hf2,
 )
 from formal_object_registry import canonical_formal_label
-from global_tool_execution import ToolExecutionPlan, build_tool_execution_plan
+from tool_execution_plan import ToolExecutionPlan, build_tool_execution_plan
 from tool_run_registry import CONFIGURED_RUNS
 
 
@@ -191,11 +191,8 @@ def _normalize_adapter_result(
         adapter_blocker=None
         adapter_provenance=None
 
-    if recurrence is not None and recurrence.trace:
-        # Use the actual admitted recurrence deltas, including earlier rounds.
-        from hf002_recursive_continuation import HF002RecursiveContinuation
-        material=any(HF002RecursiveContinuation._material(row["delta"])
-                     for row in recurrence.trace if row["disposition"] in {"REAPPLY_C","RELATIVE_CLOSE","RETURN_REENTER"})
+    if recurrence is not None:
+        material=recurrence.admitted_material_delta
 
     if status not in SUCCESS_STATUSES|NON_SUCCESS_STATUSES:
         raise ToolBridgeBlocked(f"CONFIGURED_TOOL_STATUS_INVALID:{tool_id}:{status}")
@@ -217,13 +214,7 @@ def _normalize_adapter_result(
             "adapter_blocker":adapter_blocker,
             "adapter_provenance":adapter_provenance,
             "binding":binding.summary,
-            "recurrence":None if recurrence is None else {
-                "engine":recurrence.recurrence_engine,
-                "status":recurrence.status,
-                "rounds":recurrence.rounds,
-                "call_count":recurrence.call_count,
-                "trace":recurrence.trace,
-            },
+            "recurrence":None if recurrence is None else recurrence.receipt_payload(),
         }
         next_state={**next_state,"configured_tool_outputs":prior+(output,)}
 
@@ -281,8 +272,8 @@ def execute_bound_tools(
         )
         executions.append(execution)
 
-        if recurrence.status not in {"RELATIVE_CLOSE","SELF_CLOSE"}:
-            mapped=recurrence.status if recurrence.status in NON_SUCCESS_STATUSES else "OPEN"
+        if not recurrence.closed:
+            mapped=recurrence.configured_disposition
             return ConfiguredToolBatchResult(
                 current,
                 tuple(executions),

@@ -73,3 +73,35 @@ def test_configured_specs_require_registered_exact_authority():
         assert not invalid.complete()
         with pytest.raises(planning.ToolExecutionBlocked, match="INCOMPLETE_CONFIGURED_RUN"):
             planning.build_tool_execution_plan(invalid)
+
+
+def test_recurrence_result_owns_common_consumer_projection():
+    from configured_hf2_execution import ConfiguredHF2ExecutionResult
+    trace=({"disposition":"REAPPLY_C","delta":{"material_result_delta":True}},
+           {"disposition":"RELATIVE_CLOSE","delta":{}})
+    for status,raw_status,expected in (
+        ("RELATIVE_CLOSE","COMPLETE","EXECUTED"),
+        ("SELF_CLOSE","EXECUTED","EXECUTED"),
+        ("RELATIVE_CLOSE","CONFLICT","CONFLICT"),
+        ("BLOCKED","EXECUTED","BLOCKED"),
+        ("RETURN_REENTER","EXECUTED","OPEN"),
+        ("RESOURCE_STOP","EXECUTED","OPEN"),
+    ):
+        result=ConfiguredHF2ExecutionResult("MT","HF002",status,{},
+            {"status":raw_status},2,trace,2)
+        assert result.configured_disposition==expected
+        assert result.admitted_material_delta is True
+        assert result.receipt_payload()=={
+            "engine":"HF002","status":status,"rounds":2,"call_count":2,"trace":trace,
+        }
+    self_result=ConfiguredHF2ExecutionResult("HF002","SELF","SELF_CLOSE",{},
+        {"status":"EXECUTED","material_delta":True},1,(),1)
+    assert self_result.admitted_material_delta is True
+
+
+def test_planning_consumers_use_owner_without_transition_facade():
+    import improvement_core_tool_bridge as bridge
+    import portable_tool_conductor as conductor
+    assert bridge.ToolExecutionPlan is planning.ToolExecutionPlan
+    assert bridge.build_tool_execution_plan is planning.build_tool_execution_plan
+    assert conductor.build_tool_execution_plan is planning.build_tool_execution_plan

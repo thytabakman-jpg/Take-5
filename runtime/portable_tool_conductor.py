@@ -22,7 +22,7 @@ from capability_runtime import execute_capability
 from configured_hf2_execution import (
     NON_SUCCESS_STATUSES, SUCCESS_STATUSES, execute_configured_with_hf2,
 )
-from global_tool_execution import build_tool_execution_plan
+from tool_execution_plan import build_tool_execution_plan
 from learning_tool_bridge import SPECS, availability as learning_availability, make_learning_worker
 from tool_run_registry import CONFIGURED_RUNS, MATERIAL_TOOLS
 
@@ -249,30 +249,14 @@ def _run_configured_factor(
         }
 
     raw=dict(recurrence.last_raw or {})
-    raw_status=str(raw.get("status","EXECUTED"))
-    if recurrence.status not in {"RELATIVE_CLOSE","SELF_CLOSE"}:
-        status=(
-            recurrence.status
-            if recurrence.status in NON_SUCCESS_STATUSES
-            else "OPEN"
-        )
-    elif raw_status in NON_SUCCESS_STATUSES:
-        status=raw_status
-    else:
-        status="EXECUTED"
+    status=recurrence.configured_disposition
 
     return {
         "tool_id":tool_id,
         "status":status,
         "result":raw.get("result",raw),
         "configured_plan":_plan_payload(tool_id),
-        "recurrence":{
-            "engine":recurrence.recurrence_engine,
-            "status":recurrence.status,
-            "rounds":recurrence.rounds,
-            "call_count":recurrence.call_count,
-            "trace":recurrence.trace,
-        },
+        "recurrence":recurrence.receipt_payload(),
     }
 
 
