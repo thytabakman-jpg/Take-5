@@ -22,11 +22,13 @@ INTEGRATION_FILES = ("runtime_bootstrap.py", "execute_tool_packet.py", "document
 
 
 # II. Git identity primitives and integration verification.
-# Destination candidate: shared Git-object hashing only. The bootstrap verifies
-# authoritative SHA-1 runtime objects; document providers may separately admit
-# SHA-256 source identities. Preserve that distinction in any later consolidation.
-def git_object_sha(kind, data):
-    return hashlib.sha1(f"{kind} {len(data)}\0".encode() + data).hexdigest()
+# Owns Git-object hashing primitives. Runtime verification remains SHA-1;
+# document providers may explicitly request SHA-256 for admitted source bytes.
+def git_object_sha(kind, data, *, algorithm="sha1"):
+    """Hash Git object bytes; bootstrap callers retain the SHA-1 default."""
+    if algorithm not in {"sha1", "sha256"}:
+        raise ValueError("GIT_OBJECT_HASH_ALGORITHM_UNSUPPORTED")
+    return hashlib.new(algorithm, f"{kind} {len(data)}\0".encode() + data).hexdigest()
 
 def git_blob_sha(data):
     return git_object_sha("blob", data)
