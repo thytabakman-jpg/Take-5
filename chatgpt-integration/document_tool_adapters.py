@@ -67,10 +67,8 @@ def builtin_adapters(packet, digest):
 
 
 # II. Shared packet identity and provider admission.
-# Staged relocation (not moved): runtime_bootstrap.py already owns Git object
-# hashing primitives. Transfer only the generic byte hashing operation after
-# preserving its strict SHA-1 bootstrap policy and the adapter's SHA-256 route.
-# Source admission and text encoding remain provider responsibilities.
+# Generic Git-object hashing is owned by runtime_bootstrap.py. Document source
+# admission and text encoding remain provider responsibilities.
 def digest(value):
     return hashlib.sha256(json.dumps(value,sort_keys=True,ensure_ascii=False).encode()).hexdigest()
 
@@ -133,8 +131,8 @@ def _git_blob_sha(value):
 
 
 def _git_blob_text_hash(text, algorithm):
-    raw=text.encode('utf-8')
-    return hashlib.new(algorithm,f'blob {len(raw)}\0'.encode()+raw).hexdigest()
+    from runtime_bootstrap import git_object_sha
+    return git_object_sha('blob',text.encode('utf-8'),algorithm=algorithm)
 
 
 def _structured_inputs(packet, tool, sources):
@@ -198,36 +196,11 @@ def _structured_inputs(packet, tool, sources):
 
 
 # IV. Architecture graph provider.
-# Staged relocation (not moved): runtime/architecture_analysis.py is the
-# candidate home for pure graph diagnostics such as _cyclic_components.
-# Keep graph packet parsing, source binding, host role interpretation and
-# bounded-provider receipts here; native graph utilities must be schema-neutral.
+# Native schema-neutral cycle diagnostics are owned by architecture_analysis.py.
+# Source-bound graph admission and provider interpretation remain here.
 def _cyclic_components(dependencies):
-    """Return cyclic strongly connected components, including self-loops.
-
-    Iterative reachability avoids recursion limits and ignores dangling targets,
-    which are reported separately by the graph analyzer.
-    """
-    reach = {}
-    for start in dependencies:
-        visited = set()
-        pending = [start]
-        while pending:
-            node = pending.pop()
-            if node in visited or node not in dependencies:
-                continue
-            visited.add(node)
-            pending.extend(dependencies[node])
-        reach[start] = visited
-    remaining = set(dependencies)
-    components = []
-    while remaining:
-        start = min(remaining)
-        component = sorted(node for node in reach[start] if start in reach[node])
-        remaining.difference_update(component)
-        if len(component) > 1 or start in dependencies[start]:
-            components.append(component)
-    return components
+    from architecture_analysis import cyclic_components
+    return cyclic_components(dependencies)
 
 
 def _graph_adapter(packet, sources):
