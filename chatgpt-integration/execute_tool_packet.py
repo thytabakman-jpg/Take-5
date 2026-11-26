@@ -141,19 +141,22 @@ def main():
                    help="Explicitly allow an external binding to replace this built-in tool (repeatable)")
     p.add_argument("--receipt",type=Path,required=True)
     a=p.parse_args()
+    # Set before importing any verified integration companion.
+    sys.dont_write_bytecode = True
+    sys.pycache_prefix = None
     from runtime_bootstrap import verify_bootstrap_receipt, write_failure_receipt, read_integration_manifest
+    root=a.runtime.resolve()
+    if a.receipt.resolve().is_relative_to(root):
+        print("RECEIPT_INSIDE_VERIFIED_RUNTIME", file=sys.stderr)
+        return 1
     phase = "RUNTIME_VERIFICATION"
     context = {}
     try:
-        root=a.runtime.resolve()
         boot=json.loads(a.bootstrap_receipt.read_text(encoding="utf-8"))
         integration_manifest = read_integration_manifest(a.integration_manifest)
         source_commit, source_tree = verify_bootstrap_receipt(root, boot, integration_manifest)
         context.update(source_commit=source_commit, source_tree=source_tree,
                        integration_commit=integration_manifest["commit"])
-        # Keep the verified installation free of generated import caches.
-        sys.dont_write_bytecode = True
-        sys.pycache_prefix = None
         sys.path.insert(0,str(root))
         sys.path.insert(0,str(root/"runtime"))
         phase = "GATEWAY_LOAD"
