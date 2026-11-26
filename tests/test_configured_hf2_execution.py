@@ -170,3 +170,11 @@ def test_hf2_empty_raw_scope_does_not_erase_richer_delta():
     out=execute_configured_with_hf2(tool_id="MT",plan=plan,state={},adapter=adapter)
     assert out.status=="OPEN"
     assert out.trace[-1]["delta"]["scope_deltas"]=={"section":True}
+
+
+def test_disagreeing_non_success_dispositions_preserve_conflict():
+    out=_raw_mapping({"status":"OPEN","execution_truth":"BLOCKED","material_delta":True})
+    assert out["status"]==out["execution_truth"]=="CONFLICT"
+    assert out["reported_status"]=="OPEN"
+    assert out["reported_execution_truth"]=="BLOCKED"
+    assert out["material_delta"] is False
