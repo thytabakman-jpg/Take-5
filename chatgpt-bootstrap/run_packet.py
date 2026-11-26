@@ -7,6 +7,7 @@ Never fabricates semantic-worker, independence, or full-coverage receipts.
 No research-document mutation.
 """
 import argparse
+import base64
 from collections.abc import Mapping
 from dataclasses import asdict
 import hashlib
@@ -72,6 +73,8 @@ def builtin_adapters(packet, digest):
 def main():
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument("--runtime", type=Path, required=True)
+    p.add_argument("--bootstrap-receipt", type=Path, default=Path("bootstrap-receipt.json"),
+                   help="Receipt from verified bootstrap installation")
     p.add_argument("--packet", type=Path, required=True)
     p.add_argument("--adapter-module",type=Path,help="Explicit trusted local module exposing bind_adapters(packet)")
     p.add_argument("--allow-adapter-override",action="append",default=[],metavar="TOOL",
@@ -79,6 +82,20 @@ def main():
     p.add_argument("--receipt",type=Path,required=True)
     a=p.parse_args()
     root=a.runtime.resolve()
+    # Rebind to the verified commit, not an arbitrary directory name.
+    from bootstrap import verify_commit_tree, git_blob_sha
+    boot=json.loads(a.bootstrap_receipt.read_text(encoding="utf-8"))
+    if boot.get("status") != "BOOTSTRAP_VERIFIED" or Path(boot["runtime_path"]).resolve() != root:
+        raise ValueError("VERIFIED_BOOTSTRAP_RECEIPT_REQUIRED")
+    source_commit=boot["source_commit"]
+    tree=boot["tracked_tree"]
+    source_tree=verify_commit_tree(source_commit,base64.b64decode(boot["source_commit_object"],validate=True),tree)
+    if source_tree != boot.get("source_tree"):
+        raise ValueError("BOOTSTRAP_SOURCE_TREE_MISMATCH")
+    for name, (_, sha) in tree.items():
+        path=root/name
+        if not path.is_file() or path.is_symlink() or not path.resolve().is_relative_to(root) or git_blob_sha(path.read_bytes()) != sha:
+            raise ValueError(f"RUNTIME_SOURCE_CHANGED:{name}")
     sys.path.insert(0,str(root))
     sys.path.insert(0,str(root/"runtime"))
     from direct_tool_command_gateway import execute_direct_tool_commands, direct_tool_ids
@@ -154,11 +171,11 @@ def main():
         except Exception as exc:
             results.append({"tool_id":tool,"status":"BLOCKED","blocker":f"{type(exc).__name__}:{exc}",
                             "adapter_disposition":"EXECUTION_ERROR"})
-    receipt={"source_commit":root.name,"packet_sha256":digest,"tool_ids":ids,
+    receipt={"source_commit":source_commit,"source_tree":source_tree,"packet_sha256":digest,"tool_ids":ids,
              "adapter_module":provider,"authorized_overrides":sorted(allowed),"scope":"Explicit bounded native input; no independent semantic adjudication or full geometric coverage asserted",
              "results":results}
     a.receipt.write_text(json.dumps(receipt,indent=2,default=str)+"\n")
-    print(json.dumps({"source_commit":root.name,"tool_ids":ids,"statuses":[r.get("status") for r in results],"receipt":str(a.receipt)},indent=2))
+    print(json.dumps({"source_commit":source_commit,"tool_ids":ids,"statuses":[r.get("status") for r in results],"receipt":str(a.receipt)},indent=2))
     return int(not ids or any(r.get("status")!="EXECUTED" for r in results))
 
 if __name__=="__main__":

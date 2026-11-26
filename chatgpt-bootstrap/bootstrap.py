@@ -5,6 +5,7 @@ No network, credentials, repository writes or semantic substitution.
 The caller independently fetches the current main commit and passes its SHA.
 """
 import argparse
+import base64
 import hashlib
 import importlib.metadata
 import io
@@ -28,8 +29,47 @@ TESTS = [
     "test_improvement_core_hf2_default.py", "test_hf2_fixed_point_closure.py",
 ]
 
+def git_object_sha(kind, data):
+    return hashlib.sha1(f"{kind} {len(data)}\0".encode() + data).hexdigest()
+
 def git_blob_sha(data):
-    return hashlib.sha1(f"blob {len(data)}\0".encode() + data).hexdigest()
+    return git_object_sha("blob", data)
+
+def git_tree_sha(tree):
+    """Reconstruct the Git root tree from the complete recursive blob manifest."""
+    root = {}
+    for name, (mode, sha) in tree.items():
+        p = PurePosixPath(name)
+        if (not p.parts or p.is_absolute() or ".." in p.parts or "\\" in name
+                or p.as_posix() != name or mode not in ("100644", "100755")
+                or not re.fullmatch(r"[0-9a-f]{40}", sha)):
+            raise ValueError(f"INVALID_TREE_ENTRY:{name}")
+        node = root
+        for part in p.parts[:-1]:
+            node = node.setdefault(part, {})
+            if not isinstance(node, dict):
+                raise ValueError(f"TREE_PATH_COLLISION:{name}")
+        if p.name in node:
+            raise ValueError(f"TREE_PATH_COLLISION:{name}")
+        node[p.name] = (mode, sha)
+    def digest_tree(node):
+        entries = []
+        for name, value in sorted(node.items(), key=lambda item: item[0].encode() + (b"/" if isinstance(item[1], dict) else b"")):
+            mode, sha = ("40000", digest_tree(value)) if isinstance(value, dict) else value
+            entries.append(mode.encode() + b" " + name.encode() + b"\0" + bytes.fromhex(sha))
+        return git_object_sha("tree", b"".join(entries))
+    return digest_tree(root)
+
+def verify_commit_tree(commit, commit_object, tree):
+    if git_object_sha("commit", commit_object) != commit:
+        raise ValueError("SOURCE_COMMIT_OBJECT_MISMATCH")
+    first = commit_object.split(b"\n", 1)[0]
+    if not re.fullmatch(rb"tree [0-9a-f]{40}", first):
+        raise ValueError("SOURCE_COMMIT_TREE_REQUIRED")
+    actual = git_tree_sha(tree)
+    if first != b"tree " + actual.encode():
+        raise ValueError("SOURCE_TREE_IDENTITY_MISMATCH")
+    return actual
 
 def install(artifact, destination, expected):
     if not re.fullmatch(r"[0-9a-f]{40}", expected):
@@ -43,13 +83,19 @@ def install(artifact, destination, expected):
         if archive_hash != outer.read("SHA256SUMS").decode().split()[0]:
             raise ValueError("ARCHIVE_CHECKSUM_MISMATCH")
         tree = {}
-        for line in outer.read("git-tree.txt").decode().splitlines():
-            metadata, name = line.split("\t", 1)
-            mode, typ, sha = metadata.split()
-            if typ == "blob":
-                if name in tree:
-                    raise ValueError(f"DUPLICATE_TREE_PATH: {name}")
-                tree[name] = (mode, sha)
+        commit_object = outer.read("source-commit-object.txt")
+        for line in outer.read("git-tree.txt").split(b"\0"):
+            if not line:
+                continue
+            metadata, name_bytes = line.split(b"\t", 1)
+            name = name_bytes.decode("utf-8")
+            mode, typ, sha = metadata.decode("ascii").split()
+            if typ != "blob":
+                raise ValueError(f"UNSUPPORTED_TREE_OBJECT: {name} {typ}")
+            if name in tree:
+                raise ValueError(f"DUPLICATE_TREE_PATH: {name}")
+            tree[name] = (mode, sha)
+        source_tree = verify_commit_tree(commit, commit_object, tree)
         with zipfile.ZipFile(io.BytesIO(source)) as z:
             seen = set()
             for info in z.infolist():
@@ -75,7 +121,9 @@ def install(artifact, destination, expected):
                 p.parent.mkdir(parents=True, exist_ok=True)
                 p.write_bytes(z.read(name))
     return root, {
-        "source_commit": commit, "archive_sha256": archive_hash,
+        "source_commit": commit, "source_tree": source_tree, "archive_sha256": archive_hash,
+        "source_commit_object": base64.b64encode(commit_object).decode("ascii"),
+        "tracked_tree": tree,
         "verified_files":len(seen), "tracked_blob_count":len(tree),
         "runtime_python_files":sum(n.startswith("runtime/") and n.endswith(".py") for n in seen),
     }

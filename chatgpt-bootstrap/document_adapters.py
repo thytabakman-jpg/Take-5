@@ -176,13 +176,23 @@ def _bind_admitted_adapters(packet, tool, groups):
     if 'threshold' in groups:
         t=packet['threshold']
         thresholds=tuple(t['values'])
-        qs=tuple(range(t['lower'],t['upper']+1))
+        lower,upper=t['lower'],t['upper']
+        if (not thresholds or any(type(v) is not int for v in thresholds)
+                or len(set(thresholds))!=len(thresholds)):
+            raise ValueError('THRESHOLD_VALUES_NONEMPTY_UNIQUE_INTEGERS_REQUIRED')
+        if type(lower) is not int or type(upper) is not int or lower>upper:
+            raise ValueError('THRESHOLD_BOUNDS_INVALID')
+        qs=tuple(range(lower,upper+1))
         if fnv(t['proof'])!=t['proof_fnv']:
             raise ValueError('PROOF_TRANSFER_MISMATCH')
         if tool in ('MT','GOAL','RTC'):
-            tuple(t['baseline_probes'])
+            probes=tuple(t['baseline_probes'])
+            if any(type(q) is not int or not lower<=q<=upper for q in probes) or len(set(probes))!=len(probes):
+                raise ValueError('THRESHOLD_BASELINE_PROBES_INVALID')
         if tool in ('MT','GOAL','ASSERT','Reconciler'):
-            t['declared_pair_count']
+            count=t['declared_pair_count']
+            if type(count) is not int or count<0:
+                raise ValueError('THRESHOLD_DECLARED_PAIR_COUNT_INVALID')
     def counts(rs):
         return {a:dict(sorted(Counter(k for r in rs for k in r[i+1].split('/')).items())) for i,a in enumerate(axes)}
     def coverage(rs):

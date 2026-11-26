@@ -39,7 +39,8 @@ jobs:
           cp "$GITHUB_WORKSPACE/bootstrap/chatgpt-bootstrap/"{bootstrap.py,run_packet.py,document_adapters.py,README.md} "$RUNNER_TEMP/take5-runtime/"
           cd "$GITHUB_WORKSPACE/source"
           git rev-parse HEAD > "$RUNNER_TEMP/take5-runtime/source-commit.txt"
-          git ls-tree -r HEAD > "$RUNNER_TEMP/take5-runtime/git-tree.txt"
+          git cat-file commit HEAD > "$RUNNER_TEMP/take5-runtime/source-commit-object.txt"
+          git ls-tree -r -z HEAD > "$RUNNER_TEMP/take5-runtime/git-tree.txt"
           git archive --format=zip --output="$RUNNER_TEMP/take5-runtime/take5-source.zip" HEAD
           cd "$RUNNER_TEMP/take5-runtime"
           sha256sum take5-source.zip > SHA256SUMS
