@@ -48,7 +48,7 @@ The linked PD protocol governs historical audit-reduction research, mathematical
 
 **Reusable ChatGPT execution environment and adapters:**
 
-[https://github.com/thytabakman-jpg/Take-5/tree/chatgpt-runtime-bootstrap/chatgpt-integration](https://github.com/thytabakman-jpg/Take-5/tree/chatgpt-runtime-bootstrap/chatgpt-integration)
+[https://github.com/thytabakman-jpg/Take-5/blob/chatgpt-runtime-bootstrap/chatgpt-integration/README.md](https://github.com/thytabakman-jpg/Take-5/blob/chatgpt-runtime-bootstrap/chatgpt-integration/README.md)
 
 **Configured invocation gateway:**
 
@@ -158,7 +158,7 @@ Use these tools when their functions materially contribute to the analysis:
 
 #### Runtime and provider admission
 
-Retrieve the current runtime automatically using the bootstrap instructions. Independently resolve both current revisions and verify the matching dual-revision runtime before relying on it. Historical workflow success does not establish current availability. Preserve OPEN/BLOCKED when the current artifact or required execution environment is unavailable.
+Recover the current runtime using the runner-independent route in the bootstrap instructions. Independently resolve both current revisions and verify the matching dual-revision runtime before relying on it. An existing artifact may be reused as a verified source cache, but do not trigger or request GitHub Actions runners. Preserve OPEN/BLOCKED when authenticated reconstruction or required local validation is unavailable.
 
 Use actual native implementations wherever the required inputs and adapters are available. Follow the [bootstrap usage and adapter contract](https://github.com/thytabakman-jpg/Take-5/blob/chatgpt-runtime-bootstrap/chatgpt-integration/README.md) and the [semantic worker adapter contract](architecture/Semantic%20Worker%20Contract.md). Verify that each adapter admits the actual target and task, not merely the registered tool identity. The supplied `document_tool_adapters.py` bindings admit only the tool-specific input schemas owned by the [bootstrap README's document-analysis bindings](https://github.com/thytabakman-jpg/Take-5/blob/chatgpt-runtime-bootstrap/chatgpt-integration/README.md#read-only-document-analysis-bindings). They are not general document-repair workers. Do not submit unrelated documents to those bindings or reinterpret their bounded results as general semantic coverage. Where a suitable task-specific provider is absent, retain the affected tool obligation as OPEN and distinguish independently supported host analysis from native execution.
 
@@ -169,6 +169,8 @@ Do not spend the conversation unnecessarily developing execution infrastructure.
 #### Configured invocation, evidence and open obligations
 
 Follow each selected tool's governing protocol and full configured invocation profile, including mandatory HF2 recurrence. Resolve exact registered tool identities and verify the complete ordered binding before dispatch, using structured ordered IDs where supported or separate explicit imperative commands otherwise. Do not infer authorization from inherited controller state or silently omit mandatory tools.
+
+For ordinary document analysis, explicitly select the verified specialized adapter module as prescribed by the bootstrap instructions. Reuse the frozen source evidence across compatible packets; separate alternative model families when their simultaneous presence would make a tool's input ambiguous. Preserve independent receipts and actual cross-tool prerequisites.
 
 Supply relevant, evidence-supported semantic inputs and domain analysis. Do not construct artificial analytical objects solely to enable execution, generate artificial problems, duplicate completed procedures or invoke unnecessary tools.
 
