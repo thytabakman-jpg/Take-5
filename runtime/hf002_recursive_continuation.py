@@ -84,7 +84,7 @@ def hf2_fixed_point_witness(trace:Iterable[Mapping[str,Any]])->bool:
         delta=row.get("delta")
         if not isinstance(raw,Mapping) or raw.get("execution_truth") not in (
             "FULL_MATCH","IMPLEMENTATION_EXECUTED","SEMANTICALLY_APPLIED",
-        ) or not isinstance(hf1,Mapping) or hf1.get("disposition")!="STABLE" or not isinstance(delta,Mapping):
+        ) or raw.get("status") in {"OPEN","BLOCKED","CONFLICT"} or not isinstance(hf1,Mapping) or hf1.get("disposition")!="STABLE" or not isinstance(delta,Mapping):
             return False
         effective=dict(delta)
         carry_affected_scope(effective,pending)
@@ -146,7 +146,16 @@ class HF002RecursiveContinuation:
             before=deepcopy(x)
             raw=self.run_capability(x,m)
             execution_truth=str(raw.get("execution_truth",""))
-            if execution_truth in {"BLOCKED","OPEN","CONFLICT"}:
+            # Native callers can bypass configured receipt normalization. A
+            # non-success result status must still prevent a clean fixed point.
+            result_status=str(raw.get("status",""))
+            non_success={"BLOCKED","OPEN","CONFLICT"}
+            if result_status in non_success:
+                if execution_truth in non_success and execution_truth!=result_status:
+                    execution_truth="CONFLICT"
+                else:
+                    execution_truth=result_status
+            if execution_truth in non_success:
                 self._record(i,before,raw,x,{}, {},before,execution_truth)
                 return {"status":execution_truth,"state":before,"memory":m,"trace":[asdict(t) for t in self.trace]}
             if execution_truth not in {"FULL_MATCH","IMPLEMENTATION_EXECUTED","SEMANTICALLY_APPLIED"}:
