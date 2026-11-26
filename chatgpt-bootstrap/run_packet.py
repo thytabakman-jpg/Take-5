@@ -7,7 +7,6 @@ Never fabricates semantic-worker, independence, or full-coverage receipts.
 No research-document mutation.
 """
 import argparse
-import base64
 from collections.abc import Mapping
 from dataclasses import asdict
 import hashlib
@@ -22,10 +21,6 @@ def sha256(data):
 
 
 def builtin_adapters(packet, digest):
-    from pd import run_pd
-    from pd_audit import run_pd_audit
-    from prose import ProseContract, assess_prose
-
     def pd_adapter(tool):
         def invoke(current, plan):
             spec = packet.get("pd_frame")
@@ -43,7 +38,10 @@ def builtin_adapters(packet, digest):
             args = dict(rho=lambda x:x["result"], approx=lambda a,b:a==b,
                         representations={name:(lambda x, keys=tuple(fields):tuple(x["coordinates"][k] for k in keys))
                                          for name,fields in names.items()})
-            fn = run_pd if tool=="PD" else run_pd_audit
+            if tool == "PD":
+                from pd import run_pd as fn
+            else:
+                from pd_audit import run_pd_audit as fn
             if tool=="PDAudit":
                 args.update(kappa_cases=lambda xs:{"case_count":len(xs)},
                             kappa_representations=lambda reps:{"representation_names":list(reps)})
@@ -59,6 +57,7 @@ def builtin_adapters(packet, digest):
             return {"status":"OPEN","blocker":"PROSE_TEXT_AND_CONTRACT_REQUIRED"}
         # Semantic PASS evidence is intentionally not constructed from user labels.
         # A separately reviewed semantic-evidence adapter may be explicitly bound.
+        from prose import ProseContract, assess_prose
         contract=ProseContract(**spec["contract"])
         out=assess_prose(spec["text"],contract,evidence=None)
         return {"status":"BLOCKED" if out.status=="BLOCKED" else "OPEN",
@@ -83,19 +82,12 @@ def main():
     a=p.parse_args()
     root=a.runtime.resolve()
     # Rebind to the verified commit, not an arbitrary directory name.
-    from bootstrap import verify_commit_tree, git_blob_sha
+    from bootstrap import verify_bootstrap_receipt
     boot=json.loads(a.bootstrap_receipt.read_text(encoding="utf-8"))
-    if boot.get("status") != "BOOTSTRAP_VERIFIED" or Path(boot["runtime_path"]).resolve() != root:
-        raise ValueError("VERIFIED_BOOTSTRAP_RECEIPT_REQUIRED")
-    source_commit=boot["source_commit"]
-    tree=boot["tracked_tree"]
-    source_tree=verify_commit_tree(source_commit,base64.b64decode(boot["source_commit_object"],validate=True),tree)
-    if source_tree != boot.get("source_tree"):
-        raise ValueError("BOOTSTRAP_SOURCE_TREE_MISMATCH")
-    for name, (_, sha) in tree.items():
-        path=root/name
-        if not path.is_file() or path.is_symlink() or not path.resolve().is_relative_to(root) or git_blob_sha(path.read_bytes()) != sha:
-            raise ValueError(f"RUNTIME_SOURCE_CHANGED:{name}")
+    source_commit, source_tree = verify_bootstrap_receipt(root, boot)
+    # Keep the verified installation free of generated import caches.
+    sys.dont_write_bytecode = True
+    sys.pycache_prefix = None
     sys.path.insert(0,str(root))
     sys.path.insert(0,str(root/"runtime"))
     from direct_tool_command_gateway import execute_direct_tool_commands, direct_tool_ids

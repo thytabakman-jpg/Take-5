@@ -7,21 +7,6 @@ from dataclasses import asdict, replace
 from itertools import combinations
 import hashlib
 import json
-from gdos import run_gdos
-from discriminator import run_discriminator
-from bias_perturbation import run_bias_perturbation
-from architecture_analysis import run_architecture_analysis
-from multiobject import (FrozenObject, RelationFinding, RouteResult, ResidualJudgment,
-                         ReconciledFinding, run_multiobject)
-from goal import GoalObject, GoalCandidate, GoalMTReceipt, recover_goal_configured
-from mt_semantic_return_gate import run_mt_with_before_return_gate
-from direct_tool_command_gateway import execute_direct_tool_commands
-from diagnosis import diagnose
-from raise_the_ceiling import raise_the_ceiling
-from tool_run_closure import Consequence, Disposition, run_tool_run_closure
-from currentness_audit import assess, audit_complete
-from reconcile import ReconcileResult, reconcile
-from assert_compound import AssertState, AssertStages, run_to_fixed_point
 
 
 def digest(value):
@@ -186,6 +171,7 @@ def _graph_adapter(packet, sources):
             OpenConflictBlocked={'OPEN':['semantic ownership and dynamic/external coverage not established']},
             Provenance={x['id']:{'source':x['source'],'sha':x['sha'],'locator':x['locator']} for x in target})
     def invoke(current,plan):
+        from architecture_analysis import run_architecture_analysis
         out=run_architecture_analysis(rows,{'expected':sorted(expected)},analyze_architecture=analyze)
         return {'status':out['status'],'execution_truth':'IMPLEMENTATION_EXECUTED','result':out,
                 'material_delta':False,'evidence':['native:architecture_analysis.run_architecture_analysis',f'packet:{digest(packet)}',*['git-blob:'+s for s in admitted.values()]],
@@ -244,6 +230,7 @@ def _quote_adapter(packet, sources):
             return 'CONFLICT'
         return 'TRUE' if refetch.encode('utf-8').find(claim['quote'].encode('utf-8'))>=0 else 'FALSE'
     def invoke(current,plan):
+        from assert_compound import AssertState, AssertStages, run_to_fixed_point
         def assert_stage(s): return replace(s,assertions=claims,here={})
         def compare_stage(s): return replace(s,comparisons={k:check(c,bool(s.here)) for k,c in s.assertions.items()})
         def resolve_stage(s): return replace(s,resolutions=s.comparisons)
@@ -328,6 +315,9 @@ def _bind_admitted_adapters(packet, tool, groups):
             count=t['declared_pair_count']
             if type(count) is not int or count<0:
                 raise ValueError('THRESHOLD_DECLARED_PAIR_COUNT_INVALID')
+    if tool == 'MultiObject':
+        from multiobject import (FrozenObject, RelationFinding, RouteResult, ResidualJudgment,
+                                 ReconciledFinding, run_multiobject)
     def counts(rs):
         return {a:dict(sorted(Counter(k for r in rs for k in r[i+1].split('/')).items())) for i,a in enumerate(axes)}
     def coverage(rs):
@@ -336,22 +326,26 @@ def _bind_admitted_adapters(packet, tool, groups):
     def signature(qs_, threshold):
         return tuple(int(q>=threshold) for q in qs_)
     def discriminate():
+        from discriminator import run_discriminator
         return run_discriminator(tuple(combinations(qs,2)),lambda p:len({signature(p,k) for k in thresholds})==len(thresholds))
     def envelope(entry,out,status='EXECUTED',blocker=None):
         return {'status':status,'execution_truth':'IMPLEMENTATION_EXECUTED' if status=='EXECUTED' else status,
                 'result':out,'material_delta':False,'evidence':[f'native:{entry}',f'packet:{digest(packet)}',*['git-blob:'+s for s in source_ids]],
                 'blocker':blocker,'scope':'BOUNDED_EXPLICIT_INPUT; NO_FULL_SEMANTIC_COVERAGE'}
     def gdos(current,plan):
+        from gdos import run_gdos
         out=run_gdos(rows,observers=(coverage,counts),reconcile_fn=lambda obs:{'coverage':obs[0],'counts':obs[1],'declared_counts_match':obs[1]==expected_counts})
         return envelope('gdos.run_gdos',out,out['status'])
     def disc(current,plan):
         out=discriminate()
         return envelope('discriminator.run_discriminator',out,'OPEN' if out['status']=='OPEN' else 'EXECUTED')
     def bias(current,plan):
+        from bias_perturbation import run_bias_perturbation
         out=run_bias_perturbation(rows,(tuple(reversed(rows)),tuple(sorted(rows,key=lambda r:r[2] if len(r)>2 else r[1:]))),
               runner=lambda r:(coverage(r),counts(r)),semantics_equivalent=lambda a,b:Counter(a)==Counter(b),result_equivalent=lambda a,b:a==b)
         return envelope('bias_perturbation.run_bias_perturbation',out,'EXECUTED' if out['status']=='ACCEPT' else 'OPEN')
     def architecture(current,plan):
+        from architecture_analysis import run_architecture_analysis
         def analyze(target,contract):
             violations=[]
             cov=coverage(target)
@@ -397,6 +391,7 @@ def _bind_admitted_adapters(packet, tool, groups):
         out=run_multiobject(objects,MatrixProvider(objects))
         return envelope('multiobject.run_multiobject',asdict(out),'EXECUTED' if out.status=='CLOSED_RELATIVE' else out.status,out.blocker)
     def mt(current,plan):
+        from mt_semantic_return_gate import run_mt_with_before_return_gate
         # Actual observation pass over admitted data; unresolved source and semantic
         # objects reach the native gate but cannot be resolved by a missing worker.
         def observe(state):
@@ -413,6 +408,8 @@ def _bind_admitted_adapters(packet, tool, groups):
         return envelope('mt_semantic_return_gate.run_mt_with_before_return_gate',asdict(out),'EXECUTED' if out.status=='CLOSED_RELATIVE' else out.status,
                         'SEMANTIC_BLACK_BOXES_OPEN' if out.open_objects else None)
     def goal(current,plan):
+        from goal import GoalObject, GoalCandidate, GoalMTReceipt, recover_goal_configured
+        from direct_tool_command_gateway import execute_direct_tool_commands
         candidates=tuple(GoalCandidate(x['id'],GoalObject(**x['goal']),tuple(x['constraints']),tuple(x['evidence']),x['grounded'],x['authority_typed'],x['determinate_enough']) for x in packet.get('goal_candidates',[]))
         # Derive preflight only from the real native MT invocation, not a synthetic success label.
         pre=execute_direct_tool_commands('run MT',state={'packet':digest(packet)},adapters={'MT':mt})
@@ -425,6 +422,7 @@ def _bind_admitted_adapters(packet, tool, groups):
         out=recover_goal_configured(candidates,receipt)
         return envelope('goal.recover_goal_configured',{'native':asdict(out),'mt_preflight':asdict(pre)},'EXECUTED' if out.status=='CLOSED_RELATIVE' else out.status,out.blocker)
     def diagnosis(current,plan):
+        from diagnosis import diagnose
         if structured is not None:
             out=diagnose({'failures':structured['failures']})
             result=envelope('diagnosis.diagnose',out,'EXECUTED' if out['status']=='ACCEPT' else 'OPEN',
@@ -436,6 +434,7 @@ def _bind_admitted_adapters(packet, tool, groups):
         out=diagnose({'failures':fails})
         return envelope('diagnosis.diagnose',out,'EXECUTED' if out['status']=='ACCEPT' else 'OPEN')
     def rtc(current,plan):
+        from raise_the_ceiling import raise_the_ceiling
         if structured is not None:
             out=raise_the_ceiling({'candidates':structured['candidates']})
             pending=out['status']=='OPEN' or bool(out.get('unresolved'))
@@ -450,6 +449,7 @@ def _bind_admitted_adapters(packet, tool, groups):
         out=raise_the_ceiling({'candidates':candidates})
         return envelope('raise_the_ceiling.raise_the_ceiling',out,'EXECUTED' if out['status'] in ('ACCEPT','NOOP') else 'OPEN')
     def assertion(current,plan):
+        from assert_compound import AssertState, AssertStages, run_to_fixed_point
         targets={'matrix_coverage':len(expected),'probe_pair_count':t['declared_pair_count']}
         def assert_stage(s): return replace(s,assertions=targets)
         def compare_stage(s):
@@ -463,6 +463,7 @@ def _bind_admitted_adapters(packet, tool, groups):
         out=run_to_fixed_point(AssertState(),AssertStages(assert_stage,compare_stage,resolve_stage,here_stage,inquire_stage,reassert_stage),closure_gate=lambda s:all(v=='TRUE' for v in s.world.get('claim_test_status',{}).values()),max_rounds=4)
         return envelope('assert_compound.run_to_fixed_point',asdict(out),'EXECUTED' if out.status=='CLOSED' else 'OPEN')
     def trc(current,plan):
+        from tool_run_closure import Consequence, Disposition, run_tool_run_closure
         cons=tuple(Consequence(x,'RESEARCH_VERIFICATION','verified','read-only',source_ids[0],'SOURCE_SEMANTICS') for x in packet.get('open_coordinates',()))
         out=run_tool_run_closure(tool_result={'open':len(cons)},pre_state={},post_state={},
             harvest_fn=lambda *_:cons,disposition_fn=lambda *_:Disposition.OPEN,
@@ -470,9 +471,11 @@ def _bind_admitted_adapters(packet, tool, groups):
             harvest_basis='explicit packet open coordinates',harvest_complete=False)
         return envelope('tool_run_closure.run_tool_run_closure',asdict(out),'OPEN','UNRESOLVED_SEMANTIC_OBLIGATIONS')
     def currentness(current,plan):
+        from currentness_audit import assess, audit_complete
         receipts=tuple(assess(component=s['path'],object_identity=s['path'],built_generation=s['sha'],latest_generation=s.get('latest_sha',''),built_basis='connector blob',latest_basis='connector refetch blob',identity_verified=bool(s.get('latest_sha')),evidence=(s['sha'],s.get('latest_sha',''))) for s in packet['sources'])
         return envelope('currentness_audit.assess',{'receipts':[asdict(r) for r in receipts],'complete':audit_complete(receipts)},'EXECUTED' if audit_complete(receipts) else 'OPEN')
     def reconciler(current,plan):
+        from reconcile import ReconcileResult, reconcile
         a=discriminate(); b=[(x,y) for x in qs for y in qs if x<y and all(signature((x,y),u)!=signature((x,y),v) for u,v in combinations(thresholds,2))]
         def resolver(state,admitted):
             left,right=admitted

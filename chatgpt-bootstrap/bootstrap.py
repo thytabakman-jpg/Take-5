@@ -71,6 +71,47 @@ def verify_commit_tree(commit, commit_object, tree):
         raise ValueError("SOURCE_TREE_IDENTITY_MISMATCH")
     return actual
 
+def verify_installed_tree(root, commit, commit_object, tree, expected_tree):
+    """Verify exact installed files and directories, including absence of extras."""
+    root = Path(root).resolve()
+    source_tree = verify_commit_tree(commit, commit_object, tree)
+    if source_tree != expected_tree:
+        raise ValueError("BOOTSTRAP_SOURCE_TREE_MISMATCH")
+    expected_dirs = {parent.as_posix() for name in tree
+                     for parent in PurePosixPath(name).parents if parent != PurePosixPath(".")}
+    seen = set()
+    for directory, dirs, files in os.walk(root, followlinks=False):
+        for name in dirs + files:
+            path = Path(directory) / name
+            relative = path.relative_to(root).as_posix()
+            if path.is_symlink():
+                raise ValueError(f"RUNTIME_UNVERIFIED_SYMLINK:{relative}")
+            if name in dirs:
+                if relative not in expected_dirs:
+                    raise ValueError(f"RUNTIME_UNTRACKED_DIRECTORY:{relative}")
+            else:
+                if relative not in tree:
+                    raise ValueError(f"RUNTIME_UNTRACKED_FILE:{relative}")
+                if not path.is_file() or git_blob_sha(path.read_bytes()) != tree[relative][1]:
+                    raise ValueError(f"RUNTIME_SOURCE_CHANGED:{relative}")
+                seen.add(relative)
+    if seen != set(tree):
+        raise ValueError(f"RUNTIME_MISSING_TRACKED_FILES:{sorted(set(tree)-seen)}")
+    return source_tree
+
+
+def verify_bootstrap_receipt(root, boot):
+    """Revalidate a previously verified runtime before any native imports."""
+    root = Path(root).resolve()
+    if boot.get("status") != "BOOTSTRAP_VERIFIED" or Path(boot["runtime_path"]).resolve() != root:
+        raise ValueError("VERIFIED_BOOTSTRAP_RECEIPT_REQUIRED")
+    commit = boot["source_commit"]
+    source_tree = verify_installed_tree(root, commit,
+        base64.b64decode(boot["source_commit_object"], validate=True),
+        boot["tracked_tree"], boot.get("source_tree"))
+    return commit, source_tree
+
+
 def install(artifact, destination, expected):
     if not re.fullmatch(r"[0-9a-f]{40}", expected):
         raise ValueError("Expected full Git commit SHA required")
@@ -129,12 +170,14 @@ def install(artifact, destination, expected):
     }
 
 def smoke(root):
-    env = {**os.environ, "PYTHONPATH": str(root/"runtime")+os.pathsep+str(root)}
+    env = {**os.environ, "PYTHONPATH": str(root/"runtime")+os.pathsep+str(root),
+           "PYTHONDONTWRITEBYTECODE": "1"}
+    env.pop("PYTHONPYCACHEPREFIX", None)
     tests = ["tests/"+t for t in TESTS]
     absent = [t for t in tests if not (root/t).is_file()]
     if absent:
         raise ValueError(f"MISSING_REGRESSION_TESTS: {absent}")
-    p = subprocess.run([sys.executable, "-m", "pytest", "-q", *tests],
+    p = subprocess.run([sys.executable, "-B", "-m", "pytest", "-p", "no:cacheprovider", "-q", *tests],
                        cwd=root, env=env, capture_output=True, text=True, timeout=120)
     registry_code = """from dataclasses import asdict
 import json
@@ -144,7 +187,7 @@ a=audit_full_invocation_portfolio()
 print(json.dumps({'routing_audit':asdict(a),'registry':[asdict(w) for w in compile_repertoire()]}))
 raise SystemExit(int(a.status!='CLOSED_RELATIVE'))
 """
-    q = subprocess.run([sys.executable, "-c", registry_code],
+    q = subprocess.run([sys.executable, "-B", "-c", registry_code],
                        cwd=root, env=env, capture_output=True, text=True, timeout=120)
     return {
         "test_files":tests, "returncode":p.returncode, "stdout":p.stdout,
@@ -166,6 +209,9 @@ def main():
     root, receipt = install(args.artifact,args.destination,args.expected_commit)
     receipt["runtime_path"]=str(root)
     receipt["smoke"]=smoke(root)
+    verify_installed_tree(root, receipt["source_commit"],
+        base64.b64decode(receipt["source_commit_object"], validate=True),
+        receipt["tracked_tree"], receipt["source_tree"])
     receipt["status"]="BOOTSTRAP_VERIFIED" if (receipt["smoke"]["returncode"]==0 and receipt["smoke"]["registry_returncode"]==0) else "OPEN_TEST_FAILURE"
     receipt["semantic_execution_status"]="OPEN_UNTIL_TOOL_SPECIFIC_ADAPTERS_ARE_BOUND"
     args.receipt.write_text(json.dumps(receipt, indent=2)+"\n")
