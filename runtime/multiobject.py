@@ -246,7 +246,8 @@ def _validate_route(
         if not finding.finding_id or finding.finding_id in seen:
             return f"MULTIOBJECT_FINDING_ID_INVALID:{route.route_id}"
         seen.add(finding.finding_id)
-        if not set(finding.support)<=set(expected_support):
+        if (not finding.support or len(set(finding.support))!=len(finding.support)
+                or not set(finding.support)<=set(expected_support)):
             return f"MULTIOBJECT_FINDING_SUPPORT_INVALID:{finding.finding_id}"
         if not finding.relation_type:
             return f"MULTIOBJECT_RELATION_TYPE_REQUIRED:{finding.finding_id}"
@@ -268,7 +269,8 @@ def _terminal_from_state(state:MultiObjectState)->tuple[str,str|None]:
     if "CONFLICT" in route_statuses or "CONFLICT" in recon_statuses or "CONFLICT" in residual_statuses:
         return "CONFLICT","MULTIOBJECT_CONFLICT_PRESERVED"
     if (
-        "OPEN" in route_statuses
+        any(obj.open_coordinates for obj in state.objects)
+        or "OPEN" in route_statuses
         or "OPEN" in recon_statuses
         or "OPEN" in residual_statuses
         or "OPEN_REDUCIBILITY" in residual_statuses
@@ -316,10 +318,11 @@ def run_multiobject(
     evidence.append(joint.isolation_receipt)
 
     pair_routes=[]
+    route_ids={joint.route_id}
     for left,right in combinations(frozen,2):
         support=(left.object_id,right.object_id)
         route_id="PAIR:"+left.object_id+"|"+right.object_id
-        if any(r.route_id==route_id for r in pair_routes):
+        if route_id in route_ids:
             state=MultiObjectState(frozen,joint,tuple(pair_routes),None,(),(),(),())
             return _open(frozen,"MULTIOBJECT_PAIR_ROUTE_ID_COLLISION",state=state,evidence=evidence)
         try:
@@ -340,6 +343,7 @@ def run_multiobject(
             state=MultiObjectState(frozen,joint,tuple(pair_routes),None,(),(),(),())
             return _open(frozen,blocker,state=state,evidence=evidence)
         pair_routes.append(route)
+        route_ids.add(route.route_id)
         evidence.append(route.isolation_receipt)
 
     required_pairs={
@@ -372,9 +376,10 @@ def run_multiobject(
     # Synthesis is a distinct route, not an alias for the independent joint
     # route or an individual pair. Its name remains provider-defined, but it
     # cannot reuse an existing route identity.
-    if synthesis.route_id in {joint.route_id, *(r.route_id for r in pair_routes)}:
+    if synthesis.route_id in route_ids:
         state=MultiObjectState(frozen,joint,tuple(pair_routes),synthesis,(),(),(),())
         return _open(frozen,"MULTIOBJECT_SYNTHESIS_ROUTE_ID_COLLISION",state=state,evidence=evidence)
+    route_ids.add(synthesis.route_id)
     evidence.append(synthesis.isolation_receipt)
 
     try:
@@ -491,13 +496,14 @@ def run_multiobject(
                 view_requests,tuple(view_results),()
             )
             return _open(frozen,blocker,state=state,evidence=evidence)
-        if route.route_id in {joint.route_id,synthesis.route_id,*(r.route_id for r in pair_routes),*(r.route_id for r in view_results)}:
+        if route.route_id in route_ids:
             state=MultiObjectState(
                 frozen,joint,tuple(pair_routes),synthesis,residuals,
                 view_requests,tuple(view_results),()
             )
             return _open(frozen,"MULTIOBJECT_VIEW_ROUTE_ID_COLLISION",state=state,evidence=evidence)
         view_results.append(route)
+        route_ids.add(route.route_id)
         evidence.append(route.isolation_receipt)
 
     try:

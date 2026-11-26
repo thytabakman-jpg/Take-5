@@ -66,31 +66,56 @@ def declared_dependency_paths(dependencies, *, roots=None):
 
 
 def cyclic_components(dependencies):
-    """Return cyclic strongly connected components, including self-loops.
+    """Return deterministic cyclic SCCs, including self-loops.
 
-    Iterative reachability avoids recursion limits and ignores dangling targets,
-    which are reported separately by the graph analyzer.
+    Iterative Kosaraju traversal avoids recursion limits and computes graph
+    components in O(V + E) before output sorting. Dangling targets are ignored;
+    these components describe declared links, not causal dependencies.
     """
-    reach = {}
-    for start in dependencies:
-        visited = set()
+    graph = {node: tuple(target for target in targets if target in dependencies)
+             for node, targets in dependencies.items()}
+    reverse = {node: [] for node in graph}
+    for node, targets in graph.items():
+        for target in targets:
+            reverse[target].append(node)
+
+    visited = set()
+    finished = []
+    for start in graph:
+        if start in visited:
+            continue
+        visited.add(start)
+        stack = [(start, iter(graph[start]))]
+        while stack:
+            node, targets = stack[-1]
+            try:
+                target = next(targets)
+            except StopIteration:
+                stack.pop()
+                finished.append(node)
+                continue
+            if target not in visited:
+                visited.add(target)
+                stack.append((target, iter(graph[target])))
+
+    visited.clear()
+    components = []
+    for start in reversed(finished):
+        if start in visited:
+            continue
+        visited.add(start)
         pending = [start]
+        component = []
         while pending:
             node = pending.pop()
-            if node in visited or node not in dependencies:
-                continue
-            visited.add(node)
-            pending.extend(dependencies[node])
-        reach[start] = visited
-    remaining = set(dependencies)
-    components = []
-    while remaining:
-        start = min(remaining)
-        component = sorted(node for node in reach[start] if start in reach[node])
-        remaining.difference_update(component)
-        if len(component) > 1 or start in dependencies[start]:
-            components.append(component)
-    return components
+            component.append(node)
+            for target in reverse[node]:
+                if target not in visited:
+                    visited.add(target)
+                    pending.append(target)
+        if len(component) > 1 or start in graph[start]:
+            components.append(sorted(component))
+    return sorted(components)
 
 
 # III. Native protected-constraint checks.

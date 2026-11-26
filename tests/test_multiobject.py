@@ -480,3 +480,26 @@ def test_multiobject_view_cannot_reuse_synthesis_route_identity():
     out=run_multiobject(_objects(),CollisionProvider())
     assert out.status=="OPEN"
     assert out.blocker=="MULTIOBJECT_VIEW_ROUTE_ID_COLLISION"
+
+
+def test_multiobject_preserves_frozen_object_open_even_when_provider_closes():
+    from dataclasses import replace
+    objects=_objects()
+    objects=(replace(objects[0],open_coordinates=('unresolved identity coordinate',)),*objects[1:])
+    out=run_multiobject(objects,Provider())
+    assert out.status=='OPEN'
+    assert out.blocker=='MULTIOBJECT_OPEN_PRESERVED'
+    assert len(out.state.pair_routes)==3
+    assert out.state.objects[0].open_coordinates==objects[0].open_coordinates
+
+
+def test_multiobject_rejects_empty_or_repeated_finding_support():
+    from dataclasses import replace
+    for support in ((),('A','A')):
+        class InvalidSupportProvider(Provider):
+            def joint(self,objects,*,route_id):
+                route=super().joint(objects,route_id=route_id)
+                return replace(route,findings=(replace(route.findings[0],support=support),))
+        out=run_multiobject(_objects(),InvalidSupportProvider())
+        assert out.status=='OPEN'
+        assert out.blocker=='MULTIOBJECT_FINDING_SUPPORT_INVALID:joint-1'
