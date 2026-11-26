@@ -9,12 +9,42 @@ import hashlib
 import json
 
 
+def _tool_packet(packet, tool):
+    """Project one explicitly selected route over shared frozen sources."""
+    if 'tool_inputs' not in packet:
+        return packet
+    if set(packet) - {'command', 'sources', 'tool_inputs'}:
+        raise ValueError('SCOPED_PACKET_MIXED_WITH_FLAT_INPUT')
+    routes=packet['tool_inputs']
+    if not isinstance(routes,dict):
+        raise ValueError('TOOL_INPUTS_MAPPING_REQUIRED')
+    inputs=routes.get(tool,{})
+    if not isinstance(inputs,dict):
+        raise ValueError('TOOL_INPUT_MAPPING_REQUIRED')
+    if set(inputs) & {'command','sources','tool_inputs'}:
+        raise ValueError('TOOL_INPUT_SHARED_FIELD_OVERRIDE')
+    return {**({'sources':packet['sources']} if 'sources' in packet else {}), **inputs}
+
+
+def _scoped_builtin(packet, tool, invoke, current, plan):
+    if 'tool_inputs' not in packet:
+        return invoke(packet,current,plan)
+    try:
+        effective=_tool_packet(packet,tool)
+    except ValueError as exc:
+        return {'status':'BLOCKED','execution_truth':'BLOCKED','blocker':str(exc),
+                'adapter_provenance':{'native_invocation':'NOT_INVOKED','provider_binding':tool}}
+    result=invoke(effective,current,plan)
+    result['adapter_provenance']['effective_input_sha256']=digest(effective)
+    return result
+
+
 # I. Built-in provider bindings (finite PD/PDAudit and syntactic Prose).
 # Explicit module bindings remain opt-in.
 def builtin_adapters(packet, digest):
     def pd_adapter(tool):
-        def invoke(current, plan):
-            spec = packet.get("pd_frame")
+        def run(effective, current, plan):
+            spec = effective.get("pd_frame")
             if not spec:
                 return {"status":"OPEN", "blocker":"PD_FRAME_REQUIRED",
                         "adapter_provenance":{"native_invocation":"NOT_INVOKED","provider_binding":tool}}
@@ -43,10 +73,10 @@ def builtin_adapters(packet, digest):
                     "blocker":out.get("blocker"),
                     "adapter_provenance":{"native_invocation":"RETURNED","provider_binding":tool,
                                           "semantic_coverage":"BOUNDED_NOT_CERTIFIED"}}
-        return invoke
+        return lambda current,plan: _scoped_builtin(packet,tool,run,current,plan)
 
-    def prose_adapter(current,plan):
-        spec=packet.get("prose")
+    def run_prose(effective,current,plan):
+        spec=effective.get("prose")
         if not spec:
             return {"status":"OPEN","blocker":"PROSE_TEXT_AND_CONTRACT_REQUIRED",
                     "adapter_provenance":{"native_invocation":"NOT_INVOKED","provider_binding":"Prose"}}
@@ -63,7 +93,7 @@ def builtin_adapters(packet, digest):
                 "adapter_provenance":{"native_invocation":"RETURNED","provider_binding":"Prose",
                                       "semantic_coverage":"BOUNDED_NOT_CERTIFIED"}}
 
-    return {"PD":pd_adapter("PD"),"PDAudit":pd_adapter("PDAudit"),"Prose":prose_adapter}
+    return {"PD":pd_adapter("PD"),"PDAudit":pd_adapter("PDAudit"),"Prose":lambda current,plan: _scoped_builtin(packet,"Prose",run_prose,current,plan)}
 
 
 # II. Shared packet identity and provider admission.
@@ -97,7 +127,8 @@ def bind_adapters(packet):
     def binding(tool, groups):
         def invoke(current, plan):
             try:
-                admitted = _bind_admitted_adapters(packet, tool, groups)
+                effective = _tool_packet(packet,tool)
+                admitted = _bind_admitted_adapters(effective, tool, groups)
             except KeyError as exc:
                 return {'status':'OPEN','execution_truth':'OPEN',
                         'blocker':f'DOCUMENT_INPUT_REQUIRED:{exc.args[0]}',
@@ -116,7 +147,8 @@ def bind_adapters(packet):
             result['adapter_provenance']={
                 'native_invocation':'RETURNED',
                 'provider_binding':tool,
-                'source_references':[{'path':s['path'],'sha':s['sha']} for s in packet['sources']],
+                'source_references':[{'path':s['path'],'sha':s['sha']} for s in effective['sources']],
+                'effective_input_sha256':digest(effective),
                 'semantic_coverage':'BOUNDED_NOT_CERTIFIED',
             }
             return result
