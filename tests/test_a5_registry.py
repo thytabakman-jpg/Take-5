@@ -1,18 +1,21 @@
-from a5_programs import REGISTRY,EXPECTED_C,EXPECTED_CAP
+from a5_programs import REGISTRY,EXPECTED_C,CAPABILITY_BINDINGS
+from historical_reconstruction import HISTORICAL_REGISTRY,EXPECTED_CAP
 
 def test_full_c_registry_enrolled(): assert {x for x in REGISTRY.ids() if x.startswith("C") and not x.startswith("CAP-")}==EXPECTED_C
 
-def test_full_historical_registry_enrolled(): assert REGISTRY.coverage("CAP-")==EXPECTED_CAP
+def test_full_historical_registry_enrolled(): assert HISTORICAL_REGISTRY.ids()==EXPECTED_CAP and not REGISTRY.coverage("CAP-")
 
 def test_all_specs_have_valid_bindings():
-    for pid in REGISTRY.ids():
-        s=REGISTRY.get(pid)
-        assert s.required_roles and set(s.required_roles)<=REGISTRY.VALID_ROLES
-        assert s.protected_outputs and s.validation_target
+    for registry in (REGISTRY, HISTORICAL_REGISTRY):
+        for pid in registry.ids():
+            s=registry.get(pid)
+            assert s.required_roles and set(s.required_roles)<=registry.VALID_ROLES
+            assert s.protected_outputs and s.validation_target
 
 def test_all_current_c_capabilities_are_executable_but_historical_rows_are_not_execution_claims():
-    assert EXPECTED_C <= REGISTRY.executable_ids()
-    assert not (EXPECTED_CAP & REGISTRY.executable_ids())
+    assert REGISTRY.ids() == REGISTRY.executable_ids() == EXPECTED_C == set(CAPABILITY_BINDINGS)
+    assert not HISTORICAL_REGISTRY.executable_ids()
+    assert not (EXPECTED_CAP & REGISTRY.ids())
 
 
 from a5_programs import run_orient
@@ -108,3 +111,19 @@ def test_c18_deepest_supported_not_assumed_terminal():
 def test_c19_recursive_discovery_handles_cycle():
     r=run_attack("C19",{"seed_frontier":["a"],"graph":{"a":["b"],"b":["a","c"],"c":[]}})
     assert r["discovered"]==["a","b","c"]
+
+
+def test_dispatch_rejects_historical_and_unknown_ids():
+    import pytest
+    from capability_runtime import execute_capability
+    for pid in ("CAP-001", "C1", "C001", "C50", None):
+        with pytest.raises(KeyError):
+            execute_capability(pid, {})
+
+
+def test_family_dispatch_matches_legacy_entrypoint():
+    from a5_programs import run_generic
+    from capability_runtime import execute_capability
+    for i in range(20, 49):
+        pid = f"C{i:02d}"
+        assert execute_capability(pid, {}) == run_generic(pid, {})

@@ -1,7 +1,8 @@
 """Capability coverage and routing for Improvement Core / Take-5.
 
 This module does not grant authority. It creates explicit coverage dispositions and
-selects among currently executable capability programs.
+selects among currently executable capability programs. Historical reconstruction
+records belong to historical_reconstruction and are not operational routing rows.
 """
 from dataclasses import dataclass
 from enum import Enum

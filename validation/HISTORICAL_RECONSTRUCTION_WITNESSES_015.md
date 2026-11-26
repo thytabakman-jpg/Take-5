@@ -55,3 +55,21 @@ This establishes protected-behavior coverage relative to the exact recovered his
 
 Mapped does not imply executed.
 The reconstruction claim relies on both the mapping above and execution evidence for the mapped mechanisms.
+
+## Preserved registry metadata
+
+The former CAP-001 through CAP-033 rows in [a5_programs.py at the predecessor revision](https://github.com/thytabakman-jpg/Take-5/blob/10cbcf56e3df31924fcbb41948def949c79d20c4/runtime/a5_programs.py#L72-L104) are now represented by `HISTORICAL_REGISTRY` in [historical_reconstruction.py](../runtime/historical_reconstruction.py). The rows in the table above correspond one-to-one to those exact identifiers (e.g., 001 = CAP-001).
+
+All 33 original records share the following metadata, retained by the separate machine-readable registry:
+
+| Field | Preserved value |
+|---|---|
+| Source | `HISTORICAL_CAPABILITY_RECOVERY_LEDGER` |
+| Job | `historical protected behavior` |
+| Required roles | `K,S,O,G,M,C,R,U` |
+| Protected output | `reconstruction_witness` |
+| Validation target | `fixture` |
+| Executable | `False` |
+| Configured run, recursion owner, consequence scope, external escape | `UNSPECIFIED` (each) |
+
+These historical identities are excluded from the active capability router. This separation does not resolve any missing reconstruction evidence, upgrade the strength of the witnesses above, or declare historical equivalence universally established. Historical preservation remains a separate obligation under [the preservation invariant](../architecture/CAPABILITY_PRESERVATION_INVARIANT_097.md).

@@ -1,5 +1,16 @@
 """Historical reconstruction relation. Evidence-first; never infers equivalence from names."""
 from dataclasses import dataclass
+from a5_core import ProgramRegistry, ProgramSpec
+
+# Historical records are evidence inventory, not current execution bindings.
+# Reconstruction mappings: validation/HISTORICAL_RECONSTRUCTION_WITNESSES_015.md.
+EXPECTED_CAP = {f"CAP-{i:03d}" for i in range(1, 34)}
+HISTORICAL_REGISTRY = ProgramRegistry()
+for _pid in sorted(EXPECTED_CAP):
+    HISTORICAL_REGISTRY.register(ProgramSpec(
+        _pid, "HISTORICAL_CAPABILITY_RECOVERY_LEDGER", "historical protected behavior",
+        ("K", "S", "O", "G", "M", "C", "R", "U"), ("reconstruction_witness",), "fixture",
+    ))
 
 @dataclass(frozen=True)
 class ReconstructionCase:

@@ -19,5 +19,14 @@ def test_nonselection_is_explicit():
 
 def test_every_registered_capability_gets_disposition():
     r=coverage("wide",["architecture"])
-    assert len(r.dispositions)==82
-    assert len({x.program_id for x in r.dispositions})==82
+    assert {x.program_id for x in r.dispositions} == {f"C{i:02d}" for i in range(1, 50)}
+    assert len(r.dispositions) == 49
+    assert closure_allowed(r)
+
+
+def test_missing_current_trigger_still_blocks_coverage_closure(monkeypatch):
+    from runtime.capability_router import TRIGGER_TAGS
+    monkeypatch.delitem(TRIGGER_TAGS, "C26")
+    r = coverage("wide", ["architecture"])
+    assert by_id(r, "C26").status == CoverageStatus.OPEN
+    assert not closure_allowed(r)

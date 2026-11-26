@@ -2,6 +2,7 @@
 from dataclasses import dataclass
 from enum import Enum
 from a5_programs import REGISTRY
+from historical_reconstruction import HISTORICAL_REGISTRY
 from capability_router import TRIGGER_TAGS
 
 class Maturity(str,Enum):
@@ -20,7 +21,7 @@ def active_capability_ids():
     return tuple(sorted(x for x in REGISTRY.ids() if x.startswith("C") and x[1:].isdigit()))
 
 def historical_witness_ids():
-    return tuple(sorted(x for x in REGISTRY.ids() if x.startswith("CAP-")))
+    return tuple(sorted(HISTORICAL_REGISTRY.ids()))
 
 def audit_one(pid,material_basis_change=False,fixture_current=True,host_consumed=True):
     s=REGISTRY.get(pid); reasons=[]
