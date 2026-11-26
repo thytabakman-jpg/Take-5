@@ -18,27 +18,18 @@ import sys
 import zipfile
 
 # I. Integration identity and validation configuration.
-TESTS = [
-    "test_direct_tool_command_gateway.py", "test_goal.py",
-    "test_multiobject.py", "test_prose.py",
-    "test_full_invocation_portfolio.py", "test_configured_hf2_execution.py",
-    "test_portable_tool_conductor.py", "test_tool_system_every_tool_sweep.py",
-    "test_mt_semantic_return_gate.py", "test_assert_compound.py",
-    "test_assert_full36.py", "test_currentness_audit.py",
-    "test_prose_transition_layers.py", "test_goal_fullmath_identity.py",
-    "test_multiobject_fullmath_identity.py",
-    "test_improvement_core_hf2_default.py", "test_hf2_fixed_point_closure.py",
-    "test_execution_responsibility_boundaries.py",
-]
+INTEGRATION_FILES = ("runtime_bootstrap.py", "execute_tool_packet.py", "document_tool_adapters.py", "README.md")
 
-# II. Source and integration verification.
+
+# II. Git identity primitives and integration verification.
+# Destination candidate: shared Git-object hashing only. The bootstrap verifies
+# authoritative SHA-1 runtime objects; document providers may separately admit
+# SHA-256 source identities. Preserve that distinction in any later consolidation.
 def git_object_sha(kind, data):
     return hashlib.sha1(f"{kind} {len(data)}\0".encode() + data).hexdigest()
 
 def git_blob_sha(data):
     return git_object_sha("blob", data)
-
-INTEGRATION_FILES = ("runtime_bootstrap.py", "execute_tool_packet.py", "document_tool_adapters.py", "README.md")
 
 
 def read_integration_manifest(path):
@@ -75,6 +66,7 @@ def verify_integration_archive(outer, manifest):
             raise ValueError(f"INTEGRATION_ARCHIVE_BLOB_MISMATCH:{name}")
 
 
+# III. Authenticated source tree and installed runtime verification.
 def git_tree_sha(tree):
     """Reconstruct the Git root tree from the complete recursive blob manifest."""
     root = {}
@@ -155,6 +147,7 @@ def verify_bootstrap_receipt(root, boot, integration_manifest):
     return commit, source_tree
 
 
+# IV. Archive admission and installation.
 def verified_archive_members(z, tree):
     """Verify the complete archive against the authenticated tree before any write."""
     seen = set()
@@ -177,7 +170,22 @@ def verified_archive_members(z, tree):
     return seen
 
 
-# III. Archive installation.
+def _read_tracked_tree(raw):
+    tree = {}
+    for line in raw.split(b"\0"):
+        if not line:
+            continue
+        metadata, name_bytes = line.split(b"\t", 1)
+        name = name_bytes.decode("utf-8")
+        mode, typ, sha = metadata.decode("ascii").split()
+        if typ != "blob":
+            raise ValueError(f"UNSUPPORTED_TREE_OBJECT: {name} {typ}")
+        if name in tree:
+            raise ValueError(f"DUPLICATE_TREE_PATH: {name}")
+        tree[name] = (mode, sha)
+    return tree
+
+
 def install(artifact, destination, expected, integration_manifest):
     if not re.fullmatch(r"[0-9a-f]{40}", expected):
         raise ValueError("Expected full Git commit SHA required")
@@ -190,19 +198,8 @@ def install(artifact, destination, expected, integration_manifest):
         archive_hash = hashlib.sha256(source).hexdigest()
         if archive_hash != outer.read("SHA256SUMS").decode().split()[0]:
             raise ValueError("ARCHIVE_CHECKSUM_MISMATCH")
-        tree = {}
         commit_object = outer.read("source-commit-object.txt")
-        for line in outer.read("git-tree.txt").split(b"\0"):
-            if not line:
-                continue
-            metadata, name_bytes = line.split(b"\t", 1)
-            name = name_bytes.decode("utf-8")
-            mode, typ, sha = metadata.decode("ascii").split()
-            if typ != "blob":
-                raise ValueError(f"UNSUPPORTED_TREE_OBJECT: {name} {typ}")
-            if name in tree:
-                raise ValueError(f"DUPLICATE_TREE_PATH: {name}")
-            tree[name] = (mode, sha)
+        tree = _read_tracked_tree(outer.read("git-tree.txt"))
         source_tree = verify_commit_tree(commit, commit_object, tree)
         with zipfile.ZipFile(io.BytesIO(source)) as z:
             seen = verified_archive_members(z, tree)
@@ -221,7 +218,23 @@ def install(artifact, destination, expected, integration_manifest):
         "runtime_python_files":sum(n.startswith("runtime/") and n.endswith(".py") for n in seen),
     }
 
-# IV. Runtime validation.
+# V. Runtime validation inventory and execution.
+# Keep this bootstrap-specific acceptance inventory independent of the native
+# routing audit and implementation manifests.
+TESTS = [
+    "test_direct_tool_command_gateway.py", "test_goal.py",
+    "test_multiobject.py", "test_prose.py",
+    "test_full_invocation_portfolio.py", "test_configured_hf2_execution.py",
+    "test_portable_tool_conductor.py", "test_tool_system_every_tool_sweep.py",
+    "test_mt_semantic_return_gate.py", "test_assert_compound.py",
+    "test_assert_full36.py", "test_currentness_audit.py",
+    "test_prose_transition_layers.py", "test_goal_fullmath_identity.py",
+    "test_multiobject_fullmath_identity.py",
+    "test_improvement_core_hf2_default.py", "test_hf2_fixed_point_closure.py",
+    "test_execution_responsibility_boundaries.py",
+]
+
+
 def smoke(root):
     env = {**os.environ, "PYTHONPATH": str(root/"runtime")+os.pathsep+str(root),
            "PYTHONDONTWRITEBYTECODE": "1"}
@@ -252,7 +265,9 @@ raise SystemExit(int(a.status!='CLOSED_RELATIVE'))
         "audit_scope":"Native regressions and synthetic invocation-route coverage only",
     }
 
-# V. Receipt reporting and command-line orchestration.
+# VI. Failure receipts and command-line orchestration.
+# Packet-specific result receipts remain owned by execute_tool_packet.py;
+# this helper serves pre-dispatch failure reporting only.
 def write_failure_receipt(path, operation, phase, exc, context):
     """Report pre-dispatch failure without claiming native tool execution."""
     failure = {**context, "status": "BLOCKED", "operation": operation,
