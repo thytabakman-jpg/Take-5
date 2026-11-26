@@ -128,7 +128,17 @@ def _execute_independent_tools(packet,ids,adapters,allowed,provider,admitted_ext
     return results
 
 
-# IV. Command-line orchestration: verified runtime, frozen packet, dispatch and final receipt.
+# IV. Packet-level receipt projection (no native execution or admission authority).
+def _packet_receipt(source_commit,source_tree,integration_manifest,digest,ids,provider,allowed,timings,results):
+    # Final packet-level receipt; per-tool records retain independent dispositions.
+    receipt={"source_commit":source_commit,"source_tree":source_tree,
+             "integration_manifest":integration_manifest,"packet_sha256":digest,"tool_ids":ids,
+             "adapter_module":provider,"authorized_overrides":sorted(allowed),"scope":"Explicit bounded native input; no independent semantic adjudication or full geometric coverage asserted",
+             "local_timings":timings,"results":results}
+    return receipt
+
+
+# V. Command-line orchestration: verified runtime, frozen packet, dispatch and final receipt.
 def main():
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument("--runtime", type=Path, required=True)
@@ -202,11 +212,7 @@ def main():
     results=_execute_independent_tools(packet,ids,adapters,allowed,provider,admitted_external,admission_errors,provider_error,digest,integration_manifest,execute_direct_tool_commands)
     timings["dispatch_seconds"] = perf_counter() - stage
     timings["total_local_seconds"] = perf_counter() - started
-    # Final packet-level receipt; per-tool records retain independent dispositions.
-    receipt={"source_commit":source_commit,"source_tree":source_tree,
-             "integration_manifest":integration_manifest,"packet_sha256":digest,"tool_ids":ids,
-             "adapter_module":provider,"authorized_overrides":sorted(allowed),"scope":"Explicit bounded native input; no independent semantic adjudication or full geometric coverage asserted",
-             "local_timings":timings,"results":results}
+    receipt=_packet_receipt(source_commit,source_tree,integration_manifest,digest,ids,provider,allowed,timings,results)
     a.receipt.write_text(json.dumps(receipt,indent=2,default=str)+"\n")
     print(json.dumps({"source_commit":source_commit,"tool_ids":ids,"statuses":[r.get("status") for r in results],"receipt":str(a.receipt)},indent=2))
     return int(not ids or any(r.get("status")!="EXECUTED" for r in results))

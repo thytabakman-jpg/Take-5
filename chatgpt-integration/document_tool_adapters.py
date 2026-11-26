@@ -5,6 +5,7 @@ All closures are relative to the packet; no full D36/Q22 semantic coverage claim
 from collections import Counter, defaultdict
 from dataclasses import asdict, replace
 from itertools import combinations
+from functools import partial
 import hashlib
 import json
 
@@ -795,10 +796,229 @@ def _candidate_evidence_adapter(packet, tool, sources, source_ids):
     return invoke
 
 
-# X. Legacy finite-model and structured provider dispatch.
-# Relocation candidates (not moved): tool-neutral finite matrix/threshold
-# algorithms need an existing owner review; do not move bounded model semantics
-# into general native tool cores or treat them as document-semantic coverage.
+# X. Shared finite-model operations. These operate only on admitted data.
+def _matrix_counts(axes, rs):
+    return {a:dict(sorted(Counter(k for r in rs for k in r[i+1].split('/')).items())) for i,a in enumerate(axes)}
+
+
+def _matrix_coverage(expected, rs):
+    ids={r[0] for r in rs}
+    return {'missing':sorted(set(expected)-ids),'unexpected':sorted(ids-set(expected)),'rows':len(rs)}
+
+
+def _threshold_signature(qs_, threshold):
+    return tuple(int(q>=threshold) for q in qs_)
+
+
+def _threshold_discriminate(qs, thresholds):
+    from discriminator import run_discriminator
+    return run_discriminator(tuple(combinations(qs,2)),lambda p:len({_threshold_signature(p,k) for k in thresholds})==len(thresholds))
+
+
+# XI. Tool-specific finite and structured provider factories.
+# Each factory owns one tool's binding, consumes only its admitted model and
+# retains its original native entrypoint, evidence and disposition mapping.
+
+def _bind_finite_gdos(packet, source_ids, matrix_data):
+    matrix, axes, rows, expected, expected_counts = matrix_data
+    counts=partial(_matrix_counts,axes)
+    coverage=partial(_matrix_coverage,expected)
+    envelope=partial(_bounded_result,packet,source_ids)
+    def gdos(current,plan):
+        from gdos import run_gdos
+        out=run_gdos(rows,observers=(coverage,counts),reconcile_fn=lambda obs:{'coverage':obs[0],'counts':obs[1],'declared_counts_match':obs[1]==expected_counts})
+        return envelope('gdos.run_gdos',out,out['status'])
+    return gdos
+
+
+def _bind_finite_bias(packet, source_ids, matrix_data):
+    matrix, axes, rows, expected, expected_counts = matrix_data
+    counts=partial(_matrix_counts,axes)
+    coverage=partial(_matrix_coverage,expected)
+    envelope=partial(_bounded_result,packet,source_ids)
+    def bias(current,plan):
+        from bias_perturbation import run_bias_perturbation
+        out=run_bias_perturbation(rows,(tuple(reversed(rows)),tuple(sorted(rows,key=lambda r:r[2] if len(r)>2 else r[1:]))),
+              runner=lambda r:(coverage(r),counts(r)),semantics_equivalent=lambda a,b:Counter(a)==Counter(b),result_equivalent=lambda a,b:a==b)
+        return envelope('bias_perturbation.run_bias_perturbation',out,'EXECUTED' if out['status']=='ACCEPT' else 'OPEN')
+    return bias
+
+
+def _bind_finite_architecture(packet, source_ids, matrix_data):
+    matrix, axes, rows, expected, expected_counts = matrix_data
+    counts=partial(_matrix_counts,axes)
+    coverage=partial(_matrix_coverage,expected)
+    envelope=partial(_bounded_result,packet,source_ids)
+    def architecture(current,plan):
+        from architecture_analysis import run_architecture_analysis
+        def analyze(target,contract):
+            violations=[]
+            cov=coverage(target)
+            if cov['missing'] or cov['unexpected']: violations.append('CASE_COVERAGE')
+            if counts(target)!=expected_counts: violations.append('COUNT_MISMATCH')
+            if any('/' in row[axes.index(matrix['exclusive_axis'])+1] for row in target): violations.append('EXCLUSIVE_AXIS_MULTIPLICITY')
+            return dict(ArchClass='MATRIX_SCHEMA',Violations=violations,LocalizationFamilies=violations,
+                DependencyState={'case_index_ids':len(expected)},InteractionState={'axes':axes},TransformationFrontier=[],SuccessorFrontier=[],Coverage=cov,
+                OpenConflictBlocked=['OPEN'] if violations else [],Provenance=source_ids)
+        out=run_architecture_analysis(rows,{'axes':axes,'expected_ids':expected},analyze_architecture=analyze)
+        return envelope('architecture_analysis.run_architecture_analysis',out,'EXECUTED' if out['status']=='RELATIVE_CLOSE' else out['status'])
+    return architecture
+
+
+def _bind_finite_disc(packet, source_ids, threshold_data):
+    t, thresholds, qs = threshold_data
+    discriminate=partial(_threshold_discriminate,qs,thresholds)
+    envelope=partial(_bounded_result,packet,source_ids)
+    def disc(current,plan):
+        out=discriminate()
+        return envelope('discriminator.run_discriminator',out,'OPEN' if out['status']=='OPEN' else 'EXECUTED')
+    return disc
+
+
+def _bind_finite_reconciler(packet, source_ids, threshold_data):
+    t, thresholds, qs = threshold_data
+    signature=_threshold_signature
+    discriminate=partial(_threshold_discriminate,qs,thresholds)
+    envelope=partial(_bounded_result,packet,source_ids)
+    def reconciler(current,plan):
+        from reconcile import ReconcileResult, reconcile
+        a=discriminate(); b=[(x,y) for x in qs for y in qs if x<y and all(signature((x,y),u)!=signature((x,y),v) for u,v in combinations(thresholds,2))]
+        def resolver(state,admitted):
+            left,right=admitted
+            diff=sorted(set(left)^set(right))
+            return ReconcileResult({'enumerated_pairs':len(left),'pairwise_check':len(right),'declared_count':t['declared_pair_count']},conflicts=tuple(diff),open_coordinates=() if len(left)==t['declared_pair_count'] else ('DECLARED_COUNT_MISMATCH',))
+        out=reconcile({},(tuple(a['survivors']),tuple(b)),resolver)
+        return envelope('reconcile.reconcile',asdict(out),'OPEN' if out.conflicts or out.open_coordinates else 'EXECUTED')
+    return reconciler
+
+
+def _bind_finite_mt(packet, source_ids, matrix_data, threshold_data):
+    matrix, axes, rows, expected, expected_counts = matrix_data
+    t, thresholds, qs = threshold_data
+    counts=partial(_matrix_counts,axes)
+    coverage=partial(_matrix_coverage,expected)
+    signature=_threshold_signature
+    envelope=partial(_bounded_result,packet,source_ids)
+    def mt(current,plan):
+        from mt_semantic_return_gate import run_mt_with_before_return_gate
+        # Actual observation pass over admitted data; unresolved source and semantic
+        # objects reach the native gate but cannot be resolved by a missing worker.
+        def observe(state):
+            result={'target':'explicit matrix and threshold model',
+                    'coverage':coverage(rows),'counts':counts(rows),
+                    'distinct_outcome_signatures':{str(k):signature(tuple(t['baseline_probes']),k) for k in thresholds},
+                    'declared_pair_count':t['declared_pair_count'],
+                    'unresolved':tuple(packet.get('open_coordinates',()))}
+            return state,result
+        def resolve_stage(tool_id,object_id,state):
+            return state,'OPEN',False
+        out=run_mt_with_before_return_gate({'packet':digest(packet)},run_mt=observe,
+                detect_black_boxes=lambda st,res:res['unresolved'],execute_stage=resolve_stage)
+        return envelope('mt_semantic_return_gate.run_mt_with_before_return_gate',asdict(out),'EXECUTED' if out.status=='CLOSED_RELATIVE' else out.status,
+                        'SEMANTIC_BLACK_BOXES_OPEN' if out.open_objects else None)
+    return mt
+
+
+def _bind_finite_goal(packet, source_ids, matrix_data, threshold_data):
+    envelope=partial(_bounded_result,packet,source_ids)
+    mt=_bind_finite_mt(packet,source_ids,matrix_data,threshold_data)
+    def goal(current,plan):
+        from goal import GoalObject, GoalCandidate, recover_goal_configured
+        candidates=tuple(GoalCandidate(x['id'],GoalObject(**x['goal']),tuple(x['constraints']),tuple(x['evidence']),x['grounded'],x['authority_typed'],x['determinate_enough']) for x in packet.get('goal_candidates',[]))
+        pre,receipt=_configured_mt_prerequisite(packet,mt)
+        out=recover_goal_configured(candidates,receipt)
+        return envelope('goal.recover_goal_configured',{'native':asdict(out),'mt_preflight':asdict(pre)},'EXECUTED' if out.status=='CLOSED_RELATIVE' else out.status,out.blocker)
+    return goal
+
+
+def _bind_finite_assertion(packet, source_ids, matrix_data, threshold_data):
+    matrix, axes, rows, expected, expected_counts = matrix_data
+    t, thresholds, qs = threshold_data
+    signature=_threshold_signature
+    discriminate=partial(_threshold_discriminate,qs,thresholds)
+    envelope=partial(_bounded_result,packet,source_ids)
+    def assertion(current,plan):
+        from assert_compound import AssertState, AssertStages, run_to_fixed_point
+        targets={'matrix_coverage':len(expected),'probe_pair_count':t['declared_pair_count']}
+        def assert_stage(s): return replace(s,assertions=targets)
+        def compare_stage(s):
+            n=(len(discriminate()['survivors']) if not s.here else sum(all(signature((x,y),u)!=signature((x,y),v) for u,v in combinations(thresholds,2)) for x,y in combinations(qs,2)))
+            actual={'matrix_coverage':len(set(r[0] for r in rows)&set(expected)),'probe_pair_count':n}
+            return replace(s,comparisons=actual)
+        def resolve_stage(s): return replace(s,resolutions={k:'TRUE' if s.comparisons[k]==v else 'FALSE' for k,v in s.assertions.items()})
+        def here_stage(s): return replace(s,here={'source_blobs':source_ids,'second_algorithm':True})
+        def inquire_stage(s): return replace(s,inquiries=tuple(packet.get('open_coordinates',())))
+        def reassert_stage(s): return replace(s,world={'claim_test_status':{k:'TRUE' if s.comparisons[k]==v else 'FALSE' for k,v in s.assertions.items()}})
+        out=run_to_fixed_point(AssertState(),AssertStages(assert_stage,compare_stage,resolve_stage,here_stage,inquire_stage,reassert_stage),closure_gate=lambda s:bool(s.world.get('claim_test_status')) and all(v=='TRUE' for v in s.world['claim_test_status'].values()) and not s.inquiries,max_rounds=4)
+        return envelope('assert_compound.run_to_fixed_point',asdict(out),'EXECUTED' if out.status=='CLOSED' else 'OPEN')
+    return assertion
+
+
+def _bind_finite_diagnosis(packet, source_ids, structured, threshold_data):
+    if structured is None:
+        t, thresholds, qs = threshold_data
+    signature=_threshold_signature
+    envelope=partial(_bounded_result,packet,source_ids)
+    def diagnosis(current,plan):
+        from diagnosis import diagnose
+        if structured is not None:
+            out=diagnose({'failures':structured['failures']})
+            result=envelope('diagnosis.diagnose',out,'EXECUTED' if out['status']=='ACCEPT' else 'OPEN',
+                            'DIAGNOSTIC_MECHANISM_UNRESOLVED' if out['status']=='OPEN' else None)
+            result.update(input_route='STRUCTURED_DOCUMENT_EVIDENCE',inventory_evidence=structured['inventory_evidence'])
+            return result
+        fails=[{'id':str(q),'mechanism':'noninjective outcome signature over fixed candidate set','material':True}
+               for q in qs if len({signature((q,),k) for k in thresholds})<len(thresholds)]
+        out=diagnose({'failures':fails})
+        return envelope('diagnosis.diagnose',out,'EXECUTED' if out['status']=='ACCEPT' else 'OPEN')
+    return diagnosis
+
+
+def _bind_finite_rtc(packet, source_ids, structured, threshold_data):
+    if structured is None:
+        t, thresholds, qs = threshold_data
+    signature=_threshold_signature
+    envelope=partial(_bounded_result,packet,source_ids)
+    def rtc(current,plan):
+        from raise_the_ceiling import raise_the_ceiling
+        if structured is not None:
+            out=raise_the_ceiling({'candidates':structured['candidates']})
+            pending=out['status']=='OPEN' or bool(out.get('unresolved'))
+            result=envelope('raise_the_ceiling.raise_the_ceiling',out,'OPEN' if pending else 'EXECUTED',
+                            'STRICT_GAIN_OR_PRESERVATION_UNRESOLVED' if pending else None)
+            result.update(input_route='STRUCTURED_DOCUMENT_EVIDENCE',inventory_evidence=structured['inventory_evidence'])
+            return result
+        base=tuple(t['baseline_probes'])
+        n=len({signature(base,k) for k in thresholds})
+        candidates=[{'id':str(q),'strict_gain':len({signature(base+(q,),k) for k in thresholds})>n,
+                     'preserves':True} for q in qs if q not in base]
+        out=raise_the_ceiling({'candidates':candidates})
+        return envelope('raise_the_ceiling.raise_the_ceiling',out,'EXECUTED' if out['status'] in ('ACCEPT','NOOP') else 'OPEN')
+    return rtc
+
+
+def _bind_source_currentness(packet, source_ids):
+    envelope=partial(_bounded_result,packet,source_ids)
+    def currentness(current,plan):
+        from currentness_audit import assess, audit_complete
+        receipts=tuple(assess(component=s['path'],object_identity=s['path'],built_generation=s['sha'],latest_generation=s.get('latest_sha',''),built_basis='connector blob',latest_basis='connector blob',identity_verified=bool(s.get('latest_sha')),evidence=(s['sha'],s.get('latest_sha',''))) for s in packet['sources'])
+        return envelope('currentness_audit.assess',{'receipts':[asdict(r) for r in receipts],'complete':audit_complete(receipts)},'EXECUTED' if audit_complete(receipts) else 'OPEN')
+    return currentness
+
+
+def _bind_source_trc(packet, source_ids):
+    envelope=partial(_bounded_result,packet,source_ids)
+    def trc(current,plan):
+        from tool_run_closure import Consequence, Disposition, run_tool_run_closure
+        cons=tuple(Consequence(x,'RESEARCH_VERIFICATION','verified','read-only',source_ids[0],'SOURCE_SEMANTICS') for x in packet.get('open_coordinates',()))
+        out=run_tool_run_closure(tool_result={'open':len(cons)},pre_state={},post_state={},
+            harvest_fn=lambda *_:cons,disposition_fn=lambda *_:Disposition.OPEN,
+            realize_fn=lambda c,s:s,verify_fn=lambda c,s:s,consume_fn=lambda c,s:s,
+            harvest_basis='explicit packet open coordinates',harvest_complete=False)
+        return envelope('tool_run_closure.run_tool_run_closure',asdict(out),'OPEN','UNRESOLVED_SEMANTIC_OBLIGATIONS')
+    return trc
+
+# XII. Native provider selection. Admission is separate from provider execution.
 def _bind_admitted_adapters(packet, tool, groups):
     # Admit only the evidence used by this invocation. No input validation
     # failure may prevent an independent binding from being constructed.
@@ -834,147 +1054,18 @@ def _bind_admitted_adapters(packet, tool, groups):
     if tool == 'MultiObject':
         _, axes, rows, _, _ = matrix_data
         return {tool:_matrix_multiobject_adapter(packet, axes, rows, source_ids)}
-    if matrix_data is not None:
-        matrix, axes, rows, expected, expected_counts=matrix_data
-    if threshold_data is not None:
-        t, thresholds, qs=threshold_data
-    def counts(rs):
-        return {a:dict(sorted(Counter(k for r in rs for k in r[i+1].split('/')).items())) for i,a in enumerate(axes)}
-    def coverage(rs):
-        ids={r[0] for r in rs}
-        return {'missing':sorted(set(expected)-ids),'unexpected':sorted(ids-set(expected)),'rows':len(rs)}
-    def signature(qs_, threshold):
-        return tuple(int(q>=threshold) for q in qs_)
-    def discriminate():
-        from discriminator import run_discriminator
-        return run_discriminator(tuple(combinations(qs,2)),lambda p:len({signature(p,k) for k in thresholds})==len(thresholds))
-    def envelope(entry,out,status='EXECUTED',blocker=None):
-        return _bounded_result(packet, source_ids, entry, out, status, blocker)
-
-    # Finite classification-matrix providers.
-    def gdos(current,plan):
-        from gdos import run_gdos
-        out=run_gdos(rows,observers=(coverage,counts),reconcile_fn=lambda obs:{'coverage':obs[0],'counts':obs[1],'declared_counts_match':obs[1]==expected_counts})
-        return envelope('gdos.run_gdos',out,out['status'])
-
-    def bias(current,plan):
-        from bias_perturbation import run_bias_perturbation
-        out=run_bias_perturbation(rows,(tuple(reversed(rows)),tuple(sorted(rows,key=lambda r:r[2] if len(r)>2 else r[1:]))),
-              runner=lambda r:(coverage(r),counts(r)),semantics_equivalent=lambda a,b:Counter(a)==Counter(b),result_equivalent=lambda a,b:a==b)
-        return envelope('bias_perturbation.run_bias_perturbation',out,'EXECUTED' if out['status']=='ACCEPT' else 'OPEN')
-
-    def architecture(current,plan):
-        from architecture_analysis import run_architecture_analysis
-        def analyze(target,contract):
-            violations=[]
-            cov=coverage(target)
-            if cov['missing'] or cov['unexpected']: violations.append('CASE_COVERAGE')
-            if counts(target)!=expected_counts: violations.append('COUNT_MISMATCH')
-            if any('/' in row[axes.index(matrix['exclusive_axis'])+1] for row in target): violations.append('EXCLUSIVE_AXIS_MULTIPLICITY')
-            return dict(ArchClass='MATRIX_SCHEMA',Violations=violations,LocalizationFamilies=violations,
-                DependencyState={'case_index_ids':len(expected)},InteractionState={'axes':axes},TransformationFrontier=[],SuccessorFrontier=[],Coverage=cov,
-                OpenConflictBlocked=['OPEN'] if violations else [],Provenance=source_ids)
-        out=run_architecture_analysis(rows,{'axes':axes,'expected_ids':expected},analyze_architecture=analyze)
-        return envelope('architecture_analysis.run_architecture_analysis',out,'EXECUTED' if out['status']=='RELATIVE_CLOSE' else out['status'])
-
-    # Finite threshold-model providers.
-    def disc(current,plan):
-        out=discriminate()
-        return envelope('discriminator.run_discriminator',out,'OPEN' if out['status']=='OPEN' else 'EXECUTED')
-
-    def reconciler(current,plan):
-        from reconcile import ReconcileResult, reconcile
-        a=discriminate(); b=[(x,y) for x in qs for y in qs if x<y and all(signature((x,y),u)!=signature((x,y),v) for u,v in combinations(thresholds,2))]
-        def resolver(state,admitted):
-            left,right=admitted
-            diff=sorted(set(left)^set(right))
-            return ReconcileResult({'enumerated_pairs':len(left),'pairwise_check':len(right),'declared_count':t['declared_pair_count']},conflicts=tuple(diff),open_coordinates=() if len(left)==t['declared_pair_count'] else ('DECLARED_COUNT_MISMATCH',))
-        out=reconcile({},(tuple(a['survivors']),tuple(b)),resolver)
-        return envelope('reconcile.reconcile',asdict(out),'OPEN' if out.conflicts or out.open_coordinates else 'EXECUTED')
-
-    # Joint matrix/threshold MT, GOAL and ASSERT providers.
-    def mt(current,plan):
-        from mt_semantic_return_gate import run_mt_with_before_return_gate
-        # Actual observation pass over admitted data; unresolved source and semantic
-        # objects reach the native gate but cannot be resolved by a missing worker.
-        def observe(state):
-            result={'target':'explicit matrix and threshold model',
-                    'coverage':coverage(rows),'counts':counts(rows),
-                    'distinct_outcome_signatures':{str(k):signature(tuple(t['baseline_probes']),k) for k in thresholds},
-                    'declared_pair_count':t['declared_pair_count'],
-                    'unresolved':tuple(packet.get('open_coordinates',()))}
-            return state,result
-        def resolve_stage(tool_id,object_id,state):
-            return state,'OPEN',False
-        out=run_mt_with_before_return_gate({'packet':digest(packet)},run_mt=observe,
-                detect_black_boxes=lambda st,res:res['unresolved'],execute_stage=resolve_stage)
-        return envelope('mt_semantic_return_gate.run_mt_with_before_return_gate',asdict(out),'EXECUTED' if out.status=='CLOSED_RELATIVE' else out.status,
-                        'SEMANTIC_BLACK_BOXES_OPEN' if out.open_objects else None)
-
-    def goal(current,plan):
-        from goal import GoalObject, GoalCandidate, recover_goal_configured
-        candidates=tuple(GoalCandidate(x['id'],GoalObject(**x['goal']),tuple(x['constraints']),tuple(x['evidence']),x['grounded'],x['authority_typed'],x['determinate_enough']) for x in packet.get('goal_candidates',[]))
-        pre,receipt=_configured_mt_prerequisite(packet,mt)
-        out=recover_goal_configured(candidates,receipt)
-        return envelope('goal.recover_goal_configured',{'native':asdict(out),'mt_preflight':asdict(pre)},'EXECUTED' if out.status=='CLOSED_RELATIVE' else out.status,out.blocker)
-
-    def assertion(current,plan):
-        from assert_compound import AssertState, AssertStages, run_to_fixed_point
-        targets={'matrix_coverage':len(expected),'probe_pair_count':t['declared_pair_count']}
-        def assert_stage(s): return replace(s,assertions=targets)
-        def compare_stage(s):
-            n=(len(discriminate()['survivors']) if not s.here else sum(all(signature((x,y),u)!=signature((x,y),v) for u,v in combinations(thresholds,2)) for x,y in combinations(qs,2)))
-            actual={'matrix_coverage':len(set(r[0] for r in rows)&set(expected)),'probe_pair_count':n}
-            return replace(s,comparisons=actual)
-        def resolve_stage(s): return replace(s,resolutions={k:'TRUE' if s.comparisons[k]==v else 'FALSE' for k,v in s.assertions.items()})
-        def here_stage(s): return replace(s,here={'source_blobs':source_ids,'second_algorithm':True})
-        def inquire_stage(s): return replace(s,inquiries=tuple(packet.get('open_coordinates',())))
-        def reassert_stage(s): return replace(s,world={'claim_test_status':{k:'TRUE' if s.comparisons[k]==v else 'FALSE' for k,v in s.assertions.items()}})
-        out=run_to_fixed_point(AssertState(),AssertStages(assert_stage,compare_stage,resolve_stage,here_stage,inquire_stage,reassert_stage),closure_gate=lambda s:bool(s.world.get('claim_test_status')) and all(v=='TRUE' for v in s.world['claim_test_status'].values()) and not s.inquiries,max_rounds=4)
-        return envelope('assert_compound.run_to_fixed_point',asdict(out),'EXECUTED' if out.status=='CLOSED' else 'OPEN')
-
-    # Structured or finite-model Diagnosis and RTC providers.
-    def diagnosis(current,plan):
-        from diagnosis import diagnose
-        if structured is not None:
-            out=diagnose({'failures':structured['failures']})
-            result=envelope('diagnosis.diagnose',out,'EXECUTED' if out['status']=='ACCEPT' else 'OPEN',
-                            'DIAGNOSTIC_MECHANISM_UNRESOLVED' if out['status']=='OPEN' else None)
-            result.update(input_route='STRUCTURED_DOCUMENT_EVIDENCE',inventory_evidence=structured['inventory_evidence'])
-            return result
-        fails=[{'id':str(q),'mechanism':'noninjective outcome signature over fixed candidate set','material':True}
-               for q in qs if len({signature((q,),k) for k in thresholds})<len(thresholds)]
-        out=diagnose({'failures':fails})
-        return envelope('diagnosis.diagnose',out,'EXECUTED' if out['status']=='ACCEPT' else 'OPEN')
-
-    def rtc(current,plan):
-        from raise_the_ceiling import raise_the_ceiling
-        if structured is not None:
-            out=raise_the_ceiling({'candidates':structured['candidates']})
-            pending=out['status']=='OPEN' or bool(out.get('unresolved'))
-            result=envelope('raise_the_ceiling.raise_the_ceiling',out,'OPEN' if pending else 'EXECUTED',
-                            'STRICT_GAIN_OR_PRESERVATION_UNRESOLVED' if pending else None)
-            result.update(input_route='STRUCTURED_DOCUMENT_EVIDENCE',inventory_evidence=structured['inventory_evidence'])
-            return result
-        base=tuple(t['baseline_probes'])
-        n=len({signature(base,k) for k in thresholds})
-        candidates=[{'id':str(q),'strict_gain':len({signature(base+(q,),k) for k in thresholds})>n,
-                     'preserves':True} for q in qs if q not in base]
-        out=raise_the_ceiling({'candidates':candidates})
-        return envelope('raise_the_ceiling.raise_the_ceiling',out,'EXECUTED' if out['status'] in ('ACCEPT','NOOP') else 'OPEN')
-
-    # Source currentness and consequence tracking providers.
-    def currentness(current,plan):
-        from currentness_audit import assess, audit_complete
-        receipts=tuple(assess(component=s['path'],object_identity=s['path'],built_generation=s['sha'],latest_generation=s.get('latest_sha',''),built_basis='connector blob',latest_basis='connector blob',identity_verified=bool(s.get('latest_sha')),evidence=(s['sha'],s.get('latest_sha',''))) for s in packet['sources'])
-        return envelope('currentness_audit.assess',{'receipts':[asdict(r) for r in receipts],'complete':audit_complete(receipts)},'EXECUTED' if audit_complete(receipts) else 'OPEN')
-
-    def trc(current,plan):
-        from tool_run_closure import Consequence, Disposition, run_tool_run_closure
-        cons=tuple(Consequence(x,'RESEARCH_VERIFICATION','verified','read-only',source_ids[0],'SOURCE_SEMANTICS') for x in packet.get('open_coordinates',()))
-        out=run_tool_run_closure(tool_result={'open':len(cons)},pre_state={},post_state={},
-            harvest_fn=lambda *_:cons,disposition_fn=lambda *_:Disposition.OPEN,
-            realize_fn=lambda c,s:s,verify_fn=lambda c,s:s,consume_fn=lambda c,s:s,
-            harvest_basis='explicit packet open coordinates',harvest_complete=False)
-        return envelope('tool_run_closure.run_tool_run_closure',asdict(out),'OPEN','UNRESOLVED_SEMANTIC_OBLIGATIONS')
-    return {'GDOS':gdos,'Discriminator':disc,'BiasPerturbation':bias,'Architecture':architecture,'GOAL':goal,'CurrentnessAudit':currentness,'Reconciler':reconciler,'MT':mt,'Diagnosis':diagnosis,'RTC':rtc,'ASSERT':assertion,'TRC':trc}
+    if tool in ('GDOS','BiasPerturbation','Architecture'):
+        factory={'GDOS':_bind_finite_gdos,'BiasPerturbation':_bind_finite_bias,
+                 'Architecture':_bind_finite_architecture}[tool]
+        return {tool:factory(packet,source_ids,matrix_data)}
+    if tool in ('Discriminator','Reconciler'):
+        factory={'Discriminator':_bind_finite_disc,'Reconciler':_bind_finite_reconciler}[tool]
+        return {tool:factory(packet,source_ids,threshold_data)}
+    if tool in ('MT','GOAL','ASSERT'):
+        factory={'MT':_bind_finite_mt,'GOAL':_bind_finite_goal,'ASSERT':_bind_finite_assertion}[tool]
+        return {tool:factory(packet,source_ids,matrix_data,threshold_data)}
+    if tool in ('Diagnosis','RTC'):
+        factory={'Diagnosis':_bind_finite_diagnosis,'RTC':_bind_finite_rtc}[tool]
+        return {tool:factory(packet,source_ids,structured,threshold_data)}
+    factory={'CurrentnessAudit':_bind_source_currentness,'TRC':_bind_source_trc}[tool]
+    return {tool:factory(packet,source_ids)}
