@@ -153,3 +153,24 @@ def test_all_learning_specs_have_unique_ids_and_obligations():
     assert len(obligations)==len(set(obligations))
     assert set(learning_package_index())==set(ids)
     assert set(learning_workers())==set(ids)
+
+
+def test_learning_index_rejects_duplicate_spec_identity():
+    import pytest
+    from learning_tool_bridge import _index_learning_specs, SPECS
+    with pytest.raises(RuntimeError, match="LEARNING_TOOL_DUPLICATE_ID"):
+        _index_learning_specs((SPECS[0], SPECS[0]))
+
+
+def test_invalid_learning_input_container_does_not_crash_consultation():
+    for raw in ("invalid", [1], 42, None):
+        contracts = learning_tool_contracts({"learning_inputs": raw})
+        assert all(not c["applicable"] for c in contracts.values())
+
+
+def test_open_learning_worker_preserves_other_tool_statuses():
+    prior = {"L-BAYES": {"status": "ACCEPT"}}
+    result = learning_workers()["L-D6"]({"learning_status": prior})
+    assert result["learning_status"]["L-BAYES"] == prior["L-BAYES"]
+    assert result["learning_status"]["L-D6"]["status"] == "OPEN"
+    assert "L-D6" not in prior

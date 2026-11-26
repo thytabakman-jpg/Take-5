@@ -215,7 +215,7 @@ def test_consultation_does_not_confuse_native_recovery_with_dispatch_readiness()
     actual={row["tool_id"]:row for row in run_tool_conductor({})["results"]}
     for tool in ("Diagnosis","RTC","ProjectManager","Reconciler"):
         row=by_id[tool]
-        assert row["witness"]["self_contained"] is True
+        assert row["witness"]["self_contained"] is (tool != "Reconciler")
         assert row["result"]["native_implementation_recovered"] is True
         assert row["status"]==actual[tool]["status"]=="OPEN"
         assert row["result"]["execution_readiness"]=="ADAPTER_REQUIRED"
@@ -258,3 +258,25 @@ def test_shared_plan_summary_preserves_consumer_receipt_shapes():
             **expected,"native_layers":tuple(dict.fromkeys(layer for layer,_ in plan.native)),
             "configured_hf2_execution":"SHARED_GATE",
         }
+
+
+def test_noncanonical_atomic_ids_have_no_registered_compilation_witness():
+    for tool_id in ("C1", "C001", "C50", "unknown"):
+        witness = compilation_witness(tool_id)
+        assert witness.entrypoint is None
+        assert witness.self_contained is False
+
+
+def test_reconciler_witness_requires_resolver():
+    witness = compilation_witness("Reconciler")
+    assert witness.required_environment == ("resolver",)
+    assert not witness.self_contained
+
+
+def test_empty_host_adapter_result_preserves_open(monkeypatch):
+    import portable_tool_conductor as conductor
+    monkeypatch.setattr(conductor, "MATERIAL_TOOLS", ("MT",))
+    result = conductor.run_tool_conductor({}, adapters={"MT": lambda packet: {}})
+    assert result["status"] == "OPEN"
+    assert result["open_tools"] == ("MT",)
+    assert result["results"][0]["status"] == "OPEN"

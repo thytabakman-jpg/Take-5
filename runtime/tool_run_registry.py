@@ -188,4 +188,11 @@ def _spec(tool):
         ),
     )
 
-CONFIGURED_RUNS={t:_spec(t) for t in MATERIAL_TOOLS}
+def _build_configured_runs(tool_ids):
+    ids=tuple(tool_ids)
+    if len(ids)!=len(set(ids)):
+        raise RuntimeError("TOOL_REGISTRY_DUPLICATE_ID")
+    return {t:_spec(t) for t in ids}
+
+
+CONFIGURED_RUNS=_build_configured_runs(MATERIAL_TOOLS)

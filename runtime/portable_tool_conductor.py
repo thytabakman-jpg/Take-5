@@ -95,7 +95,7 @@ NATIVE_ENTRYPOINTS: dict[str, tuple[str, tuple[str, ...]]] = {
         "diagnosis.diagnose",
         (),
     ),
-    "Reconciler": ("reconcile.reconcile", ()),
+    "Reconciler": ("reconcile.reconcile", ("resolver",)),
     "DelegatedExecutor": ("delegation.delegate", ("worker",)),
     "HF001": ("hf1_episode.run_hf1_episode", ("execution_callbacks",)),
     "HF002": ("hf002_recursive_continuation.HF002RecursiveContinuation", ("capability_runner",)),
@@ -133,6 +133,11 @@ def _learning_spec(tool_id: str):
 
 
 def compilation_witness(tool_id: str) -> CompilationWitness:
+    if tool_id not in CONFIGURED_RUNS:
+        return CompilationWitness(
+            tool_id, "OPEN_NATIVE_RUNTIME", None, (), False,
+            "tool identity is not registered",
+        )
     if tool_id == "ToolConductor":
         return CompilationWitness(
             tool_id,
@@ -514,7 +519,7 @@ def run_tool_conductor(
                         raw.setdefault("result",out)
                         raw.setdefault("material_delta",False)
                         return raw
-                    if out is None or (isinstance(out,dict) and "status" in out):
+                    if out is None or (isinstance(out,dict) and (not out or "status" in out)):
                         # Let configured HF2 handle missing results and reject invalid statuses.
                         return out
                     return {
