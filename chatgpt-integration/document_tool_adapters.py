@@ -118,7 +118,7 @@ _INPUT_GROUPS = {
     'MultiObject': ('matrix',), 'GOAL': ('matrix', 'threshold'),
     'CurrentnessAudit': (), 'Reconciler': ('threshold',),
     'MT': ('matrix', 'threshold'), 'Diagnosis': ('threshold',),
-    'RTC': ('threshold',), 'ASSERT': ('matrix', 'threshold'), 'TRC': (),
+    'RTC': ('threshold',), 'ASSERT': ('matrix', 'threshold'), 'TRC': (), 'RootCause': (),
 }
 
 
@@ -167,6 +167,26 @@ def _git_blob_text_hash(text, algorithm):
     return git_object_sha('blob',text.encode('utf-8'),algorithm=algorithm)
 
 
+def _evidence_refs(admitted, row, field, required=True):
+    values=row.get(field,[])
+    if not isinstance(values,list):
+        raise ValueError(f'{field}:EXPECTED_LIST')
+    if required and not values:
+        raise KeyError(field)
+    result=[]
+    for ref in values:
+        if not isinstance(ref,dict):
+            raise ValueError(f'{field}:EXPECTED_EVIDENCE_OBJECT')
+        path,sha=ref['source_path'],ref['source_sha']
+        if not isinstance(path,str) or not isinstance(sha,str) or (path,sha) not in admitted:
+            raise ValueError(f'{field}:UNKNOWN_SOURCE_REVISION')
+        for name in ('locator','basis'):
+            if not isinstance(ref[name],str) or not ref[name].strip():
+                raise ValueError(f'{field}:{name}:NONEMPTY_TEXT_REQUIRED')
+        result.append(f'{path}@{sha}:{ref["locator"]}:{ref["basis"]}')
+    return tuple(result)
+
+
 def _structured_inputs(packet, tool, sources):
     """Validate the host's declared evidence, not the truth of its interpretation."""
     key, inventory = ('diagnosis','failures') if tool=='Diagnosis' else ('rtc','candidates')
@@ -181,20 +201,7 @@ def _structured_inputs(packet, tool, sources):
         admitted.add((path,sha))
 
     def require_evidence(container, field):
-        refs=container[field]
-        if not isinstance(refs,list):
-            raise ValueError(f'{field}:EXPECTED_LIST')
-        if not refs:
-            raise KeyError(field)
-        for ref in refs:
-            if not isinstance(ref,dict):
-                raise ValueError(f'{field}:EXPECTED_EVIDENCE_OBJECT')
-            path,sha=ref['source_path'],ref['source_sha']
-            if not isinstance(path,str) or not isinstance(sha,str) or (path,sha) not in admitted:
-                raise ValueError(f'{field}:UNKNOWN_SOURCE_REVISION')
-            for name in ('locator','basis'):
-                if not isinstance(ref[name],str) or not ref[name].strip():
-                    raise ValueError(f'{field}:{name}:NONEMPTY_TEXT_REQUIRED')
+        return _evidence_refs(admitted,container,field)
 
     require_evidence(spec,'inventory_evidence')
     rows=spec[inventory]
@@ -661,6 +668,109 @@ def _document_mt_goal(packet, tool, sources):
     return {'MT':mt,'GOAL':goal}[tool]
 
 
+def _candidate_evidence_adapter(packet, tool, sources, source_ids):
+    """Bounded host-evidence routes; no independently derived semantic truth."""
+    key={'Discriminator':'candidate_evidence','Reconciler':'reconcile_claims',
+         'RootCause':'root_cause'}[tool]
+    spec=packet[key]
+    if not isinstance(spec,dict):
+        raise ValueError(f'{key}:EXPECTED_OBJECT')
+    admitted={(s['path'],s['sha']) for s in sources}
+    def refs(row, field, required=True):
+        return _evidence_refs(admitted,row,field,required)
+    def texts(value, field, required=False):
+        if (not isinstance(value,list) or any(not isinstance(x,str) or not x.strip() for x in value)
+                or len(set(value))!=len(value)):
+            raise ValueError(f'{field}:UNIQUE_TEXT_LIST_REQUIRED')
+        if required and not value:
+            raise KeyError(field)
+        return tuple(value)
+    refs(spec,'inventory_evidence')
+    rows=spec['claims' if tool=='Reconciler' else 'candidates']
+    if not isinstance(rows,list) or not rows:
+        raise KeyError('claims' if tool=='Reconciler' else 'candidates')
+    if any(not isinstance(row,dict) for row in rows):
+        raise ValueError('CANDIDATE_ROW_OBJECT_REQUIRED')
+    ids=texts([row['id'] for row in rows],'candidate_ids',True)
+    for row in rows:
+        refs(row,'evidence')
+    if tool=='Discriminator':
+        if not isinstance(spec['predicate'],str) or not spec['predicate'].strip():
+            raise ValueError('DISCRIMINATING_PREDICATE_REQUIRED')
+        for row in rows:
+            if row['decision'] not in ('MATCH','NO_MATCH','UNKNOWN'):
+                raise ValueError('CANDIDATE_DECISION_INVALID')
+        def invoke(current,plan):
+            from discriminator import run_discriminator
+            decisions={r['id']:r['decision'] for r in rows}
+            out=run_discriminator(ids,lambda ident: decisions[ident]!='NO_MATCH')
+            out['predicate']=spec['predicate']
+            unknown=tuple(r['id'] for r in rows if r['decision']=='UNKNOWN')
+            out['unknown_candidates']=unknown
+            out['evidence_scope']='HOST_SUPPLIED_PREDICATE_EVIDENCE'
+            pending=bool(unknown) or out['status']!='UNIQUE'
+            return _bounded_result(packet,source_ids,'discriminator.run_discriminator',out,
+                                   'OPEN' if pending else 'EXECUTED','CANDIDATE_DISCRIMINATION_OPEN' if pending else None)
+        return invoke
+    if tool=='Reconciler':
+        for row in rows:
+            if not isinstance(row['key'],str) or not row['key'].strip():
+                raise ValueError('CLAIM_KEY_REQUIRED')
+            if type(row['value']) not in (str,int,bool,type(None)):
+                raise ValueError('CLAIM_VALUE_SCALAR_OR_NULL_REQUIRED')
+        def invoke(current,plan):
+            from reconcile import ReconcileResult,reconcile
+            def resolve(state,claims):
+                by_key=defaultdict(list)
+                for claim in claims: by_key[claim['key']].append(claim)
+                agreed={}; conflicts=[]; pending=[]
+                for k,group in sorted(by_key.items()):
+                    known={json.dumps(r['value'],sort_keys=True):r['value'] for r in group if r['value'] is not None}
+                    if len(known)>1: conflicts.append(k)
+                    elif len(known)==1: agreed[k]=next(iter(known.values()))
+                    if any(r['value'] is None for r in group): pending.append(k)
+                return ReconcileResult(agreed,conflicts=tuple(conflicts),open_coordinates=tuple(pending))
+            out=reconcile({},rows,resolve)
+            pending=bool(out.conflicts or out.open_coordinates)
+            return _bounded_result(packet,source_ids,'reconcile.reconcile',asdict(out),
+                                   'OPEN' if pending else 'EXECUTED','DECLARED_CLAIM_CONFLICT_OR_UNKNOWN' if pending else None)
+        return invoke
+    from root_cause import RootCandidate, ROOT_LEVELS
+    failures=texts(spec['failure_class'],'failure_class',True)
+    basis=spec['basis_id']
+    if not isinstance(basis,str) or not basis.strip():
+        raise ValueError('ROOT_CAUSE_BASIS_REQUIRED')
+    candidates=[]
+    for row in rows:
+        if row['level'] not in ROOT_LEVELS:
+            raise ValueError('ROOT_CAUSE_LEVEL_INVALID')
+        explains=texts(row['explains'],'explains')
+        if set(explains)-set(failures):
+            raise ValueError('ROOT_CAUSE_UNKNOWN_FAILURE')
+        upstream=texts(row.get('upstream_of',[]),'upstream_of')
+        if set(upstream)-set(ids) or row['id'] in upstream:
+            raise ValueError('ROOT_CAUSE_UNKNOWN_OR_SELF_RIVAL')
+        flags={}
+        for name in ('survives_representation_change','removal_breaks_recurrence'):
+            value=row.get(name,False)
+            if type(value) is not bool: raise ValueError(f'{name}:BOOLEAN_REQUIRED')
+            if value: refs(row,name+'_evidence')
+            flags[name]=value
+        candidates.append(RootCandidate(candidate_id=row['id'],level=row['level'],
+            explains=frozenset(explains),evidence=frozenset(refs(row,'evidence')),
+            counterevidence=frozenset(refs(row,'counterevidence',False)),upstream_of=frozenset(upstream),
+            unresolved=frozenset(texts(row.get('unresolved',[]),'unresolved')),
+            causal_test_evidence=frozenset(refs(row,'causal_test_evidence',False)),
+            rival_discrimination_evidence=frozenset(refs(row,'rival_discrimination_evidence',False)),**flags))
+    def invoke(current,plan):
+        from root_cause import run_root_cause_hf2
+        out=run_root_cause_hf2(failure_class=failures,candidates=candidates,basis_id=basis)
+        return _bounded_result(packet,source_ids,'root_cause.run_root_cause_hf2',asdict(out),
+                               'EXECUTED' if out.status=='RELATIVE_CLOSE' else out.status,
+                               'ROOT_CAUSAL_EVIDENCE_OPEN' if out.unresolved else None)
+    return invoke
+
+
 # X. Legacy finite-model and structured provider dispatch.
 # Relocation candidates (not moved): tool-neutral finite matrix/threshold
 # algorithms need an existing owner review; do not move bounded model semantics
@@ -669,6 +779,11 @@ def _bind_admitted_adapters(packet, tool, groups):
     # Admit only the evidence used by this invocation. No input validation
     # failure may prevent an independent binding from being constructed.
     sources, source_ids = _admit_sources(packet, tool)
+    candidate_key={'Discriminator':'candidate_evidence','Reconciler':'reconcile_claims','RootCause':'root_cause'}.get(tool)
+    if candidate_key is not None and (candidate_key in packet or tool=='RootCause'):
+        if 'threshold' in packet:
+            raise ValueError(f'{tool}:AMBIGUOUS_CANDIDATE_AND_THRESHOLD_INPUT')
+        return {tool:_candidate_evidence_adapter(packet,tool,sources,source_ids)}
     if tool in ('MT','GOAL') and 'document_observations' in packet:
         if 'matrix' in packet or 'threshold' in packet:
             raise ValueError('AMBIGUOUS_DOCUMENT_MT_GOAL_INPUT')
