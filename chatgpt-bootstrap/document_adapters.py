@@ -193,6 +193,72 @@ def _graph_adapter(packet, sources):
     return invoke
 
 
+def _quote_adapter(packet, sources):
+    """Verify exact text correspondence, not the truth or implication of a quotation."""
+    def nonempty(value):
+        return isinstance(value,str) and bool(value.strip())
+    def blob_hash(text, reference):
+        raw=text.encode('utf-8')
+        return hashlib.new('sha1' if len(reference)==40 else 'sha256',
+                           f'blob {len(raw)}\0'.encode()+raw).hexdigest()
+    admitted={}
+    for source in sources:
+        path,sha=source['path'],source['sha']
+        if not nonempty(path) or path in admitted or not _git_blob_sha(sha):
+            raise ValueError('QUOTE_UNIQUE_SOURCE_PATH_AND_BLOB_REQUIRED')
+        latest=source.get('latest_sha')
+        if latest is not None and (not _git_blob_sha(latest) or len(latest)!=len(sha)):
+            raise ValueError('QUOTE_LATEST_BLOB_INVALID')
+        for field in ('text','refetched_text'):
+            if source.get(field) is not None and not isinstance(source[field],str):
+                raise ValueError('QUOTE_SOURCE_TEXT_REQUIRED')
+        admitted[path]=source
+    spec=packet['assert_quotes']
+    if not isinstance(spec,dict) or not isinstance(spec.get('claims'),list):
+        raise ValueError('QUOTE_CLAIMS_LIST_REQUIRED')
+    claims={}
+    if not spec['claims']:
+        raise KeyError('assert_quotes.claims')
+    for claim in spec['claims']:
+        if not isinstance(claim,dict):
+            raise ValueError('QUOTE_CLAIM_OBJECT_REQUIRED')
+        ident=claim['id']
+        if not nonempty(ident) or ident in claims or not nonempty(claim['source']) or not nonempty(claim['quote']):
+            raise ValueError('QUOTE_UNIQUE_ID_SOURCE_AND_NONEMPTY_TEXT_REQUIRED')
+        claims[ident]={k:claim[k] for k in ('id','source','quote')}
+    def check(claim,second):
+        source=admitted.get(claim['source'],{})
+        frozen=source.get('sha')
+        text=source.get('text')
+        if frozen is None or text is None or blob_hash(text,frozen)!=frozen:
+            return 'UNKNOWN'
+        if not second:
+            return 'TRUE' if claim['quote'] in text else 'FALSE'
+        latest=source.get('latest_sha')
+        refetch=source.get('refetched_text')
+        if latest is not None and latest!=frozen:
+            return 'CONFLICT'
+        if latest is None or refetch is None:
+            return 'UNKNOWN'
+        if blob_hash(refetch,latest)!=latest:
+            return 'CONFLICT'
+        return 'TRUE' if refetch.encode('utf-8').find(claim['quote'].encode('utf-8'))>=0 else 'FALSE'
+    def invoke(current,plan):
+        def assert_stage(s): return replace(s,assertions=claims,here={})
+        def compare_stage(s): return replace(s,comparisons={k:check(c,bool(s.here)) for k,c in s.assertions.items()})
+        def resolve_stage(s): return replace(s,resolutions=s.comparisons)
+        def here_stage(s): return replace(s,here={'refetch_comparison':True})
+        def inquire_stage(s): return replace(s,inquiries=tuple(k for k,v in s.comparisons.items() if v!='TRUE' or v!=s.resolutions[k]))
+        def reassert_stage(s): return replace(s,world={k:(v if v==s.resolutions[k] or v=='CONFLICT' else 'UNKNOWN') for k,v in s.comparisons.items()})
+        out=run_to_fixed_point(AssertState(),AssertStages(assert_stage,compare_stage,resolve_stage,here_stage,inquire_stage,reassert_stage),
+            closure_gate=lambda s:bool(s.world) and all(v=='TRUE' for v in s.world.values()) and not s.inquiries,max_rounds=4)
+        return {'status':'EXECUTED' if out.status=='CLOSED' else 'OPEN','result':asdict(out),
+                'execution_truth':'IMPLEMENTATION_EXECUTED','material_delta':False,
+                'evidence':['native:assert_compound.run_to_fixed_point',f'packet:{digest(packet)}'],
+                'scope':'EXACT_UTF8_QUOTE_CORRESPONDENCE; NO_SEMANTIC_ENTAILMENT_OR_FULL_COVERAGE'}
+    return invoke
+
+
 def _bind_admitted_adapters(packet, tool, groups):
     # Admit only the evidence used by this invocation. No input validation
     # failure may prevent an independent binding from being constructed.
@@ -216,6 +282,10 @@ def _bind_admitted_adapters(packet, tool, groups):
         if 'matrix' in packet:
             raise ValueError('AMBIGUOUS_ARCHITECTURE_INPUT')
         return {tool:_graph_adapter(packet,sources)}
+    if tool=='ASSERT' and 'assert_quotes' in packet:
+        if 'matrix' in packet or 'threshold' in packet:
+            raise ValueError('AMBIGUOUS_ASSERT_INPUT')
+        return {tool:_quote_adapter(packet,sources)}
     structured=None
     structured_key={'Diagnosis':'diagnosis','RTC':'rtc'}.get(tool)
     if structured_key is not None and structured_key in packet:

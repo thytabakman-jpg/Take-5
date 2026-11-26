@@ -52,7 +52,8 @@ The complete combined packet supports the following frozen input fields. Admissi
 | Architecture | Matrix or explicit architecture graph, plus source references |
 | Discriminator, Reconciler | Threshold model and source references; only fields used by the selected algorithm |
 | Diagnosis, RTC | Threshold model or their respective structured document evidence, plus source references |
-| MT, GOAL, compound ASSERT | Both matrix and threshold model, plus source references |
+| MT, GOAL | Both matrix and threshold model, plus source references |
+| Compound ASSERT | Matrix and threshold model, or exact quotation claims, plus source references |
 | CurrentnessAudit, TRC | Source references and applicable currentness or open-obligation coordinates |
 
 A missing required group or field produces an OPEN receipt; malformed admitted input produces BLOCKED. Neither disposition claims a native invocation. Unused groups are not validated, so an unrelated missing or malformed group cannot block an independent tool.
@@ -71,6 +72,12 @@ The adapters use native GDOS, Discriminator, BiasPerturbation, Architecture, Mul
 For Architecture alone, `architecture_graph` is an alternative to `matrix`; supplying both is BLOCKED. It contains a nonempty list of unique text `expected_units` and a `units` list. Each unit has a unique nonempty `id`, `source` path and exact Git blob `sha` matching a declared source, nonempty `role` and `locator`, and `internal_dependencies` (a list of unique text unit IDs). Optional `external_dependencies` and `information_ownership` are lists of declared text identities. Source paths must be unique. Missing required fields remain OPEN; malformed fields are BLOCKED before the native entrypoint. Other tool bindings ignore this group.
 
 The native Architecture core reports missing or unexpected units, dangling internal dependencies, reverse internal consumers, declared roles and ownership, and source provenance. The host supplies and authenticates the graph facts; the adapter does not independently derive relationships or certify source truth, semantic ownership, external consumers or dynamic dependencies. The result intentionally retains OPEN for these unverified obligations, including on a structurally clean graph. Existing matrix analysis is unchanged.
+
+### Exact quotation ASSERT input
+
+For ASSERT, `assert_quotes` provides an alternative to the matrix and threshold model; supplying either finite-model group alongside it is BLOCKED. It contains a nonempty `claims` list of unique nonempty text `id`, `source` path and nonblank exact `quote`. Sources use the existing list, with unique paths and valid Git blob SHA; additionally supply exact UTF-8 `text`, independently refetched `refetched_text`, and `latest_sha` for each available source. Do not normalize whitespace, Unicode or line endings. SHA-1 and SHA-256 Git blob identity are supported.
+
+The seven-stage native compound ASSERT checks exact substring presence against the frozen text and then the refetched bytes. TRUE and FALSE report correspondence; unavailable evidence or an invalid frozen text/hash match is UNKNOWN, and a changed revision or inconsistent refetched text/hash match is CONFLICT. Malformed inputs are BLOCKED; false or unresolved claims prevent closure. The adapter verifies supplied bytes against supplied hashes but cannot authenticate the host's fetches, establish independent model evaluation, test paraphrases or infer semantic support for a claim. The existing finite-model route is unchanged.
 
 ### Structured Diagnosis and RTC input
 
