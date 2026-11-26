@@ -43,3 +43,21 @@ def test_conflicting_observations_remain_conflict():
     out=invoke_finite_architecture(prepare_finite_architecture(spec,sources))
     assert out['status']=='CONFLICT'
     assert out['result'] is None
+
+
+def test_opt_in_observed_candidate_generation():
+    spec,sources=packet()
+    spec['candidates']=[]
+    spec['generate_observed_candidates']=True
+    out=invoke_finite_architecture(prepare_finite_architecture(spec,sources))
+    assert out['status']=='OPEN'
+    assert out['result']['SuccessorFrontier']==('observed:1',)
+    witnesses=out['result']['TransformationFrontier']['generated_observed_candidates']
+    assert witnesses['observed:1']['observation_ids']==('changed',)
+    spec['generate_observed_candidates']=1
+    with pytest.raises(ValueError,match='GENERATION_FLAG_INVALID'):
+        prepare_finite_architecture(spec,sources)
+    spec['generate_observed_candidates']=True
+    spec['candidates']=[{'id':'candidate','observation_ids':['changed']}]
+    with pytest.raises(ValueError,match='MIXED_CANDIDATE_MODES'):
+        prepare_finite_architecture(spec,sources)
