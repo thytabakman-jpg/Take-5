@@ -118,15 +118,10 @@ def execute_protected_transition(
             ),
             "state":{"payload":next_payload},
             "result":executed_value,
-            "material_delta":bool(hints.get("material_delta",False)),
-            "hf2_live_local":bool(hints.get("hf2_live_local",False)),
-            "hf2_local_close":bool(
-                hints.get(
-                    "hf2_local_close",
-                    not bool(hints.get("hf2_live_local",False)),
-                )
-            ),
-            "trc_terminal":hints.get("trc_terminal",True) is True,
+            "material_delta":hints.get("material_delta",False),
+            "hf2_live_local":hints.get("hf2_live_local",False),
+            "hf2_local_close":hints.get("hf2_local_close",not hints.get("hf2_live_local",False)),
+            "trc_terminal":hints.get("trc_terminal",True),
             "hf1_disposition":str(hints.get("hf1_disposition","STABLE")),
             "evidence":(str(execution_ev),),
         }

@@ -324,3 +324,42 @@ def test_changed_native_receipts_force_clean_successor_pass():
         out=execute_configured_with_hf2(tool_id="MT",plan=plan,state={},adapter=adapter)
         assert out.status=="RELATIVE_CLOSE" and out.call_count==3
         assert [r["disposition"] for r in out.trace]==["REAPPLY_C","REAPPLY_C","RELATIVE_CLOSE"]
+
+def test_configured_and_self_routes_reject_nonboolean_control_flags():
+    for tool in ("MT","HF002"):
+        plan=build_tool_execution_plan(CONFIGURED_RUNS[tool])
+        for key in ("material_delta","hf2_local_close","hf2_live_local","trc_terminal"):
+            for flag in ("false",1,0,None):
+                out=execute_configured_with_hf2(tool_id=tool,plan=plan,state={"v":0},
+                    adapter=lambda *_:{"status":"EXECUTED","result":True,
+                        "state":{"v":1},key:flag})
+                assert out.status=="OPEN" and out.state=={"v":0}
+                assert out.last_raw["blocker"]==f"CONFIGURED_HF2_INVALID_BOOLEAN:{key}"
+
+
+def test_self_recurrence_does_not_mutate_or_admit_failed_successor():
+    plan=build_tool_execution_plan(CONFIGURED_RUNS["HF002"])
+    state={"nested":{"v":0}}
+    def adapter(current,_):
+        current["nested"]["v"]=1
+        return {"status":"BLOCKED","state":current,"material_delta":True}
+    out=execute_configured_with_hf2(tool_id="HF002",plan=plan,state=state,adapter=adapter)
+    assert out.state==state=={"nested":{"v":0}}
+    assert not out.admitted_material_delta
+
+
+def test_native_hf2_needs_explicit_boolean_closure_and_live_frontier():
+    for flag in ("false",1,0,None):
+        engine=_engine(lambda state,memory:{"execution_truth":"IMPLEMENTATION_EXECUTED","state":state})
+        engine.local_close=lambda *_:flag
+        assert engine.run({}, {})["status"]=="OPEN"
+        engine.local_close=lambda *_:True
+        engine.live_local=lambda *_:flag
+        assert engine.run({}, {})["status"]=="OPEN"
+
+
+def test_malformed_control_evidence_does_not_downgrade_blocked_or_conflicting_status():
+    from configured_hf2_execution import _raw_mapping
+    for status in ("BLOCKED","CONFLICT"):
+        out=_raw_mapping({"status":status,"result":True,"hf2_local_close":"false"})
+        assert out["status"]==out["execution_truth"]==status

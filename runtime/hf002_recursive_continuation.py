@@ -204,7 +204,12 @@ class HF002RecursiveContinuation:
                 m["hf2_failed_equivalence"]=sorted(seen_failed)
 
             material=self._material(delta)
-            live=bool(self.live_local(normalized,m))
+            live=self.live_local(normalized,m)
+            if type(live) is not bool:
+                self._record(i,before,raw,normalized,delta,hf1,before,"OPEN")
+                return {"status":"OPEN","state":before,"memory":m,
+                        "trace":[asdict(t) for t in self.trace],
+                        "open":["HF002_LIVE_LOCAL_BOOLEAN_REQUIRED"]}
 
             # A material successor cannot certify its own fixed point.  Always
             # reapply the same capability to the changed normalized successor.
@@ -236,7 +241,7 @@ class HF002RecursiveContinuation:
                     "open":["LIVE_LOCAL_FRONTIER_WITHOUT_MATERIAL_PROGRESS"],
                 }
 
-            if self.local_close(normalized,m):
+            if self.local_close(normalized,m) is True:
                 self._record(i,before,raw,normalized,delta,hf1,normalized,"RELATIVE_CLOSE",
                              trc=receipt,live_local=False,local_close=True)
                 return {

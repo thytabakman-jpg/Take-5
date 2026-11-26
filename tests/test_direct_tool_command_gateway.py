@@ -156,3 +156,16 @@ def test_structured_batch_binds_every_registered_identity():
 def test_non_string_non_sequence_requests_cannot_be_coerced_to_commands(invalid_request):
     with pytest.raises(DirectToolCommandBlocked, match="DIRECT_TOOL_REQUEST_REQUIRES_STRING_OR_ORDERED_IDS"):
         direct_tool_ids(invalid_request)
+
+def test_bridge_does_not_reintroduce_rejected_successor_or_success_truth():
+    for hints,expected in (({"trc_terminal":False},"OPEN"),
+                           ({"hf1_disposition":"invalid"},"BLOCKED"),
+                           ({"status":"BLOCKED"},"BLOCKED")):
+        out=execute_direct_tool_commands(["MT"],state={"version":0},
+            adapters={"MT":lambda *_:{"status":"EXECUTED","result":True,
+                "state":{"version":99},"material_delta":True,**hints}})
+        assert out.status==expected and out.state["version"]==0
+        assert out.executions[0].status==expected
+        assert out.executions[0].execution_truth==expected
+        assert out.state["configured_tool_outputs"][-1]["status"]==expected
+

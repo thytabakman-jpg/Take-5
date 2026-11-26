@@ -6,27 +6,59 @@ Unknown or absent semantic bindings remain OPEN.
 """
 from __future__ import annotations
 from typing import Any, Callable, Mapping
+from copy import deepcopy
 
 def _callable(value:Any,name:str)->Callable:
     if not callable(value):
         raise TypeError(f"{name}_CALLABLE_REQUIRED")
     return value
 
-def result_partition(cases,*,rho:Callable,approx:Callable):
+class _InvalidEquivalence(ValueError):
+    pass
+
+
+def _fixed_partition(cases,rho,approx):
+    # Snapshot each result once, including providers that reuse mutable buffers.
+    results=tuple(deepcopy(rho(case)) for case in cases)
     groups=[]
-    for case in cases:
-        result=rho(case)
-        for group in groups:
-            if approx(result,group["representative"]):
-                group["cases"].append(case)
-                break
+    classes=[]
+    for i,result in enumerate(results):
+        if approx(deepcopy(result),deepcopy(result)) is not True:
+            raise _InvalidEquivalence("PD_EQUIVALENCE_REFLEXIVITY_OR_TYPE")
+        matched=set()
+        for j,prior in enumerate(results[:i]):
+            forward=approx(deepcopy(result),deepcopy(prior))
+            reverse=approx(deepcopy(prior),deepcopy(result))
+            if type(forward) is not bool or type(reverse) is not bool:
+                raise _InvalidEquivalence("PD_EQUIVALENCE_BOOLEAN_REQUIRED")
+            if forward != reverse:
+                raise _InvalidEquivalence("PD_EQUIVALENCE_ASYMMETRIC")
+            if forward:
+                matched.add(j)
+        if matched:
+            class_id=classes[min(matched)]
+            expected={j for j,c in enumerate(classes) if c==class_id}
+            if matched!=expected:
+                raise _InvalidEquivalence("PD_EQUIVALENCE_NONTRANSITIVE")
         else:
-            groups.append({"representative":result,"cases":[case]})
-    return tuple(groups)
+            class_id=len(groups)
+            groups.append({"representative":result,"cases":[]})
+        groups[class_id]["cases"].append(cases[i])
+        classes.append(class_id)
+    return tuple(groups),tuple(classes)
+
+
+def result_partition(cases,*,rho:Callable,approx:Callable):
+    return _fixed_partition(tuple(cases),rho,approx)[0]
 
 def minimal_sensitive_sets(cases,*,rho:Callable,approx:Callable,representation:Callable):
     cases=tuple(cases)
-    values=[tuple(representation(case)) for case in cases]
+    _,classes=_fixed_partition(cases,rho,approx)
+    return _minimal_sensitive_sets(cases,classes,representation)
+
+
+def _minimal_sensitive_sets(cases,classes,representation):
+    values=[deepcopy(tuple(representation(case))) for case in cases]
     if not values:
         return ()
     width=len(values[0])
@@ -40,7 +72,7 @@ def minimal_sensitive_sets(cases,*,rho:Callable,approx:Callable,representation:C
     supports=set()
     for i,left in enumerate(cases):
         for j in range(i+1,len(cases)):
-            if not approx(rho(left),rho(cases[j])):
+            if classes[i]!=classes[j]:
                 supports.add(tuple(k for k in range(width) if values[i][k]!=values[j][k]))
     sensitive=[]
     for support in sorted(supports,key=lambda x:(len(x),x)):
@@ -72,16 +104,19 @@ def run_pd(
             return {"status":"OPEN","blocker":"PD_REPRESENTATION_ID_COLLISION:"+key,"result":None}
         reps[key]=_callable(fn,f"PD_REPRESENTATION_{name}")
 
-    groups=result_partition(cases,rho=rho,approx=approx)
+    try:
+        groups,classes=_fixed_partition(cases,rho,approx)
+    except _InvalidEquivalence as exc:
+        return {"status":"OPEN","blocker":str(exc),"result":None}
     minimal={
-        name:minimal_sensitive_sets(cases,rho=rho,approx=approx,representation=fn)
+        name:_minimal_sensitive_sets(cases,classes,fn)
         for name,fn in reps.items()
     }
     delta=tuple(
-        (left,right)
+        (left,cases[j])
         for i,left in enumerate(cases)
-        for right in cases[i+1:]
-        if not approx(rho(left),rho(right))
+        for j in range(i+1,len(cases))
+        if classes[i]!=classes[j]
     )
     collapse=tuple(name for name,sets in minimal.items() if () in sets)
 

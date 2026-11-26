@@ -295,3 +295,33 @@ def test_configured_executor_rejects_unregistered_and_impostor_plans_before_adap
         with pytest.raises(ConfiguredHF2ExecutionError, match="CONFIGURED_HF2_PLAN_INCOMPLETE"):
             execute_configured_with_hf2(tool_id=invalid.tool_id, plan=invalid, state={}, adapter=adapter)
     assert called==[]
+
+def test_pd_freezes_each_result_once_and_reuses_the_quotient():
+    from pd import run_pd
+    from pd_audit import run_pd_audit
+    for run in (run_pd,run_pd_audit):
+        calls=[]
+        shared={}
+        def rho(case):
+            calls.append(case)
+            shared["value"]=case%2
+            return shared
+        out=run((0,1,2),rho=rho,approx=lambda a,b:a==b,
+                representations={"a":lambda x:(x,),"b":lambda x:(x%2,)})
+        assert calls==[0,1,2] and out["status"]=="RELATIVE_CLOSE"
+        result=out["result"]
+        assert result["fibers"]==((0,2),(1,))
+        assert result["pair_difference_relation"]==((0,1),(1,2))
+        assert result["result_classes"]==({"value":0},{"value":1})
+        assert result["minimal_sensitive"]=={"a":((0,),),"b":((0,),)}
+
+
+def test_pd_cannot_certify_an_invalid_equivalence():
+    from pd import run_pd
+    for approx,blocker in ((lambda a,b:"OPEN","PD_EQUIVALENCE_REFLEXIVITY_OR_TYPE"),
+                           (lambda a,b:a<=b,"PD_EQUIVALENCE_ASYMMETRIC"),
+                           (lambda a,b:abs(a-b)<=1,"PD_EQUIVALENCE_NONTRANSITIVE")):
+        out=run_pd((0,1,2),rho=lambda x:x,approx=approx,
+                   representations={"a":lambda x:(x,)})
+        assert out=={"status":"OPEN","blocker":blocker,"result":None}
+

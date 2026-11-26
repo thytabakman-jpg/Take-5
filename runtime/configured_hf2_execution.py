@@ -63,7 +63,7 @@ class ConfiguredHF2ExecutionResult:
     def admitted_material_delta(self)->bool:
         """Retain admitted material changes across rounds, including earlier rounds."""
         if not self.trace:
-            return bool(self.last_raw.get("material_delta",False))
+            return self.closed and self.last_raw.get("material_delta",False) is True
         return any(material_delta_present(row["delta"]) for row in self.trace
                    if row["disposition"] in {"REAPPLY_C","RELATIVE_CLOSE","RETURN_REENTER"})
 
@@ -134,6 +134,14 @@ def _raw_mapping(raw:Any)->dict[str,Any]:
                    reported_status=status,reported_execution_truth=truth,
                    blocker=out.get("blocker") or "CONFIGURED_HF2_DISPOSITION_CONFLICT")
         status=truth="CONFLICT"
+    # Control flags are typed evidence, not arbitrary truthy values. Reject
+    # malformed flags before the recurrence engine can admit a successor.
+    for key in ("material_delta","hf2_live_local","hf2_local_close","trc_terminal"):
+        if key in out and type(out[key]) is not bool:
+            disposition=status if status in NON_SUCCESS_STATUSES else "OPEN"
+            out.update(status=disposition,execution_truth=disposition,material_delta=False,
+                       blocker=f"CONFIGURED_HF2_INVALID_BOOLEAN:{key}")
+            return out
     # A success status is a result claim, not proof supplied by the execution plan.
     # Reject wholly empty success receipts, while preserving valid tool-native
     # results and the existing evidence/coverage representations.
@@ -286,19 +294,20 @@ def execute_configured_with_hf2(
             raise ConfiguredHF2ExecutionError(
                 f"CONFIGURED_HF2_SELF_RECURRENCE_INVALID:{tool_id}"
             )
-        raw=_raw_mapping(adapter(state,plan))
-        next_state=raw.get("state",state)
+        working=deepcopy(state)
+        raw=_raw_mapping(adapter(working,plan))
+        next_state=raw.get("state",working)
         status=str(raw.get("status","EXECUTED"))
         if status in NON_SUCCESS_STATUSES:
             return ConfiguredHF2ExecutionResult(
-                str(tool_id),recurrence_engine,status,next_state,raw,1,(),1
+                str(tool_id),recurrence_engine,status,state,raw,1,(),1
             )
         native=raw.get("result")
         native_status=native.get("status") if isinstance(native,Mapping) else None
         if isinstance(native_status,str) and native_status in TERMINAL-{"RELATIVE_CLOSE"}:
             raw["blocker"]="CONFIGURED_HF2_SELF_NATIVE_NOT_CLOSED"
             return ConfiguredHF2ExecutionResult(
-                str(tool_id),recurrence_engine,native_status,next_state,raw,1,(),1
+                str(tool_id),recurrence_engine,native_status,state,raw,1,(),1
             )
         if (raw.get("hf2_live_local") or raw.get("hf2_local_close",True) is not True
                 or raw.get("trc_terminal",True) is not True
@@ -308,7 +317,7 @@ def execute_configured_with_hf2(
             raw.update(status="OPEN",execution_truth="OPEN",
                        blocker="CONFIGURED_HF2_SELF_FRONTIER_NOT_CLOSED")
             return ConfiguredHF2ExecutionResult(
-                str(tool_id),recurrence_engine,"OPEN",next_state,raw,1,(),1
+                str(tool_id),recurrence_engine,"OPEN",state,raw,1,(),1
             )
         return ConfiguredHF2ExecutionResult(
             str(tool_id),recurrence_engine,"SELF_CLOSE",next_state,raw,1,(),1
@@ -380,7 +389,7 @@ def execute_configured_with_hf2(
         if status not in SUCCESS_STATUSES:
             return False
         if "hf2_local_close" in raw:
-            return bool(raw["hf2_local_close"])
+            return raw["hf2_local_close"] is True
         return not bool(raw.get("hf2_live_local",False))
 
     engine=HF002RecursiveContinuation(

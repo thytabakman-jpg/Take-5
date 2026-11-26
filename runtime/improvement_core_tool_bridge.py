@@ -192,7 +192,14 @@ def _normalize_adapter_result(
         adapter_provenance=None
 
     if recurrence is not None:
+        # Only the recurrence owner can admit a successor. The last raw
+        # adapter return may have been rejected by TRC or HF1.
+        next_state=recurrence.state
         material=recurrence.admitted_material_delta
+        if not recurrence.closed:
+            adapter_provenance={**(adapter_provenance or {}),
+                "reported_status":status,"reported_execution_truth":truth}
+            status=truth=recurrence.configured_disposition
 
     if status not in SUCCESS_STATUSES|NON_SUCCESS_STATUSES:
         raise ToolBridgeBlocked(f"CONFIGURED_TOOL_STATUS_INVALID:{tool_id}:{status}")
