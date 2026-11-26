@@ -1,3 +1,6 @@
+"""Bounded capability adapters for the A5 registry, not independent evidence providers."""
+from collections import deque
+from copy import deepcopy
 from dataclasses import replace
 from a5_core import ProgramRegistry,ProgramSpec
 
@@ -104,11 +107,40 @@ EXPECTED_C={f"C{i:02d}" for i in range(1,50)}
 EXPECTED_CAP={f"CAP-{i:03d}" for i in range(1,34)}
 
 
+def _sequence(value):
+    return value if isinstance(value, (list, tuple)) else None
+
+
+def _rows(value):
+    rows = _sequence(value)
+    return rows if rows is not None and all(isinstance(row, dict) for row in rows) else None
+
+
+def _label_set(value):
+    if not isinstance(value, (list, tuple, set, frozenset)):
+        return None
+    try:
+        return set(value)
+    except TypeError:
+        return None
+
+
+def _same_result(left, right):
+    """Type-sensitive structural equality; mapping insertion order is not evidence."""
+    if type(left) is not type(right):
+        return False
+    if isinstance(left, dict):
+        return left.keys() == right.keys() and all(_same_result(left[k], right[k]) for k in left)
+    if isinstance(left, (list, tuple)):
+        return len(left) == len(right) and all(_same_result(a, b) for a, b in zip(left, right))
+    return left == right
+
+
 # Shared executable ORIENT-family adapters.
 def run_orient(program_id, payload):
     if program_id=="C01":
-        kinds=payload.get("admissible_typings",[])
-        if len(kinds)==1: return {"status":"ACCEPT","typed_task_context":kinds[0]}
+        kinds=_sequence(payload.get("admissible_typings"))
+        if kinds and len(kinds)==1 and kinds[0]: return {"status":"ACCEPT","typed_task_context":kinds[0]}
         if not kinds: return {"status":"OPEN","reason":"no admissible typing established"}
         return {"status":"OPEN","alternatives":kinds}
     if program_id=="C02":
@@ -116,17 +148,26 @@ def run_orient(program_id, payload):
         if payload.get("same_lineage") is False: return {"status":"ACCEPT","identity_relation":"DISTINCT_REFERENT"}
         return {"status":"OPEN","identity_relation":"UNRESOLVED"}
     if program_id=="C03":
-        nodes=payload.get("versions",[])
-        auth=[x for x in nodes if x.get("authoritative")]
-        if len(auth)==1: return {"status":"ACCEPT","current":auth[0]["id"]}
-        return {"status":"OPEN","authoritative_candidates":[x.get("id") for x in auth]}
+        nodes=_rows(payload.get("versions"))
+        if nodes is None:
+            return {"status":"OPEN","authoritative_candidates":[]}
+        auth=[x for x in nodes if x.get("authoritative") is True]
+        unresolved=[x for x in nodes if type(x.get("authoritative")) is not bool or not x.get("id")]
+        if len(auth)==1 and not unresolved:
+            return {"status":"ACCEPT","current":auth[0]["id"]}
+        return {"status":"OPEN","authoritative_candidates":[x.get("id") for x in auth],"unresolved":unresolved}
     if program_id=="C04":
-        return {"status":"ACCEPT","frozen_source_packet":{"source_id":payload["source_id"],"claim":payload["claim"]}}
+        if not payload.get("source_id") or "claim" not in payload:
+            return {"status":"OPEN","frozen_source_packet":None}
+        return {"status":"ACCEPT","frozen_source_packet":deepcopy({"source_id":payload["source_id"],"claim":payload["claim"]})}
     if program_id=="C05":
-        return {"status":"ACCEPT","frozen_target_contract":{"target":payload["target"],"protected":tuple(payload.get("protected",[]))}}
+        protected=_sequence(payload.get("protected"))
+        if not payload.get("target") or protected is None:
+            return {"status":"OPEN","frozen_target_contract":None}
+        return {"status":"ACCEPT","frozen_target_contract":deepcopy({"target":payload["target"],"protected":tuple(protected)})}
     if program_id=="C06":
-        deps=payload.get("dependencies",[])
-        return {"status":"ACCEPT" if all("availability" in d for d in deps) else "OPEN","external_dependency_map":deps}
+        deps=_rows(payload.get("dependencies"))
+        return {"status":"ACCEPT" if deps is not None and all(d.get("availability") is not None for d in deps) else "OPEN","external_dependency_map":deps}
     raise KeyError(program_id)
 
 for _pid in ("C01","C02","C03","C04","C05","C06"):
@@ -135,39 +176,61 @@ for _pid in ("C01","C02","C03","C04","C05","C06"):
 
 def run_map(program_id, payload):
     if program_id == "C07":
-        edges = [e for e in payload.get("candidate_edges", []) if e.get("material")]
-        return {"status": "ACCEPT" if edges else "NOOP", "typed_dependency_edges": edges}
+        candidates = _rows(payload.get("candidate_edges"))
+        if candidates is None:
+            return {"status":"OPEN","typed_dependency_edges":[]}
+        edges = [e for e in candidates if e.get("material") is True]
+        unresolved = [e for e in candidates if type(e.get("material")) is not bool]
+        return {"status":"OPEN" if unresolved else ("ACCEPT" if edges else "NOOP"),"typed_dependency_edges":edges,**({"unresolved":unresolved} if unresolved else {})}
     if program_id == "C08":
-        spines = payload.get("spines", [])
+        spines = _sequence(payload.get("spines"))
         return {"status": "ACCEPT" if spines else "OPEN", "plural_dependency_spines": spines}
     if program_id == "C09":
-        edges = payload.get("edges", [])
+        edges = _rows(payload.get("edges"))
+        if edges is None:
+            return {"status":"OPEN","typed_layer_graph":None}
         unresolved = [e for e in edges if not e.get("relation_type")]
         return {"status": "OPEN" if unresolved else "ACCEPT", "typed_layer_graph": edges}
     if program_id == "C10":
-        reps = payload.get("representations", [])
-        results = [repr(x.get("result")) for x in reps]
-        invariant = bool(reps) and len(set(results)) <= 1
-        return {"status": "ACCEPT" if reps else "OPEN", "invariant": invariant, "representation_residual": [] if invariant else reps}
+        reps = _rows(payload.get("representations"))
+        if not reps or len(reps)<2 or any("result" not in row for row in reps):
+            return {"status":"OPEN","invariant":False,"representation_residual":reps or []}
+        invariant = all(_same_result(reps[0]["result"], row["result"]) for row in reps[1:])
+        return {"status":"ACCEPT","invariant":invariant,"representation_residual":[] if invariant else reps}
     if program_id == "C11":
-        sensitive = [x["id"] for x in payload.get("coordinates", []) if x.get("changed_result")]
-        return {"status": "ACCEPT", "minimal_sensitive_supports": sensitive}
+        coordinates = _rows(payload.get("coordinates"))
+        if coordinates is None:
+            return {"status":"OPEN","minimal_sensitive_supports":[]}
+        sensitive = [x["id"] for x in coordinates if x.get("changed_result") is True and x.get("id")]
+        unresolved = [x for x in coordinates if type(x.get("changed_result")) is not bool or not x.get("id")]
+        return {"status":"OPEN" if unresolved else "ACCEPT","minimal_sensitive_supports":sensitive,**({"unresolved":unresolved} if unresolved else {})}
     if program_id == "C12":
-        maps = payload.get("sensitivity_maps", [])
-        if not maps:
-            return {"status": "OPEN", "invariant_core": [], "residual": []}
-        sets = [set(x) for x in maps]
+        maps = _sequence(payload.get("sensitivity_maps"))
+        sets = [_label_set(x) for x in maps] if maps else []
+        if not sets or any(x is None for x in sets):
+            return {"status":"OPEN","invariant_core":[],"residual":[]}
         core = set.intersection(*sets)
         residual = set.union(*sets) - core
-        return {"status": "ACCEPT", "invariant_core": sorted(core), "residual": sorted(residual)}
+        try:
+            return {"status":"ACCEPT","invariant_core":sorted(core),"residual":sorted(residual)}
+        except TypeError:
+            return {"status":"OPEN","invariant_core":[],"residual":[],"reason":"incomparable coordinate labels"}
     if program_id == "C13":
-        edges = payload.get("edges", [])
+        edges = _rows(payload.get("edges"))
+        if edges is None:
+            return {"status":"OPEN","attributed_edge_chain":None}
         unresolved = [e for e in edges if not e.get("attribution")]
         return {"status": "OPEN" if unresolved else "ACCEPT", "attributed_edge_chain": edges}
     if program_id == "C49":
-        visited = payload.get("visited", [])
-        relevant = [x.get("id") for x in visited if x.get("task_relevant")]
-        return {"status": "ACCEPT", "navigation_trace": visited, "exact_object_set": relevant}
+        visited = _rows(payload.get("visited"))
+        if visited is None:
+            return {"status":"OPEN","navigation_trace":[],"exact_object_set":[]}
+        relevant = []
+        for row in visited:
+            if row.get("task_relevant") is True and row.get("id") and row["id"] not in relevant:
+                relevant.append(row["id"])
+        unresolved = [x for x in visited if type(x.get("task_relevant")) is not bool or not x.get("id")]
+        return {"status":"OPEN" if unresolved else "ACCEPT","navigation_trace":visited,"exact_object_set":relevant,**({"unresolved":unresolved} if unresolved else {})}
     raise KeyError(program_id)
 
 for _pid in ("C07","C08","C09","C10","C11","C12","C13","C49"):
@@ -176,18 +239,35 @@ for _pid in ("C07","C08","C09","C10","C11","C12","C13","C49"):
 
 def run_attack(program_id, payload):
     if program_id=="C14":
-        findings=[x for x in payload.get("findings",[]) if x.get("material")]
-        interactions=[x for x in payload.get("interaction_findings",[]) if x.get("material")]
-        residual=findings+interactions
-        return {"status":"ACCEPT" if residual else "NOOP","hostile_residuals":residual}
+        findings=_rows(payload.get("findings",[]))
+        interactions=_rows(payload.get("interaction_findings",[]))
+        if ("findings" not in payload and "interaction_findings" not in payload) or findings is None or interactions is None:
+            return {"status":"OPEN","hostile_residuals":[]}
+        rows=list(findings)+list(interactions)
+        residual=[x for x in rows if x.get("material") is True]
+        unresolved=[x for x in rows if type(x.get("material")) is not bool]
+        return {"status":"OPEN" if unresolved else ("ACCEPT" if residual else "NOOP"),"hostile_residuals":residual,**({"unresolved":unresolved} if unresolved else {})}
     if program_id=="C15":
-        source=set(payload.get("source_effects",[])); target=set(payload.get("target_effects",[]))
-        return {"status":"ACCEPT","covered":sorted(source & target),"novel_residual":sorted(target-source),"terminology_only":bool(payload.get("different_terms")) and target<=source}
+        source=_label_set(payload.get("source_effects")); target=_label_set(payload.get("target_effects"))
+        if source is None or target is None:
+            return {"status":"OPEN","covered":[],"novel_residual":[],"terminology_only":False}
+        try:
+            return {"status":"ACCEPT","covered":sorted(source & target),"novel_residual":sorted(target-source),"terminology_only":payload.get("different_terms") is True and target<=source}
+        except TypeError:
+            return {"status":"OPEN","covered":[],"novel_residual":[],"terminology_only":False,"reason":"incomparable effect labels"}
     if program_id=="C16":
-        protected=set(payload.get("protected",[]))
-        candidates=payload.get("candidates",[])
-        allowed=[x for x in candidates if protected<=set(x.get("preserves",[]))]
-        return {"status":"ACCEPT" if allowed else "OPEN","change_frontier":allowed}
+        protected=_label_set(payload.get("protected"))
+        candidates=_rows(payload.get("candidates"))
+        if protected is None or candidates is None:
+            return {"status":"OPEN","change_frontier":[]}
+        allowed=[]; unresolved=[]
+        for candidate in candidates:
+            preserves=_label_set(candidate.get("preserves"))
+            if preserves is None:
+                unresolved.append(candidate)
+            elif protected<=preserves:
+                allowed.append(candidate)
+        return {"status":"OPEN" if unresolved or not allowed else "ACCEPT","change_frontier":allowed,**({"unresolved":unresolved} if unresolved else {})}
     if program_id=="C17":
         inventory=payload.get("failures")
         if not isinstance(inventory,(list,tuple)) or any(not isinstance(x,dict) for x in inventory):
@@ -202,21 +282,36 @@ def run_attack(program_id, payload):
         unresolved=[x for x in failures if not identified(x)]
         return {"status":"OPEN" if unresolved else "ACCEPT","mechanism_dispositions":diagnosed,"unresolved":unresolved}
     if program_id=="C18":
-        chain=payload.get("causal_chain",[])
-        supported=[x for x in chain if x.get("evidence")]
-        if not supported: return {"status":"OPEN","root_disposition":None}
-        root=supported[-1]
-        return {"status":"ACCEPT" if root.get("terminal") else "OPEN","root_disposition":root}
+        chain=_rows(payload.get("causal_chain"))
+        if not chain:
+            return {"status":"OPEN","root_disposition":None}
+        root=None
+        for index, row in enumerate(chain):
+            if not row.get("evidence"):
+                return {"status":"OPEN","root_disposition":root,"unresolved":chain[index:]}
+            if row.get("terminal") is True and index != len(chain)-1:
+                return {"status":"OPEN","root_disposition":row,"unresolved":chain[index+1:]}
+            root=row
+        return {"status":"ACCEPT" if root.get("terminal") is True else "OPEN","root_disposition":root}
     if program_id=="C19":
-        frontier=list(payload.get("seed_frontier",[])); seen=set(); trace=[]
-        graph=payload.get("graph",{})
+        seeds=_sequence(payload.get("seed_frontier")); graph=payload.get("graph")
+        if seeds is None or not isinstance(graph,dict):
+            return {"status":"OPEN","discovery_trace":[],"discovered":[]}
+        if _label_set(seeds) is None or any(
+            _sequence(neighbours) is None or _label_set(neighbours) is None
+            for neighbours in graph.values()
+        ):
+            return {"status":"OPEN","discovery_trace":[],"discovered":[]}
+        frontier=deque(dict.fromkeys(seeds)); seen=set(seeds); trace=[]
         while frontier:
-            x=frontier.pop(0)
-            if x in seen: continue
-            seen.add(x); trace.append(x)
+            x=frontier.popleft(); trace.append(x)
             for y in graph.get(x,[]):
-                if y not in seen: frontier.append(y)
-        return {"status":"ACCEPT","discovery_trace":trace,"discovered":sorted(seen)}
+                if y not in seen:
+                    seen.add(y); frontier.append(y)
+        try:
+            return {"status":"ACCEPT","discovery_trace":trace,"discovered":sorted(seen)}
+        except TypeError:
+            return {"status":"OPEN","discovery_trace":trace,"discovered":trace,"reason":"incomparable object identities"}
     raise KeyError(program_id)
 
 for _pid in ("C14","C15","C16","C17","C18","C19"):
@@ -224,7 +319,8 @@ for _pid in ("C14","C15","C16","C17","C18","C19"):
 
 
 # Generic binding for the remaining typed capability contracts.
-# These bindings make selection executable; each preserves OPEN rather than inventing evidence.
+# These bindings validate or relay supplied evidence. ACCEPT is a bounded native
+# result, not proof of independent semantic work, authorization, or HF2 closure.
 def run_generic(program_id, payload):
     if program_id in {"C20","C21","C22","C23"}:
         key={"C20":"rivals","C21":"candidates","C22":"improvement_frontier","C23":"typed_relation"}[program_id]
@@ -232,14 +328,19 @@ def run_generic(program_id, payload):
         return {"status":"ACCEPT" if value else "OPEN",key:value}
     if program_id in {"C24","C25","C26","C27","C28","C29","C30","C31"}:
         key=REGISTRY.get(program_id).protected_outputs[0]
-        value=payload.get(key) or payload.get("candidate")
-        protected=set(payload.get("protected",[]))
-        preserves=set(payload.get("preserves",[]))
-        ok=bool(value) and protected<=preserves
+        value=payload.get(key,payload.get("candidate"))
+        protected=_label_set(payload.get("protected"))
+        preserves=_label_set(payload.get("preserves"))
+        consistent=key not in payload or "candidate" not in payload or _same_result(value,payload["candidate"])
+        ok=bool(value) and consistent and protected is not None and preserves is not None and protected<=preserves
         return {"status":"ACCEPT" if ok else "OPEN",key:value if ok else None}
     if program_id=="C32":
-        x=[r for r in payload.get("routes",[]) if r.get("licensed") is True and r.get("reachable") is True]
-        return {"status":"ACCEPT" if x else "OPEN","routes":x}
+        routes=_rows(payload.get("routes"))
+        if routes is None:
+            return {"status":"OPEN","routes":[]}
+        x=[r for r in routes if r.get("licensed") is True and r.get("reachable") is True]
+        unresolved=[r for r in routes if r.get("licensed") is not False and r.get("reachable") is not False and not (r.get("licensed") is True and r.get("reachable") is True)]
+        return {"status":"OPEN" if unresolved or not x else "ACCEPT","routes":x,**({"unresolved":unresolved} if unresolved else {})}
     if program_id=="C33":
         ok=payload.get("strict_gain") is True and payload.get("preserves") is True
         return {"status":"ACCEPT" if ok else "OPEN","gain_disposition":"STRICT_GAIN" if ok else "UNESTABLISHED"}
@@ -249,7 +350,10 @@ def run_generic(program_id, payload):
         ok=payload["protected_before"]==payload["protected_after"]
         return {"status":"ACCEPT" if ok else "FAIL","regression_disposition":"PASS" if ok else "REGRESSION"}
     if program_id=="C35":
-        return {"status":"ACCEPT","nondominated_set":payload.get("nondominated_set",payload.get("candidates",[]))}
+        frontier=_sequence(payload.get("nondominated_set"))
+        if frontier is None:
+            return {"status":"OPEN","nondominated_set":None,"unresolved_candidates":payload.get("candidates")}
+        return {"status":"ACCEPT","nondominated_set":frontier}
     if program_id in {"C36","C37","C38","C39","C40","C41","C42","C43"}:
         key=REGISTRY.get(program_id).protected_outputs[0]
         value=payload.get(key)
