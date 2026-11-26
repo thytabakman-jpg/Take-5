@@ -14,7 +14,7 @@ Distinguish native execution from semantic host analysis. Host analysis is permi
 
 ## 2. Execution sequence
 
-Run S01–S08 for each authorized target, preserving the actual prerequisites between stages. This sequence is a dependency-controlled procedure, not a license to reorder required actions. Independent stages or tool requests may proceed only when their own prerequisites are satisfied, under §8. Reapply affected stages when frozen inputs change. A status in the ledger (§9) does not itself authorize advancement.
+Run S01–S08 for each authorized target, preserving the actual prerequisites between stages. This sequence is a dependency-controlled procedure, not a license to reorder required actions. Independent stages or tool requests may proceed only when their own prerequisites are satisfied, under §8. Reapply affected stages when frozen inputs change. A status in the ledger (§9) does not itself authorize advancement. For every stage, apply S08 on failure: record the exact unmet obligation and continue only independent authorized work. A blocker is failure evidence, never successful exit evidence.
 
 | ID | Stage | Required predecessor evidence |
 | --- | --- | --- |
@@ -37,7 +37,7 @@ S02 runtime blockage does not prevent S03 host preflight when its own protocol a
 
 **Exit evidence:** Verified repository, branch, paths, mode, provisional order, exact assessed blob and frozen target purpose/constraints.
 
-**Failure route:** Apply §8: preserve the exact unmet obligation, continue only independent authorized work, and never treat blockage as success.
+**Failure route:** S08.
 
 The user specifies the target documents when invoking the Repair skill. Targets may include individual files, multiple files, folders or combinations thereof.
 
@@ -69,11 +69,11 @@ Retrieve and freeze the current file version. Read the entire document.
 
 **Stage S02 | Entry:** S01 establishes the target identity and scope.
 
-**Exit evidence:** Retrieved governing protocols and current dual-revision runtime verification with successful bootstrap receipt, or an explicitly recorded blocker.
+**Exit evidence:** Retrieved governing protocols and current dual-revision runtime verification with successful bootstrap receipt. Record a missing prerequisite or failed verification through the failure route, not as successful exit evidence.
 
-**Failure route:** Apply §8: preserve the exact unmet obligation, continue only independent authorized work, and never treat blockage as success.
+**Failure route:** S08.
 
-Retrieve and inspect the actual protocols before execution. Use the binding technical references [R01–R07](#technical-references) and the applicable adapter contracts [R08–R09](#technical-references). The linked files retain ownership of their implementation contracts.
+Retrieve and inspect the actual protocols before execution. Use the binding technical references [R01–R07](#technical-references) and the applicable adapter contracts [R08–R09](#r08). The linked files retain ownership of their implementation contracts.
 
 The linked PD protocol governs historical audit-reduction research, mathematical integrity gates, and the distinction between historical methods and the runnable successor. For ordinary Repair, apply its applicable integrity, evidence, authorization and regression controls. Do not automatically execute the historical D0/C0 experiments, holdout campaign or PD research-priority program merely because a document invokes PDAudit. Native PDAudit execution follows the registered Take-5 implementation and its admitted inputs. The Reaserch read-only successor is a distinct execution path, not a substitute receipt for Take-5 PDAudit.
 
@@ -89,7 +89,7 @@ Complete the prescribed runtime recovery, verification and adapter selection ste
 
 **Exit evidence:** Source-located preflight findings, complete semantic coordinates, protected constraints and explicitly OPEN questions.
 
-**Failure route:** Apply §8: preserve the exact unmet obligation, continue only independent authorized work, and never treat blockage as success.
+**Failure route:** S08.
 
 Apply the Semantic Preflight Protocol's every-word rule to the entire file, rather than merely its controlling question.
 
@@ -166,7 +166,7 @@ Where source evidence is insufficient, investigate the relevant external sources
 
 **Exit evidence:** Per-tool dispositions, verified native receipts including configured HF2 recurrence, and explicit unmet obligations. A blocked tool does not authorize dependent repairs.
 
-**Failure route:** Apply §8: preserve the exact unmet obligation, continue only independent authorized work, and never treat blockage as success.
+**Failure route:** S08.
 
 <a id="61-mandatory-tools"></a>
 
@@ -229,7 +229,7 @@ Obtain genuinely independent evaluation whenever required by the governing proto
 
 **Exit evidence:** Evidence-supported candidate inventory, GO / NO-GO / TWEAK decisions, required recursive validation receipts, and per-candidate authorization or withheld disposition.
 
-**Failure route:** Apply §8: preserve the exact unmet obligation, continue only independent authorized work, and never treat blockage as success.
+**Failure route:** S08.
 
 1. Consolidate discoveries and eliminate duplicate findings and false positives.
 2. Investigate unresolved substantive problems using the applicable tools and external evidence.
@@ -246,11 +246,11 @@ When the user explicitly requests recommendations without implementation, comple
 
 ### S06 — Implement validated repairs
 
-**Stage S06 | Entry:** Repair mode and S05 validated GO decisions; all affected prerequisites are satisfied.
+**Stage S06 | Entry:** S05 establishes either validated GO decisions in repair mode with all affected prerequisites satisfied, or an evidenced no-write disposition. Incomplete S05 validation permits recording a withheld repair, not executing it or closing S05.
 
-**Exit evidence:** Conditional GitHub write against the verified current blob, with commit and blob identities, or recorded no-write basis (no defect, recommendations-only or blocked validation).
+**Exit evidence:** Conditional GitHub write against the verified current blob, with commit and blob identities, or an evidenced legitimate no-write basis (no defect, recommendations-only, or no validated GO candidate). Blocked required validation remains incomplete even when withholding the write is correct.
 
-**Failure route:** Apply §8: preserve the exact unmet obligation, continue only independent authorized work, and never treat blockage as success.
+**Failure route:** S08.
 
 Implement validated GO recommendations directly in GitHub when operating in repair mode, only after every applicable prerequisite and required validation for the recommendation has been satisfied and evidenced. Do not implement a GO recommendation based solely on host analysis when its required native tool execution or independent validation is incomplete. Recheck the target branch and frozen file identity immediately before writing. Use a conditional write against the verified current blob or an equivalent non-overwriting version guard. If the file or a result-sensitive dependency has changed, retrieve the new state, reconcile the proposed changes, and reassess affected repairs before writing. Never overwrite an intervening change using a stale replacement.
 
@@ -260,7 +260,7 @@ Implement validated GO recommendations directly in GitHub when operating in repa
 
 **Exit evidence:** Verified branch state, preservation of concurrent work, regression checks, applicable tool and downstream obligations, and residual limitations.
 
-**Failure route:** Apply §8: preserve the exact unmet obligation, continue only independent authorized work, and never treat blockage as success.
+**Failure route:** S08.
 
 Retrieve the modified document from the intended branch and verify the actual changes against the committed version, including preservation of concurrent work.
 
