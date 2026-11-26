@@ -189,9 +189,17 @@ def run_attack(program_id, payload):
         allowed=[x for x in candidates if protected<=set(x.get("preserves",[]))]
         return {"status":"ACCEPT" if allowed else "OPEN","change_frontier":allowed}
     if program_id=="C17":
-        failures=[x for x in payload.get("failures",[]) if x.get("material",True)]
-        diagnosed=[x for x in failures if x.get("mechanism")]
-        unresolved=[x for x in failures if not x.get("mechanism")]
+        inventory=payload.get("failures")
+        if not isinstance(inventory,(list,tuple)) or any(not isinstance(x,dict) for x in inventory):
+            return {"status":"OPEN","mechanism_dispositions":[],"unresolved":[],"blocker":"FAILURE_INVENTORY_REQUIRED"}
+        # Only an explicit negative materiality judgment excludes a failure.
+        failures=[x for x in inventory if x.get("material",True) is not False]
+        unresolved_labels={"UNKNOWN","OPEN","BLOCKED","CONFLICT","FAILED","FAIL","UNRESOLVED","UNDETERMINED","NOT_DIAGNOSED","NONE","N/A"}
+        def identified(row):
+            mechanism=row.get("mechanism")
+            return isinstance(mechanism,str) and bool(mechanism.strip()) and mechanism.strip().upper() not in unresolved_labels
+        diagnosed=[x for x in failures if identified(x)]
+        unresolved=[x for x in failures if not identified(x)]
         return {"status":"OPEN" if unresolved else "ACCEPT","mechanism_dispositions":diagnosed,"unresolved":unresolved}
     if program_id=="C18":
         chain=payload.get("causal_chain",[])
@@ -230,13 +238,15 @@ def run_generic(program_id, payload):
         ok=bool(value) and protected<=preserves
         return {"status":"ACCEPT" if ok else "OPEN",key:value if ok else None}
     if program_id=="C32":
-        x=[r for r in payload.get("routes",[]) if r.get("licensed") and r.get("reachable")]
+        x=[r for r in payload.get("routes",[]) if r.get("licensed") is True and r.get("reachable") is True]
         return {"status":"ACCEPT" if x else "OPEN","routes":x}
     if program_id=="C33":
-        ok=bool(payload.get("strict_gain")) and bool(payload.get("preserves"))
+        ok=payload.get("strict_gain") is True and payload.get("preserves") is True
         return {"status":"ACCEPT" if ok else "OPEN","gain_disposition":"STRICT_GAIN" if ok else "UNESTABLISHED"}
     if program_id=="C34":
-        ok=payload.get("protected_before")==payload.get("protected_after")
+        if any(payload.get(key) is None for key in ("protected_before","protected_after")):
+            return {"status":"OPEN","regression_disposition":"UNESTABLISHED"}
+        ok=payload["protected_before"]==payload["protected_after"]
         return {"status":"ACCEPT" if ok else "FAIL","regression_disposition":"PASS" if ok else "REGRESSION"}
     if program_id=="C35":
         return {"status":"ACCEPT","nondominated_set":payload.get("nondominated_set",payload.get("candidates",[]))}
@@ -245,19 +255,36 @@ def run_generic(program_id, payload):
         value=payload.get(key)
         return {"status":"ACCEPT" if value is not None else "OPEN",key:value}
     if program_id=="C44":
-        ok=payload.get("expected")==payload.get("actual")
+        if any(key not in payload for key in ("expected","actual")):
+            return {"status":"OPEN","verification":"UNESTABLISHED"}
+        ok=payload["expected"]==payload["actual"]
         return {"status":"ACCEPT" if ok else "FAIL","verification":"PASS" if ok else "FAIL"}
     if program_id=="C45":
-        ok=bool(payload.get("preregistered")) and bool(payload.get("pass"))
+        if any(type(payload.get(key)) is not bool for key in ("preregistered","pass")):
+            return {"status":"OPEN","holdout_result":"UNESTABLISHED"}
+        ok=payload["preregistered"] and payload["pass"]
         return {"status":"ACCEPT" if ok else "FAIL","holdout_result":"PASS" if ok else "FAIL"}
     if program_id=="C46":
-        return {"status":"ACCEPT","causal_effect":payload.get("with_component")!=payload.get("without_component")}
+        if any(key not in payload for key in ("with_component","without_component")):
+            return {"status":"OPEN","causal_effect":None}
+        return {"status":"ACCEPT","causal_effect":payload["with_component"]!=payload["without_component"]}
     if program_id=="C47":
-        x=payload.get("blocking_open",[])
+        x=payload.get("blocking_open")
+        if not isinstance(x,(list,tuple)):
+            return {"status":"OPEN","closure_disposition":"UNESTABLISHED"}
         return {"status":"ACCEPT" if not x else "OPEN","closure_disposition":"RELATIVE_CLOSED" if not x else "BLOCKED_BY_OPEN"}
     if program_id=="C48":
-        x=[c for c in payload.get("candidates",[]) if c.get("strict_gain") and c.get("preserves")]
-        return {"status":"ACCEPT" if x else "NOOP","strict_gain_or_failure":x or "NO_STRICT_GAIN_FOUND"}
+        candidates=payload.get("candidates")
+        if not isinstance(candidates,(list,tuple)) or any(not isinstance(c,dict) for c in candidates):
+            return {"status":"OPEN","strict_gain_or_failure":"CANDIDATE_INVENTORY_REQUIRED"}
+        x=[c for c in candidates if c.get("strict_gain") is True and c.get("preserves") is True]
+        unresolved=[c for c in candidates if c.get("strict_gain") is not False and c.get("preserves") is not False
+                    and not (c.get("strict_gain") is True and c.get("preserves") is True)]
+        if x:
+            return {"status":"ACCEPT","strict_gain_or_failure":x,**({"unresolved":unresolved} if unresolved else {})}
+        if unresolved:
+            return {"status":"OPEN","strict_gain_or_failure":"STRICT_GAIN_OR_PRESERVATION_UNRESOLVED","unresolved":unresolved}
+        return {"status":"NOOP","strict_gain_or_failure":"NO_STRICT_GAIN_FOUND"}
     raise KeyError(program_id)
 
 for _pid in tuple(f"C{i:02d}" for i in range(20,49)):

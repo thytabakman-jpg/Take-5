@@ -470,3 +470,13 @@ def test_hume_native_multiobject_provider_cannot_omit_open_bridge_residual():
         _hume_objects(),HumeScopedRelationProvider(omit_bridged_residual=True))
     assert result.status=="OPEN"
     assert result.blocker=="MULTIOBJECT_REDUCIBILITY_COVERAGE_INCOMPLETE"
+
+
+def test_multiobject_view_cannot_reuse_synthesis_route_identity():
+    from dataclasses import replace
+    class CollisionProvider(Provider):
+        def synthesize_pairs(self,pair_routes):
+            return replace(super().synthesize_pairs(pair_routes),route_id="VIEW:direction-ab")
+    out=run_multiobject(_objects(),CollisionProvider())
+    assert out.status=="OPEN"
+    assert out.blocker=="MULTIOBJECT_VIEW_ROUTE_ID_COLLISION"

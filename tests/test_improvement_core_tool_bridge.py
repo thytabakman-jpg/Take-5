@@ -91,3 +91,34 @@ def test_hf2_reapplies_same_bound_tool_when_adapter_exposes_live_local_frontier(
     assert out.executions[0].recurrence_rounds==2
     trace=out.state["configured_tool_outputs"][0]["recurrence"]["trace"]
     assert [row["disposition"] for row in trace]==["REAPPLY_C","RELATIVE_CLOSE"]
+
+
+@pytest.mark.parametrize("status", ["OPEN", "BLOCKED", "CONFLICT"])
+def test_adapter_diagnostics_survive_normalization_without_changing_batch_disposition(status):
+    from dataclasses import asdict
+    state,bindings=bind_selected_tools({"selected_tools":["RootCause","QuestionWorthAsking"]})
+    calls=[]
+    provenance={"provider_identity":{"id":"test-worker","revision":"1"},
+                "scope":"BOUNDED","provenance":["source:blob"]}
+    def first(current,plan):
+        calls.append(plan.tool_id)
+        return {"status":status,"execution_truth":status,"result":{"finding":"unresolved"},
+                "blocker":"EXACT_MISSING_SEMANTIC_INPUT","evidence":["source:blob"],
+                "material_delta":False,**provenance}
+    def second(current,plan):
+        calls.append(plan.tool_id)
+        return {"status":"EXECUTED","material_delta":False}
+    out=execute_bound_tools(state,bindings,{"RootCause":first,"QuestionWorthAsking":second})
+    assert calls==["RootCause"]
+    assert out.status==status
+    assert out.blocker.startswith("CONFIGURED_TOOL_")
+    assert len(out.executions)==1
+    execution=out.executions[0]
+    assert execution.adapter_blocker=="EXACT_MISSING_SEMANTIC_INPUT"
+    assert execution.adapter_provenance==provenance
+    assert execution.evidence==("source:blob",)
+    assert execution.result=={"finding":"unresolved"}
+    assert asdict(execution)["adapter_provenance"]==provenance
+    stored=out.state["configured_tool_outputs"][0]
+    assert stored["adapter_blocker"]==execution.adapter_blocker
+    assert stored["adapter_provenance"]==provenance

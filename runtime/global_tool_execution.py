@@ -65,6 +65,23 @@ class ToolExecutionPlan:
     questions: tuple[tuple[str, D36CCell], ...]
     cognitive: tuple[tuple[str, D36CCell], ...]
 
+    def summary(self, *, include_native_layers: bool = False) -> dict[str, object]:
+        """Return shared configured-plan metadata without consumer-specific claims."""
+        return {
+            "tool_id": self.tool_id,
+            "mode": self.mode,
+            "wrapper_required": self.wrapper_required,
+            "geometry": self.geometry,
+            "cell_count": len(self.cells),
+            **({"native_layers": tuple(dict.fromkeys(layer for layer, _ in self.native))}
+               if include_native_layers else {}),
+            "question_count": len(self.questions),
+            "cognitive_count": len(self.cognitive),
+            "recurrence_required": self.recurrence_required,
+            "recurrence_engine": self.recurrence_engine,
+            "invocation_profile": self.invocation_profile,
+        }
+
     @property
     def complete(self) -> bool:
         # Cardinality is not coverage: repeated coordinates could displace
@@ -205,6 +222,10 @@ def execute_protected_transition(
             raw["hf2_delta"]=hints["hf2_delta"]
         if hints.get("hf1_targets") is not None:
             raw["hf1_targets"]=hints["hf1_targets"]
+        # Preserve the configured HF2 affected-scope obligations across PTI.
+        for key in ("hf2_affected_frontier", "hf2_scope_deltas"):
+            if key in hints:
+                raw[key]=hints[key]
         if hints.get("invalidating_evidence"):
             raw["invalidating_evidence"]=True
         if hints.get("certified_no_gain"):

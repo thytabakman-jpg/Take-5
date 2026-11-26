@@ -5,6 +5,7 @@ on:
     paths:
       - '.github/workflows/chatgpt-runtime-bootstrap.yml'
       - 'chatgpt-runtime-request.txt'
+      - 'chatgpt-integration/**'
   workflow_dispatch:
 
 permissions:
@@ -36,7 +37,7 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p "$RUNNER_TEMP/take5-runtime"
-          cp "$GITHUB_WORKSPACE/bootstrap/chatgpt-bootstrap/"{bootstrap.py,run_packet.py,document_adapters.py,README.md} "$RUNNER_TEMP/take5-runtime/"
+          cp "$GITHUB_WORKSPACE/bootstrap/chatgpt-integration/"{runtime_bootstrap.py,execute_tool_packet.py,document_tool_adapters.py,README.md} "$RUNNER_TEMP/take5-runtime/"
           git -C "$GITHUB_WORKSPACE/bootstrap" rev-parse HEAD > "$RUNNER_TEMP/take5-runtime/integration-commit.txt"
           cd "$GITHUB_WORKSPACE/source"
           git rev-parse HEAD > "$RUNNER_TEMP/take5-runtime/source-commit.txt"

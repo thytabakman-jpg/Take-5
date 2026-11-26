@@ -20,7 +20,7 @@ basis:
     - runtime/jane_icc128_bridge.py
   current_system_evidence:
     - KERNEL.yaml
-    - architecture/FULL_CONFIGURED_TOOL_INVOCATION_121.md
+    - "architecture/Tool Execution Architecture.md"
     - architecture/SPECIFICATION_BEFORE_TRANSFORMATION_INVARIANT_134.md
     - integration/CURRENT_PROTECTED_TRANSITION_INTEGRITY.md
     - runtime/state_commit.py

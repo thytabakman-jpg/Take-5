@@ -1,8 +1,9 @@
 """Native Raise-the-Ceiling tool.
 
 RTC is the configured high-level specialization of C48 Raise Ceiling. It returns
-strict-gain candidates that preserve the declared protected basis, or a typed
-no-gain result.
+candidates with explicit gain and preservation evidence, a typed no-gain
+result, or an unresolved disposition. Acceptance may retain unresolved
+candidates; supplied flags do not prove protected-set coverage.
 """
 from __future__ import annotations
 

@@ -143,12 +143,23 @@ SPECS = (
     ),
 )
 
-SPEC_BY_ID = {spec.program_id: spec for spec in SPECS}
+def _index_learning_specs(specs):
+    index = {}
+    for spec in specs:
+        if spec.program_id in index:
+            raise RuntimeError(f"LEARNING_TOOL_DUPLICATE_ID:{spec.program_id}")
+        index[spec.program_id] = spec
+    return index
+
+
+SPEC_BY_ID = _index_learning_specs(SPECS)
 
 
 def _inputs(packet: Mapping[str, Any], program_id: str) -> Mapping[str, Any]:
-    all_inputs = packet.get("learning_inputs", {}) or {}
-    value = all_inputs.get(program_id, {}) or {}
+    all_inputs = packet.get("learning_inputs", {})
+    if not isinstance(all_inputs, Mapping):
+        return {}
+    value = all_inputs.get(program_id, {})
     return value if isinstance(value, Mapping) else {}
 
 
@@ -187,7 +198,7 @@ def learning_tool_contracts(packet: Mapping[str, Any]) -> dict[str, dict[str, An
 
 
 def install_learning_contracts(packet: Mapping[str, Any]) -> dict[str, Any]:
-    """Return a copy of packet with learning contracts merged, never overwriting caller overrides."""
+    """Merge caller policy without allowing overrides to invent required runtime inputs."""
     out = dict(packet)
     existing = dict(out.get("tool_contracts", {}) or {})
     generated = learning_tool_contracts(out)
@@ -195,6 +206,10 @@ def install_learning_contracts(packet: Mapping[str, Any]) -> dict[str, Any]:
         if pid in existing:
             merged = dict(contract)
             merged.update(existing[pid] or {})
+            # Caller policy can restrict admission, but cannot manufacture absent inputs.
+            if not contract["applicable"]:
+                merged["applicable"] = False
+            merged["missing_inputs"] = contract["missing_inputs"]
             existing[pid] = merged
         else:
             existing[pid] = contract
@@ -302,14 +317,9 @@ def make_learning_worker(program_id: str) -> Callable[[Mapping[str, Any]], dict[
     def worker(packet: Mapping[str, Any]) -> dict[str, Any]:
         ok, missing = availability(packet, spec)
         if not ok:
-            return {
-                "learning_status": {
-                    program_id: {
-                        "status": "OPEN",
-                        "missing_inputs": missing,
-                    }
-                }
-            }
+            status = dict(packet.get("learning_status", {}) or {})
+            status[program_id] = {"status": "OPEN", "missing_inputs": missing}
+            return {"learning_status": status}
 
         result = _execute(program_id, _inputs(packet, program_id))
         results = dict(packet.get("learning_results", {}) or {})

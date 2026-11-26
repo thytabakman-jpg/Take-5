@@ -28,20 +28,20 @@ def run_bias_perturbation(
     result_equivalent: Callable[[Any, Any], bool],
 ):
     baseline_target=deepcopy(target)
-    baseline_result=runner(deepcopy(baseline_target))
+    baseline_result=deepcopy(runner(deepcopy(baseline_target)))
     rows=[]
     unresolved=[]
     sensitive=[]
 
     for perturbation in tuple(perturbations):
         candidate=deepcopy(perturbation)
-        irrelevant=bool(semantics_equivalent(baseline_target,candidate))
+        irrelevant=bool(semantics_equivalent(deepcopy(baseline_target),deepcopy(candidate)))
         if not irrelevant:
             rows.append(PerturbationResult(candidate,False,None,None))
             unresolved.append(candidate)
             continue
-        result=runner(deepcopy(candidate))
-        changed=not bool(result_equivalent(baseline_result,result))
+        result=deepcopy(runner(deepcopy(candidate)))
+        changed=not bool(result_equivalent(deepcopy(baseline_result),deepcopy(result)))
         rows.append(PerturbationResult(candidate,True,changed,result))
         if changed:
             sensitive.append(candidate)

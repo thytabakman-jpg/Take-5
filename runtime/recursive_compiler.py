@@ -60,7 +60,7 @@ def validate_execution_profile(
     mode_trace:Iterable[str],
 )->None:
     """Fail closed on 36D downgrade or observer/focused/observer drift."""
-    if int(cell_count)!=36:
+    if type(cell_count) is not int or cell_count!=36:
         raise RuntimeError(f"RECURSIVE_COMPILER_36D_DOWNGRADE:{cell_count}")
     modes=tuple(str(x).upper() for x in mode_trace)
     if modes!=("OBSERVER","FOCUSED","OBSERVER"):
@@ -75,9 +75,9 @@ def hf2_fixed_point_witness(trace:Iterable[Mapping[str,Any]])->bool:
     if not rounds:
         return False
     last=rounds[-1]
-    if str(last.get("disposition",""))!="RELATIVE_CLOSE":
+    if not isinstance(last,Mapping) or last.get("disposition")!="RELATIVE_CLOSE":
         return False
-    delta=last.get("delta",{})
+    delta=last.get("delta")
     return isinstance(delta,Mapping) and not _material(delta)
 
 
@@ -126,6 +126,17 @@ def evaluate_global_closure(
     if len(roots)!=1:
         reasons.append("HIERARCHY_REQUIRES_EXACTLY_ONE_ROOT")
 
+    # A single root and existing parents do not exclude disconnected cycles.
+    for node in ns:
+        visited=set()
+        current=node
+        while current is not None:
+            if current.node_id in visited:
+                reasons.append(f"HIERARCHY_CYCLE:{node.node_id}")
+                break
+            visited.add(current.node_id)
+            current=by_id.get(current.parent_id) if current.parent_id is not None else None
+
     checked_edges=0
     required_deltas=set(admitted_delta_hashes)
 
@@ -134,7 +145,7 @@ def evaluate_global_closure(
             checked_edges+=1
             if n.parent_id not in by_id:
                 reasons.append(f"MISSING_PARENT:{n.node_id}:{n.parent_id}")
-            elif not edge_receipts.get((n.parent_id,n.node_id),False):
+            elif edge_receipts.get((n.parent_id,n.node_id)) is not True:
                 reasons.append(f"UNRECONCILED_EDGE:{n.parent_id}->{n.node_id}")
 
         if n.stale:
@@ -144,11 +155,11 @@ def evaluate_global_closure(
         if not gates:
             reasons.append(f"NODE_GATES_MISSING:{n.node_id}")
         for gate,passed in gates.items():
-            if not bool(passed):
+            if passed is not True:
                 reasons.append(f"NODE_GATE_OPEN:{n.node_id}:{gate}")
 
         for constraint in n.protected_constraints:
-            if not constraint_receipts.get((n.node_id,constraint),False):
+            if constraint_receipts.get((n.node_id,constraint)) is not True:
                 reasons.append(f"PROTECTED_CONSTRAINT_OPEN:{n.node_id}:{constraint}")
 
         required_deltas.update(n.delta_ids)
@@ -156,9 +167,11 @@ def evaluate_global_closure(
     for delta_id in sorted(required_deltas):
         expected=admitted_delta_hashes.get(delta_id)
         actual=realized_delta_hashes.get(delta_id)
-        if actual is None:
+        if not isinstance(expected,str) or not expected.strip():
+            reasons.append(f"DELTA_ADMISSION_MISSING:{delta_id}")
+        if not isinstance(actual,str) or not actual.strip():
             reasons.append(f"DELTA_MISSING:{delta_id}")
-        elif expected is not None and actual!=expected:
+        elif isinstance(expected,str) and expected.strip() and actual!=expected:
             reasons.append(f"DELTA_SEMANTIC_DRIFT:{delta_id}")
 
     # Realization without an admitted lineage is not allowed to masquerade as

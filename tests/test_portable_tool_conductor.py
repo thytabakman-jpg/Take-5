@@ -207,3 +207,76 @@ def test_duplicate_registered_factor_is_rejected_before_any_native_execution(mon
     with pytest.raises(RuntimeError,match="TOOL_CONDUCTOR_DUPLICATE_REGISTRY_ID"):
         conductor.compile_repertoire()
     assert calls==[]
+
+
+def test_consultation_does_not_confuse_native_recovery_with_dispatch_readiness():
+    consulted=consult_tool_conductor({})
+    by_id={row["tool_id"]:row for row in consulted["results"]}
+    actual={row["tool_id"]:row for row in run_tool_conductor({})["results"]}
+    for tool in ("Diagnosis","RTC","ProjectManager","Reconciler"):
+        row=by_id[tool]
+        assert row["witness"]["self_contained"] is (tool != "Reconciler")
+        assert row["result"]["native_implementation_recovered"] is True
+        assert row["status"]==actual[tool]["status"]=="OPEN"
+        assert row["result"]["execution_readiness"]=="ADAPTER_REQUIRED"
+        assert row["result"]["dispatch_route"]=="UNBOUND"
+    assert by_id["C01"]["result"]["dispatch_route"]=="BUILTIN"
+    assert by_id["L-D6"]["result"]["input_readiness"]=="MISSING_OR_INVALID_FIELDS"
+    assert by_id["C01"]["result"]["input_readiness"]=="UNVERIFIED"
+
+
+def test_consultation_reports_bound_routes_without_certifying_input_readiness():
+    calls=[]
+    def adapter(packet):
+        calls.append(packet)
+        return {"status":"EXECUTED","material_delta":False}
+    by_id={row["tool_id"]:row for row in consult_tool_conductor({},adapters={"Diagnosis":adapter,"RTC":None,"C01":adapter})["results"]}
+    assert not calls
+    assert by_id["Diagnosis"]["status"]=="AVAILABLE_BOUND"
+    assert by_id["Diagnosis"]["result"]["execution_readiness"]=="INPUTS_UNVERIFIED"
+    assert by_id["RTC"]["status"]=="OPEN"
+    assert by_id["C01"]["result"]["dispatch_route"]=="BUILTIN"
+
+
+def test_shared_plan_summary_preserves_consumer_receipt_shapes():
+    from global_tool_execution import build_tool_execution_plan
+    from improvement_core_tool_bridge import ConfiguredToolBinding
+    from portable_tool_conductor import _plan_payload
+    from tool_run_registry import CONFIGURED_RUNS
+
+    for tool_id in MATERIAL_TOOLS:
+        plan=build_tool_execution_plan(CONFIGURED_RUNS[tool_id])
+        expected={
+            "tool_id":tool_id,"mode":plan.mode,"wrapper_required":plan.wrapper_required,
+            "geometry":plan.geometry,"cell_count":len(plan.cells),
+            "question_count":len(plan.questions),"cognitive_count":len(plan.cognitive),
+            "recurrence_required":plan.recurrence_required,"recurrence_engine":plan.recurrence_engine,
+            "invocation_profile":plan.invocation_profile,
+        }
+        assert _plan_payload(tool_id)==expected
+        assert ConfiguredToolBinding(tool_id,plan).summary=={
+            **expected,"native_layers":tuple(dict.fromkeys(layer for layer,_ in plan.native)),
+            "configured_hf2_execution":"SHARED_GATE",
+        }
+
+
+def test_noncanonical_atomic_ids_have_no_registered_compilation_witness():
+    for tool_id in ("C1", "C001", "C50", "unknown"):
+        witness = compilation_witness(tool_id)
+        assert witness.entrypoint is None
+        assert witness.self_contained is False
+
+
+def test_reconciler_witness_requires_resolver():
+    witness = compilation_witness("Reconciler")
+    assert witness.required_environment == ("resolver",)
+    assert not witness.self_contained
+
+
+def test_empty_host_adapter_result_preserves_open(monkeypatch):
+    import portable_tool_conductor as conductor
+    monkeypatch.setattr(conductor, "MATERIAL_TOOLS", ("MT",))
+    result = conductor.run_tool_conductor({}, adapters={"MT": lambda packet: {}})
+    assert result["status"] == "OPEN"
+    assert result["open_tools"] == ("MT",)
+    assert result["results"][0]["status"] == "OPEN"

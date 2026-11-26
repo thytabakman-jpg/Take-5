@@ -545,7 +545,7 @@ Remaining external limits:
 - integration/CURRENT_HF2.md
 - integration/CURRENT_ROOT_CAUSE.md
 - integration/CURRENT_PROTECTED_TRANSITION_INTEGRITY.md
-- integration/CURRENT_FULL_TOOL_INVOCATION.md
+- integration/Tool Execution Guide.md
 
 ## Machine verification
 

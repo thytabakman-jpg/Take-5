@@ -74,3 +74,36 @@ def test_textual_preservation_cannot_authorize_patch():
     r=assess(component="x",built_basis="a",latest_basis="b",delta=["d"],behavior_preserved="false",**IDENTITY)
     assert r.status==Currentness.OPEN
     assert not audit_complete([r])
+
+
+def test_missing_or_nontext_identity_cannot_certify_currentness():
+    from dataclasses import replace
+    same_generation={**IDENTITY,"latest_generation":IDENTITY["built_generation"]}
+    valid=assess(component="x",built_basis="a",latest_basis="a",**same_generation)
+    for field in ("object_identity","built_generation","latest_generation"):
+        for value in (None,0,False,"","   "):
+            fields={**same_generation,field:value}
+            r=assess(component="x",built_basis="a",latest_basis="a",**fields)
+            assert r.status==Currentness.OPEN
+            assert not audit_complete([r])
+            assert not audit_complete([replace(valid,**{field:value})])
+
+
+def test_same_generation_does_not_hide_changed_basis_without_delta():
+    from dataclasses import replace
+    same_generation={**IDENTITY,"latest_generation":IDENTITY["built_generation"]}
+    r=assess(component="x",built_basis="old",latest_basis="new",**same_generation)
+    assert r.status==Currentness.OPEN
+    assert r.action=="RECONCILE_BASIS_DELTA"
+    assert not audit_complete([replace(r,status=Currentness.CURRENT)])
+
+
+def test_missing_basis_cannot_certify_currentness():
+    from dataclasses import replace
+    same_generation={**IDENTITY,"latest_generation":IDENTITY["built_generation"]}
+    valid=assess(component="x",built_basis="a",latest_basis="a",**same_generation)
+    for missing in (None,"","   "):
+        result=assess(component="x",built_basis=missing,latest_basis=missing,**same_generation)
+        assert result.status==Currentness.OPEN
+        assert not audit_complete([result])
+        assert not audit_complete([replace(valid,built_basis=missing,latest_basis=missing)])

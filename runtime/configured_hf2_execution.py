@@ -60,6 +60,11 @@ def _raw_mapping(raw:Any)->dict[str,Any]:
             "blocker":"CONFIGURED_HF2_ADAPTER_NO_RESULT",
         }
     if isinstance(raw,dict):
+        if not raw:
+            return {
+                "status":"OPEN", "execution_truth":"OPEN", "result":None,
+                "material_delta":False, "blocker":"CONFIGURED_HF2_ADAPTER_EMPTY_RESULT",
+            }
         out=dict(raw)
     else:
         out={
@@ -93,6 +98,12 @@ def _raw_mapping(raw:Any)->dict[str,Any]:
     elif status in NON_SUCCESS_STATUSES and truth not in NON_SUCCESS_STATUSES:
         out["execution_truth"]=status
         truth=status
+    elif status in NON_SUCCESS_STATUSES and truth in NON_SUCCESS_STATUSES and status!=truth:
+        # Preserve both original dispositions as evidence of a contradictory receipt.
+        out.update(status="CONFLICT",execution_truth="CONFLICT",material_delta=False,
+                   reported_status=status,reported_execution_truth=truth,
+                   blocker=out.get("blocker") or "CONFIGURED_HF2_DISPOSITION_CONFLICT")
+        status=truth="CONFLICT"
     # FULL_MATCH is a result claim, not proof supplied by the execution plan.
     # Reject wholly empty success receipts, while preserving valid tool-native
     # results and the existing evidence/coverage representations.

@@ -546,3 +546,38 @@ def test_plain_language_cannot_override_failed_semantic_preservation():
     )
     assert out.status=="OPEN"
     assert "SEMANTIC_PRESERVATION:FAIL" in out.residuals
+
+
+def test_prose_blank_evidence_cannot_license_pass():
+    from prose import ProseContract, ProseEvidence, assess_prose
+    contract=ProseContract("blank-evidence",constraints=())
+    for evidence in (("   ",),(None,)):
+        out=assess_prose("A statement.",contract,ProseEvidence(
+            semantic_preservation="PASS",earned_claim_strength="PASS",
+            no_unsupported_inflation="PASS",evidence=evidence))
+        assert out.status=="OPEN"
+        assert "PROSE_EVIDENCE_REQUIRED" in out.residuals
+
+
+def test_prose_empty_string_alias_does_not_match_word_boundaries():
+    from prose import ProseContract, JEWISH_LEXICAL_FORMS, assess_prose
+    contract=ProseContract("alias",constraints=(JEWISH_LEXICAL_FORMS,),
+        jewish_lexicon=(("Torah","   "),))
+    out=assess_prose("Torah learning.",contract)
+    assert not out.violations
+
+
+def test_negative_span_offsets_remain_correct_after_unicode_casefold_expansion():
+    from prose import _allowed
+    text="Straße ab"
+    assert not _allowed(text,8,9,ProseContract("adjacent",allowed_negative_spans=("a",)))
+    assert _allowed(text,8,9,ProseContract("matching",allowed_negative_spans=("b",)))
+
+
+def test_jewish_lexicon_canonical_alias_collision_fails_open():
+    from prose import ProseContract, assess_prose, JEWISH_LEXICAL_FORMS
+    contract=ProseContract("canonical-collision", constraints=(JEWISH_LEXICAL_FORMS,),
+        jewish_lexicon=(("Torah", ("Torahh",)), ("Tora", ("Torah",))))
+    result=assess_prose("Torah", contract)
+    assert result.status=="OPEN"
+    assert any(x.startswith("JEWISH_LEXICON_CONFLICT:Torah:") for x in result.residuals)

@@ -153,3 +153,40 @@ def test_all_learning_specs_have_unique_ids_and_obligations():
     assert len(obligations)==len(set(obligations))
     assert set(learning_package_index())==set(ids)
     assert set(learning_workers())==set(ids)
+
+
+def test_learning_index_rejects_duplicate_spec_identity():
+    import pytest
+    from learning_tool_bridge import _index_learning_specs, SPECS
+    with pytest.raises(RuntimeError, match="LEARNING_TOOL_DUPLICATE_ID"):
+        _index_learning_specs((SPECS[0], SPECS[0]))
+
+
+def test_invalid_learning_input_container_does_not_crash_consultation():
+    for raw in ("invalid", [1], 42, None):
+        contracts = learning_tool_contracts({"learning_inputs": raw})
+        assert all(not c["applicable"] for c in contracts.values())
+
+
+def test_open_learning_worker_preserves_other_tool_statuses():
+    prior = {"L-BAYES": {"status": "ACCEPT"}}
+    result = learning_workers()["L-D6"]({"learning_status": prior})
+    assert result["learning_status"]["L-BAYES"] == prior["L-BAYES"]
+    assert result["learning_status"]["L-D6"]["status"] == "OPEN"
+    assert "L-D6" not in prior
+
+
+def test_caller_override_cannot_invent_missing_learning_inputs():
+    packet = {"tool_contracts": {"L-BAYES": {"applicable": True, "missing_inputs": (), "cost": 0.25}}}
+    installed = install_learning_contracts(packet)
+    contract = installed["tool_contracts"]["L-BAYES"]
+    assert contract["applicable"] is False
+    assert set(contract["missing_inputs"]) == {"prior", "likelihood"}
+    assert contract["cost"] == 0.25
+    assert select_min_cost_package(["PROBABILISTIC_BELIEF_UPDATE"], learning_package_index(), installed) == ()
+
+
+def test_caller_can_restrict_ready_learning_tool():
+    packet = {"learning_inputs": {"L-BAYES": {"prior": {"h": 1.0}, "likelihood": {"h": 1.0}}},
+              "tool_contracts": {"L-BAYES": {"applicable": False}}}
+    assert install_learning_contracts(packet)["tool_contracts"]["L-BAYES"]["applicable"] is False

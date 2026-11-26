@@ -8,7 +8,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from global_tool_execution import execute_protected_transition
+from global_tool_execution import execute_protected_transition, ToolExecutionBlocked
 from direct_tool_command_gateway import (
     bind_direct_tool_commands,
     direct_tool_ids,
@@ -73,6 +73,26 @@ def audit_full_invocation_portfolio()->FullInvocationPortfolioAudit:
             if not bound.complete or len(bound.bindings)!=1:
                 failures.append(f"{tool_id}:DIRECT_BINDING_INCOMPLETE")
                 continue
+
+            # An authorized direct command must not inherit another controller selection.
+            other=next((candidate for candidate in CONFIGURED_RUNS if candidate!=tool_id),None)
+            if other is not None:
+                contextual_state={
+                    "selected_tool_ids":(other,),
+                    "selected_tool":other,
+                    "selected_tool_id":other,
+                    "selected_action":{"tool_id":other},
+                    "selected_job":{"tool_id":other},
+                    "selected_next_candidate":{"tool_id":other},
+                }
+                contextual=bind_direct_tool_commands(f"run {tool_id}",state=contextual_state)
+                if not contextual.complete or tuple(b.tool_id for b in contextual.bindings)!=(tool_id,):
+                    failures.append(f"{tool_id}:INHERITED_SELECTION_LEAK")
+                if any(contextual.state.get(k)!=v for k,v in contextual_state.items()):
+                    failures.append(f"{tool_id}:INHERITED_CONTEXT_LOSS")
+                invalid=bind_direct_tool_commands(f"run {tool_id}",state={"selected_tool_id":"NOT_REGISTERED"})
+                if not invalid.complete:
+                    failures.append(f"{tool_id}:UNRELATED_SELECTION_VETO")
 
             plan=bound.bindings[0].plan
             if not plan.complete:
@@ -188,6 +208,28 @@ def audit_full_invocation_portfolio()->FullInvocationPortfolioAudit:
                 failures.append(
                     f"{tool_id}:PTI_RECURRENCE_EVIDENCE:{recurrence_ev}"
                 )
+
+            if tool_id!="HF002":
+                for field,value in (("hf2_affected_frontier",("unverified",)),("hf2_scope_deltas",{"downstream":"OPEN"})):
+                    consumed=[]
+                    try:
+                        execute_protected_transition(
+                            spec,
+                            behavior_id="FULL_CONFIGURED_INVOCATION_PROFILE",
+                            dispatch_fn=lambda p: ({},"scope-probe-dispatch"),
+                            execute_fn=lambda v,p: (v,"scope-probe-execute",{field:value}),
+                            consume_fn=lambda v,p: (consumed.append(v),"scope-probe-consume"),
+                            update_fn=lambda v,p: (v,"scope-probe-update"),
+                            reentry_fn=lambda v,p: (v,"scope-probe-reentry"),
+                            emission_audit_fn=lambda v,p: "scope-probe-emission",
+                        )
+                    except ToolExecutionBlocked as exc:
+                        if str(exc)!=f"PTI_HF2_RECURRENCE_NOT_CLOSED:{tool_id}:OPEN":
+                            failures.append(f"{tool_id}:PTI_AFFECTED_SCOPE_WRONG_BLOCK:{field}:{exc}")
+                    else:
+                        failures.append(f"{tool_id}:PTI_AFFECTED_SCOPE_FALSE_CLOSE:{field}")
+                    if consumed:
+                        failures.append(f"{tool_id}:PTI_AFFECTED_SCOPE_CONSUMED:{field}")
 
         except Exception as exc:
             failures.append(

@@ -5,7 +5,6 @@ result map/equivalence, and one or more explicit coordinate representations.
 Unknown or absent semantic bindings remain OPEN.
 """
 from __future__ import annotations
-from itertools import combinations
 from typing import Any, Callable, Mapping
 
 def _callable(value:Any,name:str)->Callable:
@@ -34,29 +33,19 @@ def minimal_sensitive_sets(cases,*,rho:Callable,approx:Callable,representation:C
     if any(len(value)!=width for value in values):
         raise ValueError("PD_REPRESENTATION_ARITY_DRIFT")
 
+    # A differing-result pair witnesses exactly the coordinates on which
+    # its representations differ, and every superset of those coordinates.
+    # Therefore the minimal witnesses are the inclusion-minimal pair supports;
+    # enumerating the entire coordinate powerset is unnecessary.
+    supports=set()
+    for i,left in enumerate(cases):
+        for j in range(i+1,len(cases)):
+            if not approx(rho(left),rho(cases[j])):
+                supports.add(tuple(k for k in range(width) if values[i][k]!=values[j][k]))
     sensitive=[]
-    # Include J=empty.  It witnesses a representation collapse when two cases
-    # have identical represented coordinates but different protected results.
-    for size in range(0,width+1):
-        for J_tuple in combinations(range(width),size):
-            J=frozenset(J_tuple)
-            if any(set(prev).issubset(J) for prev in sensitive):
-                continue
-            outside=tuple(i for i in range(width) if i not in J)
-            found=False
-            for i,left in enumerate(cases):
-                for j in range(i+1,len(cases)):
-                    right=cases[j]
-                    if (
-                        all(values[i][k]==values[j][k] for k in outside)
-                        and not approx(rho(left),rho(right))
-                    ):
-                        found=True
-                        break
-                if found:
-                    break
-            if found:
-                sensitive.append(tuple(sorted(J)))
+    for support in sorted(supports,key=lambda x:(len(x),x)):
+        if not any(set(prev).issubset(support) for prev in sensitive):
+            sensitive.append(support)
     return tuple(sensitive)
 
 def run_pd(
@@ -65,9 +54,12 @@ def run_pd(
     rho:Callable,
     approx:Callable,
     representations:Mapping[str,Callable],
+    allow_empty_domain:bool=False,
 )->dict[str,Any]:
     """Recover quotient result classes, fibers, and representation-relative MinSens."""
     cases=tuple(cases)
+    if not cases and allow_empty_domain is not True:
+        return {"status":"OPEN","blocker":"PD_CASE_DOMAIN_REQUIRED","result":None}
     rho=_callable(rho,"PD_RHO")
     approx=_callable(approx,"PD_APPROX")
     if not isinstance(representations,Mapping) or not representations:
@@ -75,7 +67,10 @@ def run_pd(
 
     reps={}
     for name,fn in representations.items():
-        reps[str(name)]=_callable(fn,f"PD_REPRESENTATION_{name}")
+        key=str(name)
+        if key in reps:
+            return {"status":"OPEN","blocker":"PD_REPRESENTATION_ID_COLLISION:"+key,"result":None}
+        reps[key]=_callable(fn,f"PD_REPRESENTATION_{name}")
 
     groups=result_partition(cases,rho=rho,approx=approx)
     minimal={

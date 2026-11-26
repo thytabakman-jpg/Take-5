@@ -35,7 +35,7 @@ def git_object_sha(kind, data):
 def git_blob_sha(data):
     return git_object_sha("blob", data)
 
-INTEGRATION_FILES = ("bootstrap.py", "run_packet.py", "document_adapters.py", "README.md")
+INTEGRATION_FILES = ("runtime_bootstrap.py", "execute_tool_packet.py", "document_tool_adapters.py", "README.md")
 
 
 def read_integration_manifest(path):

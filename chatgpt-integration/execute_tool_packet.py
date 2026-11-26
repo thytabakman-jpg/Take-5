@@ -88,7 +88,7 @@ def main():
                    help="Explicitly allow an external binding to replace this built-in tool (repeatable)")
     p.add_argument("--receipt",type=Path,required=True)
     a=p.parse_args()
-    from bootstrap import verify_bootstrap_receipt, write_failure_receipt, read_integration_manifest
+    from runtime_bootstrap import verify_bootstrap_receipt, write_failure_receipt, read_integration_manifest
     phase = "RUNTIME_VERIFICATION"
     context = {}
     try:
@@ -161,8 +161,8 @@ def main():
         if tool in admitted_external:
             return {"kind":"EXPLICIT_MODULE","path":provider["path"],"sha256":provider["sha256"]}
         if tool in adapters:
-            return {"kind":"BUILTIN","path":"run_packet.py",
-                    "git_blob_sha":integration_manifest["blobs"]["run_packet.py"]}
+            return {"kind":"BUILTIN","path":"execute_tool_packet.py",
+                    "git_blob_sha":integration_manifest["blobs"]["execute_tool_packet.py"]}
         return {"kind":"MISSING"}
     for tool in ids:
         if tool in admission_errors:

@@ -54,6 +54,15 @@ It then runs the whole-repertoire full-invocation audit.
 
 Therefore the final repair cannot validate on a stale regime-090 merge context.
 
+### Recorded transport validation
+
+Historical validation of commit `b338c4f4c94a391d8a7660fa73910b37870ff1e8`:
+
+- [Take-5 Validation 36270850293](https://github.com/thytabakman-jpg/Take-5/actions/runs/36270850293): SUCCESS.
+- [Capability Preservation 36270850299](https://github.com/thytabakman-jpg/Take-5/actions/runs/36270850299): SUCCESS.
+
+These are historical transport receipts, not evidence of current runtime readiness.
+
 ## Boundary
 
 This transport does not duplicate the regime-091 ImprovementCore default HF2 wrapper.

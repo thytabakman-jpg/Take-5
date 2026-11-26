@@ -1,7 +1,7 @@
 """Canonical repository-owned gateway for direct formal-tool commands.
 
-The gateway recognizes explicit imperative formal-tool requests, resolves the
-current registered identity, binds the current full configured plan, and reuses
+The gateway accepts explicit imperative formal-tool requests or structured ordered
+lists/tuples of exact registered tool IDs, binds the current full configured plan, and reuses
 the shared configured-tool bridge. The bridge owns HF2 recurrence.
 
 This repository cannot force an unrelated external host to enter this gateway.
@@ -35,14 +35,14 @@ class DirectToolCommandBinding:
 
     @property
     def complete(self)->bool:
-        return bool(self.tool_ids) and len(self.tool_ids)==len(self.bindings)
+        return bool(self.tool_ids) and self.tool_ids==tuple(binding.tool_id for binding in self.bindings)
 
 
 def _known_command_pattern():
     aliases=aliases_by_length()
     labels="|".join(re.escape(alias) for alias in aliases)
     return re.compile(
-        rf"\b(?:run|use|execute|apply|call)\s+(?:(?:the|a)\s+)?(?P<label>{labels})(?=\b|$)",
+        rf"\b(?:run|use|execute|apply|call)\s+(?:(?:the|a)\s+)?(?P<label>{labels})(?![\w-])",
         flags=re.IGNORECASE,
     )
 
@@ -55,7 +55,23 @@ FORMALISH_TOKEN_PATTERN=re.compile(
 )
 
 
-def direct_tool_ids(user_text:str)->tuple[str,...]:
+def direct_tool_ids(user_text:str|list[str]|tuple[str,...])->tuple[str,...]:
+    """Resolve legacy lexical commands or validate an explicit ordered ID list.
+
+    Structured requests are caller-authorized exact identities, not natural
+    language. Reject the whole request on invalid or repeated IDs before binding.
+    """
+    if isinstance(user_text,(list,tuple)):
+        if not user_text:
+            raise DirectToolCommandBlocked("DIRECT_TOOL_COMMAND_NOT_FOUND")
+        ids=[]
+        for raw in user_text:
+            if not isinstance(raw,str) or raw not in CONFIGURED_RUNS:
+                raise DirectToolCommandBlocked(f"DIRECT_TOOL_NOT_REGISTERED:{raw!r}")
+            if raw in ids:
+                raise DirectToolCommandBlocked(f"DIRECT_TOOL_DUPLICATE_ID:{raw}")
+            ids.append(raw)
+        return tuple(ids)
     text=str(user_text)
     out=[]
 
@@ -74,29 +90,25 @@ def direct_tool_ids(user_text:str)->tuple[str,...]:
         if canonical not in out:
             out.append(canonical)
 
-    if out:
-        return tuple(out)
-
-    # Fail closed for formal-looking single-token commands outside the current
-    # configured repertoire, while ordinary prose such as "use this" remains
-    # outside the formal-tool gateway.
-    fallback=FORMALISH_TOKEN_PATTERN.search(text)
-    if fallback:
+    # Check every formal-looking command, including mixed registered and
+    # unregistered requests. Unknown ordinary prose remains outside the gateway.
+    for fallback in FORMALISH_TOKEN_PATTERN.finditer(text):
         raw=fallback.group("label")
         try:
             canonical=canonical_formal_label(raw)
         except KeyError:
-            return ()
+            continue
         if canonical not in CONFIGURED_RUNS:
             raise DirectToolCommandBlocked(
                 f"DIRECT_TOOL_NOT_REGISTERED:{canonical}"
             )
 
-    return ()
+    return tuple(out)
+
 
 
 def bind_direct_tool_commands(
-    user_text:str,
+    user_text:str|list[str]|tuple[str,...],
     *,
     state:Any|None=None,
 )->DirectToolCommandBinding:
@@ -116,12 +128,17 @@ def bind_direct_tool_commands(
     }
 
     try:
-        bound_state,bindings=bind_selected_tools(selected)
+        selection_state,bindings=bind_selected_tools({"selected_tools":tool_ids})
     except ToolBridgeBlocked as exc:
         raise DirectToolCommandBlocked(str(exc)) from exc
 
+    # Inherited controller selections are context, not authorization for this command.
+    if tuple(binding.tool_id for binding in bindings)!=tool_ids:
+        raise DirectToolCommandBlocked("DIRECT_TOOL_BINDING_IDENTITY_MISMATCH")
+
     bound_state={
-        **bound_state,
+        **selected,
+        **selection_state,
         "direct_tool_command_status":"BOUND_FULL_CONFIGURED",
         "direct_tool_ids":tool_ids,
     }
@@ -135,7 +152,7 @@ def bind_direct_tool_commands(
 
 
 def execute_direct_tool_commands(
-    user_text:str,
+    user_text:str|list[str]|tuple[str,...],
     *,
     state:Any|None=None,
     adapters:Mapping[str,Callable]|None=None,

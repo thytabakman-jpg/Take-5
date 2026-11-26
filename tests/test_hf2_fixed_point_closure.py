@@ -136,3 +136,72 @@ def test_configured_wrapper_propagates_affected_scope_contract():
     )
     assert out.status=="OPEN"
     assert out.call_count==1
+
+
+def test_reusing_hf2_engine_does_not_reuse_previous_episode_receipts():
+    def run(state,memory):
+        return {"execution_truth":"SEMANTICALLY_APPLIED","state":state,
+                "material_delta":False}
+    engine=_engine(run)
+    first=engine.run({"version":1},{})
+    second=engine.run({"version":2},{})
+    assert len(first["trace"])==len(second["trace"])==1
+    assert second["trace"][0]["state_before"]=={"version":2}
+
+
+def test_non_success_attempt_is_recorded_in_trace():
+    for status in ("OPEN","BLOCKED","CONFLICT"):
+        out = _engine(lambda *_:{"execution_truth":status}).run({}, {})
+        assert out["status"] == status
+        assert len(out["trace"]) == 1
+        assert out["trace"][0]["disposition"] == status
+
+
+def test_nonterminal_trc_attempt_is_recorded_without_admitting_state():
+    engine = _engine(lambda *_:{"execution_truth":"IMPLEMENTATION_EXECUTED","state":{"new":True}})
+    engine.trc_verify = lambda *_:{"terminal":False}
+    out = engine.run({}, {})
+    assert out["status"] == "OPEN" and out["state"] == {}
+    assert out["trace"][0]["disposition"] == "OPEN"
+
+
+def test_hf2_round_receipts_freeze_nested_state_at_each_round():
+    calls=[]
+    def run(state,memory):
+        calls.append(True)
+        if len(calls)==1:
+            state["nested"]["version"]=1
+        else:
+            state["nested"]["version"]=2
+        return {"execution_truth":"SEMANTICALLY_APPLIED","state":state,
+                "material_delta":len(calls)==1}
+    out=_engine(run).run({"nested":{"version":0}}, {})
+    assert out["status"]=="RELATIVE_CLOSE"
+    assert out["trace"][0]["state_before"]["nested"]["version"]==0
+    assert out["trace"][0]["state_after"]["nested"]["version"]==1
+    assert out["trace"][1]["state_before"]["nested"]["version"]==1
+    assert out["trace"][1]["state_after"]["nested"]["version"]==2
+
+
+def test_hf2_rejects_unverified_nested_mutations_and_textual_terminal():
+    initial={"nested":{"version":0}}
+    def run(state,memory):
+        state["nested"]["version"]=1
+        return {"execution_truth":"IMPLEMENTATION_EXECUTED","state":state}
+    engine=_engine(run)
+    engine.trc_verify=lambda *_:{"terminal":"false"}
+    out=engine.run(initial,{})
+    assert out["status"]=="OPEN"
+    assert out["state"]=={"nested":{"version":0}}
+    assert initial=={"nested":{"version":0}}
+    assert out["trace"][0]["state_after"]==out["state"]
+
+
+def test_hf2_non_success_does_not_admit_in_place_mutation():
+    initial={"nested":{"version":0}}
+    def run(state,memory):
+        state["nested"]["version"]=1
+        return {"execution_truth":"BLOCKED"}
+    out=_engine(run).run(initial,{})
+    assert out["status"]=="BLOCKED"
+    assert out["state"]==initial=={"nested":{"version":0}}

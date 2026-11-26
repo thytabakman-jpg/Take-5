@@ -1,1 +1,1 @@
-Refresh verified runtime for Architecture graph diagnostics and worker provenance mapping
+Refresh verified runtime following coordinated execution architecture and integration path migration

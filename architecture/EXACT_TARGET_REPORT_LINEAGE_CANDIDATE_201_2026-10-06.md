@@ -27,7 +27,7 @@ This candidate does not replace:
 
 - Execution Claim Integrity 117;
 - Protected Transition Integrity;
-- Full Configured Tool Invocation 121;
+- Tool Execution Architecture;
 - Tool Run Closure;
 - ImprovementCore Parent Return Closure 139;
 - Currentness Audit.

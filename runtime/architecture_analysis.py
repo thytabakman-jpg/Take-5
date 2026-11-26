@@ -16,10 +16,23 @@ def _normalized_jobs(value:Any)->tuple[str,...]:
         return ()
     if isinstance(value,str):
         return (value,) if value else ()
+    if isinstance(value, Mapping):
+        raise ValueError("UNIT_JOB_IDENTITIES_REQUIRED")
     try:
-        return tuple(dict.fromkeys(str(x) for x in value if str(x)))
-    except TypeError:
-        return (str(value),)
+        jobs=tuple(value)
+    except TypeError as exc:
+        raise ValueError("UNIT_JOB_IDENTITIES_REQUIRED") from exc
+    if any(not isinstance(job,str) for job in jobs):
+        raise ValueError("UNIT_JOB_IDENTITIES_REQUIRED")
+    return tuple(dict.fromkeys(job for job in jobs if job))
+
+def _unit_ids(value:Any)->set[str]:
+    if not isinstance(value,(list,tuple,set,frozenset)) or any(
+        not isinstance(x,str) or not x.strip() for x in value
+    ):
+        raise ValueError("UNIT_ID_COLLECTION_REQUIRED")
+    return set(value)
+
 
 def run_architecture_analysis(
     architecture:Any,
@@ -31,6 +44,19 @@ def run_architecture_analysis(
     """Return the current AA_K(A) carrier while preserving OPEN/CONFLICT/BLOCKED."""
     if not callable(analyze_architecture):
         raise TypeError("ARCHITECTURE_ANALYZER_CALLABLE_REQUIRED")
+
+    protected=tuple(dict.fromkeys(str(x) for x in protected_constraints if str(x)))
+    # Freeze governing authority before invoking the external analyzer. The
+    # optional contract fields are UnitJobExceptions and ExpectedUnitIds.
+    exceptions=set()
+    expected_units=None
+    if UNIT_JOB_PURITY in protected and isinstance(contract,Mapping):
+        try:
+            exceptions=_unit_ids(contract.get("UnitJobExceptions",()))
+            if "ExpectedUnitIds" in contract:
+                expected_units=_unit_ids(contract["ExpectedUnitIds"])
+        except ValueError:
+            return {"status":"BLOCKED","blocker":"ARCHITECTURE_UNIT_JOB_CONTRACT_INVALID","result":None}
 
     raw=analyze_architecture(architecture,contract)
     if not isinstance(raw,Mapping):
@@ -45,7 +71,6 @@ def run_architecture_analysis(
             "result":result,
         }
 
-    protected=tuple(dict.fromkeys(str(x) for x in protected_constraints if str(x)))
     native_preserved=set()
 
     if UNIT_JOB_PURITY in protected:
@@ -63,15 +88,29 @@ def run_architecture_analysis(
                 "blocker":"ARCHITECTURE_UNIT_JOB_EVIDENCE_MISSING",
                 "result":result,
             }
-        exceptions={
-            str(x) for x in result.get("UnitJobExceptions",()) if str(x)
-        }
+        try:
+            reported_exceptions=_unit_ids(result.get("UnitJobExceptions",()))
+        except ValueError:
+            return {"status":"OPEN","blocker":"ARCHITECTURE_UNIT_JOB_EXCEPTIONS_INVALID","result":result}
+        if reported_exceptions-exceptions:
+            return {"status":"OPEN","blocker":"ARCHITECTURE_UNIT_JOB_EXCEPTIONS_UNAUTHORIZED:"+",".join(sorted(reported_exceptions-exceptions)),"result":result}
+        if any(not isinstance(uid,str) or not uid.strip() for uid in unit_jobs):
+            return {"status":"OPEN","blocker":"ARCHITECTURE_UNIT_JOB_IDS_INVALID","result":result}
+        if expected_units is not None:
+            observed=set(unit_jobs)
+            if observed!=expected_units or len(observed)!=len(unit_jobs):
+                return {"status":"OPEN","blocker":"ARCHITECTURE_UNIT_JOB_INVENTORY_MISMATCH","result":result,
+                        "missing_units":tuple(sorted(expected_units-observed)),
+                        "unexpected_units":tuple(sorted(observed-expected_units))}
         bad=[]
         for unit_id,raw_jobs in unit_jobs.items():
             uid=str(unit_id)
             if uid in exceptions:
                 continue
-            jobs=_normalized_jobs(raw_jobs)
+            try:
+                jobs=_normalized_jobs(raw_jobs)
+            except ValueError:
+                return {"status":"OPEN","blocker":"ARCHITECTURE_UNIT_JOB_IDENTITIES_INVALID:"+uid,"result":result}
             if len(jobs)>1:
                 bad.append(uid+"="+"/".join(jobs))
         if bad:
