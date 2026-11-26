@@ -4,7 +4,9 @@
 
 Improve the substantive quality, semantic precision, logical integrity and functional effectiveness of every targeted document, according to its purpose.
 
-The tools are instruments for accomplishing this objective. Successful tool execution alone does not constitute meaningful research improvement. Prioritize discovering problems, developing solutions, implementing validated repairs and verifying improvements.
+The tools are mandatory instruments of the prescribed procedure. Achieve substantive research improvement through the required execution, analysis, validated repairs and verification. Successful tool execution alone does not constitute meaningful research improvement, and substantive improvement alone does not constitute successful Repair execution.
+
+**Mandatory procedural compliance:** Execute the prescribed procedure exactly as specified. Do not adapt, abbreviate, replace, simulate, reinterpret or bypass its execution requirements. Follow the linked governing protocols and runtime recovery instructions as binding requirements, not suggestions. Exercise discretion only at decision points expressly authorized by this prompt or its governing protocols, within their stated conditions. If a required procedure cannot be executed, report the exact requirement, attempted recovery, blocking condition and resulting incomplete status. Do not substitute independent host analysis, a manually approximated tool, protocol retrieval, or a plausible result for prescribed native execution. Do not implement a repair whose required validation remains incomplete. No completion claim may waive an outstanding mandatory obligation.
 
 ## 2. Target documents
 
@@ -70,7 +72,7 @@ Apply the Semantic Preflight Protocol's every-word rule to the entire file, rath
 
 ### 4.1 Repair document semantic preflight profile
 
-The original protocol is a provisional prompt-intake protocol. Preserve that protocol's scope and status. This Repair-specific profile adapts its every-word rule to a frozen document and its governing purpose, not to a different prompt-intake procedure. It is an authorized host-semantic adaptation, not an already certified native execution profile.
+The original protocol is a provisional prompt-intake protocol. Preserve that protocol's scope and status. This Repair-specific profile adapts its every-word rule to a frozen document and its governing purpose, not to a different prompt-intake procedure. This explicitly prescribed Repair-specific profile is a host-semantic preflight, not a certified native execution profile. Apply it as written; it grants no authority to adapt any other procedure or replace native execution.
 
 Freeze the target identity and version, document job, governing goal, authorized operation, audience, applicable constraints and protected content or functionality. Resolve material ambiguity from the document and its governing sources; preserve OPEN when unresolved. Return source-located findings and material semantic coordinates for the applicable tools, separating observation, inference, externally acquired evidence, proposed changes and authorization. A preflight finding does not by itself authorize a repair. Retain unresolved obligations in the continuation record.
 
@@ -133,6 +135,8 @@ Where source evidence is insufficient, investigate the relevant external sources
 
 ### 6.1 Mandatory tools
 
+Execute every tool in this list through its registered native implementation and full configured invocation profile. Apply the stated triggers for Diagnosis and RTC; when a trigger is satisfied, execution is mandatory. Record a source-supported disposition for each tool, including any unmet trigger or execution blocker. Do not omit an applicable tool because another tool or host analysis appears to cover its function.
+
 - MT
 - GOAL
 - Architecture
@@ -143,7 +147,7 @@ Where source evidence is insufficient, investigate the relevant external sources
 
 ### 6.2 Conditional tools
 
-Use these tools when their functions materially contribute to the analysis:
+Assess every listed tool against its governing applicability conditions and the target's actual requirements. Execute every applicable tool through its registered native implementation and configured invocation profile. Record the evidence-supported reason for each non-applicable disposition; do not use perceived redundancy, convenience or anticipated output as grounds to omit an applicable tool:
 
 - ASSERT, when substantive assertions require evaluation.
 - GDOS
@@ -158,13 +162,13 @@ Use these tools when their functions materially contribute to the analysis:
 
 #### Runtime and provider admission
 
-Recover the current runtime using the runner-independent route in the bootstrap instructions. Independently resolve both current revisions and verify the matching dual-revision runtime before relying on it. Reuse an existing verified installation and successful bootstrap receipt within the same unchanged verification basis and working environment, following the bootstrap README. An earlier artifact may supply independently hash-matching source bytes, indexed by Git blob identity; it is not current execution evidence on a changed basis. Do not trigger or request GitHub Actions runners. Preserve OPEN/BLOCKED when authenticated reconstruction or required local validation is unavailable.
+Recover the current runtime using the runner-independent route in the bootstrap instructions. Independently resolve both current revisions and verify the matching dual-revision runtime before relying on it. Reuse an existing verified installation and successful bootstrap receipt within the same unchanged verification basis and working environment, following the bootstrap README. An earlier artifact may supply independently hash-matching source bytes, indexed by Git blob identity; it is not current execution evidence on a changed basis. Do not trigger or request GitHub Actions runners. If no verified current runtime is available, execute the runner-independent reconstruction and validation procedure specified in the bootstrap README. Exhaust its applicable recovery routes before declaring a blocker. A large source inventory, expected effort, preference for host analysis or lack of a pre-existing installation does not establish unavailability. When an actual access, capability, resource or validation limit prevents completion, record the attempted steps, exact failed or inaccessible requirement and remaining work as OPEN/BLOCKED. Do not proceed as if runtime verification had succeeded.
 
-Use actual native implementations wherever the required inputs and adapters are available. Follow the [bootstrap usage and adapter contract](https://github.com/thytabakman-jpg/Take-5/blob/chatgpt-runtime-bootstrap/chatgpt-integration/README.md) and the [semantic worker adapter contract](architecture/Semantic%20Worker%20Contract.md). Verify that each adapter admits the actual target and task, not merely the registered tool identity. The supplied `document_tool_adapters.py` bindings admit only the tool-specific input schemas owned by the [bootstrap README's document-analysis bindings](https://github.com/thytabakman-jpg/Take-5/blob/chatgpt-runtime-bootstrap/chatgpt-integration/README.md#read-only-document-analysis-bindings). They are not general document-repair workers. Do not submit unrelated documents to those bindings or reinterpret their bounded results as general semantic coverage. Where a suitable task-specific provider is absent, retain the affected tool obligation as OPEN and distinguish independently supported host analysis from native execution.
+Use the actual registered native implementations for every mandatory and applicable conditional tool. Obtain and verify the required inputs and adapters under their governing contracts; do not treat the absence of an immediately available input or adapter as permission to skip prescribed acquisition or recovery. Follow the [bootstrap usage and adapter contract](https://github.com/thytabakman-jpg/Take-5/blob/chatgpt-runtime-bootstrap/chatgpt-integration/README.md) and the [semantic worker adapter contract](architecture/Semantic%20Worker%20Contract.md). Verify that each adapter admits the actual target and task, not merely the registered tool identity. The supplied `document_tool_adapters.py` bindings admit only the tool-specific input schemas owned by the [bootstrap README's document-analysis bindings](https://github.com/thytabakman-jpg/Take-5/blob/chatgpt-runtime-bootstrap/chatgpt-integration/README.md#read-only-document-analysis-bindings). They are not general document-repair workers. Do not submit unrelated documents to those bindings or reinterpret their bounded results as general semantic coverage. Where a suitable task-specific provider is absent, retain the affected tool obligation as OPEN and distinguish independently supported host analysis from native execution.
 
-Distinguish native execution from semantic host analysis. Do not falsely certify unavailable capabilities.
+Distinguish native execution from semantic host analysis. Host analysis is permitted only for its explicitly assigned input, evidence, interpretation or independently executable research responsibilities. It never discharges an outstanding native tool obligation or validates a repair in place of a required native tool. Do not falsely certify unavailable capabilities.
 
-Do not spend the conversation unnecessarily developing execution infrastructure.
+Complete the prescribed runtime recovery, verification and adapter selection steps. Do not develop unrelated execution infrastructure or redesign the prescribed recovery route. This restriction does not authorize omitting, shortening or abandoning required recovery steps.
 
 #### Configured invocation, evidence and open obligations
 
@@ -176,13 +180,13 @@ Supply relevant, evidence-supported semantic inputs and domain analysis. Do not 
 
 Retain native execution receipts identifying the tool, adapter, input, invocation profile, output and applicable recurrence. Distinguish verified native execution, host analysis, blocked execution and non-execution. Availability, tests, protocol retrieval and host findings do not establish native execution.
 
-Record the exact identity and blocking condition of each unavailable or blocked mandatory tool. Continue independently executable work, using separate receipts when an earlier blockage would suppress independent tools. Preserve actual prerequisites and unresolved obligations; never bypass preconditions or certify incomplete requirements as completed.
+Record the exact identity, required inputs, attempted recovery and blocking condition of each unavailable or blocked mandatory or applicable conditional tool. Continue only independently executable stages whose own prerequisites remain satisfied; use separate receipts when an earlier blockage would suppress independent tools. Do not advance an affected repair through a blocked prerequisite, substitute host analysis for native execution, or certify incomplete requirements as completed. Preserve actual prerequisites and unresolved obligations.
 
-Use genuinely independent evaluation where available. If that capability is unavailable, distinguish same-context adversarial review from independent assessment and do not falsely claim the latter.
+Obtain genuinely independent evaluation whenever required by the governing protocol. If the required capability cannot be accessed after the prescribed attempts, report the unmet requirement and preserve the corresponding OPEN/BLOCKED obligation. Label any same-context adversarial review separately; it does not discharge an independent-evaluation requirement.
 
 ## 7. Autonomous repair cycle
 
-Execute the following cycle independently for each file. Complete all operationally feasible stages, distinguish unresolved problems from genuinely blocked requirements, and advance according to Section 8.
+Execute every applicable stage of the following cycle independently for each file, in its prescribed dependency order. Record a disposition for every stage. Apply the blocking and non-substitution requirements of Sections 1 and 6.3 before advancing according to Section 8.
 
 1. Retrieve and freeze the current file version.
 2. Read the entire document.
@@ -194,7 +198,7 @@ Execute the following cycle independently for each file. Complete all operationa
 8. Assess each proposed repair using GO / NO-GO / TWEAK.
 9. Refine TWEAK recommendations through applicable recursive tool execution.
 10. Reject NO-GO recommendations.
-11. Implement validated GO recommendations directly in GitHub when operating in repair mode. Recheck the target branch and frozen file identity immediately before writing. Use a conditional write against the verified current blob or an equivalent non-overwriting version guard. If the file or a result-sensitive dependency has changed, retrieve the new state, reconcile the proposed changes, and reassess affected repairs before writing. Never overwrite an intervening change using a stale replacement.
+11. Implement validated GO recommendations directly in GitHub when operating in repair mode, only after every applicable prerequisite and required validation for the recommendation has been satisfied and evidenced. Do not implement a GO recommendation based solely on host analysis when its required native tool execution or independent validation is incomplete. Recheck the target branch and frozen file identity immediately before writing. Use a conditional write against the verified current blob or an equivalent non-overwriting version guard. If the file or a result-sensitive dependency has changed, retrieve the new state, reconcile the proposed changes, and reassess affected repairs before writing. Never overwrite an intervening change using a stale replacement.
 12. Retrieve the modified document from the intended branch and verify the actual changes against the committed version, including preservation of concurrent work.
 13. Re-examine affected passages and downstream dependencies for regressions and verify applicable consequences and obligations under Section 6.
 14. Record any remaining material limitations.
@@ -206,11 +210,11 @@ When the user explicitly requests recommendations without implementation, comple
 
 ## 8. Sequential execution and continuation
 
-Work on one file at a time. Complete its full repair cycle wherever operationally possible.
+Work on one file at a time. Complete its full prescribed repair cycle. If an actual execution blocker prevents completion, explicitly record the incomplete stage and do not classify the file as completed.
 
 In repair mode, commit and verify implemented repairs before advancing. Where no material defect is identified, verify completion without modifying the file.
 
-When requirements are genuinely blocked, complete all independently executable work and record the outstanding obligations.
+When requirements are genuinely blocked, complete only the remaining independently executable work authorized by Section 6.3. Record the outstanding obligations and their exact blockers. Do not implement affected repairs or treat partial work as completion.
 
 After each file, update a recoverable continuation record identifying the run scope (repositories, branches, target selection and mode), exact file path, assessed blob identity, committed blob and commit identities where applicable, completion status, verified repairs or recommendations, unresolved obligations and the next file. Distinguish a verified no-change result from a modified file and from a partial or blocked result. Use authorized persistent storage where available; do not claim a durable checkpoint if persistence is unavailable.
 
@@ -218,7 +222,7 @@ Proceed immediately to the next file without requesting further authorization.
 
 Progress reporting is part of ongoing execution and does not terminate or suspend the repair cycle.
 
-Continue until all independently executable work across the entire target set has been exhausted or an actual execution limit prevents further progress.
+Continue until every applicable obligation is satisfied or an actual execution limit prevents further progress after the prescribed recovery attempts. If the run cannot be completed, record the remaining obligations, attempted actions and exact execution limit. Report the run as incomplete; anticipated effort or sufficient-looking host results are not termination conditions.
 
 Resume from a recorded checkpoint only when the invocation is a continuation of the same authorized scope and mode. Reconcile the checkpoint with the current target inventory and file identities; retain completed results only while their assessed versions and result-sensitive dependencies remain current. Reassess changed or newly admitted files, exclude targets no longer in scope, and revisit outstanding obligations when their blocking conditions have been resolved. A fresh Repair invocation or explicitly requested reassessment starts from current state; previous records are evidence, not instructions to skip files. Never silently import a prior run's scope, authorization or completion status.
 
@@ -239,7 +243,7 @@ Measure success primarily through:
 - Document-specific responsibilities fulfilled more effectively.
 - Repairs implemented and verified, or validated recommendations produced in recommendations-only mode.
 
-The number of tools executed is secondary.
+The number of tools executed is not a substantive quality metric. Execution of every mandatory and applicable conditional tool remains a procedural completion requirement. Do not trade required execution for apparent research improvement.
 
 A file that contains no material defect does not require an artificial edit.
 
@@ -259,8 +263,9 @@ At completion, report:
 - Verified GitHub commits, where applicable.
 - New research discoveries.
 - Remaining unresolved issues.
-- Any incomplete tool or verification requirements.
+- A per-tool and per-stage execution disposition identifying completed native execution with its receipt, non-applicability with its basis, or incomplete execution with the exact attempted recovery and blocker.
+- Any incomplete tool or verification requirements, including affected repairs withheld and the precise work remaining.
 
-Distinguish completed work from partial execution.
+Declare the overall Repair execution incomplete whenever a mandatory or applicable conditional procedure, required validation or required verification remains outstanding. Distinguish completed work from partial execution; a committed change or useful host finding is not evidence of full procedural compliance.
 
 **Begin immediately with the first file and continue through the entire target set according to Section 8. Do not substitute a plan for execution.**
