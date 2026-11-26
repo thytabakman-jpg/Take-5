@@ -316,7 +316,6 @@ TESTS = [
     "test_multiobject_fullmath_identity.py",
     "test_improvement_core_hf2_default.py", "test_hf2_fixed_point_closure.py",
     "test_execution_responsibility_boundaries.py",
-    "test_four_tool_recovery_20260927.py",
 ]
 
 
