@@ -1,9 +1,13 @@
-"""Mandatory configured-tool execution bridge for ImprovementCore.
+"""Shared configured-tool execution bridge.
 
-The controller may select work generically, but a selected registered formal tool
-cannot be satisfied by prose, a stage label, or an execution plan. It must cross
-this bridge into a bound configured-tool adapter. Missing execution capability
-preserves OPEN rather than silently falling back to host reasoning.
+Owns the execution of already-bound, ordered tool batches and the projection
+of their results into caller-visible receipts and state. Direct commands and
+ImprovementCore use the same execution boundary. Missing execution capability
+preserves OPEN rather than substituting host reasoning.
+
+The historical module path and selection-state interface remain supported for
+compatibility. This bridge does not select work, interpret natural-language
+authorization, construct execution plans, or own native HF2 recurrence.
 """
 from __future__ import annotations
 
@@ -53,93 +57,7 @@ class ConfiguredToolBatchResult:
     blocker:str|None
 
 
-# II. Controller selection-state interpretation.
-# ImprovementCore-specific state keys belong at this boundary. Exact identity
-# normalization remains delegated to formal_object_registry and the live registry.
-def _canonical_registered(value:Any)->str:
-    raw=str(value).strip()
-    if not raw:
-        raise ToolBridgeBlocked("CONFIGURED_TOOL_EMPTY_ID")
-    try:
-        tool_id=canonical_formal_label(raw)
-    except KeyError as exc:
-        raise ToolBridgeBlocked(f"CONFIGURED_TOOL_NOT_REGISTERED:{raw}") from exc
-    if tool_id not in CONFIGURED_RUNS:
-        raise ToolBridgeBlocked(f"CONFIGURED_TOOL_NOT_REGISTERED:{tool_id}")
-    return tool_id
-
-
-def _tool_from_mapping(value:Mapping[str,Any])->str|None:
-    for key in ("tool_id","formal_tool","tool"):
-        raw=value.get(key)
-        if raw:
-            return _canonical_registered(raw)
-    return None
-
-
-def selected_tool_ids(state:Any)->tuple[str,...]:
-    """Return explicit configured-tool selections in controller order.
-
-    Formal-tool selection is intentionally explicit. Candidate IDs and ordinary
-    strings are not guessed into tools because that would turn tool salience into
-    accidental authority.
-    """
-    if not isinstance(state,dict):
-        return ()
-
-    raw_items=[]
-    for key in ("selected_tools","selected_tool_ids"):
-        value=state.get(key)
-        if value:
-            if isinstance(value,(list,tuple)):
-                raw_items.extend(value)
-            else:
-                raw_items.append(value)
-
-    for key in ("selected_tool","selected_tool_id"):
-        value=state.get(key)
-        if value:
-            raw_items.append(value)
-
-    for key in ("selected_action","selected_job","selected_next_candidate"):
-        value=state.get(key)
-        if isinstance(value,Mapping):
-            mapped=_tool_from_mapping(value)
-            if mapped:
-                raw_items.append(mapped)
-
-    out=[]
-    for item in raw_items:
-        if isinstance(item,Mapping):
-            tool_id=_tool_from_mapping(item)
-            if tool_id is None:
-                continue
-        else:
-            tool_id=_canonical_registered(item)
-        if tool_id not in out:
-            out.append(tool_id)
-    return tuple(out)
-
-
-# III. Shared configured-plan binding.
-# Exact registered-ID binding is owned by tool_execution_plan.py.
-# Controller-state projection remains here.
-def bind_selected_tools(state:Any)->tuple[Any,tuple[ConfiguredToolBinding,...]]:
-    tool_ids=selected_tool_ids(state)
-    if not tool_ids:
-        return state,()
-
-    bindings=_bind_registered_ids(tool_ids)
-    if isinstance(state,dict):
-        state={
-            **state,
-            "configured_tool_bindings":tuple(binding.summary for binding in bindings),
-            "configured_tool_binding_status":"BOUND",
-        }
-    return state,bindings
-
-
-# IV. Shared adapter result and receipt normalization.
+# II. Shared adapter result and receipt normalization.
 # Recurrence projection is owned by configured_hf2_execution.py.
 # Controller output history and caller-specific receipt adaptation remain here.
 def _plain(value:Any)->Any:
@@ -231,7 +149,7 @@ def _normalize_adapter_result(
     )
 
 
-# V. Shared ordered batch execution.
+# III. Shared ordered batch execution.
 # The current batch is fail-fast and state-dependent; independent calls are
 # isolated by execute_tool_packet.py. Do not change this policy implicitly.
 def execute_bound_tools(
@@ -290,3 +208,89 @@ def execute_bound_tools(
             )
 
     return ConfiguredToolBatchResult(current,tuple(executions),"EXECUTED",None)
+
+
+# IV. Compatibility interface: controller selection-state interpretation.
+# This is an adapter for callers using the historical selection-state schema,
+# not a requirement of shared batch execution. Explicitly bound batches bypass it.
+# Exact identity normalization remains delegated to formal_object_registry.
+def _canonical_registered(value:Any)->str:
+    raw=str(value).strip()
+    if not raw:
+        raise ToolBridgeBlocked("CONFIGURED_TOOL_EMPTY_ID")
+    try:
+        tool_id=canonical_formal_label(raw)
+    except KeyError as exc:
+        raise ToolBridgeBlocked(f"CONFIGURED_TOOL_NOT_REGISTERED:{raw}") from exc
+    if tool_id not in CONFIGURED_RUNS:
+        raise ToolBridgeBlocked(f"CONFIGURED_TOOL_NOT_REGISTERED:{tool_id}")
+    return tool_id
+
+
+def _tool_from_mapping(value:Mapping[str,Any])->str|None:
+    for key in ("tool_id","formal_tool","tool"):
+        raw=value.get(key)
+        if raw:
+            return _canonical_registered(raw)
+    return None
+
+
+def selected_tool_ids(state:Any)->tuple[str,...]:
+    """Return explicit configured-tool selections in controller order.
+
+    Formal-tool selection is intentionally explicit. Candidate IDs and ordinary
+    strings are not guessed into tools because that would turn tool salience into
+    accidental authority.
+    """
+    if not isinstance(state,dict):
+        return ()
+
+    raw_items=[]
+    for key in ("selected_tools","selected_tool_ids"):
+        value=state.get(key)
+        if value:
+            if isinstance(value,(list,tuple)):
+                raw_items.extend(value)
+            else:
+                raw_items.append(value)
+
+    for key in ("selected_tool","selected_tool_id"):
+        value=state.get(key)
+        if value:
+            raw_items.append(value)
+
+    for key in ("selected_action","selected_job","selected_next_candidate"):
+        value=state.get(key)
+        if isinstance(value,Mapping):
+            mapped=_tool_from_mapping(value)
+            if mapped:
+                raw_items.append(mapped)
+
+    out=[]
+    for item in raw_items:
+        if isinstance(item,Mapping):
+            tool_id=_tool_from_mapping(item)
+            if tool_id is None:
+                continue
+        else:
+            tool_id=_canonical_registered(item)
+        if tool_id not in out:
+            out.append(tool_id)
+    return tuple(out)
+
+
+# V. Compatibility interface: selection-to-binding state projection.
+# Exact registered-ID binding is owned by tool_execution_plan.py.
+def bind_selected_tools(state:Any)->tuple[Any,tuple[ConfiguredToolBinding,...]]:
+    tool_ids=selected_tool_ids(state)
+    if not tool_ids:
+        return state,()
+
+    bindings=_bind_registered_ids(tool_ids)
+    if isinstance(state,dict):
+        state={
+            **state,
+            "configured_tool_bindings":tuple(binding.summary for binding in bindings),
+            "configured_tool_binding_status":"BOUND",
+        }
+    return state,bindings
