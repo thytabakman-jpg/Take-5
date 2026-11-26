@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Load the exact authoritative Take-5 snapshot from a GitHub Actions artifact.
+"""Load the exact authoritative Take-5 snapshot from a verified local archive.
 
 No network, credentials, repository writes or semantic substitution.
 The caller independently fetches the current main commit and passes its SHA.
@@ -295,6 +295,11 @@ def main():
     ap.add_argument("--destination",type=Path, default=Path("take5-runtime"))
     ap.add_argument("--receipt",type=Path, default=Path("bootstrap-receipt.json"))
     args=ap.parse_args()
+    if re.fullmatch(r"[0-9a-f]{40}", args.expected_commit):
+        target=(args.destination.resolve()/args.expected_commit).resolve()
+        if args.receipt.resolve().is_relative_to(target):
+            print("RECEIPT_INSIDE_VERIFIED_RUNTIME", file=sys.stderr)
+            return 1
     phase = "INSTALL"
     context = {"expected_commit": args.expected_commit}
     try:
