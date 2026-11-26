@@ -227,7 +227,8 @@ def _allowed(text:str, start:int, end:int, contract:ProseContract)->bool:
             if idx<0:
                 break
             span_end=idx+len(span)
-            if idx<=end and span_end>=start:
+            # Offsets are half-open: adjacent spans do not overlap.
+            if idx<end and span_end>start:
                 return True
             offset=idx+1
     return False

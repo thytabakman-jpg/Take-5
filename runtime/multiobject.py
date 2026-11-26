@@ -194,8 +194,10 @@ def _open(
 def _validate_objects(objects:tuple[FrozenObject,...])->str|None:
     if len(objects)<3:
         return "MULTIOBJECT_REQUIRES_AT_LEAST_THREE_OBJECTS"
+    if any(not isinstance(o,FrozenObject) for o in objects):
+        return "MULTIOBJECT_FROZEN_OBJECT_REQUIRED"
     ids=[o.object_id for o in objects]
-    if any(not x for x in ids):
+    if any(not isinstance(x,str) or not x.strip() for x in ids):
         return "MULTIOBJECT_OBJECT_ID_REQUIRED"
     if len(ids)!=len(set(ids)):
         return "MULTIOBJECT_OBJECT_IDS_NOT_UNIQUE"
@@ -225,6 +227,8 @@ def _validate_route(
 )->str|None:
     if not isinstance(route,RouteResult):
         return "MULTIOBJECT_ROUTE_RESULT_REQUIRED"
+    if not isinstance(route.route_id,str) or not route.route_id.strip():
+        return "MULTIOBJECT_ROUTE_ID_REQUIRED"
     if expected_route_id is not None and route.route_id!=expected_route_id:
         return f"MULTIOBJECT_ROUTE_ID_MISMATCH:{route.route_id}"
     if route.route_kind!=expected_kind:

@@ -192,7 +192,8 @@ def run_attack(program_id, payload):
         inventory=payload.get("failures")
         if not isinstance(inventory,(list,tuple)) or any(not isinstance(x,dict) for x in inventory):
             return {"status":"OPEN","mechanism_dispositions":[],"unresolved":[],"blocker":"FAILURE_INVENTORY_REQUIRED"}
-        failures=[x for x in inventory if x.get("material",True)]
+        # Only an explicit negative materiality judgment excludes a failure.
+        failures=[x for x in inventory if x.get("material",True) is not False]
         unresolved_labels={"UNKNOWN","OPEN","BLOCKED","CONFLICT","FAILED","FAIL","UNRESOLVED","UNDETERMINED","NOT_DIAGNOSED","NONE","N/A"}
         def identified(row):
             mechanism=row.get("mechanism")

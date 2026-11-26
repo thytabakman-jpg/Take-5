@@ -89,15 +89,15 @@ def _candidate_signature(candidate:GoalCandidate)->tuple:
 
 def _admissible(candidate:GoalCandidate)->bool:
     return bool(
-        candidate.candidate_id
-        and candidate.evidence
-        and candidate.grounded
-        and candidate.authority_typed
-        and candidate.determinate_enough
-        and candidate.goal.X
-        and candidate.goal.T
-        and candidate.goal.I
-        and candidate.goal.Sigma
+        isinstance(candidate.candidate_id,str) and candidate.candidate_id.strip()
+        and any(isinstance(ev,str) and ev.strip() for ev in candidate.evidence)
+        and candidate.grounded is True
+        and candidate.authority_typed is True
+        and candidate.determinate_enough is True
+        and isinstance(candidate.goal,GoalObject)
+        and all(isinstance(value,str) and value.strip() for value in (
+            candidate.goal.X,candidate.goal.T,candidate.goal.I,candidate.goal.Sigma
+        ))
     )
 
 
