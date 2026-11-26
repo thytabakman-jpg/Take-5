@@ -292,5 +292,29 @@ class DocumentObservationTests(unittest.TestCase):
         self.assertEqual(self.call('MT',packet)['adapter_provenance']['native_invocation'],'RETURNED')
 
 
+
+class FiniteArchitectureAdapterTests(unittest.TestCase):
+    def packet(self):
+        source={'path':'example.md','sha':'a'*40}
+        evidence={'source_path':source['path'],'source_sha':source['sha'],'locator':'L1','basis':'explicit frame'}
+        return {'sources':[source],'architecture_interventions':{
+            'components':['A'],'obligations':['q'],'baseline_ids':['base'],'authority':evidence,
+            'observations':[{'id':i,'context':'ctx','state':[v],'satisfied':s,'protected':['stable'],'evidence':evidence}
+                            for i,v,s in [('base','0',[]),('changed','1',['q'])]],
+            'candidates':[{'id':'candidate','observation_ids':['changed']}]}}
+    def test_finite_route_reaches_configured_native_architecture(self):
+        packet=self.packet()
+        out=execute_direct_tool_commands(['Architecture'],adapters=bind_adapters(packet))
+        execution=out.executions[0]
+        self.assertEqual(execution.status,'OPEN')
+        self.assertEqual(execution.result['result']['SuccessorFrontier'],('candidate',))
+        self.assertEqual(execution.adapter_provenance['adapter_provenance']['native_invocation'],'RETURNED')
+    def test_finite_route_rejects_mixed_input(self):
+        packet=self.packet()
+        packet['architecture_graph']={}
+        out=bind_adapters(packet)['Architecture']({},None)
+        self.assertEqual(out['status'],'BLOCKED')
+        self.assertEqual(out['adapter_provenance']['native_invocation'],'NOT_INVOKED')
+
 if __name__ == '__main__':
     unittest.main()

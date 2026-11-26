@@ -800,6 +800,16 @@ def _bind_admitted_adapters(packet, tool, groups):
         if 'matrix' in packet or 'threshold' in packet:
             raise ValueError('AMBIGUOUS_DOCUMENT_MT_GOAL_INPUT')
         return {tool:_document_mt_goal(packet,tool,sources)}
+    if tool=='Architecture' and 'architecture_interventions' in packet:
+        if 'matrix' in packet or 'architecture_graph' in packet:
+            raise ValueError('AMBIGUOUS_ARCHITECTURE_INPUT')
+        from architecture_finite_provider import prepare_finite_architecture, invoke_finite_architecture
+        prepared=prepare_finite_architecture(packet['architecture_interventions'],sources)
+        def finite_architecture(current,plan):
+            out=invoke_finite_architecture(prepared)
+            return _bounded_result(packet,source_ids,'architecture_finite.run_finite_architecture',
+                out,out['status'],out.get('blocker','FULL_ARCHITECT_SEMANTIC_COVERAGE_OPEN'))
+        return {tool:finite_architecture}
     if tool=='Architecture' and 'architecture_graph' in packet:
         if 'matrix' in packet:
             raise ValueError('AMBIGUOUS_ARCHITECTURE_INPUT')
