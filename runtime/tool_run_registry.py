@@ -10,9 +10,11 @@ from program_registry import ProgramRegistry, ProgramSpec
 from types import MappingProxyType
 
 # I. Capability-definition inventory (C01-C49).
-# Relocation candidate (not moved): compare with capability_runtime.py (dispatch)
-# and program_registry.py (schema). Neither is established as the inventory owner;
-# retain the independent live definitions here pending a consumer/ownership audit.
+# Ownership decision: retain this live inventory here. program_registry.py
+# owns generic schema and registry mechanics; capability_runtime.py consumes
+# this independent inventory to check dispatch coverage. Neither is an
+# appropriate relocation home; moving definitions there would erase that boundary
+# or require a dependency inversion. No replacement owner is established.
 # Declared capability metadata is not evidence of an executable binding.
 _SPECS = []
 
