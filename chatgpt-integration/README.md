@@ -72,6 +72,7 @@ Admission is per registered tool. A combined packet may supply multiple compatib
 | Diagnosis, RTC | Threshold model or their respective structured document evidence, plus source references |
 | MT, GOAL | Either matrix and threshold model, or source-bound `document_observations`; GOAL additionally requires grounded candidate evidence |
 | ASSERT | Matrix and threshold model, or exact quotation claims, plus source references |
+| RootCause | Source references and explicit `root_cause` candidate evidence |
 | CurrentnessAudit, TRC | Source references and applicable currentness or open-obligation coordinates |
 
 A missing required group or field produces an OPEN receipt; malformed admitted input produces BLOCKED. Neither disposition claims a native invocation. Groups irrelevant to a tool's admitted routes are not validated. Alternative input groups for the same tool are not irrelevant: when both are present, admission rejects the ambiguity. Use separate compatible packets for distinct routes.
@@ -113,6 +114,16 @@ These bindings also accept an explicit evidence inventory instead of a threshold
 - RTC rows contain `strict_gain` and `preserves`, each Boolean or null (absent is unresolved). For each explicit Boolean, supply the corresponding `gain_evidence` or `preservation_evidence`.
 - Do not include a threshold model in a packet invoking a structured route for the same tool: ambiguity is BLOCKED. Missing evidence stays OPEN. A mixed RTC result retains both admitted candidates and unresolved candidates, and its adapter disposition remains OPEN.
 - The provider validates the declared evidence references and input types, then invokes the original native tools. It does not independently authenticate the references, establish the proposed mechanism, prove gain/preservation or authorize edits. The receipt is bounded to the supplied inventory. Other tools retain their original input requirements.
+
+### Source-bound candidate and claim analysis
+
+The following optional document routes consume explicit host-supplied evidence rather than requiring a threshold model. Every route has `inventory_evidence` and unique row IDs with nonempty `evidence`, using the same source-path, blob-SHA, locator and basis objects as Diagnosis/RTC. Do not mix a candidate route with a threshold model for the same tool. Unknown or unsupported conclusions remain OPEN.
+
+- **Discriminator:** `candidate_evidence` contains a nonempty `predicate` and `candidates` with `id`, `decision` (MATCH, NO_MATCH or UNKNOWN) and evidence. Native filtering retains UNKNOWN candidates; only a unique evidenced match with no unknowns can close relative to the declared candidate set.
+- **Reconciler:** `reconcile_claims.claims` contains `id`, a nonempty `key`, a scalar `value` (string, integer, Boolean or null for unknown) and evidence. Exact typed values are compared per key; incompatible values and unknowns remain OPEN. This does not certify general semantic equivalence.
+- **RootCause:** `root_cause` contains `basis_id`, a nonempty `failure_class` and `candidates` with `id`, native `level`, `explains` (failure IDs), evidence and optional `upstream_of` (candidate IDs), `unresolved`, `counterevidence`, `causal_test_evidence` and `rival_discrimination_evidence`. The flags `survives_representation_change` and `removal_breaks_recurrence` default to false; true requires its corresponding `<flag>_evidence`. The native HF2 procedure assesses the supplied candidates; absent causal tests or unresolved rivals are not filled in by the adapter.
+
+These bindings validate source identities and declared evidence structure, not the truth of host judgments or completeness of the candidate inventory. They do not replace the native mathematical contracts or independent verification.
 
 ### Worker contract mapping and execution provenance
 
