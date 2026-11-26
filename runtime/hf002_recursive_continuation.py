@@ -69,6 +69,8 @@ class HF002RecursiveContinuation:
                 or unresolved(delta.get("scope_deltas")))
 
     def run(self,state:dict[str,Any],memory:dict[str,Any])->dict[str,Any]:
+        # A new episode must not inherit execution receipts from an earlier run.
+        self.trace.clear()
         x=dict(state); m=dict(memory)
         seen_failed=set(m.get("hf2_failed_equivalence",[]))
 
