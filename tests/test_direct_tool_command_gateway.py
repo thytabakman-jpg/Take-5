@@ -76,6 +76,16 @@ def test_unregistered_formal_command_fails_closed_instead_of_substitution():
         direct_tool_ids("run ICC123")
 
 
+@pytest.mark.parametrize("label", ["Architect", "ARCHITECTURE-ANALYSIS", "Architecture Analysis"])
+def test_known_external_architect_labels_do_not_silently_disappear(label):
+    calls=[]
+    for command in (f"run {label}", f"run MT then use {label}"):
+        with pytest.raises(DirectToolCommandBlocked,match="ARCHITECT_BINDING_OPEN"):
+            execute_direct_tool_commands(command,adapters={"MT":lambda s,p:calls.append(p)})
+    assert not calls
+    assert direct_tool_ids("run Architecture")==("Architecture",)
+
+
 def test_direct_tool_none_adapter_cannot_claim_full_execution():
     out=execute_direct_tool_commands(
         "run MT",

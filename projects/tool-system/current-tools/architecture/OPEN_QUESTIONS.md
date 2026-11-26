@@ -9,7 +9,8 @@
 Take-5 registers `Architecture`; the Reaserch formal mathematical object is
 `ARCHITECTURE-ANALYSIS` and its user-facing label is `Architect`. The current
 [identity](IDENTITY.md) and [source map](SOURCE_MAP.md) keep the distinct
-source/authority roles visible. An actually executed user-entry resolver that
+source/authority roles visible. The direct gateway now explicitly blocks unresolved external-name commands rather
+than silently dropping them from mixed requests. An actually executed user-entry resolver that
 sends `Architect` to the one admitted `Architecture` configured run, without
 minting a second tool or silently downgrading the requested profile, has **not
 yet been demonstrated**. A repository prose link cannot prove a host dispatch.

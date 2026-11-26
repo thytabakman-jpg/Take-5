@@ -55,6 +55,15 @@ FORMALISH_TOKEN_PATTERN=re.compile(
 )
 
 
+# Known external labels are recognized as unresolved requests, not aliases.
+# Do not silently drop them from a mixed imperative request.
+UNBOUND_ARCHITECT_COMMAND_PATTERN=re.compile(
+    r"\b(?:run|use|execute|apply|call)\s+(?:(?:the|a)\s+)?"
+    r"(?P<label>ARCHITECTURE-ANALYSIS|ARCHITECTURE\s+ANALYSIS|ARCHITECT)(?![\w-])",
+    flags=re.IGNORECASE,
+)
+
+
 def direct_tool_ids(user_text:str|list[str]|tuple[str,...])->tuple[str,...]:
     """Resolve legacy lexical commands or validate an explicit ordered ID list.
 
@@ -75,6 +84,11 @@ def direct_tool_ids(user_text:str|list[str]|tuple[str,...])->tuple[str,...]:
     if not isinstance(user_text,str):
         raise DirectToolCommandBlocked("DIRECT_TOOL_REQUEST_REQUIRES_STRING_OR_ORDERED_IDS")
     text=user_text
+    unresolved=UNBOUND_ARCHITECT_COMMAND_PATTERN.search(text)
+    if unresolved:
+        raise DirectToolCommandBlocked(
+            f"DIRECT_TOOL_IDENTITY_UNRESOLVED:{unresolved.group('label')}:ARCHITECT_BINDING_OPEN"
+        )
     out=[]
 
     for match in KNOWN_COMMAND_PATTERN.finditer(text):

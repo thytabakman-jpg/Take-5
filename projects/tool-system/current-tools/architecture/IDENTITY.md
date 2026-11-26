@@ -22,6 +22,11 @@ A caller using either external label must resolve it through an explicitly
 admitted name/contract binding before claiming execution of the Take-5
 `Architecture` runtime. An absent, ambiguous, or incompatible binding remains
 OPEN/BLOCKED rather than choosing a similarly named definition by convenience.
+The direct gateway recognizes explicit imperative requests for these external
+labels as unresolved, including mixed requests containing registered tools;
+it fails before dispatch rather than silently dropping the external request.
+This recognition grants no execution alias. Structured requests still require
+exact registered IDs.
 
 See [SOURCE_MAP.md](SOURCE_MAP.md) for the separate current-runtime, historical
 mathematics, and GOAL/Architect pairing sources. This package's identity page is
