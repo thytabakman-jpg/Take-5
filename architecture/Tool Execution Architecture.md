@@ -127,7 +127,7 @@ A second outer HF002 is not added.
 All repository-owned invocation routes converge on the shared configured plan and recurrence executor. The [operational guide](../integration/Tool%20Execution%20Guide.md#execution-routes) identifies the entrypoints.
 
 - Direct commands and ImprovementCore-selected tools share `bind_selected_tools`, `build_tool_execution_plan` and `execute_configured_with_hf2`. The ordered binding must equal the authorized direct request. Inherited controller selections cannot add tools or veto a direct request merely by naming an unrelated unregistered identity.
-- [Protected Transition Integrity](../runtime/global_tool_execution.py) executes its execution edge through `execute_configured_with_hf2`. Execution callbacks may return `(value, evidence)` for a one-round local close or `(value, evidence, recurrence_hints)` for a material or live successor. Successful transitions retain configured recurrence evidence, for example `configured-recurrence:HF002:RELATIVE_CLOSE:rounds=n` or `configured-recurrence:SELF:SELF_CLOSE:rounds=1`. PTI forwards `hf2_affected_frontier` and `hf2_scope_deltas`; OPEN, BLOCKED, CONFLICT, RETURN_REENTER or RESOURCE_STOP cannot authorize successful transition.
+- [Protected Transition Integrity](../runtime/global_tool_execution.py) consumes the shared [execution plan](../runtime/tool_execution_plan.py) and executes its execution edge through `execute_configured_with_hf2`. Execution callbacks may return `(value, evidence)` for a one-round local close or `(value, evidence, recurrence_hints)` for a material or live successor. Successful transitions retain configured recurrence evidence, for example `configured-recurrence:HF002:RELATIVE_CLOSE:rounds=n` or `configured-recurrence:SELF:SELF_CLOSE:rounds=1`. PTI forwards `hf2_affected_frontier` and `hf2_scope_deltas`; OPEN, BLOCKED, CONFLICT, RETURN_REENTER or RESOURCE_STOP cannot authorize successful transition.
 - [ToolConductor](../runtime/portable_tool_conductor.py) emits one disposition per registered factor, not one native call. Each non-self factor that executes crosses the configured plan and recurrence executor and may take multiple HF2 rounds. The conductor self factor is a non-recursive self witness that prevents infinite conductor-on-conductor recursion. Missing environment-bound adapters remain OPEN/BLOCKED.
 
 Inner native functions are implementations within a configured invocation, not independent evidence of full configured execution.
@@ -142,7 +142,7 @@ Execution receipts establish only their evidenced scope. The [worker contract](S
 
 ## Protected reconstruction
 
-Every generic tool manifest now reconstructs:
+Every generic tool manifest reconstructs:
 
 CONFIGURED_HF2_RECURRENCE
 
