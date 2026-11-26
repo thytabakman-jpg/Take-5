@@ -36,6 +36,31 @@ def _unit_ids(value:Any)->set[str]:
 
 
 # II. Schema-neutral graph diagnostics.
+def declared_dependency_paths(dependencies):
+    """Shortest deterministic path witnesses within a finite declared graph.
+
+    Edges point from a consumer to its dependency. Missing targets are not
+    traversed; a path is a possible channel, not causal or execution evidence.
+    Self-reachability is left to the separate cyclic-components diagnostic.
+    """
+    from collections import deque
+
+    paths = {}
+    for start in sorted(dependencies):
+        witnesses = {start: [start]}
+        pending = deque([start])
+        while pending:
+            node = pending.popleft()
+            for target in sorted(set(dependencies[node])):
+                if target not in dependencies or target in witnesses:
+                    continue
+                witnesses[target] = witnesses[node] + [target]
+                pending.append(target)
+        del witnesses[start]
+        paths[start] = witnesses
+    return paths
+
+
 def cyclic_components(dependencies):
     """Return cyclic strongly connected components, including self-loops.
 
