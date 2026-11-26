@@ -60,7 +60,7 @@ def validate_execution_profile(
     mode_trace:Iterable[str],
 )->None:
     """Fail closed on 36D downgrade or observer/focused/observer drift."""
-    if int(cell_count)!=36:
+    if type(cell_count) is not int or cell_count!=36:
         raise RuntimeError(f"RECURSIVE_COMPILER_36D_DOWNGRADE:{cell_count}")
     modes=tuple(str(x).upper() for x in mode_trace)
     if modes!=("OBSERVER","FOCUSED","OBSERVER"):
@@ -75,7 +75,7 @@ def hf2_fixed_point_witness(trace:Iterable[Mapping[str,Any]])->bool:
     if not rounds:
         return False
     last=rounds[-1]
-    if str(last.get("disposition",""))!="RELATIVE_CLOSE":
+    if not isinstance(last,Mapping) or last.get("disposition")!="RELATIVE_CLOSE":
         return False
     delta=last.get("delta")
     return isinstance(delta,Mapping) and not _material(delta)
@@ -167,11 +167,11 @@ def evaluate_global_closure(
     for delta_id in sorted(required_deltas):
         expected=admitted_delta_hashes.get(delta_id)
         actual=realized_delta_hashes.get(delta_id)
-        if expected is None:
+        if not isinstance(expected,str) or not expected.strip():
             reasons.append(f"DELTA_ADMISSION_MISSING:{delta_id}")
-        if actual is None:
+        if not isinstance(actual,str) or not actual.strip():
             reasons.append(f"DELTA_MISSING:{delta_id}")
-        elif expected is not None and actual!=expected:
+        elif isinstance(expected,str) and expected.strip() and actual!=expected:
             reasons.append(f"DELTA_SEMANTIC_DRIFT:{delta_id}")
 
     # Realization without an admitted lineage is not allowed to masquerade as
