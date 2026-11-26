@@ -290,6 +290,9 @@ def _graph_adapter(packet, sources):
             jobs=ids(row['jobs'],'jobs')
             if not jobs or not nonempty(row['job_evidence']):
                 raise ValueError('GRAPH_JOB_IDENTITIES_AND_SOURCE_LOCATOR_REQUIRED')
+    roots=ids(spec.get('dependency_path_roots',[]),'dependency_path_roots')
+    if not set(roots).issubset(seen):
+        raise ValueError('GRAPH_DEPENDENCY_PATH_ROOT_NOT_DECLARED')
     def analyze(target,contract):
         present={x['id'] for x in target}
         dependencies={x['id']:x['internal_dependencies'] for x in target}
@@ -298,9 +301,12 @@ def _graph_adapter(packet, sources):
                 'dangling':sorted((u,v) for u,vs in dependencies.items() for v in vs if v not in present)}
         execution={x['id']:x.get('execution_dependencies',[]) for x in target}
         from architecture_analysis import declared_dependency_paths
-        paths=declared_dependency_paths(dependencies)
-        execution_paths=declared_dependency_paths(execution)
-        potential_consumers={u:sorted(v for v,targets in paths.items() if u in targets) for u in sorted(present)}
+        paths=declared_dependency_paths(dependencies,roots=roots)
+        execution_paths=declared_dependency_paths(execution,roots=roots)
+        # Reverse traversal finds potential consumers of the selected roots,
+        # without generating all forward paths across the entire graph.
+        reverse={u:consumers[u] for u in present}
+        potential_consumers={u:sorted(targets) for u,targets in declared_dependency_paths(reverse,roots=roots).items()}
         owners=defaultdict(list)
         for row in target:
             for key in row.get('information_ownership',[]):
@@ -320,7 +326,7 @@ def _graph_adapter(packet, sources):
             Coverage={'scope':'declared static graph only','roles':{x['id']:x['role'] for x in target},
                       'declared_information_ownership':{x['id']:x.get('information_ownership',[]) for x in target},
                       'execution_edge_coverage_declared':sorted(x['id'] for x in target if 'execution_dependencies' in x),
-                      'unit_job_purity_requested':purity},
+                      'unit_job_purity_requested':purity,'dependency_path_roots':sorted(roots)},
             OpenConflictBlocked={'OPEN':['semantic ownership and dynamic/external coverage not established',
                                         'cycle and ownership candidates require semantic interpretation']},
             Provenance={x['id']:{'source':x['source'],'sha':x['sha'],'locator':x['locator']} for x in target})

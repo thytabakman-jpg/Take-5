@@ -62,7 +62,7 @@ class ArchitecturePathTests(unittest.TestCase):
     def test_declared_paths_are_distinct_from_execution_and_semantic_evidence(self):
         sha='a'*40
         packet={'command':['Architecture'],'sources':[{'path':'a.md','sha':sha}],
-                'architecture_graph':{'expected_units':['a','b','c','d'],
+                'architecture_graph':{'expected_units':['a','b','c','d'],'dependency_path_roots':['a','c'],
                     'units':[{'id':uid,'source':'a.md','sha':sha,'role':'fixture','locator':uid,
                               'internal_dependencies':deps,'execution_dependencies':exe}
                              for uid,deps,exe in [('a',['b'],['b']),('b',['c'],[]),
