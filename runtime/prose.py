@@ -452,6 +452,12 @@ def _normalize_jewish_lexicon(contract:ProseContract):
             clean.append(alias)
         entries.append((canonical,tuple(dict.fromkeys(clean))))
 
+    # A spelling cannot be both a canonical form and another entry's alias.
+    canonicals={canonical for canonical,_ in entries}
+    for alias,owner in alias_owner.items():
+        if alias in canonicals and alias!=owner:
+            residuals.append(f"JEWISH_LEXICON_CONFLICT:{alias}:{alias}:{owner}")
+
     return tuple(entries),tuple(dict.fromkeys(residuals))
 
 

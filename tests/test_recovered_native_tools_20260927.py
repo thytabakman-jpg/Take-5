@@ -133,3 +133,13 @@ def test_gdos_failed_reconciliation_preserves_observations():
     assert out["status"]=="BLOCKED"
     assert out["observations"]==(2,3)
     assert out["blocker"]=="GDOS_RECONCILIATION_FAILED"
+
+
+def test_architecture_unit_identity_is_not_coerced_to_text():
+    from architecture_analysis import run_architecture_analysis, REQUIRED_OUTPUTS, UNIT_JOB_PURITY
+    result={key:() for key in REQUIRED_OUTPUTS}
+    result.update(UnitJobState={1:("job",)}, UnitJobEvidence=("evidence",))
+    out=run_architecture_analysis({}, {"ExpectedUnitIds":("1",)},
+        analyze_architecture=lambda *_:result, protected_constraints=(UNIT_JOB_PURITY,))
+    assert out["status"]=="OPEN"
+    assert out["blocker"]=="ARCHITECTURE_UNIT_JOB_IDS_INVALID"

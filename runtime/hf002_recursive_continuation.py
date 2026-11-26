@@ -7,6 +7,7 @@ local closure without unresolved affected scope. It owns local recurrence,
 not global episode selection.
 """
 from __future__ import annotations
+from copy import deepcopy
 from dataclasses import dataclass, asdict, field
 from typing import Any, Callable
 
@@ -68,6 +69,10 @@ class HF002RecursiveContinuation:
         return (unresolved(delta.get("affected_frontier"))
                 or unresolved(delta.get("scope_deltas")))
 
+    def _record(self,*args):
+        # Freeze receipts at the time of the round, not at episode return.
+        self.trace.append(deepcopy(HF2Round(*args)))
+
     def run(self,state:dict[str,Any],memory:dict[str,Any])->dict[str,Any]:
         # A new episode must not inherit execution receipts from an earlier run.
         self.trace.clear()
@@ -75,10 +80,11 @@ class HF002RecursiveContinuation:
         seen_failed=set(m.get("hf2_failed_equivalence",[]))
 
         for i in range(self.max_rounds):
+            before=deepcopy(x)
             raw=self.run_capability(x,m)
             execution_truth=str(raw.get("execution_truth",""))
             if execution_truth in {"BLOCKED","OPEN","CONFLICT"}:
-                self.trace.append(HF2Round(i,x,raw,x,{}, {},x,execution_truth))
+                self._record(i,before,raw,x,{}, {},x,execution_truth)
                 return {"status":execution_truth,"state":x,"memory":m,"trace":[asdict(t) for t in self.trace]}
             if execution_truth not in {"FULL_MATCH","IMPLEMENTATION_EXECUTED","SEMANTICALLY_APPLIED"}:
                 raise RuntimeError("HF002_EXECUTION_TRUTH_INVALID")
@@ -86,7 +92,7 @@ class HF002RecursiveContinuation:
             normalized,delta=self.admit_normalize(raw,x,m)
             receipt=self.trc_verify(x,normalized,delta)
             if not receipt.get("terminal",False):
-                self.trace.append(HF2Round(i,x,raw,normalized,delta,{},x,"OPEN"))
+                self._record(i,before,raw,normalized,delta,{},x,"OPEN")
                 return {
                     "status":"OPEN","state":x,"memory":m,
                     "trace":[asdict(t) for t in self.trace],
@@ -95,7 +101,7 @@ class HF002RecursiveContinuation:
 
             hf1=self.hf1_classify(x,normalized,delta)
             if hf1.get("disposition")=="REENTER":
-                self.trace.append(HF2Round(i,x,raw,normalized,delta,hf1,normalized,"RETURN_REENTER"))
+                self._record(i,before,raw,normalized,delta,hf1,normalized,"RETURN_REENTER")
                 return {
                     "status":"RETURN_REENTER",
                     "targets":hf1.get("targets",[]),
@@ -104,7 +110,7 @@ class HF002RecursiveContinuation:
                 }
             if hf1.get("disposition") in {"OPEN","BLOCKED","CONFLICT"}:
                 status=hf1["disposition"]
-                self.trace.append(HF2Round(i,x,raw,normalized,delta,hf1,normalized,status))
+                self._record(i,before,raw,normalized,delta,hf1,normalized,status)
                 return {"status":status,"state":normalized,"memory":m,"trace":[asdict(t) for t in self.trace]}
 
             route_eq=delta.get("route_equivalence")
@@ -124,14 +130,14 @@ class HF002RecursiveContinuation:
             # "second run finds something new" gap even when the producer has
             # already marked its local frontier inactive.
             if material:
-                self.trace.append(HF2Round(i,x,raw,normalized,delta,hf1,normalized,"REAPPLY_C"))
+                self._record(i,before,raw,normalized,delta,hf1,normalized,"REAPPLY_C")
                 x=normalized
                 continue
 
             # Material successors already reenter above.  A clean result with
             # outstanding affected scope is still NOT a verified fixed point.
             if self._affected_frontier_open(delta):
-                self.trace.append(HF2Round(i,x,raw,normalized,delta,hf1,normalized,"OPEN"))
+                self._record(i,before,raw,normalized,delta,hf1,normalized,"OPEN")
                 return {
                     "status":"OPEN","state":normalized,"memory":m,
                     "trace":[asdict(t) for t in self.trace],
@@ -139,7 +145,7 @@ class HF002RecursiveContinuation:
                 }
 
             if live:
-                self.trace.append(HF2Round(i,x,raw,normalized,delta,hf1,normalized,"OPEN"))
+                self._record(i,before,raw,normalized,delta,hf1,normalized,"OPEN")
                 return {
                     "status":"OPEN","state":normalized,"memory":m,
                     "trace":[asdict(t) for t in self.trace],
@@ -147,13 +153,13 @@ class HF002RecursiveContinuation:
                 }
 
             if self.local_close(normalized,m):
-                self.trace.append(HF2Round(i,x,raw,normalized,delta,hf1,normalized,"RELATIVE_CLOSE"))
+                self._record(i,before,raw,normalized,delta,hf1,normalized,"RELATIVE_CLOSE")
                 return {
                     "status":"RELATIVE_CLOSE","state":normalized,"memory":m,
                     "trace":[asdict(t) for t in self.trace],
                 }
 
-            self.trace.append(HF2Round(i,x,raw,normalized,delta,hf1,normalized,"OPEN"))
+            self._record(i,before,raw,normalized,delta,hf1,normalized,"OPEN")
             return {
                 "status":"OPEN","state":normalized,"memory":m,
                 "trace":[asdict(t) for t in self.trace],

@@ -163,3 +163,21 @@ def test_nonterminal_trc_attempt_is_recorded_without_admitting_state():
     out = engine.run({}, {})
     assert out["status"] == "OPEN" and out["state"] == {}
     assert out["trace"][0]["disposition"] == "OPEN"
+
+
+def test_hf2_round_receipts_freeze_nested_state_at_each_round():
+    calls=[]
+    def run(state,memory):
+        calls.append(True)
+        if len(calls)==1:
+            state["nested"]["version"]=1
+        else:
+            state["nested"]["version"]=2
+        return {"execution_truth":"SEMANTICALLY_APPLIED","state":state,
+                "material_delta":len(calls)==1}
+    out=_engine(run).run({"nested":{"version":0}}, {})
+    assert out["status"]=="RELATIVE_CLOSE"
+    assert out["trace"][0]["state_before"]["nested"]["version"]==0
+    assert out["trace"][0]["state_after"]["nested"]["version"]==1
+    assert out["trace"][1]["state_before"]["nested"]["version"]==1
+    assert out["trace"][1]["state_after"]["nested"]["version"]==2

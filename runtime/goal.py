@@ -90,7 +90,9 @@ def _candidate_signature(candidate:GoalCandidate)->tuple:
 def _admissible(candidate:GoalCandidate)->bool:
     return bool(
         isinstance(candidate.candidate_id,str) and candidate.candidate_id.strip()
-        and any(isinstance(ev,str) and ev.strip() for ev in candidate.evidence)
+        and isinstance(candidate.evidence,(tuple,list))
+        and bool(candidate.evidence)
+        and all(isinstance(ev,str) and ev.strip() for ev in candidate.evidence)
         and candidate.grounded is True
         and candidate.authority_typed is True
         and candidate.determinate_enough is True
@@ -116,6 +118,8 @@ def recover_goal(candidates:Iterable[GoalCandidate])->GoalRecoveryResult:
     for candidate in rows:
         if not isinstance(candidate,GoalCandidate):
             raise TypeError("GOAL_CANDIDATE_REQUIRED")
+        if not isinstance(candidate.candidate_id,str):
+            raise TypeError("GOAL_CANDIDATE_ID_STRING_REQUIRED")
         prior=seen.get(candidate.candidate_id)
         if prior is not None and _candidate_signature(prior)!=_candidate_signature(candidate):
             return GoalRecoveryResult(

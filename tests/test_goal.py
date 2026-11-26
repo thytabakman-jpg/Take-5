@@ -165,3 +165,10 @@ def test_goal_mt_nontext_evidence_cannot_certify_preflight():
     for evidence in ((None,),("   ",),(False,)):
         out=recover_goal_configured((_candidate(),),GoalMTReceipt(evidence=evidence))
         assert out.blocker=="MT_PREREQUISITE_REQUIRED"
+
+
+def test_goal_mixed_invalid_evidence_does_not_crash_or_certify():
+    for evidence in (("e1", {"bad": True}), ("e1", None), "e1"):
+        out=recover_goal((_candidate(evidence=evidence),))
+        assert out.status=="OPEN"
+        assert out.blocker=="NO_ADMISSIBLE_GOVERNING_GOAL"

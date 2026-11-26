@@ -572,3 +572,12 @@ def test_negative_span_offsets_remain_correct_after_unicode_casefold_expansion()
     text="Straße ab"
     assert not _allowed(text,8,9,ProseContract("adjacent",allowed_negative_spans=("a",)))
     assert _allowed(text,8,9,ProseContract("matching",allowed_negative_spans=("b",)))
+
+
+def test_jewish_lexicon_canonical_alias_collision_fails_open():
+    from prose import ProseContract, assess_prose, JEWISH_LEXICAL_FORMS
+    contract=ProseContract("canonical-collision", constraints=(JEWISH_LEXICAL_FORMS,),
+        jewish_lexicon=(("Torah", ("Torahh",)), ("Tora", ("Torah",))))
+    result=assess_prose("Torah", contract)
+    assert result.status=="OPEN"
+    assert any(x.startswith("JEWISH_LEXICON_CONFLICT:Torah:") for x in result.residuals)

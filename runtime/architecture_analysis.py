@@ -89,8 +89,10 @@ def run_architecture_analysis(
             return {"status":"OPEN","blocker":"ARCHITECTURE_UNIT_JOB_EXCEPTIONS_INVALID","result":result}
         if reported_exceptions-exceptions:
             return {"status":"OPEN","blocker":"ARCHITECTURE_UNIT_JOB_EXCEPTIONS_UNAUTHORIZED:"+",".join(sorted(reported_exceptions-exceptions)),"result":result}
+        if any(not isinstance(uid,str) or not uid.strip() for uid in unit_jobs):
+            return {"status":"OPEN","blocker":"ARCHITECTURE_UNIT_JOB_IDS_INVALID","result":result}
         if expected_units is not None:
-            observed={str(x) for x in unit_jobs}
+            observed=set(unit_jobs)
             if observed!=expected_units or len(observed)!=len(unit_jobs):
                 return {"status":"OPEN","blocker":"ARCHITECTURE_UNIT_JOB_INVENTORY_MISMATCH","result":result,
                         "missing_units":tuple(sorted(expected_units-observed)),
