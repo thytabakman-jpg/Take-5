@@ -35,6 +35,43 @@ def git_object_sha(kind, data):
 def git_blob_sha(data):
     return git_object_sha("blob", data)
 
+INTEGRATION_FILES = ("bootstrap.py", "run_packet.py", "document_adapters.py", "README.md")
+
+
+def read_integration_manifest(path):
+    """Expected identities come from the host's authenticated branch fetch, not the ZIP."""
+    value = json.loads(Path(path).read_text(encoding="utf-8"))
+    commit, blobs = value["commit"], value["blobs"]
+    if not isinstance(commit, str) or not re.fullmatch(r"[0-9a-f]{40}", commit):
+        raise ValueError("INTEGRATION_COMMIT_REQUIRED")
+    if (not isinstance(blobs, dict) or set(blobs) != set(INTEGRATION_FILES)
+            or any(not isinstance(sha, str) or not re.fullmatch(r"[0-9a-f]{40}", sha)
+                   for sha in blobs.values())):
+        raise ValueError("INTEGRATION_BLOB_IDENTITIES_REQUIRED")
+    return {"commit": commit, "blobs": blobs}
+
+
+def verify_integration_files(directory, manifest):
+    """Check the actual local companion bytes before importing native tools."""
+    directory = Path(directory)
+    for name, expected in manifest["blobs"].items():
+        path = directory / name
+        if path.is_symlink() or not path.is_file() or git_blob_sha(path.read_bytes()) != expected:
+            raise ValueError(f"INTEGRATION_FILE_MISMATCH:{name}")
+
+
+def verify_integration_archive(outer, manifest):
+    names = ("integration-commit.txt", *INTEGRATION_FILES)
+    if any(outer.namelist().count(name) != 1 for name in names):
+        raise ValueError("INTEGRATION_ARCHIVE_MEMBERS_REQUIRED")
+    actual = outer.read("integration-commit.txt").decode("ascii").strip()
+    if actual != manifest["commit"]:
+        raise ValueError(f"STALE_INTEGRATION: expected {manifest['commit']}, got {actual}")
+    for name, expected in manifest["blobs"].items():
+        if git_blob_sha(outer.read(name)) != expected:
+            raise ValueError(f"INTEGRATION_ARCHIVE_BLOB_MISMATCH:{name}")
+
+
 def git_tree_sha(tree):
     """Reconstruct the Git root tree from the complete recursive blob manifest."""
     root = {}
@@ -100,11 +137,14 @@ def verify_installed_tree(root, commit, commit_object, tree, expected_tree):
     return source_tree
 
 
-def verify_bootstrap_receipt(root, boot):
+def verify_bootstrap_receipt(root, boot, integration_manifest):
     """Revalidate a previously verified runtime before any native imports."""
     root = Path(root).resolve()
     if boot.get("status") != "BOOTSTRAP_VERIFIED" or Path(boot["runtime_path"]).resolve() != root:
         raise ValueError("VERIFIED_BOOTSTRAP_RECEIPT_REQUIRED")
+    if boot.get("integration_manifest") != integration_manifest:
+        raise ValueError("BOOTSTRAP_INTEGRATION_IDENTITY_MISMATCH")
+    verify_integration_files(Path(__file__).resolve().parent, integration_manifest)
     commit = boot["source_commit"]
     source_tree = verify_installed_tree(root, commit,
         base64.b64decode(boot["source_commit_object"], validate=True),
@@ -112,10 +152,11 @@ def verify_bootstrap_receipt(root, boot):
     return commit, source_tree
 
 
-def install(artifact, destination, expected):
+def install(artifact, destination, expected, integration_manifest):
     if not re.fullmatch(r"[0-9a-f]{40}", expected):
         raise ValueError("Expected full Git commit SHA required")
     with zipfile.ZipFile(artifact) as outer:
+        verify_integration_archive(outer, integration_manifest)
         commit = outer.read("source-commit.txt").decode().strip()
         if commit != expected:
             raise ValueError(f"STALE_SOURCE: expected {expected}, got {commit}")
@@ -163,6 +204,7 @@ def install(artifact, destination, expected):
                 p.write_bytes(z.read(name))
     return root, {
         "source_commit": commit, "source_tree": source_tree, "archive_sha256": archive_hash,
+        "integration_manifest": integration_manifest,
         "source_commit_object": base64.b64encode(commit_object).decode("ascii"),
         "tracked_tree": tree,
         "verified_files":len(seen), "tracked_blob_count":len(tree),
@@ -219,13 +261,18 @@ def main():
     ap=argparse.ArgumentParser(description=__doc__)
     ap.add_argument("artifact", type=Path)
     ap.add_argument("--expected-commit", required=True)
+    ap.add_argument("--integration-manifest", type=Path, required=True,
+                    help="Independently fetched integration commit and four Git blob identities")
     ap.add_argument("--destination",type=Path, default=Path("take5-runtime"))
     ap.add_argument("--receipt",type=Path, default=Path("bootstrap-receipt.json"))
     args=ap.parse_args()
     phase = "INSTALL"
     context = {"expected_commit": args.expected_commit}
     try:
-        root, receipt = install(args.artifact,args.destination,args.expected_commit)
+        integration_manifest = read_integration_manifest(args.integration_manifest)
+        context["integration_commit"] = integration_manifest["commit"]
+        verify_integration_files(Path(__file__).resolve().parent, integration_manifest)
+        root, receipt = install(args.artifact,args.destination,args.expected_commit,integration_manifest)
         receipt["runtime_path"]=str(root)
         context.update(source_commit=receipt["source_commit"], source_tree=receipt["source_tree"],
                        runtime_path=str(root))

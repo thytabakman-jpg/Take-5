@@ -74,20 +74,24 @@ def main():
     p.add_argument("--runtime", type=Path, required=True)
     p.add_argument("--bootstrap-receipt", type=Path, default=Path("bootstrap-receipt.json"),
                    help="Receipt from verified bootstrap installation")
+    p.add_argument("--integration-manifest", type=Path, required=True,
+                   help="Independently fetched current integration commit and Git blob identities")
     p.add_argument("--packet", type=Path, required=True)
     p.add_argument("--adapter-module",type=Path,help="Explicit trusted local module exposing bind_adapters(packet)")
     p.add_argument("--allow-adapter-override",action="append",default=[],metavar="TOOL",
                    help="Explicitly allow an external binding to replace this built-in tool (repeatable)")
     p.add_argument("--receipt",type=Path,required=True)
     a=p.parse_args()
-    from bootstrap import verify_bootstrap_receipt, write_failure_receipt
+    from bootstrap import verify_bootstrap_receipt, write_failure_receipt, read_integration_manifest
     phase = "RUNTIME_VERIFICATION"
     context = {}
     try:
         root=a.runtime.resolve()
         boot=json.loads(a.bootstrap_receipt.read_text(encoding="utf-8"))
-        source_commit, source_tree = verify_bootstrap_receipt(root, boot)
-        context.update(source_commit=source_commit, source_tree=source_tree)
+        integration_manifest = read_integration_manifest(a.integration_manifest)
+        source_commit, source_tree = verify_bootstrap_receipt(root, boot, integration_manifest)
+        context.update(source_commit=source_commit, source_tree=source_tree,
+                       integration_commit=integration_manifest["commit"])
         # Keep the verified installation free of generated import caches.
         sys.dont_write_bytecode = True
         sys.pycache_prefix = None
@@ -172,7 +176,8 @@ def main():
         except Exception as exc:
             results.append({"tool_id":tool,"status":"BLOCKED","blocker":f"{type(exc).__name__}:{exc}",
                             "adapter_disposition":"EXECUTION_ERROR"})
-    receipt={"source_commit":source_commit,"source_tree":source_tree,"packet_sha256":digest,"tool_ids":ids,
+    receipt={"source_commit":source_commit,"source_tree":source_tree,
+             "integration_manifest":integration_manifest,"packet_sha256":digest,"tool_ids":ids,
              "adapter_module":provider,"authorized_overrides":sorted(allowed),"scope":"Explicit bounded native input; no independent semantic adjudication or full geometric coverage asserted",
              "results":results}
     a.receipt.write_text(json.dumps(receipt,indent=2,default=str)+"\n")
