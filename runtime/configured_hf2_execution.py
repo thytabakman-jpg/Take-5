@@ -12,6 +12,7 @@ second HF002 instance would be a category error.
 from __future__ import annotations
 
 from dataclasses import dataclass, asdict, is_dataclass
+from copy import deepcopy
 import json
 from typing import Any, Callable, Mapping
 
@@ -268,6 +269,7 @@ def execute_configured_with_hf2(
     holder={"raw":None,"calls":0,"previous_signature":None}
 
     def run_capability(current,memory):
+        holder["before"]=deepcopy(current)
         raw=_raw_mapping(adapter(current,plan))
         holder["raw"]=raw
         holder["calls"]+=1
@@ -277,7 +279,7 @@ def execute_configured_with_hf2(
         normalized=raw.get("state",current)
         delta=_delta_from_raw(str(tool_id),raw)
         # Independently observed state changes override a producer-supplied false delta.
-        if normalized != current:
+        if normalized != holder["before"]:
             delta["material_result_delta"]=True
         supplied=raw.get("hf2_delta")
         explicit_material=(
@@ -294,7 +296,7 @@ def execute_configured_with_hf2(
             not explicit_material
             and bool(raw.get("material_delta",False))
             and holder["previous_signature"]==signature
-            and normalized == current
+            and normalized == holder["before"]
         ):
             delta["material_result_delta"]=False
             delta["clean_successor_duplicate_evidence"]=True
@@ -304,7 +306,7 @@ def execute_configured_with_hf2(
     def trc_verify(before,after,delta):
         raw=holder["raw"] or {}
         return {
-            "terminal":bool(raw.get("trc_terminal",True)),
+            "terminal":raw.get("trc_terminal",True) is True,
             "evidence":tuple(raw.get("trc_evidence",())),
         }
 
