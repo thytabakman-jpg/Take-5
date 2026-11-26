@@ -109,3 +109,19 @@ def test_mt_rejects_nonpositive_round_budget():
             detect_black_boxes=lambda *args:(),
             execute_stage=lambda *args:None,max_rounds=0,
         )
+
+
+def test_failed_and_unrecognized_semantic_stages_cannot_close():
+    for status in ("FAILED","FAIL","UNKNOWN","UNRECOGNIZED"):
+        calls=[]
+        def execute(tool,obj,state):
+            calls.append(tool)
+            return state,status,False
+        out=run_mt_with_before_return_gate(
+            {},run_mt=lambda state:(state,"same"),
+            detect_black_boxes=lambda *args:("TERM:X",),execute_stage=execute,
+        )
+        assert out.status=="OPEN"
+        assert out.open_objects==("TERM:X",)
+        assert out.semantic_receipts[0].status==status
+        assert calls==["PD"]

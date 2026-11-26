@@ -12,6 +12,8 @@ from typing import Any, Callable, Iterable
 from semantic_resolution_pipeline import plan_black_box_resolution
 
 TERMINAL_NON_SUCCESS={"OPEN","BLOCKED","CONFLICT"}
+# Native result carriers use these basis-relative success dispositions.
+SEMANTIC_STAGE_SUCCESS={"CLOSED","CLOSED_RELATIVE","RELATIVE_CLOSE","ACCEPT"}
 
 @dataclass(frozen=True)
 class StageReceipt:
@@ -50,7 +52,7 @@ def run_semantic_pass(
             if material:
                 current=next_state
                 any_material=True
-            if status in TERMINAL_NON_SUCCESS:
+            if status not in SEMANTIC_STAGE_SUCCESS:
                 object_open=True
                 break
         if object_open:

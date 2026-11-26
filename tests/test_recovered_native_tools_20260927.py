@@ -75,3 +75,24 @@ def test_pd_audit_preserves_one_shot_cases_for_secondary_audit():
     )
     assert out["status"]=="RELATIVE_CLOSE"
     assert out["result"]["kappa_A"]==(1,2)
+
+
+def test_diagnosis_distinguishes_missing_empty_and_unresolved_inventory():
+    assert diagnose({})["status"]=="OPEN"
+    assert diagnose({"failures":[]})["status"]=="ACCEPT"
+    for mechanism in ("UNKNOWN"," OPEN ","FAILED","",None,False):
+        row={"id":"f","mechanism":mechanism}
+        out=diagnose({"failures":[row]})
+        assert out["status"]=="OPEN" and out["unresolved"]==[row]
+    assert diagnose({"failures":[{"mechanism":"stale binding"}]})["status"]=="ACCEPT"
+
+
+def test_rtc_requires_boolean_gain_and_preservation():
+    assert raise_the_ceiling({})["status"]=="OPEN"
+    assert raise_the_ceiling({"candidates":[]})["status"]=="NOOP"
+    for gain,preserves in (("OPEN","FALSE"),("TRUE",True),(True,"FALSE"),(1,True),(True,None)):
+        out=raise_the_ceiling({"candidates":[{"strict_gain":gain,"preserves":preserves}]})
+        assert out["status"]=="OPEN"
+    assert raise_the_ceiling({"candidates":[{"strict_gain":False,"preserves":True}]})["status"]=="NOOP"
+    out=raise_the_ceiling({"candidates":[{"strict_gain":True,"preserves":True},{"strict_gain":"OPEN","preserves":True}]})
+    assert out["status"]=="ACCEPT" and len(out["unresolved"])==1

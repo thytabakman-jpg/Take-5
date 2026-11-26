@@ -195,14 +195,16 @@ def run_tool_run_closure(
         state=realized.state
         evidence.extend(realized.evidence)
         _enqueue(queue,realized.induced)
-        if realized.status in {"OPEN","BLOCKED"}:
-            target=open_coords if realized.status=="OPEN" else blocked_coords
+        # Preserve existing explicit realization successes; other dispositions
+        # cannot license verification or consumption.
+        if realized.status not in {"OK","REALIZED","COMPLETED_UNVERIFIED"}:
+            target=blocked_coords if realized.status=="BLOCKED" else open_coords
             key=":".join(map(str,cid))
             target.append(key)
             records.append(ConsequenceRecord(
                 cid,disp,realized.status,"NOT_RUN",
-                ConsumerState.OPEN.value if realized.status=="OPEN" else ConsumerState.BLOCKED.value,
-                tuple(evidence),realized.resume_condition,
+                ConsumerState.BLOCKED.value if realized.status=="BLOCKED" else ConsumerState.OPEN.value,
+                tuple(evidence),realized.resume_condition or f"REALIZATION_NOT_CERTIFIED:{realized.status}",
             ))
             continue
 

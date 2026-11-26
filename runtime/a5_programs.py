@@ -189,9 +189,16 @@ def run_attack(program_id, payload):
         allowed=[x for x in candidates if protected<=set(x.get("preserves",[]))]
         return {"status":"ACCEPT" if allowed else "OPEN","change_frontier":allowed}
     if program_id=="C17":
-        failures=[x for x in payload.get("failures",[]) if x.get("material",True)]
-        diagnosed=[x for x in failures if x.get("mechanism")]
-        unresolved=[x for x in failures if not x.get("mechanism")]
+        inventory=payload.get("failures")
+        if not isinstance(inventory,(list,tuple)) or any(not isinstance(x,dict) for x in inventory):
+            return {"status":"OPEN","mechanism_dispositions":[],"unresolved":[],"blocker":"FAILURE_INVENTORY_REQUIRED"}
+        failures=[x for x in inventory if x.get("material",True)]
+        unresolved_labels={"UNKNOWN","OPEN","BLOCKED","CONFLICT","FAILED","FAIL","UNRESOLVED","UNDETERMINED","NOT_DIAGNOSED","NONE","N/A"}
+        def identified(row):
+            mechanism=row.get("mechanism")
+            return isinstance(mechanism,str) and bool(mechanism.strip()) and mechanism.strip().upper() not in unresolved_labels
+        diagnosed=[x for x in failures if identified(x)]
+        unresolved=[x for x in failures if not identified(x)]
         return {"status":"OPEN" if unresolved else "ACCEPT","mechanism_dispositions":diagnosed,"unresolved":unresolved}
     if program_id=="C18":
         chain=payload.get("causal_chain",[])
@@ -256,8 +263,17 @@ def run_generic(program_id, payload):
         x=payload.get("blocking_open",[])
         return {"status":"ACCEPT" if not x else "OPEN","closure_disposition":"RELATIVE_CLOSED" if not x else "BLOCKED_BY_OPEN"}
     if program_id=="C48":
-        x=[c for c in payload.get("candidates",[]) if c.get("strict_gain") and c.get("preserves")]
-        return {"status":"ACCEPT" if x else "NOOP","strict_gain_or_failure":x or "NO_STRICT_GAIN_FOUND"}
+        candidates=payload.get("candidates")
+        if not isinstance(candidates,(list,tuple)) or any(not isinstance(c,dict) for c in candidates):
+            return {"status":"OPEN","strict_gain_or_failure":"CANDIDATE_INVENTORY_REQUIRED"}
+        x=[c for c in candidates if c.get("strict_gain") is True and c.get("preserves") is True]
+        unresolved=[c for c in candidates if c.get("strict_gain") is not False and c.get("preserves") is not False
+                    and not (c.get("strict_gain") is True and c.get("preserves") is True)]
+        if x:
+            return {"status":"ACCEPT","strict_gain_or_failure":x,**({"unresolved":unresolved} if unresolved else {})}
+        if unresolved:
+            return {"status":"OPEN","strict_gain_or_failure":"STRICT_GAIN_OR_PRESERVATION_UNRESOLVED","unresolved":unresolved}
+        return {"status":"NOOP","strict_gain_or_failure":"NO_STRICT_GAIN_FOUND"}
     raise KeyError(program_id)
 
 for _pid in tuple(f"C{i:02d}" for i in range(20,49)):
