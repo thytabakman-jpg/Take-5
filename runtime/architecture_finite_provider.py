@@ -60,7 +60,12 @@ def prepare_finite_architecture(spec, sources):
         if not set(selected) <= ids:
             raise ValueError('FINITE_ARCHITECTURE_CANDIDATE_OBSERVATION_UNKNOWN')
         candidates.append((_text(r['id']), selected))
-    contract = FiniteContract(components, obligations, baselines, evidence(spec['authority']), tuple(candidates))
+    generate = spec.get('generate_observed_candidates', False)
+    if type(generate) is not bool:
+        raise ValueError('FINITE_ARCHITECTURE_GENERATION_FLAG_INVALID')
+    if generate and candidates:
+        raise ValueError('FINITE_ARCHITECTURE_MIXED_CANDIDATE_MODES')
+    contract = FiniteContract(components, obligations, baselines, evidence(spec['authority']), tuple(candidates), generate)
     return tuple(rows), contract
 
 
