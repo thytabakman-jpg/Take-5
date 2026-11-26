@@ -1,4 +1,4 @@
-"""Read-only Take-5 host adapters for explicitly admitted finite document evidence.
+"""Read-only Take-5 host adapters for explicitly admitted finite or structured document evidence.
 No network, hidden model, private-repository writes or automatic semantic PASS.
 All closures are relative to the packet; no full D36/Q22 semantic coverage claim.
 """
@@ -68,6 +68,66 @@ def bind_adapters(packet):
     return {tool:binding(tool, groups) for tool, groups in _INPUT_GROUPS.items()}
 
 
+def _structured_inputs(packet, tool, sources):
+    """Validate the host's declared evidence, not the truth of its interpretation."""
+    key, inventory = ('diagnosis','failures') if tool=='Diagnosis' else ('rtc','candidates')
+    spec=packet[key]
+    if not isinstance(spec,dict):
+        raise ValueError(f'{key}:EXPECTED_OBJECT')
+    admitted=set()
+    for source in sources:
+        path,sha=source['path'],source['sha']
+        if not isinstance(path,str) or not path.strip() or not isinstance(sha,str) or len(sha) not in (40,64) or any(c not in '0123456789abcdef' for c in sha):
+            raise ValueError('FROZEN_SOURCE_PATH_AND_BLOB_SHA_REQUIRED')
+        admitted.add((path,sha))
+
+    def require_evidence(container, field):
+        refs=container[field]
+        if not isinstance(refs,list):
+            raise ValueError(f'{field}:EXPECTED_LIST')
+        if not refs:
+            raise KeyError(field)
+        for ref in refs:
+            if not isinstance(ref,dict):
+                raise ValueError(f'{field}:EXPECTED_EVIDENCE_OBJECT')
+            path,sha=ref['source_path'],ref['source_sha']
+            if not isinstance(path,str) or not isinstance(sha,str) or (path,sha) not in admitted:
+                raise ValueError(f'{field}:UNKNOWN_SOURCE_REVISION')
+            for name in ('locator','basis'):
+                if not isinstance(ref[name],str) or not ref[name].strip():
+                    raise ValueError(f'{field}:{name}:NONEMPTY_TEXT_REQUIRED')
+
+    require_evidence(spec,'inventory_evidence')
+    rows=spec[inventory]
+    if not isinstance(rows,list):
+        raise ValueError(f'{inventory}:EXPECTED_LIST')
+    seen=set()
+    for row in rows:
+        if not isinstance(row,dict):
+            raise ValueError(f'{inventory}:EXPECTED_ROW_OBJECT')
+        ident=row['id']
+        if not isinstance(ident,str) or not ident.strip() or ident in seen:
+            raise ValueError(f'{inventory}:UNIQUE_ROW_ID_REQUIRED')
+        seen.add(ident)
+        require_evidence(row,'evidence')
+        if tool=='Diagnosis':
+            if 'material' in row and type(row['material']) is not bool:
+                raise ValueError('material:BOOLEAN_REQUIRED')
+            mechanism=row.get('mechanism')
+            if mechanism is not None:
+                if not isinstance(mechanism,str) or not mechanism.strip():
+                    raise ValueError('mechanism:TEXT_OR_NULL_REQUIRED')
+                require_evidence(row,'mechanism_evidence')
+        else:
+            for field,evidence_field in (('strict_gain','gain_evidence'),('preserves','preservation_evidence')):
+                value=row.get(field)
+                if value is not None:
+                    if type(value) is not bool:
+                        raise ValueError(f'{field}:BOOLEAN_OR_NULL_REQUIRED')
+                    require_evidence(row,evidence_field)
+    return spec
+
+
 def _bind_admitted_adapters(packet, tool, groups):
     # Admit only the evidence used by this invocation. No input validation
     # failure may prevent an independent binding from being constructed.
@@ -81,6 +141,13 @@ def _bind_admitted_adapters(packet, tool, groups):
         for source in sources:
             if not source['path']:
                 raise ValueError('SOURCE_PATH_REQUIRED')
+    structured=None
+    structured_key={'Diagnosis':'diagnosis','RTC':'rtc'}.get(tool)
+    if structured_key is not None and structured_key in packet:
+        if 'threshold' in packet:
+            raise ValueError(f'{tool}:AMBIGUOUS_STRUCTURED_AND_THRESHOLD_INPUT')
+        structured=_structured_inputs(packet,tool,sources)
+        groups=()
     if 'matrix' in groups:
         matrix=packet['matrix']
         if fnv(matrix['raw']) != matrix['transfer_fnv']:
@@ -203,11 +270,24 @@ def _bind_admitted_adapters(packet, tool, groups):
         out=recover_goal_configured(candidates,receipt)
         return envelope('goal.recover_goal_configured',{'native':asdict(out),'mt_preflight':asdict(pre)},'EXECUTED' if out.status=='CLOSED_RELATIVE' else out.status,out.blocker)
     def diagnosis(current,plan):
+        if structured is not None:
+            out=diagnose({'failures':structured['failures']})
+            result=envelope('diagnosis.diagnose',out,'EXECUTED' if out['status']=='ACCEPT' else 'OPEN',
+                            'DIAGNOSTIC_MECHANISM_UNRESOLVED' if out['status']=='OPEN' else None)
+            result.update(input_route='STRUCTURED_DOCUMENT_EVIDENCE',inventory_evidence=structured['inventory_evidence'])
+            return result
         fails=[{'id':str(q),'mechanism':'noninjective outcome signature over fixed candidate set','material':True}
                for q in qs if len({signature((q,),k) for k in thresholds})<len(thresholds)]
         out=diagnose({'failures':fails})
         return envelope('diagnosis.diagnose',out,'EXECUTED' if out['status']=='ACCEPT' else 'OPEN')
     def rtc(current,plan):
+        if structured is not None:
+            out=raise_the_ceiling({'candidates':structured['candidates']})
+            pending=out['status']=='OPEN' or bool(out.get('unresolved'))
+            result=envelope('raise_the_ceiling.raise_the_ceiling',out,'OPEN' if pending else 'EXECUTED',
+                            'STRICT_GAIN_OR_PRESERVATION_UNRESOLVED' if pending else None)
+            result.update(input_route='STRUCTURED_DOCUMENT_EVIDENCE',inventory_evidence=structured['inventory_evidence'])
+            return result
         base=tuple(t['baseline_probes'])
         n=len({signature(base,k) for k in thresholds})
         candidates=[{'id':str(q),'strict_gain':len({signature(base+(q,),k) for k in thresholds})>n,
