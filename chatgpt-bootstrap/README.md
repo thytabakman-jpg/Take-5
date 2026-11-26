@@ -48,7 +48,8 @@ The complete combined packet supports the following frozen input fields. Admissi
 
 | Binding | Required evidence groups |
 | --- | --- |
-| GDOS, BiasPerturbation, Architecture, MultiObject | Matrix and source references; only fields used by the selected algorithm |
+| GDOS, BiasPerturbation, MultiObject | Matrix and source references; only fields used by the selected algorithm |
+| Architecture | Matrix or explicit architecture graph, plus source references |
 | Discriminator, Reconciler | Threshold model and source references; only fields used by the selected algorithm |
 | Diagnosis, RTC | Threshold model or their respective structured document evidence, plus source references |
 | MT, GOAL, compound ASSERT | Both matrix and threshold model, plus source references |
@@ -64,6 +65,12 @@ Complete packet field definitions:
 - `open_coordinates`: unresolved source/semantic obligations; and optional `goal_candidates` (id, goal X/T/I/Sigma, constraints, evidence, grounded, authority_typed, determinate_enough).
 
 The adapters use native GDOS, Discriminator, BiasPerturbation, Architecture, MultiObject, Reconciler, CurrentnessAudit, MT, GOAL, Diagnosis, RTC, compound ASSERT and TRC. GOAL's MT preflight is recovered from an actual gateway invocation. MT runs a limited observation over the packet; unresolved semantic-stage bindings remain OPEN. MultiObject runs an independent algorithmic full-joint membership route before pair routes, then tests exact pair recoverability. It does not infer scholarly relationships from shared tags. ASSERT is the bounded compound core, not full-36 ASSERT certification. In the threshold route RTC tests additional probes in the fixed finite model; the structured route evaluates host-supplied candidates. Currentness verifies revision identity, not source truth. Prose requires separately evidenced semantic preservation, reader load and claim strength.
+
+### Explicit Architecture graph input
+
+For Architecture alone, `architecture_graph` is an alternative to `matrix`; supplying both is BLOCKED. It contains a nonempty list of unique text `expected_units` and a `units` list. Each unit has a unique nonempty `id`, `source` path and exact Git blob `sha` matching a declared source, nonempty `role` and `locator`, and `internal_dependencies` (a list of unique text unit IDs). Optional `external_dependencies` and `information_ownership` are lists of declared text identities. Source paths must be unique. Missing required fields remain OPEN; malformed fields are BLOCKED before the native entrypoint. Other tool bindings ignore this group.
+
+The native Architecture core reports missing or unexpected units, dangling internal dependencies, reverse internal consumers, declared roles and ownership, and source provenance. The host supplies and authenticates the graph facts; the adapter does not independently derive relationships or certify source truth, semantic ownership, external consumers or dynamic dependencies. The result intentionally retains OPEN for these unverified obligations, including on a structurally clean graph. Existing matrix analysis is unchanged.
 
 ### Structured Diagnosis and RTC input
 

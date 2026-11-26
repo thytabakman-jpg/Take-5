@@ -132,6 +132,67 @@ def _structured_inputs(packet, tool, sources):
     return spec
 
 
+def _graph_adapter(packet, sources):
+    """Analyze declared, source-located graph facts; never infer semantic completeness."""
+    def nonempty(value):
+        return isinstance(value,str) and bool(value.strip())
+    def ids(value, field):
+        if not isinstance(value,list) or not all(nonempty(x) for x in value) or len(set(value))!=len(value):
+            raise ValueError(f'{field}:UNIQUE_TEXT_IDS_REQUIRED')
+        return value
+    admitted={}
+    for source in sources:
+        path,sha=source['path'],source['sha']
+        if not nonempty(path) or not _git_blob_sha(sha) or path in admitted:
+            raise ValueError('GRAPH_SOURCE_PATH_AND_UNIQUE_BLOB_REQUIRED')
+        admitted[path]=sha
+    spec=packet['architecture_graph']
+    if not isinstance(spec,dict):
+        raise ValueError('ARCHITECTURE_GRAPH_OBJECT_REQUIRED')
+    expected=set(ids(spec['expected_units'],'expected_units'))
+    rows=spec['units']
+    if not expected:
+        raise ValueError('GRAPH_EXPECTED_UNITS_REQUIRED')
+    if not isinstance(rows,list):
+        raise ValueError('GRAPH_UNITS_LIST_REQUIRED')
+    seen=set()
+    for row in rows:
+        if not isinstance(row,dict):
+            raise ValueError('GRAPH_UNIT_OBJECT_REQUIRED')
+        ident=row['id']
+        if not nonempty(ident) or ident in seen:
+            raise ValueError('GRAPH_UNIQUE_UNIT_ID_REQUIRED')
+        seen.add(ident)
+        if not nonempty(row['source']) or not _git_blob_sha(row['sha']) or admitted.get(row['source'])!=row['sha']:
+            raise ValueError('GRAPH_UNKNOWN_SOURCE_REVISION')
+        if not nonempty(row['role']) or not nonempty(row['locator']):
+            raise ValueError('GRAPH_ROLE_AND_LOCATOR_REQUIRED')
+        ids(row['internal_dependencies'],'internal_dependencies')
+        for field in ('external_dependencies','information_ownership'):
+            if field in row:
+                ids(row[field],field)
+    def analyze(target,contract):
+        present={x['id'] for x in target}
+        dependencies={x['id']:x['internal_dependencies'] for x in target}
+        consumers={u:sorted(v for v,vs in dependencies.items() if u in vs) for u in sorted(present)}
+        issues={'missing':sorted(expected-present),'extra':sorted(present-expected),
+                'dangling':sorted((u,v) for u,vs in dependencies.items() for v in vs if v not in present)}
+        return dict(ArchClass='EXPLICIT_SOURCE_GRAPH',Violations=issues,
+            LocalizationFamilies=[k for k,v in issues.items() if v],DependencyState=dependencies,
+            InteractionState={'internal_consumers':consumers,'declared_external_dependencies':{x['id']:x.get('external_dependencies',[]) for x in target}},
+            TransformationFrontier=[],SuccessorFrontier=[],
+            Coverage={'scope':'declared static graph only','roles':{x['id']:x['role'] for x in target},
+                      'declared_information_ownership':{x['id']:x.get('information_ownership',[]) for x in target}},
+            OpenConflictBlocked={'OPEN':['semantic ownership and dynamic/external coverage not established']},
+            Provenance={x['id']:{'source':x['source'],'sha':x['sha'],'locator':x['locator']} for x in target})
+    def invoke(current,plan):
+        out=run_architecture_analysis(rows,{'expected':sorted(expected)},analyze_architecture=analyze)
+        return {'status':out['status'],'execution_truth':'IMPLEMENTATION_EXECUTED','result':out,
+                'material_delta':False,'evidence':['native:architecture_analysis.run_architecture_analysis',f'packet:{digest(packet)}',*['git-blob:'+s for s in admitted.values()]],
+                'blocker':'FULL_SEMANTIC_COVERAGE_OPEN','scope':'BOUNDED_DECLARED_GRAPH; NO_FULL_SEMANTIC_COVERAGE'}
+    return invoke
+
+
 def _bind_admitted_adapters(packet, tool, groups):
     # Admit only the evidence used by this invocation. No input validation
     # failure may prevent an independent binding from being constructed.
@@ -151,6 +212,10 @@ def _bind_admitted_adapters(packet, tool, groups):
             latest=source.get('latest_sha')
             if latest is not None and latest != '' and not _git_blob_sha(latest):
                 raise ValueError('LATEST_SOURCE_BLOB_SHA_INVALID')
+    if tool=='Architecture' and 'architecture_graph' in packet:
+        if 'matrix' in packet:
+            raise ValueError('AMBIGUOUS_ARCHITECTURE_INPUT')
+        return {tool:_graph_adapter(packet,sources)}
     structured=None
     structured_key={'Diagnosis':'diagnosis','RTC':'rtc'}.get(tool)
     if structured_key is not None and structured_key in packet:
