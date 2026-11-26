@@ -11,6 +11,9 @@ from typing import Any, Callable, Iterable
 
 from semantic_resolution_pipeline import plan_black_box_resolution
 
+# I. Stage and result contracts.
+# Compatibility candidate (retained pending external consumer verification):
+# TERMINAL_NON_SUCCESS has no local consumer.
 TERMINAL_NON_SUCCESS={"OPEN","BLOCKED","CONFLICT"}
 # Native result carriers use these basis-relative success dispositions.
 SEMANTIC_STAGE_SUCCESS={"CLOSED","CLOSED_RELATIVE","RELATIVE_CLOSE","ACCEPT"}
@@ -30,6 +33,16 @@ class SemanticGateResult:
     material:bool
     stop_reason:str
 
+@dataclass(frozen=True)
+class MTReturnResult:
+    state:Any
+    mt_result:Any
+    semantic_receipts:tuple[StageReceipt,...]
+    open_objects:tuple[str,...]
+    rounds:int
+    status:str
+
+# II. One semantic resolution pass.
 def run_semantic_pass(
     state:Any,
     black_box_ids:Iterable[str],
@@ -69,15 +82,9 @@ def run_semantic_pass(
         "MATERIAL_PROGRESS" if any_material else ("OPEN_PRESERVED" if open_objects else "NO_MATERIAL_DELTA"),
     )
 
-@dataclass(frozen=True)
-class MTReturnResult:
-    state:Any
-    mt_result:Any
-    semantic_receipts:tuple[StageReceipt,...]
-    open_objects:tuple[str,...]
-    rounds:int
-    status:str
-
+# III. MT re-entry and return boundary.
+# Compatibility candidate: result_equivalent is retained in the public signature
+# pending caller verification; it is not an admission or closure witness.
 def run_mt_with_before_return_gate(
     initial_state:Any,
     *,
