@@ -205,3 +205,58 @@ def test_hf2_non_success_does_not_admit_in_place_mutation():
     out=_engine(run).run(initial,{})
     assert out["status"]=="BLOCKED"
     assert out["state"]==initial=={"nested":{"version":0}}
+
+
+
+def test_shared_material_vocabulary_across_compiler_wrapper_and_engine():
+    from configured_hf2_execution import _delta_from_raw
+    from hf002_recursive_continuation import MATERIAL_DELTA_KEYS, material_delta_present
+    from recursive_compiler import hf2_fixed_point_witness
+    for key in MATERIAL_DELTA_KEYS:
+        delta=_delta_from_raw("MT",{"hf2_delta":{key:True},"material_delta":False})
+        assert material_delta_present(delta)
+        assert HF002RecursiveContinuation._material(delta)
+        assert not hf2_fixed_point_witness([{"disposition":"RELATIVE_CLOSE","delta":delta}])
+        assert "material_result_delta" not in delta or key=="material_result_delta"
+
+
+def test_status_only_configured_success_cannot_close():
+    from configured_hf2_execution import SUCCESS_STATUSES
+    plan=build_tool_execution_plan(CONFIGURED_RUNS["MT"])
+    for status in SUCCESS_STATUSES:
+        out=execute_configured_with_hf2(tool_id="MT",plan=plan,state={},
+            adapter=lambda *_:{"status":status,"hf2_local_close":True})
+        assert out.status=="OPEN"
+        assert "WITHOUT_EXECUTION_WITNESS" in out.last_raw["blocker"]
+
+
+def test_unknown_hf1_disposition_blocks_without_admitting_successor():
+    plan=build_tool_execution_plan(CONFIGURED_RUNS["MT"])
+    for invalid in ("UNKNOWN",None,False,""):
+        out=execute_configured_with_hf2(tool_id="MT",plan=plan,state={"n":0},
+            adapter=lambda *_:{"status":"EXECUTED","state":{"n":1},
+                              "hf1_disposition":invalid})
+        assert out.status=="BLOCKED"
+        assert out.state=={"n":0}
+        assert out.trace[-1]["disposition"]=="BLOCKED"
+
+
+def test_in_place_successor_is_verified_against_frozen_predecessor():
+    observed=[]
+    def run(state,memory):
+        state["nested"]["version"]=1
+        return {"execution_truth":"SEMANTICALLY_APPLIED","state":state}
+    def trc(before,after,delta):
+        observed.append(("trc",before["nested"]["version"],after["nested"]["version"]))
+        before["nested"]["version"]=99
+        return {"terminal":True}
+    def hf1(before,after,delta):
+        observed.append(("hf1",before["nested"]["version"],after["nested"]["version"]))
+        return {"disposition":"STABLE"}
+    engine=_engine(run)
+    engine.trc_verify=trc
+    engine.hf1_classify=hf1
+    initial={"nested":{"version":0}}
+    out=engine.run(initial,{})
+    assert observed==[("trc",0,1),("hf1",0,1)]
+    assert initial==out["trace"][0]["state_before"]=={"nested":{"version":0}}

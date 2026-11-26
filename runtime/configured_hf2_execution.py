@@ -16,7 +16,7 @@ from copy import deepcopy
 import json
 from typing import Any, Callable, Mapping
 
-from hf002_recursive_continuation import HF002RecursiveContinuation
+from hf002_recursive_continuation import HF002RecursiveContinuation, material_delta_present
 
 
 SUCCESS_STATUSES={
@@ -105,7 +105,7 @@ def _raw_mapping(raw:Any)->dict[str,Any]:
                    reported_status=status,reported_execution_truth=truth,
                    blocker=out.get("blocker") or "CONFIGURED_HF2_DISPOSITION_CONFLICT")
         status=truth="CONFLICT"
-    # FULL_MATCH is a result claim, not proof supplied by the execution plan.
+    # A success status is a result claim, not proof supplied by the execution plan.
     # Reject wholly empty success receipts, while preserving valid tool-native
     # results and the existing evidence/coverage representations.
     # Explicit, valid scalar results such as False and 0 are real tool outputs,
@@ -117,7 +117,7 @@ def _raw_mapping(raw:Any)->dict[str,Any]:
             return bool(value)
         return True
 
-    if (status=="FULL_MATCH" or truth=="FULL_MATCH") and not any(
+    if status in SUCCESS_STATUSES and not any(
         has_witness(out.get(key)) for key in (
             "result","state","evidence","native_receipts","cell_receipts",
             "question_receipts","cognitive_receipts",
@@ -127,7 +127,9 @@ def _raw_mapping(raw:Any)->dict[str,Any]:
             status="OPEN",
             execution_truth="OPEN",
             material_delta=False,
-            blocker="CONFIGURED_HF2_FULL_MATCH_WITHOUT_EXECUTION_WITNESS",
+            blocker=("CONFIGURED_HF2_FULL_MATCH_WITHOUT_EXECUTION_WITNESS"
+                     if status=="FULL_MATCH" or truth=="FULL_MATCH"
+                     else "CONFIGURED_HF2_SUCCESS_WITHOUT_EXECUTION_WITNESS"),
         )
     return out
 
@@ -170,17 +172,7 @@ def _semantic_signature(raw:dict[str,Any],current:Any)->str:
 def _delta_from_raw(tool_id:str,raw:dict[str,Any])->dict[str,Any]:
     supplied=raw.get("hf2_delta",{})
     delta=dict(supplied) if isinstance(supplied,dict) else {}
-    if not any(
-        delta.get(k)
-        for k in (
-            "material_result_delta",
-            "material_search_delta",
-            "material_discovery_delta",
-            "negative_evidence",
-            "open_refinement",
-            "changed_representation",
-        )
-    ):
+    if not material_delta_present(delta):
         delta["material_result_delta"]=bool(raw.get("material_delta",False))
 
     delta.setdefault(
@@ -284,12 +276,7 @@ def execute_configured_with_hf2(
         supplied=raw.get("hf2_delta")
         explicit_material=(
             isinstance(supplied,dict)
-            and any(bool(supplied.get(k)) for k in (
-                "material_result_delta","material_search_delta","material_discovery_delta",
-                "negative_evidence","open_refinement","changed_representation",
-                "material_relation_delta","goal_gap_reduced","execution_truth_strengthened",
-                "resolved_open","resolved_blocked","resolved_conflict",
-            ))
+            and material_delta_present(supplied)
         )
         signature=_semantic_signature(raw,current)
         if (

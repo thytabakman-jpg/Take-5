@@ -9,9 +9,21 @@ not global episode selection.
 from __future__ import annotations
 from copy import deepcopy
 from dataclasses import dataclass, asdict, field
-from typing import Any, Callable
+from typing import Any, Callable, Mapping
 
 TERMINAL={"RELATIVE_CLOSE","RETURN_REENTER","OPEN","BLOCKED","CONFLICT","RESOURCE_STOP"}
+
+MATERIAL_DELTA_KEYS=(
+    "material_result_delta", "material_search_delta", "material_discovery_delta",
+    "negative_evidence", "open_refinement", "changed_representation",
+    "material_relation_delta", "goal_gap_reduced", "execution_truth_strengthened",
+    "resolved_open", "resolved_blocked", "resolved_conflict",
+)
+
+
+def material_delta_present(delta:Mapping[str,Any])->bool:
+    """Authoritative HF002 material-change vocabulary shared with its consumers."""
+    return any(bool(delta.get(key)) for key in MATERIAL_DELTA_KEYS)
 
 @dataclass
 class HF2Round:
@@ -35,22 +47,7 @@ class HF002RecursiveContinuation:
     max_rounds:int=32
     trace:list[HF2Round]=field(default_factory=list)
 
-    @staticmethod
-    def _material(delta:dict[str,Any])->bool:
-        return bool(
-            delta.get("material_result_delta")
-            or delta.get("material_search_delta")
-            or delta.get("material_discovery_delta")
-            or delta.get("negative_evidence")
-            or delta.get("open_refinement")
-            or delta.get("changed_representation")
-            or delta.get("material_relation_delta")
-            or delta.get("goal_gap_reduced")
-            or delta.get("execution_truth_strengthened")
-            or delta.get("resolved_open")
-            or delta.get("resolved_blocked")
-            or delta.get("resolved_conflict")
-        )
+    _material = staticmethod(material_delta_present)
 
     @staticmethod
     def _affected_frontier_open(delta:dict[str,Any])->bool:
@@ -90,7 +87,7 @@ class HF002RecursiveContinuation:
                 raise RuntimeError("HF002_EXECUTION_TRUTH_INVALID")
 
             normalized,delta=self.admit_normalize(raw,x,m)
-            receipt=self.trc_verify(x,normalized,delta)
+            receipt=self.trc_verify(deepcopy(before),normalized,delta)
             if receipt.get("terminal") is not True:
                 self._record(i,before,raw,normalized,delta,{},before,"OPEN")
                 return {
@@ -99,7 +96,16 @@ class HF002RecursiveContinuation:
                     "open":["TRC_NOT_TERMINAL"],
                 }
 
-            hf1=self.hf1_classify(x,normalized,delta)
+            hf1=self.hf1_classify(deepcopy(before),normalized,delta)
+            if not isinstance(hf1,Mapping) or hf1.get("disposition") not in (
+                "STABLE","REENTER","OPEN","BLOCKED","CONFLICT",
+            ):
+                self._record(i,before,raw,normalized,delta,hf1,before,"BLOCKED")
+                return {
+                    "status":"BLOCKED","state":before,"memory":m,
+                    "trace":[asdict(t) for t in self.trace],
+                    "open":["HF002_HF1_DISPOSITION_INVALID"],
+                }
             if hf1.get("disposition")=="REENTER":
                 self._record(i,before,raw,normalized,delta,hf1,normalized,"RETURN_REENTER")
                 return {

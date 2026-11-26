@@ -10,20 +10,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Mapping, Iterable, Any
 
-_MATERIAL_KEYS=(
-    "material_result_delta",
-    "material_search_delta",
-    "material_discovery_delta",
-    "negative_evidence",
-    "open_refinement",
-    "changed_representation",
-    "material_relation_delta",
-    "goal_gap_reduced",
-    "execution_truth_strengthened",
-    "resolved_open",
-    "resolved_blocked",
-    "resolved_conflict",
-)
+from hf002_recursive_continuation import material_delta_present as _material
 
 
 @dataclass(frozen=True)
@@ -48,10 +35,6 @@ class RecursiveCompilerClosure:
     @property
     def closed(self)->bool:
         return self.status=="GLOBAL_CLOSED"
-
-
-def _material(delta:Mapping[str,Any])->bool:
-    return any(bool(delta.get(k)) for k in _MATERIAL_KEYS)
 
 
 def validate_execution_profile(
