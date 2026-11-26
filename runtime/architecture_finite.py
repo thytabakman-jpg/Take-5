@@ -27,6 +27,7 @@ class FiniteContract:
     baseline_ids: tuple[str, ...]  # one baseline per context
     authority: str
     candidates: tuple[tuple[str, tuple[str, ...]], ...] = ()  # candidate id, observation ids
+    generate_observed_candidates: bool = False
 
 
 def _admit_observations(rows, c):
@@ -107,11 +108,33 @@ def _evaluate_interactions(rows, by_state, baselines):
     return interactions
 
 
-def _evaluate_successors(c, by_id, baselines):
+def _generate_observed_candidates(rows, c, baselines):
+    """Group observed nonempty interventions by exact coordinate edits.
+
+    A candidate is a common edit signature, not a semantic transformation proof.
+    Partial context coverage is retained for the existing evaluator to reject.
+    """
+    groups = {}
+    for row in sorted(rows, key=lambda r: r.identity):
+        base = baselines[row.context]
+        edits = tuple((n, x, y) for n, x, y in zip(c.components, base.state, row.state) if x != y)
+        if edits:
+            groups.setdefault(edits, {}).setdefault(row.context, row.identity)
+    candidates = []
+    witnesses = {}
+    for i, (edits, contexts) in enumerate(sorted(groups.items()), 1):
+        candidate = f'observed:{i}'
+        ids = tuple(contexts[k] for k in sorted(contexts))
+        candidates.append((candidate, ids))
+        witnesses[candidate] = {'edits': edits, 'observation_ids': ids}
+    return tuple(candidates), witnesses
+
+
+def _evaluate_successors(candidates, by_id, baselines):
     admitted = {}
     rejected = {}
     seen = set()
-    for candidate, identities in c.candidates:
+    for candidate, identities in candidates:
         if not candidate or candidate in seen:
             raise ValueError('FINITE_ARCHITECTURE_CANDIDATE_ID_INVALID')
         seen.add(candidate)
@@ -135,22 +158,32 @@ def _evaluate_successors(c, by_id, baselines):
 def analyze_finite_architecture(observations, contract):
     """Compute witnessed support, dependency and a same-job finite frontier.
 
-    No candidate generation, unobserved intervention or causal inference is
-    asserted. The authority is a basis reference, not a mutation grant.
+    Optional generation groups only already observed exact edits. No unobserved
+    intervention or causal inference is asserted. Authority is not a mutation grant.
     """
     rows = tuple(observations)
     c = contract
     by_id, by_state, baselines = _admit_observations(rows, c)
     localization, dependencies = _localize_and_recover_dependencies(rows, c)
     interactions = _evaluate_interactions(rows, by_state, baselines)
-    admitted, rejected, frontier = _evaluate_successors(c, by_id, baselines)
+    if type(c.generate_observed_candidates) is not bool:
+        raise ValueError('FINITE_ARCHITECTURE_GENERATION_FLAG_INVALID')
+    if c.generate_observed_candidates and c.candidates:
+        raise ValueError('FINITE_ARCHITECTURE_MIXED_CANDIDATE_MODES')
+    candidates, witnesses = (c.candidates, {})
+    if c.generate_observed_candidates:
+        candidates, witnesses = _generate_observed_candidates(rows, c, baselines)
+    admitted, rejected, frontier = _evaluate_successors(candidates, by_id, baselines)
+    transformation = {'observed_preserving_gain_candidates': tuple(sorted(admitted)), 'rejected': rejected}
+    if c.generate_observed_candidates:
+        transformation['generated_observed_candidates'] = witnesses
     return {
         'ArchClass': 'FINITE_OBSERVED_INTERVENTION_FRAME',
         'Violations': {k: tuple(sorted(c.obligations-r.obligations)) for k,r in baselines.items()},
         'LocalizationFamilies': localization,
         'DependencyState': tuple(dependencies),
         'InteractionState': tuple(interactions),
-        'TransformationFrontier': {'observed_preserving_gain_candidates': tuple(sorted(admitted)), 'rejected': rejected},
+        'TransformationFrontier': transformation,
         'SuccessorFrontier': frontier,
         'Coverage': {'observations': len(rows), 'contexts': tuple(sorted(baselines)),
                      'interaction_algebra': 'UNION_OF_NEWLY_SATISFIED_OBLIGATIONS'},
