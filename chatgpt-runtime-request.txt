@@ -1,1 +1,1 @@
-Core Repair admission and PD consistency repairs: refresh verified artifact for main eed2685f0ddc67cefa5bffcdf4221a9b58752b81
+Core Repair reliability and provenance compatibility: refresh verified artifact for main f6fd499ba66abf8643b7eb315a2ba38b37d87c07
