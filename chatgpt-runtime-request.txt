@@ -1,1 +1,1 @@
-Repair dependency review: refresh verified artifact for main 33263af3eca1d8f87605e5dec464f6958eafdb70
+Repair architecture consolidation: refresh verified artifact for main d84e9302d027682ce223cf1fcd3a324e4da56190
