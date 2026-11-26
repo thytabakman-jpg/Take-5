@@ -216,7 +216,12 @@ def _valid_numeric_person_date(date:str)->bool:
 
 
 def _allowed(text:str, start:int, end:int, contract:ProseContract)->bool:
-    lowered=str(text).casefold()
+    value=str(text)
+    lowered=value.casefold()
+    # Case folding may expand a character (for example, ß to ss).
+    # Compare offsets in the same folded coordinate space.
+    start=len(value[:start].casefold())
+    end=len(value[:end].casefold())
     for raw in contract.allowed_negative_spans:
         span=str(raw).strip().casefold()
         if not span:

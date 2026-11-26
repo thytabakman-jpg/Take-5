@@ -135,6 +135,13 @@ def run_tool_run_closure(
         steps+=1
         if steps>max_consequences:
             open_coords.append("TRC:MAX_CONSEQUENCES")
+            # Preserve the identities of the unprocessed obligations so the
+            # resource stop does not erase the remaining consequence frontier.
+            for remaining in queue:
+                if not isinstance(remaining,Consequence):
+                    raise TypeError("harvest_fn must return Consequence objects")
+                if remaining.cid not in seen:
+                    open_coords.append(":".join(map(str,remaining.cid)))
             break
 
         q=queue.popleft()

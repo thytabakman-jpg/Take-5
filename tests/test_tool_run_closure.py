@@ -176,3 +176,17 @@ def test_trc_non_successful_realization_cannot_reach_verification_or_consumption
         assert out.certificate.records[0].realization_state==status
         assert out.certificate.records[0].evidence==("realization witness",)
         assert not calls
+
+
+def test_trc_resource_stop_preserves_unprocessed_consequence_coordinates():
+    out=run_tool_run_closure(
+        tool_result=None,pre_state={},post_state={},
+        harvest_fn=lambda *args:(q("A"),q("B")),
+        disposition_fn=lambda c,s:Disposition.CERTIFIED_NO_EFFECT,
+        realize_fn=lambda c,s:s,verify_fn=lambda c,s:s,consume_fn=lambda c,s:s,
+        max_consequences=1,
+    )
+    assert out.certificate.status=="OPEN"
+    assert out.certificate.accounted_count==1
+    assert "TRC:MAX_CONSEQUENCES" in out.certificate.open_coordinates
+    assert ":".join(q("B").cid) in out.certificate.open_coordinates
