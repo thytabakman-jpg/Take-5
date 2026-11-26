@@ -1,48 +1,13 @@
 # Full Configured Tool Invocation 121
 
-Date: 2026-09-26
-Status: CURRENT / MERGED; routing/profile validation is distinct from domain-semantic validation
-Origin:
-- MT direct-tool/HF2 prompt audit 118
-- GOAL direct-tool/HF2 118
-- IC123 rewrite 118
-- ImprovementCore + HF2 campaign 119
-- ImprovementCore + HF2 Think-big pass 120
-
-## Contents
-
-- [Authority and reader route](#authority-and-reader-route)
-- [Problem](#problem)
-- [Registered recurrence law](#registered-recurrence-law)
-- [Full plan](#full-plan)
-- [Runtime invocation](#runtime-invocation)
-- [Repository routes](#repository-routes)
-- [Fail-closed rules](#fail-closed-rules)
-- [Protected reconstruction](#protected-reconstruction)
-- [Portfolio audit](#portfolio-audit)
-- [External host boundary](#external-host-boundary)
-- [Post-merge Think-big reentry](#post-merge-think-big-reentry)
-- [Strengthened route set](#strengthened-route-set)
-- [Validation and merge evidence](#validation-and-merge-evidence)
 
 ## Authority and reader route
 
-This document owns the architectural invariant, formal justification, protected behavior and validation provenance of full configured invocation. [Current Full Tool Invocation](../integration/CURRENT_FULL_TOOL_INVOCATION.md) is its operational recovery and routing summary, not an independent competing definition. The live registry, manifest and execution implementations remain the authorities for exact registered identities and executable behavior. Preserve any discrepancy as OPEN pending owner verification; do not infer semantic coverage from a routing summary.
+This document owns the architectural invariant, formal justification and protected behaviour of full configured invocation. [Current Full Tool Invocation](../integration/CURRENT_FULL_TOOL_INVOCATION.md) is its operational recovery and routing summary, not an independent competing definition. The live registry, manifest and execution implementations remain the authorities for exact registered identities and executable behavior. Preserve any discrepancy as OPEN pending owner verification; do not infer semantic coverage from a routing summary.
 
 ## Problem
 
-A registered tool could already have a complete wrapper/D36_C configured plan while a
-caller still invoked its adapter through a one-shot path that did not bind HF2.
-
-Therefore:
-
-CompletePlan(T)
-
-did not entail:
-
-FullInvocation(T).
-
-The user's recurring failure was the gap between those two objects.
+Plan completeness does not entail full invocation. A one-shot adapter call can use a complete plan while bypassing configured recurrence. Full invocation therefore requires both the complete registered plan and the actual configured execution path.
 
 ## Registered recurrence law
 
@@ -159,46 +124,21 @@ A second outer HF002 is not added.
 
 ## Repository routes
 
-Controller-selected route:
+All repository-owned invocation routes converge on the shared configured plan and recurrence executor. The [operational guide](../integration/CURRENT_FULL_TOOL_INVOCATION.md#execution-routes) identifies the entrypoints.
 
-ImprovementCore selection
--> bind_selected_tools
--> build_tool_execution_plan
--> execute_configured_with_hf2
--> native adapter.
+- Direct commands and ImprovementCore-selected tools share `bind_selected_tools`, `build_tool_execution_plan` and `execute_configured_with_hf2`. The ordered binding must equal the authorized direct request. Inherited controller selections cannot add tools or veto a direct request merely by naming an unrelated unregistered identity.
+- [Protected Transition Integrity](../runtime/global_tool_execution.py) executes its execution edge through `execute_configured_with_hf2`. Execution callbacks may return `(value, evidence)` for a one-round local close or `(value, evidence, recurrence_hints)` for a material or live successor. Successful transitions retain configured recurrence evidence, for example `configured-recurrence:HF002:RELATIVE_CLOSE:rounds=n` or `configured-recurrence:SELF:SELF_CLOSE:rounds=1`. PTI forwards `hf2_affected_frontier` and `hf2_scope_deltas`; OPEN, BLOCKED, CONFLICT, RETURN_REENTER or RESOURCE_STOP cannot authorize successful transition.
+- [ToolConductor](../runtime/portable_tool_conductor.py) emits one disposition per registered factor, not one native call. Each non-self factor that executes crosses the configured plan and recurrence executor and may take multiple HF2 rounds. The conductor self factor is a non-recursive self witness that prevents infinite conductor-on-conductor recursion. Missing environment-bound adapters remain OPEN/BLOCKED.
 
-Direct-command route:
-
-"run/use/execute/apply/call T" or caller-authorized ordered exact registered IDs
--> direct_tool_command_gateway
--> bind_selected_tools
--> build_tool_execution_plan
--> execute_configured_with_hf2
--> native adapter.
-
-These routes share the same binding and execution primitive.
-
-The [direct command gateway](../runtime/direct_tool_command_gateway.py) binds exactly the ordered identities extracted from the authorized direct command. Inherited controller selections remain contextual state; they cannot add tools to this binding or veto it merely by naming an unrelated unregistered identity. An identity mismatch between the command and the resulting bindings is BLOCKED before adapter execution. Structured list/tuple input accepts only exact registered IDs in the supplied order; empty requests, unregistered IDs, non-string entries and duplicates are rejected before binding. The legacy lexical string interface remains available, with its original recognition semantics. Both forms enter the same binding, plan and recurrence path. Structured identity validation does not establish natural-language authorization or semantic completeness.
+Inner native functions are implementations within a configured invocation, not independent evidence of full configured execution.
 
 ## Fail-closed rules
 
-A recognized but unregistered formal object in a direct-command request:
-BLOCKED, including when it is mixed with a registered tool command. A registered label cannot be matched as the prefix of a longer hyphenated or word-token label. Unknown ordinary-language tokens are not assigned a tool identity.
+The direct gateway rejects recognized unregistered formal objects, including mixed requests, and identity mismatches before execution. A registered label cannot match the prefix of a longer hyphenated or word-token label. Unknown ordinary-language tokens are not assigned tool identities. Structured requests require a nonempty ordered list or tuple of unique exact registered string IDs; both structured and lexical requests converge on the same execution path.
 
-Missing adapter:
-OPEN.
+Missing adapters preserve OPEN. Incomplete configured identities or invalid recurrence identities block execution. Unresolved local frontiers preserve typed HF2 non-closure.
 
-Incomplete configured identity:
-BLOCKED before plan construction.
-
-Missing or invalid recurrence identity:
-BLOCKED before successful HF2 execution.
-
-HF2 local frontier unresolved:
-OPEN or another typed HF2 disposition.
-
-A prose analysis, a plan, a tool label, or host reasoning cannot substitute for the bound
-adapter execution. A successful configured route and a relative HF2 close establish only the execution and scope represented by their receipts. Distinguish IMPLEMENTATION_EXECUTED, SEMANTICALLY_APPLIED and FULL_MATCH, and do not infer full domain-semantic coverage merely from plan completeness, a synthetic routing check or a bounded native result.
+Execution receipts establish only their evidenced scope. The [worker contract](../runtime/WORKER_ADAPTER_CONTRACT.md#execution-evidence-and-coverage) defines execution truth and semantic evidence requirements; plan completeness, synthetic routing tests and bounded native results do not imply full semantic coverage.
 
 ## Protected reconstruction
 
@@ -216,23 +156,7 @@ Therefore recurrence is not merely an execution convention.
 
 ## Portfolio audit
 
-[runtime/full_invocation_portfolio.py](../runtime/full_invocation_portfolio.py)
-
-For every current registered tool it verifies:
-
-- ConfiguredRunSpec complete;
-- expected recurrence engine;
-- manifest reconstruction;
-- direct command resolution;
-- 36 cells;
-- 792 question projections;
-- 144 cognitive projections;
-- shared execution gateway reachability;
-- HF2 or SELF recurrence receipt;
-- missing adapter preserves OPEN.
-
-This audit proves routing/profile reachability with synthetic adapters. It does not claim that
-every tool's domain-specific native semantics are self-contained in every environment.
+The [portfolio audit](../runtime/full_invocation_portfolio.py) checks current registered identities, manifests, complete configured plans, direct command resolution, shared executor reachability, recurrence receipts and missing-adapter OPEN behaviour. Its synthetic adapters establish routing/profile reachability, not domain-semantic correctness.
 
 ## External host boundary
 
@@ -250,112 +174,3 @@ The direct gateway is a lexical command recognizer, not a natural-language autho
 
 Inside a Take-5-governed formal-tool route, the weaker one-shot configured path is no longer
 admissible.
-
-
-## Post-merge Think-big reentry
-
-A post-merge recheck found two additional repository-owned execution surfaces that could
-otherwise have remained weaker parallel paths.
-
-### Protected Transition Integrity executor
-
-[`runtime/global_tool_execution.execute_protected_transition`](../runtime/global_tool_execution.py)
-
-now executes its execution edge through:
-
-[`runtime/configured_hf2_execution.execute_configured_with_hf2`](../runtime/configured_hf2_execution.py).
-
-Backward-compatible execute callbacks may return:
-
-(value, evidence)
-
-for a one-round local close, or:
-
-(value, evidence, recurrence_hints)
-
-when the same configured execution has a material/live local successor.
-
-A successful PTI receipt now carries recurrence evidence such as:
-
-configured-recurrence:HF002:RELATIVE_CLOSE:rounds=n
-
-or, for HF002 itself:
-
-configured-recurrence:SELF:SELF_CLOSE:rounds=1.
-
-PTI forwards `hf2_affected_frontier` and `hf2_scope_deltas` obligations to the shared recurrence executor. It cannot return a successful configured transition while its recurrence disposition remains OPEN, BLOCKED, CONFLICT, RETURN_REENTER, or RESOURCE_STOP.
-
-### Tool Conductor factors
-
-[runtime/portable_tool_conductor.py](../runtime/portable_tool_conductor.py)
-
-still emits exactly one conductor-level disposition per registered factor.
-
-However, every non-self factor that actually executes now crosses the current full configured
-plan and configured recurrence executor.
-
-Therefore:
-
-one conductor factor disposition
-
-does not mean:
-
-one native adapter call.
-
-A factor may internally take multiple HF2 rounds while remaining one factor in the exhaustive
-product.
-
-Missing environment-bound adapters remain OPEN/BLOCKED rather than being substituted.
-
-The ToolConductor self factor remains a non-recursive self witness so the exhaustive product
-does not spawn an infinite conductor-on-conductor chain.
-
-## Strengthened route set
-
-The current repository-owned full-invocation invariant is enforced across:
-
-1. direct imperative formal-tool commands;
-2. ImprovementCore selected-tool execution;
-3. PTI end-to-end configured transitions;
-4. ToolConductor factor execution.
-
-Inner native semantic functions such as capability_runtime.execute_capability and individual
-learning operators are implementations inside a configured invocation, not independent claims
-of a full configured tool run.
-
-
-## Validation and merge evidence
-
-Primary full-profile repair:
-
-PR #117
-
-merge:
-2b86fdc500f5ad1b35fa578b7c96bd92feb99f41
-
-Regime-091 transported validation:
-- Take-5 Validation 36270850293 SUCCESS
-- Capability Preservation 36270850299 SUCCESS
-
-Post-merge bypass closure:
-
-PR #119
-
-merge:
-f35577993d076e9113db0bc6e62b91d89b062565
-
-Post-merge validation:
-- Take-5 Validation 36271301228 SUCCESS
-- Capability Preservation 36271301286 SUCCESS
-
-Final ImprovementCore + HF2 reentry:
-
-[IMPROVEMENTCORE_HF2_THINK_BIG_REENTRY_122_2026-09-26.md](../artifacts/improvecore/IMPROVEMENTCORE_HF2_THINK_BIG_REENTRY_122_2026-09-26.md)
-
-Current finite registered-repertoire disposition:
-
-CLOSED_RELATIVE.
-
-Universal external-host interception:
-
-EXTERNAL_NOT_OWNED.

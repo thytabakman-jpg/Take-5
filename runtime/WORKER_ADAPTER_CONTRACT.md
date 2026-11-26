@@ -1,6 +1,6 @@
 # Semantic Worker Adapter Contract 001
 
-**Contract revision:** 1.1 (additive clarification of 001). This contract governs the controller–worker boundary; it does not replace individual tool mathematics, the registered invocation profile, or the host-specific binding ABI.
+**Contract revision:** 1.1. This contract governs the controller–worker boundary; it does not replace individual tool mathematics, the registered invocation profile, or the host-specific binding ABI.
 
 ## Ownership and authority
 
@@ -35,7 +35,7 @@ Missing material input remains OPEN; invalid or contradictory input is BLOCKED o
 | Verification hooks | Testable expected consequences, non-regression obligations and applicable verification method |
 | Continuation signal | Material successor, local frontier, affected scope, or grounds for stopping |
 
-Preserve the native tool's own result vocabulary and the host's documented envelope; mapping between them must preserve unresolved obligations and cannot upgrade success. Use the [configured execution bridge](improvement_core_tool_bridge.py) and [full invocation profile](../architecture/FULL_CONFIGURED_TOOL_INVOCATION_121.md) where the selected registered tool requires it. Direct commands enter through the [direct command gateway](direct_tool_command_gateway.py); configured recurrence is handled by the [shared HF2 executor](configured_hf2_execution.py). For the ChatGPT host, consult the [runtime bootstrap and bounded adapter admission instructions](https://github.com/thytabakman-jpg/Take-5/blob/chatgpt-runtime-bootstrap/chatgpt-bootstrap/README.md). These routes do not establish the availability or semantic adequacy of a particular worker.
+Preserve the native tool's own result vocabulary and the host's documented envelope; mapping between them must preserve unresolved obligations and cannot upgrade success. Follow the [current invocation guide](../integration/CURRENT_FULL_TOOL_INVOCATION.md) for configured execution. Binding alone does not establish worker availability or semantic adequacy.
 
 ## Execution evidence and coverage
 
@@ -50,6 +50,5 @@ Independent verification requires an actually independent method or evaluator wi
 
 ## Compatibility and admission
 
-This revision clarifies semantic requirements; it does not impose a new universal Python signature, change existing result schemas, or retroactively certify existing providers. Existing bindings may retain their ABI through documented mappings. New or changed providers must declare supported inputs and outputs, scope, failure behavior and evidence limits; verify the affected consumers before changing an existing interface. Explicitly distinguish missing binding, missing input, invalid input and execution failure. No generic worker is silently substituted for a tool-specific provider.
+This semantic contract does not impose a universal Python signature, replace existing result schemas, or certify providers by declaration. Existing bindings may retain their ABI through documented mappings. New or changed providers must declare supported inputs and outputs, scope, failure behavior and evidence limits; verify the affected consumers before changing an existing interface. Explicitly distinguish missing binding, missing input, invalid input and execution failure. No generic worker is silently substituted for a tool-specific provider.
 
-The current deterministic reference worker tests interfaces only. A general reasoning worker remains an OPEN adapter implementation. This contract does not certify any such worker as available.
