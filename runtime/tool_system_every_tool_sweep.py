@@ -906,7 +906,7 @@ def _recursive_compiler_adapter(packet:dict[str,Any])->dict[str,Any]:
         },
         admitted_delta_hashes={},
         realized_delta_hashes={},
-        hf2_trace=({"disposition":"RELATIVE_CLOSE","delta":{}},),
+        hf2_trace=_hf2_adapter(packet)["result"]["trace"],
     )
     return _dev_executed(out,evidence="native:RecursiveCompiler")
 

@@ -260,3 +260,67 @@ def test_in_place_successor_is_verified_against_frozen_predecessor():
     out=engine.run(initial,{})
     assert observed==[("trc",0,1),("hf1",0,1)]
     assert initial==out["trace"][0]["state_before"]=={"nested":{"version":0}}
+
+
+
+def test_compiler_rejects_incomplete_or_contradictory_native_fixed_point():
+    from copy import deepcopy
+    from recursive_compiler import hf2_fixed_point_witness
+    out=_engine(lambda state,memory:{"execution_truth":"IMPLEMENTATION_EXECUTED","state":state}).run({}, {})
+    trace=out["trace"]
+    assert hf2_fixed_point_witness(trace)
+    assert not hf2_fixed_point_witness([{"disposition":"RELATIVE_CLOSE","delta":{}}])
+    for key,value in (("trc",{"terminal":False}),("live_local",True),("local_close",False),
+                      ("delta",{"affected_frontier":["section"]}),("delta",{"scope_deltas":{"p":True}})):
+        altered=deepcopy(trace)
+        altered[-1][key]=value
+        assert not hf2_fixed_point_witness(altered)
+
+
+def test_self_recurrence_cannot_close_with_unresolved_frontier():
+    plan=build_tool_execution_plan(CONFIGURED_RUNS["HF002"])
+    for hints in ({"hf2_live_local":True},{"hf2_local_close":False},
+                  {"hf2_affected_frontier":["section"]},{"hf2_scope_deltas":{"p":True}},
+                  {"trc_terminal":False}):
+        out=execute_configured_with_hf2(tool_id="HF002",plan=plan,state={},
+            adapter=lambda *_:{"status":"EXECUTED","result":True,**hints})
+        assert out.status=="OPEN" and out.call_count==1
+    for status in ("OPEN","BLOCKED","CONFLICT","RETURN_REENTER","RESOURCE_STOP"):
+        out=execute_configured_with_hf2(tool_id="HF002",plan=plan,state={},
+            adapter=lambda *_:{"status":"EXECUTED","result":{"status":status}})
+        assert out.status==status and out.call_count==1
+    out=execute_configured_with_hf2(tool_id="HF002",plan=plan,state={},
+        adapter=lambda *_:{"status":"EXECUTED","result":{"status":"RELATIVE_CLOSE","trace":[]}})
+    assert out.status=="OPEN"
+    clean=execute_configured_with_hf2(tool_id="HF002",plan=plan,state={},
+        adapter=lambda *_:{"status":"EXECUTED","result":True,"hf2_live_local":False})
+    assert clean.status=="SELF_CLOSE" and clean.call_count==1
+
+
+def test_affected_scope_cannot_disappear_between_rounds_without_clearance():
+    plan=build_tool_execution_plan(CONFIGURED_RUNS["MT"])
+    for second,expected in (({},"OPEN"),({"hf2_scope_deltas":{"other":False}},"OPEN"),
+                            ({"hf2_scope_deltas":{"section":False}},"RELATIVE_CLOSE"),
+                            ({"hf2_scope_deltas":{}},"RELATIVE_CLOSE")):
+        calls=[]
+        def adapter(*_):
+            calls.append(1)
+            return {"status":"EXECUTED","result":True,"material_delta":len(calls)==1,
+                    **({"hf2_scope_deltas":{"section":True}} if len(calls)==1 else second)}
+        out=execute_configured_with_hf2(tool_id="MT",plan=plan,state={},adapter=adapter)
+        assert out.status==expected and out.call_count==2
+        if expected=="OPEN":
+            assert out.trace[-1]["delta"]["scope_deltas"]["section"] is True
+
+
+def test_changed_native_receipts_force_clean_successor_pass():
+    plan=build_tool_execution_plan(CONFIGURED_RUNS["MT"])
+    for key in ("native_receipts","cell_receipts","question_receipts","cognitive_receipts"):
+        calls=[]
+        def adapter(*_):
+            calls.append(1)
+            return {"status":"EXECUTED","result":True,"material_delta":len(calls)==1,
+                    key:["first" if len(calls)==1 else "new"]}
+        out=execute_configured_with_hf2(tool_id="MT",plan=plan,state={},adapter=adapter)
+        assert out.status=="RELATIVE_CLOSE" and out.call_count==3
+        assert [r["disposition"] for r in out.trace]==["REAPPLY_C","REAPPLY_C","RELATIVE_CLOSE"]

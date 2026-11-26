@@ -9,7 +9,7 @@ not global episode selection.
 from __future__ import annotations
 from copy import deepcopy
 from dataclasses import dataclass, asdict, field
-from typing import Any, Callable, Mapping
+from typing import Any, Callable, Mapping, Iterable
 
 TERMINAL={"RELATIVE_CLOSE","RETURN_REENTER","OPEN","BLOCKED","CONFLICT","RESOURCE_STOP"}
 
@@ -25,6 +25,83 @@ def material_delta_present(delta:Mapping[str,Any])->bool:
     """Authoritative HF002 material-change vocabulary shared with its consumers."""
     return any(bool(delta.get(key)) for key in MATERIAL_DELTA_KEYS)
 
+
+AFFECTED_SCOPE_KEYS=("affected_frontier","scope_deltas")
+
+
+def affected_scope_open(delta:Mapping[str,Any])->bool:
+    """Outstanding affected scope is independent of material progress."""
+    def unresolved(value:Any)->bool:
+        if isinstance(value,Mapping):
+            return any(unresolved(v) for v in value.values())
+        if isinstance(value,(tuple,list,set,frozenset)):
+            return any(unresolved(v) for v in value)
+        return bool(value)
+    return any(unresolved(delta.get(key)) for key in AFFECTED_SCOPE_KEYS)
+
+
+def carry_affected_scope(delta:dict[str,Any], pending:dict[str,Any])->None:
+    """Carry omitted scope forward; explicit empty snapshots clear it.
+
+    Nonempty mapping updates are partial: omitted entries retain their last
+    disposition. None is absence of evidence, not a clearance receipt.
+    """
+    for key in AFFECTED_SCOPE_KEYS:
+        value=delta.get(key)
+        if value is None:
+            if key in pending:
+                delta[key]=deepcopy(pending[key])
+            continue
+        old=pending.get(key)
+        if isinstance(old,Mapping) and isinstance(value,Mapping) and value:
+            value={**old,**value}
+        pending[key]=deepcopy(value)
+        delta[key]=deepcopy(value)
+
+
+def hf2_fixed_point_witness(trace:Iterable[Mapping[str,Any]])->bool:
+    """Verify a complete HF002 episode ending in a clean local close."""
+    try:
+        rounds=tuple(trace)
+    except TypeError:
+        return False
+    if not rounds:
+        return False
+    pending:dict[str,Any]={}
+    previous=None
+    for i,row in enumerate(rounds):
+        if not isinstance(row,Mapping) or type(row.get("round_index")) is not int or row["round_index"]!=i:
+            return False
+        if not all(key in row for key in ("state_before","state_after","normalized_result")):
+            return False
+        if i and row["state_before"]!=previous:
+            return False
+        if row["state_after"]!=row["normalized_result"]:
+            return False
+        previous=row["state_after"]
+        raw=row.get("raw_result")
+        hf1=row.get("hf1")
+        delta=row.get("delta")
+        if not isinstance(raw,Mapping) or raw.get("execution_truth") not in (
+            "FULL_MATCH","IMPLEMENTATION_EXECUTED","SEMANTICALLY_APPLIED",
+        ) or not isinstance(hf1,Mapping) or hf1.get("disposition")!="STABLE" or not isinstance(delta,Mapping):
+            return False
+        effective=dict(delta)
+        carry_affected_scope(effective,pending)
+        receipt=row.get("trc")
+        if not isinstance(receipt,Mapping) or receipt.get("terminal") is not True:
+            return False
+        if i<len(rounds)-1:
+            if row.get("disposition")!="REAPPLY_C" or not material_delta_present(effective):
+                return False
+            continue
+        return (row.get("disposition")=="RELATIVE_CLOSE"
+                and not material_delta_present(effective)
+                and not affected_scope_open(effective)
+                and row.get("live_local") is False and row.get("local_close") is True)
+    return False
+
+
 @dataclass
 class HF2Round:
     round_index:int
@@ -35,6 +112,9 @@ class HF2Round:
     hf1:dict[str,Any]
     state_after:dict[str,Any]
     disposition:str
+    trc:dict[str,Any]|None=None
+    live_local:bool|None=None
+    local_close:bool|None=None
 
 @dataclass
 class HF002RecursiveContinuation:
@@ -49,32 +129,18 @@ class HF002RecursiveContinuation:
 
     _material = staticmethod(material_delta_present)
 
-    @staticmethod
-    def _affected_frontier_open(delta:dict[str,Any])->bool:
-        """Treat unresolved affected scope as an independent HF2 closure blocker.
+    _affected_frontier_open = staticmethod(affected_scope_open)
 
-        Domain adapters own the meaning and completeness of these fields;
-        the generic recurrence engine only refuses to call them terminal.
-        """
-        def unresolved(value:Any)->bool:
-            if isinstance(value,dict):
-                return any(unresolved(v) for v in value.values())
-            if isinstance(value,(tuple,list,set,frozenset)):
-                return any(unresolved(v) for v in value)
-            return bool(value)
-
-        return (unresolved(delta.get("affected_frontier"))
-                or unresolved(delta.get("scope_deltas")))
-
-    def _record(self,*args):
+    def _record(self,*args,**kwargs):
         # Freeze receipts at the time of the round, not at episode return.
-        self.trace.append(deepcopy(HF2Round(*args)))
+        self.trace.append(deepcopy(HF2Round(*args,**kwargs)))
 
     def run(self,state:dict[str,Any],memory:dict[str,Any])->dict[str,Any]:
         # A new episode must not inherit execution receipts from an earlier run.
         self.trace.clear()
         x=deepcopy(state); m=deepcopy(memory)
         seen_failed=set(m.get("hf2_failed_equivalence",[]))
+        pending_scope:dict[str,Any]={}
 
         for i in range(self.max_rounds):
             before=deepcopy(x)
@@ -87,6 +153,8 @@ class HF002RecursiveContinuation:
                 raise RuntimeError("HF002_EXECUTION_TRUTH_INVALID")
 
             normalized,delta=self.admit_normalize(raw,x,m)
+            delta=dict(delta)
+            carry_affected_scope(delta,pending_scope)
             receipt=self.trc_verify(deepcopy(before),normalized,delta)
             if receipt.get("terminal") is not True:
                 self._record(i,before,raw,normalized,delta,{},before,"OPEN")
@@ -136,7 +204,8 @@ class HF002RecursiveContinuation:
             # "second run finds something new" gap even when the producer has
             # already marked its local frontier inactive.
             if material:
-                self._record(i,before,raw,normalized,delta,hf1,normalized,"REAPPLY_C")
+                self._record(i,before,raw,normalized,delta,hf1,normalized,"REAPPLY_C",
+                             trc=receipt,live_local=live)
                 x=normalized
                 continue
 
@@ -159,7 +228,8 @@ class HF002RecursiveContinuation:
                 }
 
             if self.local_close(normalized,m):
-                self._record(i,before,raw,normalized,delta,hf1,normalized,"RELATIVE_CLOSE")
+                self._record(i,before,raw,normalized,delta,hf1,normalized,"RELATIVE_CLOSE",
+                             trc=receipt,live_local=False,local_close=True)
                 return {
                     "status":"RELATIVE_CLOSE","state":normalized,"memory":m,
                     "trace":[asdict(t) for t in self.trace],

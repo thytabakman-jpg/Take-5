@@ -11,17 +11,14 @@ from recursive_compiler import (
 
 
 def _trace(material_first=True):
-    out=[]
-    if material_first:
-        out.append({
-            "disposition":"REAPPLY_C",
-            "delta":{"material_result_delta":True},
-        })
-    out.append({
-        "disposition":"RELATIVE_CLOSE",
-        "delta":{"material_result_delta":False},
-    })
-    return out
+    from hf002_recursive_continuation import HF002RecursiveContinuation
+    engine=HF002RecursiveContinuation(
+        lambda state,memory:{"execution_truth":"IMPLEMENTATION_EXECUTED"},
+        lambda raw,state,memory:({"version":1},{"material_result_delta":state["version"]==0}),
+        lambda *_:{"terminal":True},lambda *_:{"disposition":"STABLE"},
+        lambda *_:False,lambda *_:True,
+    )
+    return engine.run({"version":0 if material_first else 1},{})["trace"]
 
 
 def _nodes():

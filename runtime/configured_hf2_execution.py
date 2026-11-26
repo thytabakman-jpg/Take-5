@@ -16,7 +16,10 @@ from copy import deepcopy
 import json
 from typing import Any, Callable, Mapping
 
-from hf002_recursive_continuation import HF002RecursiveContinuation, material_delta_present
+from hf002_recursive_continuation import (
+    HF002RecursiveContinuation, material_delta_present, affected_scope_open,
+    TERMINAL, hf2_fixed_point_witness,
+)
 
 
 SUCCESS_STATUSES={
@@ -148,6 +151,14 @@ def _canonical(value:Any)->Any:
     return {"__repr__":repr(value),"__type__":type(value).__qualname__}
 
 
+_EXECUTION_RECEIPT_KEYS=("native_receipts","cell_receipts","question_receipts","cognitive_receipts")
+
+
+def _receipt_signature(raw:dict[str,Any])->str:
+    return json.dumps(_canonical({key:raw.get(key) for key in _EXECUTION_RECEIPT_KEYS}),
+                      sort_keys=True,separators=(",",":"),ensure_ascii=False)
+
+
 def _semantic_signature(raw:dict[str,Any],current:Any)->str:
     """Fingerprint the admitted semantic payload, excluding recurrence-control flags.
 
@@ -165,6 +176,7 @@ def _semantic_signature(raw:dict[str,Any],current:Any)->str:
         "affected_objects":raw.get("affected_objects",()),
         "status":raw.get("status","EXECUTED"),
         "execution_truth":raw.get("execution_truth",""),
+        "execution_receipts":{key:raw.get(key) for key in _EXECUTION_RECEIPT_KEYS},
     }
     return json.dumps(_canonical(payload),sort_keys=True,separators=(",",":"),ensure_ascii=False)
 
@@ -249,6 +261,23 @@ def execute_configured_with_hf2(
             return ConfiguredHF2ExecutionResult(
                 str(tool_id),recurrence_engine,status,next_state,raw,1,(),1
             )
+        native=raw.get("result")
+        native_status=native.get("status") if isinstance(native,Mapping) else None
+        if isinstance(native_status,str) and native_status in TERMINAL-{"RELATIVE_CLOSE"}:
+            raw["blocker"]="CONFIGURED_HF2_SELF_NATIVE_NOT_CLOSED"
+            return ConfiguredHF2ExecutionResult(
+                str(tool_id),recurrence_engine,native_status,next_state,raw,1,(),1
+            )
+        if (raw.get("hf2_live_local") or raw.get("hf2_local_close",True) is not True
+                or raw.get("trc_terminal",True) is not True
+                or affected_scope_open(_delta_from_raw(str(tool_id),raw))
+                or (native_status=="RELATIVE_CLOSE" and "trace" in native
+                    and not hf2_fixed_point_witness(native["trace"] or ()))):
+            raw.update(status="OPEN",execution_truth="OPEN",
+                       blocker="CONFIGURED_HF2_SELF_FRONTIER_NOT_CLOSED")
+            return ConfiguredHF2ExecutionResult(
+                str(tool_id),recurrence_engine,"OPEN",next_state,raw,1,(),1
+            )
         return ConfiguredHF2ExecutionResult(
             str(tool_id),recurrence_engine,"SELF_CLOSE",next_state,raw,1,(),1
         )
@@ -258,7 +287,7 @@ def execute_configured_with_hf2(
             f"CONFIGURED_HF2_ENGINE_INVALID:{tool_id}:{recurrence_engine}"
         )
 
-    holder={"raw":None,"calls":0,"previous_signature":None}
+    holder={"raw":None,"calls":0,"previous_signature":None,"previous_receipts":None}
 
     def run_capability(current,memory):
         holder["before"]=deepcopy(current)
@@ -287,6 +316,10 @@ def execute_configured_with_hf2(
         ):
             delta["material_result_delta"]=False
             delta["clean_successor_duplicate_evidence"]=True
+        receipts=_receipt_signature(raw)
+        if holder["previous_receipts"] is not None and receipts!=holder["previous_receipts"]:
+            delta["material_result_delta"]=True
+        holder["previous_receipts"]=receipts
         holder["previous_signature"]=signature
         return normalized,delta
 

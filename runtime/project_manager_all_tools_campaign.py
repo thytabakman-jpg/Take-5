@@ -738,7 +738,7 @@ def _run_named_native(tool_id:str, packet:dict[str,Any])->Any:
             },
             admitted_delta_hashes={},
             realized_delta_hashes={},
-            hf2_trace=({"disposition":"RELATIVE_CLOSE","delta":{}},),
+            hf2_trace=_run_named_native("HF002",packet)["trace"],
         )
 
     if tool_id=="BiasPerturbation":

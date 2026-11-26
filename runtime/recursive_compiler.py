@@ -10,7 +10,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Mapping, Iterable, Any
 
-from hf002_recursive_continuation import material_delta_present as _material
+from hf002_recursive_continuation import hf2_fixed_point_witness
 
 
 @dataclass(frozen=True)
@@ -50,18 +50,6 @@ def validate_execution_profile(
         raise RuntimeError(
             "RECURSIVE_COMPILER_MODE_SEQUENCE_INVALID:"+",".join(modes)
         )
-
-
-def hf2_fixed_point_witness(trace:Iterable[Mapping[str,Any]])->bool:
-    """Require a terminal clean pass over the final successor state."""
-    rounds=tuple(trace)
-    if not rounds:
-        return False
-    last=rounds[-1]
-    if not isinstance(last,Mapping) or last.get("disposition")!="RELATIVE_CLOSE":
-        return False
-    delta=last.get("delta")
-    return isinstance(delta,Mapping) and not _material(delta)
 
 
 def affected_cone(nodes:Iterable[CompilerNode],changed_ids:Iterable[str])->frozenset[str]:
