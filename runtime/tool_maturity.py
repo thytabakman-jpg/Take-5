@@ -1,7 +1,7 @@
 """Post-migration maturity/currentness audit for active C capabilities."""
 from dataclasses import dataclass
 from enum import Enum
-from a5_programs import REGISTRY
+from capability_runtime import REGISTRY
 from historical_reconstruction import HISTORICAL_REGISTRY
 from capability_router import TRIGGER_TAGS
 

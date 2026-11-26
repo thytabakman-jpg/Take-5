@@ -10,7 +10,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Iterable
 
-from a5_programs import REGISTRY, EXPECTED_C
+from capability_runtime import REGISTRY
+from tool_run_registry import EXPECTED_C
 from capability_router import TRIGGER_TAGS
 
 AUDIT_KERNEL=("OBSERVE","DISTINGUISH","ROOT","QUOTIENT","VERIFY","REENTER")
@@ -86,7 +87,7 @@ def _registry_findings():
     out=[]
     current={x for x in REGISTRY.ids() if x.startswith("C") and x[1:].isdigit()}
     if current != EXPECTED_C:
-        out.append(Finding("REGISTRY_COVERAGE","CAPABILITY_IDENTITY_LOSS","runtime/a5_programs.py",
+        out.append(Finding("REGISTRY_COVERAGE","CAPABILITY_IDENTITY_LOSS","runtime/capability_runtime.py",
                            f"expected {len(EXPECTED_C)} current capabilities; found {len(current)}"))
     for pid in sorted(EXPECTED_C):
         if pid not in REGISTRY.ids():

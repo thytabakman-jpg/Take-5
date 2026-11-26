@@ -6,11 +6,84 @@ from configured_run import (
 )
 from learning_tool_bridge import SPECS as LEARNING_SPECS
 from execution_profile import recurrence_engine_for
+from a5_core import ProgramRegistry, ProgramSpec
+from types import MappingProxyType
 
 # I. Registered identity inventory.
+# Declared capability metadata is not evidence of an executable binding.
+_SPECS = []
+
+
+def _define(pid, source, job, roles, out):
+    _SPECS.append(ProgramSpec(
+        pid, source, job, tuple(roles.split(",")), (out,), "fixture", False,
+        "RECURSIVE_EPISODE", "HOST_HF001", "MATERIAL_RESULT_OR_SEARCH_DELTA",
+        "HOLDOUT_FOR_STRONGER_TERMINAL_CLAIM",
+    ))
+
+
+_define("C01","CAPABILITY_REGISTRY_V4_IC022","Task and Object Typing","K,S,O,C","typed_task_context")
+_define("C02","CAPABILITY_REGISTRY_V4_IC022","Referent Continuity","K,S,O,C","identity_relation")
+_define("C03","CAPABILITY_REGISTRY_V4_IC022","History Supersession","K,S,O,C","lineage")
+_define("C04","CAPABILITY_REGISTRY_V4_IC022","Source Result Freeze","K,S,C","frozen_source")
+_define("C05","CAPABILITY_REGISTRY_V4_IC022","Target Job Freeze","K,S,C","target_contract")
+_define("C06","CAPABILITY_REGISTRY_V4_IC022","External Dependence","K,S,O,C","dependency_map")
+_define("C07","CAPABILITY_REGISTRY_V4_IC022","Hidden Dependency","S,O,G","dependency_edges")
+_define("C08","CAPABILITY_REGISTRY_V4_IC022","Dependency Spine","S,O","dependency_spines")
+_define("C09","CAPABILITY_REGISTRY_V4_IC022","Layer Control Mapping","S,O,M","typed_graph")
+_define("C10","CAPABILITY_REGISTRY_V4_IC022","Representation Attack","K,O,M,C","representation_residual")
+_define("C11","CAPABILITY_REGISTRY_V4_IC022","Result Sensitivity","K,O,M,C","sensitive_support")
+_define("C12","CAPABILITY_REGISTRY_V4_IC022","Invariant Localization","K,O,M,C","invariant_core")
+_define("C13","CAPABILITY_REGISTRY_V4_IC022","Attribution Separation","K,S,O,C","attributed_chain")
+_define("C14","CAPABILITY_REGISTRY_V4_IC022","Hostile Review","K,O,M,C,R","defect_record")
+_define("C15","CAPABILITY_REGISTRY_V4_IC022","Novelty Comparator","K,S,O,C","collision_residual")
+_define("C16","CAPABILITY_REGISTRY_V4_IC022","Change Frontier","K,S,O,C,R","change_frontier")
+_define("C17","CAPABILITY_REGISTRY_V4_IC022","Failure Diagnosis","K,S,O,M,C","mechanism_disposition")
+_define("C18","CAPABILITY_REGISTRY_V4_IC022","Root Cause Escalation","K,S,O,R","root_disposition")
+_define("C19","CAPABILITY_REGISTRY_V4_IC022","Recursive Discovery","K,S,O,G,M,R","discovery_trace")
+_define("C20","CAPABILITY_REGISTRY_V4_IC022","Rival Reconstruction","K,S,O,G,M","rivals")
+_define("C21","CAPABILITY_REGISTRY_V4_IC022","Successor Generation","K,S,O,G,R","candidates")
+_define("C22","CAPABILITY_REGISTRY_V4_IC022","Improvement Frontier","K,S,O,R","improvement_frontier")
+_define("C23","CAPABILITY_REGISTRY_V4_IC022","Source Target Relation","K,S,O,C","typed_relation")
+_define("C24","CAPABILITY_REGISTRY_V4_IC022","Defect Repair","K,S,O,G,C,U","repaired_candidate")
+_define("C25","CAPABILITY_REGISTRY_V4_IC022","Behavior Compression","K,S,O,M,C","equivalent_candidate")
+_define("C26","CAPABILITY_REGISTRY_V4_IC022","System Architecture Improvement","K,S,O,G,M,C,R,U","architecture_successor")
+_define("C27","CAPABILITY_REGISTRY_V4_IC022","Subsystem Improvement","K,S,O,G,C,U","subsystem_successor")
+_define("C28","CAPABILITY_REGISTRY_V4_IC022","Component Improvement","K,S,O,G,C,U","component_successor")
+_define("C29","CAPABILITY_REGISTRY_V4_IC022","Interface Improvement","K,S,O,G,M,C,U","interface_successor")
+_define("C30","CAPABILITY_REGISTRY_V4_IC022","Boundary Redesign","K,S,O,G,M,C,U","boundary_successor")
+_define("C31","CAPABILITY_REGISTRY_V4_IC022","Cross Layer Improvement","K,S,O,G,M,C,R,U","synchronized_architecture")
+_define("C32","CAPABILITY_REGISTRY_V4_IC022","Leverage Routing","K,S,O,R","routes")
+_define("C33","CAPABILITY_REGISTRY_V4_IC022","Strict Gain","K,S,O,C","gain_disposition")
+_define("C34","CAPABILITY_REGISTRY_V4_IC022","Regression Check","K,S,O,C","regression_disposition")
+_define("C35","CAPABILITY_REGISTRY_V4_IC022","Incomparable Successors","K,S,O,C,R","nondominated_set")
+_define("C36","CAPABILITY_REGISTRY_V4_IC022","Recompute Architecture","K,S,O,R,U","affected_update")
+_define("C37","CAPABILITY_REGISTRY_V4_IC022","Transfer Provenance","K,S,O,C","provenance_chain")
+_define("C38","CAPABILITY_REGISTRY_V4_IC022","Transfer License","K,S,C","license_disposition")
+_define("C39","CAPABILITY_REGISTRY_V4_IC022","Target Effect","K,S,O,C","target_effect")
+_define("C40","CAPABILITY_REGISTRY_V4_IC022","Existing Coverage","K,S,O,C","coverage")
+_define("C41","CAPABILITY_REGISTRY_V4_IC022","Downstream Rescue","K,S,O,C","rescue_disposition")
+_define("C42","CAPABILITY_REGISTRY_V4_IC022","Transfer Disposition","K,S,C","transfer_status")
+_define("C43","CAPABILITY_REGISTRY_V4_IC022","Consequence Handoff","K,S,C,U","handoff")
+_define("C44","CAPABILITY_REGISTRY_V4_IC022","Regression Verification","K,S,O,C","verification")
+_define("C45","CAPABILITY_REGISTRY_V4_IC022","Holdout","K,S,O,C","holdout_result")
+_define("C46","CAPABILITY_REGISTRY_V4_IC022","Ablation","K,S,O,M,C","causal_effect")
+_define("C47","CAPABILITY_REGISTRY_V4_IC022","Relative Closure","K,S,O,R,C","closure_disposition")
+_define("C48","CAPABILITY_REGISTRY_V4_IC022","Raise Ceiling","K,S,O,G,M,C,R","strict_gain_or_failure")
+_define("C49","CAPABILITY_REGISTRY_V4_IC022","Corpus Navigation","K,S,O,G,R","navigation_trace")
+
+EXPECTED_C={f"C{i:02d}" for i in range(1,50)}
+
+_definition_registry = ProgramRegistry()
+for _definition in _SPECS:
+    _definition_registry.register(_definition)
+if _definition_registry.ids() != EXPECTED_C:
+    raise ValueError("Current capability definition coverage mismatch")
+CAPABILITY_DEFINITIONS = MappingProxyType({spec.program_id: spec for spec in _SPECS})
+
 LEARNING_TOOLS=tuple(spec.program_id for spec in LEARNING_SPECS)
 
-MATERIAL_TOOLS=tuple([f"C{i:02d}" for i in range(1,50)]+[
+MATERIAL_TOOLS=tuple(list(CAPABILITY_DEFINITIONS)+[
 "ImprovementCore","ProjectManager","ICC128","MT","MTA","Architecture","PD","PDAudit","GDOS","Discriminator","Reconciler",
 "DelegatedExecutor","HF001","HF002","RootCause","TRC","RTC","BiasPerturbation","CurrentnessAudit",
 "CapabilityFoundry","EmergentAdmission","HistoricalReconstruction","ZeroRequest","MultiObject","Diagnosis",

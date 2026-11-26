@@ -1,6 +1,5 @@
 """Global configured-run identity for all registered tools."""
 from dataclasses import dataclass
-from tool_manifest import reconstructs
 
 from execution_profile import (
     DEFAULT_GEOMETRY, DEFAULT_MODE, DEFAULT_RECURRENCE_ENGINE,
@@ -36,6 +35,7 @@ class ConfiguredRunSpec:
 
     def structurally_complete(self):
         """Check a candidate shape without granting configured execution authority."""
+        from tool_manifest import reconstructs
         manifest_id=self.manifest_id or self.tool_id
         recurrence_ok=(
             self.recurrence_required

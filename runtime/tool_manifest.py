@@ -7,7 +7,7 @@ The manifest references implementation/witness surfaces. It does not duplicate
 their semantics.
 """
 from dataclasses import dataclass
-from a5_programs import REGISTRY as A5_REGISTRY
+from tool_run_registry import CAPABILITY_DEFINITIONS
 from learning_tool_bridge import SPECS as LEARNING_SPECS
 
 # I. Manifest schema and completeness contract.
@@ -1015,11 +1015,9 @@ def _projected_manifest(tool_id, native_semantics, behavior_suffix, implementati
     )
 
 
-def _project_registry_manifests(overrides, a5_registry, learning_specs, dedicated_native):
+def _project_registry_manifests(overrides, capability_definitions, learning_specs, dedicated_native):
     """Project declared identities without changing explicitly authored manifests."""
-    for i in range(1,50):
-        pid=f"C{i:02d}"
-        spec=a5_registry.get(pid)
+    for pid, spec in capability_definitions.items():
         overrides.setdefault(pid,_projected_manifest(
             pid, f"{spec.job} -> {','.join(spec.protected_outputs)}",
             "REGISTERED_CAPABILITY_IDENTITY", "runtime/a5_programs.py", "tests/test_a5_registry.py",
@@ -1038,7 +1036,7 @@ def _project_registry_manifests(overrides, a5_registry, learning_specs, dedicate
             closure_contract="TRC_PLUS_TYPED_OPEN",
         ))
 
-_project_registry_manifests(OVERRIDES, A5_REGISTRY, LEARNING_SPECS, _DEDICATED_NATIVE)
+_project_registry_manifests(OVERRIDES, CAPABILITY_DEFINITIONS, LEARNING_SPECS, _DEDICATED_NATIVE)
 
 
 # V. Manifest lookup and reconstruction gates.

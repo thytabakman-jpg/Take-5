@@ -14,7 +14,7 @@ from dataclasses import asdict, dataclass, is_dataclass
 from enum import Enum
 from typing import Any, Mapping
 
-from a5_programs import REGISTRY
+from capability_runtime import REGISTRY
 from capability_foundry import (
     CapabilityFoundry,
     CapabilitySpec,

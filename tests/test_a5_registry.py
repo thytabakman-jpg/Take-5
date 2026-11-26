@@ -127,3 +127,24 @@ def test_family_dispatch_matches_legacy_entrypoint():
     for i in range(20, 49):
         pid = f"C{i:02d}"
         assert execute_capability(pid, {}) == run_generic(pid, {})
+
+
+
+def test_capability_metadata_is_independent_of_executable_bindings():
+    from tool_run_registry import CAPABILITY_DEFINITIONS, CONFIGURED_RUNS
+    from capability_runtime import REGISTRY as runtime_registry, CAPABILITY_BINDINGS as runtime_bindings
+    assert REGISTRY is runtime_registry and CAPABILITY_BINDINGS is runtime_bindings
+    assert set(CAPABILITY_DEFINITIONS) == EXPECTED_C == set(runtime_bindings)
+    for pid, spec in CAPABILITY_DEFINITIONS.items():
+        assert not spec.executable and runtime_registry.get(pid).executable
+        assert CONFIGURED_RUNS[pid].complete()
+        from dataclasses import replace
+        assert replace(runtime_registry.get(pid), executable=False) == spec
+
+
+def test_manifest_and_registry_import_without_loading_native_capabilities():
+    import subprocess, sys
+    for first in ("tool_run_registry", "tool_manifest", "configured_run"):
+        subprocess.run([sys.executable, "-c", f"import {first}; import tool_manifest, tool_run_registry, sys; assert 'a5_programs' not in sys.modules and 'capability_runtime' not in sys.modules; assert tool_run_registry.CONFIGURED_RUNS['C01'].complete()"], check=True)
+    for first in ("a5_programs", "capability_runtime"):
+        subprocess.run([sys.executable, "-c", f"import {first}; from a5_programs import REGISTRY, CAPABILITY_BINDINGS; import capability_runtime; assert REGISTRY is capability_runtime.REGISTRY and CAPABILITY_BINDINGS is capability_runtime.CAPABILITY_BINDINGS"], check=True)

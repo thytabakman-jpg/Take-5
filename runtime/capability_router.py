@@ -8,10 +8,7 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import Iterable
 
-try:
-    from .a5_programs import REGISTRY
-except ImportError:
-    from a5_programs import REGISTRY
+from capability_runtime import REGISTRY
 
 class CoverageStatus(str, Enum):
     SELECTED="SELECTED"
