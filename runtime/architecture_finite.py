@@ -29,14 +29,7 @@ class FiniteContract:
     candidates: tuple[tuple[str, tuple[str, ...]], ...] = ()  # candidate id, observation ids
 
 
-def analyze_finite_architecture(observations, contract):
-    """Compute witnessed support, dependency and a same-job finite frontier.
-
-    No candidate generation, unobserved intervention or causal inference is
-    asserted. The authority is a basis reference, not a mutation grant.
-    """
-    rows = tuple(observations)
-    c = contract
+def _admit_observations(rows, c):
     if (not isinstance(c, FiniteContract) or not c.authority or not c.components
             or len(set(c.components)) != len(c.components) or not c.obligations
             or not c.baseline_ids or not rows):
@@ -60,6 +53,10 @@ def analyze_finite_architecture(observations, contract):
     baselines = {by_id[i].context: by_id[i] for i in c.baseline_ids}
     if len(baselines) != len(c.baseline_ids) or set(baselines) != {r.context for r in rows}:
         raise ValueError('FINITE_ARCHITECTURE_BASELINE_CONTEXT_MISMATCH')
+    return by_id, by_state, baselines
+
+
+def _localize_and_recover_dependencies(rows, c):
     supports = {q: {} for q in c.obligations}
     dependencies = []
     for a, b in combinations(rows, 2):
@@ -79,6 +76,10 @@ def analyze_finite_architecture(observations, contract):
     localization = {q: tuple((tuple(sorted(s)), tuple(witnesses)) for s, witnesses in sorted(
         families.items(), key=lambda item: (len(item[0]), sorted(item[0])))
         if not any(t < s for t in families)) for q, families in sorted(supports.items())}
+    return localization, dependencies
+
+
+def _evaluate_interactions(rows, by_state, baselines):
     # Joint effects under a declared set-union algebra of newly satisfied obligations.
     # A joint observation is tested only if every proper nonempty sub-intervention
     # has an observation at the same baseline/context with exactly matching values.
@@ -103,6 +104,10 @@ def analyze_finite_architecture(observations, contract):
                 break
         if covered and row.obligations - base.obligations != lower:
             interactions.append((base.identity, row.identity, tuple(sorted(row.obligations-base.obligations)), tuple(sorted(lower))))
+    return interactions
+
+
+def _evaluate_successors(c, by_id, baselines):
     admitted = {}
     rejected = {}
     seen = set()
@@ -124,6 +129,21 @@ def analyze_finite_architecture(observations, contract):
             continue
         admitted[candidate] = gain
     frontier = tuple(sorted(k for k,v in admitted.items() if not any(v < w for w in admitted.values())))
+    return admitted, rejected, frontier
+
+
+def analyze_finite_architecture(observations, contract):
+    """Compute witnessed support, dependency and a same-job finite frontier.
+
+    No candidate generation, unobserved intervention or causal inference is
+    asserted. The authority is a basis reference, not a mutation grant.
+    """
+    rows = tuple(observations)
+    c = contract
+    by_id, by_state, baselines = _admit_observations(rows, c)
+    localization, dependencies = _localize_and_recover_dependencies(rows, c)
+    interactions = _evaluate_interactions(rows, by_state, baselines)
+    admitted, rejected, frontier = _evaluate_successors(c, by_id, baselines)
     return {
         'ArchClass': 'FINITE_OBSERVED_INTERVENTION_FRAME',
         'Violations': {k: tuple(sorted(c.obligations-r.obligations)) for k,r in baselines.items()},
