@@ -40,6 +40,9 @@ def assess(*,component,built_basis,latest_basis,object_identity="",built_generat
     if not identity_ready:
         status=Currentness.OPEN
         action="RESOLVE_IMMUTABLE_IDENTITY"
+    elif not (_nonempty_identity(built_basis) and _nonempty_identity(latest_basis)):
+        status=Currentness.OPEN
+        action="RESOLVE_ADMITTED_BASIS"
     elif built_generation != latest_generation and not delta:
         # The caller cannot prove "no change" when exact generations disagree.
         # Preserve OPEN rather than letting an omitted delta manufacture CURRENT.
@@ -85,6 +88,8 @@ def audit_complete(receipts):
         and _nonempty_identity(r.object_identity)
         and _nonempty_identity(r.built_generation)
         and _nonempty_identity(r.latest_generation)
+        and _nonempty_identity(r.built_basis)
+        and _nonempty_identity(r.latest_basis)
         and (
             (
                 r.status==Currentness.CURRENT
