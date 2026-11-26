@@ -12,7 +12,9 @@ from typing import Any, Callable
 
 from improvement_core_learning_memory import LearningMemory
 from improvement_core_math_spine import ControllerOption, nondominated_frontier
-from specification_before_transformation import assess_executable_work_item
+from specification_before_transformation import (
+    TRANSFORMATION_OPERATION_CLASSES, assess_executable_work_item,
+)
 from improvement_core_progress_relation import (
     ClaimScope,
     EffectKind,
@@ -145,11 +147,7 @@ def _transition_comparison(
         transformation_claim=bool(
             selected.get("transform_claim")
             or selected.get("transformation_claim")
-            or str(selected.get("operation_class","")).upper() in {
-                "ARCHITECT","BUILD","MODIFY","TRANSFORM","IMPROVE",
-                "REPLACE","PROMOTE","SUPERSEDE","MIGRATE",
-                "INTEGRATE_TRANSFORM","EXECUTE_TRANSFORM",
-            }
+            or str(selected.get("operation_class","")).upper() in TRANSFORMATION_OPERATION_CLASSES
         ),
         specification_status=str(
             selected.get("specification_status")
