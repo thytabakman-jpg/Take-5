@@ -1,1 +1,1 @@
-Refresh e0458f2741681be74ee88d68ceb3066c82045731 for per-tool document admission and adapter diagnostic preservation regression tests
+Refresh 03f6f3b87ebdc36006cc21fa2fe16c804ba210d5 for contract-bound Architecture and structured Diagnosis/RTC adapters
