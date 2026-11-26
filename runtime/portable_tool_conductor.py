@@ -218,19 +218,7 @@ def _configured_plan(tool_id: str):
 
 
 def _plan_payload(tool_id: str) -> dict[str, Any]:
-    plan=_configured_plan(tool_id)
-    return {
-        "tool_id":plan.tool_id,
-        "mode":plan.mode,
-        "wrapper_required":plan.wrapper_required,
-        "geometry":plan.geometry,
-        "cell_count":len(plan.cells),
-        "question_count":len(plan.questions),
-        "cognitive_count":len(plan.cognitive),
-        "recurrence_required":plan.recurrence_required,
-        "recurrence_engine":plan.recurrence_engine,
-        "invocation_profile":plan.invocation_profile,
-    }
+    return _configured_plan(tool_id).summary()
 
 
 def _run_configured_factor(
