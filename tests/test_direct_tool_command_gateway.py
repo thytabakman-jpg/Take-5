@@ -110,3 +110,43 @@ def test_direct_bridge_does_not_invent_material_change():
     out = execute_direct_tool_commands("run MT", adapters={"MT":lambda *_:{"status":"EXECUTED","result":True}})
     assert out.status == "EXECUTED"
     assert out.executions[0].material_delta is False
+
+@pytest.mark.parametrize("request_ids", [("GOAL","MT"), ["GOAL","MT"]])
+def test_structured_direct_commands_preserve_exact_order_and_context(request_ids):
+    bound=bind_direct_tool_commands(request_ids,state={"selected_tool_id":"NOT_REGISTERED"})
+    assert bound.complete
+    assert bound.tool_ids==("GOAL","MT")
+    assert tuple(b.tool_id for b in bound.bindings)==bound.tool_ids
+    assert all(b.plan.complete and b.plan.recurrence_engine=="HF002" for b in bound.bindings)
+    assert bound.state["selected_tool_id"]=="NOT_REGISTERED"
+
+
+@pytest.mark.parametrize("request_ids,reason", [
+    ([], "DIRECT_TOOL_COMMAND_NOT_FOUND"),
+    (["MT","NOT_REGISTERED"], "DIRECT_TOOL_NOT_REGISTERED"),
+    (["MT","Architect"], "DIRECT_TOOL_NOT_REGISTERED"),
+    (["MT",None], "DIRECT_TOOL_NOT_REGISTERED"),
+    (["MT","MT"], "DIRECT_TOOL_DUPLICATE_ID"),
+])
+def test_invalid_structured_batch_blocks_before_any_adapter(request_ids,reason):
+    calls=[]
+    with pytest.raises(DirectToolCommandBlocked,match=reason):
+        execute_direct_tool_commands(request_ids,adapters={"MT":lambda s,p:calls.append(p)})
+    assert not calls
+
+
+def test_structured_single_command_uses_same_plan_and_missing_adapter_boundary():
+    a=bind_direct_tool_commands("run GOAL")
+    b=bind_direct_tool_commands(["GOAL"])
+    assert a.bindings==b.bindings
+    out=execute_direct_tool_commands(["GOAL"],adapters={})
+    assert out.status=="OPEN"
+    assert out.blocker=="CONFIGURED_TOOL_ADAPTER_REQUIRED:GOAL"
+
+
+def test_structured_batch_binds_every_registered_identity():
+    from tool_run_registry import CONFIGURED_RUNS
+    ids=tuple(CONFIGURED_RUNS)
+    bound=bind_direct_tool_commands(ids)
+    assert bound.complete and bound.tool_ids==ids
+    assert all(b.plan.complete for b in bound.bindings)

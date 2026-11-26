@@ -52,7 +52,11 @@ The linked PD protocol governs historical audit-reduction research, mathematical
 
 [https://github.com/thytabakman-jpg/Take-5/blob/main/runtime/direct_tool_command_gateway.py](https://github.com/thytabakman-jpg/Take-5/blob/main/runtime/direct_tool_command_gateway.py)
 
-**Full configured invocation requirements:**
+**Current configured invocation recovery and routing:**
+
+[https://github.com/thytabakman-jpg/Take-5/blob/main/integration/CURRENT_FULL_TOOL_INVOCATION.md](https://github.com/thytabakman-jpg/Take-5/blob/main/integration/CURRENT_FULL_TOOL_INVOCATION.md)
+
+**Full configured invocation requirements (architectural authority):**
 
 [https://github.com/thytabakman-jpg/Take-5/blob/main/architecture/FULL_CONFIGURED_TOOL_INVOCATION_121.md](https://github.com/thytabakman-jpg/Take-5/blob/main/architecture/FULL_CONFIGURED_TOOL_INVOCATION_121.md)
 
@@ -72,7 +76,11 @@ Do not spend the conversation unnecessarily developing execution infrastructure.
 
 Apply the Semantic Preflight Protocol's every-word rule to the entire file, rather than merely its controlling question.
 
-The original protocol is a provisional prompt-intake protocol. This document-wide application is an authorized adaptation, not an already certified native execution profile.
+### 4.1 Repair document semantic preflight profile
+
+The original protocol is a provisional prompt-intake protocol. Preserve that protocol's scope and status. This Repair-specific profile adapts its every-word rule to a frozen document and its governing purpose, not to a different prompt-intake procedure. It is an authorized host-semantic adaptation, not an already certified native execution profile.
+
+Freeze the target identity and version, document job, governing goal, authorized operation, audience, applicable constraints and protected content or functionality. Resolve material ambiguity from the document and its governing sources; preserve OPEN when unresolved. Return source-located findings and material semantic coordinates for the applicable tools, separating observation, inference, externally acquired evidence, proposed changes and authorization. A preflight finding does not by itself authorize a repair. Retain unresolved obligations in the continuation record.
 
 Examine every word, phrase, sentence, paragraph, heading, table, quotation, mathematical expression and analytical conclusion.
 
@@ -144,7 +152,7 @@ Execute the following mandatory tools through their full configured implementati
 - RTC, when improvements are proposed.
 - TRC.
 
-Use the full configured invocation profile, including its mandatory HF2 recurrence.
+Use the full configured invocation profile, including its mandatory HF2 recurrence. Resolve requested tool identities before dispatch. Where the gateway supports structured requests, supply an ordered list of exact registered tool IDs and verify that the complete ordered binding matches the authorized request before invoking adapters. For a runtime without that interface, use separate explicit imperative commands (one registered identity per command) and verify the complete ordered binding. Do not infer additional authorization from inherited controller state or silently omit unresolved or unavailable mandatory tools.
 
 ### 6.2 Conditional tools
 

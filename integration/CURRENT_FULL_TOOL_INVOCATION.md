@@ -22,7 +22,7 @@ Canonical repository: thytabakman-jpg/Take-5
 
 ## Purpose
 
-This is the current recovery surface for repository-owned invocation of registered formal tools.
+This is the current operational recovery and routing surface for repository-owned invocation of registered formal tools. The [Full Configured Tool Invocation architecture](../architecture/FULL_CONFIGURED_TOOL_INVOCATION_121.md) owns the formal invariant, protected behavior and detailed validation provenance; this file summarizes those requirements without defining a competing profile. Live registry, manifest and runtime determine exact executable identity and behavior. Resolve discrepancies with the governing sources rather than independently changing the summary.
 
 A direct command, ImprovementCore-selected tool, PTI-configured transition, or ToolConductor factor that actually executes a registered formal tool must preserve the current full configured invocation profile.
 
@@ -108,7 +108,7 @@ execute RootCause
 
 resolve only registered formal identities and bind the current full configured plan.
 
-Unregistered formal commands fail closed.
+Unregistered recognized formal commands fail closed. For an exact, caller-authorized batch, pass an ordered list or tuple of registered tool IDs to the same gateway (for example `("MT", "GOAL")`). Empty batches, duplicates, non-string entries and unregistered IDs are rejected before binding; the legacy lexical interface retains its existing behavior. Verify the ordered binding against the full authorized request. Neither interface determines natural-language authorization.
 
 Missing adapters preserve OPEN.
 
@@ -120,7 +120,7 @@ HF002 itself uses SELF recurrence.
 
 The recurrence engine is read from the configured identity and plan rather than inferred ad hoc from a tool name.
 
-HF2 re-applies the same native capability only while its material/local/live conditions hold.
+HF2 re-applies the same native capability after a material local successor when upstream control permits continuation, including when that successor reports its local frontier inactive. A subsequent non-material pass is required to establish a relative close; unresolved affected-scope obligations or a live frontier preserve OPEN. See the [architectural recurrence contract](../architecture/FULL_CONFIGURED_TOOL_INVOCATION_121.md#runtime-invocation) for typed stop and reentry conditions.
 
 ## Protected reconstruction
 
