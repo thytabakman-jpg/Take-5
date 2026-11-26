@@ -77,6 +77,12 @@ class ToolExecutionPlan:
         layers={name for name,cell in self.native if isinstance(name,str) and name}
         if not layers or len(self.native)!=len(layers)*36:
             return False
+        # The observed layer inventory cannot establish its own completeness.
+        # Resolve registered requirements lazily to avoid a module-import cycle.
+        from tool_run_registry import CONFIGURED_RUNS
+        spec=CONFIGURED_RUNS.get(self.tool_id)
+        if spec is not None and layers!=set(spec.required_layers):
+            return False
         return set(self.native)=={(layer,cell) for layer in layers for cell in expected_cells}
 
 
@@ -91,7 +97,7 @@ def build_tool_execution_plan(spec: ConfiguredRunSpec, *, requested_mode: str | 
     if not spec.complete():
         raise ToolExecutionBlocked(f"INCOMPLETE_CONFIGURED_RUN:{spec.tool_id}")
 
-    mode=requested_mode or spec.default_mode
+    mode=spec.default_mode if requested_mode is None else requested_mode
     if mode != DEFAULT_MODE:
         raise ToolExecutionBlocked(f"NON_OBSERVER_TOOL_RUN_FORBIDDEN:{spec.tool_id}")
 
