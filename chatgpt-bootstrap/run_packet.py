@@ -158,7 +158,7 @@ def main():
                             "adapter_disposition":"MISSING_OVERRIDE"})
             continue
         try:
-            out=execute_direct_tool_commands(f"run {tool}",state={"packet_sha256":digest},adapters=adapters)
+            out=execute_direct_tool_commands([tool],state={"packet_sha256":digest},adapters=adapters)
             row=asdict(out)
             row["tool_id"]=tool
             row["adapter_disposition"]="BOUND" if tool in adapters else "MISSING_ADAPTER"
