@@ -389,8 +389,15 @@ def _admit_matrix(packet, tool):
     matrix=packet['matrix']
     if fnv(matrix['raw']) != matrix['transfer_fnv']:
         raise ValueError('CONNECTOR_PACKET_TRANSFER_MISMATCH')
-    axes=tuple(matrix['axes'])
+    raw_axes=matrix['axes']
+    if (not isinstance(raw_axes,(list,tuple)) or not raw_axes
+            or any(not isinstance(a,str) or not a.strip() for a in raw_axes)
+            or len(set(raw_axes))!=len(raw_axes)):
+        raise ValueError('MATRIX_AXES_NONEMPTY_UNIQUE_TEXT_REQUIRED')
+    axes=tuple(raw_axes)
     rows=tuple(tuple(line.split()) for line in matrix['raw'].splitlines())
+    if not rows:
+        raise ValueError('MATRIX_ROWS_REQUIRED')
     if any(len(r)!=len(axes)+1 for r in rows) or len(set(r[0] for r in rows))!=len(rows):
         raise ValueError('MALFORMED_OR_DUPLICATE_MATRIX_ROW')
     expected = expected_counts = None
