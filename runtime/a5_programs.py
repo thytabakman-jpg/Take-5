@@ -260,12 +260,18 @@ def run_generic(program_id, payload):
         ok=payload["expected"]==payload["actual"]
         return {"status":"ACCEPT" if ok else "FAIL","verification":"PASS" if ok else "FAIL"}
     if program_id=="C45":
-        ok=bool(payload.get("preregistered")) and bool(payload.get("pass"))
+        if any(type(payload.get(key)) is not bool for key in ("preregistered","pass")):
+            return {"status":"OPEN","holdout_result":"UNESTABLISHED"}
+        ok=payload["preregistered"] and payload["pass"]
         return {"status":"ACCEPT" if ok else "FAIL","holdout_result":"PASS" if ok else "FAIL"}
     if program_id=="C46":
-        return {"status":"ACCEPT","causal_effect":payload.get("with_component")!=payload.get("without_component")}
+        if any(key not in payload for key in ("with_component","without_component")):
+            return {"status":"OPEN","causal_effect":None}
+        return {"status":"ACCEPT","causal_effect":payload["with_component"]!=payload["without_component"]}
     if program_id=="C47":
-        x=payload.get("blocking_open",[])
+        x=payload.get("blocking_open")
+        if not isinstance(x,(list,tuple)):
+            return {"status":"OPEN","closure_disposition":"UNESTABLISHED"}
         return {"status":"ACCEPT" if not x else "OPEN","closure_disposition":"RELATIVE_CLOSED" if not x else "BLOCKED_BY_OPEN"}
     if program_id=="C48":
         candidates=payload.get("candidates")
