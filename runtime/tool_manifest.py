@@ -10,6 +10,7 @@ from dataclasses import dataclass
 from a5_programs import REGISTRY as A5_REGISTRY
 from learning_tool_bridge import SPECS as LEARNING_SPECS
 
+# I. Manifest schema and completeness contract.
 PHASES={"PRE","INTRA","POST","CROSS"}
 
 @dataclass(frozen=True)
@@ -52,6 +53,7 @@ class ToolManifest:
             and all(b.complete() for b in self.bindings)
         )
 
+# II. Shared execution requirements.
 GENERIC_BINDINGS=(
     ProtectedBinding(
         "CONFIGURED_RUN_WRAPPER",
@@ -97,6 +99,7 @@ GENERIC_BINDINGS=(
     ),
 )
 
+# III. Tool-specific protected requirements.
 ICC128_BINDINGS=GENERIC_BINDINGS+(
     ProtectedBinding(
         "ICC128_ENDOGENOUS_CONTROLLER_LOOP",
@@ -727,6 +730,7 @@ PROSE_BINDINGS=GENERIC_BINDINGS+(
     ),
 )
 
+# IV. Manifest assembly and current registry projections.
 OVERRIDES={
     "ProjectManager":ToolManifest(
         tool_id="ProjectManager",
@@ -1045,6 +1049,7 @@ for _pid,(_sem,_impl) in _DEDICATED_NATIVE.items():
     ))
 
 
+# V. Manifest lookup and reconstruction gates.
 def manifest_for(tool_id:str)->ToolManifest:
     tool_id=str(tool_id)
     if tool_id in OVERRIDES:
