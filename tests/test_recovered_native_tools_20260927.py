@@ -64,3 +64,14 @@ def test_gdos_freezes_and_isolates_observers_before_reconcile():
     assert target=={"x":[1]}
     assert out["observations"][0]["first"]==(1,2)
     assert out["observations"][1]["second"]==(1,)
+
+
+def test_pd_audit_preserves_one_shot_cases_for_secondary_audit():
+    from pd_audit import run_pd_audit
+    out=run_pd_audit(
+        iter((1,2)),rho=lambda x:x,approx=lambda a,b:a==b,
+        representations={"identity":lambda x:(x,)},
+        kappa_cases=lambda cases:tuple(cases),
+    )
+    assert out["status"]=="RELATIVE_CLOSE"
+    assert out["result"]["kappa_A"]==(1,2)
