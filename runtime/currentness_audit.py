@@ -23,15 +23,18 @@ class CurrentnessReceipt:
     reverified:bool=False
     identity_verified:bool=False
 
+def _nonempty_identity(value):
+    return isinstance(value,str) and bool(value.strip())
+
 def assess(*,component,built_basis,latest_basis,object_identity="",built_generation="",
            latest_generation="",identity_verified=False,protected=(),delta=(),
            behavior_preserved=True,local_patch_available=True,evidence=(),obligations=(),
            dependents=(),reverified=False):
     delta=tuple(delta)
     identity_ready=bool(
-        str(object_identity).strip()
-        and str(built_generation).strip()
-        and str(latest_generation).strip()
+        _nonempty_identity(object_identity)
+        and _nonempty_identity(built_generation)
+        and _nonempty_identity(latest_generation)
         and identity_verified is True
     )
     if not identity_ready:
@@ -56,9 +59,9 @@ def assess(*,component,built_basis,latest_basis,object_identity="",built_generat
         action="PRESERVE_AND_INVESTIGATE"
     return CurrentnessReceipt(
         component=component,
-        object_identity=str(object_identity),
-        built_generation=str(built_generation),
-        latest_generation=str(latest_generation),
+        object_identity=object_identity if _nonempty_identity(object_identity) else "",
+        built_generation=built_generation if _nonempty_identity(built_generation) else "",
+        latest_generation=latest_generation if _nonempty_identity(latest_generation) else "",
         built_basis=built_basis,
         latest_basis=latest_basis,
         protected=tuple(protected),
@@ -76,9 +79,9 @@ def audit_complete(receipts):
     rs=tuple(receipts)
     return bool(rs) and all(
         r.identity_verified is True
-        and bool(r.object_identity)
-        and bool(r.built_generation)
-        and bool(r.latest_generation)
+        and _nonempty_identity(r.object_identity)
+        and _nonempty_identity(r.built_generation)
+        and _nonempty_identity(r.latest_generation)
         and (
             (
                 r.status==Currentness.CURRENT

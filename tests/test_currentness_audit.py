@@ -74,3 +74,16 @@ def test_textual_preservation_cannot_authorize_patch():
     r=assess(component="x",built_basis="a",latest_basis="b",delta=["d"],behavior_preserved="false",**IDENTITY)
     assert r.status==Currentness.OPEN
     assert not audit_complete([r])
+
+
+def test_missing_or_nontext_identity_cannot_certify_currentness():
+    from dataclasses import replace
+    same_generation={**IDENTITY,"latest_generation":IDENTITY["built_generation"]}
+    valid=assess(component="x",built_basis="a",latest_basis="a",**same_generation)
+    for field in ("object_identity","built_generation","latest_generation"):
+        for value in (None,0,False,"","   "):
+            fields={**same_generation,field:value}
+            r=assess(component="x",built_basis="a",latest_basis="a",**fields)
+            assert r.status==Currentness.OPEN
+            assert not audit_complete([r])
+            assert not audit_complete([replace(valid,**{field:value})])
