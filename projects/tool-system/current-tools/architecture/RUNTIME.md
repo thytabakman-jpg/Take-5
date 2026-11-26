@@ -10,7 +10,7 @@ execution route without choosing a similarly named historical definition:
 5. [Native recovery tests](../../../../tests/test_four_tool_recovery_20260927.py) and [protected unit-job tests](../../../../tests/test_prose_transition_layers.py) — existing evidence for this particular runtime, not proof of external host interception.
 
 The cross-repository Reaserch [GOAL–Architect meta-recursion
-contract](https://github.com/thytabakman-jpg/Reaserch/blob/main/projects/improvement-core/tool-ecosystem/GOAL_ARCHITECT_META_RECURSION_CONTRACT_001_2026-10-02.yaml)
+contract](https://github.com/thytabakman-jpg/Reaserch/blob/main/Shared%20Tool%20System/Controllers%20and%20Runtime/ImprovementCore/tool-ecosystem/GOAL_ARCHITECT_META_RECURSION_CONTRACT_001_2026-10-02.yaml)
 has a separate hierarchy manager and tool ID. **No binding from the
 Take-5 `Architecture` entrypoint to that manager has been established by
 this routing page.** Treat that execution-path integration as OPEN until
@@ -19,6 +19,8 @@ actual dispatch and same-level pairing tests demonstrate it.
 This page records organization and routing only; it does not register an
 alias, install an adapter, import other-repository execution authority or
 assert that a named tool was run.
+
+The relocated Reaserch links preserve the previously referenced source blobs; see [SOURCE_MAP.md](SOURCE_MAP.md) for unresolved current cross-copy authority.
 
 ## Rule
 

@@ -227,7 +227,8 @@ def _allowed(text:str, start:int, end:int, contract:ProseContract)->bool:
             if idx<0:
                 break
             span_end=idx+len(span)
-            if idx<=end and span_end>=start:
+            # Offsets are half-open: adjacent spans do not overlap.
+            if idx<end and span_end>start:
                 return True
             offset=idx+1
     return False
@@ -424,7 +425,7 @@ def _normalize_jewish_lexicon(contract:ProseContract):
             residuals.append("JEWISH_LEXICON_CANONICAL_REQUIRED")
             continue
         if isinstance(aliases_raw,str):
-            aliases=(aliases_raw,)
+            aliases=(aliases_raw.strip(),) if aliases_raw.strip() else ()
         else:
             try:
                 aliases=tuple(str(x).strip() for x in aliases_raw if str(x).strip())
@@ -513,7 +514,7 @@ def assess_prose(
         else:
             reader_load_status=str(evidence.reader_load or "OPEN").upper()
             reader_load_evidence=tuple(
-                str(x) for x in evidence.reader_load_evidence if str(x)
+                x for x in evidence.reader_load_evidence if isinstance(x,str) and x.strip()
             )
             if reader_load_status=="BLOCKED":
                 return ProseAssessment(
@@ -544,7 +545,7 @@ def assess_prose(
         else:
             plain_language_status=str(evidence.plain_language or "OPEN").upper()
             plain_language_evidence=tuple(
-                str(x) for x in evidence.plain_language_evidence if str(x)
+                x for x in evidence.plain_language_evidence if isinstance(x,str) and x.strip()
             )
             if plain_language_status=="BLOCKED":
                 return ProseAssessment(
@@ -604,8 +605,9 @@ def assess_prose(
     residuals=tuple(
         f"{k.upper()}:{v}" for k,v in statuses.items() if v!="PASS"
     )
-    if residuals or not evidence.evidence:
-        if not evidence.evidence:
+    has_evidence=any(isinstance(x,str) and x.strip() for x in evidence.evidence)
+    if residuals or not has_evidence:
+        if not has_evidence:
             residuals=residuals+("PROSE_EVIDENCE_REQUIRED",)
         return ProseAssessment(
             "OPEN",contract.contract_id,(),(),residuals,tuple(evidence.evidence),

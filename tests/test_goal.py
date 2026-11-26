@@ -150,3 +150,18 @@ def test_goal_current_package_is_not_a_witness_of_configured_execution():
     assert without_mt.blocker=="MT_PREREQUISITE_REQUIRED"
     assert without_mt.active_goal is None
     assert "even while this package stays `CURRENT`" in state
+
+
+def test_goal_duplicate_identity_cannot_hide_invalid_boolean_authority():
+    from dataclasses import replace
+    valid=_candidate()
+    for field in ("grounded","authority_typed","determinate_enough"):
+        invalid=replace(valid,**{field:"true"})
+        for rows in ((valid,invalid),(invalid,valid)):
+            assert recover_goal(rows).status=="CONFLICT"
+
+
+def test_goal_mt_nontext_evidence_cannot_certify_preflight():
+    for evidence in ((None,),("   ",),(False,)):
+        out=recover_goal_configured((_candidate(),),GoalMTReceipt(evidence=evidence))
+        assert out.blocker=="MT_PREREQUISITE_REQUIRED"

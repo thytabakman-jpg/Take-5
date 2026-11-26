@@ -9,6 +9,7 @@ ASSERT -> COMPARE -> RESOLVE -> HERE -> COMPARE -> INQUIRE -> REASSERT
 """
 from __future__ import annotations
 
+from copy import deepcopy
 from dataclasses import dataclass, replace
 from typing import Any, Callable, Mapping, Tuple
 
@@ -157,7 +158,8 @@ def run_to_fixed_point(
                 traces=tuple(traces),
             )
 
-        previous_signature = signature
+        # Preserve the prior round even when a stage mutates a nested payload in place.
+        previous_signature = deepcopy(signature)
 
     return CompoundResult(
         state=current,

@@ -72,7 +72,7 @@ def _valid_mt_preflight(receipt:GoalMTReceipt|None)->bool:
         and receipt.invocation_profile==FULL_INVOCATION_PROFILE
         and receipt.black_box_gate==MT_BLACK_BOX_GATE
         and str(receipt.status).upper() in MT_PREFLIGHT_STATUSES
-        and any(str(x).strip() for x in receipt.evidence)
+        and any(isinstance(x,str) and x.strip() for x in receipt.evidence)
     )
 
 
@@ -81,23 +81,23 @@ def _candidate_signature(candidate:GoalCandidate)->tuple:
         candidate.goal,
         tuple(candidate.constraints),
         tuple(candidate.evidence),
-        bool(candidate.grounded),
-        bool(candidate.authority_typed),
-        bool(candidate.determinate_enough),
+        candidate.grounded is True,
+        candidate.authority_typed is True,
+        candidate.determinate_enough is True,
     )
 
 
 def _admissible(candidate:GoalCandidate)->bool:
     return bool(
-        candidate.candidate_id
-        and candidate.evidence
-        and candidate.grounded
-        and candidate.authority_typed
-        and candidate.determinate_enough
-        and candidate.goal.X
-        and candidate.goal.T
-        and candidate.goal.I
-        and candidate.goal.Sigma
+        isinstance(candidate.candidate_id,str) and candidate.candidate_id.strip()
+        and any(isinstance(ev,str) and ev.strip() for ev in candidate.evidence)
+        and candidate.grounded is True
+        and candidate.authority_typed is True
+        and candidate.determinate_enough is True
+        and isinstance(candidate.goal,GoalObject)
+        and all(isinstance(value,str) and value.strip() for value in (
+            candidate.goal.X,candidate.goal.T,candidate.goal.I,candidate.goal.Sigma
+        ))
     )
 
 
@@ -182,7 +182,7 @@ def recover_goal_configured(
     result=recover_goal(candidates)
     mt_evidence=(
         f"MT_PREFLIGHT:{str(mt_receipt.status).upper()}",
-        *tuple(str(x) for x in mt_receipt.evidence if str(x).strip()),
+        *tuple(x for x in mt_receipt.evidence if isinstance(x,str) and x.strip()),
     )
     return GoalRecoveryResult(
         result.status,

@@ -65,6 +65,10 @@ class AssertFull36Plan:
             and len(self.layer_1) == len(ASSERT_LAYER_1_STAGES) * 36
             and len(self.layer_2) == len(ASSERT_LAYER_2_QUESTION_FAMILIES) * 36
             and len(self.cognitive) == len(COGNITIVE_OPERATORS) * 36
+            and set(self.cells) == set(d36c_cells())
+            and set(self.layer_1) == {(stage, cell) for stage in ASSERT_LAYER_1_STAGES for cell in self.cells}
+            and set(self.layer_2) == {(question, cell) for question in ASSERT_LAYER_2_QUESTION_FAMILIES for cell in self.cells}
+            and set(self.cognitive) == {(op, cell) for op in COGNITIVE_OPERATORS for cell in self.cells}
         )
 
 

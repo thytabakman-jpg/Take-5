@@ -106,6 +106,11 @@ def test_direct_tool_empty_full_match_cannot_claim_full_execution():
     assert out.executions[0].execution_truth=="OPEN"
 
 
+def test_direct_bridge_does_not_invent_material_change():
+    out = execute_direct_tool_commands("run MT", adapters={"MT":lambda *_:{"status":"EXECUTED","result":True}})
+    assert out.status == "EXECUTED"
+    assert out.executions[0].material_delta is False
+
 @pytest.mark.parametrize("request_ids", [("GOAL","MT"), ["GOAL","MT"]])
 def test_structured_direct_commands_preserve_exact_order_and_context(request_ids):
     bound=bind_direct_tool_commands(request_ids,state={"selected_tool_id":"NOT_REGISTERED"})

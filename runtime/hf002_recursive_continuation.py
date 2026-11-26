@@ -69,6 +69,8 @@ class HF002RecursiveContinuation:
                 or unresolved(delta.get("scope_deltas")))
 
     def run(self,state:dict[str,Any],memory:dict[str,Any])->dict[str,Any]:
+        # A new episode must not inherit execution receipts from an earlier run.
+        self.trace.clear()
         x=dict(state); m=dict(memory)
         seen_failed=set(m.get("hf2_failed_equivalence",[]))
 
@@ -76,6 +78,7 @@ class HF002RecursiveContinuation:
             raw=self.run_capability(x,m)
             execution_truth=str(raw.get("execution_truth",""))
             if execution_truth in {"BLOCKED","OPEN","CONFLICT"}:
+                self.trace.append(HF2Round(i,x,raw,x,{}, {},x,execution_truth))
                 return {"status":execution_truth,"state":x,"memory":m,"trace":[asdict(t) for t in self.trace]}
             if execution_truth not in {"FULL_MATCH","IMPLEMENTATION_EXECUTED","SEMANTICALLY_APPLIED"}:
                 raise RuntimeError("HF002_EXECUTION_TRUTH_INVALID")
@@ -83,6 +86,7 @@ class HF002RecursiveContinuation:
             normalized,delta=self.admit_normalize(raw,x,m)
             receipt=self.trc_verify(x,normalized,delta)
             if not receipt.get("terminal",False):
+                self.trace.append(HF2Round(i,x,raw,normalized,delta,{},x,"OPEN"))
                 return {
                     "status":"OPEN","state":x,"memory":m,
                     "trace":[asdict(t) for t in self.trace],
