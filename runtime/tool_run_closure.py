@@ -13,6 +13,7 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any, Callable, Iterable
 
+# I. Consequence and certificate contracts.
 class Disposition(str, Enum):
     REALIZE = "REALIZE"
     CERTIFIED_NO_EFFECT = "CERTIFIED_NO_EFFECT"
@@ -92,6 +93,11 @@ class ToolRunClosureResult:
     state:Any
     certificate:ClosureCertificate
 
+# II. Stage and queue utilities.
+def _coordinate(cid):
+    return ":".join(map(str,cid))
+
+
 def _stage(value, fallback_state):
     if isinstance(value, StageResult):
         return value
@@ -105,6 +111,45 @@ def _enqueue(queue, items):
             raise TypeError("induced consequences must be Consequence objects")
         queue.append(item)
 
+# III. Certificate assembly (relative to the supplied harvest basis).
+# Pending review: a CLOSED certificate and harvest_complete=False are distinct
+# coordinates; consumer contracts must not treat relative closure as global harvest.
+# Pending review: CERTIFIED_NO_EFFECT currently records no separate witness;
+# evidence-bearing disposition design requires callback-consumer comparison.
+def _closure_certificate(initial,records,subsumptions,open_coords,blocked_coords,pending_coords,harvest_basis,harvest_complete):
+    accounted=len(records)
+    settled=sum(
+        r.consumer_state in {
+            ConsumerState.CONSUMED.value,
+            ConsumerState.CERTIFIED_NO_EFFECT.value,
+        }
+        for r in records
+    )
+
+    if blocked_coords:
+        status="BLOCKED"
+    elif open_coords or pending_coords:
+        status="OPEN"
+    else:
+        status="CLOSED"
+
+    return ClosureCertificate(
+        status=status,
+        harvest_count=len(initial),
+        accounted_count=accounted,
+        settled_count=settled,
+        records=tuple(records),
+        duplicate_subsumptions=tuple(subsumptions),
+        open_coordinates=tuple(dict.fromkeys(open_coords)),
+        blocker_coordinates=tuple(dict.fromkeys(blocked_coords)),
+        pending_coordinates=tuple(dict.fromkeys(pending_coords)),
+        harvest_basis=harvest_basis,
+        harvest_complete=harvest_complete is True,
+    )
+
+
+# IV. Recursive consequence realization, verification and consumption.
+# Domain-specific discovery and mutation remain with caller-provided handlers.
 def run_tool_run_closure(
     *,
     tool_result:Any,
@@ -141,7 +186,7 @@ def run_tool_run_closure(
                 if not isinstance(remaining,Consequence):
                     raise TypeError("harvest_fn must return Consequence objects")
                 if remaining.cid not in seen:
-                    open_coords.append(":".join(map(str,remaining.cid)))
+                    open_coords.append(_coordinate(remaining.cid))
             break
 
         q=queue.popleft()
@@ -171,7 +216,7 @@ def run_tool_run_closure(
             continue
 
         if disp==Disposition.OPEN.value:
-            key=":".join(map(str,cid))
+            key=_coordinate(cid)
             open_coords.append(key)
             records.append(ConsequenceRecord(
                 cid,disp,"NOT_STARTED","OPEN",ConsumerState.OPEN.value,
@@ -179,7 +224,7 @@ def run_tool_run_closure(
             continue
 
         if disp==Disposition.BLOCKED.value:
-            key=":".join(map(str,cid))
+            key=_coordinate(cid)
             blocked_coords.append(key)
             records.append(ConsequenceRecord(
                 cid,disp,"NOT_STARTED","BLOCKED",ConsumerState.BLOCKED.value,
@@ -187,7 +232,7 @@ def run_tool_run_closure(
             continue
 
         if disp==Disposition.PENDING_AUTHORIZATION.value:
-            key=":".join(map(str,cid))
+            key=_coordinate(cid)
             pending_coords.append(key)
             records.append(ConsequenceRecord(
                 cid,disp,"NOT_STARTED","PENDING_AUTHORIZATION",ConsumerState.OPEN.value,
@@ -206,7 +251,7 @@ def run_tool_run_closure(
         # cannot license verification or consumption.
         if realized.status not in {"OK","REALIZED","COMPLETED_UNVERIFIED"}:
             target=blocked_coords if realized.status=="BLOCKED" else open_coords
-            key=":".join(map(str,cid))
+            key=_coordinate(cid)
             target.append(key)
             records.append(ConsequenceRecord(
                 cid,disp,realized.status,"NOT_RUN",
@@ -224,7 +269,7 @@ def run_tool_run_closure(
         if verified.status!="VERIFIED":
             verify_status=(verified.status if verified.status in {"OPEN","BLOCKED"} else "OPEN")
             target=open_coords if verify_status=="OPEN" else blocked_coords
-            key=":".join(map(str,cid))
+            key=_coordinate(cid)
             target.append(key)
             records.append(ConsequenceRecord(
                 cid,disp,realized.status,verified.status,
@@ -246,7 +291,7 @@ def run_tool_run_closure(
         }:
             consumer=ConsumerState.UNKNOWN.value
 
-        key=":".join(map(str,cid))
+        key=_coordinate(cid)
         if consumer==ConsumerState.OPEN.value or consumer==ConsumerState.UNKNOWN.value:
             open_coords.append(key)
         elif consumer==ConsumerState.BLOCKED.value:
@@ -257,33 +302,5 @@ def run_tool_run_closure(
             tuple(evidence),consumed.resume_condition,
         ))
 
-    accounted=len(records)
-    settled=sum(
-        r.consumer_state in {
-            ConsumerState.CONSUMED.value,
-            ConsumerState.CERTIFIED_NO_EFFECT.value,
-        }
-        for r in records
-    )
-
-    if blocked_coords:
-        status="BLOCKED"
-    elif open_coords or pending_coords:
-        status="OPEN"
-    else:
-        status="CLOSED"
-
-    certificate=ClosureCertificate(
-        status=status,
-        harvest_count=len(initial),
-        accounted_count=accounted,
-        settled_count=settled,
-        records=tuple(records),
-        duplicate_subsumptions=tuple(subsumptions),
-        open_coordinates=tuple(dict.fromkeys(open_coords)),
-        blocker_coordinates=tuple(dict.fromkeys(blocked_coords)),
-        pending_coordinates=tuple(dict.fromkeys(pending_coords)),
-        harvest_basis=harvest_basis,
-        harvest_complete=harvest_complete is True,
-    )
+    certificate=_closure_certificate(initial,records,subsumptions,open_coords,blocked_coords,pending_coords,harvest_basis,harvest_complete)
     return ToolRunClosureResult(state,certificate)
