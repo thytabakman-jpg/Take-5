@@ -785,10 +785,10 @@ OVERRIDES={
         closure_contract="ICC128_CONTROLLER_CLOSE_PLUS_TRC",
         reentry_contract="STATE_RELATIVE_RESELECT_THEN_HF001",
         bindings=ICC128_BINDINGS,
-        # Exact original legacy snapshot, relocated during duplicate removal.
+        # Exact original legacy snapshot, retained in this repository history.
         # Git blob eef6b2df3c7e567e50e5b3402ec9607827f290d5; provenance only.
         # Current configured-controller entry routes remain separately owned.
-        lineage_contract="https://github.com/thytabakman-jpg/Reaserch/blob/81a46cd3b050ee86138eeec2d01ffdd93f055fb3/Shared%20Tool%20System/Controllers%20and%20Runtime/Runtime%20Implementations/Take-5%20Runtime%20Snapshot/legacy/icc128-legacy/snapshot/math/ICC128_FULL_TOOL_MATH_002_2026-09-26.md",
+        lineage_contract="https://github.com/thytabakman-jpg/Take-5/blob/d7416cfae3bb31128cd627b87059a3aa7222aba3/legacy/icc128-legacy/snapshot/math/ICC128_FULL_TOOL_MATH_002_2026-09-26.md",
     ),
     "ImprovementCore":ToolManifest(
         tool_id="ImprovementCore",
