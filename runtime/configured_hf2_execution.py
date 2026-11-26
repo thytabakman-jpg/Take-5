@@ -60,6 +60,11 @@ def _raw_mapping(raw:Any)->dict[str,Any]:
             "blocker":"CONFIGURED_HF2_ADAPTER_NO_RESULT",
         }
     if isinstance(raw,dict):
+        if not raw:
+            return {
+                "status":"OPEN", "execution_truth":"OPEN", "result":None,
+                "material_delta":False, "blocker":"CONFIGURED_HF2_ADAPTER_EMPTY_RESULT",
+            }
         out=dict(raw)
     else:
         out={

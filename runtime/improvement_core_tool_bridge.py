@@ -174,7 +174,7 @@ def _normalize_adapter_result(
         result=raw.get("result",raw)
         next_state=raw.get("state",current)
         evidence=tuple(str(x) for x in raw.get("evidence",()) if str(x))
-        material=bool(raw.get("material_delta",True))
+        material=bool(raw.get("material_delta",False))
         related_objects=tuple(str(x) for x in raw.get("related_objects",()) if str(x))
         dependency_footprint=tuple(str(x) for x in raw.get("dependency_footprint",()) if str(x))
         affected_objects=tuple(str(x) for x in raw.get("affected_objects",()) if str(x))
@@ -193,12 +193,18 @@ def _normalize_adapter_result(
         result=_plain(raw)
         next_state=current
         evidence=()
-        material=True
+        material=False
         related_objects=()
         dependency_footprint=()
         affected_objects=()
         adapter_blocker=None
         adapter_provenance=None
+
+    if recurrence is not None and recurrence.trace:
+        # Use the actual admitted recurrence deltas, including earlier rounds.
+        from hf002_recursive_continuation import HF002RecursiveContinuation
+        material=any(HF002RecursiveContinuation._material(row["delta"])
+                     for row in recurrence.trace if row["disposition"] in {"REAPPLY_C","RELATIVE_CLOSE","RETURN_REENTER"})
 
     if status not in SUCCESS_STATUSES|NON_SUCCESS_STATUSES:
         raise ToolBridgeBlocked(f"CONFIGURED_TOOL_STATUS_INVALID:{tool_id}:{status}")

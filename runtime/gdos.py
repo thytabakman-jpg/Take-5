@@ -18,7 +18,11 @@ def run_gdos(
 ):
     frozen=deepcopy(target)
     observations=[]
-    for index,observer in enumerate(tuple(observers)):
+    observers=tuple(observers)
+    if not observers:
+        return {"status":"OPEN","frozen_target":frozen,"observations":(),
+                "blocker":"GDOS_OBSERVER_INVENTORY_REQUIRED"}
+    for index,observer in enumerate(observers):
         try:
             result=observer(deepcopy(frozen))
         except Exception as exc:

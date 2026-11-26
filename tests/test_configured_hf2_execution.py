@@ -178,3 +178,27 @@ def test_disagreeing_non_success_dispositions_preserve_conflict():
     assert out["reported_status"]=="OPEN"
     assert out["reported_execution_truth"]=="BLOCKED"
     assert out["material_delta"] is False
+
+
+def test_empty_mapping_cannot_certify_execution():
+    out = _raw_mapping({})
+    assert out["status"] == out["execution_truth"] == "OPEN"
+    assert out["blocker"] == "CONFIGURED_HF2_ADAPTER_EMPTY_RESULT"
+
+
+def test_empty_pd_domain_requires_explicit_admission():
+    from pd import run_pd
+    args = dict(rho=lambda x:x, approx=lambda a,b:a==b, representations={"identity":lambda x:(x,)})
+    assert run_pd((), **args)["status"] == "OPEN"
+    assert run_pd((), allow_empty_domain=True, **args)["status"] == "RELATIVE_CLOSE"
+
+
+def test_gdos_without_observers_remains_open():
+    from gdos import run_gdos
+    assert run_gdos({}, observers=(), reconcile_fn=lambda _:True)["status"] == "OPEN"
+
+
+def test_pti_assessment_requires_coordinate_evidence():
+    from protected_transition_integrity import COORDINATES, PTIState, ProtectedTransitionReceipt, assess_protected_transition
+    receipt = ProtectedTransitionReceipt("object","behavior",{x:PTIState.VERIFIED for x in COORDINATES},{})
+    assert assess_protected_transition(receipt).status == "OPEN"

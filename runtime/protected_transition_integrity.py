@@ -78,6 +78,8 @@ def assess_protected_transition(receipt:ProtectedTransitionReceipt)->ProtectedTr
             blocked.append(coordinate)
         elif state is PTIState.MISSING:
             missing.append(coordinate)
+        elif not receipt.evidence.get(coordinate):
+            missing.append(coordinate)
 
     if blocked:
         status="BLOCKED"
@@ -98,7 +100,7 @@ def assess_protected_transition(receipt:ProtectedTransitionReceipt)->ProtectedTr
 
 def require_protected_transition(receipt:ProtectedTransitionReceipt)->ProtectedTransitionAssessment:
     assessment=assess_protected_transition(receipt)
-    if assessment.status=="VERIFIED" and any(not receipt.evidence.get(x) for x in COORDINATES):
+    if all(receipt.normalized().get(x) is PTIState.VERIFIED for x in COORDINATES) and any(not receipt.evidence.get(x) for x in COORDINATES):
         raise ProtectedTransitionIntegrityError("PROTECTED_TRANSITION_EVIDENCE_MISSING")
     if assessment.status!="VERIFIED":
         details=";".join(

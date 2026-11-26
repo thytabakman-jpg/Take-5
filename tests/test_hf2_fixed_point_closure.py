@@ -147,3 +147,19 @@ def test_reusing_hf2_engine_does_not_reuse_previous_episode_receipts():
     second=engine.run({"version":2},{})
     assert len(first["trace"])==len(second["trace"])==1
     assert second["trace"][0]["state_before"]=={"version":2}
+
+
+def test_non_success_attempt_is_recorded_in_trace():
+    for status in ("OPEN","BLOCKED","CONFLICT"):
+        out = _engine(lambda *_:{"execution_truth":status}).run({}, {})
+        assert out["status"] == status
+        assert len(out["trace"]) == 1
+        assert out["trace"][0]["disposition"] == status
+
+
+def test_nonterminal_trc_attempt_is_recorded_without_admitting_state():
+    engine = _engine(lambda *_:{"execution_truth":"IMPLEMENTATION_EXECUTED","state":{"new":True}})
+    engine.trc_verify = lambda *_:{"terminal":False}
+    out = engine.run({}, {})
+    assert out["status"] == "OPEN" and out["state"] == {}
+    assert out["trace"][0]["disposition"] == "OPEN"
