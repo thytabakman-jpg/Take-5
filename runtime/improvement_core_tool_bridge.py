@@ -18,8 +18,10 @@ from tool_execution_plan import ToolExecutionPlan, build_tool_execution_plan
 from tool_run_registry import CONFIGURED_RUNS
 
 
-
-
+# I. Shared configured-execution contracts.
+# Relocation candidate (not moved): shared binding and batch receipt types
+# require an ownership comparison with tool_execution_plan.py and
+# configured_hf2_execution.py. Keep public compatibility during any later move.
 class ToolBridgeBlocked(RuntimeError):
     pass
 
@@ -62,6 +64,9 @@ class ConfiguredToolBatchResult:
     blocker:str|None
 
 
+# II. Controller selection-state interpretation.
+# ImprovementCore-specific state keys belong at this boundary. Exact identity
+# normalization remains delegated to formal_object_registry and the live registry.
 def _canonical_registered(value:Any)->str:
     raw=str(value).strip()
     if not raw:
@@ -127,15 +132,22 @@ def selected_tool_ids(state:Any)->tuple[str,...]:
     return tuple(out)
 
 
+# III. Shared configured-plan binding.
+# Relocation candidate (not moved): compare this responsibility with
+# tool_execution_plan.py; controller-state projection remains in this bridge.
+def _bind_registered_ids(tool_ids:tuple[str,...])->tuple[ConfiguredToolBinding,...]:
+    return tuple(
+        ConfiguredToolBinding(tool_id,build_tool_execution_plan(CONFIGURED_RUNS[tool_id]))
+        for tool_id in tool_ids
+    )
+
+
 def bind_selected_tools(state:Any)->tuple[Any,tuple[ConfiguredToolBinding,...]]:
     tool_ids=selected_tool_ids(state)
     if not tool_ids:
         return state,()
 
-    bindings=tuple(
-        ConfiguredToolBinding(tool_id,build_tool_execution_plan(CONFIGURED_RUNS[tool_id]))
-        for tool_id in tool_ids
-    )
+    bindings=_bind_registered_ids(tool_ids)
     if isinstance(state,dict):
         state={
             **state,
@@ -145,6 +157,9 @@ def bind_selected_tools(state:Any)->tuple[Any,tuple[ConfiguredToolBinding,...]]:
     return state,bindings
 
 
+# IV. Shared adapter result and receipt normalization.
+# Relocation candidate (not moved): configured_hf2_execution.py owns recurrence
+# and admitted state; compare receipt mapping before any ownership transfer.
 def _plain(value:Any)->Any:
     if is_dataclass(value):
         return asdict(value)
@@ -243,6 +258,9 @@ def _normalize_adapter_result(
     )
 
 
+# V. Shared ordered batch execution.
+# The current batch is fail-fast and state-dependent; independent calls are
+# isolated by execute_tool_packet.py. Do not change this policy implicitly.
 def execute_bound_tools(
     state:Any,
     bindings:tuple[ConfiguredToolBinding,...],
