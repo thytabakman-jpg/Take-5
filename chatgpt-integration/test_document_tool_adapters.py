@@ -29,6 +29,23 @@ class DocumentAdapterTests(unittest.TestCase):
                               'proof_fnv': fnv(proof)},
                 'open_coordinates': list(inquiries)}
 
+    def test_malformed_matrix_is_isolated_before_native_invocation(self):
+        for axes, raw in ((['x', 'x'], 'A x x'), ([], 'A'), ('x', 'A x'), (['x'], '')):
+            with self.subTest(axes=axes, raw=raw):
+                packet = {'sources': [self.source],
+                          'matrix': {'axes': axes, 'raw': raw, 'transfer_fnv': fnv(raw)}}
+                out = self.invoke('MultiObject', packet)
+                self.assertEqual(out['status'], 'BLOCKED')
+                self.assertEqual(out['adapter_provenance']['native_invocation'], 'NOT_INVOKED')
+                self.assertEqual(self.invoke('CurrentnessAudit', packet)['status'], 'EXECUTED')
+
+    def test_valid_matrix_still_reaches_native_multiobject(self):
+        raw = 'A x'
+        packet = {'sources': [self.source],
+                  'matrix': {'axes': ['tag'], 'raw': raw, 'transfer_fnv': fnv(raw)}}
+        out = self.invoke('MultiObject', packet)
+        self.assertEqual(out['adapter_provenance']['native_invocation'], 'RETURNED')
+
     def test_unchanged_source_is_current(self):
         out = self.currentness(self.source)
         self.assertEqual(out['status'], 'EXECUTED')
