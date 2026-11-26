@@ -461,6 +461,48 @@ def _admit_tool_models(packet,tool,groups,sources):
     return structured,matrix_data,threshold_data
 
 
+# Independent matrix MultiObject provider; admits no unrelated model fields.
+def _matrix_multiobject_adapter(packet, axes, rows, source_ids):
+    from multiobject import (FrozenObject, RelationFinding, RouteResult, ResidualJudgment,
+                             ReconciledFinding, run_multiobject)
+    def envelope(entry,out,status='EXECUTED',blocker=None):
+        return _bounded_result(packet, source_ids, entry, out, status, blocker)
+    class MatrixProvider:
+        # Joint groups are computed directly by inverted membership, independently of pair routes.
+        def __init__(self,objects): self.ids=tuple(o.object_id for o in objects)
+        def joint(self,objects,*,route_id):
+            groups=defaultdict(list)
+            for o in objects:
+                for tag in o.primitives: groups[tag].append(o.object_id)
+            findings=tuple(RelationFinding('GROUP:'+tag,tuple(ids),'SHARED_CODE_GROUP',(tag,),source_ids) for tag,ids in sorted(groups.items()) if len(ids)>1)
+            return RouteResult(route_id,'FULL_JOINT',self.ids,findings,isolation_receipt='direct-inverted-index:'+digest([(o.object_id,o.primitives) for o in objects]))
+        def pair(self,left,right,*,route_id):
+            ids=(left.object_id,right.object_id)
+            shared=sorted(set(left.primitives)&set(right.primitives))
+            findings=tuple(RelationFinding(route_id+':'+tag,ids,'SHARED_CODE',(tag,),source_ids) for tag in shared)
+            return RouteResult(route_id,'PAIR',ids,findings,isolation_receipt='pair-only:'+digest([(left.object_id,left.primitives),(right.object_id,right.primitives)]))
+        def synthesize_pairs(self,pair_routes):
+            return RouteResult('PAIR-UNION','PAIR_SYNTHESIS',self.ids,tuple(f for p in pair_routes for f in p.findings),isolation_receipt='pair-only-union:'+digest([p.route_id for p in pair_routes]))
+        def challenge_reducibility(self,joint_route,pair_routes,pair_synthesis):
+            edges=defaultdict(set)
+            for f in pair_synthesis.findings: edges[f.grounds[0]].add(frozenset(f.support))
+            out=[]
+            for f in joint_route.findings:
+                required={frozenset(x) for x in combinations(f.support,2)}
+                got=edges[f.grounds[0]]
+                out.append(ResidualJudgment(f.finding_id,'PAIRWISE_RECOVERABLE' if required==got else 'CONFLICT',('exact shared-code clique comparison',)))
+            return tuple(out)
+        def triggered_views(self,*args): return ()
+        def analyze_view(self,*args): raise ValueError('NO_TRIGGERED_VIEW')
+        def reconcile(self,pair_routes,pair_synthesis,joint_route,residuals,view_results):
+            return tuple(ReconciledFinding(f.finding_id,'PAIRWISE_ONLY',('shared assignment, not semantic entailment',)) for f in pair_synthesis.findings)+tuple(ReconciledFinding(r.finding_id,'CONVERGENT' if r.status=='PAIRWISE_RECOVERABLE' else 'CONFLICT',r.grounds) for r in residuals)
+    def mo(current,plan):
+        objects=tuple(FrozenObject(r[0],'CLASSIFICATION_RECORD','EXPLICIT_MATRIX','shared codes',tuple(f'{a}:{k}' for i,a in enumerate(axes) for k in r[i+1].split('/'))) for r in rows)
+        out=run_multiobject(objects,MatrixProvider(objects))
+        return envelope('multiobject.run_multiobject',asdict(out),'EXECUTED' if out.status=='CLOSED_RELATIVE' else out.status,out.blocker)
+    return mo
+
+
 # Tool-specific finite and structured bindings.
 def _bind_admitted_adapters(packet, tool, groups):
     # Admit only the evidence used by this invocation. No input validation
@@ -475,13 +517,13 @@ def _bind_admitted_adapters(packet, tool, groups):
             raise ValueError('AMBIGUOUS_ASSERT_INPUT')
         return {tool:_quote_adapter(packet,sources)}
     structured,matrix_data,threshold_data=_admit_tool_models(packet,tool,groups,sources)
+    if tool == 'MultiObject':
+        _, axes, rows, _, _ = matrix_data
+        return {tool:_matrix_multiobject_adapter(packet, axes, rows, source_ids)}
     if matrix_data is not None:
         matrix, axes, rows, expected, expected_counts=matrix_data
     if threshold_data is not None:
         t, thresholds, qs=threshold_data
-    if tool == 'MultiObject':
-        from multiobject import (FrozenObject, RelationFinding, RouteResult, ResidualJudgment,
-                                 ReconciledFinding, run_multiobject)
     def counts(rs):
         return {a:dict(sorted(Counter(k for r in rs for k in r[i+1].split('/')).items())) for i,a in enumerate(axes)}
     def coverage(rs):
@@ -521,39 +563,6 @@ def _bind_admitted_adapters(packet, tool, groups):
                 OpenConflictBlocked=['OPEN'] if violations else [],Provenance=source_ids)
         out=run_architecture_analysis(rows,{'axes':axes,'expected_ids':expected},analyze_architecture=analyze)
         return envelope('architecture_analysis.run_architecture_analysis',out,'EXECUTED' if out['status']=='RELATIVE_CLOSE' else out['status'])
-    class MatrixProvider:
-        # Joint groups are computed directly by inverted membership, independently of pair routes.
-        def __init__(self,objects): self.ids=tuple(o.object_id for o in objects)
-        def joint(self,objects,*,route_id):
-            groups=defaultdict(list)
-            for o in objects:
-                for tag in o.primitives: groups[tag].append(o.object_id)
-            findings=tuple(RelationFinding('GROUP:'+tag,tuple(ids),'SHARED_CODE_GROUP',(tag,),source_ids) for tag,ids in sorted(groups.items()) if len(ids)>1)
-            return RouteResult(route_id,'FULL_JOINT',self.ids,findings,isolation_receipt='direct-inverted-index:'+digest([(o.object_id,o.primitives) for o in objects]))
-        def pair(self,left,right,*,route_id):
-            ids=(left.object_id,right.object_id)
-            shared=sorted(set(left.primitives)&set(right.primitives))
-            findings=tuple(RelationFinding(route_id+':'+tag,ids,'SHARED_CODE',(tag,),source_ids) for tag in shared)
-            return RouteResult(route_id,'PAIR',ids,findings,isolation_receipt='pair-only:'+digest([(left.object_id,left.primitives),(right.object_id,right.primitives)]))
-        def synthesize_pairs(self,pair_routes):
-            return RouteResult('PAIR-UNION','PAIR_SYNTHESIS',self.ids,tuple(f for p in pair_routes for f in p.findings),isolation_receipt='pair-only-union:'+digest([p.route_id for p in pair_routes]))
-        def challenge_reducibility(self,joint_route,pair_routes,pair_synthesis):
-            edges=defaultdict(set)
-            for f in pair_synthesis.findings: edges[f.grounds[0]].add(frozenset(f.support))
-            out=[]
-            for f in joint_route.findings:
-                required={frozenset(x) for x in combinations(f.support,2)}
-                got=edges[f.grounds[0]]
-                out.append(ResidualJudgment(f.finding_id,'PAIRWISE_RECOVERABLE' if required==got else 'CONFLICT',('exact shared-code clique comparison',)))
-            return tuple(out)
-        def triggered_views(self,*args): return ()
-        def analyze_view(self,*args): raise ValueError('NO_TRIGGERED_VIEW')
-        def reconcile(self,pair_routes,pair_synthesis,joint_route,residuals,view_results):
-            return tuple(ReconciledFinding(f.finding_id,'PAIRWISE_ONLY',('shared assignment, not semantic entailment',)) for f in pair_synthesis.findings)+tuple(ReconciledFinding(r.finding_id,'CONVERGENT' if r.status=='PAIRWISE_RECOVERABLE' else 'CONFLICT',r.grounds) for r in residuals)
-    def mo(current,plan):
-        objects=tuple(FrozenObject(r[0],'CLASSIFICATION_RECORD','EXPLICIT_MATRIX','shared codes',tuple(f'{a}:{k}' for i,a in enumerate(axes) for k in r[i+1].split('/'))) for r in rows)
-        out=run_multiobject(objects,MatrixProvider(objects))
-        return envelope('multiobject.run_multiobject',asdict(out),'EXECUTED' if out.status=='CLOSED_RELATIVE' else out.status,out.blocker)
     def mt(current,plan):
         from mt_semantic_return_gate import run_mt_with_before_return_gate
         # Actual observation pass over admitted data; unresolved source and semantic
@@ -647,4 +656,4 @@ def _bind_admitted_adapters(packet, tool, groups):
             return ReconcileResult({'enumerated_pairs':len(left),'pairwise_check':len(right),'declared_count':t['declared_pair_count']},conflicts=tuple(diff),open_coordinates=() if len(left)==t['declared_pair_count'] else ('DECLARED_COUNT_MISMATCH',))
         out=reconcile({},(tuple(a['survivors']),tuple(b)),resolver)
         return envelope('reconcile.reconcile',asdict(out),'OPEN' if out.conflicts or out.open_coordinates else 'EXECUTED')
-    return {'GDOS':gdos,'Discriminator':disc,'BiasPerturbation':bias,'Architecture':architecture,'MultiObject':mo,'GOAL':goal,'CurrentnessAudit':currentness,'Reconciler':reconciler,'MT':mt,'Diagnosis':diagnosis,'RTC':rtc,'ASSERT':assertion,'TRC':trc}
+    return {'GDOS':gdos,'Discriminator':disc,'BiasPerturbation':bias,'Architecture':architecture,'GOAL':goal,'CurrentnessAudit':currentness,'Reconciler':reconciler,'MT':mt,'Diagnosis':diagnosis,'RTC':rtc,'ASSERT':assertion,'TRC':trc}
