@@ -11,7 +11,7 @@ from typing import Any, Callable, Iterable
 
 from semantic_resolution_pipeline import plan_black_box_resolution
 
-TERMINAL_NON_SUCCESS={"OPEN","BLOCKED"}
+TERMINAL_NON_SUCCESS={"OPEN","BLOCKED","CONFLICT"}
 
 @dataclass(frozen=True)
 class StageReceipt:
@@ -85,7 +85,9 @@ def run_mt_with_before_return_gate(
     """Run MT, enrich black boxes synchronously, and re-run MT on material deltas.
 
     This does not require semantic closure. OPEN residue is returned and may be
-    revisited on a later MT encounter.
+    revisited on a later MT encounter. The result_equivalent argument is kept
+    for caller compatibility; prior-result equivalence cannot certify a newly
+    changed semantic state.
     """
     if max_rounds < 1:
         raise ValueError("max_rounds must be >= 1")
@@ -112,12 +114,6 @@ def run_mt_with_before_return_gate(
             )
 
         state=semantic.state
-        if last_result is not None and result_equivalent(last_result,mt_result):
-            # Semantic state improved, but the protected MT result has stabilized.
-            return MTReturnResult(
-                state,mt_result,tuple(all_receipts),open_objects,round_index,
-                "OPEN" if open_objects else "CLOSED_RELATIVE"
-            )
         last_result=mt_result
 
     return MTReturnResult(state,last_result,tuple(all_receipts),open_objects,max_rounds,"OPEN")
