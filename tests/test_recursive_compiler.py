@@ -152,3 +152,43 @@ def test_recursive_compiler_rejects_missing_observer_return():
             cell_count=36,
             mode_trace=("OBSERVER","FOCUSED"),
         )
+
+
+def test_disconnected_cycle_cannot_certify_hierarchy():
+    kw=_base_kwargs()
+    kw["nodes"]=(
+        CompilerNode("M","manuscript",gates={"goal":True}),
+        CompilerNode("A","section","B",gates={"goal":True}),
+        CompilerNode("B","section","A",gates={"goal":True}),
+    )
+    kw["edge_receipts"]={("A","B"):True,("B","A"):True}
+    kw["admitted_delta_hashes"]={}
+    kw["realized_delta_hashes"]={}
+    out=evaluate_global_closure(**kw)
+    assert not out.closed
+    assert any(reason.startswith("HIERARCHY_CYCLE:") for reason in out.reasons)
+
+
+def test_node_delta_requires_admitted_hash():
+    kw=_base_kwargs()
+    del kw["admitted_delta_hashes"]["d-p1"]
+    out=evaluate_global_closure(**kw)
+    assert not out.closed
+    assert "DELTA_ADMISSION_MISSING:d-p1" in out.reasons
+
+
+def test_textual_false_cannot_certify_closure_receipts():
+    from dataclasses import replace
+    kw=_base_kwargs()
+    kw["nodes"]=(replace(kw["nodes"][0],gates={"goal":"false"}),*kw["nodes"][1:])
+    kw["edge_receipts"][("M","S1")]="false"
+    kw["constraint_receipts"][("P1","principal_delta_first")]="false"
+    out=evaluate_global_closure(**kw)
+    assert not out.closed
+    assert "NODE_GATE_OPEN:M:goal" in out.reasons
+    assert "UNRECONCILED_EDGE:M->S1" in out.reasons
+    assert "PROTECTED_CONSTRAINT_OPEN:P1:principal_delta_first" in out.reasons
+
+
+def test_missing_hf2_delta_receipt_cannot_certify_fixed_point():
+    assert not hf2_fixed_point_witness([{"disposition":"RELATIVE_CLOSE"}])
