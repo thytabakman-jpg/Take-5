@@ -174,3 +174,19 @@ def test_open_learning_worker_preserves_other_tool_statuses():
     assert result["learning_status"]["L-BAYES"] == prior["L-BAYES"]
     assert result["learning_status"]["L-D6"]["status"] == "OPEN"
     assert "L-D6" not in prior
+
+
+def test_caller_override_cannot_invent_missing_learning_inputs():
+    packet = {"tool_contracts": {"L-BAYES": {"applicable": True, "missing_inputs": (), "cost": 0.25}}}
+    installed = install_learning_contracts(packet)
+    contract = installed["tool_contracts"]["L-BAYES"]
+    assert contract["applicable"] is False
+    assert set(contract["missing_inputs"]) == {"prior", "likelihood"}
+    assert contract["cost"] == 0.25
+    assert select_min_cost_package(["PROBABILISTIC_BELIEF_UPDATE"], learning_package_index(), installed) == ()
+
+
+def test_caller_can_restrict_ready_learning_tool():
+    packet = {"learning_inputs": {"L-BAYES": {"prior": {"h": 1.0}, "likelihood": {"h": 1.0}}},
+              "tool_contracts": {"L-BAYES": {"applicable": False}}}
+    assert install_learning_contracts(packet)["tool_contracts"]["L-BAYES"]["applicable"] is False

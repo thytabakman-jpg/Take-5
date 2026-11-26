@@ -198,7 +198,7 @@ def learning_tool_contracts(packet: Mapping[str, Any]) -> dict[str, dict[str, An
 
 
 def install_learning_contracts(packet: Mapping[str, Any]) -> dict[str, Any]:
-    """Return a copy of packet with learning contracts merged, never overwriting caller overrides."""
+    """Merge caller policy without allowing overrides to invent required runtime inputs."""
     out = dict(packet)
     existing = dict(out.get("tool_contracts", {}) or {})
     generated = learning_tool_contracts(out)
@@ -206,6 +206,10 @@ def install_learning_contracts(packet: Mapping[str, Any]) -> dict[str, Any]:
         if pid in existing:
             merged = dict(contract)
             merged.update(existing[pid] or {})
+            # Caller policy can restrict admission, but cannot manufacture absent inputs.
+            if not contract["applicable"]:
+                merged["applicable"] = False
+            merged["missing_inputs"] = contract["missing_inputs"]
             existing[pid] = merged
         else:
             existing[pid] = contract
