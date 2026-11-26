@@ -199,6 +199,22 @@ raise SystemExit(int(a.status!='CLOSED_RELATIVE'))
         "audit_scope":"Native regressions and synthetic invocation-route coverage only",
     }
 
+def write_failure_receipt(path, operation, phase, exc, context):
+    """Report pre-dispatch failure without claiming native tool execution."""
+    failure = {**context, "status": "BLOCKED", "operation": operation,
+               "phase": phase, "blocker": f"{type(exc).__name__}:{exc}",
+               "native_tool_execution": False}
+    if operation == "PACKET":
+        failure.update(results=[])
+    payload = json.dumps(failure, indent=2) + "\n"
+    try:
+        path.write_text(payload, encoding="utf-8")
+    except OSError as write_error:
+        print(f"FAILURE_RECEIPT_WRITE_ERROR:{write_error}", file=sys.stderr)
+    print(payload, file=sys.stderr, end="")
+    return 1
+
+
 def main():
     ap=argparse.ArgumentParser(description=__doc__)
     ap.add_argument("artifact", type=Path)
@@ -206,12 +222,21 @@ def main():
     ap.add_argument("--destination",type=Path, default=Path("take5-runtime"))
     ap.add_argument("--receipt",type=Path, default=Path("bootstrap-receipt.json"))
     args=ap.parse_args()
-    root, receipt = install(args.artifact,args.destination,args.expected_commit)
-    receipt["runtime_path"]=str(root)
-    receipt["smoke"]=smoke(root)
-    verify_installed_tree(root, receipt["source_commit"],
-        base64.b64decode(receipt["source_commit_object"], validate=True),
-        receipt["tracked_tree"], receipt["source_tree"])
+    phase = "INSTALL"
+    context = {"expected_commit": args.expected_commit}
+    try:
+        root, receipt = install(args.artifact,args.destination,args.expected_commit)
+        receipt["runtime_path"]=str(root)
+        context.update(source_commit=receipt["source_commit"], source_tree=receipt["source_tree"],
+                       runtime_path=str(root))
+        phase = "SMOKE_TESTS"
+        receipt["smoke"]=smoke(root)
+        phase = "POST_TEST_INTEGRITY"
+        verify_installed_tree(root, receipt["source_commit"],
+            base64.b64decode(receipt["source_commit_object"], validate=True),
+            receipt["tracked_tree"], receipt["source_tree"])
+    except Exception as exc:
+        return write_failure_receipt(args.receipt, "BOOTSTRAP", phase, exc, context)
     receipt["status"]="BOOTSTRAP_VERIFIED" if (receipt["smoke"]["returncode"]==0 and receipt["smoke"]["registry_returncode"]==0) else "OPEN_TEST_FAILURE"
     receipt["semantic_execution_status"]="OPEN_UNTIL_TOOL_SPECIFIC_ADAPTERS_ARE_BOUND"
     args.receipt.write_text(json.dumps(receipt, indent=2)+"\n")

@@ -80,22 +80,31 @@ def main():
                    help="Explicitly allow an external binding to replace this built-in tool (repeatable)")
     p.add_argument("--receipt",type=Path,required=True)
     a=p.parse_args()
-    root=a.runtime.resolve()
-    # Rebind to the verified commit, not an arbitrary directory name.
-    from bootstrap import verify_bootstrap_receipt
-    boot=json.loads(a.bootstrap_receipt.read_text(encoding="utf-8"))
-    source_commit, source_tree = verify_bootstrap_receipt(root, boot)
-    # Keep the verified installation free of generated import caches.
-    sys.dont_write_bytecode = True
-    sys.pycache_prefix = None
-    sys.path.insert(0,str(root))
-    sys.path.insert(0,str(root/"runtime"))
-    from direct_tool_command_gateway import execute_direct_tool_commands, direct_tool_ids
-    raw=a.packet.read_bytes()
-    packet=json.loads(raw)
-    digest=sha256(raw)
-    ids=direct_tool_ids(packet["command"])
-    adapters=builtin_adapters(packet,digest)
+    from bootstrap import verify_bootstrap_receipt, write_failure_receipt
+    phase = "RUNTIME_VERIFICATION"
+    context = {}
+    try:
+        root=a.runtime.resolve()
+        boot=json.loads(a.bootstrap_receipt.read_text(encoding="utf-8"))
+        source_commit, source_tree = verify_bootstrap_receipt(root, boot)
+        context.update(source_commit=source_commit, source_tree=source_tree)
+        # Keep the verified installation free of generated import caches.
+        sys.dont_write_bytecode = True
+        sys.pycache_prefix = None
+        sys.path.insert(0,str(root))
+        sys.path.insert(0,str(root/"runtime"))
+        phase = "GATEWAY_LOAD"
+        from direct_tool_command_gateway import execute_direct_tool_commands, direct_tool_ids
+        phase = "PACKET_ADMISSION"
+        raw=a.packet.read_bytes()
+        digest=sha256(raw)
+        context["packet_sha256"] = digest
+        packet=json.loads(raw)
+        ids=direct_tool_ids(packet["command"])
+        context["tool_ids"] = ids
+        adapters=builtin_adapters(packet,digest)
+    except Exception as exc:
+        return write_failure_receipt(a.receipt, "PACKET", phase, exc, context)
     provider=None
     admission_errors={}
     provider_error=None
