@@ -282,3 +282,20 @@ def test_architecture_rejects_malformed_contract_unit_inventory():
     out=run_architecture_analysis({}, {"ExpectedUnitIds":"p"},analyze_architecture=lambda a,c:None,protected_constraints=(UNIT_JOB_PURITY,))
     assert out["status"]=="BLOCKED"
     assert out["blocker"]=="ARCHITECTURE_UNIT_JOB_CONTRACT_INVALID"
+
+
+def test_architecture_rejects_malformed_job_identities_without_coercion():
+    for jobs in ((1, "1"), 1, {"job": True}, (None,)):
+        out=run_architecture_analysis({}, {"ExpectedUnitIds":["p"]},
+            analyze_architecture=lambda *_: _arch_result(UnitJobState={"p":jobs},UnitJobEvidence=("e",)),
+            protected_constraints=(UNIT_JOB_PURITY,))
+        assert out["status"]=="OPEN"
+        assert out["blocker"]=="ARCHITECTURE_UNIT_JOB_IDENTITIES_INVALID:p"
+
+
+def test_architecture_preserves_valid_job_identity_forms():
+    for jobs in (None, "", (), "job", ["job", "job"], {"job"}):
+        out=run_architecture_analysis({}, {"ExpectedUnitIds":["p"]},
+            analyze_architecture=lambda *_: _arch_result(UnitJobState={"p":jobs},UnitJobEvidence=("e",)),
+            protected_constraints=(UNIT_JOB_PURITY,))
+        assert out["status"]=="RELATIVE_CLOSE"

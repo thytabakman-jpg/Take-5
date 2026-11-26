@@ -16,10 +16,15 @@ def _normalized_jobs(value:Any)->tuple[str,...]:
         return ()
     if isinstance(value,str):
         return (value,) if value else ()
+    if isinstance(value, Mapping):
+        raise ValueError("UNIT_JOB_IDENTITIES_REQUIRED")
     try:
-        return tuple(dict.fromkeys(str(x) for x in value if str(x)))
-    except TypeError:
-        return (str(value),)
+        jobs=tuple(value)
+    except TypeError as exc:
+        raise ValueError("UNIT_JOB_IDENTITIES_REQUIRED") from exc
+    if any(not isinstance(job,str) for job in jobs):
+        raise ValueError("UNIT_JOB_IDENTITIES_REQUIRED")
+    return tuple(dict.fromkeys(job for job in jobs if job))
 
 def _unit_ids(value:Any)->set[str]:
     if not isinstance(value,(list,tuple,set,frozenset)) or any(
@@ -102,7 +107,10 @@ def run_architecture_analysis(
             uid=str(unit_id)
             if uid in exceptions:
                 continue
-            jobs=_normalized_jobs(raw_jobs)
+            try:
+                jobs=_normalized_jobs(raw_jobs)
+            except ValueError:
+                return {"status":"OPEN","blocker":"ARCHITECTURE_UNIT_JOB_IDENTITIES_INVALID:"+uid,"result":result}
             if len(jobs)>1:
                 bad.append(uid+"="+"/".join(jobs))
         if bad:
