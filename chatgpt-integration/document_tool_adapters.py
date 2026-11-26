@@ -151,9 +151,12 @@ def builtin_adapters(packet, digest):
                         "adapter_provenance":{"native_invocation":"NOT_INVOKED","provider_binding":"Prose"}}
         contract=ProseContract(**spec["contract"])
         out=assess_prose(spec["text"],contract,evidence=evidence)
+        result=asdict(out)
+        if reports:
+            result['review_reports']=reports
         return {"status":"BLOCKED" if out.status=="BLOCKED" else "OPEN",
                 "execution_truth":"BLOCKED" if out.status=="BLOCKED" else "OPEN",
-                "result":asdict(out), "material_delta":False,
+                "result":result, "material_delta":False,
                 "evidence":["native:prose.assess_prose",f"packet-sha256:{digest}"],
                 "blocker":"PROSE_INDEPENDENT_SEMANTIC_VERIFICATION_OPEN" if reports else "PROSE_SEMANTIC_EVIDENCE_NOT_BOUND",
                 "review_reports":reports,
@@ -697,7 +700,7 @@ def _document_pd_stage_executor(packet,frames,observations,runs):
             provenance=(e.adapter_provenance or {}).get('adapter_provenance',{})
             receipt['native_invocation']=provenance.get('native_invocation','UNKNOWN')
             native_entry='native:pd.run_pd' if tool_id=='PD' else 'native:pd_audit.run_pd_audit'
-            if (batch.status=='EXECUTED' and e.tool_id==tool_id and e.status=='EXECUTED'
+            if (batch.status=='EXECUTED' and e.tool_id==tool_id and e.status=='RELATIVE_CLOSE'
                     and e.binding.get('invocation_profile')=='FULL_CONFIGURED_HF2_V1'
                     and e.recurrence_engine=='HF002' and e.recurrence_status=='RELATIVE_CLOSE'
                     and e.recurrence_rounds>0 and native_entry in e.evidence

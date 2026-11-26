@@ -199,6 +199,7 @@ class BuiltinAdapterTests(unittest.TestCase):
         self.assertEqual(out['status'],'OPEN')
         self.assertEqual(out['result']['status'],'REPAIR_REQUIRED')
         self.assertEqual(out['review_reports'][1]['admitted_status'],'OPEN')
+        self.assertEqual(out['result']['review_reports'],out['review_reports'])
         self.assertTrue(any(v['code']=='READER_LOAD_REPAIR_REQUIRED' for v in out['result']['violations']))
         self.assertEqual(out['adapter_provenance']['native_invocation'],'RETURNED')
         spec['review_observations']['candidate_sha256']='0'*64
@@ -277,6 +278,7 @@ class DocumentObservationTests(unittest.TestCase):
         for run in runs[:2]:
             self.assertEqual(run['native_invocation'],'RETURNED')
             self.assertEqual(run['configured']['executions'][0]['recurrence_engine'],'HF002')
+            self.assertEqual(run['configured']['executions'][0]['status'],'RELATIVE_CLOSE')
             self.assertEqual(run['configured']['executions'][0]['result']['result']['minimal_sensitive'],{'x':((0,),)})
         self.assertIn('goal-difference',native['open_objects'])
         self.assertIn('FULL_DOCUMENT_SEMANTIC_COVERAGE_OPEN',native['open_objects'])
