@@ -4,7 +4,9 @@
 
 - [runtime/tool_run_registry.py](../../../../runtime/tool_run_registry.py)
 - [runtime/tool_manifest.py](../../../../runtime/tool_manifest.py)
-- [runtime/portable_tool_conductor.py](../../../../runtime/portable_tool_conductor.py)
+- [runtime/direct_tool_command_gateway.py](../../../../runtime/direct_tool_command_gateway.py)
+- [runtime/improvement_core_tool_bridge.py](../../../../runtime/improvement_core_tool_bridge.py)
+- [runtime/portable_tool_conductor.py](../../../../runtime/portable_tool_conductor.py) (separate factor route)
 - [integration/CURRENT_TOOL_REALITY.md](../../../../integration/CURRENT_TOOL_REALITY.md)
 
 ## Shared current authorities
@@ -17,8 +19,9 @@
 ## Current working identity and dispatch
 
 The Take-5 registered tool is `Architecture`. Its configured-run identity and
-protected bindings are resolved through the registry and manifest above, with the
-native runtime reached through the portable conductor. The user-facing label
+protected bindings are resolved through the registry and manifest above. Direct Repair
+dispatch reaches the native runtime through the configured gateway and bridge via the
+admitted document adapter; portable conductor factor execution is a separate route. The user-facing label
 `Architect` and the Reaserch object ID `ARCHITECTURE-ANALYSIS` occur in the
 historical/formal research sources below. Similar names do not independently
 prove execution-profile equivalence or grant cross-repository precedence.
@@ -56,7 +59,7 @@ to make the folder look complete.
 
 - [Take-5/Reaserch crosswalk](../../SOURCE_MAP.md#cross-repository-tool-package-navigation-derived-no-authority-transfer) — all current packages, catalogued formal objects and unresolved differences.
 - [Reaserch `ARCHITECTURE-ANALYSIS` (K2) catalog entry](https://github.com/thytabakman-jpg/Reaserch/blob/main/Shared%20Tool%20System/Controllers%20and%20Runtime/ImprovementCore/tool-ecosystem/FORMAL_TOOL_CATALOG_CURRENT.yaml) and [its relocated semantic locator](https://github.com/thytabakman-jpg/Reaserch/blob/main/Shared%20Tool%20System/Controllers%20and%20Runtime/ImprovementCore/tool-ecosystem/ARCHITECTURE_ANALYSIS_FULL_MATH_002_2026-09-26.md). Matching names permit navigation, not automatic semantic equivalence or runnable integration.
-- Take-5 configured-run authority remains [registry](../../../../runtime/tool_run_registry.py), [manifest](../../../../runtime/tool_manifest.py), [conductor](../../../../runtime/portable_tool_conductor.py). See [mathematics](MATHEMATICS.md), [runtime](RUNTIME.md), [dependencies](DEPENDENCIES.md), [regression contract](REGRESSION_CONTRACT.md).
+- Take-5 configured-run authority remains [registry](../../../../runtime/tool_run_registry.py), [manifest](../../../../runtime/tool_manifest.py), [shared invocation architecture](../../../../architecture/Tool%20Execution%20Architecture.md). See [mathematics](MATHEMATICS.md), [runtime](RUNTIME.md), [dependencies](DEPENDENCIES.md), [regression contract](REGRESSION_CONTRACT.md).
 - Native evidence surfaces are [runs](runs/README.md), [evidence](evidence/README.md), [coverage](coverage/README.md) and [history](history/README.md); a file link is not proof that configured execution or certification passed.
 - [Take-5 native implementation runtime/architecture_analysis.py](../../../../runtime/architecture_analysis.py); native function availability alone is not configured-run proof.
 - [Take-5 test tests/test_four_tool_recovery_20260927.py](../../../../tests/test_four_tool_recovery_20260927.py); assess its actual test scope before claiming coverage.
