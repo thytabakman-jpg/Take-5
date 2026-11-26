@@ -136,7 +136,10 @@ def main():
     p.add_argument("--integration-manifest", type=Path, required=True,
                    help="Independently fetched current integration commit and Git blob identities")
     p.add_argument("--packet", type=Path, required=True)
-    p.add_argument("--adapter-module",type=Path,help="Explicit trusted local module exposing bind_adapters(packet)")
+    provider_args=p.add_mutually_exclusive_group()
+    provider_args.add_argument("--adapter-module",type=Path,help="Explicit trusted local module exposing bind_adapters(packet)")
+    provider_args.add_argument("--document-adapters",action="store_true",
+                               help="Select the verified companion document providers")
     p.add_argument("--allow-adapter-override",action="append",default=[],metavar="TOOL",
                    help="Explicitly allow an external binding to replace this built-in tool (repeatable)")
     p.add_argument("--receipt",type=Path,required=True)
@@ -146,6 +149,12 @@ def main():
     sys.pycache_prefix = None
     from runtime_bootstrap import verify_bootstrap_receipt, write_failure_receipt, read_integration_manifest
     root=a.runtime.resolve()
+    companion=Path(__file__).resolve().parent
+    if a.document_adapters:
+        a.adapter_module=companion/"document_tool_adapters.py"
+    if a.receipt.resolve() in {p.resolve() for p in (a.packet,a.bootstrap_receipt,a.integration_manifest,*[companion/n for n in ("runtime_bootstrap.py","execute_tool_packet.py","document_tool_adapters.py","README.md")],*([a.adapter_module] if a.adapter_module else []))}:
+        print("RECEIPT_OVERWRITES_VERIFIED_INPUT", file=sys.stderr)
+        return 1
     if a.receipt.resolve().is_relative_to(root):
         print("RECEIPT_INSIDE_VERIFIED_RUNTIME", file=sys.stderr)
         return 1
@@ -168,6 +177,8 @@ def main():
         packet=json.loads(raw)
         ids=direct_tool_ids(packet["command"])
         context["tool_ids"] = ids
+        if isinstance(packet.get("tool_inputs"),dict) and set(packet["tool_inputs"])-set(ids):
+            raise ValueError("UNREQUESTED_TOOL_INPUT_ROUTE")
         adapters=builtin_adapters(packet,digest)
     except Exception as exc:
         return write_failure_receipt(a.receipt, "PACKET", phase, exc, context)
