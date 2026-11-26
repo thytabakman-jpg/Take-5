@@ -32,6 +32,11 @@ jobs:
           fetch-depth: 1
           persist-credentials: false
           path: bootstrap
+      - name: Verify document adapter integration
+        shell: bash
+        env:
+          PYTHONPATH: ${{ github.workspace }}/source/runtime:${{ github.workspace }}/source:${{ github.workspace }}/bootstrap/chatgpt-integration
+        run: python3 -B -m unittest discover -s "$GITHUB_WORKSPACE/bootstrap/chatgpt-integration" -p test_document_tool_adapters.py -v
       - name: Package authoritative tracked source
         shell: bash
         run: |

@@ -532,7 +532,7 @@ def _bind_admitted_adapters(packet, tool, groups):
         def here_stage(s): return replace(s,here={'source_blobs':source_ids,'second_algorithm':True})
         def inquire_stage(s): return replace(s,inquiries=tuple(packet.get('open_coordinates',())))
         def reassert_stage(s): return replace(s,world={'claim_test_status':{k:'TRUE' if s.comparisons[k]==v else 'FALSE' for k,v in s.assertions.items()}})
-        out=run_to_fixed_point(AssertState(),AssertStages(assert_stage,compare_stage,resolve_stage,here_stage,inquire_stage,reassert_stage),closure_gate=lambda s:all(v=='TRUE' for v in s.world.get('claim_test_status',{}).values()),max_rounds=4)
+        out=run_to_fixed_point(AssertState(),AssertStages(assert_stage,compare_stage,resolve_stage,here_stage,inquire_stage,reassert_stage),closure_gate=lambda s:bool(s.world.get('claim_test_status')) and all(v=='TRUE' for v in s.world['claim_test_status'].values()) and not s.inquiries,max_rounds=4)
         return envelope('assert_compound.run_to_fixed_point',asdict(out),'EXECUTED' if out.status=='CLOSED' else 'OPEN')
     def trc(current,plan):
         from tool_run_closure import Consequence, Disposition, run_tool_run_closure
@@ -544,7 +544,7 @@ def _bind_admitted_adapters(packet, tool, groups):
         return envelope('tool_run_closure.run_tool_run_closure',asdict(out),'OPEN','UNRESOLVED_SEMANTIC_OBLIGATIONS')
     def currentness(current,plan):
         from currentness_audit import assess, audit_complete
-        receipts=tuple(assess(component=s['path'],object_identity=s['path'],built_generation=s['sha'],latest_generation=s.get('latest_sha',''),built_basis='connector blob',latest_basis='connector refetch blob',identity_verified=bool(s.get('latest_sha')),evidence=(s['sha'],s.get('latest_sha',''))) for s in packet['sources'])
+        receipts=tuple(assess(component=s['path'],object_identity=s['path'],built_generation=s['sha'],latest_generation=s.get('latest_sha',''),built_basis='connector blob',latest_basis='connector blob',identity_verified=bool(s.get('latest_sha')),evidence=(s['sha'],s.get('latest_sha',''))) for s in packet['sources'])
         return envelope('currentness_audit.assess',{'receipts':[asdict(r) for r in receipts],'complete':audit_complete(receipts)},'EXECUTED' if audit_complete(receipts) else 'OPEN')
     def reconciler(current,plan):
         from reconcile import ReconcileResult, reconcile
