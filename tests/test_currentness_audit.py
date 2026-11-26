@@ -87,3 +87,12 @@ def test_missing_or_nontext_identity_cannot_certify_currentness():
             assert r.status==Currentness.OPEN
             assert not audit_complete([r])
             assert not audit_complete([replace(valid,**{field:value})])
+
+
+def test_same_generation_does_not_hide_changed_basis_without_delta():
+    from dataclasses import replace
+    same_generation={**IDENTITY,"latest_generation":IDENTITY["built_generation"]}
+    r=assess(component="x",built_basis="old",latest_basis="new",**same_generation)
+    assert r.status==Currentness.OPEN
+    assert r.action=="RECONCILE_BASIS_DELTA"
+    assert not audit_complete([replace(r,status=Currentness.CURRENT)])

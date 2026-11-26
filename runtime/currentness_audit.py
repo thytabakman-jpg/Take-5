@@ -45,6 +45,9 @@ def assess(*,component,built_basis,latest_basis,object_identity="",built_generat
         # Preserve OPEN rather than letting an omitted delta manufacture CURRENT.
         status=Currentness.OPEN
         action="RECONCILE_GENERATION_DELTA"
+    elif built_basis != latest_basis and not delta:
+        status=Currentness.OPEN
+        action="RECONCILE_BASIS_DELTA"
     elif not delta:
         status=Currentness.CURRENT
         action="KEEP"
@@ -86,6 +89,8 @@ def audit_complete(receipts):
             (
                 r.status==Currentness.CURRENT
                 and r.built_generation==r.latest_generation
+                and r.built_basis==r.latest_basis
+                and not r.delta
             )
             or r.status==Currentness.SUPERSEDED
             or (r.status==Currentness.PATCH and r.reverified is True)

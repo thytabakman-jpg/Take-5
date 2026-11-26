@@ -96,3 +96,15 @@ def test_rtc_requires_boolean_gain_and_preservation():
     assert raise_the_ceiling({"candidates":[{"strict_gain":False,"preserves":True}]})["status"]=="NOOP"
     out=raise_the_ceiling({"candidates":[{"strict_gain":True,"preserves":True},{"strict_gain":"OPEN","preserves":True}]})
     assert out["status"]=="ACCEPT" and len(out["unresolved"])==1
+
+
+def test_bias_perturbation_snapshots_reused_runner_buffer():
+    shared={}
+    def runner(value):
+        shared["value"]=value
+        return shared
+    out=run_bias_perturbation(0,[1,2],runner=runner,
+        semantics_equivalent=lambda a,b:True,result_equivalent=lambda a,b:a==b)
+    assert out["baseline_result"]=={"value":0}
+    assert out["bias_sensitive"]==(1,2)
+    assert [r.result for r in out["results"]]==[{"value":1},{"value":2}]
