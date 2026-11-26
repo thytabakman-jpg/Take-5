@@ -184,6 +184,28 @@ class BuiltinAdapterTests(unittest.TestCase):
         self.assertIn('SEMANTIC_PRESERVATION_RECEIPT_REQUIRED', out['result']['residuals'])
         self.assertEqual(out['adapter_provenance']['native_invocation'], 'RETURNED')
 
+    def test_prose_binds_source_review_but_does_not_promote_pass(self):
+        from document_tool_adapters import digest
+        body='Review: reader load fails. Semantic preservation reported PASS.'
+        sha=hashlib.sha1(f'blob {len(body.encode())}\0'.encode()+body.encode()).hexdigest()
+        spec={'text':'A claim.','contract':{'contract_id':'review','constraints':['READER_LOAD']}}
+        spec['review_observations']={
+            'candidate_sha256':hashlib.sha256(spec['text'].encode()).hexdigest(),
+            'contract_sha256':digest(spec['contract']),
+            'findings':[{'field':'reader_load','status':'FAIL','source':'review.md','quote':'reader load fails'},
+                        {'field':'semantic_preservation','status':'PASS','source':'review.md','quote':'Semantic preservation reported PASS'}]}
+        packet={'prose':spec,'sources':[{'path':'review.md','sha':sha,'latest_sha':sha,'text':body}]}
+        out=self.adapters(packet)['Prose']({},None)
+        self.assertEqual(out['status'],'OPEN')
+        self.assertEqual(out['result']['status'],'REPAIR_REQUIRED')
+        self.assertEqual(out['review_reports'][1]['admitted_status'],'OPEN')
+        self.assertTrue(any(v['code']=='READER_LOAD_REPAIR_REQUIRED' for v in out['result']['violations']))
+        self.assertEqual(out['adapter_provenance']['native_invocation'],'RETURNED')
+        spec['review_observations']['candidate_sha256']='0'*64
+        out=self.adapters(packet)['Prose']({},None)
+        self.assertEqual(out['status'],'BLOCKED')
+        self.assertEqual(out['adapter_provenance']['native_invocation'],'NOT_INVOKED')
+
     def test_prose_retains_native_constraint_violation(self):
         packet = {**self.packet, 'prose': {**self.packet['prose'], 'text': 'It is not merely a detail.'}}
         out = self.adapters(packet)['Prose']({}, None)
@@ -235,6 +257,45 @@ class DocumentObservationTests(unittest.TestCase):
         self.assertEqual(out['result']['mt_result']['change']['changed_spans'],
                          [{'operation':'replace','before':[1,2],'after':[1,2]}])
         self.assertIn('FULL_DOCUMENT_SEMANTIC_COVERAGE_OPEN',out['result']['open_objects'])
+
+    def test_mt_dispatches_actual_configured_pd_and_pdaudit_before_unbound_mta(self):
+        packet=self.packet()
+        packet['open_coordinates']=['goal-difference']
+        packet['document_observations']['observations'].append(
+            {'id':'role','source':'a.md','quote':'Role: navigation.',
+             'interpretation':'Explicit role.'})
+        packet['semantic_pd_frames']={'goal-difference':{
+            'cases':[{'id':'a','result':False,'coordinates':{'x':0},'evidence':['role']},
+                     {'id':'b','result':True,'coordinates':{'x':1},'evidence':['goal']}],
+            'representations':{'x':['x']}}}
+        out=execute_direct_tool_commands(['MT'],adapters=bind_adapters(packet))
+        self.assertEqual(out.status,'OPEN')
+        native=out.executions[0].result
+        runs=native['semantic_stage_runs']
+        self.assertEqual([(r['tool_id'],r['status']) for r in runs[:3]],
+                         [('PD','RELATIVE_CLOSE'),('PDAudit','RELATIVE_CLOSE'),('MTA','OPEN')])
+        for run in runs[:2]:
+            self.assertEqual(run['native_invocation'],'RETURNED')
+            self.assertEqual(run['configured']['executions'][0]['recurrence_engine'],'HF002')
+            self.assertEqual(run['configured']['executions'][0]['result']['result']['minimal_sensitive'],{'x':((0,),)})
+        self.assertIn('goal-difference',native['open_objects'])
+        self.assertIn('FULL_DOCUMENT_SEMANTIC_COVERAGE_OPEN',native['open_objects'])
+        self.assertFalse(any(r['material'] for r in native['semantic_receipts']))
+        goal=execute_direct_tool_commands(['GOAL'],adapters=bind_adapters(packet))
+        self.assertEqual(goal.executions[0].result['native']['status'],'CLOSED_RELATIVE')
+        self.assertEqual(goal.executions[0].result['mt_preflight']['status'],'OPEN')
+
+    def test_mt_rejects_unlocated_pd_case_and_global_coverage_frame(self):
+        packet=self.packet()
+        packet['open_coordinates']=['goal-difference']
+        frame={'cases':[{'id':'a','result':True,'coordinates':{'x':0},'evidence':['absent']}],
+               'representations':{'x':['x']}}
+        packet['semantic_pd_frames']={'goal-difference':frame}
+        out=self.call('MT',packet)
+        self.assertEqual(out['status'],'BLOCKED')
+        self.assertEqual(out['adapter_provenance']['native_invocation'],'NOT_INVOKED')
+        packet['semantic_pd_frames']={'FULL_DOCUMENT_SEMANTIC_COVERAGE_OPEN':frame}
+        self.assertEqual(self.call('MT',packet)['status'],'BLOCKED')
 
     def test_goal_uses_actual_configured_mt_preflight(self):
         out=execute_direct_tool_commands(['GOAL'],adapters=bind_adapters(self.packet()))

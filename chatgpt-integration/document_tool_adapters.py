@@ -40,7 +40,61 @@ def _scoped_builtin(packet, tool, invoke, current, plan):
     return result
 
 
-# I. Built-in provider bindings (finite PD/PDAudit and syntactic Prose).
+def _prose_review_evidence(effective,spec):
+    """Bind source-located review reports, never certify positive host labels."""
+    from prose import ProseEvidence
+    review=spec['review_observations']
+    if not isinstance(review,dict):
+        raise ValueError('PROSE_REVIEW_MAPPING_REQUIRED')
+    if not isinstance(spec['text'],str):
+        raise ValueError('PROSE_TEXT_REQUIRED')
+    if (review['candidate_sha256']!=hashlib.sha256(spec['text'].encode('utf-8')).hexdigest()
+            or review['contract_sha256']!=digest(spec['contract'])):
+        raise ValueError('PROSE_REVIEW_TARGET_OR_CONTRACT_MISMATCH')
+    sources,_=_admit_sources(effective,'Prose')
+    by_path={s['path']:s for s in sources}
+    fields={'semantic_preservation','earned_claim_strength','no_unsupported_inflation',
+            'reader_load','plain_language'}
+    rows=review['findings']
+    if not isinstance(rows,list) or not rows:
+        raise ValueError('PROSE_REVIEW_FINDINGS_REQUIRED')
+    values={}
+    refs={}
+    reports=[]
+    for row in rows:
+        if not isinstance(row,dict):
+            raise ValueError('PROSE_REVIEW_FINDING_REQUIRED')
+        field,status,path,quote=(row[k] for k in ('field','status','source','quote'))
+        if field not in fields or field in values:
+            raise ValueError('PROSE_REVIEW_FIELD_INVALID_OR_DUPLICATE')
+        if status not in ('OPEN','FAIL','REPAIR_REQUIRED','BLOCKED','PASS'):
+            raise ValueError('PROSE_REVIEW_STATUS_INVALID')
+        if path not in by_path:
+            raise ValueError('PROSE_REVIEW_SOURCE_NOT_ADMITTED')
+        source=by_path[path]
+        if source.get('latest_sha')!=source['sha']:
+            raise KeyError('PROSE_REVIEW_CURRENT_SOURCE_REQUIRED')
+        body=source['text']
+        if not isinstance(body,str) or _git_blob_text_hash(body,'sha1')!=source['sha']:
+            raise ValueError('PROSE_REVIEW_BLOB_MISMATCH')
+        if not isinstance(quote,str) or not quote.strip() or quote not in body:
+            raise ValueError('PROSE_REVIEW_QUOTE_MISSING')
+        # Authenticate the report bytes, not the truth or independence of its
+        # interpretation. Positive host labels cannot discharge semantic gates.
+        values[field]='OPEN' if status=='PASS' else status
+        ref=f"{path}@{source['sha']}:L{body[:body.index(quote)].count(chr(10))+1}:{quote}"
+        refs[field]=(ref,)
+        reports.append({'field':field,'reported_status':status,'admitted_status':values[field],
+                        'source':path,'sha':source['sha'],'quote':quote})
+    evidence=ProseEvidence(**values,
+        evidence=tuple(ref for field in ('semantic_preservation','earned_claim_strength','no_unsupported_inflation')
+                       for ref in refs.get(field,())),
+        reader_load_evidence=refs.get('reader_load',()),
+        plain_language_evidence=refs.get('plain_language',()))
+    return evidence,reports
+
+
+# I. Built-in provider bindings (finite PD/PDAudit and Prose).
 # Explicit module bindings remain opt-in.
 def builtin_adapters(packet, digest):
     def pd_adapter(tool):
@@ -81,16 +135,28 @@ def builtin_adapters(packet, digest):
         if not spec:
             return {"status":"OPEN","blocker":"PROSE_TEXT_AND_CONTRACT_REQUIRED",
                     "adapter_provenance":{"native_invocation":"NOT_INVOKED","provider_binding":"Prose"}}
-        # Semantic PASS evidence is intentionally not constructed from user labels.
-        # A separately reviewed semantic-evidence adapter may be explicitly bound.
+        # Legacy evidence labels remain untrusted. An explicit source-bound
+        # report can expose negative findings, never manufacture semantic PASS.
         from prose import ProseContract, assess_prose
+        evidence=None
+        reports=[]
+        if 'review_observations' in spec:
+            try:
+                evidence,reports=_prose_review_evidence(effective,spec)
+            except KeyError as exc:
+                return {"status":"OPEN","execution_truth":"OPEN","blocker":f"PROSE_REVIEW_INPUT_REQUIRED:{exc.args[0]}",
+                        "adapter_provenance":{"native_invocation":"NOT_INVOKED","provider_binding":"Prose"}}
+            except (ValueError,TypeError,IndexError) as exc:
+                return {"status":"BLOCKED","execution_truth":"BLOCKED","blocker":f"PROSE_REVIEW_INPUT_INVALID:{exc}",
+                        "adapter_provenance":{"native_invocation":"NOT_INVOKED","provider_binding":"Prose"}}
         contract=ProseContract(**spec["contract"])
-        out=assess_prose(spec["text"],contract,evidence=None)
+        out=assess_prose(spec["text"],contract,evidence=evidence)
         return {"status":"BLOCKED" if out.status=="BLOCKED" else "OPEN",
                 "execution_truth":"BLOCKED" if out.status=="BLOCKED" else "OPEN",
                 "result":asdict(out), "material_delta":False,
                 "evidence":["native:prose.assess_prose",f"packet-sha256:{digest}"],
-                "blocker":"PROSE_SEMANTIC_EVIDENCE_NOT_BOUND",
+                "blocker":"PROSE_INDEPENDENT_SEMANTIC_VERIFICATION_OPEN" if reports else "PROSE_SEMANTIC_EVIDENCE_NOT_BOUND",
+                "review_reports":reports,
                 "adapter_provenance":{"native_invocation":"RETURNED","provider_binding":"Prose",
                                       "semantic_coverage":"BOUNDED_NOT_CERTIFIED"}}
 
@@ -581,6 +647,72 @@ def _configured_mt_prerequisite(packet,mt):
     return pre,receipt
 
 
+def _document_pd_frames(packet,observations,declared_open):
+    """Admit object-scoped finite frames against already verified observations."""
+    frames=packet.get('semantic_pd_frames',{})
+    if not isinstance(frames,dict):
+        raise ValueError('MT_PD_FRAMES_MAPPING_REQUIRED')
+    for object_id,frame in frames.items():
+        if object_id not in declared_open or object_id=='FULL_DOCUMENT_SEMANTIC_COVERAGE_OPEN':
+            raise ValueError('MT_PD_FRAME_OBJECT_NOT_ADMITTED')
+        if not isinstance(frame,dict) or not isinstance(frame.get('cases'),list) or not frame['cases']:
+            raise ValueError('MT_PD_FRAME_CASES_REQUIRED')
+        for row in frame['cases']:
+            if not isinstance(row,dict):
+                raise ValueError('MT_PD_FRAME_CASE_REQUIRED')
+            ids=row.get('evidence')
+            if (not isinstance(ids,list) or not ids
+                    or any(not isinstance(i,str) or i not in observations for i in ids)
+                    or len(set(ids))!=len(ids)):
+                raise ValueError('MT_PD_CASE_OBSERVATION_NOT_ADMITTED')
+    return frames
+
+
+def _document_pd_stage_executor(packet,frames,observations,runs):
+    """Execute the available mandatory stages via their real configured route."""
+    from direct_tool_command_gateway import execute_direct_tool_commands
+    def resolve_stage(tool_id,object_id,state):
+        if tool_id not in ('PD','PDAudit') or object_id not in frames:
+            runs.append({'object_id':object_id,'tool_id':tool_id,'status':'OPEN',
+                         'native_invocation':'NOT_INVOKED','blocker':'MT_STAGE_PROVIDER_OR_OBJECT_FRAME_REQUIRED'})
+            return state,'OPEN',False
+        frame=frames[object_id]
+        evidence_ids=sorted({i for row in frame['cases'] for i in row['evidence']})
+        stage_packet={'pd_frame':frame,'mt_packet_sha256':digest(packet),'object_id':object_id,
+                      'source_observations':{i:observations[i] for i in evidence_ids}}
+        stage_digest=digest(stage_packet)
+        try:
+            batch=execute_direct_tool_commands([tool_id],
+                state={'packet_sha256':stage_digest},adapters=builtin_adapters(stage_packet,stage_digest))
+        except (KeyError,ValueError,TypeError,IndexError) as exc:
+            runs.append({'object_id':object_id,'tool_id':tool_id,'status':'BLOCKED',
+                         'native_invocation':'UNKNOWN','blocker':f'{type(exc).__name__}:{exc}',
+                         'input_sha256':stage_digest})
+            return state,'BLOCKED',False
+        receipt={'object_id':object_id,'tool_id':tool_id,'input_sha256':stage_digest,
+                 'scope':'EXPLICIT_OBJECT_FRAME_ONLY','configured':asdict(batch)}
+        status=batch.status if batch.status in ('OPEN','BLOCKED','CONFLICT') else 'OPEN'
+        if len(batch.executions)==1:
+            e=batch.executions[0]
+            provenance=(e.adapter_provenance or {}).get('adapter_provenance',{})
+            receipt['native_invocation']=provenance.get('native_invocation','UNKNOWN')
+            native_entry='native:pd.run_pd' if tool_id=='PD' else 'native:pd_audit.run_pd_audit'
+            if (batch.status=='EXECUTED' and e.tool_id==tool_id and e.status=='EXECUTED'
+                    and e.binding.get('invocation_profile')=='FULL_CONFIGURED_HF2_V1'
+                    and e.recurrence_engine=='HF002' and e.recurrence_status=='RELATIVE_CLOSE'
+                    and e.recurrence_rounds>0 and native_entry in e.evidence
+                    and f'packet-sha256:{stage_digest}' in e.evidence
+                    and receipt['native_invocation']=='RETURNED'
+                    and isinstance(e.result,dict) and e.result.get('status')=='RELATIVE_CLOSE'):
+                status='RELATIVE_CLOSE'
+        receipt['status']=status
+        runs.append(receipt)
+        # Relative finite-stage results are evidence, not a proved change to
+        # the semantic state. Never claim material progress from a receipt alone.
+        return state,status,False
+    return resolve_stage
+
+
 # IX. Source-bound document observation provider for MT and GOAL.
 # Host interpretations
 # are explicit evidence inputs, never independent semantic certification.
@@ -647,6 +779,7 @@ def _document_mt_goal(packet, tool, sources):
     # This provider checks bytes and explicit evidence only. It cannot certify
     # arbitrary prose semantics or run an unbound black-box resolution stage.
     unresolved=tuple(dict.fromkeys([*declared_open,'FULL_DOCUMENT_SEMANTIC_COVERAGE_OPEN']))
+    frames=_document_pd_frames(packet,observations,declared_open)
     candidates=[]
     if tool=='GOAL':
         from goal import GoalObject, GoalCandidate
@@ -678,11 +811,14 @@ def _document_mt_goal(packet, tool, sources):
         def observe(state):
             return state,{'target':target,'source_observations':observations,'change':change,
                           'unresolved':unresolved,'scope':'EXACT_DOCUMENT_EVIDENCE_AND_HOST_INTERPRETATION'}
+        runs=[]
         out=run_mt_with_before_return_gate({'packet':digest(packet)},run_mt=observe,
             detect_black_boxes=lambda st,res:res['unresolved'],
-            execute_stage=lambda tool_id,object_id,state:(state,'OPEN',False))
+            execute_stage=_document_pd_stage_executor(packet,frames,observations,runs))
+        result=asdict(out)
+        result['semantic_stage_runs']=runs
         return _bounded_result(packet,source_ids,'mt_semantic_return_gate.run_mt_with_before_return_gate',
-            asdict(out),'OPEN','FULL_DOCUMENT_SEMANTIC_COVERAGE_OPEN')
+            result,'OPEN','FULL_DOCUMENT_SEMANTIC_COVERAGE_OPEN')
     def goal(current,plan):
         from goal import recover_goal_configured
         pre,receipt=_configured_mt_prerequisite(packet,mt)
