@@ -562,8 +562,20 @@ def _configured_mt_prerequisite(packet,mt):
     receipt=None
     if pre.executions:
         e=pre.executions[0]
-        if e.tool_id=='MT' and e.result and e.binding.get('invocation_profile')=='FULL_CONFIGURED_HF2_V1':
-            raw=e.result
+        raw=e.result
+        # The projected configured disposition, not a raw native label, owns
+        # admission. Bind the witness to this exact evidence packet and gate.
+        if (e.tool_id=='MT' and isinstance(raw,dict)
+                and e.binding.get('invocation_profile')=='FULL_CONFIGURED_HF2_V1'
+                and e.recurrence_engine=='HF002' and e.recurrence_rounds>0
+                and (e.status,e.recurrence_status,raw.get('status')) in {
+                    ('EXECUTED','RELATIVE_CLOSE','CLOSED_RELATIVE'), ('OPEN','OPEN','OPEN')}
+                and 'native:mt_semantic_return_gate.run_mt_with_before_return_gate' in e.evidence
+                and f'packet:{digest(packet)}' in e.evidence
+                and isinstance(raw.get('state'),dict) and raw['state'].get('packet')==digest(packet)
+                and type(raw.get('rounds')) is int and raw['rounds']>0
+                and isinstance(raw.get('open_objects'),(list,tuple))
+                and all(isinstance(x,str) and x.strip() for x in raw['open_objects'])):
             receipt=GoalMTReceipt(status=raw['status'],evidence=e.evidence,open_objects=tuple(raw['open_objects']))
     return pre,receipt
 

@@ -60,14 +60,14 @@ The [integration regression suite](test_document_tool_adapters.py) exercises bot
 
 ### Specialized bindings
 
-[document_tool_adapters.py](document_tool_adapters.py) provides specialized host bindings for explicitly admitted classification matrices, finite integer-threshold comparisons, Architecture graphs, exact-quotation ASSERT evidence, structured Diagnosis/RTC evidence, source-revision currentness checks and open-obligation closure checks. It is recovered and verified with the integration companions. Run the existing packet runner with `--document-adapters` to select the verified companion explicitly; the equivalent `--adapter-module <integration-directory>/document_tool_adapters.py` remains supported. See [provider responsibilities](#provider-responsibilities) for the built-in binding and override rules.
+[document_tool_adapters.py](document_tool_adapters.py) provides specialized host bindings for explicitly admitted classification matrices, finite integer-threshold comparisons, Architecture graphs and intervention frames, exact-quotation ASSERT evidence, structured Diagnosis/RTC evidence, source-revision currentness checks and open-obligation closure checks. It is recovered and verified with the integration companions. Run the existing packet runner with `--document-adapters` to select the verified companion explicitly; the equivalent `--adapter-module <integration-directory>/document_tool_adapters.py` remains supported. See [provider responsibilities](#provider-responsibilities) for the built-in binding and override rules.
 
 Admission is per registered tool. A combined packet may supply multiple compatible input groups. Reuse the same frozen source evidence across separate packets when alternative routes conflict (for example, document observations or quotation claims and a finite matrix). Do not remove the ambiguity checks to force a native return.
 
 | Registered tool ID(s) | Required evidence groups |
 | --- | --- |
 | GDOS, BiasPerturbation, MultiObject | Matrix and source references; only fields used by the selected algorithm |
-| Architecture | Matrix or explicit architecture graph, plus source references |
+| Architecture | Matrix, explicit architecture graph, or finite intervention frame, plus source references |
 | Discriminator | Threshold model or source-bound `candidate_evidence` |
 | Reconciler | Threshold model or source-bound `reconcile_claims` |
 | Diagnosis, RTC | Threshold model or their respective structured document evidence, plus source references |
@@ -87,7 +87,7 @@ Complete packet field definitions:
 - `threshold`: nonempty unique source-supported integer `values`, inclusive integer `lower` and `upper` with lower ≤ upper, distinct integer `baseline_probes` within those bounds, nonnegative integer `declared_pair_count`, exact `proof`, `proof_fnv`;
 - `open_coordinates`: unresolved source/semantic obligations; and optional `goal_candidates` (id, goal X/T/I/Sigma, constraints, evidence, grounded, authority_typed, determinate_enough).
 
-GOAL's MT preflight is recovered from an actual gateway invocation. MT runs a limited observation over the packet; unresolved semantic-stage bindings remain OPEN. MultiObject runs an independent algorithmic full-joint membership route before pair routes, then tests exact pair recoverability. It does not infer scholarly relationships from shared tags. ASSERT is the bounded compound core, not full-36 ASSERT certification. In the threshold route RTC tests additional probes in the fixed finite model; the structured route evaluates host-supplied candidates. Currentness verifies revision identity, not source truth. Prose requires separately evidenced semantic preservation, reader load and claim strength.
+GOAL's MT preflight is recovered from an actual gateway invocation. Only a matching projected configured disposition, HF002 recurrence, native gate evidence and exact packet identity can supply its MT receipt; raw labels from BLOCKED, CONFLICT, or resource-stopped execution do not license GOAL. MT runs a limited observation over the packet; unresolved semantic-stage bindings remain OPEN. MultiObject runs an independent algorithmic full-joint membership route before pair routes, then tests exact pair recoverability. It does not infer scholarly relationships from shared tags. ASSERT is the bounded compound core, not full-36 ASSERT certification. In the threshold route RTC tests additional probes in the fixed finite model; the structured route evaluates host-supplied candidates. Currentness verifies revision identity, not source truth. Prose requires separately evidenced semantic preservation, reader load and claim strength.
 
 ### Source-bound document observation input for MT and GOAL
 
