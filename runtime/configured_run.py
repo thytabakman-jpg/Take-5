@@ -73,5 +73,6 @@ class ConfiguredRunSpec:
         )
 
 def validate_specs(specs):
+    specs=tuple(specs)
     ids=[s.tool_id for s in specs]
     return len(ids)==len(set(ids)) and all(s.complete() for s in specs)
