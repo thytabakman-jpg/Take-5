@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from typing import Any
 from configured_run import ConfiguredRunSpec
 from execution_profile import (
     COGNITIVE_OPERATORS, DEFAULT_GEOMETRY, DEFAULT_MODE, QUESTION_FAMILIES,
@@ -84,6 +85,29 @@ class ToolExecutionPlan:
         if spec is None or not spec.complete() or layers!=set(spec.required_layers):
             return False
         return set(self.native)=={(layer,cell) for layer in layers for cell in expected_cells}
+
+
+# Registered binding contract and exact-ID plan binding.
+@dataclass(frozen=True)
+class ConfiguredToolBinding:
+    tool_id:str
+    plan:ToolExecutionPlan
+
+    @property
+    def summary(self)->dict[str,Any]:
+        return {
+            **self.plan.summary(include_native_layers=True),
+            "tool_id":self.tool_id,
+            "configured_hf2_execution":"SHARED_GATE",
+        }
+
+
+def bind_registered_ids(tool_ids:tuple[str,...])->tuple[ConfiguredToolBinding,...]:
+    from tool_run_registry import CONFIGURED_RUNS
+    return tuple(
+        ConfiguredToolBinding(tool_id,build_tool_execution_plan(CONFIGURED_RUNS[tool_id]))
+        for tool_id in tool_ids
+    )
 
 
 def d36c_cells() -> tuple[D36CCell, ...]:
