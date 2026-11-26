@@ -68,6 +68,10 @@ def bind_adapters(packet):
     return {tool:binding(tool, groups) for tool, groups in _INPUT_GROUPS.items()}
 
 
+def _git_blob_sha(value):
+    return isinstance(value,str) and len(value) in (40,64) and all(c in "0123456789abcdef" for c in value)
+
+
 def _structured_inputs(packet, tool, sources):
     """Validate the host's declared evidence, not the truth of its interpretation."""
     key, inventory = ('diagnosis','failures') if tool=='Diagnosis' else ('rtc','candidates')
@@ -77,7 +81,7 @@ def _structured_inputs(packet, tool, sources):
     admitted=set()
     for source in sources:
         path,sha=source['path'],source['sha']
-        if not isinstance(path,str) or not path.strip() or not isinstance(sha,str) or len(sha) not in (40,64) or any(c not in '0123456789abcdef' for c in sha):
+        if not isinstance(path,str) or not path.strip() or not _git_blob_sha(sha):
             raise ValueError('FROZEN_SOURCE_PATH_AND_BLOB_SHA_REQUIRED')
         admitted.add((path,sha))
 
@@ -139,8 +143,14 @@ def _bind_admitted_adapters(packet, tool, groups):
         raise ValueError('SOURCE_ID_REQUIRED')
     if tool=='CurrentnessAudit':
         for source in sources:
-            if not source['path']:
+            path=source['path']
+            if not isinstance(path,str) or not path.strip():
                 raise ValueError('SOURCE_PATH_REQUIRED')
+            if not _git_blob_sha(source['sha']):
+                raise ValueError('SOURCE_BLOB_SHA_INVALID')
+            latest=source.get('latest_sha')
+            if latest is not None and latest != '' and not _git_blob_sha(latest):
+                raise ValueError('LATEST_SOURCE_BLOB_SHA_INVALID')
     structured=None
     structured_key={'Diagnosis':'diagnosis','RTC':'rtc'}.get(tool)
     if structured_key is not None and structured_key in packet:
