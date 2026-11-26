@@ -404,4 +404,7 @@ Retrieve the current authoritative protocols at the applicable stage; this catal
 
 - **R09:** [Read-only document-analysis bindings](https://github.com/thytabakman-jpg/Take-5/blob/chatgpt-runtime-bootstrap/chatgpt-integration/README.md#read-only-document-analysis-bindings)
 
+- **R10:** [Existing downloadable runtime source-cache archive](https://api.github.com/repos/thytabakman-jpg/Take-5/actions/artifacts/15104764333/zip)
+- **R11:** [Successful runtime packaging runs and artifact discovery](https://api.github.com/repos/thytabakman-jpg/Take-5/actions/runs?branch=chatgpt-runtime-bootstrap&status=success)
+
 **Start S01 immediately. Follow the execution sequence and record evidence for every applicable obligation.**
