@@ -108,3 +108,28 @@ def test_bias_perturbation_snapshots_reused_runner_buffer():
     assert out["baseline_result"]=={"value":0}
     assert out["bias_sensitive"]==(1,2)
     assert [r.result for r in out["results"]]==[{"value":1},{"value":2}]
+
+
+def test_pd_wide_representation_does_not_require_coordinate_powerset():
+    from pd import run_pd
+    result=run_pd((0,1,2),rho=lambda x:x!=0,approx=lambda a,b:a==b,
+        representations={"wide":lambda x:tuple(int(x==1 and i==0 or x==2 and i in (0,1)) for i in range(64))})
+    assert result["status"]=="RELATIVE_CLOSE"
+    assert result["result"]["minimal_sensitive"]["wide"]==((0,),)
+
+
+def test_pd_rejects_colliding_representation_identities():
+    from pd import run_pd
+    out=run_pd((0,1),rho=lambda x:x,approx=lambda a,b:a==b,
+        representations={1:lambda x:(x,),"1":lambda x:(0,)})
+    assert out["status"]=="OPEN"
+    assert out["blocker"]=="PD_REPRESENTATION_ID_COLLISION:1"
+
+
+def test_gdos_failed_reconciliation_preserves_observations():
+    def fail(rows):
+        raise ValueError("reconciliation failed")
+    out=run_gdos(1,observers=(lambda x:x+1,lambda x:x+2),reconcile_fn=fail)
+    assert out["status"]=="BLOCKED"
+    assert out["observations"]==(2,3)
+    assert out["blocker"]=="GDOS_RECONCILIATION_FAILED"

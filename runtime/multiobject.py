@@ -319,6 +319,9 @@ def run_multiobject(
     for left,right in combinations(frozen,2):
         support=(left.object_id,right.object_id)
         route_id="PAIR:"+left.object_id+"|"+right.object_id
+        if any(r.route_id==route_id for r in pair_routes):
+            state=MultiObjectState(frozen,joint,tuple(pair_routes),None,(),(),(),())
+            return _open(frozen,"MULTIOBJECT_PAIR_ROUTE_ID_COLLISION",state=state,evidence=evidence)
         try:
             route=provider.pair(left,right,route_id=route_id)
         except Exception as exc:
@@ -488,6 +491,12 @@ def run_multiobject(
                 view_requests,tuple(view_results),()
             )
             return _open(frozen,blocker,state=state,evidence=evidence)
+        if route.route_id in {joint.route_id,synthesis.route_id,*(r.route_id for r in pair_routes),*(r.route_id for r in view_results)}:
+            state=MultiObjectState(
+                frozen,joint,tuple(pair_routes),synthesis,residuals,
+                view_requests,tuple(view_results),()
+            )
+            return _open(frozen,"MULTIOBJECT_VIEW_ROUTE_ID_COLLISION",state=state,evidence=evidence)
         view_results.append(route)
         evidence.append(route.isolation_receipt)
 

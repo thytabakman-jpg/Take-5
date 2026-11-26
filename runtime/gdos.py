@@ -37,7 +37,16 @@ def run_gdos(
         observations.append(result)
 
     captured=tuple(observations)
-    reconciled=reconcile_fn(deepcopy(captured))
+    try:
+        reconciled=reconcile_fn(deepcopy(captured))
+    except Exception as exc:
+        return {
+            "status":"BLOCKED",
+            "frozen_target":frozen,
+            "observations":captured,
+            "blocker":"GDOS_RECONCILIATION_FAILED",
+            "error":f"{type(exc).__name__}:{exc}",
+        }
     return {
         "status":"EXECUTED",
         "frozen_target":frozen,
