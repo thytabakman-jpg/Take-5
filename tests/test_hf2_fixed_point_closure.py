@@ -136,3 +136,14 @@ def test_configured_wrapper_propagates_affected_scope_contract():
     )
     assert out.status=="OPEN"
     assert out.call_count==1
+
+
+def test_reusing_hf2_engine_does_not_reuse_previous_episode_receipts():
+    def run(state,memory):
+        return {"execution_truth":"SEMANTICALLY_APPLIED","state":state,
+                "material_delta":False}
+    engine=_engine(run)
+    first=engine.run({"version":1},{})
+    second=engine.run({"version":2},{})
+    assert len(first["trace"])==len(second["trace"])==1
+    assert second["trace"][0]["state_before"]=={"version":2}
