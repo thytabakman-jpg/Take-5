@@ -1,6 +1,8 @@
 # Repair Skill: Comprehensive PD Semantic Audit and Repair
 
-## 1. Governing objective
+<a id="1-governing-objective"></a>
+
+## 1. Binding execution contract
 
 Improve the substantive quality, semantic precision, logical integrity and functional effectiveness of every targeted document, according to its purpose.
 
@@ -8,7 +10,34 @@ The tools are mandatory instruments of the prescribed procedure. Achieve substan
 
 **Mandatory procedural compliance:** Execute the prescribed procedure exactly as specified. Do not adapt, abbreviate, replace, simulate, reinterpret or bypass its execution requirements. Follow the linked governing protocols and runtime recovery instructions as binding requirements, not suggestions. Exercise discretion only at decision points expressly authorized by this prompt or its governing protocols, within their stated conditions. If a required procedure cannot be executed, report the exact requirement, attempted recovery, blocking condition and resulting incomplete status. Do not substitute independent host analysis, a manually approximated tool, protocol retrieval, or a plausible result for prescribed native execution. Do not implement a repair whose required validation remains incomplete. No completion claim may waive an outstanding mandatory obligation.
 
-## 2. Target documents
+Distinguish native execution from semantic host analysis. Host analysis is permitted only for its explicitly assigned input, evidence, interpretation or independently executable research responsibilities. It never discharges an outstanding native tool obligation or validates a repair in place of a required native tool. Do not falsely certify unavailable capabilities.
+
+## 2. Execution sequence
+
+Run S01–S08 for each authorized target, preserving the actual prerequisites between stages. This sequence is a dependency-controlled procedure, not a license to reorder required actions. Independent stages or tool requests may proceed only when their own prerequisites are satisfied, under §8. Reapply affected stages when frozen inputs change. A status in the ledger (§9) does not itself authorize advancement.
+
+| ID | Stage | Required predecessor evidence |
+| --- | --- | --- |
+| S01 | Scope and freeze | User authorization |
+| S02 | Retrieve protocols and verify runtime | S01 target identity |
+| S03 | Full semantic preflight | S01 frozen target; applicable retrieved protocols from S02 |
+| S04 | Admit and execute native tools | Verified S02 runtime; relevant S03 inputs; actual tool prerequisites |
+| S05 | Develop and validate repairs | Relevant S03–S04 evidence; recursive validation as required |
+| S06 | Implement validated GO repairs | S05 validation and current authorization |
+| S07 | Verify changes and regressions | S06 committed change or evidenced no-change/recommendations-only disposition |
+| S08 | Record and advance | Recorded dispositions for S01–S07, including any blockers |
+
+S02 runtime blockage does not prevent S03 host preflight when its own protocol and source prerequisites are satisfied. It prevents affected native dispatch and dependent validation. Do not interpret the table as overriding the tool-specific dependency contracts in S04.
+
+<a id="2-target-documents"></a>
+
+## 3. S01 — Scope, authorization and target freeze
+
+**Stage S01 | Entry:** User specifies the Repair target.
+
+**Exit evidence:** Verified repository, branch, paths, mode, provisional order, exact assessed blob and frozen target purpose/constraints.
+
+**Failure route:** Apply §8: preserve the exact unmet obligation, continue only independent authorized work, and never treat blockage as success.
 
 The user specifies the target documents when invoking the Repair skill. Targets may include individual files, multiple files, folders or combinations thereof.
 
@@ -30,47 +59,43 @@ Repair mode is the default. Recommendations-only mode applies when explicitly re
 
 I authorize individual file repairs without requiring further approval when operating in repair mode.
 
-## 3. Governing tools and protocols
+Retrieve and freeze the current file version. Read the entire document.
 
-Retrieve and inspect the actual protocols before execution.
+<a id="3-governing-tools-and-protocols"></a>
 
-**PD Semantic Preflight Candidate:**
+## 4. S02 — Protocol retrieval and runtime verification
 
-[https://github.com/thytabakman-jpg/Reaserch/blob/main/Projects/Mathematics%20and%20Formal%20Methods/PD/protocol/PROMPT_SEMANTIC_PREFLIGHT_CANDIDATE.md](https://github.com/thytabakman-jpg/Reaserch/blob/main/Projects/Mathematics%20and%20Formal%20Methods/PD/protocol/PROMPT_SEMANTIC_PREFLIGHT_CANDIDATE.md)
+<a id="runtime-and-provider-admission"></a>
 
-**PD audit-reduction research protocol and applicable integrity controls:**
+**Stage S02 | Entry:** S01 establishes the target identity and scope.
 
-[https://github.com/thytabakman-jpg/Reaserch/blob/main/Projects/Mathematics%20and%20Formal%20Methods/PD/protocol/PROTOCOL.md](https://github.com/thytabakman-jpg/Reaserch/blob/main/Projects/Mathematics%20and%20Formal%20Methods/PD/protocol/PROTOCOL.md)
+**Exit evidence:** Retrieved governing protocols and current dual-revision runtime verification with successful bootstrap receipt, or an explicitly recorded blocker.
+
+**Failure route:** Apply §8: preserve the exact unmet obligation, continue only independent authorized work, and never treat blockage as success.
+
+Retrieve and inspect the actual protocols before execution. Use the binding technical references [R01–R07](#technical-references) and the applicable adapter contracts [R08–R09](#technical-references). The linked files retain ownership of their implementation contracts.
 
 The linked PD protocol governs historical audit-reduction research, mathematical integrity gates, and the distinction between historical methods and the runnable successor. For ordinary Repair, apply its applicable integrity, evidence, authorization and regression controls. Do not automatically execute the historical D0/C0 experiments, holdout campaign or PD research-priority program merely because a document invokes PDAudit. Native PDAudit execution follows the registered Take-5 implementation and its admitted inputs. The Reaserch read-only successor is a distinct execution path, not a substitute receipt for Take-5 PDAudit.
 
-**Authoritative executable tool repository:**
+Recover the current runtime using the runner-independent route in the bootstrap instructions. Independently resolve both current revisions and verify the matching dual-revision runtime before relying on it. Reuse an existing verified installation and successful bootstrap receipt within the same unchanged verification basis and working environment, following the bootstrap README. An earlier artifact may supply independently hash-matching source bytes, indexed by Git blob identity; it is not current execution evidence on a changed basis. Do not trigger or request GitHub Actions runners. If no verified current runtime is available, execute the runner-independent reconstruction and validation procedure specified in the bootstrap README. Exhaust its applicable recovery routes before declaring a blocker. A large source inventory, expected effort, preference for host analysis or lack of a pre-existing installation does not establish unavailability. When an actual access, capability, resource or validation limit prevents completion, record the attempted steps, exact failed or inaccessible requirement and remaining work as OPEN/BLOCKED. Do not proceed as if runtime verification had succeeded.
 
-[https://github.com/thytabakman-jpg/Take-5](https://github.com/thytabakman-jpg/Take-5)
+Complete the prescribed runtime recovery, verification and adapter selection steps. Do not develop unrelated execution infrastructure or redesign the prescribed recovery route. This restriction does not authorize omitting, shortening or abandoning required recovery steps.
 
-**Reusable ChatGPT execution environment and adapters:**
+<a id="4-document-semantic-preflight"></a>
 
-[https://github.com/thytabakman-jpg/Take-5/blob/chatgpt-runtime-bootstrap/chatgpt-integration/README.md](https://github.com/thytabakman-jpg/Take-5/blob/chatgpt-runtime-bootstrap/chatgpt-integration/README.md)
+## 5. S03 — Full document semantic preflight
 
-**Configured invocation gateway:**
+**Stage S03 | Entry:** S01 frozen complete document; applicable semantic and integrity protocols retrieved through S02.
 
-[https://github.com/thytabakman-jpg/Take-5/blob/main/runtime/direct_tool_command_gateway.py](https://github.com/thytabakman-jpg/Take-5/blob/main/runtime/direct_tool_command_gateway.py)
+**Exit evidence:** Source-located preflight findings, complete semantic coordinates, protected constraints and explicitly OPEN questions.
 
-**Current configured invocation recovery and routing:**
-
-[https://github.com/thytabakman-jpg/Take-5/blob/main/integration/Tool%20Execution%20Guide.md](https://github.com/thytabakman-jpg/Take-5/blob/main/integration/Tool%20Execution%20Guide.md)
-
-**Full configured invocation requirements (architectural authority):**
-
-[https://github.com/thytabakman-jpg/Take-5/blob/main/architecture/Tool%20Execution%20Architecture.md](https://github.com/thytabakman-jpg/Take-5/blob/main/architecture/Tool%20Execution%20Architecture.md)
-
-The runtime retrieval, provider admission, and execution-evidence requirements are grouped in Section 6.3. The linked files retain ownership of their implementation contracts.
-
-## 4. Document semantic preflight
+**Failure route:** Apply §8: preserve the exact unmet obligation, continue only independent authorized work, and never treat blockage as success.
 
 Apply the Semantic Preflight Protocol's every-word rule to the entire file, rather than merely its controlling question.
 
-### 4.1 Repair document semantic preflight profile
+<a id="41-repair-document-semantic-preflight-profile"></a>
+
+#### Repair document semantic preflight profile
 
 The original protocol is a provisional prompt-intake protocol. Preserve that protocol's scope and status. This Repair-specific profile adapts its every-word rule to a frozen document and its governing purpose, not to a different prompt-intake procedure. This explicitly prescribed Repair-specific profile is a host-semantic preflight, not a certified native execution profile. Apply it as written; it grants no authority to adapt any other procedure or replace native execution.
 
@@ -107,11 +132,13 @@ Identify and supply the result-sensitive semantic coordinates required by PDAudi
 
 Apply the mandatory mathematical object-integrity and prerequisite-integrity gates specified in the PDAudit governing protocol wherever formal or mathematical reasoning appears.
 
-## 5. Document-specific requirements
+<a id="5-document-specific-requirements"></a>
+
+### Document-specific evaluation checklist
 
 Evaluate each document according to its purpose, content and function.
 
-Evaluate the precision of its purpose, governing questions and objectives; the integrity of its structural organization, heading hierarchy, section responsibilities and dependencies; and the semantic precision and validity of its claims, evidence, reasoning and conclusions. Tool selection and execution are governed by Section 6.
+Evaluate the precision of its purpose, governing questions and objectives; the integrity of its structural organization, heading hierarchy, section responsibilities and dependencies; and the semantic precision and validity of its claims, evidence, reasoning and conclusions. Tool selection and execution are governed by S04.
 
 Ensure that:
 
@@ -131,9 +158,19 @@ Ensure that:
 
 Where source evidence is insufficient, investigate the relevant external sources rather than manufacture a resolution.
 
-## 6. Tool-assisted analysis
+<a id="6-tool-assisted-analysis"></a>
 
-### 6.1 Mandatory tools
+## 6. S04 — Tool admission and configured invocation
+
+**Stage S04 | Entry:** Verified current runtime, admitted target-specific inputs and the required predecessor receipts for each tool.
+
+**Exit evidence:** Per-tool dispositions, verified native receipts including configured HF2 recurrence, and explicit unmet obligations. A blocked tool does not authorize dependent repairs.
+
+**Failure route:** Apply §8: preserve the exact unmet obligation, continue only independent authorized work, and never treat blockage as success.
+
+<a id="61-mandatory-tools"></a>
+
+### Mandatory tools
 
 Execute every tool in this list through its registered native implementation and full configured invocation profile. Apply the stated triggers for Diagnosis and RTC; when a trigger is satisfied, execution is mandatory. Record a source-supported disposition for each tool, including any unmet trigger or execution blocker. Do not omit an applicable tool because another tool or host analysis appears to cover its function.
 
@@ -145,7 +182,11 @@ Execute every tool in this list through its registered native implementation and
 - RTC, when improvements are proposed.
 - TRC.
 
-### 6.2 Conditional tools
+
+
+<a id="62-conditional-tools"></a>
+
+### Conditional tools
 
 Assess every listed tool against its governing applicability conditions and the target's actual requirements. Execute every applicable tool through its registered native implementation and configured invocation profile. Record the evidence-supported reason for each non-applicable disposition; do not use perceived redundancy, convenience or anticipated output as grounds to omit an applicable tool:
 
@@ -158,19 +199,15 @@ Assess every listed tool against its governing applicability conditions and the 
 - CurrentnessAudit
 - Prose
 
-### 6.3 Execution requirements
 
-#### Runtime and provider admission
 
-Recover the current runtime using the runner-independent route in the bootstrap instructions. Independently resolve both current revisions and verify the matching dual-revision runtime before relying on it. Reuse an existing verified installation and successful bootstrap receipt within the same unchanged verification basis and working environment, following the bootstrap README. An earlier artifact may supply independently hash-matching source bytes, indexed by Git blob identity; it is not current execution evidence on a changed basis. Do not trigger or request GitHub Actions runners. If no verified current runtime is available, execute the runner-independent reconstruction and validation procedure specified in the bootstrap README. Exhaust its applicable recovery routes before declaring a blocker. A large source inventory, expected effort, preference for host analysis or lack of a pre-existing installation does not establish unavailability. When an actual access, capability, resource or validation limit prevents completion, record the attempted steps, exact failed or inaccessible requirement and remaining work as OPEN/BLOCKED. Do not proceed as if runtime verification had succeeded.
+<a id="63-execution-requirements"></a>
 
-Use the actual registered native implementations for every mandatory and applicable conditional tool. Obtain and verify the required inputs and adapters under their governing contracts; do not treat the absence of an immediately available input or adapter as permission to skip prescribed acquisition or recovery. Follow the [bootstrap usage and adapter contract](https://github.com/thytabakman-jpg/Take-5/blob/chatgpt-runtime-bootstrap/chatgpt-integration/README.md) and the [semantic worker adapter contract](architecture/Semantic%20Worker%20Contract.md). Verify that each adapter admits the actual target and task, not merely the registered tool identity. The supplied `document_tool_adapters.py` bindings admit only the tool-specific input schemas owned by the [bootstrap README's document-analysis bindings](https://github.com/thytabakman-jpg/Take-5/blob/chatgpt-runtime-bootstrap/chatgpt-integration/README.md#read-only-document-analysis-bindings). They are not general document-repair workers. Do not submit unrelated documents to those bindings or reinterpret their bounded results as general semantic coverage. Where a suitable task-specific provider is absent, retain the affected tool obligation as OPEN and distinguish independently supported host analysis from native execution.
+### Admission and invocation requirements
 
-Distinguish native execution from semantic host analysis. Host analysis is permitted only for its explicitly assigned input, evidence, interpretation or independently executable research responsibilities. It never discharges an outstanding native tool obligation or validates a repair in place of a required native tool. Do not falsely certify unavailable capabilities.
+Use the actual registered native implementations for every mandatory and applicable conditional tool. Obtain and verify the required inputs and adapters under their governing contracts; do not treat the absence of an immediately available input or adapter as permission to skip prescribed acquisition or recovery. Follow the [R04](#r04) and the [R08](#r08). Verify that each adapter admits the actual target and task, not merely the registered tool identity. The supplied `document_tool_adapters.py` bindings admit only the tool-specific input schemas owned by the [R09](#r09). They are not general document-repair workers. Do not submit unrelated documents to those bindings or reinterpret their bounded results as general semantic coverage. Where a suitable task-specific provider is absent, retain the affected tool obligation as OPEN and distinguish independently supported host analysis from native execution.
 
-Complete the prescribed runtime recovery, verification and adapter selection steps. Do not develop unrelated execution infrastructure or redesign the prescribed recovery route. This restriction does not authorize omitting, shortening or abandoning required recovery steps.
-
-#### Configured invocation, evidence and open obligations
+<a id="configured-invocation-evidence-and-open-obligations"></a>
 
 Follow each selected tool's governing protocol and full configured invocation profile, including mandatory HF2 recurrence. Resolve exact registered tool identities and verify the complete ordered binding before dispatch, using structured ordered IDs where supported or separate explicit imperative commands otherwise. Do not infer authorization from inherited controller state or silently omit mandatory tools.
 
@@ -180,41 +217,72 @@ Supply relevant, evidence-supported semantic inputs and domain analysis. Do not 
 
 Retain native execution receipts identifying the tool, adapter, input, invocation profile, output and applicable recurrence. Distinguish verified native execution, host analysis, blocked execution and non-execution. Availability, tests, protocol retrieval and host findings do not establish native execution.
 
-Record the exact identity, required inputs, attempted recovery and blocking condition of each unavailable or blocked mandatory or applicable conditional tool. Continue only independently executable stages whose own prerequisites remain satisfied; use separate receipts when an earlier blockage would suppress independent tools. Do not advance an affected repair through a blocked prerequisite, substitute host analysis for native execution, or certify incomplete requirements as completed. Preserve actual prerequisites and unresolved obligations.
-
 Obtain genuinely independent evaluation whenever required by the governing protocol. If the required capability cannot be accessed after the prescribed attempts, report the unmet requirement and preserve the corresponding OPEN/BLOCKED obligation. Label any same-context adversarial review separately; it does not discharge an independent-evaluation requirement.
 
-## 7. Autonomous repair cycle
+<a id="7-autonomous-repair-cycle"></a>
 
-Execute every applicable stage of the following cycle independently for each file, in its prescribed dependency order. Record a disposition for every stage. Apply the blocking and non-substitution requirements of Sections 1 and 6.3 before advancing according to Section 8.
+## 7. S05–S07 — Repair validation, implementation and verification
 
-1. Retrieve and freeze the current file version.
-2. Read the entire document.
-3. Conduct the comprehensive semantic preflight.
-4. Execute the tools required by Section 6.
-5. Consolidate discoveries and eliminate duplicate findings and false positives.
-6. Investigate unresolved substantive problems using the applicable tools and external evidence.
-7. Develop concrete textual and analytical repairs.
-8. Assess each proposed repair using GO / NO-GO / TWEAK.
-9. Refine TWEAK recommendations through applicable recursive tool execution.
-10. Reject NO-GO recommendations.
-11. Implement validated GO recommendations directly in GitHub when operating in repair mode, only after every applicable prerequisite and required validation for the recommendation has been satisfied and evidenced. Do not implement a GO recommendation based solely on host analysis when its required native tool execution or independent validation is incomplete. Recheck the target branch and frozen file identity immediately before writing. Use a conditional write against the verified current blob or an equivalent non-overwriting version guard. If the file or a result-sensitive dependency has changed, retrieve the new state, reconcile the proposed changes, and reassess affected repairs before writing. Never overwrite an intervening change using a stale replacement.
-12. Retrieve the modified document from the intended branch and verify the actual changes against the committed version, including preservation of concurrent work.
-13. Re-examine affected passages and downstream dependencies for regressions and verify applicable consequences and obligations under Section 6.
-14. Record any remaining material limitations.
-15. Proceed immediately to the next file.
+### S05 — Develop and validate repairs
+
+**Stage S05 | Entry:** Relevant source findings and required tool results are admitted; unresolved prerequisites remain explicit.
+
+**Exit evidence:** Evidence-supported candidate inventory, GO / NO-GO / TWEAK decisions, required recursive validation receipts, and per-candidate authorization or withheld disposition.
+
+**Failure route:** Apply §8: preserve the exact unmet obligation, continue only independent authorized work, and never treat blockage as success.
+
+1. Consolidate discoveries and eliminate duplicate findings and false positives.
+2. Investigate unresolved substantive problems using the applicable tools and external evidence.
+3. Develop concrete textual and analytical repairs.
+4. Assess each proposed repair using GO / NO-GO / TWEAK.
+5. Refine TWEAK recommendations through applicable recursive tool execution; reassess until their applicable validation closes or a blocker is established.
+6. Reject NO-GO recommendations.
 
 Preserve substantive research, source evidence, objections, useful exploratory material and structural and operational functionality. Research repositories are not condensed manuscript drafts.
 
+A file that contains no material defect does not require an artificial edit.
+
 When the user explicitly requests recommendations without implementation, complete the applicable analysis and repair development stages, present the proposed repairs and their supporting rationale, and leave the target documents unchanged.
 
-## 8. Sequential execution and continuation
+### S06 — Implement validated repairs
+
+**Stage S06 | Entry:** Repair mode and S05 validated GO decisions; all affected prerequisites are satisfied.
+
+**Exit evidence:** Conditional GitHub write against the verified current blob, with commit and blob identities, or recorded no-write basis (no defect, recommendations-only or blocked validation).
+
+**Failure route:** Apply §8: preserve the exact unmet obligation, continue only independent authorized work, and never treat blockage as success.
+
+Implement validated GO recommendations directly in GitHub when operating in repair mode, only after every applicable prerequisite and required validation for the recommendation has been satisfied and evidenced. Do not implement a GO recommendation based solely on host analysis when its required native tool execution or independent validation is incomplete. Recheck the target branch and frozen file identity immediately before writing. Use a conditional write against the verified current blob or an equivalent non-overwriting version guard. If the file or a result-sensitive dependency has changed, retrieve the new state, reconcile the proposed changes, and reassess affected repairs before writing. Never overwrite an intervening change using a stale replacement.
+
+### S07 — Verify and check regressions
+
+**Stage S07 | Entry:** S06 commit or evidenced no-write disposition.
+
+**Exit evidence:** Verified branch state, preservation of concurrent work, regression checks, applicable tool and downstream obligations, and residual limitations.
+
+**Failure route:** Apply §8: preserve the exact unmet obligation, continue only independent authorized work, and never treat blockage as success.
+
+Retrieve the modified document from the intended branch and verify the actual changes against the committed version, including preservation of concurrent work.
+
+Re-examine affected passages and downstream dependencies for regressions and verify applicable consequences and obligations under S04. In the no-change or recommendations-only case, verify the corresponding disposition and preserve the target unchanged.
+
+Record any remaining material limitations.
+
+<a id="8-sequential-execution-and-continuation"></a>
+
+## 8. S08 — Failure handling, continuation and advancement
+
+**Stage S08 | Entry:** Each preceding stage has a recorded disposition, including unresolved prerequisites.
+
+**Exit evidence:** Recoverable continuation record; completed or incomplete file status; next target or run termination basis.
+
+**Failure route:** Record any persistence or execution limit and the precise outstanding work. Do not claim a durable checkpoint if persistence is unavailable.
+
+Record the exact identity, required inputs, attempted recovery and blocking condition of each unavailable or blocked mandatory or applicable conditional tool. Continue only independently executable stages whose own prerequisites remain satisfied; use separate receipts when an earlier blockage would suppress independent tools. Do not advance an affected repair through a blocked prerequisite, substitute host analysis for native execution, or certify incomplete requirements as completed. Preserve actual prerequisites and unresolved obligations.
 
 Work on one file at a time. Complete its full prescribed repair cycle. If an actual execution blocker prevents completion, explicitly record the incomplete stage and do not classify the file as completed.
 
 In repair mode, commit and verify implemented repairs before advancing. Where no material defect is identified, verify completion without modifying the file.
-
-When requirements are genuinely blocked, complete only the remaining independently executable work authorized by Section 6.3. Record the outstanding obligations and their exact blockers. Do not implement affected repairs or treat partial work as completion.
 
 After each file, update a recoverable continuation record identifying the run scope (repositories, branches, target selection and mode), exact file path, assessed blob identity, committed blob and commit identities where applicable, completion status, verified repairs or recommendations, unresolved obligations and the next file. Distinguish a verified no-change result from a modified file and from a partial or blocked result. Use authorized persistent storage where available; do not claim a durable checkpoint if persistence is unavailable.
 
@@ -226,9 +294,20 @@ Continue until every applicable obligation is satisfied or an actual execution l
 
 Resume from a recorded checkpoint only when the invocation is a continuation of the same authorized scope and mode. Reconcile the checkpoint with the current target inventory and file identities; retain completed results only while their assessed versions and result-sensitive dependencies remain current. Reassess changed or newly admitted files, exclude targets no longer in scope, and revisit outstanding obligations when their blocking conditions have been resolved. A fresh Repair invocation or explicitly requested reassessment starts from current state; previous records are evidence, not instructions to skip files. Never silently import a prior run's scope, authorization or completion status.
 
-Distinguish successful completion from incomplete execution.
+<a id="9-success-criteria"></a>
 
-## 9. Success criteria
+## 9. Completion ledger and success criteria
+
+Maintain one execution ledger for the run, with a record for every stage, every mandatory or conditional tool, and every proposed repair. Link records to their actual prerequisites, sources and receipts. Do not invent receipts. Record at minimum:
+
+| Record | Required fields |
+| --- | --- |
+| Stage | Stage ID, target and frozen blob, predecessor evidence, disposition, exit evidence, attempted recovery and blocker if incomplete |
+| Tool | Exact registered ID, applicability basis, adapter and admitted inputs, configured profile, HF2 recurrence, native receipt and result, open obligations or blocker |
+| Repair | Candidate ID and source locator, defect and rationale, required tool/validation dependencies, GO / NO-GO / TWEAK decision, validated or withheld status, commit and verification when implemented |
+| Continuation | Scope, branch, target path, assessed and committed identities, outstanding obligations, next target or termination basis, persistence location if available |
+
+Preserve the native result's distinct OPEN, BLOCKED, CONFLICT, resource-stop and reentry dispositions; do not upgrade them to completed merely because a native invocation returned. Record non-applicability only when its governing condition is not met and the evidence supports that disposition. A completed stage requires its exit evidence; a completed file and run require all applicable obligations and required verification to be satisfied. A blocked stage can have independently completed successors without closing its own obligation.
 
 Measure success primarily through:
 
@@ -245,15 +324,15 @@ Measure success primarily through:
 
 The number of tools executed is not a substantive quality metric. Execution of every mandatory and applicable conditional tool remains a procedural completion requirement. Do not trade required execution for apparent research improvement.
 
-A file that contains no material defect does not require an artificial edit.
+<a id="10-reporting"></a>
 
 ## 10. Reporting
 
-Execution dispositions and continuation are governed by Sections 6.3 and 8. This section owns the user-facing report, not the execution protocol.
+Execution dispositions and continuation are governed by S04, S08 and §9. This section owns the user-facing report, not the execution protocol.
 
 Provide concise progress reports identifying the actual problems discovered and repairs implemented or recommended.
 
-At completion, report:
+At termination, whether complete or incomplete, report:
 
 - Files completed.
 - Substantive problems discovered.
@@ -268,4 +347,48 @@ At completion, report:
 
 Declare the overall Repair execution incomplete whenever a mandatory or applicable conditional procedure, required validation or required verification remains outstanding. Distinguish completed work from partial execution; a committed change or useful host finding is not evidence of full procedural compliance.
 
-**Begin immediately with the first file and continue through the entire target set according to Section 8. Do not substitute a plan for execution.**
+**Do not substitute a plan for execution.**
+
+<a id="technical-references"></a>
+
+## 11. Technical references
+
+Retrieve the current authoritative protocols at the applicable stage; this catalogue is navigation, not a substitute for their contents.
+
+<a id="r01"></a>
+
+- **R01:** [PD Semantic Preflight Candidate](https://github.com/thytabakman-jpg/Reaserch/blob/main/Projects/Mathematics%20and%20Formal%20Methods/PD/protocol/PROMPT_SEMANTIC_PREFLIGHT_CANDIDATE.md)
+
+<a id="r02"></a>
+
+- **R02:** [PD audit-reduction research protocol and integrity controls](https://github.com/thytabakman-jpg/Reaserch/blob/main/Projects/Mathematics%20and%20Formal%20Methods/PD/protocol/PROTOCOL.md)
+
+<a id="r03"></a>
+
+- **R03:** [Authoritative executable Take-5 repository](https://github.com/thytabakman-jpg/Take-5)
+
+<a id="r04"></a>
+
+- **R04:** [ChatGPT runtime bootstrap, usage and adapter contract](https://github.com/thytabakman-jpg/Take-5/blob/chatgpt-runtime-bootstrap/chatgpt-integration/README.md)
+
+<a id="r05"></a>
+
+- **R05:** [Configured invocation gateway](https://github.com/thytabakman-jpg/Take-5/blob/main/runtime/direct_tool_command_gateway.py)
+
+<a id="r06"></a>
+
+- **R06:** [Tool Execution Guide](https://github.com/thytabakman-jpg/Take-5/blob/main/integration/Tool%20Execution%20Guide.md)
+
+<a id="r07"></a>
+
+- **R07:** [Tool Execution Architecture](https://github.com/thytabakman-jpg/Take-5/blob/main/architecture/Tool%20Execution%20Architecture.md)
+
+<a id="r08"></a>
+
+- **R08:** [Semantic Worker Contract](architecture/Semantic%20Worker%20Contract.md)
+
+<a id="r09"></a>
+
+- **R09:** [Read-only document-analysis bindings](https://github.com/thytabakman-jpg/Take-5/blob/chatgpt-runtime-bootstrap/chatgpt-integration/README.md#read-only-document-analysis-bindings)
+
+**Start S01 immediately. Follow the execution sequence and record evidence for every applicable obligation.**
