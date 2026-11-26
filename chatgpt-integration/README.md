@@ -68,7 +68,8 @@ Admission is per registered tool. A combined packet may supply multiple compatib
 | --- | --- |
 | GDOS, BiasPerturbation, MultiObject | Matrix and source references; only fields used by the selected algorithm |
 | Architecture | Matrix or explicit architecture graph, plus source references |
-| Discriminator, Reconciler | Threshold model and source references; only fields used by the selected algorithm |
+| Discriminator | Threshold model or source-bound `candidate_evidence` |
+| Reconciler | Threshold model or source-bound `reconcile_claims` |
 | Diagnosis, RTC | Threshold model or their respective structured document evidence, plus source references |
 | MT, GOAL | Either matrix and threshold model, or source-bound `document_observations`; GOAL additionally requires grounded candidate evidence |
 | ASSERT | Matrix and threshold model, or exact quotation claims, plus source references |
