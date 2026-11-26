@@ -15,7 +15,6 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from configured_hf2_execution import execute_configured_with_hf2
 from configured_run import (
     COGNITIVE_OPERATORS,
     DEFAULT_GEOMETRY,
@@ -32,7 +31,10 @@ from protected_transition_integrity import (
     ProtectedTransitionReceipt,
     require_protected_transition,
 )
-from prose import ProseContract, ProseEvidence, ProseAcceptanceError, require_prose_admissible
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from prose import ProseContract, ProseEvidence
 
 
 class ToolExecutionBlocked(RuntimeError):
@@ -170,6 +172,9 @@ def execute_protected_transition(
     The chain is fail-closed: no successful configured execution result is
     returned until every PTI coordinate has a non-empty witness.
     """
+    # Recurrence is a transition dependency, not a planning dependency.
+    from configured_hf2_execution import execute_configured_with_hf2
+
     plan=build_tool_execution_plan(spec,requested_mode=requested_mode)
     evidence={
         "canonical_identity":f"configured_run:{spec.tool_id}",
@@ -272,6 +277,8 @@ def execute_protected_transition(
         raise ToolExecutionBlocked("PTI_REENTRY_WITNESS_MISSING")
 
     if prose_contract is not None:
+        from prose import ProseAcceptanceError, require_prose_admissible
+
         if not callable(prose_text_fn):
             raise ToolExecutionBlocked("PROSE_TEXT_PROJECTION_REQUIRED")
         if prose_evidence is None:

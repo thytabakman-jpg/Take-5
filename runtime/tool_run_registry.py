@@ -6,6 +6,7 @@ from configured_run import (
 )
 from learning_tool_bridge import SPECS as LEARNING_SPECS
 
+# I. Registered identity inventory.
 LEARNING_TOOLS=tuple(spec.program_id for spec in LEARNING_SPECS)
 
 MATERIAL_TOOLS=tuple([f"C{i:02d}" for i in range(1,50)]+[
@@ -17,6 +18,7 @@ MATERIAL_TOOLS=tuple([f"C{i:02d}" for i in range(1,50)]+[
 
 ASSERT_LAYERS=("ASSERT_LAYER_1","ASSERT_LAYER_2")
 
+# II. Independently authored admission requirements.
 # Independent requirements for configured admission, not a list of actual
 # manifest bindings. ConfiguredRunSpec.complete() checks these against the
 # manifest; deriving them from that manifest would erase this verification.
@@ -169,15 +171,16 @@ REQUIRED_PROTECTED_BEHAVIORS={
 PROTECTED_BEHAVIORS=REQUIRED_PROTECTED_BEHAVIORS
 
 
-def _spec(tool):
-    strong=(
-        tool in {
+# III. Configured profile policy and construction.
+STRONG_CHALLENGE_TOOLS=frozenset({
             "ImprovementCore","ProjectManager","ICC128","MT","MTA","Architecture","PD","PDAudit","GDOS","RootCause","RTC",
             "CurrentnessAudit","MultiObject","Diagnosis","ASSERT","GOAL","SolutionToMyProblem","Prose","DesiredJane",
             "QuestionWorthAsking","LambdaMath","SemanticResolutionPipeline","RecursiveCompiler","ToolConductor"
-        }
-        or tool in LEARNING_TOOLS
-    )
+        })
+
+
+def _spec(tool):
+    strong=tool in STRONG_CHALLENGE_TOOLS or tool in LEARNING_TOOLS
     layers=ASSERT_LAYERS if tool=="ASSERT" else (tool,)
     return ConfiguredRunSpec(
         tool_id=tool,

@@ -36,6 +36,7 @@ class ToolManifest:
     closure_contract:str
     reentry_contract:str
     bindings:tuple[ProtectedBinding,...]=()
+    # Provenance locator, not an execution witness or currentness certificate.
     lineage_contract:str="research/TOOL_LINEAGE_RECOVERY_CONTRACT_001_2026-09-25.md"
 
     def behavior_ids(self)->frozenset[str]:
@@ -784,6 +785,8 @@ OVERRIDES={
         closure_contract="ICC128_CONTROLLER_CLOSE_PLUS_TRC",
         reentry_contract="STATE_RELATIVE_RESELECT_THEN_HF001",
         bindings=ICC128_BINDINGS,
+        # Original snapshot path is unresolved; do not substitute a different
+        # controller identity. Current entry routes are in the ICC128 source map.
         lineage_contract="legacy/icc128-legacy/snapshot/math/ICC128_FULL_TOOL_MATH_002_2026-09-26.md",
     ),
     "ImprovementCore":ToolManifest(
@@ -929,44 +932,6 @@ OVERRIDES={
 # Registry-defined capabilities have tool-specific identity in their executable
 # registries. These backfills do not invent new semantics; they project those
 # already-typed identities into the canonical manifest layer.
-for _i in range(1,50):
-    _pid=f"C{_i:02d}"
-    _spec=A5_REGISTRY.get(_pid)
-    OVERRIDES.setdefault(_pid,ToolManifest(
-        tool_id=_pid,
-        native_semantics=f"{_spec.job} -> {','.join(_spec.protected_outputs)}",
-        geometry_policy="D36_C",
-        closure_contract="TRC",
-        reentry_contract="HF001",
-        bindings=GENERIC_BINDINGS+(
-            ProtectedBinding(
-                f"{_pid}_REGISTERED_CAPABILITY_IDENTITY",
-                "INTRA",
-                "runtime/a5_programs.py",
-                "tests/test_a5_registry.py",
-            ),
-        ),
-        lineage_contract="architecture/EXPLICIT_TOOL_MANIFEST_BACKFILL_161_2026-09-27.md",
-    ))
-
-for _spec in LEARNING_SPECS:
-    OVERRIDES.setdefault(_spec.program_id,ToolManifest(
-        tool_id=_spec.program_id,
-        native_semantics=f"{_spec.obligation}: {_spec.input_type} -> {_spec.output_type}",
-        geometry_policy="D36_C",
-        closure_contract="TRC",
-        reentry_contract="HF001",
-        bindings=GENERIC_BINDINGS+(
-            ProtectedBinding(
-                f"{_spec.program_id}_TYPED_LEARNING_IDENTITY",
-                "INTRA",
-                "runtime/learning_tool_bridge.py",
-                "tests/test_learning_tool_configured_runs.py",
-            ),
-        ),
-        lineage_contract="architecture/EXPLICIT_TOOL_MANIFEST_BACKFILL_161_2026-09-27.md",
-    ))
-
 _DEDICATED_NATIVE={
     "Reconciler":(
         "admitted results -> coherent joint state with conflicts/subsumptions/revisions/relations/OPEN",
@@ -1030,23 +995,66 @@ _DEDICATED_NATIVE={
     ),
 }
 
-for _pid,(_sem,_impl) in _DEDICATED_NATIVE.items():
-    OVERRIDES.setdefault(_pid,ToolManifest(
-        tool_id=_pid,
-        native_semantics=_sem,
-        geometry_policy="D36_C",
-        closure_contract="TRC_PLUS_TYPED_OPEN",
-        reentry_contract="HF001",
-        bindings=GENERIC_BINDINGS+(
-            ProtectedBinding(
-                f"{_pid}_EXPLICIT_NATIVE_IDENTITY",
-                "INTRA",
-                _impl,
-                "tests/test_explicit_native_manifests.py",
+def _project_registry_manifests(overrides, a5_registry, learning_specs, dedicated_native):
+    """Project declared identities without changing explicitly authored manifests."""
+    for _i in range(1,50):
+        _pid=f"C{_i:02d}"
+        _spec=a5_registry.get(_pid)
+        overrides.setdefault(_pid,ToolManifest(
+            tool_id=_pid,
+            native_semantics=f"{_spec.job} -> {','.join(_spec.protected_outputs)}",
+            geometry_policy="D36_C",
+            closure_contract="TRC",
+            reentry_contract="HF001",
+            bindings=GENERIC_BINDINGS+(
+                ProtectedBinding(
+                    f"{_pid}_REGISTERED_CAPABILITY_IDENTITY",
+                    "INTRA",
+                    "runtime/a5_programs.py",
+                    "tests/test_a5_registry.py",
+                ),
             ),
-        ),
-        lineage_contract="architecture/EXPLICIT_TOOL_MANIFEST_BACKFILL_161_2026-09-27.md",
-    ))
+            lineage_contract="architecture/EXPLICIT_TOOL_MANIFEST_BACKFILL_161_2026-09-27.md",
+        ))
+
+    for _spec in learning_specs:
+        overrides.setdefault(_spec.program_id,ToolManifest(
+            tool_id=_spec.program_id,
+            native_semantics=f"{_spec.obligation}: {_spec.input_type} -> {_spec.output_type}",
+            geometry_policy="D36_C",
+            closure_contract="TRC",
+            reentry_contract="HF001",
+            bindings=GENERIC_BINDINGS+(
+                ProtectedBinding(
+                    f"{_spec.program_id}_TYPED_LEARNING_IDENTITY",
+                    "INTRA",
+                    "runtime/learning_tool_bridge.py",
+                    "tests/test_learning_tool_configured_runs.py",
+                ),
+            ),
+            lineage_contract="architecture/EXPLICIT_TOOL_MANIFEST_BACKFILL_161_2026-09-27.md",
+        ))
+
+    for _pid,(_sem,_impl) in dedicated_native.items():
+        overrides.setdefault(_pid,ToolManifest(
+            tool_id=_pid,
+            native_semantics=_sem,
+            geometry_policy="D36_C",
+            closure_contract="TRC_PLUS_TYPED_OPEN",
+            reentry_contract="HF001",
+            bindings=GENERIC_BINDINGS+(
+                ProtectedBinding(
+                    f"{_pid}_EXPLICIT_NATIVE_IDENTITY",
+                    "INTRA",
+                    _impl,
+                    "tests/test_explicit_native_manifests.py",
+                ),
+            ),
+            lineage_contract="architecture/EXPLICIT_TOOL_MANIFEST_BACKFILL_161_2026-09-27.md",
+        ))
+
+
+_project_registry_manifests(OVERRIDES, A5_REGISTRY, LEARNING_SPECS, _DEDICATED_NATIVE)
 
 
 # V. Manifest lookup and reconstruction gates.

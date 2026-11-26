@@ -316,6 +316,11 @@ def run_attack(program_id, payload):
     raise KeyError(program_id)
 
 
+def _declared_output(program_id):
+    """Resolve the current output identity from the authoritative capability spec."""
+    return REGISTRY.get(program_id).protected_outputs[0]
+
+
 # Candidate development: C20-C23.
 def run_candidate_development(program_id, payload):
     payload = _payload(payload)
@@ -330,8 +335,8 @@ def run_candidate_development(program_id, payload):
 # Structural improvement: C24-C31.
 def run_structural_improvement(program_id, payload):
     payload = _payload(payload)
-    if program_id in {"C24","C25","C26","C27","C28","C29","C30","C31"}:
-        key=REGISTRY.get(program_id).protected_outputs[0]
+    if CAPABILITY_BINDINGS.get(program_id) is run_structural_improvement:
+        key=_declared_output(program_id)
         value=payload.get(key,payload.get("candidate"))
         protected=_label_set(payload.get("protected"))
         preserves=_label_set(payload.get("preserves"))
@@ -367,7 +372,7 @@ def run_improvement_evaluation(program_id, payload):
             return {"status":"OPEN","nondominated_set":None,"unresolved_candidates":payload.get("candidates")}
         return {"status":"ACCEPT","nondominated_set":frontier}
     if program_id=="C36":
-        key=REGISTRY.get(program_id).protected_outputs[0]
+        key=_declared_output(program_id)
         value=payload.get(key)
         return {"status":"ACCEPT" if value is not None else "OPEN",key:value}
     raise KeyError(program_id)
@@ -376,8 +381,8 @@ def run_improvement_evaluation(program_id, payload):
 # Knowledge transfer: C37-C43.
 def run_knowledge_transfer(program_id, payload):
     payload = _payload(payload)
-    if program_id in {"C37","C38","C39","C40","C41","C42","C43"}:
-        key=REGISTRY.get(program_id).protected_outputs[0]
+    if CAPABILITY_BINDINGS.get(program_id) is run_knowledge_transfer:
+        key=_declared_output(program_id)
         value=payload.get(key)
         return {"status":"ACCEPT" if value is not None else "OPEN",key:value}
     raise KeyError(program_id)
