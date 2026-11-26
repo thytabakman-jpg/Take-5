@@ -36,17 +36,21 @@ def _unit_ids(value:Any)->set[str]:
 
 
 # II. Schema-neutral graph diagnostics.
-def declared_dependency_paths(dependencies):
+def declared_dependency_paths(dependencies, *, roots=None):
     """Shortest deterministic path witnesses within a finite declared graph.
 
     Edges point from a consumer to its dependency. Missing targets are not
     traversed; a path is a possible channel, not causal or execution evidence.
     Self-reachability is left to the separate cyclic-components diagnostic.
+    Supply roots to bound the search; omitted roots request all declared nodes.
     """
     from collections import deque
 
+    selected = set(dependencies) if roots is None else set(roots)
+    if not selected <= dependencies.keys():
+        raise ValueError("ARCHITECTURE_PATH_ROOT_NOT_DECLARED")
     paths = {}
-    for start in sorted(dependencies):
+    for start in sorted(selected):
         witnesses = {start: [start]}
         pending = deque([start])
         while pending:

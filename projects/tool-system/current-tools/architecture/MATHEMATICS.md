@@ -43,7 +43,7 @@ Compare the project [formal architecture mathematics](https://github.com/thytaba
 |---|---|---|
 | Architecture and contract carrier | Declared units, roles, source identities, links and optional jobs | Typed ports, state, transitions, observations, authority and preservation basis |
 | Violation and localization | Missing/extra units, dangling links, protected unit-job checks | Minimal result-sensitive support and broader contract evaluation |
-| Dependency and interaction | Declared adjacency, reverse consumers, cycle and ownership candidates | Intervention-sensitive dependencies and joint-outcome/nonseparability evidence |
+| Dependency and interaction | Declared adjacency, reverse consumers, cycle and ownership candidates; optional rooted shortest path witnesses for declared dependency and execution edges | Intervention-sensitive dependencies and joint-outcome/nonseparability evidence |
 | Transformation and successor frontiers | Graph provider returns empty frontiers and retains OPEN | Candidate generation, admissibility, preservation, strict gain and nondominance |
 | Coverage and provenance | Declared graph scope, source locators and explicit OPEN | Directed source-to-target coverage and result-sensitive semantic witnesses |
 | Configured execution | Take-5 configured wrapper and HF2 | Evidence of the distinct Reaserch full profile and applicable cross-level pairing |

@@ -44,6 +44,8 @@ def test_declared_dependency_paths_are_deterministic_and_do_not_cross_missing_no
     assert all(node not in row for node,row in paths.items())
     assert "missing" not in paths["A"]
     assert paths==declared_dependency_paths(dict(reversed(list(graph.items()))))
+    assert declared_dependency_paths(graph,roots=['A'])=={'A':paths['A']}
+    assert declared_dependency_paths(graph,roots=[])=={}
 
 
 def test_architecture_native_contract_preserves_boundary_state():
