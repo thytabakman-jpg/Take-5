@@ -150,3 +150,9 @@ def test_structured_batch_binds_every_registered_identity():
     bound=bind_direct_tool_commands(ids)
     assert bound.complete and bound.tool_ids==ids
     assert all(b.plan.complete for b in bound.bindings)
+
+
+@pytest.mark.parametrize("request", [{"command": "run MT"}, {"run MT"}, b"run MT", None, 12])
+def test_non_string_non_sequence_requests_cannot_be_coerced_to_commands(request):
+    with pytest.raises(DirectToolCommandBlocked, match="DIRECT_TOOL_REQUEST_REQUIRES_STRING_OR_ORDERED_IDS"):
+        direct_tool_ids(request)
