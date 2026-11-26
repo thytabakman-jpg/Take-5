@@ -607,6 +607,12 @@ def assess_prose(
             tuple(evidence.evidence)+reader_load_evidence+plain_language_evidence if evidence is not None else (),
         )
 
+    return _assess_semantic_acceptance(contract,evidence,reader_load_evidence,plain_language_evidence)
+
+
+def _assess_semantic_acceptance(contract:ProseContract,evidence:ProseEvidence|None,
+                                reader_load_evidence:tuple,plain_language_evidence:tuple)->ProseAssessment:
+    """Apply invariant semantic gates after the selected writing-policy checks pass."""
     if evidence is None:
         return ProseAssessment(
             "OPEN",contract.contract_id,(),(),(

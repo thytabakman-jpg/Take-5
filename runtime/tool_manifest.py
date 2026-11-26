@@ -996,64 +996,47 @@ _DEDICATED_NATIVE={
     ),
 }
 
+_PROJECTED_LINEAGE = "architecture/EXPLICIT_TOOL_MANIFEST_BACKFILL_161_2026-09-27.md"
+
+
+def _projected_manifest(tool_id, native_semantics, behavior_suffix, implementation, witness,
+                        *, closure_contract="TRC"):
+    """Build a projection, retaining the original lineage as provenance only."""
+    return ToolManifest(
+        tool_id=tool_id,
+        native_semantics=native_semantics,
+        geometry_policy="D36_C",
+        closure_contract=closure_contract,
+        reentry_contract="HF001",
+        bindings=GENERIC_BINDINGS+(
+            ProtectedBinding(f"{tool_id}_{behavior_suffix}", "INTRA", implementation, witness),
+        ),
+        lineage_contract=_PROJECTED_LINEAGE,
+    )
+
+
 def _project_registry_manifests(overrides, a5_registry, learning_specs, dedicated_native):
     """Project declared identities without changing explicitly authored manifests."""
-    for _i in range(1,50):
-        _pid=f"C{_i:02d}"
-        _spec=a5_registry.get(_pid)
-        overrides.setdefault(_pid,ToolManifest(
-            tool_id=_pid,
-            native_semantics=f"{_spec.job} -> {','.join(_spec.protected_outputs)}",
-            geometry_policy="D36_C",
-            closure_contract="TRC",
-            reentry_contract="HF001",
-            bindings=GENERIC_BINDINGS+(
-                ProtectedBinding(
-                    f"{_pid}_REGISTERED_CAPABILITY_IDENTITY",
-                    "INTRA",
-                    "runtime/a5_programs.py",
-                    "tests/test_a5_registry.py",
-                ),
-            ),
-            lineage_contract="architecture/EXPLICIT_TOOL_MANIFEST_BACKFILL_161_2026-09-27.md",
+    for i in range(1,50):
+        pid=f"C{i:02d}"
+        spec=a5_registry.get(pid)
+        overrides.setdefault(pid,_projected_manifest(
+            pid, f"{spec.job} -> {','.join(spec.protected_outputs)}",
+            "REGISTERED_CAPABILITY_IDENTITY", "runtime/a5_programs.py", "tests/test_a5_registry.py",
         ))
 
-    for _spec in learning_specs:
-        overrides.setdefault(_spec.program_id,ToolManifest(
-            tool_id=_spec.program_id,
-            native_semantics=f"{_spec.obligation}: {_spec.input_type} -> {_spec.output_type}",
-            geometry_policy="D36_C",
-            closure_contract="TRC",
-            reentry_contract="HF001",
-            bindings=GENERIC_BINDINGS+(
-                ProtectedBinding(
-                    f"{_spec.program_id}_TYPED_LEARNING_IDENTITY",
-                    "INTRA",
-                    "runtime/learning_tool_bridge.py",
-                    "tests/test_learning_tool_configured_runs.py",
-                ),
-            ),
-            lineage_contract="architecture/EXPLICIT_TOOL_MANIFEST_BACKFILL_161_2026-09-27.md",
+    for spec in learning_specs:
+        overrides.setdefault(spec.program_id,_projected_manifest(
+            spec.program_id, f"{spec.obligation}: {spec.input_type} -> {spec.output_type}",
+            "TYPED_LEARNING_IDENTITY", "runtime/learning_tool_bridge.py",
+            "tests/test_learning_tool_configured_runs.py",
         ))
 
-    for _pid,(_sem,_impl) in dedicated_native.items():
-        overrides.setdefault(_pid,ToolManifest(
-            tool_id=_pid,
-            native_semantics=_sem,
-            geometry_policy="D36_C",
+    for pid,(sem,impl) in dedicated_native.items():
+        overrides.setdefault(pid,_projected_manifest(
+            pid, sem, "EXPLICIT_NATIVE_IDENTITY", impl, "tests/test_explicit_native_manifests.py",
             closure_contract="TRC_PLUS_TYPED_OPEN",
-            reentry_contract="HF001",
-            bindings=GENERIC_BINDINGS+(
-                ProtectedBinding(
-                    f"{_pid}_EXPLICIT_NATIVE_IDENTITY",
-                    "INTRA",
-                    _impl,
-                    "tests/test_explicit_native_manifests.py",
-                ),
-            ),
-            lineage_contract="architecture/EXPLICIT_TOOL_MANIFEST_BACKFILL_161_2026-09-27.md",
         ))
-
 
 _project_registry_manifests(OVERRIDES, A5_REGISTRY, LEARNING_SPECS, _DEDICATED_NATIVE)
 
