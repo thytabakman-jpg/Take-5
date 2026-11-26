@@ -131,6 +131,11 @@ def _git_blob_sha(value):
     return isinstance(value,str) and len(value) in (40,64) and all(c in "0123456789abcdef" for c in value)
 
 
+def _git_blob_text_hash(text, algorithm):
+    raw=text.encode('utf-8')
+    return hashlib.new(algorithm,f'blob {len(raw)}\0'.encode()+raw).hexdigest()
+
+
 def _structured_inputs(packet, tool, sources):
     """Validate the host's declared evidence, not the truth of its interpretation."""
     key, inventory = ('diagnosis','failures') if tool=='Diagnosis' else ('rtc','candidates')
@@ -319,9 +324,7 @@ def _quote_adapter(packet, sources):
     def nonempty(value):
         return isinstance(value,str) and bool(value.strip())
     def blob_hash(text, reference):
-        raw=text.encode('utf-8')
-        return hashlib.new('sha1' if len(reference)==40 else 'sha256',
-                           f'blob {len(raw)}\0'.encode()+raw).hexdigest()
+        return _git_blob_text_hash(text,'sha1' if len(reference)==40 else 'sha256')
     admitted={}
     for source in sources:
         path,sha=source['path'],source['sha']
@@ -546,8 +549,8 @@ def _document_mt_goal(packet, tool, sources):
     def checked_text(value, sha):
         if not isinstance(value,str):
             raise ValueError('DOCUMENT_UTF8_TEXT_REQUIRED')
-        raw=value.encode('utf-8')
-        if hashlib.sha1(f'blob {len(raw)}\0'.encode()+raw).hexdigest()!=sha:
+        # Preserve the existing SHA-1-only document observation contract.
+        if _git_blob_text_hash(value,'sha1')!=sha:
             raise ValueError('DOCUMENT_BLOB_MISMATCH')
         return value
     def nonempty(value):
