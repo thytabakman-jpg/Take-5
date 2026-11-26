@@ -5,7 +5,7 @@ execution route without choosing a similarly named historical definition:
 
 1. [Configured-run registry](../../../../runtime/tool_run_registry.py) — exact registered identity `Architecture`.
 2. [Current protected manifest](../../../../runtime/tool_manifest.py) — required Architecture behaviours and their executable witnesses.
-3. [Portable tool conductor](../../../../runtime/portable_tool_conductor.py) — declares `Architecture`'s native entrypoint, constructs configured-factor execution and requires a caller-supplied adapter where appropriate.
+3. For Repair, follow the [direct command gateway](../../../../runtime/direct_tool_command_gateway.py) and [configured tool bridge](../../../../runtime/improvement_core_tool_bridge.py). The [ChatGPT document adapter](https://github.com/thytabakman-jpg/Take-5/blob/chatgpt-runtime-bootstrap/chatgpt-integration/document_tool_adapters.py) supplies the admitted graph or matrix analyzer. The [portable tool conductor](../../../../runtime/portable_tool_conductor.py) is a separate configured-factor route and native-entrypoint reference, not an obligatory intermediate in direct Repair dispatch.
 4. [Native architecture analysis](../../../../runtime/architecture_analysis.py) — `run_architecture_analysis(architecture, contract, *, analyze_architecture, protected_constraints=())` enforces the typed output carrier and protected constraints. The `analyze_architecture` function is an **external environment input**, not a built-in universal architecture solver.
 5. [Native recovery tests](../../../../tests/test_four_tool_recovery_20260927.py) and [protected unit-job tests](../../../../tests/test_prose_transition_layers.py) — existing evidence for this particular runtime, not proof of external host interception.
 
