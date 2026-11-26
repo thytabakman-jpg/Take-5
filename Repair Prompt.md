@@ -141,23 +141,19 @@ Where source evidence is insufficient, investigate the relevant external sources
 
 ### 6.1 Mandatory tools
 
-Execute the following mandatory tools through their full configured implementations:
-
 - MT
 - GOAL
 - Architecture
 - PDAudit
-- ASSERT
 - Diagnosis, when defects are identified.
 - RTC, when improvements are proposed.
 - TRC.
 
-Use the full configured invocation profile, including its mandatory HF2 recurrence. Resolve requested tool identities before dispatch. Where the gateway supports structured requests, supply an ordered list of exact registered tool IDs and verify that the complete ordered binding matches the authorized request before invoking adapters. For a runtime without that interface, use separate explicit imperative commands (one registered identity per command) and verify the complete ordered binding. Do not infer additional authorization from inherited controller state or silently omit unresolved or unavailable mandatory tools.
-
 ### 6.2 Conditional tools
 
-Use the following tools when their particular functions materially contribute to the analysis:
+Use these tools when their functions materially contribute to the analysis:
 
+- ASSERT, when substantive assertions require evaluation.
 - GDOS
 - MultiObject
 - Discriminator
@@ -168,21 +164,13 @@ Use the following tools when their particular functions materially contribute to
 
 ### 6.3 Execution requirements
 
-Allow each tool's governing protocol to determine its internal methodology.
+Follow each selected tool's governing protocol and full configured invocation profile, including mandatory HF2 recurrence. Resolve exact registered tool identities and verify the complete ordered binding before dispatch, using structured ordered IDs where supported or separate explicit imperative commands otherwise. Do not infer authorization from inherited controller state or silently omit mandatory tools.
 
-Avoid duplicating procedures already performed through another tool's configured execution.
+Supply relevant, evidence-supported semantic inputs and domain analysis. Do not construct artificial analytical objects solely to enable execution, generate artificial problems, duplicate completed procedures or invoke unnecessary tools.
 
-Supply the semantic inputs, external evidence and domain-specific analysis required by each tool.
+Retain native execution receipts identifying the tool, adapter, input, invocation profile, output and applicable recurrence. Distinguish verified native execution, host analysis, blocked execution and non-execution. Availability, tests, protocol retrieval and host findings do not establish native execution.
 
-Retain actual runtime-generated execution evidence, including the tool identity, native adapter, supplied input, configured invocation profile, returned output and applicable recurrence receipt.
-
-Distinguish verified native execution, semantic host analysis, blocked execution and non-execution.
-
-Do not treat tool availability, successful runtime tests, protocol retrieval or host-generated findings as evidence of native tool execution.
-
-When a mandatory tool is unavailable or blocked, record the exact tool identity, missing input, provider or other blocking condition and continue independently executable analysis and repairs whose validity does not depend on the missing results. Use separately receipted invocations for independent tools when an earlier blocked tool would otherwise suppress their execution; preserve actual inter-tool prerequisites and never bypass a required precondition. Preserve unresolved dependencies and do not certify incomplete requirements as completed.
-
-Do not generate artificial problems or unnecessary tool invocations.
+Record the exact identity and blocking condition of each unavailable or blocked mandatory tool. Continue independently executable work, using separate receipts when an earlier blockage would suppress independent tools. Preserve actual prerequisites and unresolved obligations; never bypass preconditions or certify incomplete requirements as completed.
 
 ## 7. Autonomous repair cycle
 
