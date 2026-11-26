@@ -96,6 +96,33 @@ class RecoveryTests(unittest.TestCase):
         self.assertEqual((root/'b').read_bytes(),b'new')
         self.assertEqual(receipt['verified_files'],2)
 
+    def test_cache_reuses_renamed_and_duplicate_content_by_blob_identity(self):
+        old=self.blob(b'old'); other=self.blob(b'other')
+        self.assemble('old.zip',{'old/path':('100644',old),'unrelated':('100644',other)})
+        (self.blobs/old).unlink()
+        tree={'new/path':('100755',old),'duplicate':('100644',old)}
+        cache=self.root/'old.zip'
+        self.assertEqual(bootstrap.cached_source_blobs(cache,tree),{old:b'old'})
+        result=self.assemble('current.zip',tree,cache)
+        self.assertEqual((result['reused_cache_blobs'],result['fetched_blobs']),(2,0))
+        self.assertEqual(result['unique_cached_blob_count'],1)
+        self.assertEqual(result['unique_required_blob_count'],0)
+        sha,_=self.basis(tree)
+        root,receipt=bootstrap.install(self.root/'current.zip',self.root/'install',sha,self.manifest)
+        self.assertEqual((root/'new/path').read_bytes(),b'old')
+        self.assertEqual((root/'duplicate').read_bytes(),b'old')
+        self.assertEqual(receipt['verified_files'],2)
+
+    def test_cache_name_does_not_authorize_changed_content(self):
+        old=self.blob(b'old'); new=self.blob(b'new')
+        self.assemble('old.zip',{'same':('100644',old)})
+        (self.blobs/new).unlink()
+        tree={'same':('100644',new)}
+        self.assertEqual(bootstrap.cached_source_blobs(self.root/'old.zip',tree),{})
+        with self.assertRaisesRegex(ValueError,'RECONSTRUCTION_BLOB_REQUIRED'):
+            self.assemble('current.zip',tree,self.root/'old.zip')
+        self.assertFalse((self.root/'current.zip').exists())
+
     def test_corrupt_and_missing_blobs_fail_before_output(self):
         sha=self.blob(b'good'); tree={'a':('100644',sha)}
         (self.blobs/sha).write_bytes(b'bad')

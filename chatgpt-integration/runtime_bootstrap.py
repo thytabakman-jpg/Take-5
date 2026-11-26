@@ -188,6 +188,27 @@ def _read_tracked_tree(raw):
     return tree
 
 
+def cached_source_blobs(source_cache, tree):
+    """Read cache bytes by content identity; never trust cached names or metadata."""
+    needed = {sha for _, sha in tree.values()}
+    cached = {}
+    if source_cache is None:
+        return cached
+    with zipfile.ZipFile(source_cache) as outer:
+        with zipfile.ZipFile(io.BytesIO(outer.read('take5-source.zip'))) as source:
+            for member in source.infolist():
+                if member.is_dir():
+                    continue
+                data = source.read(member)
+                sha = git_blob_sha(data)
+                if sha in needed:
+                    cached[sha] = data
+                    needed.remove(sha)
+                    if not needed:
+                        break
+    return cached
+
+
 def assemble_verified_archive(output, expected, commit_object, tree, blob_dir,
                               integration_manifest, integration_dir, source_cache=None):
     """Assemble from authenticated identities and local blob bytes, without a runner.
@@ -202,21 +223,14 @@ def assemble_verified_archive(output, expected, commit_object, tree, blob_dir,
     if source_cache is not None and output==Path(source_cache).resolve():
         raise ValueError('RECONSTRUCTION_OUTPUT_OVERWRITES_CACHE')
     blob_dir=Path(blob_dir)
-    cached={}
-    if source_cache is not None:
-        with zipfile.ZipFile(source_cache) as outer:
-            with zipfile.ZipFile(io.BytesIO(outer.read('take5-source.zip'))) as source:
-                for member in source.infolist():
-                    if member.filename in tree and not member.is_dir():
-                        data=source.read(member)
-                        sha=tree[member.filename][1]
-                        if git_blob_sha(data)==sha:
-                            cached[member.filename]=data
+    cached=cached_source_blobs(source_cache,tree)
+    reused_paths=0
     rebuilt=io.BytesIO()
     with zipfile.ZipFile(rebuilt,'w',zipfile.ZIP_DEFLATED) as source:
         for name,(mode,sha) in sorted(tree.items()):
-            if name in cached:
-                data=cached[name]
+            if sha in cached:
+                data=cached[sha]
+                reused_paths+=1
             else:
                 blob=blob_dir/sha
                 if blob.is_symlink() or not blob.is_file():
@@ -246,8 +260,10 @@ def assemble_verified_archive(output, expected, commit_object, tree, blob_dir,
     # Do not overwrite an existing archive; installation still rechecks all bytes.
     with output.open('xb') as handle:
         handle.write(archive.getvalue())
-    return {'source_commit':expected,'verified_blobs':len(tree),'reused_cache_blobs':len(cached),
-            'fetched_blobs':len(tree)-len(cached),'archive_sha256':hashlib.sha256(data).hexdigest()}
+    return {'source_commit':expected,'verified_blobs':len(tree),'reused_cache_blobs':reused_paths,
+            'fetched_blobs':len(tree)-reused_paths,
+            'unique_cached_blob_count':len(cached),
+            'unique_required_blob_count':len({sha for _,sha in tree.values()}-cached.keys()),'archive_sha256':hashlib.sha256(data).hexdigest()}
 
 
 def install(artifact, destination, expected, integration_manifest):
