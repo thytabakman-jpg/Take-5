@@ -122,3 +122,42 @@ def test_adapter_diagnostics_survive_normalization_without_changing_batch_dispos
     stored=out.state["configured_tool_outputs"][0]
     assert stored["adapter_blocker"]==execution.adapter_blocker
     assert stored["adapter_provenance"]==provenance
+
+
+@pytest.mark.parametrize('status', ['OPEN','BLOCKED','CONFLICT'])
+def test_explicit_independent_read_only_batch_preserves_all_results(status):
+    from improvement_core_tool_bridge import execute_independent_read_only_tools
+    state,bindings=bind_selected_tools({'selected_tools':['RootCause','QuestionWorthAsking'],'data':{'original':True}})
+    calls=[]
+    def first(current,plan):
+        calls.append(plan.tool_id)
+        current['data']['original']=False
+        return {'status':status,'execution_truth':status,'result':{'finding':'unresolved'},'material_delta':False}
+    def second(current,plan):
+        calls.append(plan.tool_id)
+        assert current['data']['original'] is True
+        return {'status':'EXECUTED','result':{'finding':'independent'},'evidence':['native:second'],'material_delta':False}
+    out=execute_independent_read_only_tools(state,bindings,{'RootCause':first,'QuestionWorthAsking':second})
+    assert calls==['RootCause','QuestionWorthAsking']
+    assert out.status==status
+    assert [x['status'] for x in out.state['configured_independent_tool_batches']]==[status,'EXECUTED']
+    assert out.state['data']['original'] is True
+    assert len(out.executions)==2
+
+
+def test_independent_missing_adapter_does_not_stop_next_tool():
+    from improvement_core_tool_bridge import execute_independent_read_only_tools
+    state,bindings=bind_selected_tools({'selected_tools':['RootCause','QuestionWorthAsking']})
+    out=execute_independent_read_only_tools(state,bindings,{'QuestionWorthAsking':lambda s,p:{'status':'EXECUTED','result':{'ok':True},'evidence':['native:second']}})
+    assert out.status=='OPEN'
+    assert out.blocker=='CONFIGURED_TOOL_ADAPTER_REQUIRED:RootCause'
+    assert [x.tool_id for x in out.executions]==['QuestionWorthAsking']
+
+
+def test_independent_material_delta_is_not_admitted():
+    from improvement_core_tool_bridge import execute_independent_read_only_tools
+    state,bindings=bind_selected_tools({'selected_tool':'RootCause','round':0})
+    out=execute_independent_read_only_tools(state,bindings,{'RootCause':lambda s,p:{'status':'EXECUTED','state':{**s,'round':1},'result':{'new':True},'evidence':['native:change'],'material_delta':s['round']==0}})
+    assert out.status=='OPEN'
+    assert out.blocker=='INDEPENDENT_READ_ONLY_MATERIAL_DELTA:RootCause'
+    assert out.state['round']==0

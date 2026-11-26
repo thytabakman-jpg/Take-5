@@ -11,6 +11,7 @@ authorization, construct execution plans, or own native HF2 recurrence.
 """
 from __future__ import annotations
 
+from copy import deepcopy
 from dataclasses import asdict, dataclass, is_dataclass
 from typing import Any, Callable, Mapping
 
@@ -208,6 +209,49 @@ def execute_bound_tools(
             )
 
     return ConfiguredToolBatchResult(current,tuple(executions),"EXECUTED",None)
+
+
+def execute_independent_read_only_tools(
+    state:dict,
+    bindings:tuple[ConfiguredToolBinding,...],
+    adapters:Mapping[str,Callable[[Any,ToolExecutionPlan],Any]]|None,
+)->ConfiguredToolBatchResult:
+    """Execute explicitly independent read-only work on isolated snapshots.
+
+    No successor or material delta is admitted into the shared controller state.
+    Adapters remain trusted to honor the read-only contract; copying is not a
+    sandbox for external side effects. All dispositions survive independently.
+    """
+    if not bindings:
+        return ConfiguredToolBatchResult(state,(),"NO_TOOL_SELECTED",None)
+    if not isinstance(state,dict):
+        raise ToolBridgeBlocked("INDEPENDENT_READ_ONLY_STATE_REQUIRED")
+    records=[]
+    executions=[]
+    outputs=list(state.get("configured_tool_outputs",()))
+    priority={"EXECUTED":0,"OPEN":1,"BLOCKED":2,"CONFLICT":3}
+    status="EXECUTED"
+    for binding in bindings:
+        isolated=deepcopy(state)
+        isolated["configured_tool_outputs"]=()
+        batch=execute_bound_tools(isolated,(binding,),adapters)
+        disposition=batch.status
+        blocker=batch.blocker
+        if any(execution.material_delta for execution in batch.executions):
+            if priority[disposition]<priority["OPEN"]:
+                disposition="OPEN"
+            blocker=blocker or "INDEPENDENT_READ_ONLY_MATERIAL_DELTA:"+binding.tool_id
+        records.append({"tool_id":binding.tool_id,"status":disposition,"blocker":blocker})
+        executions.extend(batch.executions)
+        if isinstance(batch.state,dict):
+            outputs.extend(batch.state.get("configured_tool_outputs",()))
+        if priority[disposition]>priority[status]:
+            status=disposition
+    result={**state,"configured_tool_outputs":tuple(outputs),
+            "configured_independent_tool_batches":tuple(records)}
+    blockers=tuple(x["blocker"] for x in records if x["blocker"])
+    return ConfiguredToolBatchResult(result,tuple(executions),status,
+                                     ";".join(blockers) or None)
 
 
 # IV. Compatibility interface: controller selection-state interpretation.

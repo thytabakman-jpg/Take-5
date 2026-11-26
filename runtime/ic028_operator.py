@@ -14,6 +14,8 @@ from improvement_core_tool_bridge import (
     ToolBridgeBlocked,
     bind_selected_tools,
     execute_bound_tools,
+    execute_independent_read_only_tools,
+    selected_tool_ids,
 )
 from specification_before_transformation import assess_selected_state
 from controller_tool_conductor import (
@@ -76,6 +78,7 @@ def run_ic028(lease:ControllerLease,state:Any,handlers:dict[str,Callable], *,
         supervisory=False
         last_delta=None
         bound_tools=()
+        independent_selection=None
         for stage in stage_plan:
             if stage=="TOOL_CONDUCTOR":
                 packet=current if isinstance(current,dict) else {"value":current}
@@ -100,14 +103,18 @@ def run_ic028(lease:ControllerLease,state:Any,handlers:dict[str,Callable], *,
                 continue
 
             if stage=="EXECUTE" and bound_tools:
-                batch=execute_bound_tools(current,bound_tools,configured_tool_adapters)
+                if independent_selection is not None:
+                    batch=execute_independent_read_only_tools(current,bound_tools,configured_tool_adapters)
+                else:
+                    batch=execute_bound_tools(current,bound_tools,configured_tool_adapters)
                 current=batch.state
                 receipts.append(OperatorReceipt(
                     "CONFIGURED_TOOL_EXECUTE",
                     batch.status,
                     batch,
                 ))
-                material=material or any(x.material_delta for x in batch.executions)
+                if independent_selection is None:
+                    material=material or any(x.material_delta for x in batch.executions)
                 if batch.status in {"OPEN","BLOCKED","CONFLICT"}:
                     return OperatorResult(current,receipts,False,batch.blocker)
 
@@ -133,6 +140,14 @@ def run_ic028(lease:ControllerLease,state:Any,handlers:dict[str,Callable], *,
             receipts.append(OperatorReceipt(stage,"EXECUTED",out))
 
             if stage=="SELECT":
+                # Only this round's explicit controller selection can opt in.
+                if isinstance(out,dict) and out.get("configured_tool_batch_mode")=="INDEPENDENT_READ_ONLY":
+                    try:
+                        independent_selection=selected_tool_ids(current)
+                    except ToolBridgeBlocked as exc:
+                        return OperatorResult(current,receipts,False,str(exc))
+                    if not independent_selection:
+                        return OperatorResult(current,receipts,False,"INDEPENDENT_READ_ONLY_SELECTION_REQUIRED")
                 specification=assess_selected_state(current)
                 receipts.append(OperatorReceipt(
                     "SPECIFICATION_GATE",
@@ -155,6 +170,8 @@ def run_ic028(lease:ControllerLease,state:Any,handlers:dict[str,Callable], *,
                         "CONFIGURED_TOOL_BIND","OPEN",str(exc)
                     ))
                     return OperatorResult(current,receipts,False,str(exc))
+                if independent_selection is not None and tuple(x.tool_id for x in bound_tools)!=independent_selection:
+                    return OperatorResult(current,receipts,False,"INDEPENDENT_READ_ONLY_SELECTION_CHANGED")
                 if bound_tools:
                     receipts.append(OperatorReceipt(
                         "CONFIGURED_TOOL_BIND",

@@ -271,3 +271,19 @@ def test_configured_full_match_with_native_result_remains_eligible():
         receipt.stage=="CONFIGURED_TOOL_EXECUTE" and receipt.status=="EXECUTED"
         for receipt in out.receipts
     )
+
+
+def test_controller_explicit_independent_selection_executes_after_open():
+    binding=begin_turn('Run ICC',target='object',job='j',basis='b',episode_id='independent-batch')
+    handlers=_handlers_for(GOAL_DIRECTED_STAGES,[])
+    handlers['SELECT']=lambda state:{'state':{**state,'selected_tools':['RootCause','QuestionWorthAsking']},'configured_tool_batch_mode':'INDEPENDENT_READ_ONLY'}
+    calls=[]
+    def adapter(state,plan):
+        calls.append(plan.tool_id)
+        if plan.tool_id=='RootCause':
+            return {'status':'OPEN','result':{'missing':'basis'}}
+        return {'status':'EXECUTED','result':{'finding':'independent'},'evidence':['native:independent']}
+    out=run_ic028(binding.lease,{},handlers,entry_contract=binding.contract,configured_tool_adapters={'RootCause':adapter,'QuestionWorthAsking':adapter})
+    assert calls==['RootCause','QuestionWorthAsking']
+    assert not out.terminal
+    assert len(out.state['configured_independent_tool_batches'])==2
