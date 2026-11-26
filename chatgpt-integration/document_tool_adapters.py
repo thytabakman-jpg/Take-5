@@ -67,9 +67,10 @@ def builtin_adapters(packet, digest):
 
 
 # II. Shared packet identity and provider admission.
-# Relocation candidate (not moved): compare Git object hashing with the existing
-# runtime_bootstrap.py identity utilities; preserve document-source versus
-# runtime-artifact verification boundaries.
+# Staged relocation (not moved): runtime_bootstrap.py already owns Git object
+# hashing primitives. Transfer only the generic byte hashing operation after
+# preserving its strict SHA-1 bootstrap policy and the adapter's SHA-256 route.
+# Source admission and text encoding remain provider responsibilities.
 def digest(value):
     return hashlib.sha256(json.dumps(value,sort_keys=True,ensure_ascii=False).encode()).hexdigest()
 
@@ -197,9 +198,10 @@ def _structured_inputs(packet, tool, sources):
 
 
 # IV. Architecture graph provider.
-# Relocation candidate (not moved): generic graph diagnostics may belong with
-# runtime/architecture_analysis.py if its native contract admits them; graph
-# packet parsing and source binding remain host integration responsibilities.
+# Staged relocation (not moved): runtime/architecture_analysis.py is the
+# candidate home for pure graph diagnostics such as _cyclic_components.
+# Keep graph packet parsing, source binding, host role interpretation and
+# bounded-provider receipts here; native graph utilities must be schema-neutral.
 def _cyclic_components(dependencies):
     """Return cyclic strongly connected components, including self-loops.
 
@@ -453,9 +455,9 @@ def _admit_threshold(packet, tool):
 
 
 # VII. Shared bounded execution receipt and model routing.
-# Relocation candidate (not moved): compare result-envelope construction with
-# execute_tool_packet.py and the runtime configured bridge; preserve the distinct
-# host provenance, native result and configured recurrence responsibilities.
+# Ownership decision: provider result-envelope construction remains here.
+# execute_tool_packet.py owns packet-level receipts and the runtime owns
+# configured recurrence receipts. These are not interchangeable duplicates.
 def _bounded_result(packet, source_ids, entry,out,status='EXECUTED',blocker=None):
     return {'status':status,'execution_truth':'IMPLEMENTATION_EXECUTED' if status=='EXECUTED' else status,
             'result':out,'material_delta':False,'evidence':[f'native:{entry}',f'packet:{digest(packet)}',*['git-blob:'+s for s in source_ids]],
@@ -519,8 +521,9 @@ def _matrix_multiobject_adapter(packet, axes, rows, source_ids):
 
 
 # Shared configured MT prerequisite for both GOAL input routes.
-# Relocation candidate (not moved): compare receipt mapping with runtime/goal.py;
-# actual gateway dispatch remains an integration responsibility.
+# Ownership decision: configured gateway dispatch and adaptation of its result
+# remain here. runtime/goal.py owns the native GoalMTReceipt type and validation;
+# it must not depend on this integration's packet or gateway schema.
 def _configured_mt_prerequisite(packet,mt):
     from goal import GoalMTReceipt
     from direct_tool_command_gateway import execute_direct_tool_commands
