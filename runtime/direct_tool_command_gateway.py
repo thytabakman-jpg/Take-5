@@ -72,7 +72,9 @@ def direct_tool_ids(user_text:str|list[str]|tuple[str,...])->tuple[str,...]:
                 raise DirectToolCommandBlocked(f"DIRECT_TOOL_DUPLICATE_ID:{raw}")
             ids.append(raw)
         return tuple(ids)
-    text=str(user_text)
+    if not isinstance(user_text,str):
+        raise DirectToolCommandBlocked("DIRECT_TOOL_REQUEST_REQUIRES_STRING_OR_ORDERED_IDS")
+    text=user_text
     out=[]
 
     for match in KNOWN_COMMAND_PATTERN.finditer(text):
