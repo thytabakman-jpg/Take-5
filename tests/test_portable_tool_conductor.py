@@ -236,3 +236,25 @@ def test_consultation_reports_bound_routes_without_certifying_input_readiness():
     assert by_id["Diagnosis"]["result"]["execution_readiness"]=="INPUTS_UNVERIFIED"
     assert by_id["RTC"]["status"]=="OPEN"
     assert by_id["C01"]["result"]["dispatch_route"]=="BUILTIN"
+
+
+def test_shared_plan_summary_preserves_consumer_receipt_shapes():
+    from global_tool_execution import build_tool_execution_plan
+    from improvement_core_tool_bridge import ConfiguredToolBinding
+    from portable_tool_conductor import _plan_payload
+    from tool_run_registry import CONFIGURED_RUNS
+
+    for tool_id in MATERIAL_TOOLS:
+        plan=build_tool_execution_plan(CONFIGURED_RUNS[tool_id])
+        expected={
+            "tool_id":tool_id,"mode":plan.mode,"wrapper_required":plan.wrapper_required,
+            "geometry":plan.geometry,"cell_count":len(plan.cells),
+            "question_count":len(plan.questions),"cognitive_count":len(plan.cognitive),
+            "recurrence_required":plan.recurrence_required,"recurrence_engine":plan.recurrence_engine,
+            "invocation_profile":plan.invocation_profile,
+        }
+        assert _plan_payload(tool_id)==expected
+        assert ConfiguredToolBinding(tool_id,plan).summary=={
+            **expected,"native_layers":tuple(dict.fromkeys(layer for layer,_ in plan.native)),
+            "configured_hf2_execution":"SHARED_GATE",
+        }

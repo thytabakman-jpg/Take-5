@@ -565,3 +565,10 @@ def test_prose_empty_string_alias_does_not_match_word_boundaries():
         jewish_lexicon=(("Torah","   "),))
     out=assess_prose("Torah learning.",contract)
     assert not out.violations
+
+
+def test_negative_span_offsets_remain_correct_after_unicode_casefold_expansion():
+    from prose import _allowed
+    text="Straße ab"
+    assert not _allowed(text,8,9,ProseContract("adjacent",allowed_negative_spans=("a",)))
+    assert _allowed(text,8,9,ProseContract("matching",allowed_negative_spans=("b",)))
