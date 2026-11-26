@@ -1,1 +1,1 @@
-a5_programs repair bootstrap for main 3e05dd731d1100a96171c3e99ac7fad5f7e10a12 at 2026-11-26T03:46Z
+Verify A5 repair commit cdf3c76b1b74e5dbb2e70b457ea71200d9787a6c
