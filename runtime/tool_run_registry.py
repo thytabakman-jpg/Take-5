@@ -5,6 +5,7 @@ from configured_run import (
     ConfiguredRunSpec,
 )
 from learning_tool_bridge import SPECS as LEARNING_SPECS
+from execution_profile import recurrence_engine_for
 
 # I. Registered identity inventory.
 LEARNING_TOOLS=tuple(spec.program_id for spec in LEARNING_SPECS)
@@ -191,11 +192,7 @@ def _spec(tool):
         required_layers=layers,
         manifest_id=tool,
         protected_behaviors=REQUIRED_PROTECTED_BEHAVIORS.get(tool,()),
-        recurrence_engine=(
-            SELF_RECURRENCE_ENGINE
-            if tool=="HF002"
-            else DEFAULT_RECURRENCE_ENGINE
-        ),
+        recurrence_engine=recurrence_engine_for(tool),
     )
 
 def _build_configured_runs(tool_ids):

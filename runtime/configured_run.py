@@ -2,13 +2,11 @@
 from dataclasses import dataclass
 from tool_manifest import reconstructs
 
-DEFAULT_GEOMETRY="D36_C"
-DEFAULT_MODE="OBSERVER"
-DEFAULT_RECURRENCE_ENGINE="HF002"
-SELF_RECURRENCE_ENGINE="SELF"
-FULL_INVOCATION_PROFILE="FULL_CONFIGURED_HF2_V1"
-QUESTION_FAMILIES=tuple(f"Q{i:02d}" for i in range(1,23))
-COGNITIVE_OPERATORS=("DIFFERENTIATE","RELATE","RECONSTRUCT","STRENGTHEN")
+from execution_profile import (
+    DEFAULT_GEOMETRY, DEFAULT_MODE, DEFAULT_RECURRENCE_ENGINE,
+    SELF_RECURRENCE_ENGINE, FULL_INVOCATION_PROFILE, QUESTION_FAMILIES,
+    COGNITIVE_OPERATORS, recurrence_engine_for,
+)
 
 @dataclass(frozen=True)
 class ConfiguredRunSpec:
@@ -35,16 +33,7 @@ class ConfiguredRunSpec:
         manifest_id=self.manifest_id or self.tool_id
         recurrence_ok=(
             self.recurrence_required
-            and (
-                (
-                    self.tool_id=="HF002"
-                    and self.recurrence_engine==SELF_RECURRENCE_ENGINE
-                )
-                or (
-                    self.tool_id!="HF002"
-                    and self.recurrence_engine==DEFAULT_RECURRENCE_ENGINE
-                )
-            )
+            and self.recurrence_engine==recurrence_engine_for(self.tool_id)
         )
         return (
             bool(self.tool_id)

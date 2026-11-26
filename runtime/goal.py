@@ -12,10 +12,10 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from typing import Iterable
+from execution_profile import FULL_INVOCATION_PROFILE
 
 
 TERMINAL={"CLOSED_RELATIVE","OPEN","CONFLICT"}
-FULL_INVOCATION_PROFILE="FULL_CONFIGURED_HF2_V1"
 MT_BLACK_BOX_GATE="MT_BLACK_BOX_SEMANTIC_RETURN_GATE"
 MT_PREFLIGHT_STATUSES=frozenset({"CLOSED_RELATIVE","OPEN"})
 
