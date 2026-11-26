@@ -76,6 +76,8 @@ Admission is per registered tool. A combined packet may supply multiple compatib
 
 A missing required group or field produces an OPEN receipt; malformed admitted input produces BLOCKED. Neither disposition claims a native invocation. Groups irrelevant to a tool's admitted routes are not validated. Alternative input groups for the same tool are not irrelevant: when both are present, admission rejects the ambiguity. Use separate compatible packets for distinct routes.
 
+For a single packet containing incompatible model families, the verified companion supports a scoped form: `{"command":["GOAL","MultiObject"],"sources":[...],"tool_inputs":{"GOAL":{"document_observations":{...},"goal_candidates":[...]},"MultiObject":{"matrix":{...}}}}`. This is a schematic, not a complete executable example. In scoped form only `command`, shared `sources` and `tool_inputs` occur at the top level; each registered tool receives its own input object. Do not override shared sources or insert a second command within a route. A missing route is treated as missing tool input; malformed entries affect only their own tool. GOAL retains its actual internal MT prerequisite on the GOAL-specific evidence. Receipts retain the overall packet identity and, on a native return, the effective tool-input digest. The legacy flat packet remains supported. External provider modules must explicitly support this schema before receiving it.
+
 Complete packet field definitions:
 - `sources`: path, authenticated connector blob SHA (`sha`) and a subsequent independently fetched `latest_sha` for every source;
 - `expected_ids`: authoritative inventory;
