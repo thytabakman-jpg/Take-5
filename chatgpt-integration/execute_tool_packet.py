@@ -128,13 +128,45 @@ def _execute_independent_tools(packet,ids,adapters,allowed,provider,admitted_ext
     return results
 
 
+def _readiness_diagnostic(row):
+    """Summarize observed stages without promoting reported semantic coverage."""
+    disposition=row.get("adapter_disposition")
+    executions=row.get("executions",())
+    execution=executions[-1] if executions else {}
+    provenance=execution.get("adapter_provenance") or {}
+    provider=provenance.get("adapter_provenance") or {}
+    if not isinstance(provider,Mapping):
+        provider={}
+    marker=provider.get("native_invocation",row.get("native_invocation","UNKNOWN"))
+    if marker not in ("RETURNED","NOT_INVOKED","UNKNOWN"):
+        marker="UNKNOWN"
+    if disposition=="MISSING_ADAPTER" and not executions:
+        marker="NOT_INVOKED"
+    if disposition in ("MISSING_ADAPTER","MISSING_OVERRIDE","INCOMPATIBLE_BINDING","PROVIDER_INITIALIZATION_FAILED"):
+        stage="PROVIDER_ADMISSION"
+    elif marker=="NOT_INVOKED":
+        stage="INPUT_ADMISSION"
+    elif marker=="RETURNED":
+        stage="NATIVE_RETURNED"
+    else:
+        stage="UNRESOLVED_EXECUTION_STAGE"
+    return {"stage":stage,"binding_disposition":disposition,
+            "reported_native_invocation":marker,
+            "configured_disposition":row.get("status"),
+            "execution_truth":execution.get("execution_truth"),
+            "recurrence_status":execution.get("recurrence_status"),
+            "adapter_blocker":execution.get("adapter_blocker"),
+            "batch_blocker":row.get("blocker"),
+            "reported_semantic_coverage":provider.get("semantic_coverage")}
+
+
 # IV. Packet-level receipt projection (no native execution or admission authority).
 def _packet_receipt(source_commit,source_tree,integration_manifest,digest,ids,provider,allowed,timings,results):
     # Final packet-level receipt; per-tool records retain independent dispositions.
     receipt={"source_commit":source_commit,"source_tree":source_tree,
              "integration_manifest":integration_manifest,"packet_sha256":digest,"tool_ids":ids,
              "adapter_module":provider,"authorized_overrides":sorted(allowed),"scope":"Explicit bounded native input; no independent semantic adjudication or full geometric coverage asserted",
-             "local_timings":timings,"results":results}
+             "local_timings":timings,"results":[{**row,"readiness_diagnostic":_readiness_diagnostic(row)} for row in results]}
     return receipt
 
 

@@ -58,6 +58,46 @@ class ScopedRoutingTests(unittest.TestCase):
         self.assertEqual(adapters['ASSERT']({},None)['status'],'EXECUTED')
 
 
+class ReadinessDiagnosticTests(unittest.TestCase):
+    def test_provider_admission_and_unknown_execution_remain_distinct(self):
+        from execute_tool_packet import _readiness_diagnostic
+        for disposition in ('MISSING_ADAPTER','MISSING_OVERRIDE','INCOMPATIBLE_BINDING','PROVIDER_INITIALIZATION_FAILED'):
+            with self.subTest(disposition=disposition):
+                row={'status':'OPEN','adapter_disposition':disposition,'blocker':'missing'}
+                out=_readiness_diagnostic(row)
+                self.assertEqual(out['stage'],'PROVIDER_ADMISSION')
+                self.assertEqual(out['configured_disposition'],'OPEN')
+                self.assertEqual(out['batch_blocker'],'missing')
+        self.assertEqual(_readiness_diagnostic({'adapter_disposition':'MISSING_ADAPTER'})['reported_native_invocation'],'NOT_INVOKED')
+        self.assertEqual(_readiness_diagnostic({'adapter_disposition':'EXECUTION_ERROR','status':'BLOCKED'})['stage'],'UNRESOLVED_EXECUTION_STAGE')
+
+    def test_packet_receipt_distinguishes_input_open_from_native_open(self):
+        from execute_tool_packet import _execute_independent_tools, _packet_receipt
+        sha='a'*40
+        packet={'command':['MultiObject','CurrentnessAudit','PD'],
+                'sources':[{'path':'a.md','sha':sha}]}
+        adapters=bind_adapters(packet)
+        manifest={'blobs':{'document_tool_adapters.py':sha}}
+        ids=packet['command']
+        raw=_execute_independent_tools(packet,ids,adapters,set(),None,set(),{},None,'packet',manifest,execute_direct_tool_commands)
+        receipt=_packet_receipt(sha,sha,manifest,'packet',ids,None,set(),{},raw)
+        rows={row['tool_id']:row for row in receipt['results']}
+        for tool in ids:
+            self.assertEqual(rows[tool]['status'],'OPEN')
+        missing=rows['PD']['readiness_diagnostic']
+        self.assertEqual(missing['stage'],'PROVIDER_ADMISSION')
+        self.assertEqual(missing['reported_native_invocation'],'NOT_INVOKED')
+        missing_input=rows['MultiObject']['readiness_diagnostic']
+        self.assertEqual(missing_input['stage'],'INPUT_ADMISSION')
+        self.assertEqual(missing_input['adapter_blocker'],'DOCUMENT_INPUT_REQUIRED:matrix')
+        returned=rows['CurrentnessAudit']['readiness_diagnostic']
+        self.assertEqual(returned['stage'],'NATIVE_RETURNED')
+        self.assertEqual(returned['reported_native_invocation'],'RETURNED')
+        self.assertEqual(returned['configured_disposition'],'OPEN')
+        self.assertEqual(returned['reported_semantic_coverage'],'BOUNDED_NOT_CERTIFIED')
+        self.assertTrue(all('readiness_diagnostic' not in row for row in raw))
+
+
 class ArchitecturePathTests(unittest.TestCase):
     def test_declared_paths_are_distinct_from_execution_and_semantic_evidence(self):
         sha='a'*40
