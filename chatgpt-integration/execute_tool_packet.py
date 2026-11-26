@@ -17,8 +17,8 @@ import sys
 
 
 # I. Packet/provider identity and loading.
-# Relocation candidate (not moved): compare generic digest helpers with
-# runtime_bootstrap.py; packet SHA-256 and Git object SHA are distinct identities.
+# Ownership decision: packet SHA-256 remains here. runtime_bootstrap.py owns
+# Git object identity and archive integrity, not the packet identity contract.
 def sha256(data):
     return hashlib.sha256(data).hexdigest()
 
