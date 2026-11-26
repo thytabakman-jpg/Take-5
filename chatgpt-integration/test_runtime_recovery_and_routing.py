@@ -115,5 +115,52 @@ class RecoveryTests(unittest.TestCase):
             self.assemble('old.zip',tree,self.root/'old.zip')
 
 
+class CandidateProviderTests(unittest.TestCase):
+    def setUp(self):
+        self.sha='a'*40
+        self.base={'sources':[{'path':'a.md','sha':self.sha}]}
+        self.ev=[{'source_path':'a.md','source_sha':self.sha,'locator':'L1','basis':'fixture observation'}]
+
+    def call(self, tool, key, spec, **extra):
+        return bind_adapters({**self.base,key:spec,**extra})[tool]({},None)
+
+    def test_discriminator_retains_unknown_and_closes_unique_evidenced_match(self):
+        spec={'inventory_evidence':self.ev,'predicate':'matches the declared criterion',
+              'candidates':[{'id':'a','decision':'MATCH','evidence':self.ev},
+                            {'id':'b','decision':'UNKNOWN','evidence':self.ev}]}
+        out=self.call('Discriminator','candidate_evidence',spec)
+        self.assertEqual(out['status'],'OPEN')
+        self.assertEqual(out['result']['unknown_candidates'],('b',))
+        self.assertEqual(out['adapter_provenance']['native_invocation'],'RETURNED')
+        spec['candidates'][1]['decision']='NO_MATCH'
+        self.assertEqual(self.call('Discriminator','candidate_evidence',spec)['status'],'EXECUTED')
+        self.assertEqual(self.call('Discriminator','candidate_evidence',spec,threshold={})['status'],'BLOCKED')
+
+    def test_reconciler_preserves_type_sensitive_conflict_and_unknown(self):
+        spec={'inventory_evidence':self.ev,'claims':[{'id':'a','key':'x','value':True,'evidence':self.ev},
+                         {'id':'b','key':'x','value':1,'evidence':self.ev}]}
+        out=self.call('Reconciler','reconcile_claims',spec)
+        self.assertEqual(out['status'],'OPEN')
+        self.assertEqual(out['result']['conflicts'],('x',))
+        spec['claims'][1]['value']=None
+        self.assertEqual(self.call('Reconciler','reconcile_claims',spec)['result']['open_coordinates'],('x',))
+        spec['claims'][1]['value']=True
+        self.assertEqual(self.call('Reconciler','reconcile_claims',spec)['status'],'EXECUTED')
+
+    def test_rootcause_returns_native_open_and_rejects_unsupported_positive_flag(self):
+        spec={'inventory_evidence':self.ev,'basis_id':'fixture','failure_class':['a','b'],
+              'candidates':[{'id':'one','level':'LOCAL_MECHANISM','explains':['a'],
+                             'evidence':self.ev,'unresolved':['cause not tested']}]}
+        packet={**self.base,'root_cause':spec}
+        out=self.call('RootCause','root_cause',spec)
+        self.assertEqual(out['status'],'OPEN')
+        self.assertEqual(out['adapter_provenance']['native_invocation'],'RETURNED')
+        self.assertEqual(execute_direct_tool_commands(['RootCause'],adapters=bind_adapters(packet)).status,'OPEN')
+        spec['candidates'][0]['removal_breaks_recurrence']=True
+        out=self.call('RootCause','root_cause',spec)
+        self.assertEqual(out['status'],'OPEN')
+        self.assertEqual(out['adapter_provenance']['native_invocation'],'NOT_INVOKED')
+
+
 if __name__=='__main__':
     unittest.main()
