@@ -104,26 +104,33 @@ Q_01..Q_22 x D36_C,
 {DIFFERENTIATE,RELATE,RECONSTRUCT,STRENGTHEN} x D36_C
 >.
 
+Let D = Scope x ModeFace (the canonical D36_C cells),
+Q = {Q01,...,Q22},
+C = {DIFFERENTIATE,RELATE,RECONSTRUCT,STRENGTHEN},
+and N(T) = the nonempty registered native layer set for T.
+
 PlanComplete(T)
 
-iff:
+iff the configured spec is complete and the plan has:
 
-Wrapper(T)
-and
-|D36_C| = 36
-and
-|Questions(T)| = 22 x 36 = 792
-and
-|Cognitive(T)| = 4 x 36 = 144
-and
-RecurrenceRequired(T)
-and
-RecurrenceEngine(T)=Rec(T)
-and
-InvocationProfile(T)=FULL_CONFIGURED_HF2_V1.
+Mode(T) = OBSERVER
+and Wrapper(T)
+and Geometry(T) = D36_C
+and Cells(T) = D, each cell exactly once
+and Native(T) = N(T) x D, each projection exactly once
+and Questions(T) = Q x D, each projection exactly once
+and Cognitive(T) = C x D, each projection exactly once
+and RecurrenceRequired(T)
+and RecurrenceEngine(T) = Rec(T)
+and InvocationProfile(T) = FULL_CONFIGURED_HF2_V1.
+
+Consequently |D| = 36, |Questions(T)| = 792,
+|Cognitive(T)| = 144, and |Native(T)| = 36 x |N(T)|.
 ```
 
 ## Runtime invocation
+
+The configured plan is constructed from the exact registered specification by [build_tool_execution_plan](../runtime/global_tool_execution.py); [ConfiguredRunSpec.complete](../runtime/configured_run.py) validates the governing configuration. The cardinalities alone do not establish exact coverage or semantic execution.
 
 For ordinary T:
 

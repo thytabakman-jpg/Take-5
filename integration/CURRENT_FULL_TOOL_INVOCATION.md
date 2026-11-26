@@ -151,9 +151,9 @@ The campaign began before ImprovementCore regime 091 became current.
 
 Before final closure, the repair was transported to regime 091 and revalidated.
 
-Current ImprovementCore basis:
+Historical validation basis: IC-028 / regime 091.
 
-IC-028 / regime 091.
+Resolve the current ImprovementCore identity and regime from the [governing recovery authority](CURRENT_IMPROVEMENT_CORE.md#current-identity) and [runtime regime declaration](../runtime/improvement_core_regime.py). The historical validation basis does not select the current runtime.
 
 Default user-facing ImprovementCore local recurrence:
 

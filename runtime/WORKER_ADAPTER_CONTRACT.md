@@ -35,7 +35,7 @@ Missing material input remains OPEN; invalid or contradictory input is BLOCKED o
 | Verification hooks | Testable expected consequences, non-regression obligations and applicable verification method |
 | Continuation signal | Material successor, local frontier, affected scope, or grounds for stopping |
 
-Preserve the native tool's own result vocabulary and the host's documented envelope; mapping between them must preserve unresolved obligations and cannot upgrade success. Use the configured execution bridge and [full invocation profile](../architecture/FULL_CONFIGURED_TOOL_INVOCATION_121.md) where the selected registered tool requires it.
+Preserve the native tool's own result vocabulary and the host's documented envelope; mapping between them must preserve unresolved obligations and cannot upgrade success. Use the [configured execution bridge](improvement_core_tool_bridge.py) and [full invocation profile](../architecture/FULL_CONFIGURED_TOOL_INVOCATION_121.md) where the selected registered tool requires it. Direct commands enter through the [direct command gateway](direct_tool_command_gateway.py); configured recurrence is handled by the [shared HF2 executor](configured_hf2_execution.py). For the ChatGPT host, consult the [runtime bootstrap and bounded adapter admission instructions](https://github.com/thytabakman-jpg/Take-5/blob/chatgpt-runtime-bootstrap/chatgpt-bootstrap/README.md). These routes do not establish the availability or semantic adequacy of a particular worker.
 
 ## Execution evidence and coverage
 
