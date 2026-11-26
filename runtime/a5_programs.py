@@ -238,13 +238,15 @@ def run_generic(program_id, payload):
         ok=bool(value) and protected<=preserves
         return {"status":"ACCEPT" if ok else "OPEN",key:value if ok else None}
     if program_id=="C32":
-        x=[r for r in payload.get("routes",[]) if r.get("licensed") and r.get("reachable")]
+        x=[r for r in payload.get("routes",[]) if r.get("licensed") is True and r.get("reachable") is True]
         return {"status":"ACCEPT" if x else "OPEN","routes":x}
     if program_id=="C33":
-        ok=bool(payload.get("strict_gain")) and bool(payload.get("preserves"))
+        ok=payload.get("strict_gain") is True and payload.get("preserves") is True
         return {"status":"ACCEPT" if ok else "OPEN","gain_disposition":"STRICT_GAIN" if ok else "UNESTABLISHED"}
     if program_id=="C34":
-        ok=payload.get("protected_before")==payload.get("protected_after")
+        if any(payload.get(key) is None for key in ("protected_before","protected_after")):
+            return {"status":"OPEN","regression_disposition":"UNESTABLISHED"}
+        ok=payload["protected_before"]==payload["protected_after"]
         return {"status":"ACCEPT" if ok else "FAIL","regression_disposition":"PASS" if ok else "REGRESSION"}
     if program_id=="C35":
         return {"status":"ACCEPT","nondominated_set":payload.get("nondominated_set",payload.get("candidates",[]))}
@@ -253,7 +255,9 @@ def run_generic(program_id, payload):
         value=payload.get(key)
         return {"status":"ACCEPT" if value is not None else "OPEN",key:value}
     if program_id=="C44":
-        ok=payload.get("expected")==payload.get("actual")
+        if any(key not in payload for key in ("expected","actual")):
+            return {"status":"OPEN","verification":"UNESTABLISHED"}
+        ok=payload["expected"]==payload["actual"]
         return {"status":"ACCEPT" if ok else "FAIL","verification":"PASS" if ok else "FAIL"}
     if program_id=="C45":
         ok=bool(payload.get("preregistered")) and bool(payload.get("pass"))
