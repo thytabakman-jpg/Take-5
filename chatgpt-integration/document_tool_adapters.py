@@ -297,6 +297,10 @@ def _graph_adapter(packet, sources):
         issues={'missing':sorted(expected-present),'extra':sorted(present-expected),
                 'dangling':sorted((u,v) for u,vs in dependencies.items() for v in vs if v not in present)}
         execution={x['id']:x.get('execution_dependencies',[]) for x in target}
+        from architecture_analysis import declared_dependency_paths
+        paths=declared_dependency_paths(dependencies)
+        execution_paths=declared_dependency_paths(execution)
+        potential_consumers={u:sorted(v for v,targets in paths.items() if u in targets) for u in sorted(present)}
         owners=defaultdict(list)
         for row in target:
             for key in row.get('information_ownership',[]):
@@ -309,7 +313,9 @@ def _graph_adapter(packet, sources):
         result=dict(ArchClass='EXPLICIT_SOURCE_GRAPH',Violations=issues,
             LocalizationFamilies=[k for k,v in issues.items() if v],DependencyState=dependencies,
             InteractionState={'internal_consumers':consumers,'declared_external_dependencies':{x['id']:x.get('external_dependencies',[]) for x in target},
-                              'declared_execution_dependencies':execution,'diagnostic_candidates':candidates},
+                              'declared_execution_dependencies':execution,'diagnostic_candidates':candidates,
+                              'declared_dependency_paths':paths,'declared_execution_paths':execution_paths,
+                              'potential_transitive_consumers':potential_consumers},
             TransformationFrontier=[],SuccessorFrontier=[],
             Coverage={'scope':'declared static graph only','roles':{x['id']:x['role'] for x in target},
                       'declared_information_ownership':{x['id']:x.get('information_ownership',[]) for x in target},

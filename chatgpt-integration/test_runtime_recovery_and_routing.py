@@ -58,6 +58,26 @@ class ScopedRoutingTests(unittest.TestCase):
         self.assertEqual(adapters['ASSERT']({},None)['status'],'EXECUTED')
 
 
+class ArchitecturePathTests(unittest.TestCase):
+    def test_declared_paths_are_distinct_from_execution_and_semantic_evidence(self):
+        sha='a'*40
+        packet={'command':['Architecture'],'sources':[{'path':'a.md','sha':sha}],
+                'architecture_graph':{'expected_units':['a','b','c','d'],
+                    'units':[{'id':uid,'source':'a.md','sha':sha,'role':'fixture','locator':uid,
+                              'internal_dependencies':deps,'execution_dependencies':exe}
+                             for uid,deps,exe in [('a',['b'],['b']),('b',['c'],[]),
+                                                  ('c',[],[]),('d',[],[])]]}}
+        result=execute_direct_tool_commands(['Architecture'],adapters=bind_adapters(packet))
+        self.assertEqual(result.status,'OPEN')
+        native=result.executions[0].result['result']
+        interaction=native['InteractionState']
+        self.assertEqual(interaction['declared_dependency_paths']['a']['c'],['a','b','c'])
+        self.assertNotIn('c',interaction['declared_execution_paths']['a'])
+        self.assertEqual(interaction['potential_transitive_consumers']['c'],['a','b'])
+        self.assertEqual(native['SuccessorFrontier'],[])
+        self.assertTrue(native['OpenConflictBlocked'])
+
+
 class RecoveryTests(unittest.TestCase):
     def setUp(self):
         temporary=tempfile.TemporaryDirectory()
