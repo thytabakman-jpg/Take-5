@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Bind an explicit, frozen document-analysis packet to the original Take-5 gateway.
 
-Built-in bindings are finite-frame PD/PDAudit and Prose's explicit contract.
+Built-in bindings are owned by document_tool_adapters.py (finite PD/PDAudit and Prose).
 Other tools require an explicitly supplied trusted Python adapter module.
 Never fabricates semantic-worker, independence, or full-coverage receipts.
 No research-document mutation.
@@ -20,59 +20,60 @@ def sha256(data):
     return hashlib.sha256(data).hexdigest()
 
 
+def _load_adapter_module(path, name):
+    """Load a specific companion or explicitly authorized provider by path."""
+    spec=importlib.util.spec_from_file_location(name,path)
+    if spec is None or spec.loader is None:
+        raise TypeError("ADAPTER_MODULE_LOADER_REQUIRED")
+    mod=importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
 def builtin_adapters(packet, digest):
-    def pd_adapter(tool):
-        def invoke(current, plan):
-            spec = packet.get("pd_frame")
-            if not spec:
-                return {"status":"OPEN", "blocker":"PD_FRAME_REQUIRED",
-                        "adapter_provenance":{"native_invocation":"NOT_INVOKED","provider_binding":tool}}
-            rows = tuple(spec["cases"])
-            names = spec["representations"]
-            if not rows or not names or not all(row.get("id") for row in rows):
-                raise ValueError("EXPLICIT_PD_CASES_AND_COORDINATES_REQUIRED")
-            if len({row["id"] for row in rows}) != len(rows):
-                raise ValueError("DUPLICATE_PD_CASE_ID")
-            if any(not isinstance(fields,list) or not fields for fields in names.values()):
-                raise ValueError("PD_REPRESENTATION_FIELDS_REQUIRED")
-            # Result labels and coordinate assignments are inputs, not generated evidence.
-            args = dict(rho=lambda x:x["result"], approx=lambda a,b:a==b,
-                        representations={name:(lambda x, keys=tuple(fields):tuple(x["coordinates"][k] for k in keys))
-                                         for name,fields in names.items()})
-            if tool == "PD":
-                from pd import run_pd as fn
-            else:
-                from pd_audit import run_pd_audit as fn
-            if tool=="PDAudit":
-                args.update(kappa_cases=lambda xs:{"case_count":len(xs)},
-                            kappa_representations=lambda reps:{"representation_names":list(reps)})
-            out = fn(rows, **args)
-            return {"status":out["status"], "result":out, "execution_truth":"IMPLEMENTATION_EXECUTED" if out["status"]=="RELATIVE_CLOSE" else "OPEN",
-                    "material_delta":False, "evidence":[f"native:{fn.__module__}.{fn.__name__}",f"packet-sha256:{digest}"],
-                    "blocker":out.get("blocker"),
-                    "adapter_provenance":{"native_invocation":"RETURNED","provider_binding":tool,
-                                          "semantic_coverage":"BOUNDED_NOT_CERTIFIED"}}
-        return invoke
+    """Compatibility entry point; the companion adapter module owns the bindings."""
+    mod=_load_adapter_module(Path(__file__).resolve().with_name("document_tool_adapters.py"),
+                             "take5_builtin_document_adapters")
+    return mod.builtin_adapters(packet,digest)
 
-    def prose_adapter(current,plan):
-        spec=packet.get("prose")
-        if not spec:
-            return {"status":"OPEN","blocker":"PROSE_TEXT_AND_CONTRACT_REQUIRED",
-                    "adapter_provenance":{"native_invocation":"NOT_INVOKED","provider_binding":"Prose"}}
-        # Semantic PASS evidence is intentionally not constructed from user labels.
-        # A separately reviewed semantic-evidence adapter may be explicitly bound.
-        from prose import ProseContract, assess_prose
-        contract=ProseContract(**spec["contract"])
-        out=assess_prose(spec["text"],contract,evidence=None)
-        return {"status":"BLOCKED" if out.status=="BLOCKED" else "OPEN",
-                "execution_truth":"BLOCKED" if out.status=="BLOCKED" else "OPEN",
-                "result":asdict(out), "material_delta":False,
-                "evidence":["native:prose.assess_prose",f"packet-sha256:{digest}"],
-                "blocker":"PROSE_SEMANTIC_EVIDENCE_NOT_BOUND",
-                "adapter_provenance":{"native_invocation":"RETURNED","provider_binding":"Prose",
-                                      "semantic_coverage":"BOUNDED_NOT_CERTIFIED"}}
 
-    return {"PD":pd_adapter("PD"),"PDAudit":pd_adapter("PDAudit"),"Prose":prose_adapter}
+def admit_external_adapters(packet, ids, adapters, adapter_module, allowed):
+    """Authorize provider bindings separately from gateway execution."""
+    provider=None
+    admitted_external=set()
+    admission_errors={}
+    provider_error=None
+    if adapter_module:
+        mod_path=adapter_module.resolve()
+        provider={"path":str(mod_path),"sha256":None,"status":"OPEN"}
+        try:
+            provider["sha256"]=sha256(mod_path.read_bytes())
+            mod=_load_adapter_module(mod_path,"take5_explicit_host_adapter")
+            binder=getattr(mod,"bind_adapters",None)
+            if not callable(binder):
+                raise TypeError("ADAPTER_BINDER_REQUIRED")
+            external=binder(packet)
+            if not isinstance(external,Mapping):
+                raise TypeError("ADAPTER_MAPPING_REQUIRED")
+            offered=list(external.items())
+            admitted={}
+            provider["offered_tools"]=[tool for tool,_ in offered]
+            for tool,binding in offered:
+                if tool not in ids:
+                    continue
+                if tool in adapters and tool not in allowed:
+                    admission_errors[tool]="ADAPTER_OVERRIDE_NOT_AUTHORIZED"
+                elif not callable(binding):
+                    admission_errors[tool]="ADAPTER_NOT_CALLABLE"
+                else:
+                    admitted[tool]=binding
+            adapters.update(admitted)
+            admitted_external.update(admitted)
+            provider["status"]="LOADED"
+        except Exception as exc:
+            provider_error=f"{type(exc).__name__}:{exc}"
+            provider.update(status="BLOCKED",blocker=provider_error)
+    return provider,admitted_external,admission_errors,provider_error
 
 
 def main():
@@ -115,45 +116,10 @@ def main():
         adapters=builtin_adapters(packet,digest)
     except Exception as exc:
         return write_failure_receipt(a.receipt, "PACKET", phase, exc, context)
-    provider=None
-    admitted_external=set()
-    admission_errors={}
-    provider_error=None
     allowed=set(a.allow_adapter_override)
-    if a.adapter_module:
-        mod_path=a.adapter_module.resolve()
-        provider={"path":str(mod_path),"sha256":None,"status":"OPEN"}
-        try:
-            provider["sha256"]=sha256(mod_path.read_bytes())
-            spec=importlib.util.spec_from_file_location("take5_explicit_host_adapter",mod_path)
-            if spec is None or spec.loader is None:
-                raise TypeError("ADAPTER_MODULE_LOADER_REQUIRED")
-            mod=importlib.util.module_from_spec(spec)
-            spec.loader.exec_module(mod)
-            binder=getattr(mod,"bind_adapters",None)
-            if not callable(binder):
-                raise TypeError("ADAPTER_BINDER_REQUIRED")
-            external=binder(packet)
-            if not isinstance(external,Mapping):
-                raise TypeError("ADAPTER_MAPPING_REQUIRED")
-            offered=list(external.items())
-            admitted={}
-            provider["offered_tools"]=[tool for tool,_ in offered]
-            for tool,binding in offered:
-                if tool not in ids:
-                    continue
-                if tool in adapters and tool not in allowed:
-                    admission_errors[tool]="ADAPTER_OVERRIDE_NOT_AUTHORIZED"
-                elif not callable(binding):
-                    admission_errors[tool]="ADAPTER_NOT_CALLABLE"
-                else:
-                    admitted[tool]=binding
-            adapters.update(admitted)
-            admitted_external.update(admitted)
-            provider["status"]="LOADED"
-        except Exception as exc:
-            provider_error=f"{type(exc).__name__}:{exc}"
-            provider.update(status="BLOCKED",blocker=provider_error)
+    provider,admitted_external,admission_errors,provider_error=admit_external_adapters(
+        packet,ids,adapters,a.adapter_module,allowed
+    )
     # Independent requested tools retain their own receipts. A failed external
     # provider cannot suppress unrelated built-ins or silently authorize fallback.
     results=[]
@@ -161,8 +127,8 @@ def main():
         if tool in admitted_external:
             return {"kind":"EXPLICIT_MODULE","path":provider["path"],"sha256":provider["sha256"]}
         if tool in adapters:
-            return {"kind":"BUILTIN","path":"execute_tool_packet.py",
-                    "git_blob_sha":integration_manifest["blobs"]["execute_tool_packet.py"]}
+            return {"kind":"BUILTIN","path":"document_tool_adapters.py",
+                    "git_blob_sha":integration_manifest["blobs"]["document_tool_adapters.py"]}
         return {"kind":"MISSING"}
     for tool in ids:
         if tool in admission_errors:

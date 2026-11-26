@@ -9,6 +9,62 @@ import hashlib
 import json
 
 
+# Built-in finite-frame bindings. Explicit module bindings remain opt-in.
+def builtin_adapters(packet, digest):
+    def pd_adapter(tool):
+        def invoke(current, plan):
+            spec = packet.get("pd_frame")
+            if not spec:
+                return {"status":"OPEN", "blocker":"PD_FRAME_REQUIRED",
+                        "adapter_provenance":{"native_invocation":"NOT_INVOKED","provider_binding":tool}}
+            rows = tuple(spec["cases"])
+            names = spec["representations"]
+            if not rows or not names or not all(row.get("id") for row in rows):
+                raise ValueError("EXPLICIT_PD_CASES_AND_COORDINATES_REQUIRED")
+            if len({row["id"] for row in rows}) != len(rows):
+                raise ValueError("DUPLICATE_PD_CASE_ID")
+            if any(not isinstance(fields,list) or not fields for fields in names.values()):
+                raise ValueError("PD_REPRESENTATION_FIELDS_REQUIRED")
+            # Result labels and coordinate assignments are inputs, not generated evidence.
+            args = dict(rho=lambda x:x["result"], approx=lambda a,b:a==b,
+                        representations={name:(lambda x, keys=tuple(fields):tuple(x["coordinates"][k] for k in keys))
+                                         for name,fields in names.items()})
+            if tool == "PD":
+                from pd import run_pd as fn
+            else:
+                from pd_audit import run_pd_audit as fn
+            if tool=="PDAudit":
+                args.update(kappa_cases=lambda xs:{"case_count":len(xs)},
+                            kappa_representations=lambda reps:{"representation_names":list(reps)})
+            out = fn(rows, **args)
+            return {"status":out["status"], "result":out, "execution_truth":"IMPLEMENTATION_EXECUTED" if out["status"]=="RELATIVE_CLOSE" else "OPEN",
+                    "material_delta":False, "evidence":[f"native:{fn.__module__}.{fn.__name__}",f"packet-sha256:{digest}"],
+                    "blocker":out.get("blocker"),
+                    "adapter_provenance":{"native_invocation":"RETURNED","provider_binding":tool,
+                                          "semantic_coverage":"BOUNDED_NOT_CERTIFIED"}}
+        return invoke
+
+    def prose_adapter(current,plan):
+        spec=packet.get("prose")
+        if not spec:
+            return {"status":"OPEN","blocker":"PROSE_TEXT_AND_CONTRACT_REQUIRED",
+                    "adapter_provenance":{"native_invocation":"NOT_INVOKED","provider_binding":"Prose"}}
+        # Semantic PASS evidence is intentionally not constructed from user labels.
+        # A separately reviewed semantic-evidence adapter may be explicitly bound.
+        from prose import ProseContract, assess_prose
+        contract=ProseContract(**spec["contract"])
+        out=assess_prose(spec["text"],contract,evidence=None)
+        return {"status":"BLOCKED" if out.status=="BLOCKED" else "OPEN",
+                "execution_truth":"BLOCKED" if out.status=="BLOCKED" else "OPEN",
+                "result":asdict(out), "material_delta":False,
+                "evidence":["native:prose.assess_prose",f"packet-sha256:{digest}"],
+                "blocker":"PROSE_SEMANTIC_EVIDENCE_NOT_BOUND",
+                "adapter_provenance":{"native_invocation":"RETURNED","provider_binding":"Prose",
+                                      "semantic_coverage":"BOUNDED_NOT_CERTIFIED"}}
+
+    return {"PD":pd_adapter("PD"),"PDAudit":pd_adapter("PDAudit"),"Prose":prose_adapter}
+
+
 # Shared transfer identity helpers.
 def digest(value):
     return hashlib.sha256(json.dumps(value,sort_keys=True,ensure_ascii=False).encode()).hexdigest()
@@ -391,6 +447,20 @@ def _bounded_result(packet, source_ids, entry,out,status='EXECUTED',blocker=None
             'blocker':blocker,'scope':'BOUNDED_EXPLICIT_INPUT; NO_FULL_SEMANTIC_COVERAGE'}
 
 
+def _admit_tool_models(packet,tool,groups,sources):
+    """Admit only the selected model; keep this independent of native execution."""
+    structured=None
+    structured_key={'Diagnosis':'diagnosis','RTC':'rtc'}.get(tool)
+    if structured_key is not None and structured_key in packet:
+        if 'threshold' in packet:
+            raise ValueError(f'{tool}:AMBIGUOUS_STRUCTURED_AND_THRESHOLD_INPUT')
+        structured=_structured_inputs(packet,tool,sources)
+        groups=()
+    matrix_data=_admit_matrix(packet,tool) if 'matrix' in groups else None
+    threshold_data=_admit_threshold(packet,tool) if 'threshold' in groups else None
+    return structured,matrix_data,threshold_data
+
+
 # Tool-specific finite and structured bindings.
 def _bind_admitted_adapters(packet, tool, groups):
     # Admit only the evidence used by this invocation. No input validation
@@ -404,17 +474,11 @@ def _bind_admitted_adapters(packet, tool, groups):
         if 'matrix' in packet or 'threshold' in packet:
             raise ValueError('AMBIGUOUS_ASSERT_INPUT')
         return {tool:_quote_adapter(packet,sources)}
-    structured=None
-    structured_key={'Diagnosis':'diagnosis','RTC':'rtc'}.get(tool)
-    if structured_key is not None and structured_key in packet:
-        if 'threshold' in packet:
-            raise ValueError(f'{tool}:AMBIGUOUS_STRUCTURED_AND_THRESHOLD_INPUT')
-        structured=_structured_inputs(packet,tool,sources)
-        groups=()
-    if 'matrix' in groups:
-        matrix, axes, rows, expected, expected_counts = _admit_matrix(packet, tool)
-    if 'threshold' in groups:
-        t, thresholds, qs = _admit_threshold(packet, tool)
+    structured,matrix_data,threshold_data=_admit_tool_models(packet,tool,groups,sources)
+    if matrix_data is not None:
+        matrix, axes, rows, expected, expected_counts=matrix_data
+    if threshold_data is not None:
+        t, thresholds, qs=threshold_data
     if tool == 'MultiObject':
         from multiobject import (FrozenObject, RelationFinding, RouteResult, ResidualJudgment,
                                  ReconciledFinding, run_multiobject)

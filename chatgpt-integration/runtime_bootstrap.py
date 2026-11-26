@@ -154,6 +154,28 @@ def verify_bootstrap_receipt(root, boot, integration_manifest):
     return commit, source_tree
 
 
+def verified_archive_members(z, tree):
+    """Verify the complete archive against the authenticated tree before any write."""
+    seen = set()
+    for info in z.infolist():
+        p = PurePosixPath(info.filename)
+        if p.is_absolute() or ".." in p.parts or "\\" in info.filename:
+            raise ValueError(f"UNSAFE_PATH: {info.filename}")
+        if info.is_dir():
+            continue
+        if info.filename in seen or info.filename not in tree:
+            raise ValueError(f"UNEXPECTED_OR_DUPLICATE_PATH: {info.filename}")
+        mode, sha = tree[info.filename]
+        if mode not in ("100644", "100755"):
+            raise ValueError(f"UNSUPPORTED_FILE_MODE: {info.filename} {mode}")
+        if git_blob_sha(z.read(info)) != sha:
+            raise ValueError(f"BLOB_MISMATCH: {info.filename}")
+        seen.add(info.filename)
+    if seen != set(tree):
+        raise ValueError(f"MISSING_TRACKED_BLOBS: {sorted(set(tree)-seen)}")
+    return seen
+
+
 # III. Archive installation.
 def install(artifact, destination, expected, integration_manifest):
     if not re.fullmatch(r"[0-9a-f]{40}", expected):
@@ -182,23 +204,7 @@ def install(artifact, destination, expected, integration_manifest):
             tree[name] = (mode, sha)
         source_tree = verify_commit_tree(commit, commit_object, tree)
         with zipfile.ZipFile(io.BytesIO(source)) as z:
-            seen = set()
-            for info in z.infolist():
-                p = PurePosixPath(info.filename)
-                if p.is_absolute() or ".." in p.parts or "\\" in info.filename:
-                    raise ValueError(f"UNSAFE_PATH: {info.filename}")
-                if info.is_dir():
-                    continue
-                if info.filename in seen or info.filename not in tree:
-                    raise ValueError(f"UNEXPECTED_OR_DUPLICATE_PATH: {info.filename}")
-                mode, sha = tree[info.filename]
-                if mode not in ("100644", "100755"):
-                    raise ValueError(f"UNSUPPORTED_FILE_MODE: {info.filename} {mode}")
-                if git_blob_sha(z.read(info)) != sha:
-                    raise ValueError(f"BLOB_MISMATCH: {info.filename}")
-                seen.add(info.filename)
-            if seen != set(tree):
-                raise ValueError(f"MISSING_TRACKED_BLOBS: {sorted(set(tree)-seen)}")
+            seen = verified_archive_members(z, tree)
             root = Path(destination).resolve() / commit
             root.mkdir(parents=True, exist_ok=False)
             for name in sorted(seen):
