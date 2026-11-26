@@ -87,6 +87,9 @@ def run_mt_with_before_return_gate(
     This does not require semantic closure. OPEN residue is returned and may be
     revisited on a later MT encounter.
     """
+    if max_rounds < 1:
+        raise ValueError("max_rounds must be >= 1")
+
     state=initial_state
     all_receipts=[]
     last_result=None
