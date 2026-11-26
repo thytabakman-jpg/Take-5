@@ -19,7 +19,9 @@ from multiobject import MultiObjectResult
 from typing import Any, Callable, Mapping
 
 from capability_runtime import execute_capability
-from configured_hf2_execution import execute_configured_with_hf2
+from configured_hf2_execution import (
+    NON_SUCCESS_STATUSES, SUCCESS_STATUSES, execute_configured_with_hf2,
+)
 from global_tool_execution import build_tool_execution_plan
 from learning_tool_bridge import SPECS, availability as learning_availability, make_learning_worker
 from tool_run_registry import CONFIGURED_RUNS, MATERIAL_TOOLS
@@ -258,10 +260,10 @@ def _run_configured_factor(
     if recurrence.status not in {"RELATIVE_CLOSE","SELF_CLOSE"}:
         status=(
             recurrence.status
-            if recurrence.status in {"OPEN","BLOCKED","CONFLICT"}
+            if recurrence.status in NON_SUCCESS_STATUSES
             else "OPEN"
         )
-    elif raw_status in {"OPEN","BLOCKED","CONFLICT"}:
+    elif raw_status in NON_SUCCESS_STATUSES:
         status=raw_status
     else:
         status="EXECUTED"
@@ -409,7 +411,7 @@ def consult_tool_conductor(
         raise RuntimeError("TOOL_CONDUCTOR_CONSULTATION_COVERAGE_MISMATCH")
     open_tools=tuple(
         row["tool_id"] for row in results
-        if row["status"] in {"OPEN","BLOCKED","CONFLICT"}
+        if row["status"] in NON_SUCCESS_STATUSES
     )
     return {
         "status":"COMPLETE" if not open_tools else "OPEN",
@@ -518,10 +520,7 @@ def run_tool_conductor(
                         }
                     if (
                         isinstance(out,dict)
-                        and str(out.get("status","")) in {
-                            "EXECUTED","COMPLETE","CLOSED","CLOSED_RELATIVE",
-                            "RELATIVE_CLOSE","FULL_MATCH","OPEN","BLOCKED","CONFLICT"
-                        }
+                        and str(out.get("status","")) in (SUCCESS_STATUSES | NON_SUCCESS_STATUSES)
                     ):
                         raw=dict(out)
                         raw.setdefault("result",out)
@@ -565,7 +564,7 @@ def run_tool_conductor(
     if seen != tuple(MATERIAL_TOOLS):
         raise RuntimeError("TOOL_CONDUCTOR_COVERAGE_MISMATCH")
 
-    open_tools = tuple(r["tool_id"] for r in results if r["status"] in {"OPEN", "BLOCKED", "CONFLICT"})
+    open_tools = tuple(r["tool_id"] for r in results if r["status"] in NON_SUCCESS_STATUSES)
     return {
         "status": "COMPLETE" if not open_tools else "OPEN",
         "tool_count": len(results),

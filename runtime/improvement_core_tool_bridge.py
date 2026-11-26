@@ -10,14 +10,14 @@ from __future__ import annotations
 from dataclasses import asdict, dataclass, is_dataclass
 from typing import Any, Callable, Mapping
 
-from configured_hf2_execution import execute_configured_with_hf2
+from configured_hf2_execution import (
+    NON_SUCCESS_STATUSES, SUCCESS_STATUSES, execute_configured_with_hf2,
+)
 from formal_object_registry import canonical_formal_label
 from global_tool_execution import ToolExecutionPlan, build_tool_execution_plan
 from tool_run_registry import CONFIGURED_RUNS
 
 
-SUCCESS_STATUSES={"EXECUTED","COMPLETE","CLOSED","CLOSED_RELATIVE","RELATIVE_CLOSE","FULL_MATCH"}
-NON_SUCCESS_STATUSES={"OPEN","BLOCKED","CONFLICT"}
 
 
 class ToolBridgeBlocked(RuntimeError):
