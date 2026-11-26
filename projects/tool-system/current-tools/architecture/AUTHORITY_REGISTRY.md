@@ -7,7 +7,9 @@ Status: CURRENT PACKAGE ROUTING
 | package identity/status routing | [this package](README.md) |
 | current configured-tool identity | [runtime/tool_run_registry.py](../../../../runtime/tool_run_registry.py) |
 | current protected tool identity | [runtime/tool_manifest.py](../../../../runtime/tool_manifest.py) |
-| configured invocation / portable factor execution | [runtime/portable_tool_conductor.py](../../../../runtime/portable_tool_conductor.py) |
+| shared configured invocation requirements | [Tool Execution Architecture](../../../../architecture/Tool%20Execution%20Architecture.md) |
+| direct Repair dispatch | [direct gateway](../../../../runtime/direct_tool_command_gateway.py) and [configured bridge](../../../../runtime/improvement_core_tool_bridge.py) |
+| portable factor execution | [runtime/portable_tool_conductor.py](../../../../runtime/portable_tool_conductor.py) |
 | native Architecture semantic implementation | [runtime/architecture_analysis.py](../../../../runtime/architecture_analysis.py) |
 | domain-specific analyzer dependency | caller-supplied `analyze_architecture` to native implementation; not owned by this package |
 | historical/lineage evidence | [SOURCE_MAP.md](SOURCE_MAP.md) pointers |
