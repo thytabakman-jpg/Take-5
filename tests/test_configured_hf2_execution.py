@@ -231,3 +231,22 @@ def test_configured_hf2_rejects_truthy_nonboolean_trc_terminal():
         )
         assert out.status == "OPEN"
         assert out.call_count == 1
+
+
+def test_hf2_distinguishes_typed_mapping_keys_before_closure():
+    from configured_hf2_execution import _semantic_signature
+    plan=build_tool_execution_plan(CONFIGURED_RUNS["MT"])
+    calls=[]
+
+    def adapter(state, plan):
+        calls.append(1)
+        result={1:"value"} if len(calls)==1 else {"1":"value"}
+        return {"status":"EXECUTED","execution_truth":"IMPLEMENTATION_EXECUTED",
+                "result":result,"material_delta":True}
+
+    assert _semantic_signature({"result":{1:"a","1":"b"}}, {}) == _semantic_signature(
+        {"result":{"1":"b",1:"a"}}, {})
+    out=execute_configured_with_hf2(tool_id="MT",plan=plan,state={},adapter=adapter)
+    assert out.status=="RELATIVE_CLOSE"
+    assert out.call_count==3
+    assert [x["disposition"] for x in out.trace]==["REAPPLY_C","REAPPLY_C","RELATIVE_CLOSE"]

@@ -141,7 +141,12 @@ def _canonical(value:Any)->Any:
     if is_dataclass(value):
         return _canonical(asdict(value))
     if isinstance(value,Mapping):
-        return {str(k):_canonical(v) for k,v in sorted(value.items(),key=lambda kv:str(kv[0]))}
+        # Keep key type and value: 1 and "1" are distinct receipt coordinates.
+        # Sort the encoded keys, not their lossy string representations.
+        entries=[((type(k).__module__,type(k).__qualname__,_canonical(k)),_canonical(v))
+                 for k,v in value.items()]
+        return {"__mapping__":sorted(entries,key=lambda item:json.dumps(
+            item[0],sort_keys=True,separators=(",",":"),ensure_ascii=False))}
     if isinstance(value,(list,tuple)):
         return [_canonical(v) for v in value]
     if isinstance(value,(set,frozenset)):
