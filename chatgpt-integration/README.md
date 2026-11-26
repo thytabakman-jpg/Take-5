@@ -46,7 +46,15 @@ Expect PD and PDAudit to return bounded native results, Prose to preserve OPEN f
 
 ## Read-only document-analysis bindings
 
-[document_tool_adapters.py](document_tool_adapters.py) provides host bindings for explicitly admitted classification matrices, finite integer-threshold comparisons, and structured Diagnosis/RTC evidence. It is packaged with the runtime on demand. Run the existing packet runner with `--adapter-module <integration-directory>/document_tool_adapters.py`. PD, PDAudit and Prose continue to use the packet runner's native bindings.
+### Provider responsibilities
+
+[execute_tool_packet.py](execute_tool_packet.py) owns packet admission, provider selection, dispatch and execution receipts. Its built-in finite PD/PDAudit and syntactic Prose bindings are available without an external module. [document_tool_adapters.py](document_tool_adapters.py) owns the specialized, explicitly selected document-analysis bindings described below. The two binding sets are distinct; the specialized module is not a prerequisite for the built-in bindings. External replacements for a requested built-in require explicit per-tool override authorization. A provider failure does not prevent unrelated built-in tools from retaining their own execution dispositions.
+
+The [integration regression suite](test_document_tool_adapters.py) exercises both binding sets against native implementations, including configured-gateway routing, bounded provenance and OPEN preservation. The packaging workflow runs this suite before publishing an artifact; a test failure prevents publication. Passing these checks establishes the tested integration behaviour, not general semantic coverage.
+
+### Specialized bindings
+
+[document_tool_adapters.py](document_tool_adapters.py) provides host bindings for explicitly admitted classification matrices, finite integer-threshold comparisons, and structured Diagnosis/RTC evidence. It is packaged with the runtime on demand. Run the existing packet runner with `--adapter-module <integration-directory>/document_tool_adapters.py`. PD, PDAudit and Prose continue to use the packet runner's built-in bindings unless an explicit replacement is authorized.
 
 Admission is per registered tool. A combined packet may supply multiple input groups.
 
