@@ -375,6 +375,19 @@ raise SystemExit(int(a.status!='CLOSED_RELATIVE'))
 # VI. Failure receipts and command-line orchestration.
 # Packet-specific result receipts remain owned by execute_tool_packet.py;
 # this helper serves pre-dispatch failure reporting only.
+def validate_receipt_path(receipt, *, inputs, protected_directories=()):
+    """Reject receipt destinations that could overwrite evidence or runtime bytes."""
+    receipt = Path(receipt)
+    resolved = receipt.resolve()
+    if resolved in {Path(path).resolve() for path in inputs if path is not None}:
+        raise ValueError("RECEIPT_OVERWRITES_VERIFIED_INPUT")
+    if receipt.exists() and receipt.stat().st_nlink > 1:
+        raise ValueError("RECEIPT_HARDLINK_NOT_ALLOWED")
+    for directory, reason in protected_directories:
+        if directory is not None and resolved.is_relative_to(Path(directory).resolve()):
+            raise ValueError(reason)
+
+
 def write_failure_receipt(path, operation, phase, exc, context):
     """Report pre-dispatch failure without claiming native tool execution."""
     failure = {**context, "status": "BLOCKED", "operation": operation,
@@ -404,11 +417,20 @@ def main():
     ap.add_argument("--assemble-blobs",type=Path,help="Directory of fetched bytes named by Git blob SHA")
     ap.add_argument("--source-cache",type=Path,help="Optional earlier local archive; bytes reverified against the current tree")
     args=ap.parse_args()
-    if re.fullmatch(r"[0-9a-f]{40}", args.expected_commit):
-        target=(args.destination.resolve()/args.expected_commit).resolve()
-        if args.receipt.resolve().is_relative_to(target):
-            print("RECEIPT_INSIDE_VERIFIED_RUNTIME", file=sys.stderr)
-            return 1
+    target = (args.destination.resolve()/args.expected_commit
+              if re.fullmatch(r"[0-9a-f]{40}", args.expected_commit) else None)
+    companion = Path(__file__).resolve().parent
+    # Validate before the failure-receipt path can overwrite any input.
+    try:
+        validate_receipt_path(args.receipt,
+            inputs=(args.artifact, args.integration_manifest, args.assemble_tree,
+                    args.assemble_commit_object, args.source_cache,
+                    *(companion/name for name in INTEGRATION_FILES)),
+            protected_directories=((target, "RECEIPT_INSIDE_VERIFIED_RUNTIME"),
+                                   (args.assemble_blobs, "RECEIPT_INSIDE_BLOB_STORE")))
+    except (ValueError, OSError, RuntimeError) as exc:
+        print(str(exc), file=sys.stderr)
+        return 1
     phase = "INSTALL"
     timings = {}
     started = perf_counter()

@@ -104,6 +104,57 @@ class RecoveryTests(unittest.TestCase):
         return bootstrap.assemble_verified_archive(self.root/name,sha,obj,tree,self.blobs,
                                                    self.manifest,self.companions,cache)
 
+    def test_receipt_path_protects_inputs_and_verified_directories(self):
+        archive=self.root/'archive.zip'
+        archive.write_bytes(b'original')
+        manifest=self.root/'manifest.json'
+        manifest.write_bytes(b'identity')
+        alias=self.root/'alias'
+        alias.symlink_to(archive)
+        hard=self.root/'hardlink'
+        hard.hardlink_to(archive)
+        runtime=self.root/'runtime'
+        inputs=(archive, manifest, None)
+        protected=((runtime, 'RECEIPT_INSIDE_VERIFIED_RUNTIME'),
+                   (self.blobs, 'RECEIPT_INSIDE_BLOB_STORE'))
+        cases=((archive, 'RECEIPT_OVERWRITES_VERIFIED_INPUT'),
+               (manifest, 'RECEIPT_OVERWRITES_VERIFIED_INPUT'),
+               (alias, 'RECEIPT_OVERWRITES_VERIFIED_INPUT'),
+               (hard, 'RECEIPT_HARDLINK_NOT_ALLOWED'),
+               (runtime/'receipt.json', 'RECEIPT_INSIDE_VERIFIED_RUNTIME'),
+               (self.blobs/'receipt.json', 'RECEIPT_INSIDE_BLOB_STORE'))
+        for path, reason in cases:
+            with self.subTest(path=path), self.assertRaisesRegex(ValueError, reason):
+                bootstrap.validate_receipt_path(path, inputs=inputs,
+                                                protected_directories=protected)
+        bootstrap.validate_receipt_path(self.root/'safe.json', inputs=inputs,
+                                        protected_directories=protected)
+        self.assertEqual(archive.read_bytes(), b'original')
+        self.assertEqual(manifest.read_bytes(), b'identity')
+
+    def test_bootstrap_rejects_receipt_overwriting_input_before_failure_write(self):
+        manifest=self.root/'bad-manifest.json'
+        manifest.write_bytes(b'not json')
+        with patch('sys.argv', ['runtime_bootstrap.py', str(self.root/'archive.zip'),
+                  '--expected-commit', 'a'*40, '--integration-manifest', str(manifest),
+                  '--receipt', str(manifest)]):
+            self.assertEqual(bootstrap.main(), 1)
+        self.assertEqual(manifest.read_bytes(), b'not json')
+
+    def test_packet_rejects_receipt_hardlink_before_failure_write(self):
+        import execute_tool_packet
+        packet=self.root/'packet.json'
+        packet.write_bytes(b'original packet')
+        receipt=self.root/'receipt.json'
+        receipt.hardlink_to(packet)
+        with patch('sys.argv', ['execute_tool_packet.py',
+                  '--runtime', str(self.root/'runtime'), '--expected-commit', 'a'*40,
+                  '--bootstrap-receipt', str(self.root/'absent-bootstrap.json'),
+                  '--integration-manifest', str(self.root/'manifest.json'),
+                  '--packet', str(packet), '--receipt', str(receipt)]):
+            self.assertEqual(execute_tool_packet.main(), 1)
+        self.assertEqual(packet.read_bytes(), b'original packet')
+
     def test_cache_and_new_blob_are_verified_then_installed(self):
         old=self.blob(b'old'); new=self.blob(b'new')
         tree={'a':('100644',old)}

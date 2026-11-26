@@ -149,16 +149,20 @@ def main():
     # Set before importing any verified integration companion.
     sys.dont_write_bytecode = True
     sys.pycache_prefix = None
-    from runtime_bootstrap import verify_bootstrap_receipt, write_failure_receipt, read_integration_manifest
+    from runtime_bootstrap import (verify_bootstrap_receipt, write_failure_receipt,
+                                   read_integration_manifest, validate_receipt_path,
+                                   INTEGRATION_FILES)
     root=a.runtime.resolve()
     companion=Path(__file__).resolve().parent
     if a.document_adapters:
         a.adapter_module=companion/"document_tool_adapters.py"
-    if a.receipt.resolve() in {p.resolve() for p in (a.packet,a.bootstrap_receipt,a.integration_manifest,*[companion/n for n in ("runtime_bootstrap.py","execute_tool_packet.py","document_tool_adapters.py","README.md")],*([a.adapter_module] if a.adapter_module else []))}:
-        print("RECEIPT_OVERWRITES_VERIFIED_INPUT", file=sys.stderr)
-        return 1
-    if a.receipt.resolve().is_relative_to(root):
-        print("RECEIPT_INSIDE_VERIFIED_RUNTIME", file=sys.stderr)
+    try:
+        validate_receipt_path(a.receipt,
+            inputs=(a.packet, a.bootstrap_receipt, a.integration_manifest,
+                    a.adapter_module, *(companion/name for name in INTEGRATION_FILES)),
+            protected_directories=((root, "RECEIPT_INSIDE_VERIFIED_RUNTIME"),))
+    except (ValueError, OSError, RuntimeError) as exc:
+        print(str(exc), file=sys.stderr)
         return 1
     phase = "RUNTIME_VERIFICATION"
     context = {"expected_commit": a.expected_commit}
