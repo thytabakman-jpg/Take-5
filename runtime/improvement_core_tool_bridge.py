@@ -19,9 +19,10 @@ from tool_run_registry import CONFIGURED_RUNS
 
 
 # I. Shared configured-execution contracts.
-# Relocation candidate (not moved): shared binding and batch receipt types
-# require an ownership comparison with tool_execution_plan.py and
-# configured_hf2_execution.py. Keep public compatibility during any later move.
+# Staged relocation (not moved): ConfiguredToolBinding and exact-ID plan
+# binding fit tool_execution_plan.py. Batch/receipt types require a shared
+# configured-execution owner review; they are not recurrence-plan metadata.
+# Preserve public compatibility during any later move.
 class ToolBridgeBlocked(RuntimeError):
     pass
 
@@ -133,8 +134,8 @@ def selected_tool_ids(state:Any)->tuple[str,...]:
 
 
 # III. Shared configured-plan binding.
-# Relocation candidate (not moved): compare this responsibility with
-# tool_execution_plan.py; controller-state projection remains in this bridge.
+# Staged relocation (not moved): _bind_registered_ids is pure configured-plan
+# binding and fits tool_execution_plan.py. Controller-state projection stays here.
 def _bind_registered_ids(tool_ids:tuple[str,...])->tuple[ConfiguredToolBinding,...]:
     return tuple(
         ConfiguredToolBinding(tool_id,build_tool_execution_plan(CONFIGURED_RUNS[tool_id]))
@@ -158,8 +159,9 @@ def bind_selected_tools(state:Any)->tuple[Any,tuple[ConfiguredToolBinding,...]]:
 
 
 # IV. Shared adapter result and receipt normalization.
-# Relocation candidate (not moved): configured_hf2_execution.py owns recurrence
-# and admitted state; compare receipt mapping before any ownership transfer.
+# Staged relocation (not moved): recurrence-relative status/admitted-state
+# projection fits configured_hf2_execution.py; controller output history and
+# host provenance adaptation remain here pending a shared batch-owner review.
 def _plain(value:Any)->Any:
     if is_dataclass(value):
         return asdict(value)
