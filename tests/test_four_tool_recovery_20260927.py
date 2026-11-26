@@ -140,3 +140,20 @@ def test_current_finite_repertoire_strong_tool_reality_closes_relative():
     assert audit.generic_only==()
     assert audit.native_unrecovered==()
     assert audit.status=="CLOSED_RELATIVE"
+
+def test_static_source_relationships_distinguishes_links_and_import_candidates():
+    from architecture_analysis import static_source_relationships
+    out=static_source_relationships({
+        'docs/a.md':'[B](b.md#heading)\n`[ignored](b.md)`\n```\n[ignored](b.md)\n```\n',
+        'docs/b.md':'[A](a.md)',
+        'runtime/a.py':'import b\n',
+        'runtime/b.py':'pass\n',
+        'broken.py':'def broken(:\n',
+    })
+    edges={(r['source'],r['target'],r['kind']) for r in out['references']}
+    assert edges=={('docs/a.md','docs/b.md','MARKDOWN_RELATIVE_LINK'),
+                   ('docs/b.md','docs/a.md','MARKDOWN_RELATIVE_LINK'),
+                   ('runtime/a.py','runtime/b.py','PYTHON_IMPORT_NAME_MATCH')}
+    assert len(out['references'])==3
+    assert any(r['reason']=='PYTHON_PARSE_FAILED' for r in out['unresolved'])
+

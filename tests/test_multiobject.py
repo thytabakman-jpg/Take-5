@@ -503,3 +503,19 @@ def test_multiobject_rejects_empty_or_repeated_finding_support():
         out=run_multiobject(_objects(),InvalidSupportProvider())
         assert out.status=='OPEN'
         assert out.blocker=='MULTIOBJECT_FINDING_SUPPORT_INVALID:joint-1'
+
+def test_declared_reference_provider_recovers_joint_cycle_and_common_target():
+    from multiobject import FrozenObject, DeclaredReferenceProvider, run_multiobject
+    objects=tuple(FrozenObject(x,'SOURCE_FILE','STATIC_REFERENCES',x,
+                               dependencies=deps,open_coordinates=('SEMANTIC_RELATIONS_OPEN',))
+                  for x,deps in [('a',('b','c')),('b',('c',)),('c',('a',))])
+    result=run_multiobject(objects,DeclaredReferenceProvider(objects,{x:x+'@blob' for x in ('a','b','c')}))
+    assert result.status=='OPEN'
+    assert len(result.state.pair_routes)==3
+    assert any(f.relation_type=='DECLARED_REFERENCE_CYCLE' and set(f.support)=={'a','b','c'}
+               for f in result.state.joint_route.findings)
+    assert any(f.relation_type=='COMMON_REFERENCE_TARGET' and f.grounds==('c',)
+               for f in result.state.joint_route.findings)
+    assert all(r.status=='PAIRWISE_RECOVERABLE' for r in result.state.residuals)
+    assert result.state.reconciliation
+

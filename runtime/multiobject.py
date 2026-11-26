@@ -600,3 +600,111 @@ def run_multiobject(
         material_delta,
         signature,
     )
+
+class DeclaredReferenceProvider:
+    """Finite relation algebra over explicit source-reference edges.
+
+    The joint route computes from frozen objects before any pair routes exist.
+    Pair routes see only their two objects. Reconciliation reconstructs joint
+    direct links, common-reference groups and cyclic components from pair facts.
+    No semantic dependency, causal relation or irreducible higher-order claim
+    follows from a static reference.
+    """
+    def __init__(self, objects, source_evidence):
+        self.ids=tuple(o.object_id for o in objects)
+        self.source_evidence=dict(source_evidence)
+
+    def _finding(self, prefix, support, relation, grounds):
+        key=json.dumps([relation,list(support),list(grounds)],separators=(',',':'))
+        return RelationFinding(prefix+':'+key,tuple(support),relation,tuple(grounds),
+                               tuple(self.source_evidence[x] for x in support))
+
+    def joint(self, objects, *, route_id):
+        from architecture_analysis import cyclic_components
+        ids=tuple(o.object_id for o in objects)
+        graph={o.object_id:tuple(o.dependencies) for o in objects}
+        findings=[]
+        for source in ids:
+            for target in sorted(set(graph[source]) & set(ids)):
+                support=tuple(x for x in ids if x in (source,target))
+                findings.append(self._finding('JOINT',support,'DECLARED_REFERENCE',(source,target)))
+        targets=sorted({t for deps in graph.values() for t in deps})
+        for target in targets:
+            support=tuple(x for x in ids if target in graph[x])
+            if len(support)>1:
+                findings.append(self._finding('JOINT',support,'COMMON_REFERENCE_TARGET',(target,)))
+        for members in cyclic_components(graph):
+            # Self-links are direct facts, not a multi-object interaction.
+            if len(members)>1:
+                support=tuple(x for x in ids if x in members)
+                findings.append(self._finding('JOINT',support,'DECLARED_REFERENCE_CYCLE',tuple(sorted(members))))
+        return RouteResult(route_id,'FULL_JOINT',ids,tuple(findings),
+                           isolation_receipt='direct-frozen-reference-graph:'+json.dumps(graph,sort_keys=True))
+
+    def pair(self,left,right,*,route_id):
+        support=(left.object_id,right.object_id)
+        findings=[]
+        for source,target in ((left,right),(right,left)):
+            if target.object_id in source.dependencies:
+                findings.append(self._finding(route_id,support,'DECLARED_REFERENCE',
+                                              (source.object_id,target.object_id)))
+        # Self-edges are witnessed on every incident pair with singleton support.
+        for obj in (left,right):
+            if obj.object_id in obj.dependencies:
+                findings.append(self._finding(route_id,(obj.object_id,),'DECLARED_REFERENCE',
+                                              (obj.object_id,obj.object_id)))
+        for target in sorted(set(left.dependencies)&set(right.dependencies)):
+            findings.append(self._finding(route_id,support,'COMMON_REFERENCE_TARGET',(target,)))
+        return RouteResult(route_id,'PAIR',support,tuple(findings),
+                           isolation_receipt='isolated-two-object-reference-data:'+json.dumps(
+                               [(o.object_id,o.dependencies) for o in (left,right)]))
+
+    def synthesize_pairs(self,pair_routes):
+        findings=tuple(f for route in pair_routes for f in route.findings)
+        return RouteResult('REFERENCE-PAIR-UNION','PAIR_SYNTHESIS',self.ids,findings,
+                           isolation_receipt='pair-only-reference-union:'+json.dumps([r.route_id for r in pair_routes]))
+
+    def challenge_reducibility(self,joint_route,pair_routes,pair_synthesis):
+        from architecture_analysis import cyclic_components
+        direct=set()
+        common={}
+        for f in pair_synthesis.findings:
+            if f.relation_type=='DECLARED_REFERENCE':
+                direct.add(f.grounds)
+            elif f.relation_type=='COMMON_REFERENCE_TARGET':
+                common.setdefault(f.grounds[0],set()).add(frozenset(f.support))
+        graph={x:[] for x in self.ids}
+        for source,target in direct:
+            graph[source].append(target)
+        cycles={frozenset(c) for c in cyclic_components(graph) if len(c)>1}
+        results=[]
+        for f in joint_route.findings:
+            if f.relation_type=='DECLARED_REFERENCE':
+                matches=f.grounds in direct
+            elif f.relation_type=='COMMON_REFERENCE_TARGET':
+                required={frozenset(p) for p in combinations(f.support,2)}
+                matches=required==common.get(f.grounds[0],set())
+            elif f.relation_type=='DECLARED_REFERENCE_CYCLE':
+                matches=frozenset(f.support) in cycles
+            else:
+                matches=False
+            results.append(ResidualJudgment(f.finding_id,
+                'PAIRWISE_RECOVERABLE' if matches else 'OPEN_REDUCIBILITY',
+                ('reconstructed from isolated pair reference facts' if matches else 'unreconstructed joint reference finding',)))
+        return tuple(results)
+
+    def triggered_views(self,*args):
+        # No additional view is licensed by this explicit reference algebra.
+        # Broader semantic view adequacy remains OPEN on the frozen objects.
+        return ()
+
+    def analyze_view(self,*args):
+        raise ValueError('NO_DECLARED_REFERENCE_VIEW_TRIGGER')
+
+    def reconcile(self,pair_routes,pair_synthesis,joint_route,residuals,view_results):
+        return tuple(ReconciledFinding(f.finding_id,'PAIRWISE_ONLY',
+                                      ('retained isolated reference witness',))
+                     for f in pair_synthesis.findings)+tuple(
+            ReconciledFinding(r.finding_id,'CONVERGENT' if r.status=='PAIRWISE_RECOVERABLE' else 'OPEN',r.grounds)
+            for r in residuals)
+

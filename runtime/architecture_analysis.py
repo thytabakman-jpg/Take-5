@@ -118,6 +118,82 @@ def cyclic_components(dependencies):
     return sorted(components)
 
 
+def static_source_relationships(sources):
+    """Extract bounded explicit references between exact selected source paths.
+
+    Python import-name matches are possible channels, not proof of resolution
+    or execution. Markdown covers simple relative inline links only. Missing
+    references, dynamic imports and semantic dependencies remain uncertified.
+    """
+    import ast
+    import posixpath
+    import re
+    from urllib.parse import unquote, urlsplit
+
+    paths=set(sources)
+    modules={}
+    for path in paths:
+        if path.endswith('.py'):
+            name=path[:-3].replace('/','.')
+            for alias in {name,name.rsplit('.',1)[-1]}:
+                modules.setdefault(alias,set()).add(path)
+    references=[]
+    unresolved=[]
+    for path,body in sorted(sources.items()):
+        if path.endswith('.py'):
+            try:
+                tree=ast.parse(body,filename=path)
+            except SyntaxError as exc:
+                unresolved.append({'source':path,'reason':'PYTHON_PARSE_FAILED','line':exc.lineno})
+                continue
+            for node in ast.walk(tree):
+                if isinstance(node,ast.Import):
+                    names=[alias.name for alias in node.names]
+                elif isinstance(node,ast.ImportFrom) and node.level==0 and node.module:
+                    names=[node.module]
+                else:
+                    continue
+                for name in names:
+                    targets=modules.get(name,set())
+                    if len(targets)==1:
+                        references.append({'source':path,'target':next(iter(targets)),
+                            'kind':'PYTHON_IMPORT_NAME_MATCH','line':node.lineno,'token':name})
+                    elif len(targets)>1:
+                        unresolved.append({'source':path,'reason':'AMBIGUOUS_IMPORT_NAME',
+                                           'line':node.lineno,'token':name,'candidates':sorted(targets)})
+        elif path.lower().endswith(('.md','.markdown')):
+            fence=None
+            for lineno,line in enumerate(body.splitlines(),1):
+                fence_match=re.match(r'^\s{0,3}([\x60~]{3,})',line)
+                if fence_match and len(set(fence_match.group(1)))==1:
+                    marker=fence_match.group(1)
+                    if fence is None:
+                        fence=marker
+                    elif marker[0]==fence[0] and len(marker)>=len(fence):
+                        fence=None
+                    continue
+                if fence is not None:
+                    continue
+                # Exclude simple inline code and images; parse only explicit links.
+                visible=re.sub(r'(\x60+).*?\1','',line)
+                for match in re.finditer(r'(?<!!)\[[^\]\n]*\]\((<[^>\n]+>|[^\s()\n]+)\)',visible):
+                    token=match.group(1).strip('<>')
+                    try:
+                        url=urlsplit(token)
+                    except ValueError:
+                        continue
+                    if url.scheme or url.netloc or not url.path or url.path.startswith('/'):
+                        continue
+                    target=posixpath.normpath(posixpath.join(posixpath.dirname(path),unquote(url.path)))
+                    if target in paths:
+                        references.append({'source':path,'target':target,'kind':'MARKDOWN_RELATIVE_LINK',
+                                           'line':lineno,'token':token})
+        else:
+            unresolved.append({'source':path,'reason':'UNSUPPORTED_SOURCE_FORMAT'})
+    return {'references':sorted(references,key=lambda r:(r['source'],r['line'],r['target'],r['kind'])),
+            'unresolved':unresolved,'scope':'EXPLICIT_STATIC_REFERENCES_ONLY'}
+
+
 # III. Native protected-constraint checks.
 def _unit_job_failure(result, exceptions, expected_units):
     unit_jobs=result.get("UnitJobState")
