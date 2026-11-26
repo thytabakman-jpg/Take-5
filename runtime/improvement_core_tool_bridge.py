@@ -12,33 +12,21 @@ from typing import Any, Callable, Mapping
 
 from configured_hf2_execution import (
     NON_SUCCESS_STATUSES, SUCCESS_STATUSES, execute_configured_with_hf2,
+    project_recurrence_result,
 )
 from formal_object_registry import canonical_formal_label
-from tool_execution_plan import ToolExecutionPlan, build_tool_execution_plan
+from tool_execution_plan import (
+    ToolExecutionPlan, build_tool_execution_plan, ConfiguredToolBinding,
+    bind_registered_ids as _bind_registered_ids,
+)
 from tool_run_registry import CONFIGURED_RUNS
 
 
 # I. Shared configured-execution contracts.
-# Staged relocation (not moved): ConfiguredToolBinding and exact-ID plan
-# binding fit tool_execution_plan.py. Batch/receipt types require a shared
-# configured-execution owner review; they are not recurrence-plan metadata.
-# Preserve public compatibility during any later move.
+# ConfiguredToolBinding is owned by tool_execution_plan.py and re-exported
+# here for compatibility. Ordered batch contracts remain local.
 class ToolBridgeBlocked(RuntimeError):
     pass
-
-
-@dataclass(frozen=True)
-class ConfiguredToolBinding:
-    tool_id:str
-    plan:ToolExecutionPlan
-
-    @property
-    def summary(self)->dict[str,Any]:
-        return {
-            **self.plan.summary(include_native_layers=True),
-            "tool_id":self.tool_id,
-            "configured_hf2_execution":"SHARED_GATE",
-        }
 
 
 @dataclass(frozen=True)
@@ -134,15 +122,8 @@ def selected_tool_ids(state:Any)->tuple[str,...]:
 
 
 # III. Shared configured-plan binding.
-# Staged relocation (not moved): _bind_registered_ids is pure configured-plan
-# binding and fits tool_execution_plan.py. Controller-state projection stays here.
-def _bind_registered_ids(tool_ids:tuple[str,...])->tuple[ConfiguredToolBinding,...]:
-    return tuple(
-        ConfiguredToolBinding(tool_id,build_tool_execution_plan(CONFIGURED_RUNS[tool_id]))
-        for tool_id in tool_ids
-    )
-
-
+# Exact registered-ID binding is owned by tool_execution_plan.py.
+# Controller-state projection remains here.
 def bind_selected_tools(state:Any)->tuple[Any,tuple[ConfiguredToolBinding,...]]:
     tool_ids=selected_tool_ids(state)
     if not tool_ids:
@@ -159,9 +140,8 @@ def bind_selected_tools(state:Any)->tuple[Any,tuple[ConfiguredToolBinding,...]]:
 
 
 # IV. Shared adapter result and receipt normalization.
-# Staged relocation (not moved): recurrence-relative status/admitted-state
-# projection fits configured_hf2_execution.py; controller output history and
-# host provenance adaptation remain here pending a shared batch-owner review.
+# Recurrence projection is owned by configured_hf2_execution.py.
+# Controller output history and caller-specific receipt adaptation remain here.
 def _plain(value:Any)->Any:
     if is_dataclass(value):
         return asdict(value)
@@ -208,17 +188,8 @@ def _normalize_adapter_result(
         adapter_blocker=None
         adapter_provenance=None
 
-    if recurrence is not None:
-        # Only the recurrence owner can admit a successor. The last raw
-        # adapter return may have been rejected by TRC or HF1.
-        next_state=recurrence.state
-        material=recurrence.admitted_material_delta
-        if not recurrence.closed:
-            disposition=recurrence.configured_disposition
-            if status!=disposition or truth!=disposition:
-                adapter_provenance={**(adapter_provenance or {}),
-                    "reported_status":status,"reported_execution_truth":truth}
-            status=truth=disposition
+    status,truth,next_state,material,adapter_provenance=project_recurrence_result(
+        recurrence,status,truth,next_state,material,adapter_provenance)
 
     if status not in SUCCESS_STATUSES|NON_SUCCESS_STATUSES:
         raise ToolBridgeBlocked(f"CONFIGURED_TOOL_STATUS_INVALID:{tool_id}:{status}")
