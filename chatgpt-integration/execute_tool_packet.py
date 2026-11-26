@@ -16,6 +16,9 @@ from pathlib import Path
 import sys
 
 
+# I. Packet/provider identity and loading.
+# Relocation candidate (not moved): compare generic digest helpers with
+# runtime_bootstrap.py; packet SHA-256 and Git object SHA are distinct identities.
 def sha256(data):
     return hashlib.sha256(data).hexdigest()
 
@@ -37,6 +40,7 @@ def builtin_adapters(packet, digest):
     return mod.builtin_adapters(packet,digest)
 
 
+# II. Provider admission and override policy.
 def admit_external_adapters(packet, ids, adapters, adapter_module, allowed):
     """Authorize provider bindings separately from gateway execution."""
     provider=None
@@ -76,6 +80,54 @@ def admit_external_adapters(packet, ids, adapters, adapter_module, allowed):
     return provider,admitted_external,admission_errors,provider_error
 
 
+# III. Independent dispatch and per-tool receipt construction.
+# Dependency-ordered execution is a distinct mode; do not silently change
+# independent packet semantics or bypass the native configured bridge.
+def _execute_independent_tools(packet,ids,adapters,allowed,provider,admitted_external,admission_errors,provider_error,digest,integration_manifest,execute_direct_tool_commands):
+    # Independent requested tools retain their own receipts. A failed external
+    # provider cannot suppress unrelated built-ins or silently authorize fallback.
+    results=[]
+    def binding_identity(tool):
+        if tool in admitted_external:
+            return {"kind":"EXPLICIT_MODULE","path":provider["path"],"sha256":provider["sha256"]}
+        if tool in adapters:
+            return {"kind":"BUILTIN","path":"document_tool_adapters.py",
+                    "git_blob_sha":integration_manifest["blobs"]["document_tool_adapters.py"]}
+        return {"kind":"MISSING"}
+    for tool in ids:
+        if tool in admission_errors:
+            results.append({"tool_id":tool,"status":"BLOCKED","blocker":admission_errors[tool],
+                            "adapter_disposition":"INCOMPATIBLE_BINDING","native_invocation":"NOT_INVOKED"})
+            continue
+        if provider_error and (tool not in adapters or tool in allowed):
+            results.append({"tool_id":tool,"status":"BLOCKED","blocker":provider_error,
+                            "adapter_disposition":"PROVIDER_INITIALIZATION_FAILED","native_invocation":"NOT_INVOKED"})
+            continue
+        if tool in allowed and (provider is None or tool not in provider.get("offered_tools",())):
+            results.append({"tool_id":tool,"status":"OPEN","blocker":"AUTHORIZED_OVERRIDE_NOT_SUPPLIED",
+                            "adapter_disposition":"MISSING_OVERRIDE","native_invocation":"NOT_INVOKED"})
+            continue
+        try:
+            out=execute_direct_tool_commands([tool],state={"packet_sha256":digest},adapters=adapters)
+            row=asdict(out)
+            row["tool_id"]=tool
+            row["adapter_disposition"]="BOUND" if tool in adapters else "MISSING_ADAPTER"
+            row["provider_binding_identity"]=binding_identity(tool)
+            results.append(row)
+        except (KeyError,ValueError,TypeError) as exc:
+            # An exception alone cannot establish whether validation or execution
+            # failed; keep the original exception and avoid guessing its cause.
+            results.append({"tool_id":tool,"status":"BLOCKED","blocker":f"{type(exc).__name__}:{exc}",
+                            "adapter_disposition":"INPUT_OR_EXECUTION_ERROR","native_invocation":"UNKNOWN",
+                            "provider_binding_identity":binding_identity(tool)})
+        except Exception as exc:
+            results.append({"tool_id":tool,"status":"BLOCKED","blocker":f"{type(exc).__name__}:{exc}",
+                            "adapter_disposition":"EXECUTION_ERROR","native_invocation":"UNKNOWN",
+                            "provider_binding_identity":binding_identity(tool)})
+    return results
+
+
+# IV. Command-line orchestration: verified runtime, frozen packet, dispatch and final receipt.
 def main():
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument("--runtime", type=Path, required=True)
@@ -120,46 +172,8 @@ def main():
     provider,admitted_external,admission_errors,provider_error=admit_external_adapters(
         packet,ids,adapters,a.adapter_module,allowed
     )
-    # Independent requested tools retain their own receipts. A failed external
-    # provider cannot suppress unrelated built-ins or silently authorize fallback.
-    results=[]
-    def binding_identity(tool):
-        if tool in admitted_external:
-            return {"kind":"EXPLICIT_MODULE","path":provider["path"],"sha256":provider["sha256"]}
-        if tool in adapters:
-            return {"kind":"BUILTIN","path":"document_tool_adapters.py",
-                    "git_blob_sha":integration_manifest["blobs"]["document_tool_adapters.py"]}
-        return {"kind":"MISSING"}
-    for tool in ids:
-        if tool in admission_errors:
-            results.append({"tool_id":tool,"status":"BLOCKED","blocker":admission_errors[tool],
-                            "adapter_disposition":"INCOMPATIBLE_BINDING","native_invocation":"NOT_INVOKED"})
-            continue
-        if provider_error and (tool not in adapters or tool in allowed):
-            results.append({"tool_id":tool,"status":"BLOCKED","blocker":provider_error,
-                            "adapter_disposition":"PROVIDER_INITIALIZATION_FAILED","native_invocation":"NOT_INVOKED"})
-            continue
-        if tool in allowed and (provider is None or tool not in provider.get("offered_tools",())):
-            results.append({"tool_id":tool,"status":"OPEN","blocker":"AUTHORIZED_OVERRIDE_NOT_SUPPLIED",
-                            "adapter_disposition":"MISSING_OVERRIDE","native_invocation":"NOT_INVOKED"})
-            continue
-        try:
-            out=execute_direct_tool_commands([tool],state={"packet_sha256":digest},adapters=adapters)
-            row=asdict(out)
-            row["tool_id"]=tool
-            row["adapter_disposition"]="BOUND" if tool in adapters else "MISSING_ADAPTER"
-            row["provider_binding_identity"]=binding_identity(tool)
-            results.append(row)
-        except (KeyError,ValueError,TypeError) as exc:
-            # An exception alone cannot establish whether validation or execution
-            # failed; keep the original exception and avoid guessing its cause.
-            results.append({"tool_id":tool,"status":"BLOCKED","blocker":f"{type(exc).__name__}:{exc}",
-                            "adapter_disposition":"INPUT_OR_EXECUTION_ERROR","native_invocation":"UNKNOWN",
-                            "provider_binding_identity":binding_identity(tool)})
-        except Exception as exc:
-            results.append({"tool_id":tool,"status":"BLOCKED","blocker":f"{type(exc).__name__}:{exc}",
-                            "adapter_disposition":"EXECUTION_ERROR","native_invocation":"UNKNOWN",
-                            "provider_binding_identity":binding_identity(tool)})
+    results=_execute_independent_tools(packet,ids,adapters,allowed,provider,admitted_external,admission_errors,provider_error,digest,integration_manifest,execute_direct_tool_commands)
+    # Final packet-level receipt; per-tool records retain independent dispositions.
     receipt={"source_commit":source_commit,"source_tree":source_tree,
              "integration_manifest":integration_manifest,"packet_sha256":digest,"tool_ids":ids,
              "adapter_module":provider,"authorized_overrides":sorted(allowed),"scope":"Explicit bounded native input; no independent semantic adjudication or full geometric coverage asserted",
