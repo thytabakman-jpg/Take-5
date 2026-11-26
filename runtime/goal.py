@@ -65,22 +65,37 @@ class GoalMTReceipt:
     open_objects:tuple[str,...]=()
 
 
+def _text_sequence(value, *, nonempty=False):
+    return (isinstance(value,(tuple,list)) and (not nonempty or bool(value))
+            and all(isinstance(x,str) and x.strip() for x in value))
+
+
 def _valid_mt_preflight(receipt:GoalMTReceipt|None)->bool:
     return bool(
         isinstance(receipt,GoalMTReceipt)
         and receipt.tool_id=="MT"
         and receipt.invocation_profile==FULL_INVOCATION_PROFILE
         and receipt.black_box_gate==MT_BLACK_BOX_GATE
-        and str(receipt.status).upper() in MT_PREFLIGHT_STATUSES
-        and any(isinstance(x,str) and x.strip() for x in receipt.evidence)
+        and isinstance(receipt.status,str)
+        and receipt.status.upper() in MT_PREFLIGHT_STATUSES
+        and _text_sequence(receipt.evidence,nonempty=True)
+        and _text_sequence(receipt.open_objects)
     )
+
+
+def _sequence_signature(value):
+    # Distinguish malformed containers from valid evidence sequences without
+    # coercing text into characters or attempting to iterate None.
+    if isinstance(value,(tuple,list)):
+        return ("SEQUENCE",tuple(value))
+    return ("INVALID",type(value),value)
 
 
 def _candidate_signature(candidate:GoalCandidate)->tuple:
     return (
         candidate.goal,
-        tuple(candidate.constraints),
-        tuple(candidate.evidence),
+        _sequence_signature(candidate.constraints),
+        _sequence_signature(candidate.evidence),
         candidate.grounded is True,
         candidate.authority_typed is True,
         candidate.determinate_enough is True,
@@ -90,9 +105,8 @@ def _candidate_signature(candidate:GoalCandidate)->tuple:
 def _admissible(candidate:GoalCandidate)->bool:
     return bool(
         isinstance(candidate.candidate_id,str) and candidate.candidate_id.strip()
-        and isinstance(candidate.evidence,(tuple,list))
-        and bool(candidate.evidence)
-        and all(isinstance(ev,str) and ev.strip() for ev in candidate.evidence)
+        and _text_sequence(candidate.evidence,nonempty=True)
+        and _text_sequence(candidate.constraints)
         and candidate.grounded is True
         and candidate.authority_typed is True
         and candidate.determinate_enough is True

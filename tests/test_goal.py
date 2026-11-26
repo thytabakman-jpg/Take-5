@@ -172,3 +172,36 @@ def test_goal_mixed_invalid_evidence_does_not_crash_or_certify():
         out=recover_goal((_candidate(evidence=evidence),))
         assert out.status=="OPEN"
         assert out.blocker=="NO_ADMISSIBLE_GOVERNING_GOAL"
+
+
+def test_goal_rejects_malformed_constraint_container_and_preserves_duplicate_conflict():
+    from dataclasses import replace
+    valid=_candidate(constraints=("c",))
+    for constraints in ("c", None, ("c", None), (" ",), {"c": True}):
+        invalid=replace(valid,constraints=constraints)
+        assert recover_goal((invalid,)).status=="OPEN"
+        for rows in ((valid,invalid),(invalid,valid)):
+            assert recover_goal(rows).status=="CONFLICT"
+    assert recover_goal((replace(valid,constraints=[]),)).status=="CLOSED_RELATIVE"
+    assert recover_goal((valid,replace(valid,constraints=["c"]))).status=="CLOSED_RELATIVE"
+
+
+def test_goal_duplicate_identity_handles_malformed_evidence_without_coercion():
+    from dataclasses import replace
+    valid=_candidate(evidence=("e",))
+    for evidence in ("e", None, ("e", None)):
+        invalid=replace(valid,evidence=evidence)
+        assert recover_goal((invalid,)).status=="OPEN"
+        for rows in ((valid,invalid),(invalid,valid)):
+            assert recover_goal(rows).status=="CONFLICT"
+
+
+def test_goal_mt_requires_typed_complete_evidence_and_open_coordinates():
+    for evidence in ("e", ("e", None), None, (), (" ",), {"e": True}):
+        out=recover_goal_configured((_candidate(),),GoalMTReceipt(evidence=evidence))
+        assert out.status=="OPEN"
+        assert out.blocker=="MT_PREREQUISITE_REQUIRED"
+    out=recover_goal_configured((_candidate(),),GoalMTReceipt(evidence=("e",),open_objects="term"))
+    assert out.blocker=="MT_PREREQUISITE_REQUIRED"
+    for evidence in (("e",), ["e"]):
+        assert recover_goal_configured((_candidate(),),GoalMTReceipt(evidence=evidence)).status=="CLOSED_RELATIVE"
