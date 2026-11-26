@@ -202,3 +202,32 @@ def test_pti_assessment_requires_coordinate_evidence():
     from protected_transition_integrity import COORDINATES, PTIState, ProtectedTransitionReceipt, assess_protected_transition
     receipt = ProtectedTransitionReceipt("object","behavior",{x:PTIState.VERIFIED for x in COORDINATES},{})
     assert assess_protected_transition(receipt).status == "OPEN"
+
+
+def test_hf2_detects_in_place_state_change_even_without_reported_delta():
+    plan = build_tool_execution_plan(CONFIGURED_RUNS["MT"])
+    calls = []
+
+    def adapter(current, bound_plan):
+        calls.append(1)
+        current["nested"]["version"] = 1
+        return {"status": "EXECUTED", "state": current, "material_delta": False}
+
+    initial = {"nested": {"version": 0}}
+    out = execute_configured_with_hf2(tool_id="MT", plan=plan, state=initial, adapter=adapter)
+    assert out.status == "RELATIVE_CLOSE"
+    assert out.call_count == 2
+    assert out.trace[0]["disposition"] == "REAPPLY_C"
+    assert out.trace[1]["disposition"] == "RELATIVE_CLOSE"
+    assert initial == {"nested": {"version": 0}}
+
+
+def test_configured_hf2_rejects_truthy_nonboolean_trc_terminal():
+    plan = build_tool_execution_plan(CONFIGURED_RUNS["MT"])
+    for invalid in ("false", "true", 1, None):
+        out = execute_configured_with_hf2(
+            tool_id="MT", plan=plan, state={},
+            adapter=lambda *_: {"status": "EXECUTED", "result": True, "trc_terminal": invalid},
+        )
+        assert out.status == "OPEN"
+        assert out.call_count == 1
