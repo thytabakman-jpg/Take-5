@@ -100,7 +100,10 @@ GENERIC_BINDINGS=(
     ),
 )
 
-# III. Tool-specific protected requirements.
+# III. Tool-specific protected behaviour to implementation/test bindings.
+# These declarations witness reconstruction; independently authored admission
+# requirements remain owned by tool_run_registry.py.
+# III.A. Controller and workflow bindings.
 ICC128_BINDINGS=GENERIC_BINDINGS+(
     ProtectedBinding(
         "ICC128_ENDOGENOUS_CONTROLLER_LOOP",
@@ -253,6 +256,7 @@ PROJECT_MANAGER_BINDINGS=GENERIC_BINDINGS+(
     ProtectedBinding("PROJECTMANAGER_HISTORICAL_FAILURE_HOLDOUT_GATE","CROSS","projects/project-manager/FAILURE_PREVENTION_MATRIX.md","tests/test_project_manager_failure_immunity.py"),
 )
 
+# III.B. Dedicated mathematical and analytical tool bindings.
 MT_BINDINGS=GENERIC_BINDINGS+(
     ProtectedBinding(
         "MT_BLACK_BOX_SEMANTIC_RETURN_GATE",
@@ -582,6 +586,7 @@ DIAGNOSIS_BINDINGS=GENERIC_BINDINGS+(
 
 
 
+# III.C. Recovered structural and semantic tool bindings.
 FOUR_TOOL_RECOVERY_BINDINGS={
     "MTA":GENERIC_BINDINGS+(
         ProtectedBinding(
@@ -635,6 +640,7 @@ FOUR_TOOL_RECOVERY_BINDINGS={
     ),
 }
 
+# III.D. Solution and prose acceptance bindings.
 SOLUTION_TO_MY_PROBLEM_BINDINGS=GENERIC_BINDINGS+(
     ProtectedBinding(
         "SolutionToMyProblem_EXPLICIT_NATIVE_IDENTITY",
@@ -732,6 +738,7 @@ PROSE_BINDINGS=GENERIC_BINDINGS+(
 )
 
 # IV. Manifest assembly and current registry projections.
+# IV.A. Explicit native manifest declarations.
 OVERRIDES={
     "ProjectManager":ToolManifest(
         tool_id="ProjectManager",
@@ -933,6 +940,7 @@ OVERRIDES={
 # Registry-defined capabilities have tool-specific identity in their executable
 # registries. These backfills do not invent new semantics; they project those
 # already-typed identities into the canonical manifest layer.
+# IV.B. Dedicated native entrypoint mappings.
 _DEDICATED_NATIVE={
     "Reconciler":(
         "admitted results -> coherent joint state with conflicts/subsumptions/revisions/relations/OPEN",
@@ -999,6 +1007,7 @@ _DEDICATED_NATIVE={
 _PROJECTED_LINEAGE = "architecture/EXPLICIT_TOOL_MANIFEST_BACKFILL_161_2026-09-27.md"
 
 
+# IV.C. Manifest projection and registry assembly; no independent admission policy.
 def _projected_manifest(tool_id, native_semantics, behavior_suffix, implementation, witness,
                         *, closure_contract="TRC"):
     """Build a projection, retaining the original lineage as provenance only."""

@@ -11,6 +11,7 @@ from copy import deepcopy
 from dataclasses import dataclass, asdict, field
 from typing import Any, Callable, Mapping, Iterable
 
+# I. Native recurrence disposition and material-change vocabulary.
 TERMINAL={"RELATIVE_CLOSE","RETURN_REENTER","OPEN","BLOCKED","CONFLICT","RESOURCE_STOP"}
 
 MATERIAL_DELTA_KEYS=(
@@ -26,6 +27,7 @@ def material_delta_present(delta:Mapping[str,Any])->bool:
     return any(bool(delta.get(key)) for key in MATERIAL_DELTA_KEYS)
 
 
+# II. Affected-scope tracking shared by the executor and independent witness checker.
 AFFECTED_SCOPE_KEYS=("affected_frontier","scope_deltas")
 
 
@@ -59,6 +61,7 @@ def carry_affected_scope(delta:dict[str,Any], pending:dict[str,Any])->None:
         delta[key]=deepcopy(value)
 
 
+# III. Independent trace validation. This checker does not execute recurrence.
 def hf2_fixed_point_witness(trace:Iterable[Mapping[str,Any]])->bool:
     """Verify a complete HF002 episode ending in a clean local close."""
     try:
@@ -102,6 +105,7 @@ def hf2_fixed_point_witness(trace:Iterable[Mapping[str,Any]])->bool:
     return False
 
 
+# IV. Frozen round receipt schema.
 @dataclass
 class HF2Round:
     round_index:int
@@ -116,6 +120,7 @@ class HF2Round:
     live_local:bool|None=None
     local_close:bool|None=None
 
+# V. Native recurrence execution. This engine produces, but does not self-certify, traces.
 @dataclass
 class HF002RecursiveContinuation:
     run_capability:Callable[[dict[str,Any],dict[str,Any]],dict[str,Any]]

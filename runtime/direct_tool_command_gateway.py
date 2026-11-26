@@ -22,6 +22,7 @@ from improvement_core_tool_bridge import (
 from tool_run_registry import CONFIGURED_RUNS
 
 
+# I. Direct-command result and binding contracts.
 class DirectToolCommandBlocked(RuntimeError):
     pass
 
@@ -38,6 +39,7 @@ class DirectToolCommandBinding:
         return bool(self.tool_ids) and self.tool_ids==tuple(binding.tool_id for binding in self.bindings)
 
 
+# II. Legacy lexical recognition. This layer does not authorize or execute work.
 def _known_command_pattern():
     aliases=aliases_by_length()
     labels="|".join(re.escape(alias) for alias in aliases)
@@ -64,25 +66,20 @@ UNBOUND_ARCHITECT_COMMAND_PATTERN=re.compile(
 )
 
 
-def direct_tool_ids(user_text:str|list[str]|tuple[str,...])->tuple[str,...]:
-    """Resolve legacy lexical commands or validate an explicit ordered ID list.
+def _structured_tool_ids(user_text:list[str]|tuple[str,...])->tuple[str,...]:
+    if not user_text:
+        raise DirectToolCommandBlocked("DIRECT_TOOL_COMMAND_NOT_FOUND")
+    ids=[]
+    for raw in user_text:
+        if not isinstance(raw,str) or raw not in CONFIGURED_RUNS:
+            raise DirectToolCommandBlocked(f"DIRECT_TOOL_NOT_REGISTERED:{raw!r}")
+        if raw in ids:
+            raise DirectToolCommandBlocked(f"DIRECT_TOOL_DUPLICATE_ID:{raw}")
+        ids.append(raw)
+    return tuple(ids)
 
-    Structured requests are caller-authorized exact identities, not natural
-    language. Reject the whole request on invalid or repeated IDs before binding.
-    """
-    if isinstance(user_text,(list,tuple)):
-        if not user_text:
-            raise DirectToolCommandBlocked("DIRECT_TOOL_COMMAND_NOT_FOUND")
-        ids=[]
-        for raw in user_text:
-            if not isinstance(raw,str) or raw not in CONFIGURED_RUNS:
-                raise DirectToolCommandBlocked(f"DIRECT_TOOL_NOT_REGISTERED:{raw!r}")
-            if raw in ids:
-                raise DirectToolCommandBlocked(f"DIRECT_TOOL_DUPLICATE_ID:{raw}")
-            ids.append(raw)
-        return tuple(ids)
-    if not isinstance(user_text,str):
-        raise DirectToolCommandBlocked("DIRECT_TOOL_REQUEST_REQUIRES_STRING_OR_ORDERED_IDS")
+
+def _lexical_tool_ids(user_text:str)->tuple[str,...]:
     text=user_text
     unresolved=UNBOUND_ARCHITECT_COMMAND_PATTERN.search(text)
     if unresolved:
@@ -122,7 +119,21 @@ def direct_tool_ids(user_text:str|list[str]|tuple[str,...])->tuple[str,...]:
     return tuple(out)
 
 
+# III. Explicit identity admission. Keep lexical compatibility and exact IDs distinct.
+def direct_tool_ids(user_text:str|list[str]|tuple[str,...])->tuple[str,...]:
+    """Resolve legacy lexical commands or validate an explicit ordered ID list.
 
+    Structured requests are caller-authorized exact identities, not natural
+    language. Reject the whole request on invalid or repeated IDs before binding.
+    """
+    if isinstance(user_text,(list,tuple)):
+        return _structured_tool_ids(user_text)
+    if not isinstance(user_text,str):
+        raise DirectToolCommandBlocked("DIRECT_TOOL_REQUEST_REQUIRES_STRING_OR_ORDERED_IDS")
+    return _lexical_tool_ids(user_text)
+
+
+# IV. Authorized binding and dispatch through the shared configured bridge.
 def bind_direct_tool_commands(
     user_text:str|list[str]|tuple[str,...],
     *,

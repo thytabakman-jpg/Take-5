@@ -211,6 +211,7 @@ def execute_bound_tools(
     return ConfiguredToolBatchResult(current,tuple(executions),"EXECUTED",None)
 
 
+# IV. Independent read-only batch execution; no controller selection or state promotion.
 def execute_independent_read_only_tools(
     state:dict,
     bindings:tuple[ConfiguredToolBinding,...],
@@ -254,7 +255,7 @@ def execute_independent_read_only_tools(
                                      ";".join(blockers) or None)
 
 
-# IV. Compatibility interface: controller selection-state interpretation.
+# V. Legacy controller compatibility: selection-state interpretation.
 # This is an adapter for callers using the historical selection-state schema,
 # not a requirement of shared batch execution. Explicitly bound batches bypass it.
 # Exact identity normalization remains delegated to formal_object_registry.
@@ -323,8 +324,9 @@ def selected_tool_ids(state:Any)->tuple[str,...]:
     return tuple(out)
 
 
-# V. Compatibility interface: selection-to-binding state projection.
+# VI. Legacy controller compatibility: selection-to-binding state projection.
 # Exact registered-ID binding is owned by tool_execution_plan.py.
+# The compatibility layer translates caller state only; it does not own execution.
 def bind_selected_tools(state:Any)->tuple[Any,tuple[ConfiguredToolBinding,...]]:
     tool_ids=selected_tool_ids(state)
     if not tool_ids:

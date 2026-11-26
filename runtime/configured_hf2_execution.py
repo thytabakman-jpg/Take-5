@@ -98,7 +98,8 @@ def project_recurrence_result(recurrence, status, truth, next_state, material, a
     return status,truth,next_state,material,adapter_provenance
 
 
-# II. Native adapter return admission and evidence validation.
+# II. Native adapter return admission.
+# II.A. Envelope normalization and disposition reconciliation.
 def _raw_mapping(raw:Any)->dict[str,Any]:
     # A missing adapter result is not an executed formal tool. Keep the
     # configured route OPEN rather than manufacturing successful execution.
@@ -155,6 +156,12 @@ def _raw_mapping(raw:Any)->dict[str,Any]:
                    reported_status=status,reported_execution_truth=truth,
                    blocker=out.get("blocker") or "CONFIGURED_HF2_DISPOSITION_CONFLICT")
         status=truth="CONFLICT"
+    return _validate_adapter_evidence(out,status,truth)
+
+
+# II.B. Evidence validation; no recurrence or successor admission occurs here.
+def _validate_adapter_evidence(out:dict[str,Any],status:str,truth:str)->dict[str,Any]:
+    """Validate recurrence control flags and execution witnesses after disposition admission."""
     # Control flags are typed evidence, not arbitrary truthy values. Reject
     # malformed flags before the recurrence engine can admit a successor.
     for key in ("material_delta","hf2_live_local","hf2_local_close","trc_terminal"):
