@@ -134,3 +134,41 @@ def test_mt_nonboolean_material_evidence_cannot_authorize_progress_or_closure():
         assert result.state=={"a":0} and not result.material
         assert result.open_objects==("TERM:X",)
         assert result.receipts[0].status=="INVALID_MATERIAL_EVIDENCE"
+
+
+def test_failed_stage_cannot_admit_successor_or_mutate_predecessor():
+    for status in ("CONFLICT","BLOCKED","UNKNOWN","FAILED"):
+        for material in (True,False,None):
+            for in_place in (True,False):
+                initial={"nested":{"resolved":False}}
+                def execute(tool,obj,state):
+                    if in_place:
+                        state["nested"]["resolved"]=True
+                        return state,status,material
+                    return {"nested":{"resolved":True}},status,material
+                out=run_mt_with_before_return_gate(initial,
+                    run_mt=lambda state:(state,state["nested"]["resolved"]),
+                    detect_black_boxes=lambda state,result:() if result else ("TERM:X",),
+                    execute_stage=execute)
+                assert out.status=="OPEN" and out.open_objects==("TERM:X",)
+                assert out.rounds==1
+                assert out.state==initial=={"nested":{"resolved":False}}
+                assert out.semantic_receipts[0].material is False
+
+
+def test_open_or_successful_stage_can_admit_real_partial_progress():
+    for status in ("OPEN","CLOSED_RELATIVE"):
+        for in_place in (True,False):
+            initial={"nested":{"resolved":False}}
+            def execute(tool,obj,state):
+                if in_place:
+                    state["nested"]["resolved"]=True
+                    return state,status,True
+                return {"nested":{"resolved":True}},status,True
+            out=run_mt_with_before_return_gate(initial,
+                run_mt=lambda state:(state,state["nested"]["resolved"]),
+                detect_black_boxes=lambda state,result:() if result else ("TERM:X",),
+                execute_stage=execute)
+            assert out.status=="CLOSED_RELATIVE" and out.rounds==2
+            assert out.mt_result is True
+            assert initial=={"nested":{"resolved":False}}

@@ -6,6 +6,7 @@ progress can change MT's result, and preserves unresolved residue as OPEN for
 future encounters.
 """
 from __future__ import annotations
+from copy import deepcopy
 from dataclasses import dataclass
 from typing import Any, Callable, Iterable
 
@@ -58,14 +59,18 @@ def run_semantic_pass(
         plan=plan_black_box_resolution(object_id)
         object_open=False
         for stage in plan.stages:
-            next_state,status,material=execute_stage(stage.tool_id,object_id,current)
+            # A failed stage must not mutate the admitted predecessor in place.
+            next_state,status,material=execute_stage(stage.tool_id,object_id,deepcopy(current))
             status=str(status)
             if material is not True and material is not False:
                 receipts.append(StageReceipt(object_id,stage.tool_id,"INVALID_MATERIAL_EVIDENCE",False))
                 object_open=True
                 break
-            receipts.append(StageReceipt(object_id,stage.tool_id,status,material))
-            if material:
+            # Failed or unrecognized stages cannot admit a successor. OPEN
+            # may still carry evidenced partial progress for an MT recheck.
+            admitted_material=material and (status in SEMANTIC_STAGE_SUCCESS or status=="OPEN")
+            receipts.append(StageReceipt(object_id,stage.tool_id,status,admitted_material))
+            if admitted_material:
                 current=next_state
                 any_material=True
             if status not in SEMANTIC_STAGE_SUCCESS:
