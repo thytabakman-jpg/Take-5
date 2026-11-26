@@ -1,1 +1,1 @@
-Repair CA-001 through CA-030; refresh for main 59dbef98ebcc1653748833e5605dcd58cf3dc294; request 2026-11-26T02:01Z
+Refresh runtime for four-document architectural assessment; main 6361a4b122630767eb1b1c88e5f5d678a3399436
