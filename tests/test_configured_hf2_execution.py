@@ -250,3 +250,29 @@ def test_hf2_distinguishes_typed_mapping_keys_before_closure():
     assert out.status=="RELATIVE_CLOSE"
     assert out.call_count==3
     assert [x["disposition"] for x in out.trace]==["REAPPLY_C","REAPPLY_C","RELATIVE_CLOSE"]
+
+
+def test_native_hf2_never_closes_an_explicit_non_success_result():
+    from copy import deepcopy
+    from hf002_recursive_continuation import HF002RecursiveContinuation, hf2_fixed_point_witness
+
+    def episode(status):
+        return HF002RecursiveContinuation(
+            run_capability=lambda state, memory: {
+                "status": status, "execution_truth": "IMPLEMENTATION_EXECUTED"
+            },
+            admit_normalize=lambda raw, state, memory: (state, {}),
+            trc_verify=lambda before, after, delta: {"terminal": True},
+            hf1_classify=lambda before, after, delta: {"disposition": "STABLE"},
+            live_local=lambda state, memory: False,
+            local_close=lambda state, memory: True,
+        ).run({}, {})
+
+    clean = episode("EXECUTED")
+    assert clean["status"] == "RELATIVE_CLOSE"
+    assert hf2_fixed_point_witness(clean["trace"])
+    for status in ("OPEN", "BLOCKED", "CONFLICT"):
+        assert episode(status)["status"] == status
+        forged = deepcopy(clean["trace"])
+        forged[-1]["raw_result"]["status"] = status
+        assert not hf2_fixed_point_witness(forged)
