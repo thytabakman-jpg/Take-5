@@ -1,6 +1,6 @@
 # ChatGPT Integration
 
-This isolated integration branch packages the authoritative Take-5 **main** commit for a read-only, ephemeral ChatGPT Python execution environment. Use the GitHub connector and existing packaging workflow; no additional API key, model subscription, machine, scheduled job or paid runner is required. The branch does not alter governing main or ICC-System.
+This isolated integration branch packages the authoritative Take-5 **main** commit for a read-only, ephemeral ChatGPT Python execution environment. Use the GitHub connector and an existing verified packaging artifact. Refreshing that artifact requires an available GitHub Actions runner and applicable repository quota; if Actions cannot run or a current artifact is unavailable, report OPEN/BLOCKED rather than claiming a successful bootstrap. No additional API key, model subscription, machine or scheduled job is inherent to the integration. The branch does not alter governing main or ICC-System.
 
 ## Retrieve, verify and execute
 
