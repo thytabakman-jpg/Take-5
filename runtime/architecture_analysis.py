@@ -35,7 +35,36 @@ def _unit_ids(value:Any)->set[str]:
     return set(value)
 
 
-# II. Native protected-constraint checks.
+# II. Schema-neutral graph diagnostics.
+def cyclic_components(dependencies):
+    """Return cyclic strongly connected components, including self-loops.
+
+    Iterative reachability avoids recursion limits and ignores dangling targets,
+    which are reported separately by the graph analyzer.
+    """
+    reach = {}
+    for start in dependencies:
+        visited = set()
+        pending = [start]
+        while pending:
+            node = pending.pop()
+            if node in visited or node not in dependencies:
+                continue
+            visited.add(node)
+            pending.extend(dependencies[node])
+        reach[start] = visited
+    remaining = set(dependencies)
+    components = []
+    while remaining:
+        start = min(remaining)
+        component = sorted(node for node in reach[start] if start in reach[node])
+        remaining.difference_update(component)
+        if len(component) > 1 or start in dependencies[start]:
+            components.append(component)
+    return components
+
+
+# III. Native protected-constraint checks.
 def _unit_job_failure(result, exceptions, expected_units):
     unit_jobs=result.get("UnitJobState")
     if not isinstance(unit_jobs,Mapping):
@@ -108,7 +137,7 @@ def _protected_constraint_failure(result, remaining):
     return None
 
 
-# III. Final architecture disposition.
+# IV. Final architecture disposition.
 def _architecture_status(result):
     boundary=result["OpenConflictBlocked"]
     if boundary:
@@ -130,7 +159,7 @@ def _architecture_status(result):
 
     return status
 
-# IV. Native architecture analysis orchestration.
+# V. Native architecture analysis orchestration.
 def run_architecture_analysis(
     architecture:Any,
     contract:Any,
