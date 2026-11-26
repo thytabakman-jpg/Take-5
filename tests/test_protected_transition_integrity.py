@@ -24,7 +24,8 @@ def test_complete_chain_verifies():
 
 def test_missing_any_transition_edge_fails_open():
     states={x:PTIState.VERIFIED for x in COORDINATES if x!="reentry"}
-    receipt=ProtectedTransitionReceipt("Tool","B",states,{})
+    evidence={x:f"witness:{x}" for x in states}
+    receipt=ProtectedTransitionReceipt("Tool","B",states,evidence)
     out=assess_protected_transition(receipt)
     assert out.status=="OPEN"
     assert out.missing_coordinates==("reentry",)
@@ -52,3 +53,13 @@ def test_complete_receipt_requires_witness_per_edge():
         match="PROTECTED_TRANSITION_EVIDENCE_MISSING",
     ):
         complete_receipt(object_id="Tool",behavior_id="B",evidence=evidence)
+
+
+def test_verified_coordinates_without_witnesses_remain_missing():
+    states={x:PTIState.VERIFIED for x in COORDINATES}
+    receipt=ProtectedTransitionReceipt("Tool","B",states,{})
+    out=assess_protected_transition(receipt)
+    assert out.status=="OPEN"
+    assert out.missing_coordinates==COORDINATES
+    with pytest.raises(ProtectedTransitionIntegrityError, match="PROTECTED_TRANSITION_EVIDENCE_MISSING"):
+        require_protected_transition(receipt)
