@@ -65,6 +65,23 @@ class ToolExecutionPlan:
     questions: tuple[tuple[str, D36CCell], ...]
     cognitive: tuple[tuple[str, D36CCell], ...]
 
+    def summary(self, *, include_native_layers: bool = False) -> dict[str, object]:
+        """Return shared configured-plan metadata without consumer-specific claims."""
+        return {
+            "tool_id": self.tool_id,
+            "mode": self.mode,
+            "wrapper_required": self.wrapper_required,
+            "geometry": self.geometry,
+            "cell_count": len(self.cells),
+            **({"native_layers": tuple(dict.fromkeys(layer for layer, _ in self.native))}
+               if include_native_layers else {}),
+            "question_count": len(self.questions),
+            "cognitive_count": len(self.cognitive),
+            "recurrence_required": self.recurrence_required,
+            "recurrence_engine": self.recurrence_engine,
+            "invocation_profile": self.invocation_profile,
+        }
+
     @property
     def complete(self) -> bool:
         # Cardinality is not coverage: repeated coordinates could displace
