@@ -284,6 +284,6 @@ def run_tool_run_closure(
         blocker_coordinates=tuple(dict.fromkeys(blocked_coords)),
         pending_coordinates=tuple(dict.fromkeys(pending_coords)),
         harvest_basis=harvest_basis,
-        harvest_complete=bool(harvest_complete),
+        harvest_complete=harvest_complete is True,
     )
     return ToolRunClosureResult(state,certificate)

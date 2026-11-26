@@ -190,3 +190,12 @@ def test_trc_resource_stop_preserves_unprocessed_consequence_coordinates():
     assert out.certificate.accounted_count==1
     assert "TRC:MAX_CONSEQUENCES" in out.certificate.open_coordinates
     assert ":".join(q("B").cid) in out.certificate.open_coordinates
+
+
+def test_trc_harvest_completeness_requires_explicit_true():
+    for flag in (None,"false","OPEN",1,0,False,True):
+        out=run_tool_run_closure(tool_result=None,pre_state={},post_state={},
+            harvest_fn=lambda *_:(),disposition_fn=lambda *_:None,
+            realize_fn=lambda *_:None,verify_fn=lambda *_:None,
+            consume_fn=lambda *_:None,harvest_complete=flag)
+        assert out.certificate.harvest_complete is (flag is True)

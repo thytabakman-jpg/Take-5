@@ -125,3 +125,12 @@ def test_failed_and_unrecognized_semantic_stages_cannot_close():
         assert out.open_objects==("TERM:X",)
         assert out.semantic_receipts[0].status==status
         assert calls==["PD"]
+
+
+def test_mt_nonboolean_material_evidence_cannot_authorize_progress_or_closure():
+    for flag in (None,"false","OPEN",1,0):
+        result=run_semantic_pass({"a":0},["TERM:X"],
+            execute_stage=lambda *_:({"a":1},"CLOSED_RELATIVE",flag))
+        assert result.state=={"a":0} and not result.material
+        assert result.open_objects==("TERM:X",)
+        assert result.receipts[0].status=="INVALID_MATERIAL_EVIDENCE"

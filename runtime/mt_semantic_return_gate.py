@@ -47,7 +47,10 @@ def run_semantic_pass(
         for stage in plan.stages:
             next_state,status,material=execute_stage(stage.tool_id,object_id,current)
             status=str(status)
-            material=bool(material)
+            if material is not True and material is not False:
+                receipts.append(StageReceipt(object_id,stage.tool_id,"INVALID_MATERIAL_EVIDENCE",False))
+                object_open=True
+                break
             receipts.append(StageReceipt(object_id,stage.tool_id,status,material))
             if material:
                 current=next_state
