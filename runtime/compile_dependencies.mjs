@@ -42,7 +42,7 @@ function inventory(input){
 }
 function dependency(input){
   if(input.mode==='inventory')return inventory(input);
-  const {before,after=before,moves={},anchors={},mode="prepare",literalReviews=[],relationshipReviews=[],referenceIndex,roots=[]}=input;
+  const {before,after=before,moves={},anchors={},mode="prepare",literalReviews=[],relationshipReviews=[],referenceIndex,roots=[],includeIndex=false}=input;
   const beforeDigest=snapshot(before),afterDigest=snapshot(after);
   if(!["prepare","audit","index"].includes(mode))throw Error("Unknown mode");
   const issues=[],edits={},ledger=[],unchecked=[],reviewedResiduals=[],reviewedRelationships=[],indexStats={parsed:0,reused:0};
@@ -114,16 +114,16 @@ function dependency(input){
     return enc(rel(s,tp))+frag;
   }
   // Only reuse actual output from the same verified operator; independent audits omit external cache.
-  function indexFor(files,cache){
+  function indexFor(files,cache,sourceDigest){
     const records=Object.create(null),incoming=Object.create(null),outgoing=Object.create(null);
     for(const [id,text] of Object.entries(files)){const hash=digest(text),old=cache?.records?.[id];let edges;
       if(cache?.version===1&&old?.digest===hash&&Array.isArray(old.edges)&&old.edgeDigest===digest(JSON.stringify(old.edges))&&old.edges.every(e=>Number.isInteger(e.start)&&Number.isInteger(e.end)&&e.start>=0&&e.end>e.start&&text.slice(e.start,e.end)===e.raw&&JSON.stringify(e.parsed)===JSON.stringify(parse(e.raw,id))&&e.id===digest(JSON.stringify([id,e.start,e.end,e.raw])))){edges=old.edges;indexStats.reused++;}
       else{edges=refs(text).map(ref=>({...ref,parsed:parse(ref.raw,id),id:digest(JSON.stringify([id,ref.start,ref.end,ref.raw]))}));indexStats.parsed++;}
       records[id]={digest:hash,edges,edgeDigest:digest(JSON.stringify(edges))};outgoing[id]=[...new Set(edges.map(e=>e.parsed?.id).filter(Boolean))].sort();for(const to of outgoing[id]){if(!Object.hasOwn(incoming,to))incoming[to]=[];incoming[to].push(id);}
     }
-    return {version:1,sourceDigest:snapshot(files),records,incoming,outgoing};
+    return {version:1,sourceDigest,records,incoming,outgoing};
   }
-  const index=indexFor(before,referenceIndex);
+  const index=indexFor(before,referenceIndex,beforeDigest);
   function traverse(graph,root){const seen=new Set([root]),queue=[root];for(let i=0;i<queue.length;i++)for(const q of graph[queue[i]]||[])if(!seen.has(q)){seen.add(q);queue.push(q);}return queue.slice(1);}
   const closure=Object.fromEntries([...new Set(roots)].map(root=>[root,{incoming:traverse(index.incoming,root),outgoing:traverse(index.outgoing,root)}]));
   if(mode==="index")return {mode,beforeDigest,index,closure,indexStats,status:"INDEXED"};
@@ -145,7 +145,7 @@ function dependency(input){
   if(mode==="audit"){
     const observed=new Map(),anchorCache=new Map();
     const knownPrevious=new Map();for(const [id,record] of Object.entries(index.records)){const set=new Set();for(const ref of record.edges){const p=ref.parsed;if(p)set.add(p.id+"#"+p.anchor);}knownPrevious.set(id,set);}
-    const candidateIndex=indexFor(after,index);
+    const candidateIndex=indexFor(after,index,afterDigest);
     for(const [id,text] of Object.entries(after)){
       const set=new Set();observed.set(id,set);
       for(const ref of candidateIndex.records[id].edges){const p=ref.parsed;if(!p)continue;const key=p.id+"#"+p.anchor;set.add(key);
@@ -171,7 +171,7 @@ function dependency(input){
     for(const q of relationshipReviews)if(!usedReviews.has(q.edgeId))issues.push({kind:"UNUSED_OR_STALE_RELATIONSHIP_REVIEW",edgeId:q.edgeId});
     for(const old of retired){if(own(after,old))issues.push({kind:"RETIRED_FILE_STILL_EXISTS",source:old});if(!own(after,dest(old)))issues.push({kind:"SURVIVOR_MISSING",target:dest(old)});}
   }
-  return {mode,beforeDigest,afterDigest,moves,anchors,index,closure,indexStats,edits,ledger,expected,unchecked,reviewedResiduals,reviewedRelationships,issues,status:issues.length?"OPEN":mode==="prepare"?"PREPARED":"SUPPORTED_REFERENCES_VERIFIED"};
+  return {mode,beforeDigest,afterDigest,moves,anchors,...(includeIndex?{index}:{}),closure,indexStats,edits,ledger,expected,unchecked,reviewedResiduals,reviewedRelationships,issues,status:issues.length?"OPEN":mode==="prepare"?"PREPARED":"SUPPORTED_REFERENCES_VERIFIED"};
 }
 export { digest, snapshot, dependency };
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {

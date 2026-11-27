@@ -66,6 +66,7 @@ function tests(digest,snapshot,decompile,dependency,verify){
   check(idx.closure[a].incoming.includes(c)&&idx.closure[a].outgoing.includes(z),"bidirectional closure");
   const cached=dependency({before,moves,anchors,referenceIndex:idx.index});
   check(cached.indexStats.reused===Object.keys(before).length&&JSON.stringify(cached.edits)===JSON.stringify(prep.edits),"cache reuse");
+  check(!cached.index&&!!dependency({before,moves,anchors,referenceIndex:idx.index,includeIndex:true}).index,"compact dependency receipts");
   const changedIndex=dependency({before:{...before,[z]:"New evidence."},mode:"index",referenceIndex:idx.index});
   check(changedIndex.indexStats.parsed===1&&changedIndex.indexStats.reused===Object.keys(before).length-1,"incremental index refresh");
   const iBefore={[a]:"[B](../keep/B.md)\n",[b]:"Facts.\n"},iAfter={[b]:"Facts.\n"},iMoves={[a]:b};
