@@ -6,7 +6,7 @@ Reduce unnecessary independent files. Improve information organisation, coherenc
 
 Do the following steps. The instructions tell you what to do. The tools help you do it. Do not substitute running a tool, reporting its results or making recommendations for doing the actual job.
 
-Make changes in a working copy or working branch. Publish verified changes in Step 11. Start each group as soon as you identify it.
+Execute directly on the intended GitHub branch (main by default). Do not create a working branch or pull request unless the user explicitly requests one. Start each group as soon as you identify it, prepare its edits in memory or locally as needed, and commit each independently verified improvement directly to the intended branch during the same execution. Do not wait for other groups or leave completed work unpublished.
 
 ## 1. Identify pairs
 
@@ -28,7 +28,7 @@ Copy the entire contents of one file into the other. Do not change anything. If 
 
 ## 3. Delete the original
 
-Delete the file whose contents you just copied. Do this in the working version, not the live branch. Do not create another copy of the deleted file.
+Delete the file whose contents you just copied as part of the consolidation. Include the deletion, surviving content and necessary dependency repairs in the same direct commit once verified. Do not create another copy of the deleted file, a redirect placeholder, a working branch or a pull request.
 
 **Tools that help:**
 - Available file-deletion tools.
@@ -118,7 +118,7 @@ Verify unique current and historical information, attribution, provenance, logic
 
 ## 11. Publish and Confirm
 
-Commit every independently verified GO change set to the intended GitHub branch, including the working deletions. Guard against intervening revisions and preserve concurrent changes. Store the required provenance durably; do not create redirect placeholders instead of eliminating redundant files. Independently retrieve the published state and run publication verification. Confirm retired paths are absent, actual content matches and applicable downstream tests remain valid.
+Immediately commit every independently verified GO change set directly to the intended GitHub branch (main by default), including physical deletions. Do not create a branch or pull request as a substitute for direct publication. If direct writes are prohibited, report the exact restriction and continue independent permitted work; do not silently switch to a branch or pull request. Guard against intervening revisions and preserve concurrent changes. Store the required provenance durably; do not create redirect placeholders instead of eliminating redundant files. Independently retrieve the published state and run publication verification. Confirm retired paths are absent, actual content matches and applicable downstream tests remain valid.
 
 **Tools and resources:**
 - [Publication Verifier](https://github.com/thytabakman-jpg/Take-5/blob/main/runtime/compile_verify.mjs)
@@ -144,9 +144,9 @@ Freeze the authorised scope and Git revisions. Use [Compile Mathematics](https:/
 
 A stage may proceed only with its actual prerequisites; independent groups advance without waiting on unrelated obligations. A completed computational invocation is not a completed transformation.
 
-Maintain one actual working version per group: local files or a mutable repository-path map with explicit content writes and deletions. Do not substitute operator views for this state. Steps 2 and 3 must change that working version. Publication is Step 11; working deletions do not alter the live branch before verification.
+Maintain the actual proposed contents and deletions for each group in memory or local files only as needed for verification. Do not substitute operator views for actual edits. Commit the verified group directly to the intended branch as soon as its own requirements are met. Never make a temporary GitHub branch, pull request, or staged candidate the deliverable of an execution request.
 
-Complete each group as its inputs become available. Coordinate coupled edits. Apply each gate only to the operation it protects. Continue independent work while resolving affected publication requirements. Reuse frozen inputs and actual receipts; do not simulate tools or substitute discovery, reports or recommendations for execution. Follow authorised discovery-only or recommendations-only scope when requested. Recover failed operations and retain a compact continuation record. Stop only at verified completion or an evidenced execution limit/exhaustion of independent work; report exact remaining obligations.
+Complete and directly publish each independently verified group as its inputs become available. Do not accumulate completed groups awaiting a portfolio-wide publication step. Coordinate coupled edits. Apply each gate only to the operation it protects. Continue independent work while resolving affected publication requirements. Reuse frozen inputs and actual receipts; do not simulate tools or substitute discovery, reports or recommendations for execution. Follow authorised discovery-only or recommendations-only scope when requested. Recover failed operations and retain a compact continuation record. Stop only at verified completion or an evidenced execution limit/exhaustion of independent work; report exact remaining obligations.
 
 Measure success by actual information improvements, preserved functionality and eliminated unnecessary files.
 
