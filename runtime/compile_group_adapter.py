@@ -93,6 +93,14 @@ def prepare_group(packet):
 
     step2 = dict(before)
     step2[survivor] = join(before)
+    # UTF-16 offsets match the standalone operator source-coordinate contract.
+    cursor = 0
+    boundaries = []
+    for source in sources:
+        size = len(before[source].encode("utf-16-le")) // 2
+        boundaries.append({"source": source, "start": cursor, "end": cursor + size,
+                           "sha256": digest(before[source])})
+        cursor += size + 2
     prep = operator("dependencies", {
         "mode": "prepare", "before": before, "moves": moves,
         "anchors": packet.get("anchors", {}),
@@ -148,7 +156,7 @@ def prepare_group(packet):
     })
     return {
         "status": "WORKING_PREPARED", "publication": "NOT_AUTHORIZED_BY_THIS_RESULT",
-        "step2": step2, "after": closure.state, "source_order": sources,
+        "step2": step2, "after": closure.state, "source_order": sources, "source_boundaries": boundaries,
         "preparation": prep, "decomposition": decomp,
         "working_closure": asdict(closure.certificate),
         "open_dependencies": prep.get("issues", []),
