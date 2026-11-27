@@ -4,31 +4,41 @@
 
 Reduce unnecessary independent files. Improve information organisation, coherence and accessibility. Preserve all unique information, research, provenance, structural relationships and functionality.
 
-Freeze the authorised scope and Git revisions. Follow [Compile Mathematics](https://github.com/thytabakman-jpg/Take-5/blob/main/Compile%20Mathematics.md) and its [Execution contract](https://github.com/thytabakman-jpg/Take-5/blob/main/Compile%20Mathematics.md#execution-contract). Verify the three standalone executables and run the [Compile Test Suite](https://github.com/thytabakman-jpg/Take-5/blob/main/tests/test_compile.mjs). Execute these eleven steps in order for each compilation group. The first linked Compile operator in each applicable step is mandatory; other tools are supplemental and used only when their actual functions and input contracts apply. Do not import Repair's mandatory tool battery.
+Do the following steps. The instructions tell you what to do. The tools help you do it. Do not substitute running a tool, reporting its results or making recommendations for doing the actual job.
 
-## 1. Discover
+Make changes in a working copy or working branch. Publish verified changes in Step 11. Start each group as soon as you identify it.
 
-Identify files containing overlapping information or responsibilities. Establish their goals, jobs, relationships and distinct contributions. Run discovery, select files to combine, and designate a provisional surviving path. Record original source identities and potential consumers. Start each group immediately; do not wait for discovery elsewhere.
+## 1. Identify pairs
 
-**Tools and resources:**
+Identify files that are ripe for consolidation. Decide which file to keep.
+
+**Tools that help:**
 - [Discovery (discover)](https://github.com/thytabakman-jpg/Take-5/blob/main/runtime/compile_decompiler.mjs)
 - [GOAL](https://github.com/thytabakman-jpg/Take-5/blob/main/runtime/goal.py)
 - [Knowledge Web Explorer](https://github.com/thytabakman-jpg/Reaserch/blob/main/Tools%20and%20Workflows/Individual%20Tools/Knowledge%20Web%20Explorer/build-graph.mjs)
 - [Discriminator](https://github.com/thytabakman-jpg/Take-5/blob/main/runtime/discriminator.py)
 
-## 2. Consolidate
+## 2. Copy everything
 
-Copy the entire contents of every selected current file directly into the surviving working file. Keep the survivor's original contents once; append each other source in full with identifiable source boundaries. Verify exact transfer against the frozen originals. Do not summarise, filter, reorganise or deduplicate. A generated view or a recommendation alone does not complete this step.
+Copy the entire contents of one file into the other. Do not change anything. If there are more than two files in the group, copy each additional file in full into the file you are keeping. Keep the original contents of the surviving file once. Check that everything was copied.
 
-**Tools and resources:**
-- [Consolidation](https://github.com/thytabakman-jpg/Take-5/blob/main/runtime/compile_decompiler.mjs)
+**Tools that help:**
+- Available file-reading and file-editing tools.
+- [Decompiler (consolidated text view)](https://github.com/thytabakman-jpg/Take-5/blob/main/runtime/compile_decompiler.mjs)
 
-## 3. Eliminate and Redirect
+## 3. Delete the original
 
-Delete the redundant originals from the working version after exact transfer. Use the frozen originals and provisional file/anchor mappings to redirect every affected inbound reference to the survivor, including indexes, registries, graphs and functional consumers. Rebase transferred relative links only where their destination would otherwise change. Preserve source heading identities or supply explicit temporary anchors. Apply the prepared edits to the copied blocks and affected consumers; do not restore the deleted files merely to perform later analysis. Record unresolved dependencies and continue reversible work. Git history supplies the original versions; do not create archival duplicate files.
+Delete the file whose contents you just copied. Do this in the working version, not the live branch. Do not create another copy of the deleted file.
 
-**Tools and resources:**
-- [Dependency Repair (prepare)](https://github.com/thytabakman-jpg/Take-5/blob/main/runtime/compile_dependencies.mjs)
+**Tools that help:**
+- Available file-deletion tools.
+
+### Deal with the old links
+
+Find and fix every inbound link pointing to the deleted file. Find the affected references for all files being deleted in the group together, then apply the changes. Preserve the original section destinations and fix transferred relative links only if moving them changes their destinations. Check indexes, registries, graphs and code that use the old files. Record unresolved references and keep working on everything that can be done independently.
+
+**Tools that help:**
+- [Dependency Repair (index, prepare and audit)](https://github.com/thytabakman-jpg/Take-5/blob/main/runtime/compile_dependencies.mjs)
 - [Dependency Closure](https://github.com/thytabakman-jpg/Reaserch/blob/main/Tools%20and%20Workflows/Individual%20Tools/Knowledge%20Web%20Explorer/dependency-closure.mjs)
 - [Source Path Resolver](https://github.com/thytabakman-jpg/Reaserch/blob/main/Tools%20and%20Workflows/Individual%20Tools/Knowledge%20Web%20Explorer/source-path-resolver.mjs)
 
@@ -116,6 +126,8 @@ Commit every independently verified GO change set to the intended GitHub branch,
 - [TRC](https://github.com/thytabakman-jpg/Take-5/blob/main/runtime/tool_run_closure.py)
  
 ## Execution Requirements
+
+Freeze the authorised scope and Git revisions. Use [Compile Mathematics](https://github.com/thytabakman-jpg/Take-5/blob/main/Compile%20Mathematics.md) and its [execution contract](https://github.com/thytabakman-jpg/Take-5/blob/main/Compile%20Mathematics.md#execution-contract) for technical procedures and verification. Verify the three standalone executables and run the [Compile Test Suite](https://github.com/thytabakman-jpg/Take-5/blob/main/tests/test_compile.mjs) before relying on native operator results. Run required computational checks at their applicable stages; do not import Repair's mandatory tool battery or treat a tool result as a substitute for making the requested change. If a tool is unavailable, perform independently executable actions using available file operations and record the outstanding tool obligation. Do not publish changes whose required verification is incomplete.
 
 ### Stage admission and exit evidence
 
