@@ -203,6 +203,16 @@ Assess every listed tool against its governing applicability conditions and the 
 
 <a id="63-execution-requirements"></a>
 
+### Conditional standalone Compile capabilities
+
+Use these bounded resources only when the target's actual repair requires their output. They supplement, never replace, the required configured tool invocations or independent verification. Verify their exact revision, input contract and applicable tests using [Compile Mathematics](Compile%20Mathematics.md#standalone-runtime-and-receipts); do not execute the entire Compile methodology or import its publication requirements into ordinary single-file Repair.
+
+- S03/S04: [Decompiler and historical comparison](runtime/compile_decompiler.mjs) for complex structural decomposition, source-span preservation or actual historical comparison. Structural units and lexical overlap are not semantic identities; authenticate historical sources separately.
+- S05/S07: [Dependency Closure](https://github.com/thytabakman-jpg/Reaserch/blob/main/Tools%20and%20Workflows/Individual%20Tools/Knowledge%20Web%20Explorer/dependency-closure.mjs) when a repair may affect other files or consumers; [Dependency preparation and audit](runtime/compile_dependencies.mjs) when authorized paths or anchors change. Independently assess unsupported references and functional consumers. Obtain explicit authority before out-of-scope modifications.
+- S07: [Preservation verifier](runtime/compile_verify.mjs) for substantial authorized structural reconstruction when its actual source mapping, decomposition and fresh dependency audit inputs are admitted. Its bounded result does not prove semantic identity or discharge Repair-specific independent verification.
+
+Record actual invocation results, or precise non-applicability / blockers. A catalogue link or passing fixture is not a target-specific receipt. Reuse frozen evidence and avoid duplicating the same computational analysis.
+
 ### Admission and invocation requirements
 
 Use the actual registered native implementations for every mandatory and applicable conditional tool. Obtain and verify the required inputs and adapters under their governing contracts; do not treat the absence of an immediately available input or adapter as permission to skip prescribed acquisition or recovery. Follow the [R04](#r04) and the [R08](#r08). Verify that each adapter admits the actual target and task, not merely the registered tool identity. The supplied `document_tool_adapters.py` bindings admit only the tool-specific input schemas owned by the [R09](#r09). They are not general document-repair workers. Do not submit unrelated documents to those bindings or reinterpret their bounded results as general semantic coverage. Where a suitable task-specific provider is absent, retain the affected tool obligation as OPEN and distinguish independently supported host analysis from native execution.
