@@ -22,11 +22,30 @@ function snapshot(files) {
   for(const [id,value] of entries)if(typeof value!=="string"||!/^[^/:]+\/[^/:]+:[^#]+$/.test(id)||id.split(":")[1].split("/").some(p=>!p||p==="."||p===".."))throw Error("Invalid file ID or text: "+id);
   return digest(JSON.stringify(entries));
 }
+function inventory(input){
+  const {before,after,moves={},specs=[]}=input;
+  const beforeDigest=snapshot(before);if(after)snapshot(after);
+  const edits={},receipts=[],issues=[],seenSources=new Set();
+  for(const spec of specs){
+    const {source,entriesKey="entries",pathKey="path",countKey="count"}=spec;
+    if(typeof before[source]!=="string"||typeof entriesKey!=="string"||typeof pathKey!=="string"||typeof countKey!=="string"||entriesKey===countKey)throw Error("Invalid inventory spec");
+    if(seenSources.has(source))throw Error("Duplicate inventory source");seenSources.add(source);
+    let doc;try{doc=JSON.parse(before[source]);}catch{issues.push({kind:"UNSUPPORTED_INVENTORY",source});continue;}
+    if(!doc||!Array.isArray(doc[entriesKey])||!Number.isInteger(doc[countKey])||doc[countKey]!==doc[entriesKey].length||doc[entriesKey].some(x=>!x||typeof x!=="object"||Array.isArray(x)||typeof x[pathKey]!=="string"||!Object.hasOwn(before,x[pathKey]))){issues.push({kind:"UNSUPPORTED_OR_STALE_INVENTORY",source});continue;}
+    const rows=[],seen=new Set();let removed=0;
+    const canonical=x=>Array.isArray(x)?x.map(canonical):x&&typeof x==="object"?Object.fromEntries(Object.keys(x).sort().map(k=>[k,canonical(x[k])])):x;
+    for(const row of doc[entriesKey]){const target=Object.hasOwn(moves,row[pathKey])?moves[row[pathKey]]:row[pathKey];const next={...row,[pathKey]:target},key=JSON.stringify(canonical(next));if(seen.has(key)){removed++;continue;}seen.add(key);rows.push(next);}
+    const text=JSON.stringify({...doc,[entriesKey]:rows,[countKey]:rows.length},null,2)+"\n";
+    edits[source]=text;receipts.push({source,entriesKey,pathKey,countKey,beforeCount:doc[countKey],afterCount:rows.length,removed,contentDigest:digest(text)});
+    if(after){if(after[source]!==text)issues.push({kind:"INVENTORY_OUTPUT_MISMATCH",source});for(const row of rows)if(!Object.hasOwn(after,row[pathKey]))issues.push({kind:"INVENTORY_TARGET_MISSING",source,target:row[pathKey]});}
+  }return {mode:"inventory",beforeDigest,afterDigest:after?snapshot(after):null,moves,edits,receipts,issues,status:issues.length?"OPEN":after?"INVENTORY_VERIFIED":"INVENTORY_PREPARED"};
+}
 function dependency(input){
-  const {before,after=before,moves={},anchors={},mode="prepare",literalReviews=[]}=input;
+  if(input.mode==='inventory')return inventory(input);
+  const {before,after=before,moves={},anchors={},mode="prepare",literalReviews=[],relationshipReviews=[],referenceIndex,roots=[]}=input;
   const beforeDigest=snapshot(before),afterDigest=snapshot(after);
-  if(!["prepare","audit"].includes(mode))throw Error("Unknown mode");
-  const issues=[],edits={},ledger=[],unchecked=[],reviewedResiduals=[];
+  if(!["prepare","audit","index"].includes(mode))throw Error("Unknown mode");
+  const issues=[],edits={},ledger=[],unchecked=[],reviewedResiduals=[],reviewedRelationships=[],indexStats={parsed:0,reused:0};
   const own=(o,k)=>Object.prototype.hasOwnProperty.call(o,k);
   const split=id=>{const i=id.indexOf(":");return [id.slice(0,i),id.slice(i+1)];};
   const dirname=p=>p.includes("/")?p.slice(0,p.lastIndexOf("/")):"";
@@ -66,7 +85,7 @@ function dependency(input){
         if(occupied.some(([a,b])=>start<b&&end>a))continue;
         const lead=masked.slice(0,start);if(inComment||lead.lastIndexOf("<!--")>lead.lastIndexOf("-->"))continue;
         if(pi===0&&!masked.slice(end).match(/^>?(?:[ \t]+["'][^"']*["'])?[ \t]*\)/))continue;
-        occupied.push([start,end]);result.push({start:offset+start,end:offset+end,raw});
+        occupied.push([start,end]);result.push({start:offset+start,end:offset+end,raw,kind:["markdown-inline","markdown-definition","html-attribute","github-url"][pi]});
       }
       if(line.includes("<!--")||line.includes("-->"))inComment=line.lastIndexOf("<!--")>line.lastIndexOf("-->");
       offset+=line.length;
@@ -94,27 +113,42 @@ function dependency(input){
     if(source===t.id&&frag)return frag;
     return enc(rel(s,tp))+frag;
   }
+  // Only reuse actual output from the same verified operator; independent audits omit external cache.
+  function indexFor(files,cache){
+    const records=Object.create(null),incoming=Object.create(null),outgoing=Object.create(null);
+    for(const [id,text] of Object.entries(files)){const hash=digest(text),old=cache?.records?.[id];let edges;
+      if(cache?.version===1&&old?.digest===hash&&Array.isArray(old.edges)&&old.edgeDigest===digest(JSON.stringify(old.edges))&&old.edges.every(e=>Number.isInteger(e.start)&&Number.isInteger(e.end)&&e.start>=0&&e.end>e.start&&text.slice(e.start,e.end)===e.raw&&JSON.stringify(e.parsed)===JSON.stringify(parse(e.raw,id))&&e.id===digest(JSON.stringify([id,e.start,e.end,e.raw])))){edges=old.edges;indexStats.reused++;}
+      else{edges=refs(text).map(ref=>({...ref,parsed:parse(ref.raw,id),id:digest(JSON.stringify([id,ref.start,ref.end,ref.raw]))}));indexStats.parsed++;}
+      records[id]={digest:hash,edges,edgeDigest:digest(JSON.stringify(edges))};outgoing[id]=[...new Set(edges.map(e=>e.parsed?.id).filter(Boolean))].sort();for(const to of outgoing[id]){if(!Object.hasOwn(incoming,to))incoming[to]=[];incoming[to].push(id);}
+    }
+    return {version:1,sourceDigest:snapshot(files),records,incoming,outgoing};
+  }
+  const index=indexFor(before,referenceIndex);
+  function traverse(graph,root){const seen=new Set([root]),queue=[root];for(let i=0;i<queue.length;i++)for(const q of graph[queue[i]]||[])if(!seen.has(q)){seen.add(q);queue.push(q);}return queue.slice(1);}
+  const closure=Object.fromEntries([...new Set(roots)].map(root=>[root,{incoming:traverse(index.incoming,root),outgoing:traverse(index.outgoing,root)}]));
+  if(mode==="index")return {mode,beforeDigest,index,closure,indexStats,status:"INDEXED"};
   const repoSet=new Set([...Object.keys(before),...Object.keys(after)].map(k=>split(k)[0]));
   const expected=[];
   for(const [id,text] of Object.entries(before)){
     const source=dest(id);let out="",cursor=0;
-    for(const ref of refs(text)){
-      const p=parse(ref.raw,id);if(!p){if(/github\.com/i.test(ref.raw))unchecked.push({source:id,raw:ref.raw,reason:"NON_MAIN_OR_UNSUPPORTED_GITHUB_URL"});continue;}
+    for(const ref of index.records[id].edges){
+      const p=ref.parsed;if(!p){if(/github\.com/i.test(ref.raw))unchecked.push({source:id,raw:ref.raw,reason:"NON_MAIN_OR_UNSUPPORTED_GITHUB_URL"});continue;}
       if(!own(before,p.id)&&!own(moves,p.id)){if(repoSet.has(split(p.id)[0]))unchecked.push({source:id,raw:ref.raw,reason:"PREEXISTING_OR_UNADMITTED_TARGET"});else unchecked.push({source:id,raw:ref.raw,reason:"EXTERNAL_REPOSITORY"});continue;}
       const affected=source!==id||dest(p.id)!==p.id||own(anchors,p.id+"#"+p.anchor);
       const target=transform(p);if(!target)continue;
       const replacement=affected?format(p,target,source):ref.raw;
-      expected.push({source,target:target.id,anchor:target.anchor,affected,originalSource:id,raw:ref.raw});
+      expected.push({id:ref.id,source,target:target.id,anchor:target.anchor,affected,originalSource:id,originalTarget:p.id,originalAnchor:p.anchor,raw:ref.raw,referenceKind:ref.kind,start:ref.start,end:ref.end,disposition:source===target.id&&id!==p.id?"INTERNALISE_CANDIDATE":affected?"REDIRECT":"PRESERVE"});
       if(affected){out+=text.slice(cursor,ref.start)+replacement;cursor=ref.end;ledger.push({source:id,finalSource:source,old:ref.raw,new:replacement,target:target.id,anchor:target.anchor});}
     }
     if(cursor)edits[id]=out+text.slice(cursor);
   }
   if(mode==="audit"){
     const observed=new Map(),anchorCache=new Map();
-    const knownPrevious=new Map();for(const [id,text] of Object.entries(before)){const set=new Set();for(const ref of refs(text)){const p=parse(ref.raw,id);if(p)set.add(p.id+"#"+p.anchor);}knownPrevious.set(id,set);}
+    const knownPrevious=new Map();for(const [id,record] of Object.entries(index.records)){const set=new Set();for(const ref of record.edges){const p=ref.parsed;if(p)set.add(p.id+"#"+p.anchor);}knownPrevious.set(id,set);}
+    const candidateIndex=indexFor(after,index);
     for(const [id,text] of Object.entries(after)){
       const set=new Set();observed.set(id,set);
-      for(const ref of refs(text)){const p=parse(ref.raw,id);if(!p)continue;const key=p.id+"#"+p.anchor;set.add(key);
+      for(const ref of candidateIndex.records[id].edges){const p=ref.parsed;if(!p)continue;const key=p.id+"#"+p.anchor;set.add(key);
         if(!own(after,p.id)&&own(before,p.id))issues.push({kind:"DANGLING_PREVIOUS_TARGET",source:id,raw:ref.raw});
         else if(!own(after,p.id)&&repoSet.has(split(p.id)[0])&&!knownPrevious.get(id)?.has(key)&&!expected.some(e=>e.source===id&&e.target===p.id&&e.anchor===p.anchor))issues.push({kind:"NEW_UNRESOLVED_INTERNAL_TARGET",source:id,raw:ref.raw});
         if(own(after,p.id)&&p.anchor){if(!anchorCache.has(p.id))anchorCache.set(p.id,availableAnchors(after[p.id]));if(!anchorCache.get(p.id).has(p.anchor))issues.push({kind:"ANCHOR_UNVERIFIED",source:id,target:key});}
@@ -122,10 +156,22 @@ function dependency(input){
       // Conservative residual scan catches code, comments, raw configuration and unparsed links.
       for(const old of retired){const [r,p]=split(old),base=p.split("/").pop();if(text.includes(old)||text.includes(p)||text.includes(enc(p))||text.includes(base)||text.includes(encodeURIComponent(base))){const review=literalReviews.find(x=>x.source===id&&x.target===old&&x.contentDigest===digest(text)&&x.reviewed===true&&typeof x.rationale==="string"&&x.rationale.trim());if(review)reviewedResiduals.push(review);else issues.push({kind:"RETIRED_PATH_LITERAL_REVIEW",source:id,target:old,contentDigest:digest(text)});}}
     }
-    for(const e of expected){if(!own(after,e.source)||!own(after,e.target)||!observed.get(e.source)?.has(e.target+"#"+e.anchor))issues.push({kind:"REFERENCE_NOT_PRESERVED",...e});}
+    const usedReviews=new Set(),mappingDigest=digest(JSON.stringify([Object.entries(moves).sort(),Object.entries(anchors).sort()]));
+    for(const e of expected){
+      if(own(after,e.source)&&own(after,e.target)&&observed.get(e.source)?.has(e.target+"#"+e.anchor))continue;
+      const review=relationshipReviews.find(q=>q.edgeId===e.id&&q.beforeDigest===beforeDigest&&q.afterDigest===afterDigest&&q.mappingDigest===mappingDigest&&q.reviewed===true&&typeof q.rationale==="string"&&q.rationale.trim()&&typeof q.authorization==="string"&&q.authorization.trim());
+      let accepted=false;
+      if(review&&own(after,e.source)&&own(after,e.target)&&e.affected){
+        if(review.kind==="internalise"&&e.source===e.target&&e.originalSource!==e.originalTarget&&!e.anchor)accepted=true;
+        if(review.kind==="subsumed"&&typeof review.replacementTarget==="string"&&typeof review.replacementAnchor==="string"&&own(after,review.replacementTarget)&&observed.get(e.source)?.has(review.replacementTarget+"#"+review.replacementAnchor))accepted=true;
+        if(review.kind==="eliminate"&&review.nonoperative===true)accepted=true;
+      }
+      if(accepted){usedReviews.add(review.edgeId);reviewedRelationships.push({...review,edge:e});}else issues.push({...e,kind:"REFERENCE_NOT_PRESERVED",mappingDigest});
+    }
+    for(const q of relationshipReviews)if(!usedReviews.has(q.edgeId))issues.push({kind:"UNUSED_OR_STALE_RELATIONSHIP_REVIEW",edgeId:q.edgeId});
     for(const old of retired){if(own(after,old))issues.push({kind:"RETIRED_FILE_STILL_EXISTS",source:old});if(!own(after,dest(old)))issues.push({kind:"SURVIVOR_MISSING",target:dest(old)});}
   }
-  return {mode,beforeDigest,afterDigest,moves,anchors,edits,ledger,expected,unchecked,reviewedResiduals,issues,status:issues.length?"OPEN":mode==="prepare"?"PREPARED":"SUPPORTED_REFERENCES_VERIFIED"};
+  return {mode,beforeDigest,afterDigest,moves,anchors,index,closure,indexStats,edits,ledger,expected,unchecked,reviewedResiduals,reviewedRelationships,issues,status:issues.length?"OPEN":mode==="prepare"?"PREPARED":"SUPPORTED_REFERENCES_VERIFIED"};
 }
 export { digest, snapshot, dependency };
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
