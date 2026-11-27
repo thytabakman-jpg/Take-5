@@ -27,6 +27,8 @@ Run S01–S08 for each authorized target, preserving the actual prerequisites be
 | S07 | Verify changes and regressions | S06 committed change or evidenced no-change/recommendations-only disposition |
 | S08 | Record and advance | Recorded dispositions for S01–S07, including any blockers |
 
+For logical defects, S05–S07 form the per-defect sequential repair cycle specified in §7. Repeat that cycle within each checklist item on the current document; the stages are not three file-wide batches. Reapply affected S01–S04 prerequisites when a repair changes result-sensitive inputs, reusing evidence that remains current. Preserve the stage prerequisites, failure routes and completion requirements.
+
 S02 runtime blockage does not prevent S03 host preflight when its own protocol and source prerequisites are satisfied. It prevents affected native dispatch and dependent validation. Do not interpret the table as overriding the tool-specific dependency contracts in S04.
 
 <a id="2-target-documents"></a>
@@ -246,6 +248,31 @@ Record independently verified, independently refuted, and unresolved obligations
 
 ## 7. S05–S07 — Repair validation, implementation and verification
 
+<a id="sequential-logical-audit-and-repair"></a>
+
+### Sequential logical audit and repair
+
+For every targeted document, examine its entire content and relevant internal relationships using the following independent logical checks in the stated order. Use S03 findings and admitted S04 results as evidence; do not substitute an omnibus preflight or generic logic assessment for the separate checks.
+
+**Stage A: Clarity and Coherence**
+
+- [ ] **Equivocation:** Ambiguity, semantic inconsistency and category errors.
+- [ ] **Internal contradictions:** Inconsistent assertions and incompatible commitments.
+- [ ] **False dichotomies:** Unjustified exclusions and incomplete alternatives.
+- [ ] **Scope and precision:** Quantifier errors, modal errors and overgeneralisation.
+
+**Stage B: Reasoning and Justification**
+
+- [ ] **Non sequiturs:** Invalid inferences, conditional reasoning, necessity and sufficiency, and Is–Ought errors.
+- [ ] **Insufficient justification:** Unsupported premises, circular reasoning, causal errors, appeals to authority and arguments from ignorance.
+- [ ] **Comprehensive logic check:** Counterexamples, countermodels, remaining logical defects and interactions between arguments.
+
+**Per-defect cycle:** Within the current checklist item, identify and precisely localize one suspected logical defect; establish whether it exists, develop and validate its repair through S05, implement the validated GO repair immediately through S06, and verify it and its affected arguments through S07. Reject unsupported findings and NO-GO candidates; resolve TWEAK candidates through the applicable S05 validation process. Conduct subsequent detection on the repaired and verified document. Do not accumulate actionable logical repairs for later batch implementation.
+
+Complete each individual defect cycle before moving to the next defect, and exhaust each checklist item before moving to the next item. Repeat the entire ordered checklist until a complete pass identifies no further justified logical repairs. A pass with an unresolved required check is not a clean pass. Verify the resulting document as a whole before file advancement.
+
+Preserve the existing native tool, independent validation, version-guard and regression requirements. Reassess result-sensitive prerequisites after each change; reuse still-valid evidence and avoid unnecessary tool repetition. If a verified defect cannot be resolved using available evidence, explicitly qualify the affected argument where that repair is validated and authorized; do not fabricate a resolution. When a mandatory prerequisite blocks repair, apply S08, record the exact unresolved defect and affected checklist item, and continue only independently executable authorized work. Do not mark a blocked defect, checklist item or file as complete. In recommendations-only mode, retain the same sequential analysis and validation, record the proposed repairs and assess affected arguments against the proposed state without modifying the target.
+
 ### S05 — Develop and validate repairs
 
 **Stage S05 | Entry:** Relevant source findings and required tool results are admitted; unresolved prerequisites remain explicit.
@@ -254,9 +281,9 @@ Record independently verified, independently refuted, and unresolved obligations
 
 **Failure route:** S08.
 
-1. Consolidate discoveries and eliminate duplicate findings and false positives.
+1. Consolidate relevant discoveries and eliminate duplicate findings and false positives. For logical defects, apply the sequential logical audit and per-defect cycle above; preflight findings are evidence, not a batch of authorized repairs.
 2. Investigate unresolved substantive problems using the applicable tools and external evidence.
-3. Develop concrete textual and analytical repairs.
+3. Develop concrete textual and analytical repairs; validate each logical repair before proceeding directly to its S06 and S07 stages.
 4. Assess each proposed repair using GO / NO-GO / TWEAK.
 5. Refine TWEAK recommendations through applicable recursive tool execution; reassess until their applicable validation closes or a blocker is established.
 6. Reject NO-GO recommendations.
@@ -328,6 +355,7 @@ Maintain one execution ledger for the run, with a record for every stage, every 
 | Stage | Stage ID, target and frozen blob, predecessor evidence, disposition, exit evidence, attempted recovery and blocker if incomplete |
 | Tool | Exact registered ID, applicability basis, adapter and admitted inputs, configured profile, HF2 recurrence, native receipt and result, open obligations or blocker |
 | Repair | Candidate ID and source locator, defect and rationale, required tool/validation dependencies, GO / NO-GO / TWEAK decision, validated or withheld status, commit and verification when implemented |
+| Logical checklist | Target, pass number, checklist item, assessed blob, defect and repair IDs, verified disposition, unresolved obligations and evidence of item exhaustion or a clean complete pass |
 | Continuation | Scope, branch, target path, assessed and committed identities, outstanding obligations, next target or termination basis, persistence location if available |
 
 Preserve the native result's distinct OPEN, BLOCKED, CONFLICT, resource-stop and reentry dispositions; do not upgrade them to completed merely because a native invocation returned. Record non-applicability only when its governing condition is not met and the evidence supports that disposition. A completed stage requires its exit evidence; a completed file and run require all applicable obligations and required verification to be satisfied. A blocked stage can have independently completed successors without closing its own obligation.
@@ -361,6 +389,7 @@ At termination, whether complete or incomplete, report:
 - Substantive problems discovered.
 - Severity of those problems.
 - Repairs implemented or recommended.
+- Logical checklist coverage, distinct logical defects repaired by category and pass, and unresolved checks or defects; do not count repeated corrections to the same underlying defect as independent discoveries.
 - Rationale for each material repair or recommendation.
 - Verified GitHub commits, where applicable.
 - New research discoveries.
