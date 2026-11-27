@@ -132,6 +132,12 @@ function tests(digest,snapshot,decompile,dependency,verify){
     check(result.status==="READY_FOR_PUBLICATION","consolidate-first preservation clearance");
     check(verify({...input,publication:{revision:"c".repeat(40),baseDigest:result.beforeDigest,files:after},provenanceStorage:{reference:"fixture commit",text:JSON.stringify(result.provenance)}}).status==="PUBLISHED_SNAPSHOT_MATCHED","consolidate-first publication fixture");
   }
+  { const p="o/r:notes.md",q="o/r:real.md",before={[p]:"[^note]: Justifiably favour a claim.\n[ref]: real.md\n[actual](real.md)\n",[q]:"Evidence."};
+    const fresh=dependency({mode:"index",before});
+    check(fresh.index.records[p].edges.length===2,"footnote prose excluded, actual reference definitions retained");
+    const stale={...fresh.index,parserRevision:1};
+    check(dependency({mode:"index",before,referenceIndex:stale}).indexStats.reused===0,"obsolete parser cache invalidated");
+  }
   return n;
 }
 console.log(tests(digest,snapshot,decompile,dependency,verify)+' assertions passed');
