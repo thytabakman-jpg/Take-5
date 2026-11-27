@@ -93,6 +93,45 @@ function tests(digest,snapshot,decompile,dependency,verify){
   check(verify({...provInput,publication:{revision:"a".repeat(40),baseDigest:snapshot(before),files:after},provenanceStorage:{reference:"fixture immutable record",text:JSON.stringify(prov.provenance)}}).status==="PUBLISHED_SNAPSHOT_MATCHED","durable provenance match");
   check(verify({...provInput,sourceRevisions:{}}).status==="OPEN","missing source revision");
   check(verify({...input,dependencyReport:{...audit,moves:{}}}).status==="OPEN","retirement mapping consistency");
+
+  // Consolidate-first regression: materialise, delete, redirect, then reorganise.
+  {
+    const a="o/r:old/A.md",b="o/r:keep/B.md",c="o/r:index.md",x="o/other:README.md",e="o/r:old/evidence.md";
+    const before={[a]:"# Original\n\nSame fact.\n\n[Evidence](evidence.md)\n",[b]:"# Retained\n\nSame fact.\n",[c]:"[Old](old/A.md#original)\n",[x]:"[Old](https://github.com/o/r/blob/main/old/A.md#original)\n",[e]:"Evidence.\n"};
+    const raw={...before,[b]:before[b]+"\n"+before[a]};
+    check(raw[b].slice(0,before[b].length)===before[b]&&raw[b].slice(before[b].length+1)===before[a],"consolidate exact source blocks");
+    const moves={[a]:b},provisionalAnchors={[a+"#original"]:b+"#original"};
+    const prep=dependency({before,moves,anchors:provisionalAnchors});
+    check(prep.status==="PREPARED","provisional dependency preparation");
+    const work={...raw,[b]:(prep.edits[b]??before[b])+"\n"+(prep.edits[a]??before[a]),[c]:prep.edits[c],[x]:prep.edits[x]};
+    delete work[a];
+    check(!Object.hasOwn(work,a)&&Object.hasOwn(before,a),"working elimination without modifying frozen sources");
+    check(work[b].match(/Same fact\./g).length===2,"no premature deduplication");
+    check(work[c]==="[Old](keep/B.md#original)\n"&&work[x].includes("keep/B.md#original"),"immediate local and cross-repository inbound redirects");
+    check(work[b].includes("[Evidence](../old/evidence.md)"),"moved relative link rebased");
+    check(dependency({mode:"audit",before,after:work,moves,anchors:provisionalAnchors}).status==="SUPPORTED_REFERENCES_VERIFIED","working dependency audit");
+    const d=decompile({files:before,targets:[a,b]});
+    check(d.exactGroups.some(g=>g.length===2),"frozen source registry retains duplicate occurrences");
+    const anchors={[a+"#original"]:b+"#combined-original"};
+    const finalPrep=dependency({before,moves,anchors});
+    const after={...work,[b]:"# Retained\n\nSame fact.\n\n## Combined original\n\n[Evidence](../old/evidence.md)\n",[c]:finalPrep.edits[c],[x]:finalPrep.edits[x]};
+    check(!Object.hasOwn(after,a)&&after[b].match(/Same fact\./g).length===1,"deduplicate after working elimination");
+    check(after[c].includes("#combined-original")&&after[x].includes("#combined-original"),"final anchor redirects");
+    const audit=dependency({mode:"audit",before,after,moves,anchors});
+    check(audit.status==="SUPPORTED_REFERENCES_VERIFIED","final independent dependency audit");
+    const dispositions={};
+    for(const u of d.units){
+      if(u.kind==="separator"||after[b].includes(u.text))continue;
+      const span={"# Original\n":"## Combined original\n","[Evidence](evidence.md)\n":"[Evidence](../old/evidence.md)\n"}[u.text];
+      if(!span)throw Error("Unexpected fixture source unit");
+      const start=after[b].indexOf(span);
+      dispositions[u.id]={kind:"semantic",target:b,start,end:start+span.length,reviewed:true,rationale:"Fixture heading identity or rebased link; original content preserved."};
+    }
+    const input={before,after,decomposition:d,dependencyReport:audit,dispositions,retire:[a],allowedChanges:[b,c,x],scopeReview:{complete:true,evidence:"All five fixture sources and reference forms checked."},requireProvenance:true,sourceRevisions:{"o/r":"a".repeat(40),"o/other":"b".repeat(40)}};
+    const result=verify(input);
+    check(result.status==="READY_FOR_PUBLICATION","consolidate-first preservation clearance");
+    check(verify({...input,publication:{revision:"c".repeat(40),baseDigest:result.beforeDigest,files:after},provenanceStorage:{reference:"fixture commit",text:JSON.stringify(result.provenance)}}).status==="PUBLISHED_SNAPSHOT_MATCHED","consolidate-first publication fixture");
+  }
   return n;
 }
 console.log(tests(digest,snapshot,decompile,dependency,verify)+' assertions passed');
