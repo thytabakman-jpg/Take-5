@@ -117,6 +117,26 @@ Commit every independently verified GO change set to the intended GitHub branch,
  
 ## Execution Requirements
 
+### Stage admission and exit evidence
+
+| Stage | Required actual exit evidence |
+|---|---|
+| 1 | Frozen source identities, authorized group, provisional survivor and dependency obligations |
+| 2 | Actual working survivor containing every original source block, exact-transfer verification |
+| 3 | Retired paths absent in the working map; prepared inbound and transferred-reference changes applied; OPEN mappings recorded |
+| 4–6 | Original unit registry, classified actual working units and explicit reduction dispositions |
+| 7–8 | Reconstructed working file, final owner and anchor maps, retained unique information |
+| 9 | Fresh candidate-bound dependency audit and independent functional/scope evidence |
+| 10 | Actual verifier result plus candidate-specific semantic GO adjudication |
+| 11 | Guarded commit, re-fetched surviving content, absent retired paths and publication verification |
+
+A stage may proceed only with its actual prerequisites; independent groups advance without waiting on unrelated obligations. A completed computational invocation is not a completed transformation.
+
+### Optional bounded ICC integration (pilot)
+
+Use [Compile group adapter](runtime/compile_group_adapter.py) only after its [native integration tests](tests/test_compile_group_adapter.py) pass against the current runtime and standalone operators. It binds [ProjectManager executable_frontier](runtime/project_manager.py) to admitted work selection and [TRC run_tool_run_closure](runtime/tool_run_closure.py) to actual mechanical working-map consequences. It is not ICC128, a complete Compile execution, or a registered full-HF2 invocation. Invoke frontier, prepare and verify as described in [Compile Mathematics](Compile%20Mathematics.md#bounded-icc-component-binding). Use actual stage receipts to admit successors, not nominal completion flags. The host owns discovery, semantic reconstruction, historical and dependency coverage, GO adjudication and guarded publication. Do not make this pilot a mandatory runtime prerequisite; if it is not validated or available, retain the standalone route and record the specific limitation.
+
+
 Maintain one actual working version per group: local files or a mutable repository-path map with explicit content writes and deletions. Do not substitute operator views for this state. Steps 2 and 3 must change that working version. Publication is Step 11; working deletions do not alter the live branch before verification.
 
 Complete each group as its inputs become available. Coordinate coupled edits. Apply each gate only to the operation it protects. Continue independent work while resolving affected publication requirements. Reuse frozen inputs and actual receipts; do not simulate tools or substitute discovery, reports or recommendations for execution. Follow authorised discovery-only or recommendations-only scope when requested. Recover failed operations and retain a compact continuation record. Stop only at verified completion or an evidenced execution limit/exhaustion of independent work; report exact remaining obligations.
