@@ -80,6 +80,8 @@ function dependency(input){
       const patterns=[/!?\[[^\]\n]+\]\(\s*(?:<([^>\n]+)>|([^\s()]+))/g,/^\s*\[[^\]\n]+\]:\s*(?:<([^>\n]+)>|([^\s]+))/g,/\b(?:href|src)\s*=\s*["']([^"']+)["']/gi, /https?:\/\/github\.com\/[^\s<>"'`)\]]+/gi];
       const occupied=[];
       for(let pi=0;pi<patterns.length;pi++)for(const m of masked.matchAll(patterns[pi])){
+        // Footnote definitions contain prose, not a reference destination.
+        if(pi===1&&/^\s*\[\^/.test(m[0]))continue;
         const raw=pi===3?m[0]:(m[1]??m[2]);if(!raw)continue;
         const start=m.index+(pi===3?0:m[0].lastIndexOf(raw)),end=start+raw.length;
         if(occupied.some(([a,b])=>start<b&&end>a))continue;
@@ -117,11 +119,11 @@ function dependency(input){
   function indexFor(files,cache,sourceDigest){
     const records=Object.create(null),incoming=Object.create(null),outgoing=Object.create(null);
     for(const [id,text] of Object.entries(files)){const hash=digest(text),old=cache?.records?.[id];let edges;
-      if(cache?.version===1&&old?.digest===hash&&Array.isArray(old.edges)&&old.edgeDigest===digest(JSON.stringify(old.edges))&&old.edges.every(e=>Number.isInteger(e.start)&&Number.isInteger(e.end)&&e.start>=0&&e.end>e.start&&text.slice(e.start,e.end)===e.raw&&JSON.stringify(e.parsed)===JSON.stringify(parse(e.raw,id))&&e.id===digest(JSON.stringify([id,e.start,e.end,e.raw])))){edges=old.edges;indexStats.reused++;}
+      if(cache?.version===1&&cache?.parserRevision===2&&old?.digest===hash&&Array.isArray(old.edges)&&old.edgeDigest===digest(JSON.stringify(old.edges))&&old.edges.every(e=>Number.isInteger(e.start)&&Number.isInteger(e.end)&&e.start>=0&&e.end>e.start&&text.slice(e.start,e.end)===e.raw&&JSON.stringify(e.parsed)===JSON.stringify(parse(e.raw,id))&&e.id===digest(JSON.stringify([id,e.start,e.end,e.raw])))){edges=old.edges;indexStats.reused++;}
       else{edges=refs(text).map(ref=>({...ref,parsed:parse(ref.raw,id),id:digest(JSON.stringify([id,ref.start,ref.end,ref.raw]))}));indexStats.parsed++;}
       records[id]={digest:hash,edges,edgeDigest:digest(JSON.stringify(edges))};outgoing[id]=[...new Set(edges.map(e=>e.parsed?.id).filter(Boolean))].sort();for(const to of outgoing[id]){if(!Object.hasOwn(incoming,to))incoming[to]=[];incoming[to].push(id);}
     }
-    return {version:1,sourceDigest,records,incoming,outgoing};
+    return {version:1,parserRevision:2,sourceDigest,records,incoming,outgoing};
   }
   const index=indexFor(before,referenceIndex,beforeDigest);
   function traverse(graph,root){const seen=new Set([root]),queue=[root];for(let i=0;i<queue.length;i++)for(const q of graph[queue[i]]||[])if(!seen.has(q)){seen.add(q);queue.push(q);}return queue.slice(1);}
