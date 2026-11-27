@@ -23,9 +23,10 @@ function snapshot(files) {
   return digest(JSON.stringify(entries));
 }
 function decompile(input) {
-  const {files,history=[],maxPairs=50000,threshold=.7}=input;
+  const {files,history=[],targets=Object.keys(files||{}),maxPairs=50000,threshold=.7}=input;
   if(!Number.isInteger(maxPairs)||maxPairs<0||!(threshold>0&&threshold<=1))throw Error("Invalid comparison parameters");
   const sourceDigest=snapshot(files),units=[],sources=[];
+  if(!Array.isArray(targets)||new Set(targets).size!==targets.length||targets.some(id=>!Object.prototype.hasOwnProperty.call(files,id)))throw Error("Invalid target selection");
   function extract(source,text,historical){
     if(typeof text!=="string"||typeof source!=="string")throw Error("Invalid source");
     sources.push({source,historical,digest:digest(text),length:text.length});
@@ -43,7 +44,7 @@ function decompile(input) {
     }flush();
     if(units.filter(u=>u.source===source&&u.historical===historical).map(u=>u.text).join("")!==text)throw Error("Round-trip failed: "+source);
   }
-  for(const id of Object.keys(files).sort())extract(id,files[id],false);
+  for(const id of [...targets].sort())extract(id,files[id],false);
   const historicalIds=new Set();for(const h of history){if(!h||historicalIds.has(h.id))throw Error("Duplicate history identity");historicalIds.add(h.id);extract(h.id,h.text,true);}
   const exact=new Map(),representatives=[],similar=[];
   for(const u of units){if(u.kind==="separator")continue;const key=JSON.stringify([u.kind,u.text]);if(!exact.has(key)){exact.set(key,[]);representatives.push(u);}exact.get(key).push(u.id);}
@@ -57,7 +58,7 @@ function decompile(input) {
     const union=tokens[i].size+tokens[j].size-overlap,score=union?overlap/union:0;
     if(score>=threshold)similar.push({a:a.id,b:b.id,score,disposition:"REVIEW_ONLY"});
   }
-  return {sourceDigest,sources,units,exactGroups:[...exact.values()].filter(g=>g.length>1),similar,compared,comparisonComplete:exhausted,semanticStatus:"UNASSESSED"};
+  return {sourceDigest,targets:[...targets].sort(),sources,units,exactGroups:[...exact.values()].filter(g=>g.length>1),similar,compared,comparisonComplete:exhausted,semanticStatus:"UNASSESSED"};
 }
 export { digest, snapshot, decompile };
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {

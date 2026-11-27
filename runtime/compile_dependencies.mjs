@@ -23,10 +23,10 @@ function snapshot(files) {
   return digest(JSON.stringify(entries));
 }
 function dependency(input){
-  const {before,after=before,moves={},anchors={},mode="prepare"}=input;
+  const {before,after=before,moves={},anchors={},mode="prepare",literalReviews=[]}=input;
   const beforeDigest=snapshot(before),afterDigest=snapshot(after);
   if(!["prepare","audit"].includes(mode))throw Error("Unknown mode");
-  const issues=[],edits={},ledger=[],unchecked=[];
+  const issues=[],edits={},ledger=[],unchecked=[],reviewedResiduals=[];
   const own=(o,k)=>Object.prototype.hasOwnProperty.call(o,k);
   const split=id=>{const i=id.indexOf(":");return [id.slice(0,i),id.slice(i+1)];};
   const dirname=p=>p.includes("/")?p.slice(0,p.lastIndexOf("/")):"";
@@ -111,19 +111,21 @@ function dependency(input){
   }
   if(mode==="audit"){
     const observed=new Map(),anchorCache=new Map();
+    const knownPrevious=new Map();for(const [id,text] of Object.entries(before)){const set=new Set();for(const ref of refs(text)){const p=parse(ref.raw,id);if(p)set.add(p.id+"#"+p.anchor);}knownPrevious.set(id,set);}
     for(const [id,text] of Object.entries(after)){
       const set=new Set();observed.set(id,set);
       for(const ref of refs(text)){const p=parse(ref.raw,id);if(!p)continue;const key=p.id+"#"+p.anchor;set.add(key);
         if(!own(after,p.id)&&own(before,p.id))issues.push({kind:"DANGLING_PREVIOUS_TARGET",source:id,raw:ref.raw});
+        else if(!own(after,p.id)&&repoSet.has(split(p.id)[0])&&!knownPrevious.get(id)?.has(key)&&!expected.some(e=>e.source===id&&e.target===p.id&&e.anchor===p.anchor))issues.push({kind:"NEW_UNRESOLVED_INTERNAL_TARGET",source:id,raw:ref.raw});
         if(own(after,p.id)&&p.anchor){if(!anchorCache.has(p.id))anchorCache.set(p.id,availableAnchors(after[p.id]));if(!anchorCache.get(p.id).has(p.anchor))issues.push({kind:"ANCHOR_UNVERIFIED",source:id,target:key});}
       }
       // Conservative residual scan catches code, comments, raw configuration and unparsed links.
-      for(const old of retired){const [r,p]=split(old),base=p.split("/").pop();if(text.includes(old)||text.includes(p)||text.includes(enc(p))||text.includes(base)||text.includes(encodeURIComponent(base)))issues.push({kind:"RETIRED_PATH_LITERAL_REVIEW",source:id,target:old});}
+      for(const old of retired){const [r,p]=split(old),base=p.split("/").pop();if(text.includes(old)||text.includes(p)||text.includes(enc(p))||text.includes(base)||text.includes(encodeURIComponent(base))){const review=literalReviews.find(x=>x.source===id&&x.target===old&&x.contentDigest===digest(text)&&x.reviewed===true&&typeof x.rationale==="string"&&x.rationale.trim());if(review)reviewedResiduals.push(review);else issues.push({kind:"RETIRED_PATH_LITERAL_REVIEW",source:id,target:old,contentDigest:digest(text)});}}
     }
     for(const e of expected){if(!own(after,e.source)||!own(after,e.target)||!observed.get(e.source)?.has(e.target+"#"+e.anchor))issues.push({kind:"REFERENCE_NOT_PRESERVED",...e});}
     for(const old of retired){if(own(after,old))issues.push({kind:"RETIRED_FILE_STILL_EXISTS",source:old});if(!own(after,dest(old)))issues.push({kind:"SURVIVOR_MISSING",target:dest(old)});}
   }
-  return {mode,beforeDigest,afterDigest,edits,ledger,expected,unchecked,issues,status:issues.length?"OPEN":mode==="prepare"?"PREPARED":"SUPPORTED_REFERENCES_VERIFIED"};
+  return {mode,beforeDigest,afterDigest,moves,anchors,edits,ledger,expected,unchecked,reviewedResiduals,issues,status:issues.length?"OPEN":mode==="prepare"?"PREPARED":"SUPPORTED_REFERENCES_VERIFIED"};
 }
 export { digest, snapshot, dependency };
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {

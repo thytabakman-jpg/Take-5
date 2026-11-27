@@ -24,14 +24,15 @@ function snapshot(files) {
 }
 function verify(input){
   const {before,after,decomposition,dependencyReport,dispositions={},retire=[],allowedChanges=[],scopeReview,publication}=input;
-  const beforeDigest=snapshot(before),afterDigest=snapshot(after),issues=[],semantic=[];
+  const beforeDigest=snapshot(before),afterDigest=snapshot(after),issues=[],semantic=[],autoExact=[],mechanicalEdits=[];
   if(!decomposition||decomposition.sourceDigest!==beforeDigest)issues.push("DECOMPOSITION_STALE_OR_MISSING");
   if(!dependencyReport||dependencyReport.mode!=="audit"||dependencyReport.beforeDigest!==beforeDigest||dependencyReport.afterDigest!==afterDigest||dependencyReport.status!=="SUPPORTED_REFERENCES_VERIFIED"||dependencyReport.issues?.length!==0)issues.push("DEPENDENCY_AUDIT_OPEN_OR_STALE");
   if(!scopeReview||scopeReview.complete!==true||typeof scopeReview.evidence!=="string"||!scopeReview.evidence.trim())issues.push("SCOPE_AND_UNSUPPORTED_DEPENDENCIES_REVIEW_REQUIRED");
   const units=decomposition?.units||[],sources=decomposition?.sources||[],ids=new Set(),retired=new Set(retire),allowed=new Set(allowedChanges);
   const historical=Object.fromEntries((input.history||[]).map(h=>[h.id,h.text]));
   for(const source of sources){const text=source.historical?historical[source.source]:before[source.source];if(typeof text!=="string"||digest(text)!==source.digest){issues.push("SOURCE_MISMATCH:"+source.source);continue;}let pos=0;for(const u of units.filter(u=>u.source===source.source&&u.historical===source.historical).sort((a,b)=>a.start-b.start)){if(u.start!==pos||u.end<=u.start||text.slice(u.start,u.end)!==u.text||u.id!==digest(JSON.stringify([u.source,u.start,u.end,u.historical])))issues.push("INVALID_SOURCE_SPAN:"+u.id);pos=u.end;}if(pos!==text.length)issues.push("INCOMPLETE_SOURCE_COVERAGE:"+source.source);}
-  for(const id of Object.keys(before))if(!sources.some(s=>s.source===id&&!s.historical))issues.push("UNDECOMPOSED_SOURCE:"+id);
+  for(const id of Object.keys(before))if(before[id]!==after[id]&&!sources.some(s=>s.source===id&&!s.historical)){if(!retired.has(id)&&typeof after[id]==="string"&&dependencyReport?.edits?.[id]===after[id])mechanicalEdits.push(id);else issues.push("UNDECOMPOSED_CHANGED_SOURCE:"+id);}
+  for(const id of decomposition?.targets||[])if(!sources.some(s=>s.source===id&&!s.historical))issues.push("UNDECOMPOSED_SELECTED_SOURCE:"+id);
   for(const id of Object.keys(historical))if(!sources.some(s=>s.source===id&&s.historical))issues.push("UNDECOMPOSED_HISTORY:"+id);
   let exact=0,reviewed=0;
   for(const u of units){
@@ -40,7 +41,9 @@ function verify(input){
     // Structural separators are reproducible formatting, not protected semantic content.
     if(u.kind==="separator"&&!u.text.trim())continue;
     if(!u.historical&&after[u.source]===before[u.source]){exact++;continue;}
-    const d=dispositions[u.id];if(!d){issues.push("MISSING_DISPOSITION:"+u.id);continue;}
+    let d=dispositions[u.id];
+    if(!d&&!u.historical){const target=retired.has(u.source)?dependencyReport?.moves?.[u.source]:u.source;const text=after[target];if(typeof text==="string"){const start=text.indexOf(u.text);if(start>=0&&text.indexOf(u.text,start+1)<0){d={kind:"exact",target,start,end:start+u.text.length};autoExact.push({unit:u.id,...d});}}}
+    if(!d){issues.push("MISSING_DISPOSITION:"+u.id);continue;}
     if(d.kind==="exact"||d.kind==="semantic"){
       const target=after[d.target];if(typeof target!=="string"||!Number.isInteger(d.start)||!Number.isInteger(d.end)||d.start<0||d.end<=d.start||d.end>target.length){issues.push("INVALID_TARGET_SPAN:"+u.id);continue;}
       const span=target.slice(d.start,d.end);
@@ -55,7 +58,7 @@ function verify(input){
   for(const id of retired){if(!(id in before)||id in after)issues.push("RETIREMENT_NOT_REALIZED:"+id);}
   let status=issues.length?"OPEN":"READY_FOR_PUBLICATION";
   if(publication){if(typeof publication.revision!=="string"||!(/^[0-9a-f]{40}$/i.test(publication.revision))||publication.baseDigest!==beforeDigest||snapshot(publication.files)!==afterDigest)issues.push("PUBLICATION_MISMATCH");status=issues.length?"OPEN":"PUBLISHED_SNAPSHOT_MATCHED";}
-  return {status,beforeDigest,afterDigest,issues,exact,reviewed,semantic,limitations:["Semantic decisions and scope/functional evidence are supplied by the reviewer, not proven by this tool.","Published snapshot identity must be independently retrieved from the repository."]};
+  return {status,beforeDigest,afterDigest,issues,exact,reviewed,semantic,autoExact,mechanicalEdits,limitations:["Semantic decisions and scope/functional evidence are supplied by the reviewer, not proven by this tool.","Published snapshot identity must be independently retrieved from the repository."]};
 }
 export { digest, snapshot, verify };
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
