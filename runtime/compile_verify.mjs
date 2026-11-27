@@ -23,27 +23,35 @@ function snapshot(files) {
   return digest(JSON.stringify(entries));
 }
 function verify(input){
-  const {before,after,decomposition,dependencyReport,dispositions={},retire=[],allowedChanges=[],scopeReview,publication}=input;
-  const beforeDigest=snapshot(before),afterDigest=snapshot(after),issues=[],semantic=[],autoExact=[],mechanicalEdits=[];
+  const {before,after,decomposition,dependencyReport,dispositions={},retire=[],allowedChanges=[],scopeReview,publication,sourceRevisions={},requireProvenance=false,provenanceStorage,inventoryReports=[]}=input;
+  const beforeDigest=snapshot(before),afterDigest=snapshot(after),issues=[],semantic=[],autoExact=[],mechanicalEdits=[],provenanceRecords=[],inventoryEdits=new Set();
   if(!decomposition||decomposition.sourceDigest!==beforeDigest)issues.push("DECOMPOSITION_STALE_OR_MISSING");
   if(!dependencyReport||dependencyReport.mode!=="audit"||dependencyReport.beforeDigest!==beforeDigest||dependencyReport.afterDigest!==afterDigest||dependencyReport.status!=="SUPPORTED_REFERENCES_VERIFIED"||dependencyReport.issues?.length!==0)issues.push("DEPENDENCY_AUDIT_OPEN_OR_STALE");
   if(!scopeReview||scopeReview.complete!==true||typeof scopeReview.evidence!=="string"||!scopeReview.evidence.trim())issues.push("SCOPE_AND_UNSUPPORTED_DEPENDENCIES_REVIEW_REQUIRED");
   const units=decomposition?.units||[],sources=decomposition?.sources||[],ids=new Set(),retired=new Set(retire),allowed=new Set(allowedChanges);
   const historical=Object.fromEntries((input.history||[]).map(h=>[h.id,h.text]));
-  for(const source of sources){const text=source.historical?historical[source.source]:before[source.source];if(typeof text!=="string"||digest(text)!==source.digest){issues.push("SOURCE_MISMATCH:"+source.source);continue;}let pos=0;for(const u of units.filter(u=>u.source===source.source&&u.historical===source.historical).sort((a,b)=>a.start-b.start)){if(u.start!==pos||u.end<=u.start||text.slice(u.start,u.end)!==u.text||u.id!==digest(JSON.stringify([u.source,u.start,u.end,u.historical])))issues.push("INVALID_SOURCE_SPAN:"+u.id);pos=u.end;}if(pos!==text.length)issues.push("INCOMPLETE_SOURCE_COVERAGE:"+source.source);}
-  for(const id of Object.keys(before))if(before[id]!==after[id]&&!sources.some(s=>s.source===id&&!s.historical)){if(!retired.has(id)&&typeof after[id]==="string"&&dependencyReport?.edits?.[id]===after[id])mechanicalEdits.push(id);else issues.push("UNDECOMPOSED_CHANGED_SOURCE:"+id);}
-  for(const id of decomposition?.targets||[])if(!sources.some(s=>s.source===id&&!s.historical))issues.push("UNDECOMPOSED_SELECTED_SOURCE:"+id);
-  for(const id of Object.keys(historical))if(!sources.some(s=>s.source===id&&s.historical))issues.push("UNDECOMPOSED_HISTORY:"+id);
+  for(const id of retired)if(!dependencyReport?.moves||!Object.hasOwn(dependencyReport.moves,id))issues.push("RETIREMENT_MAPPING_MISSING:"+id);
+  for(const id of Object.keys(dependencyReport?.moves||{}))if(!retired.has(id))issues.push("MAPPING_NOT_AUTHORIZED_FOR_RETIREMENT:"+id);
+  const canonicalMoves=x=>JSON.stringify(Object.entries(x||{}).sort());
+  for(const report of inventoryReports){if(report?.status!=="INVENTORY_VERIFIED"||report.beforeDigest!==beforeDigest||report.afterDigest!==afterDigest||canonicalMoves(report.moves)!==canonicalMoves(dependencyReport?.moves)||report.issues?.length!==0||!Array.isArray(report.receipts)||report.receipts.some(q=>typeof after[q.source]!=="string"||digest(after[q.source])!==q.contentDigest||report.edits?.[q.source]!==after[q.source]))issues.push("INVENTORY_AUDIT_OPEN_OR_STALE");else for(const q of report.receipts)inventoryEdits.add(q.source);}
+  const bySource=new Map();for(const u of units){const key=JSON.stringify([u.source,u.historical]);if(!bySource.has(key))bySource.set(key,[]);bySource.get(key).push(u);}
+  const sourceKeys=new Set(sources.map(s=>JSON.stringify([s.source,s.historical])));
+  for(const source of sources){const text=source.historical?historical[source.source]:before[source.source];if(typeof text!=="string"||digest(text)!==source.digest){issues.push("SOURCE_MISMATCH:"+source.source);continue;}let pos=0;for(const u of (bySource.get(JSON.stringify([source.source,source.historical]))||[]).sort((a,b)=>a.start-b.start)){if(u.start!==pos||u.end<=u.start||text.slice(u.start,u.end)!==u.text||u.id!==digest(JSON.stringify([u.source,u.start,u.end,u.historical])))issues.push("INVALID_SOURCE_SPAN:"+u.id);pos=u.end;}if(pos!==text.length)issues.push("INCOMPLETE_SOURCE_COVERAGE:"+source.source);}
+  for(const id of Object.keys(before))if(before[id]!==after[id]&&!sourceKeys.has(JSON.stringify([id,false]))){if(!retired.has(id)&&typeof after[id]==="string"&&(dependencyReport?.edits?.[id]===after[id]||inventoryEdits.has(id)))mechanicalEdits.push(id);else issues.push("UNDECOMPOSED_CHANGED_SOURCE:"+id);}
+  for(const id of decomposition?.targets||[])if(!sourceKeys.has(JSON.stringify([id,false])))issues.push("UNDECOMPOSED_SELECTED_SOURCE:"+id);
+  for(const id of Object.keys(historical))if(!sourceKeys.has(JSON.stringify([id,true])))issues.push("UNDECOMPOSED_HISTORY:"+id);
   let exact=0,reviewed=0;
   for(const u of units){
     if(ids.has(u.id)){issues.push("DUPLICATE_UNIT_ID:"+u.id);continue;}ids.add(u.id);
-    if(!sources.some(s=>s.source===u.source&&s.historical===u.historical)){issues.push("UNKNOWN_SOURCE:"+u.id);continue;}
+    if(!sourceKeys.has(JSON.stringify([u.source,u.historical]))){issues.push("UNKNOWN_SOURCE:"+u.id);continue;}
     // Structural separators are reproducible formatting, not protected semantic content.
     if(u.kind==="separator"&&!u.text.trim())continue;
-    if(!u.historical&&after[u.source]===before[u.source]){exact++;continue;}
+    if(!u.historical&&after[u.source]===before[u.source]){exact++;provenanceRecords.push({unit:u.id,source:u.source,start:u.start,end:u.end,historical:false,disposition:{kind:"exact",target:u.source,start:u.start,end:u.end}});continue;}
     let d=dispositions[u.id];
     if(!d&&!u.historical){const target=retired.has(u.source)?dependencyReport?.moves?.[u.source]:u.source;const text=after[target];if(typeof text==="string"){const start=text.indexOf(u.text);if(start>=0&&text.indexOf(u.text,start+1)<0){d={kind:"exact",target,start,end:start+u.text.length};autoExact.push({unit:u.id,...d});}}}
     if(!d){issues.push("MISSING_DISPOSITION:"+u.id);continue;}
+    const record={unit:u.id,source:u.source,start:u.start,end:u.end,historical:u.historical,disposition:d};
+    const priorIssues=issues.length;
     if(d.kind==="exact"||d.kind==="semantic"){
       const target=after[d.target];if(typeof target!=="string"||!Number.isInteger(d.start)||!Number.isInteger(d.end)||d.start<0||d.end<=d.start||d.end>target.length){issues.push("INVALID_TARGET_SPAN:"+u.id);continue;}
       const span=target.slice(d.start,d.end);
@@ -52,13 +60,18 @@ function verify(input){
     }else if(d.kind==="authorized-removal"&&d.reviewed===true&&typeof d.authorization==="string"&&d.authorization.trim()&&typeof d.rationale==="string"&&d.rationale.trim()){reviewed++;semantic.push(u.id);}
     else if(d.kind==="historical"&&u.historical&&d.reviewed===true&&typeof d.reference==="string"&&/^https:\/\/github\.com\/[^/]+\/[^/]+\/blob\/[0-9a-f]{40}\//i.test(d.reference)&&typeof d.rationale==="string"&&d.rationale.trim()){reviewed++;semantic.push(u.id);}
     else issues.push("UNSUPPORTED_DISPOSITION:"+u.id);
+    if(issues.length===priorIssues)provenanceRecords.push(record);
   }
   for(const id of Object.keys(before))if(!(id in after)){if(!retired.has(id))issues.push("UNAUTHORIZED_DELETION:"+id);}else if(before[id]!==after[id]&&!allowed.has(id))issues.push("UNAUTHORIZED_EDIT:"+id);
   for(const id of Object.keys(after))if(!(id in before)&&!allowed.has(id))issues.push("UNAUTHORIZED_CREATION:"+id);
   for(const id of retired){if(!(id in before)||id in after)issues.push("RETIREMENT_NOT_REALIZED:"+id);}
+  const provenance={version:1,beforeDigest,sourceRevisions:Object.fromEntries(Object.entries(sourceRevisions).sort()),sourceIdentities:sources.map(s=>({source:s.source,historical:s.historical,digest:s.digest})),retire:[...retired].sort(),records:provenanceRecords.filter(q=>q.historical||retired.has(q.source)||before[q.source]!==after[q.source]),mechanicalEdits:mechanicalEdits.map(id=>({source:id,kind:inventoryEdits.has(id)?"typed-inventory":"reference-only",beforeDigest:digest(before[id]),afterDigest:digest(after[id])})),relationshipReviews:dependencyReport?.reviewedRelationships||[]};
+  const provenanceText=JSON.stringify(provenance),provenanceDigest=digest(provenanceText);
+  if(requireProvenance){for(const id of new Set([...retired,...provenance.records.filter(q=>!q.historical).map(q=>q.source),...mechanicalEdits])){const repo=id.slice(0,id.indexOf(":"));if(!/^[0-9a-f]{40}$/i.test(sourceRevisions[repo]||""))issues.push("SOURCE_REVISION_REQUIRED:"+repo);}
+    if(publication&&(!provenanceStorage||typeof provenanceStorage.reference!=="string"||!provenanceStorage.reference.trim()||provenanceStorage.text!==provenanceText))issues.push("DURABLE_PROVENANCE_NOT_VERIFIED");}
   let status=issues.length?"OPEN":"READY_FOR_PUBLICATION";
   if(publication){if(typeof publication.revision!=="string"||!(/^[0-9a-f]{40}$/i.test(publication.revision))||publication.baseDigest!==beforeDigest||snapshot(publication.files)!==afterDigest)issues.push("PUBLICATION_MISMATCH");status=issues.length?"OPEN":"PUBLISHED_SNAPSHOT_MATCHED";}
-  return {status,beforeDigest,afterDigest,issues,exact,reviewed,semantic,autoExact,mechanicalEdits,limitations:["Semantic decisions and scope/functional evidence are supplied by the reviewer, not proven by this tool.","Published snapshot identity must be independently retrieved from the repository."]};
+  return {status,beforeDigest,afterDigest,issues,exact,reviewed,semantic,autoExact,mechanicalEdits,provenance,provenanceDigest,limitations:["Semantic decisions and scope/functional evidence are supplied by the reviewer, not proven by this tool.","Published snapshot identity must be independently retrieved from the repository."]};
 }
 export { digest, snapshot, verify };
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
