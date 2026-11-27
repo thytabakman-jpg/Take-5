@@ -4,15 +4,17 @@
 
 Reduce unnecessary independent files while improving information organisation, coherence and accessibility without compromising information, provenance, structural integrity or functionality.
 
-Freeze the authorised scope and Git revisions. Retrieve and follow [Compile Mathematics](https://github.com/thytabakman-jpg/Take-5/blob/main/Compile%20Mathematics.md) and its [Execution contract](https://github.com/thytabakman-jpg/Take-5/blob/main/Compile%20Mathematics.md#execution-contract); verify the three executables and run the [test suite](https://github.com/thytabakman-jpg/Take-5/blob/main/tests/test_compile.mjs) before computational work. Execute the following steps in order; complete each required result before advancing. Reuse outputs rather than repeating computations.
+Freeze the authorised scope and Git revisions. Retrieve and follow [Compile Mathematics](https://github.com/thytabakman-jpg/Take-5/blob/main/Compile%20Mathematics.md) and its [Execution contract](https://github.com/thytabakman-jpg/Take-5/blob/main/Compile%20Mathematics.md#execution-contract); verify the three executables and run the [test suite](https://github.com/thytabakman-jpg/Take-5/blob/main/tests/test_compile.mjs) before computational work. Execute the twelve steps in dependency order for each independently executable compilation group. Start processing identified groups as their inputs become available; coordinate groups with coupled changes. Reuse outputs rather than repeating computations.
+
+**Preservation rule:** Preserve original information, source identity and functionality throughout. Use uncertainty to identify what needs verification, not as a reason to stop unrelated work. Continue reversible work on admitted material while retrieving missing evidence; require complete affected-scope evidence before final clearance and publication. Apply each gate only to the decision or operation it protects.
 
 ## 1. Discover
 
-Execute [Decompiler — Discovery](https://github.com/thytabakman-jpg/Take-5/blob/main/runtime/compile_decompiler.mjs) (mode: `discover`). Identify and group files that merit compilation; record the evidence and scope limits. Defer final survivor and retirement decisions.
+Execute [Decompiler — Discovery](https://github.com/thytabakman-jpg/Take-5/blob/main/runtime/compile_decompiler.mjs) (mode: `discover`). Identify and group files that merit compilation; record the evidence and scope limits. Incomplete discovery elsewhere does not prevent processing identified authorised groups. Defer final survivor and retirement decisions.
 
 ## 2. Consolidate
 
-Execute [Decompiler — Consolidation](https://github.com/thytabakman-jpg/Take-5/blob/main/runtime/compile_decompiler.mjs) (mode: `decompose`). Combine each group's complete admitted information, including material historical revisions, into one lossless temporary working document. Preserve every original occurrence and source identity.
+Execute [Decompiler — Consolidation](https://github.com/thytabakman-jpg/Take-5/blob/main/runtime/compile_decompiler.mjs) (mode: `decompose`). Combine each group's admitted information, including available historical revisions, into one lossless temporary working document. Preserve every original occurrence and source identity. Mark incomplete coverage as provisional, add missing sources as retrieved, and repeat affected checks before clearance.
 
 ## 3. Decompile
 
@@ -42,7 +44,7 @@ Establish final information homes, file architecture and section/anchor mappings
 - **NO-GO:** No meaningful gain, or an identified regression cannot be resolved; retain the better existing arrangement.
 - **TWEAK:** Improve the proposed arrangement to preserve the advantages of both states wherever a regression or missed gain exists; reassess.
 
-Assess informational, historical, mathematical, architectural, navigational and functional consequences. Missing evidence blocks clearance; resolve it where possible. Freeze final destinations and retirement decisions before transforming references.
+Assess informational, historical, mathematical, architectural, navigational and functional consequences. Keep decisions that require missing evidence OPEN while progressing supported decisions and independent work. Resolve missing evidence before affected final clearance. Freeze final destinations and retirement decisions before transforming their references.
 
 ## 9. Repair dependencies
 
@@ -54,7 +56,7 @@ Execute [Compilation Verifier](https://github.com/thytabakman-jpg/Take-5/blob/ma
 
 ## 11. Implement
 
-Publish all cleared and authorised changes through guarded Git commits; physically eliminate every cleared redundant file. Preserve concurrent changes and the provenance record. Do not substitute redirect placeholders or recommendations for actual retirement.
+Publish independently cleared and authorised change sets through guarded Git commits; physically eliminate every cleared redundant file. Reconcile intervening revisions and affected receipts before subsequent publications. Preserve concurrent changes and the provenance record. Do not substitute redirect placeholders or recommendations for actual retirement.
 
 ## 12. Confirm
 
@@ -102,8 +104,8 @@ Use only resources relevant to the current operation; the registered Repair runt
 
 ## Execution requirements
 
-Follow the [Execution contract](https://github.com/thytabakman-jpg/Take-5/blob/main/Compile%20Mathematics.md#execution-contract). Retain actual tool receipts, evidence and recoverable checkpoints. Resolve failed gates, reassess affected steps and continue independent authorised groups. Respect discovery-only and recommendations-only scope; never invent clearance or silently expand authority.
+Follow the [Execution contract](https://github.com/thytabakman-jpg/Take-5/blob/main/Compile%20Mathematics.md#execution-contract). Retain actual tool receipts, evidence and recoverable checkpoints. Recover failed operations using smaller retrieval batches, reusable receipts or other supported execution routes. Record the exact unmet prerequisite, reassess affected steps and continue every independently executable authorised operation. Respect discovery-only and recommendations-only scope; never invent clearance or silently expand authority.
 
-Do not simulate tools, substitute a plan for implementation, or bootstrap the general Take-5 runtime when standalone execution is sufficient. Terminate only at verified completion, an authorised no-write deliverable, or a demonstrable unresolved blocker.
+Do not simulate tools, substitute a plan for implementation, or bootstrap the general Take-5 runtime when standalone execution is sufficient. Terminate at verified completion, an authorised no-write deliverable, or when an actual run-wide limit or exhaustion of all independently executable work prevents further progress. Report remaining affected blockers and withheld changes; a local blocker alone is not a stopping condition.
 
 **Begin immediately.**
