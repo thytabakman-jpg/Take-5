@@ -2,7 +2,7 @@
 
 ## Objective
 
-Reduce unnecessary independent files. Improve information organisation, coherence and accessibility. Preserve all unique information, research, provenance, structural relationships and functionality.
+Reduce unnecessary independent files. Improve information organisation, coherence and accessibility. Preserve all unique information, research, provenance, structural relationships and functionality. Map redundant occurrences to surviving representations. Retain historical material through an authenticated immutable witness only where its responsibility is historical and current content remains adequate. Removal of distinct protected material requires specific user authorization beyond ordinary consolidation authority; record it as an exception to preservation, not as preservation itself.
 
 Do the following steps. The instructions tell you what to do. The tools help you do it. Do not substitute running a tool, reporting its results or making recommendations for doing the actual job.
 
@@ -26,16 +26,18 @@ Copy the entire contents of one file into the other. Do not change anything. If 
 - Available file-reading and file-editing tools.
 - [Decompiler (consolidated text view)](https://github.com/thytabakman-jpg/Take-5/blob/main/runtime/compile_decompiler.mjs)
 
-## 3. Delete the original
+<a id="3-delete-the-original"></a>
 
-Delete the file whose contents you just copied as part of the consolidation. Include the deletion, surviving content and necessary dependency repairs in the same direct commit once verified. Do not create another copy of the deleted file, a redirect placeholder, a working branch or a pull request.
+## 3. Remove original paths from the working state
+
+Remove each copied original path from the mutable working state only; do not physically delete it on GitHub at this stage. Include physical retirement, surviving content and necessary dependency repairs in the same direct commit at Step 11 once verified. Do not create another archival copy of the original file, a redirect placeholder, a working branch or a pull request.
 
 **Tools that help:**
-- Available file-deletion tools.
+- Available local or in-memory working-state editing tools.
 
 ### Deal with the old links
 
-Find and fix every inbound link pointing to the deleted file. Find the affected references for all files being deleted in the group together, then apply the changes. Preserve the original section destinations and fix transferred relative links only if moving them changes their destinations. Check indexes, registries, graphs and code that use the old files. Record unresolved references and keep working on everything that can be done independently.
+Find and fix every inbound link pointing to a path proposed for retirement. Find the affected references for all files being deleted in the group together, then apply the changes. Preserve the original section destinations and fix transferred relative links only if moving them changes their destinations. Check indexes, registries, graphs and code that use the old files. Record unresolved references and keep working on everything that can be done independently.
 
 **Tools that help:**
 - [Dependency Repair (index, prepare and audit)](https://github.com/thytabakman-jpg/Take-5/blob/main/runtime/compile_dependencies.mjs)
@@ -107,7 +109,7 @@ Compare the reconstructed state directly against the original state across every
 - **NO-GO:** No meaningful gain or an unresolvable regression. Restore the better arrangement.
 - **OPEN:** Obtain missing evidence and reassess; withhold only affected publication.
 
-Verify unique current and historical information, attribution, provenance, logical integrity, structural relationships and functionality. Recover missing historical contributions at their rightful homes rather than retaining redundant files. Run the verifier with actual decomposition and independent dependency-audit receipts.
+Verify preservation of unique current and historical information, attribution, provenance, logical integrity, structural relationships and functionality. Record any specifically authorized elimination of distinct protected material separately from preservation evidence. Recover missing historical contributions at their rightful homes rather than retaining redundant files. Run the verifier with actual decomposition and independent dependency-audit receipts.
 
 **Tools and resources:**
 - [Compilation Verifier](https://github.com/thytabakman-jpg/Take-5/blob/main/runtime/compile_verify.mjs)
@@ -140,7 +142,7 @@ Freeze the authorised scope and Git revisions. Use [Compile Mathematics](https:/
 | 7–8 | Reconstructed working file, final owner and anchor maps, retained unique information |
 | 9 | Fresh candidate-bound dependency audit and independent functional/scope evidence |
 | 10 | Actual verifier result plus candidate-specific semantic GO adjudication |
-| 11 | Guarded commit, re-fetched surviving content, absent retired paths and publication verification |
+| 11 | Guarded commit, re-fetched surviving content, absent retired paths and publication verification for GO change sets; evidenced no-write disposition when no consolidation is justified |
 
 A stage may proceed only with its actual prerequisites; independent groups advance without waiting on unrelated obligations. A completed computational invocation is not a completed transformation.
 
@@ -148,7 +150,7 @@ Maintain the actual proposed contents and deletions for each group in memory or 
 
 Complete and directly publish each independently verified group as its inputs become available. Do not accumulate completed groups awaiting a portfolio-wide publication step. Coordinate coupled edits. Apply each gate only to the operation it protects. Continue independent work while resolving affected publication requirements. Reuse frozen inputs and actual receipts; do not simulate tools or substitute discovery, reports or recommendations for execution. Follow authorised discovery-only or recommendations-only scope when requested. Recover failed operations and retain a compact continuation record. Stop only at verified completion or an evidenced execution limit/exhaustion of independent work; report exact remaining obligations.
 
-Measure success by actual information improvements, preserved functionality and eliminated unnecessary files.
+Measure successful consolidation by actual information improvements, preserved functionality and eliminated unnecessary files. If complete authorized discovery and assessment establish that no consolidation is justified, record VERIFIED_NO_CHANGE, with evidence for each rejection or exclusion, no affected OPEN obligations and verification that the targets remain unchanged. Report zero retirements; do not invent a publication receipt or describe this as completed physical consolidation. Incomplete discovery or blocked verification does not qualify.
 
 ## Further Resources and Navigation
 
